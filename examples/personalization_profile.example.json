@@ -1,0 +1,17 @@
+{
+  "profileId": "PRIVATE_GIFT_001",
+  "version": 1,
+  "fallbackProfileId": "NEUTRAL_DEFAULT",
+  "displayNames": ["Spiller 1", "Spiller 2"],
+  "textOverrides": {"ending.personal.message": "[Privat slutbesked indsættes her]"},
+  "imageAssets": [
+    {"hook": "ENDING_CRATE_PHOTO", "path": "PrivateContent/Images/ending_photo.jpg"}
+  ],
+  "audioAssets": [
+    {"hook": "RADIO_FINAL_MESSAGE", "path": "PrivateContent/Audio/final_message.ogg"}
+  ],
+  "finalMessageKey": "ending.personal.message",
+  "propHooks": [
+    {"hook": "CAMP_MEMENTO_1", "itemId": "ITM_PERSONAL_MEMENTO_001"}
+  ]
+}
