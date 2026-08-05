@@ -1,0 +1,66 @@
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+Recordings/
+
+# Unity generated files
+*.csproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Rider / Visual Studio / VS Code
+.idea/
+.vs/
+.vscode/settings.json
+.vscode/*.log
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Android / signing / private distribution
+*.apk
+*.aab
+*.keystore
+*.jks
+*.obb
+local.properties
+
+# Private/personalized content
+PrivateContent/
+private_content/
+Assets/ProjectOen/Private/
+config/personalization_profile.local.json
+
+# Local reports and test output
+TestResults/
+PerformanceReports/
+DeviceLogs/
+coverage/
+
+# Archives generated from this repository
+*.zip
+*.tar
+*.tar.gz
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
