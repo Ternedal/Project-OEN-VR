@@ -1,0 +1,11 @@
+# Private/project-local additions for an eventual Unity project
+PrivateContent/
+private_content/
+Assets/ProjectOen/Private/
+config/personalization_profile.local.json
+*.keystore
+*.jks
+*.apk
+*.aab
+DeviceLogs/
+PerformanceReports/
