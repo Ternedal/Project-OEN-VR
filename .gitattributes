@@ -1,0 +1,18 @@
+* text=auto eol=lf
+*.cs text diff=csharp
+*.shader text
+*.hlsl text
+*.json text
+*.md text
+*.mmd text
+*.yml text
+*.yaml text
+*.docx binary
+*.xlsx binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.wav binary
+*.ogg binary
+*.fbx binary
