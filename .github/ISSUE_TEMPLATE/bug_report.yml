@@ -1,0 +1,36 @@
+name: Fejlrapport
+about: Reproducerbar fejl i spil, build, data eller dokumentation
+title: "[BUG] "
+labels: [bug, needs-triage]
+body:
+  - type: dropdown
+    id: device
+    attributes:
+      label: Enhed
+      options: [Quest 1, Quest 2, Quest Pro, Quest 3, Quest 3S, Editor, Andet]
+    validations: {required: true}
+  - type: input
+    id: build
+    attributes:
+      label: Build/version
+      placeholder: "commit, version og buildprofil"
+    validations: {required: true}
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduktion
+      description: Præcise trin, starttilstand og antal forsøg.
+    validations: {required: true}
+  - type: textarea
+    id: expected
+    attributes: {label: Forventet resultat}
+    validations: {required: true}
+  - type: textarea
+    id: actual
+    attributes: {label: Faktisk resultat}
+    validations: {required: true}
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidens
+      description: Logs, video, profiler capture, seed, sessionkode eller save.
