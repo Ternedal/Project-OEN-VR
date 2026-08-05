@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PersonalizationProfile",
+  "type": "object",
+  "required": ["profileId", "version", "fallbackProfileId"],
+  "properties": {
+    "profileId": {"type": "string"},
+    "version": {"type": "integer", "minimum": 1},
+    "fallbackProfileId": {"type": "string"},
+    "displayNames": {"type": "array", "maxItems": 2, "items": {"type": "string"}},
+    "textOverrides": {"type": "object", "additionalProperties": {"type": "string"}},
+    "imageAssets": {"type": "array", "items": {"type": "object", "required": ["hook", "path"]}},
+    "audioAssets": {"type": "array", "items": {"type": "object", "required": ["hook", "path"]}},
+    "finalMessageKey": {"type": "string"},
+    "propHooks": {"type": "array", "items": {"type": "object"}}
+  },
+  "additionalProperties": false
+}
