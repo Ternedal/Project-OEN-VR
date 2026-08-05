@@ -1,0 +1,20 @@
+{
+  "id": "RCP_SHELTER_REINFORCEMENT_001",
+  "ingredients": [
+    {"item": "ITM_WOOD_001", "quantity": 2},
+    {"item": "ITM_FIBER_001", "quantity": 2}
+  ],
+  "station": "CAMP_SHELTER",
+  "steps": [
+    {"id": "POSITION_BEAM", "primaryRole": "holder", "secondaryRole": "navigator", "durationSeconds": 8},
+    {"id": "TIE_LEFT", "primaryRole": "binder", "secondaryRole": "stabilizer", "durationSeconds": 10},
+    {"id": "TIE_RIGHT", "primaryRole": "binder", "secondaryRole": "stabilizer", "durationSeconds": 10}
+  ],
+  "qualityThresholds": {"functional": 0.45, "good": 0.7, "excellent": 0.9},
+  "results": [
+    {"state": "SHELTER_REINFORCED", "integrityDelta": 35}
+  ],
+  "partialResults": [
+    {"state": "SHELTER_PATCHED", "integrityDelta": 18, "tag": "SHELTER_WEAK"}
+  ]
+}
