@@ -10,8 +10,8 @@ Projektet udvikles med **Meta Quest 2 som autoritativ baseline**, en reduceret *
 
 1. Læs [`00_READ_ME_FIRST.md`](00_READ_ME_FIRST.md).
 2. Ved Claude-review: brug [`01_PROMPT_FOR_CLAUDE.md`](01_PROMPT_FOR_CLAUDE.md).
-3. Læs den samlede specifikation i [`PROJECT_OEN_MASTER_HANDOFF_v2.0.pdf`](PROJECT_OEN_MASTER_HANDOFF_v2.0.pdf) eller [`.docx`](PROJECT_OEN_MASTER_HANDOFF_v2.0.docx).
-4. Start ikke egentlig produktion før M0-platformspiket i [`docs/20_IMPLEMENTATION_START_ORDER.md`](docs/20_IMPLEMENTATION_START_ORDER.md) er bestået.
+3. Læs [`docs/01_EXECUTIVE_HANDOFF.md`](docs/01_EXECUTIVE_HANDOFF.md), efterfulgt af gameplay-, scenario-, arkitektur- og platformkapitlerne i `docs/`.
+4. Start ikke egentlig produktion før Claude-reviewet er behandlet og rækkefølgen i [`docs/20_IMPLEMENTATION_START_ORDER.md`](docs/20_IMPLEMENTATION_START_ORDER.md) er godkendt.
 
 ## Produktmål
 
@@ -24,6 +24,19 @@ Første leverance er scenariet **Stormnatten**:
 - stiliseret standalone-VR, ikke open world
 - original IP; ingen direkte digital kopi af et eksisterende brætspil
 
+## Centrale dokumenter
+
+| Dokument | Formål |
+|---|---|
+| [`docs/04_GAME_DESIGN_DEEP_DIVE.md`](docs/04_GAME_DESIGN_DEEP_DIVE.md) | Kerne-loop, handlinger, ressourcer og fail-forward |
+| [`docs/05_STORMNATTEN_CONTENT_BIBLE.md`](docs/05_STORMNATTEN_CONTENT_BIBLE.md) | Det første komplette scenario |
+| [`docs/06_TECHNICAL_ARCHITECTURE.md`](docs/06_TECHNICAL_ARCHITECTURE.md) | Unity-, state-, persistence- og modularkitektur |
+| [`docs/07_MULTIPLAYER_NETWORKING.md`](docs/07_MULTIPLAYER_NETWORKING.md) | Photon Fusion, authority og reconnect |
+| [`docs/08_PLATFORM_BUILD_PERFORMANCE.md`](docs/08_PLATFORM_BUILD_PERFORMANCE.md) | Quest 1/2/3-strategi og performancebudget |
+| [`docs/12_PRODUCTION_ROADMAP.md`](docs/12_PRODUCTION_ROADMAP.md) | Milepæle M0-M9 og stop/go-gates |
+| [`docs/13_TEST_QA_ACCEPTANCE.md`](docs/13_TEST_QA_ACCEPTANCE.md) | Testmatrix og releasekriterier |
+| [`review/CLAUDE_REVIEW_TEMPLATE.md`](review/CLAUDE_REVIEW_TEMPLATE.md) | Formatet for Claudes review |
+
 ## Repositorystruktur
 
 | Sti | Formål |
@@ -31,12 +44,9 @@ Første leverance er scenariet **Stormnatten**:
 | `docs/` | Produktkrav, GDD, arkitektur, platform, roadmap og QA |
 | `schemas/` | JSON Schema for scenarioer, events, recipes, saves og personalisering |
 | `examples/` | Valide dataeksempler |
-| `diagrams/` | Mermaid-diagrammer for system, state, authority og build |
 | `review/` | Claude-reviewskabelon og svarmatrix |
-| `config/` | Labels og Unity-checklister |
 | `.github/` | PR-, issue- og CI-konfiguration |
-| `tools/` | Validering og manifestgenerering |
-| `reference/` | Tidligere v1.1-referenceleverance |
+| `tools/` | Valideringsværktøjer |
 
 ## Centrale gates
 
@@ -49,10 +59,11 @@ Første leverance er scenariet **Stormnatten**:
 ## Validering
 
 ```bash
+python -m pip install -r tools/requirements-validation.txt
 python tools/validate_handoff.py
 ```
 
-Scriptet validerer JSON Schema, alle JSON-eksempler og pakkens checksum-manifest.
+Scriptet validerer de centrale dokumenter, JSON Schema og alle JSON-eksempler.
 
 ## Arbejdsprincip
 
@@ -61,7 +72,7 @@ Dokumenterne er source of truth, men ikke urørlige. Ændringer skal være sporb
 1. dokumentér fund eller prototypebevis
 2. opdatér relevant ADR i `docs/18_DECISION_LOG.md`
 3. opdatér berørte specs og backlog
-4. regenerér manifestet med `python tools/rebuild_manifest.py`
+4. kør validering før merge
 
 ## Rettigheder
 
