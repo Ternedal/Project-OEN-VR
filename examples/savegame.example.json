@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "protocolVersion": 1,
+  "contentVersion": "stormnatten-1.0",
+  "scenarioId": "SCN_STORMNATTEN_001",
+  "scenarioVersion": 1,
+  "seed": 438221,
+  "checkpointId": "DAY3_PRE_STORM",
+  "phase": "DAY3_STORM",
+  "revision": 57,
+  "sharedState": {
+    "resources": {"wood": 2, "fiber": 1, "food": 0, "herbs": 1},
+    "camp": {"shelterIntegrity": 62, "fireStrength": 48, "signalProgress": 70, "campThreat": 15}
+  },
+  "playerStates": [
+    {"playerSlot": 0, "health": 82, "fatigue": 36, "injuries": []},
+    {"playerSlot": 1, "health": 65, "fatigue": 51, "injuries": ["HAND_CUT"]}
+  ],
+  "persistentObjects": [
+    {"id": "SIGNAL_FRAME", "state": "PARTIAL", "quality": 0.72}
+  ],
+  "tags": ["SCENT_HIGH", "SHELTER_REINFORCED"],
+  "eventQueue": [
+    {"eventId": "EVT_ANIMAL_CAMP_001", "triggerPhase": "STORM_PHASE_3"}
+  ],
+  "completedActions": ["ACT_BUILD_SHELTER", "ACT_FIND_FIBER"],
+  "checksum": "EXAMPLE_ONLY"
+}
