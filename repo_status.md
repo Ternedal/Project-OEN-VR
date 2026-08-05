@@ -4,6 +4,6 @@
 - Review state: Awaiting Claude review
 - Implementation state: Not started
 - Next gate: M0 platform feasibility
-- Quest policy: Q2 baseline, Q1 legacy test, Q3/3S enhanced parity
+- Quest policy: Q2 baseline, Q3/3S enhanced parity (Q1 udgaaet, ADR-019)
 
-Se issue `M0: Bevis fælles Quest 1/2/3 platformlane` for første tekniske arbejde.
+Naeste autoriserede handling er M-Pre (ADR-021). Derefter issue `M0: Bevis engine-baseline og faelles Quest 2/3 platformlane`.

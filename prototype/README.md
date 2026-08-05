@@ -4,7 +4,7 @@ Der må først oprettes et rigtigt Unity-projekt i denne mappe, når Claude-revi
 
 M0 skal bevise:
 
-1. samme gameplaykode og scenarioformat på Quest 1, Quest 2 og Quest 3,
+1. samme gameplaykode og scenarioformat på Quest 2 og Quest 3,
 2. controllertracking, grab og comfort locomotion,
 3. privat Photon-session med compatibility handshake,
 4. head/hand replication,

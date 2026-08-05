@@ -69,7 +69,7 @@ Begge builds sender:
 - platform profile.
 - required feature flags.
 
-Quest 1 må spille med Quest 2/3, hvis protocol/content/schema matcher. Grafikprofil må være forskellig.
+Quest 2 og Quest 3 spiller sammen, hvis protocol/content/schema matcher. Grafikprofil må være forskellig. Quest 1 er udgået, jf. ADR-019.
 
 ## 6. Replikationskategorier
 
@@ -172,12 +172,19 @@ Behandles som disconnect. Testes specifikt, fordi Quest ofte går i standby.
 - Standby under loading.
 - Duplicate confirm command.
 - Mismatched scenario hash.
-- Quest 1 reconnect til Quest 3-session.
+- Quest 2 reconnect til Quest 3-session.
 
 ## 14. Go/no-go-kriterium
 
 Før contentproduktion:
 
-- 10 gentagelser af fælles løft Q1↔Q2 og Q2↔Q3 uden permanent desync.
+- 10 gentagelser af fælles løft Q2↔Q3 med kvantitativ måling:
+  - visuel jitter på det bårne objekt: median under 5 mm korrektion pr. frame, p95 under 15 mm,
+  - maks. korrektionsafstand ved enkeltkorrektion: under 30 mm,
+  - målt ved mindst to Shared Mode-tickrates, så kurven kendes og ikke kun ét datapunkt,
+  - testet i latency-vinduet 0-250 ms,
+  - reproducerbar måleopstilling dokumenteret, så resultatet kan afvises på tal.
+
+  Tærsklerne er startværdier fastsat uden device-evidens. De skal kalibreres ved første måling i M0 og derefter låses.
 - 10 session create/join/leave/rejoin cycles.
-- Coordinator disconnect giver enten vellykket handover eller kontrolleret checkpoint-resume; aldrig skjult divergens.
+- Coordinator disconnect giver kontrolleret checkpoint-resume; aldrig skjult divergens. Ægte live-handover er ikke et krav for Release 1 (CR-004). Fusion 2.1's forbedrede Master Client-switching undersøges i M2, men der bygges ikke funktionalitet, der afhænger af den.

@@ -1,13 +1,17 @@
 # Kilderegister
 
-**Senest genvalideret:** 2026-08-05. Kilder skal genvalideres før package upgrades eller offentlig release. Editor- og packageversioner er kandidater, indtil M0 er bestået fysisk.
+**Senest genvalideret:** 2026-08-05 (Unity-, provider- og Fusion-kilder verificeret i forbindelse med DP-001).
+
+**Ikke verificeret og skal tjekkes ved M0-start:** præcis nyeste 6000.3.x-patchnummer, præcis nyeste XRI 3.x-minorversion, og Fusion 2.1's faktiske Shared Mode-jitter på Quest 2 (skal måles, ikke slås op). Kilder skal genvalideres før package upgrades eller offentlig release. Editor- og packageversioner er kandidater, indtil M0 er bestået fysisk.
 
 | Område | Kilde | URL | Relevans |
 |---|---|---|---|
-| Quest 1 | Meta: Navigating Changes to Quest 1 | https://developers.meta.com/horizon/blog/managing-meta-quest-1-guidance-developers/ | Platform SDK v51+ starter ikke på Quest 1; multiplayer-versionvejledning |
-| Oculus XR | Unity Oculus XR Plugin changelog 4.3 | https://docs.unity3d.com/Packages/com.unity.xr.oculus@4.3/changelog/CHANGELOG.html | v4/v51 fjernede Quest 1 target |
-| Quest 1 Unity | Unity XR packages | https://docs.unity3d.com/6000.1/Documentation/Manual/xr-support-packages.html | Dokumenterer sidste kompatible Oculus provider v3.3.0 |
-| Unity editor | Unity 2022.3.76f1 | https://unity.com/releases/editor/whats-new/2022.3.76f1 | 3-year LTS patch pr. 2026-05-06 |
+| Unity LTS | Unity 2022 LTS release overview | https://unity.com/releases/2022-lts | To års standardsupport fra 2023-05-30; udløbet maj 2025. Verificeret 2026-08-05 |
+| Unity LTS | Unity endoflife-oversigt | https://endoflife.date/unity | LTS udgives årligt, to års support; aktuelle spor 6000.0.x og 6000.3.x. Verificeret 2026-08-05 |
+| Provider | Meta: Set up Unity for VR development | https://developers.meta.com/horizon/documentation/unity/unity-project-setup/ | Oculus XR Plugin er deprecated og planlagt til fjernelse; Unity OpenXR Plugin kræver Unity 6+ og Meta XR SDK v74+. Verificeret 2026-08-05 |
+| Provider | Meta: XR Plugin Management for Meta Quest | https://developers.meta.com/horizon/documentation/unity/unity-xr-plugin/ | Oculus XR Plugin dækker Unity 2022+, men kun Meta XR SDK v73 eller ældre. Verificeret 2026-08-05 |
+| Fusion | Photon Fusion 2 SDK requirements | https://doc.photonengine.com/fusion/current/getting-started/sdk-download | Understøtter Unity 2021.3.45, 2022.3.45, 6.0.x, 6.3.x; Asset Serialization skal være Force Text. Verificeret 2026-08-05 |
+| Fusion | Photon Fusion 2.1 stable release | https://blog.photonengine.com/fusion-2-1-stable-release/ | Forecast Physics inkl. Shared Mode, konfigurerbar Shared Mode tickrate/send rate, forbedret Master Client-switching. Relevant for CR-004 og CR-005. Verificeret 2026-08-05 |
 | Meta setup | Set up Unity for VR development | https://developers.meta.com/horizon/documentation/unity/unity-project-setup/ | Officiel Unity/Quest setup |
 | OpenXR | Meta Unity and OpenXR compatibility | https://developers.meta.com/horizon/documentation/unity/unity-and-openxr-compatibility/ | OpenXR relation på Horizon OS |
 | OpenXR Unity | Unity OpenXR package | https://docs.unity3d.com/Packages/com.unity.xr.openxr@latest/ | Package compatibility og features |

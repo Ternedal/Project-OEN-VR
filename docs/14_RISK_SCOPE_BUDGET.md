@@ -4,7 +4,7 @@
 
 | ID | Risiko | Sandsynlighed | Effekt | Tidligt signal | Mitigation |
 |---|---|---:|---:|---|---|
-| R-001 | Quest 1 kræver inkompatibel package lane | Høj | Høj | Tom build kan ikke starte eller cross-play | M0 først; isoleret legacy manifest; best-effort exit-kriterium |
+| R-001 | Engine-baseline fejler på Unity 6 | Mellem | Høj | Tom build starter ikke, eller Fusion/XRI er inkompatible | Engine-gate som allerførste M0-arbejde; fallback til 6000.0.x LTS (ADR-020). Oprindelig Q1-formulering bortfaldet med ADR-019 |
 | R-002 | Shared VR physics desync | Høj | Høj | Jitter/ownership loops i kassetest | Kinematic coop solver; replicate intents/results, ikke rå forces |
 | R-003 | Planlægning føles som administration | Mellem | Høj | Testere vælger uden diskussion | Reducér handlinger; tydelig prognose; skarpere tradeoffs |
 | R-004 | For meget content før core er sjov | Høj | Høj | Art/assets produceres før M3 | Stop/go gates; greybox first |
@@ -16,6 +16,7 @@
 | R-010 | Personligt indhold bliver kitschet | Mellem | Mellem | Finale føles løsrevet | Kort, fortjent epilog; neutral fallback |
 | R-011 | Purchased assets clash visually | Mellem | Mellem | Uens art direction | Style pass and material unification |
 | R-012 | AI-assistance skaber inkonsistent kode | Høj | Mellem | Duplikerede abstractions og scripts | Architecture rules, small PRs, tests and review |
+| R-013 | Momentum-drift uden ekstern deadline | Høj | Høj | Ingen dag hvor udskydelse er for dyr; projektet dør stille frem for at fejle synligt | Selvvalgt dato: M-Pre kørt senest 2026-10-01. Timelog pr. uge; under 5 t/uge i 4 sammenhængende uger udløser eksplicit revurdering. Release 1 (ADR-022) er eneste sted hvor "færdig" defineres |
 
 ## Scopekontrol
 
@@ -54,14 +55,13 @@ Den reelle omkostning er udviklingstid. Køb først assets, når greyboxen har b
 - P0-backloggen summerer til cirka **622 timer**. Den er det konservative kritiske loft - ikke et krav om at bruge alle timer før en gate må godkendes.
 - Den fulde 108-opgavers backlog summerer til cirka **1.447 timer** og repræsenterer maksimal hardening/polish. Release-scope vælges eksplicit i workbooken før produktion.
 
-## Quest 1 exit-kriterium
+## Quest 1
 
-Quest 1 kan nedgraderes fra “fuld legacy-test af Stormnatten” til “kompatibilitetsdemo” hvis alle er opfyldt:
+Udgået som runtime-target, jf. ADR-019. Gavemodtageren ejer ikke en Quest 1, og lanen havde derfor ingen aftager. Beslutningen har lav reversibilitet og behandles som endelig.
 
-- Kræver separat gameplayfork eller mere end 15 % vedvarende ekstraarbejde.
-- Kræver at Quest 2/3 forbliver på kritisk usikker/forældet stack.
-- Cross-play kan ikke gøres stabilt uden platformservice-versionkonflikt.
-- Ejeren accepterer ændringen efter fysisk M0-evidens.
+## Release 1 som scopeanker
+
+Release 1 (afslutning af M5, ADR-022) er det primære gavemål: 1 spilbar dag + storm i tre faser. Estimeret til ca. 340-470 timer med lav konfidens. Alt efter M5 er stretch oven på en gave, der allerede kan gives.
 
 ## Juridisk/IP
 

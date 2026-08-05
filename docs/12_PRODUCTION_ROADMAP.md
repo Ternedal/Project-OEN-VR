@@ -4,15 +4,38 @@
 
 Roadmappet er baseret på gennemførte gates, ikke kalenderløfter. En fase lukkes først, når dens acceptance criteria er demonstreret på fysiske headset.
 
-## M0 - Platform feasibility
+## M-Pre - Kernehypotese-gate
 
-**Estimat:** 60-100 timer  
-**Mål:** Bevis én kodebase/buildlane på Quest 1, 2 og 3.
+**Estimat:** 10-20 timer  
+**Mål:** Bevis at markørallokering skaber diskussion, ikke administration (R-003, OQ-006/007), før der bruges timer på platform og netværk.
 
 Deliverables:
 
-- Unity project + pinned package candidates.
-- Q1/Q2/Q3 build profiles.
+- Fladskærms-, papir- eller greybox-prototype af planlægnings- og konsekvensloopet.
+- Ingen VR. Intet netværk. Intet Unity-krav.
+- Observationsnoter fra mindst to eksterne testere.
+
+Gate - alle fire skal være opfyldt:
+
+1. Testerne diskuterer indbyrdes før mindst 3 af 4 markørallokeringer, uden udviklerforklaring.
+2. Mindst én tester ytrer uopfordret uenighed eller tvivl om en prioritering.
+3. Ved afsløret konsekvens reagerer mindst én tester på tidligere valg.
+4. Ingen tester beskriver loopet som administration eller bogholderi ved efterspil.
+
+**Stop/go:** Rødt på punkt 1 eller 3 udløser redesign af kerneloopet før alt andet arbejde. Potentiel besparelse ved rødt: hele M0-M2, ca. 250 timer.
+
+Se ADR-021. Kræver to eksterne testere, jf. CR-007 og Q-004.
+
+## M0 - Platform feasibility
+
+**Estimat:** 60-100 timer  
+**Mål:** Bevis engine-baseline og én kodebase/buildlane på Quest 2 og 3.
+
+Deliverables:
+
+- Engine-baseline-gate bestået, jf. `docs/06` §3 (ADR-020).
+- Unity 6000.3.x project + pinned package candidates.
+- Q2/Q3 build profiles.
 - XR tracking/grab.
 - Photon create/join.
 - Head/hands replication.
@@ -21,11 +44,11 @@ Deliverables:
 
 Gate:
 
-- Samme scenario/protocol kan køre Q1↔Q2 og Q2↔Q3.
-- 10 løftegentagelser uden permanent desync.
+- Samme scenario/protocol kan køre Q2↔Q3.
+- 10 løftegentagelser uden permanent desync, målt kvantitativt jf. `docs/07` §14.
 - 72 Hz i minimal scene.
 
-**Stop/go:** Hvis Quest 1 kræver så stor dependency fork, at shared gameplaykode ikke kan bevares, nedgraderes kravet til separat testdemo eller droppes efter ejergodkendelse.
+**Stop/go:** Hvis engine-baseline-gaten fejler på både 6000.3.x og 6000.0.x, standses M0 og stackvalget genåbnes med ejerbeslutning.
 
 ## M1 - Interaction foundation
 
@@ -76,19 +99,21 @@ Gate: ekstern test kan gennemføre én dag uden forklaring og oplever et reelt p
 
 Gate: tester kan forklare mindst én forsinket konsekvens.
 
-## M5 - Storm vertical slice
+## M5 - Storm vertical slice = RELEASE 1 (afsendbar gave)
 
 **Estimat:** 70-110 timer
 
-- Three storm phases minimum.
+Dette er projektets primære gavemål, jf. ADR-022. Afslutningen af M5 skal være en gave, der kan gives som den er. Alt efter M5 er stretch.
+
+- Tre stormfaser: vind -> regn/ild -> signal. Fase 3 (skade/dyr) og 4 (kollaps) er stretch, ikke Release 1-indhold.
 - Two active roles per phase.
 - Branches from shelter/fire/injury.
 - Win/lose and retry from checkpoint.
 - Performance soak.
 
-Gate: 20-minute repeated storm test uden netværks- eller memoryfejl; 72 Hz Quest 2.
+Gate for Release 1: to personer gennemfører ende-til-ende i ét sammenhængende forløb uden udviklerindgriben; 20-minutters gentaget stormtest uden netværks- eller memoryfejl; 72 Hz stabilt på Quest 2; checkpoint-resume virker; komfortindstillinger nås inden for to klik fra pause.
 
-## M6 - Full Stormnatten content
+## M6 - Full Stormnatten content (stretch)
 
 **Estimat:** 70-115 timer
 
@@ -100,7 +125,7 @@ Gate: 20-minute repeated storm test uden netværks- eller memoryfejl; 72 Hz Ques
 
 Gate: median 35-45 minutter, ingen udviklerforklaring.
 
-## M7 - Art/audio pass
+## M7 - Art/audio pass (stretch)
 
 **Estimat:** 55-90 timer
 
@@ -111,7 +136,7 @@ Gate: median 35-45 minutter, ingen udviklerforklaring.
 
 Gate: visuel polish uden performance regression.
 
-## M8 - Personalization and gift release
+## M8 - Personalization og udvidet gaverelease (stretch)
 
 **Estimat:** 30-50 timer
 
@@ -119,11 +144,11 @@ Gate: visuel polish uden performance regression.
 - Private assets.
 - Neutral fallback.
 - Finale.
-- Release channel + Quest 1 sideload guide.
+- Release channel guide.
 
 Gate: clean install på begge brugeres headset og gennemførsel uden dev tools.
 
-## M9 - QA and release candidate
+## M9 - QA and release candidate (stretch)
 
 **Estimat:** 40-70 timer
 

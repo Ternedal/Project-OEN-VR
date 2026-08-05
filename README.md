@@ -2,7 +2,7 @@
 
 Et originalt, scenariebaseret VR-overlevelsesspil for præcis to spillere.
 
-Projektet udvikles med **Meta Quest 2 som autoritativ baseline**, en reduceret **Quest 1 legacy-testlane** og fuld brugbarhed på **Quest 3/Quest 3S** med valgfrie visuelle forbedringer.
+Projektet udvikles med **Meta Quest 2 som autoritativ baseline**, fuld brugbarhed på **Quest 3/Quest 3S** med valgfrie visuelle forbedringer.
 
 > Status: Design-, arkitektur- og produktionsbaseline. Der findes endnu ikke et Unity-projekt i repositoryet.
 
@@ -32,7 +32,8 @@ Første leverance er scenariet **Stormnatten**:
 | [`docs/05_STORMNATTEN_CONTENT_BIBLE.md`](docs/05_STORMNATTEN_CONTENT_BIBLE.md) | Det første komplette scenario |
 | [`docs/06_TECHNICAL_ARCHITECTURE.md`](docs/06_TECHNICAL_ARCHITECTURE.md) | Unity-, state-, persistence- og modularkitektur |
 | [`docs/07_MULTIPLAYER_NETWORKING.md`](docs/07_MULTIPLAYER_NETWORKING.md) | Photon Fusion, authority og reconnect |
-| [`docs/08_PLATFORM_BUILD_PERFORMANCE.md`](docs/08_PLATFORM_BUILD_PERFORMANCE.md) | Quest 1/2/3-strategi og performancebudget |
+| [`docs/08_PLATFORM_BUILD_PERFORMANCE.md`](docs/08_PLATFORM_BUILD_PERFORMANCE.md) | Quest 2/3-strategi og performancebudget |
+| [`docs/32_DECISION_PACKAGE_DP-001.md`](docs/32_DECISION_PACKAGE_DP-001.md) | Beslutningspakke DP-001: ADR-019 til ADR-022 |
 | [`docs/12_PRODUCTION_ROADMAP.md`](docs/12_PRODUCTION_ROADMAP.md) | Milepæle M0-M9 og stop/go-gates |
 | [`docs/13_TEST_QA_ACCEPTANCE.md`](docs/13_TEST_QA_ACCEPTANCE.md) | Testmatrix og releasekriterier |
 | [`review/CLAUDE_REVIEW_TEMPLATE.md`](review/CLAUDE_REVIEW_TEMPLATE.md) | Formatet for Claudes review |
@@ -50,7 +51,8 @@ Første leverance er scenariet **Stormnatten**:
 
 ## Centrale gates
 
-- **M0:** Samme minimale code/content lane starter og kan forbindes på Quest 1, Quest 2 og Quest 3.
+- **M-Pre:** Planlaegningsloopet skaber diskussion hos to eksterne testere uden udviklerforklaring.
+- **M0:** Engine-baseline bestaaet; samme minimale code/content lane starter og forbindes paa Quest 2 og Quest 3.
 - **M2:** Stabil private-session, authority, kompatibilitetshåndtryk og fælles tohåndsobjekt.
 - **M3:** Én komplet dag kan spilles uden udviklerforklaring.
 - **M5:** Stormens vertical slice holder performance og netværksstabilitet.

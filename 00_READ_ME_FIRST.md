@@ -5,7 +5,6 @@
 **Arbejdstitel:** PROJECT ØEN - STRANDET SAMMEN  
 **Format:** To-spiller kooperativt VR-overlevelsesspil  
 **Primær platform:** Meta Quest 2  
-**Legacy-test:** Meta Quest 1  
 **Forbedret platform:** Meta Quest 3 / Quest 3S
 
 ## Formål
@@ -15,13 +14,12 @@ Denne pakke skal give Claude tilstrækkelig produkt-, design- og teknisk konteks
 ## Hårde krav
 
 1. Spillet udvikles og profileres primært til Quest 2.
-2. En reduceret legacy-build skal kunne testes fysisk på Quest 1.
 3. Spillet skal være fuldt brugbart på Quest 3 og Quest 3S og må gerne få visuelle forbedringer dér.
 4. Der er præcis to spillere i MVP/gaveversionen.
 5. Begge spillere skal være aktive; ingen må fungere som passiv tilskuer i længere sekvenser.
 6. Første leverance er et 30-45 minutters, gennemspilleligt scenario - ikke et open-world survival-spil.
 7. Projektet er original IP. Det må være inspireret af scenariebaserede survival-brætspil, men må ikke kopiere navn, tekst, illustrationer eller præcise regler fra *Robinson Crusoe: Adventures on the Cursed Island*.
-8. Quest 1-kompatibilitet er en **best-effort legacy-testlane**, ikke en begrundelse for at ødelægge Quest 2/3-produktet.
+8. Første gavemål er **Release 1 ved M5**: 1 dag + storm i tre faser. Fuld Stormnatten er stretch (ADR-022).
 
 ## Source of truth
 
@@ -54,7 +52,7 @@ Hvis Claude finder en reel konflikt, skal den markeres som `CONFLICT-xxx` i revi
 
 - Komplet GDD og gameplay-specifikation.
 - Teknisk arkitektur og netværksmodel.
-- Quest 1/2/3-build- og performanceplan.
+- Quest 2/3-build- og performanceplan.
 - Detaljeret scenario-bibel for **Stormnatten**.
 - Roadmap, milepæle, stop/go-kriterier og produktionsestimater.
 - QA-plan, acceptkriterier og enhedsmatrix.
@@ -68,7 +66,7 @@ Hvis Claude finder en reel konflikt, skal den markeres som `CONFLICT-xxx` i revi
 - Ingen Unity-kode eller færdige assets.
 - Ingen fysisk kompatibilitetstest er gennemført endnu.
 - Ingen licensaftale til Robinson Crusoe-IP; projektet planlægges derfor som original IP.
-- Ingen endelig pinning af Unity- og XR-pakkeversioner før platformspiket er bestået på Quest 1, Quest 2 og Quest 3.
+- Ingen endelig pinning af Unity- og XR-pakkeversioner før engine-baseline-gaten er bestået fysisk på Quest 2 og Quest 3.
 
 ## Reviewflow efter Claude
 

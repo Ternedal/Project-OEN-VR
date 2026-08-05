@@ -8,7 +8,7 @@
 
 | Epic | Navn | Mål | Milepæl | Kritikalitet |
 | --- | --- | --- | --- | --- |
-| E00 | Platform feasibility | Fælles Quest 1/2/3 build-, XR- og package-strategi | M0 | BLOCKER |
+| E00 | Platform feasibility | Engine-baseline (ADR-020) samt Quest 2/3 build-, XR- og package-strategi | M0 | BLOCKER |
 | E01 | XR interaction | Locomotion, grab, snap og tohåndsinteraktion | M1 | HIGH |
 | E02 | Multiplayer | Lobby, replication, authority og compatibility | M2 | BLOCKER |
 | E03 | Scenario flow | ScenarioDirector, faser, commands og state | M3 | HIGH |
@@ -20,21 +20,22 @@
 | E09 | UX & accessibility | Onboarding, comfort, handedness og subtitles | M1-M9 | HIGH |
 | E10 | Art, audio & performance | Stil, assets, VFX og device-profiler | M5-M7 | MEDIUM |
 | E11 | Personalization | Privat profile og neutral fallback | M8 | MEDIUM |
-| E12 | Build & release | CI, signing, Alpha og Q1 sideload | M0-M9 | HIGH |
+| E12 | Build & release | CI, signing, Alpha og sideload | M0-M9 | HIGH |
 | E13 | QA & release | Tests, device matrix og release gates | M0-M9 | BLOCKER |
 
 ## Milepæle
 
 | ID | Navn | Output | Est. timer | Exit gate | Disposition |
 | --- | --- | --- | --- | --- | --- |
-| M0 | Platform feasibility | Fælles code/content lane bevist | 60-100 | Q1-Q2 og Q2-Q3 box; 72 Hz minimal | Go/Redesign |
+| M-Pre | Kernehypotese-gate | Planlægningsloop skaber diskussion | 10-20 | Fire gate-kriterier, jf. `docs/12` | Go/Redesign |
+| M0 | Platform feasibility | Engine-baseline + fælles code/content lane bevist | 60-100 | Q2-Q3 box kvantitativt; 72 Hz minimal | Go/Redesign |
 | M1 | Interaction foundation | Komfortabel lokal VR-interaktion | 35-55 | 10x greb/snap/tohånd; seated | Go/Fix |
 | M2 | Multiplayer foundation | Stabil privat session og authority | 45-70 | 10 cycles; reconnect skeleton | Go/Redesign |
 | M3 | One-day prototype | Planlægning og én fuld dag | 55-85 | Ekstern test uden forklaring | Go/Cut |
 | M4 | Consequences | Forsinket årsag/virkning | 40-65 | Tester forklarer chain | Go/Cut |
 | M5 | Storm vertical slice | Finale med branches | 70-110 | 72 Hz Q2; 20 min soak | Go/Cut |
 | M6 | Full Stormnatten | Tre dage og 35-45 min | 70-115 | Median tid; active ≥70% | Go/Polish |
-| M7 | Art/audio pass | Sammenhængende stil | 55-90 | Q2 budget + Q1/Q3 profiles | Go/Fix |
+| M7 | Art/audio pass (stretch) | Sammenhængende stil | 55-90 | Q2 budget + Q3 profiles | Go/Fix |
 | M8 | Gift personalization | Privat profile/distribution | 30-50 | Fallback og clean install | Go/Fix |
 | M9 | Release candidate | QA, comfort, gates | 40-70 | P0/P1=0; full matrix | Release/Hold |
 
@@ -42,14 +43,14 @@
 
 | ID | Test | Platform | Handling | Forventet resultat | Gate |
 | --- | --- | --- | --- | --- | --- |
-| NET-001 | Same-frame grab | Q1/Q2/Q3 | Begge griber samme frame | Én authority; ingen jitter | M2 |
+| NET-001 | Same-frame grab | Q2/Q3 | Begge griber samme frame | Én authority; ingen jitter | M2 |
 | NET-002 | Coop heavy box | Cross-device | Løft og snap | Identisk state 10/10 | M0/M2 |
 | NET-003 | Authority disconnect | Cross-device | Owner disconnect under interaction | Pause/resync/checkpoint | M2 |
 | FLOW-001 | Plan lock race | All | Marker og confirm samtidig | Én revision | M3 |
 | SAVE-001 | Delayed event resume | All | Save efter schedule | Trigger præcis én gang | M4 |
-| DEV-001 | Standby | Q1/Q2/Q3 | Sleep i tre faser | Kontrolleret resume | M6 |
+| DEV-001 | Standby | Q2/Q3 | Sleep i tre faser | Kontrolleret resume | M6 |
 | PERF-001 | Storm soak | Q2 | 20 minutter | 72 Hz target; no leak | M5 |
-| COMPAT-001 | Q1-Q3 cross-play | Q1↔Q3 | Join/interaction/checkpoint | Samme protocol/content | M0/M9 |
+| COMPAT-001 | Q2-Q3 cross-play | Q2↔Q3 | Join/interaction/checkpoint | Samme protocol/content | M0/M9 |
 | CONTENT-001 | Missing private asset | All | Asset mangler | Neutral fallback | M8 |
 | UX-001 | No-help onboarding | Human | Nye spillere | Mål forstået <4 min | M6 |
 | UX-002 | Active participation | Human | Observer action time | Begge aktive ≥70% | M6 |
@@ -59,7 +60,8 @@
 
 | ID | Risiko | Sandsynlighed | Effekt | Gate | Mitigation | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| R-001 | Quest 1 package lane inkompatibel | High | High | M0 | Legacy manifest; exit criterion | Open |
+| R-001 | Engine-baseline fejler på Unity 6 | Medium | High | M0 | Engine-gate først; fallback 6000.0.x | Open |
+| R-013 | Momentum-drift uden deadline | High | High | Løbende | M-Pre senest 2026-10-01; timelog | Open |
 | R-002 | Shared VR physics desync | High | High | M0/M2 | Kinematic coop solver | Open |
 | R-003 | Planning føles administrativ | Medium | High | M3 | Ekstern test; skarpere tradeoffs | Open |
 | R-004 | Content før core | High | High | M3 | Greybox gates | Open |
@@ -74,31 +76,31 @@
 
 | ID | Epic | Type | Titel | Milepæl | Prioritet | Status | Est. timer | Afhængigheder | Testplatform | Acceptance criteria |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| PO-001 | E00 | Spike | Pin Unity editor candidate | M0 | P0 | Not Started | 6 |  | Q1/Q2/Q3 | Version og lockfiles committed |
-| PO-002 | E00 | Spike | Konfigurer Android IL2CPP ARM64 og OpenXR | M0 | P0 | Not Started | 6 | 1 | Q1/Q2/Q3 | Tom APK starter og viser tracking |
+| PO-001 | E00 | Spike | Pin Unity editor candidate | M0 | P0 | Not Started | 6 |  | Q2/Q3 | Version og lockfiles committed |
+| PO-002 | E00 | Spike | Konfigurer Android IL2CPP ARM64 og OpenXR | M0 | P0 | Not Started | 6 | 1 | Q2/Q3 | Tom APK starter og viser tracking |
 | PO-003 | E00 | Story | Implementér BuildInfo og platformdetektion | M0 | P1 | Not Started | 5 | 1 | All | Build viser version, profile, device og protocol |
-| PO-004 | E00 | Spike | Opret Q1_LEGACY buildprofil | M0 | P0 | Not Started | 8 | 2 | Q1 | Signeret APK starter fysisk |
+| PO-004 | E00 | Spike | Verificér engine-baseline-gate (ADR-020) | M0 | P0 | Not Started | 8 | 2 | Q2/Q3 | Fire gate-punkter i `docs/06` §3 bestået |
 | PO-005 | E00 | Spike | Opret Q2_BASE buildprofil | M0 | P0 | Not Started | 5 | 2 | Q2 | Tom scene holder 72 Hz |
 | PO-006 | E00 | Spike | Opret Q3_ENHANCED buildprofil | M0 | P1 | Not Started | 5 | 2 | Q3 | Samme gameplay flags og forbedret quality |
-| PO-007 | E00 | Spike | Sammenlign Vulkan/GLES3 på Quest 1 | M0 | P0 | Not Started | 10 | 4 | Q1 | Stability og frame timing dokumenteret |
-| PO-008 | E00 | Decision | Fastlås package compatibility matrix | M0 | P0 | Not Started | 6 | 4,5,6 | Q1/Q2/Q3 | ADR og compatibility matrix opdateret |
-| PO-009 | E01 | Story | XR Origin og gulvkalibrering | M1 | P1 | Not Started | 8 | 2 | Q1/Q2/Q3 | Stående/siddende kan kalibreres |
+| PO-007 | E00 | Spike | Verificér Vulkan-stabilitet på Quest 2 | M0 | P0 | Not Started | 6 | 4 | Q2/Q3 | Stability og frame timing dokumenteret |
+| PO-008 | E00 | Decision | Fastlås package compatibility matrix | M0 | P0 | Not Started | 6 | 4,5,6 | Q2/Q3 | ADR og compatibility matrix opdateret |
+| PO-009 | E01 | Story | XR Origin og gulvkalibrering | M1 | P1 | Not Started | 8 | 2 | Q2/Q3 | Stående/siddende kan kalibreres |
 | PO-010 | E01 | Story | Teleport locomotion | M1 | P1 | Not Started | 6 | 9 | All | Teleport er stabil og bounded |
 | PO-011 | E01 | Story | Snap turn og comfort settings | M1 | P1 | Not Started | 6 | 9 | All | 15/30/45 grader; default 30 |
 | PO-012 | E01 | Story | Grab wrapper og object reset | M1 | P1 | Not Started | 10 | 9 | All | Item kan gribes, overdrages og resettes |
 | PO-013 | E01 | Story | Snap target med magnetisk preview | M1 | P1 | Not Started | 8 | 12 | All | Preview før release og tydelig feedback |
 | PO-014 | E01 | Story | Lokalt tohåndsobjekt | M1 | P0 | Not Started | 14 | 12 | All | Tung kasse stabil med to hænder |
 | PO-015 | E01 | Story | Haptics adapter og indstilling | M1 | P2 | Not Started | 5 | 12 | All | Haptics kan skaleres/deaktiveres |
-| PO-016 | E01 | QA | Reach/seated playtest | M1 | P1 | Not Started | 8 | 10,13,14 | Q1/Q2/Q3 | Alt nås uden knælen |
+| PO-016 | E01 | QA | Reach/seated playtest | M1 | P1 | Not Started | 8 | 10,13,14 | Q2/Q3 | Alt nås uden knælen |
 | PO-017 | E02 | Spike | Photon Fusion app/config | M2 | P0 | Not Started | 5 | 8 | Network | To klienter kan oprette session |
 | PO-018 | E02 | Story | Privat join code | M2 | P0 | Not Started | 10 | 17 | Network | Create/join/leave 10 af 10 |
-| PO-019 | E02 | Story | Compatibility handshake | M2 | P0 | Not Started | 10 | 3,18 | Q1/Q2/Q3 | Protocol/content mismatch afvises |
-| PO-020 | E02 | Story | Head/hands replication | M2 | P0 | Not Started | 14 | 17 | Q1/Q2/Q3 | Remote pose stabil og interpoleret |
+| PO-019 | E02 | Story | Compatibility handshake | M2 | P0 | Not Started | 10 | 3,18 | Q2/Q3 | Protocol/content mismatch afvises |
+| PO-020 | E02 | Story | Head/hands replication | M2 | P0 | Not Started | 14 | 17 | Q2/Q3 | Remote pose stabil og interpoleret |
 | PO-021 | E02 | Story | Authority for lette objects | M2 | P0 | Not Started | 12 | 12,20 | Network | Same-frame grab deterministisk |
 | PO-022 | E02 | Story | CoopObjectController | M2 | P0 | Not Started | 24 | 14,20 | Cross-device | To hand targets styrer tung kasse |
 | PO-023 | E02 | Story | Scenario coordinator election | M2 | P0 | Not Started | 12 | 17 | Network | Coordinator kendt og kan håndteres ved loss |
 | PO-024 | E02 | Tooling | Network debug panel | M2 | P1 | Not Started | 8 | 17 | All | Ping, region, authority og revision vises |
-| PO-025 | E02 | QA | 10x Q1-Q2/Q2-Q3 box test | M2 | P0 | Not Started | 12 | 22 | Cross-device | Ingen permanent desync |
+| PO-025 | E02 | QA | 10x Q2-Q3 box test, kvantitativ | M2 | P0 | Not Started | 12 | 22 | Cross-device | Jitter/korrektion inden for `docs/07` §14-tærskler |
 | PO-026 | E02 | QA | Packet loss og latency test | M2 | P1 | Not Started | 10 | 22 | Network | Spilbart ved 120 ms |
 | PO-027 | E03 | Story | ScenarioDirector state machine | M3 | P0 | Not Started | 16 | 24 | All | Kun director kan skifte fase |
 | PO-028 | E03 | Story | Gameplay commands/domain events | M3 | P1 | Not Started | 12 | 27 | All | Commands valideres og events logges |
@@ -111,11 +113,11 @@
 | PO-035 | E04 | Story | Shared resource state | M3 | P0 | Not Started | 10 | 28 | All | Træ/fiber/mad/urter autoritativt |
 | PO-036 | E04 | Story | Player status | M3 | P1 | Not Started | 10 | 28 | All | Health/fatigue/injuries gemmes |
 | PO-037 | E04 | Story | Camp status | M3 | P1 | Not Started | 10 | 28 | All | Shelter/fire/signal/threat shared |
-| PO-038 | E04 | Content | Fysisk planlægningsbord | M3 | P1 | Not Started | 16 | 33,35 | Q1/Q2/Q3 | Fire markers og cards læsbare |
+| PO-038 | E04 | Content | Fysisk planlægningsbord | M3 | P1 | Not Started | 16 | 33,35 | Q2/Q3 | Fire markers og cards læsbare |
 | PO-039 | E04 | QA | Ekstern one-day playtest | M3 | P0 | Not Started | 10 | 29,38 | Human | Reelt valg uden dev-forklaring |
 | PO-040 | E05 | Story | InteractionSequence data model | M3 | P1 | Not Started | 12 | 28 | All | Primær/sekundær rolle og outcomes authorable |
 | PO-041 | E05 | Story | Quality scoring | M3 | P1 | Not Started | 12 | 40 | All | Prep/tool/execution/cooperation beregnes |
-| PO-042 | E05 | Content | Shelter greybox interaction | M3 | P0 | Not Started | 24 | 13,40 | Q1/Q2/Q3 | Begge aktive og partial success |
+| PO-042 | E05 | Content | Shelter greybox interaction | M3 | P0 | Not Started | 24 | 13,40 | Q2/Q3 | Begge aktive og partial success |
 | PO-043 | E05 | Story | Tool durability/quality | M4 | P2 | Not Started | 10 | 41 | All | Tool påvirker outcome og save |
 | PO-044 | E05 | Content | Fire-start interaction | M3 | P1 | Not Started | 16 | 40 | All | Vindbeskyttelse plus ildstål |
 | PO-045 | E05 | Content | Signal frame interaction | M5 | P1 | Not Started | 20 | 40 | All | Tre stages; quality påvirker finale |
@@ -133,8 +135,9 @@
 | PO-057 | E07 | Content | Dag 1 content | M6 | P1 | Not Started | 24 | 52,46 | All | Tutorial, første valg og nat |
 | PO-058 | E07 | Content | Dag 2 content | M6 | P1 | Not Started | 28 | 54,55 | All | Varsel, rescue og branch |
 | PO-059 | E07 | Content | Dag 3 forberedelse | M6 | P1 | Not Started | 18 | 56 | All | Sidste tradeoff før storm |
-| PO-060 | E07 | Content | Storm fase 1-2 | M5 | P0 | Not Started | 28 | 42,49 | Q1/Q2/Q3 | Vind/tag og regn/ild branches |
-| PO-061 | E07 | Content | Storm fase 3-5 | M5 | P0 | Not Started | 32 | 58 | Q1/Q2/Q3 | Consequence, collapse og signal |
+| PO-060 | E07 | Content | Storm fase 1-2 | M5 | P0 | Not Started | 28 | 42,49 | Q2/Q3 | Vind/tag og regn/ild branches |
+| PO-061 | E07 | Content | Storm signalfase (Release 1) | M5 | P0 | Not Started | 14 | 58 | Q2/Q3 | Signal og win/lose fungerer |
+| PO-061b | E07 | Content | Storm fase 3-4: skade/dyr og kollaps | M6 | P2 | Not Started | 18 | 58 | Q2/Q3 | **Stretch**, ikke Release 1 |
 | PO-062 | E07 | Story | Win/lose/retry flow | M5 | P0 | Not Started | 16 | 59 | All | Retry fra pre-storm checkpoint |
 | PO-063 | E07 | Content | Tune 10 event definitions | M6 | P1 | Not Started | 24 | 46 | All | Fallback og test path |
 | PO-064 | E07 | QA | Full scenario external playtest | M6 | P0 | Not Started | 16 | 55,56,59,60 | Human | 35-45 min og begge aktive ≥70% |
@@ -145,7 +148,7 @@
 | PO-069 | E08 | Story | 90s reconnect flow | M4 | P0 | Not Started | 20 | 64,65 | Cross-device | Peer returnerer med korrekt snapshot |
 | PO-070 | E08 | Story | Checkpoint resume session | M4 | P0 | Not Started | 18 | 63 | Network | Ny session fortsætter fra checkpoint |
 | PO-071 | E08 | Story | Save migration framework | M6 | P1 | Not Started | 12 | 62 | Automated | vN til vN+1 migrator/test |
-| PO-072 | E08 | QA | Standby tests i alle faser | M6 | P0 | Not Started | 12 | 65,66 | Q1/Q2/Q3 | Lobby/action/storm recover |
+| PO-072 | E08 | QA | Standby tests i alle faser | M6 | P0 | Not Started | 12 | 65,66 | Q2/Q3 | Lobby/action/storm recover |
 | PO-073 | E09 | Story | Handedness settings | M1 | P1 | Not Started | 6 | 9 | All | Dominant hånd kan ændres |
 | PO-074 | E09 | Story | Subtitle system | M6 | P1 | Not Started | 12 | 28 | All | Speaker, størrelse og baggrund |
 | PO-075 | E09 | Story | Comfort menu | M1 | P1 | Not Started | 10 | 10,11 | All | Teleport/snap/smooth/vignette |
@@ -156,11 +159,11 @@
 | PO-080 | E10 | Art | Shared material palette | M7 | P2 | Not Started | 10 | 61 | All | Stilguide og master materials |
 | PO-081 | E10 | Art | Camp art pass | M7 | P1 | Not Started | 30 | 52,76 | Q2 | Quest 2 budget overholdt |
 | PO-082 | E10 | Art | Jungle/ravine art pass | M7 | P2 | Not Started | 36 | 53,54,76 | Q2 | Landmarks og LODs |
-| PO-083 | E10 | Art | Storm VFX profiles | M5 | P1 | Not Started | 22 | 58 | Q1/Q2/Q3 | Q1/Q2/Q3 quality levels |
+| PO-083 | E10 | Art | Storm VFX profiles | M5 | P1 | Not Started | 22 | 58 | Q2/Q3 | Q2/Q3 quality levels |
 | PO-084 | E10 | Audio | Adaptive ambience/storm audio | M7 | P1 | Not Started | 24 | 58 | All | Cues kan høres og ses |
 | PO-085 | E10 | Art | Simple network avatar polish | M7 | P2 | Not Started | 18 | 20 | All | Tydelig identity uden Meta Avatars |
 | PO-086 | E10 | Performance | Quest 2 optimization pass | M7 | P0 | Not Started | 24 | 77,78,79 | Q2 | 72 Hz og budgets dokumenteret |
-| PO-087 | E10 | Performance | Q1 reduction/Q3 enhancement | M7 | P1 | Not Started | 18 | 82 | Q1/Q3 | Gameplayparitet dokumenteret |
+| PO-087 | E10 | Performance | Q3 enhancement | M7 | P1 | Not Started | 12 | 82 | Q2/Q3 | Gameplayparitet dokumenteret |
 | PO-088 | E11 | Story | PersonalizationProfile loader | M8 | P1 | Not Started | 12 | 46 | All | Profile og fallback kan vælges |
 | PO-089 | E11 | Tooling | Private asset validation | M8 | P1 | Not Started | 8 | 84 | All | Size/format/missing håndteres |
 | PO-090 | E11 | Content | Ending crate/radio hooks | M8 | P1 | Not Started | 16 | 84 | All | Hooks uden specialkode |
@@ -171,17 +174,17 @@
 | PO-095 | E12 | Build | Automated build metadata | M0 | P1 | Not Started | 8 | 3 | All | Commit/profile/hash i build |
 | PO-096 | E12 | Build | Signing og keystore backup | M8 | P0 | Not Started | 8 | 5 | All | Release key backup testet |
 | PO-097 | E12 | Release | Alpha release channel flow | M8 | P1 | Not Started | 10 | 90 | Q2/Q3 | Q2/3 private install/update |
-| PO-098 | E12 | QA | Quest 1 sideload-guide | M8 | P1 | Not Started | 10 | 4 | Q1 | Ikke-udvikler installerer build |
+| PO-098 | E12 | QA | Sideload-/release-guide | M8 | P1 | Not Started | 8 | 4 | Q2/Q3 | Ikke-udvikler installerer build |
 | PO-099 | E12 | Tooling | Local log export | M6 | P1 | Not Started | 8 | 25 | All | Logs uden private data |
 | PO-100 | E12 | Release | Build artifact/rollback archive | M9 | P0 | Not Started | 8 | 91,92 | All | APK, symbols, locks og notes |
 | PO-101 | E13 | QA | EditMode core test suite | M0 | P1 | Not Started | 12 | 1 | Automated | Baseline tests grønne |
 | PO-102 | E13 | QA | Two-client integration harness | M2 | P1 | Not Started | 16 | 17 | Automated | Sessiontest kan gentages |
-| PO-103 | E13 | QA | Device test checklist | M0 | P1 | Not Started | 8 |  | Q1/Q2/Q3 | Q1/Q2/Q3 results registreres |
+| PO-103 | E13 | QA | Device test checklist | M0 | P1 | Not Started | 8 |  | Q2/Q3 | Q2/Q3 results registreres |
 | PO-104 | E13 | QA | Performance telemetry | M3 | P1 | Not Started | 10 | 3 | Q2 | Frame timing/memory per fase |
 | PO-105 | E13 | QA | Storm 20-min soak | M5 | P0 | Not Started | 12 | 58,97 | Q2 | No leak/thermal/permanent desync |
-| PO-106 | E13 | QA | Full regression matrix | M9 | P0 | Not Started | 24 | 61,68,83,87 | Q1/Q2/Q3 | Alle release gates dokumenteret |
+| PO-106 | E13 | QA | Full regression matrix | M9 | P0 | Not Started | 24 | 61,68,83,87 | Q2/Q3 | Alle release gates dokumenteret |
 | PO-107 | E13 | QA | P0/P1 bug closure | M9 | P0 | Not Started | 24 | 99 | All | P0/P1 lig nul |
-| PO-108 | E13 | QA | RC clean-install test | M9 | P0 | Not Started | 12 | 91,92,100 | Q1/Q2/Q3 | To brugere gennemfører uden dev |
+| PO-108 | E13 | QA | RC clean-install test | M9 | P0 | Not Started | 12 | 91,92,100 | Q2/Q3 | To brugere gennemfører uden dev |
 
 ## Reviewfelter
 

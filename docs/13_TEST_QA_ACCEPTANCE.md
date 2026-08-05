@@ -5,18 +5,18 @@
 1. **EditMode:** pure state, event conditions, save migration, validators.
 2. **PlayMode:** phase flow, interactions, local multiplayer simulation.
 3. **Network integration:** to Unity instances og packet simulation.
-4. **Physical device:** Quest 1/2/3.
+4. **Physical device:** Quest 2/3.
 5. **Human playtest:** usability, cooperation, comfort and fun.
 
 ## Device matrix
 
-| Test | Q1 | Q2 | Q3 | Cross-device |
+| Test | Q2 | Q3 | Cross-device |
 |---|---:|---:|---:|---:|
 | Boot/input | Hver milestone | Hver build | Hver milestone | - |
-| Full scenario | RC | Hver RC | Hver RC | Q1↔Q2, Q2↔Q3 |
+| Full scenario | Hver RC | Hver RC | Q2↔Q3 |
 | Performance | Legacy smoke | Autoritativ | Regression/enhanced | - |
 | Reconnect | M2+ | M2+ | M2+ | Ja |
-| Standby | M2+ | M2+ | M2+ | Ja |
+| Standby | M2 løbende, M6 formel | M2 løbende, M6 formel | M2 løbende, M6 formel | Ja |
 | Save/resume | M3+ | M3+ | M3+ | Ja |
 
 ## Bug severity
@@ -47,7 +47,6 @@
 
 - Quest 2 stabil 72 Hz gennem fuld mission og storm.
 - 20 minutters storm soak uden memory leak/thermal collapse.
-- Quest 1 reduceret build gennemfører.
 - Quest 3 regression og enhancement profile dokumenteret.
 
 ### Comfort/accessibility
@@ -100,17 +99,20 @@ Storm gentages/holdes aktiv 20 min. Log CPU/GPU, memory, thermal, network.
 
 Manglende/korrupt billede eller lyd bruger neutral fallback uden crash.
 
-### COMPAT-001 Q1-Q3
+### COMPAT-001 Q2-Q3
 
-Q1 legacy build joiner Q3 enhanced build med samme protocol/content hash og gennemfører fælles interaction.
+Quest 2 build joiner Quest 3 enhanced build med samme protocol/content hash og gennemfører fælles interaction.
 
 ## Playtest-protokol
 
 - Observer uden at hjælpe.
 - Markér alle steder med >10 sekunders stilstand.
+- **Passivitetstærskler (CONFLICT-001):** 12 sekunder er *design-mål* for maksimal passiv periode i action-sekvenser. 20 sekunder er *hård accept-/fail-gate*. Et build med passivitet mellem 12 og 20 sekunder er ikke pænt, men det fejler ikke. Over 20 sekunder fejler det.
 - Registrér hvem der taler, hvem der udfører, og ventetid.
 - Spørg efter missionen: mål, vigtigste valg, årsag til stormproblem, ønsket retry.
 - Brug ikke kun udvikleren og kæresten som QA; mindst 2 eksterne par før release.
+- **Komfort-gate:** maksimalt to klik fra pause til komfortindstillinger. Testes eksplicit, jf. `docs/02`.
+- **Gavehemmelighed vs. ekstern test (CR-007, Q-004):** eksterne par testes på en neutral build uden personligt indhold. Kan det ikke lade sig gøre, registreres reduceret ekstern test som eksplicit accepteret risiko, ikke som en overset detalje.
 
 ## Definition of Done - feature
 
@@ -118,7 +120,7 @@ Q1 legacy build joiner Q3 enhanced build med samme protocol/content hash og genn
 - Demonstreret på to fysiske headset.
 - Network authority/reconnect vurderet.
 - Performance målt på Quest 2.
-- Quest 1 smoke og Quest 3 regression hvis relevant.
+- Quest 3 regression hvis relevant.
 - Subtitles/handedness/comfort vurderet.
 - Ingen P0/P1.
 
