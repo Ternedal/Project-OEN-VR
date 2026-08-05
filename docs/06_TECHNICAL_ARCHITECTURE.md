@@ -2,7 +2,7 @@
 
 ## 1. Arkitekturmål
 
-- Én kodebase for Quest 1/2/3.
+- Én kodebase for Quest 2/3.
 - Platformforskelle isoleres i buildprofiler og adapters.
 - Gameplay-state er data-drevet og kan testes uden headset, hvor det er muligt.
 - Netværk må ikke være dybt flettet ind i alle gameplayklasser.
@@ -13,12 +13,12 @@
 
 | Lag | Teknologi | Status |
 |---|---|---|
-| Engine | Unity 2022.3 LTS, endelig patch låses efter M0 | Foreslået |
-| Render | URP, Vulkan; GLES3 fallback spike | Foreslået |
-| XR runtime | OpenXR med Quest support | Foreslået |
-| Interaktion | XR Interaction Toolkit | Foreslået |
+| Engine | Unity 6 LTS 6000.3.x, endelig patch låses efter M0 | Foreslået (ADR-020) |
+| Render | URP med Render Graph, Vulkan | Foreslået |
+| XR runtime | OpenXR via Unity OpenXR Plugin | Foreslået (ADR-020) |
+| Interaktion | XR Interaction Toolkit 3.x | Foreslået |
 | Input | Unity Input System | Foreslået |
-| Multiplayer | Photon Fusion 2 Shared Mode | Foreslået |
+| Multiplayer | Photon Fusion 2.1 Shared Mode | Foreslået (kræver Realtime 5) |
 | Content | ScriptableObjects + JSON schema/export | Accepteret retning |
 | Scene loading | Addressables/additive scenes, lokalt content i gaveversion | Foreslået |
 | Tests | Unity Test Framework + PlayMode integration + fysisk device suite | Foreslået |
@@ -36,12 +36,18 @@ Før stacken betragtes som låst, bygges et minimalt projekt med:
 - Shared ownership af én tung kasse.
 - BuildInfo og compatibility hash.
 
-Det installeres fysisk på Quest 1, Quest 2 og Quest 3. Hvis én fælles package lock ikke virker, vælges én kodebase med to manifests/lockfiles:
+Det installeres fysisk på Quest 2 og Quest 3. Med ADR-019 er Quest 1-lanen bortfaldet, og der er derfor kun én package lock. To-manifest-forken (`modern`/`legacy-q1`) er udgået.
 
-- `modern` for Quest 2/3.
-- `legacy-q1` for Quest 1.
+### Verifikationsgate for engine-baseline (ADR-020)
 
-Kode og content skal fortsat være fælles. Kun XR/platformpakker må divergere.
+Skal bestås inden for M0's første ca. 8 timer, før resten af spiket fortsætter:
+
+1. Tomt Unity 6000.3.x-projekt med URP, Android/Vulkan, bygger og kører på Quest 2.
+2. XRI 3.x XR Origin-rig med grab, teleport og snap turn fungerer på device.
+3. Photon Fusion 2.1 importeret med Asset Serialization = Force Text; to klienter forbinder i Shared Mode.
+4. Tom scene holder 72 Hz stabilt på Quest 2.
+
+Fejler gaten, falder valget til Unity 6000.0.x LTS. Kun ved dobbelt fejl overvejes 2022.3.45 som eksplicit accepteret teknisk gæld.
 
 ## 4. Modulopdeling
 
@@ -199,9 +205,9 @@ Write flow:
 - Boot og lobby er små selvstændige scener.
 - Camp er persistent under scenarioet.
 - Action-zoner indlæses additivt.
-- Maksimalt camp + én fuld action-zone resident på Quest 1/2.
+- Maksimalt camp + én fuld action-zone resident på Quest 2.
 - Addressables bruges primært til lokal organisering og loading; remote content er uden for gaveversionen.
-- Shared assets har LOD0-2; Quest 1 kan skippe LOD0.
+- Shared assets har LOD0-2.
 
 ## 11. Dependency rules
 

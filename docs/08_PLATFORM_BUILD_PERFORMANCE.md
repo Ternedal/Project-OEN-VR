@@ -13,28 +13,6 @@ Quest 2 bestemmer:
 - memory discipline,
 - QA-gates.
 
-### Quest 1 - legacy-test
-
-Quest 1 skal kunne:
-
-- starte en signeret sideload-build,
-- tracke Touch-controllere,
-- forbinde via Photon,
-- gennemføre Stormnatten,
-- bruge samme network protocol, scenario data og save schema.
-
-Quest 1 må bruge:
-
-- lavere render scale,
-- enklere skygger,
-- færre partikler,
-- færre audio voices,
-- lavere texture mips,
-- mere aggressiv scene unloading,
-- reducerede post effects.
-
-Quest 1 er ikke offentlig supportgaranti og må ikke kræve moderne Meta Platform SDK.
-
 ### Quest 3/3S - enhanced
 
 Quest 3 må forbedre:
@@ -49,25 +27,15 @@ Quest 3 må forbedre:
 
 Ingen Quest 3-only gameplaymekanik i gaveversionen.
 
-## 2. SDK-realitet for Quest 1
+## 2. Provider- og SDK-realitet
 
-- Meta oplyser, at apps med Platform SDK v51+ ikke kan starte på Quest 1.
-- Unitys Oculus XR Plugin v4+ fjernede Quest 1 som target; Unity dokumenterer v3.3.0 som sidste kompatible Oculus-provider.
-- Cross-device multiplayer via Meta Platform services kan begrænses af SDK-version. Projektet bruger derfor Photon og undgår Platform SDK i kerneflowet.
+- Unitys Oculus XR Plugin er deprecated og planlagt til fjernelse. Unity OpenXR Plugin er den anbefalede provider fremadrettet og kræver Unity 6 eller nyere.
+- Unity 2022.3 LTS er ude af sit toårige standardsupportvindue (udløbet maj 2025).
+- Projektet bruger Photon og undgår Meta Platform SDK i kerneflowet, jf. ADR-009.
 
-Dette skal fysisk valideres. Dokumentationen alene er ikke bevis for, at en bestemt moderne OpenXR-pakke fungerer på alle tre headset.
+Dette skal fysisk valideres. Dokumentation alene er ikke bevis for, at kombinationen kører stabilt på device. Se `docs/22_SOURCE_REGISTER.md` for kilder og verifikationsdato.
 
 ## 3. Buildprofiler
-
-### `Q1_LEGACY`
-
-- Target: Quest 1.
-- 72 Hz.
-- Conservative render scale.
-- No dynamic shadows eller max én lille hovedshadow.
-- Low particles/vegetation/audio voices.
-- Older compatible XR provider/package lane hvis nødvendigt.
-- Sideload-only.
 
 ### `Q2_BASE`
 
@@ -115,11 +83,13 @@ Interne startbudgetter:
 
 Budgetter er startpunkter; OVR Metrics/Meta tools og Unity Profiler på device er autoritative.
 
+Budgetterne blev sat med Quest 1 som gulv. Efter ADR-019 er gulvet Quest 2, og tallene er derfor bevidst konservative. De justeres ikke på skrivebordet - kun på baggrund af device-profilering. Q-008 (præcis headset-model hos gavemodtageren) skal besvares, før budgettet låses.
+
 ## 6. Assetbudget
 
 - Miljøteksturer typisk 512-1024; hero objects op til 2048 på modern profile.
 - ASTC compression.
-- Quest 1/2 bruger aggressive mipmaps.
+- Quest 2 bruger aggressive mipmaps.
 - Maks. 2-3 materials pr. almindeligt prefab.
 - Static batching/mesh combining hvor det giver mening.
 - Vegetation som cards/low-poly clusters, ikke tusind separate GameObjects.
@@ -130,7 +100,7 @@ Budgetter er startpunkter; OVR Metrics/Meta tools og Unity Profiler på device e
 
 - Baked global lighting.
 - Light probes ved bevægelige objekter.
-- Én styliseret directional light uden realtime shadow på Q1, valgfri shadow på Q2/3 efter profiling.
+- Én styliseret directional light; valgfri realtime shadow på Q2/3 efter profiling.
 - Stormeffekt skabes primært med skybox, fog, audio, material animation og lokale overlays.
 
 ## 8. Memory og loading
@@ -147,24 +117,24 @@ Budgetter er startpunkter; OVR Metrics/Meta tools og Unity Profiler på device e
 M0 sammenligner:
 
 - Vulkan + OpenXR.
-- GLES3 fallback kun hvis Q1 viser blocker.
+- GLES3-fallback er udgået med ADR-019; Vulkan er eneste lane.
 - Single-pass instanced/multiview hvor understøttet.
 - Foveated rendering kun via stabil, fælles API; aldrig som eneste vej til 72 Hz.
 
 ## 10. Build- og distributionsmatrix
 
-| Kanal | Q1 | Q2 | Q3 |
-|---|---|---|---|
-| Lokal development APK | Ja | Ja | Ja |
-| Meta Alpha channel | Ikke primær plan | Ja | Ja |
-| Signeret gavebuild | Sideload APK | Alpha/private | Alpha/private |
-| Production store | Nej | Senere | Senere |
+| Kanal | Q2 | Q3 |
+|---|---|---|
+| Lokal development APK | Ja | Ja |
+| Meta Alpha channel | Ja | Ja |
+| Signeret gavebuild | Alpha/private | Alpha/private |
+| Production store | Senere | Senere |
 
 ## 11. Performance gates
 
 ### M0
 
-Tom netværksscene holder 72 Hz på alle enheder.
+Engine-baseline-gaten i `docs/06` §3 er bestået, og tom netværksscene holder 72 Hz på Quest 2 og Quest 3.
 
 ### M2
 
@@ -176,7 +146,7 @@ Fælles kasseinteraktion holder 72 Hz og har acceptabel jitter.
 
 ### M5
 
-Stormen køres 20 minutters soak på Quest 2. Quest 1 gennemfører reduceret storm. Quest 3 regression og enhancement testes separat.
+Stormen køres 20 minutters soak på Quest 2. Quest 3 regression og enhancement testes separat.
 
 ### Release
 
