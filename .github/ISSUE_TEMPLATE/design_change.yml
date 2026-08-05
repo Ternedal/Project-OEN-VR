@@ -1,0 +1,46 @@
+name: Design- eller arkitekturændring
+about: Foreslå en ændring med konsekvens, evidens og scope
+labels: [proposal, needs-decision]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: "Hvad er konkret utilstrækkeligt i den nuværende baseline?"
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Forslag
+    validations:
+      required: true
+  - type: textarea
+    id: benefit
+    attributes:
+      label: Forventet gevinst
+    validations:
+      required: true
+  - type: textarea
+    id: cost
+    attributes:
+      label: Omkostning og migrationspåvirkning
+    validations:
+      required: true
+  - type: input
+    id: docs
+    attributes:
+      label: Berørte dokumenter eller ADR'er
+  - type: dropdown
+    id: evidence
+    attributes:
+      label: Evidenstype
+      options:
+        - Fysisk prototype
+        - Performanceprofil
+        - Netværkstest
+        - Brugertest
+        - Officiel dokumentation
+        - Hypotese
+    validations:
+      required: true
