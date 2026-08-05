@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RecipeDefinition",
+  "type": "object",
+  "required": ["id", "ingredients", "steps", "results"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^RCP_[A-Z0-9_]+_[0-9]{3}$"},
+    "ingredients": {"type": "array", "items": {"type": "object", "required": ["item", "quantity"]}},
+    "station": {"type": "string"},
+    "steps": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["id", "primaryRole", "secondaryRole", "durationSeconds"]}},
+    "qualityThresholds": {"type": "object"},
+    "results": {"type": "array", "items": {"type": "object"}},
+    "partialResults": {"type": "array", "items": {"type": "object"}}
+  },
+  "additionalProperties": false
+}
