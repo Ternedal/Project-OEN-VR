@@ -1,0 +1,12 @@
+flowchart LR
+  P1[Quest Player 1] <-->|Photon Fusion| Cloud[Photon Cloud]
+  P2[Quest Player 2] <-->|Photon Fusion| Cloud
+  P1 --> App1[PROJECT ØEN Client]
+  P2 --> App2[PROJECT ØEN Client]
+  App1 <-->|Commands / replicated state| App2
+  App1 --> Save1[Local checkpoint + backup]
+  App2 --> Save2[Local checkpoint + backup]
+  Content[Shared scenario/content hash] --> App1
+  Content --> App2
+  Private[Private PersonalizationProfile] --> App1
+  Private --> App2
