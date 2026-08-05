@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SaveGameCheckpoint",
+  "type": "object",
+  "required": ["schemaVersion", "protocolVersion", "contentVersion", "scenarioId", "scenarioVersion", "seed", "checkpointId", "phase", "sharedState", "playerStates", "eventQueue", "checksum"],
+  "properties": {
+    "schemaVersion": {"type": "integer", "minimum": 1},
+    "protocolVersion": {"type": "integer", "minimum": 1},
+    "contentVersion": {"type": "string"},
+    "scenarioId": {"type": "string"},
+    "scenarioVersion": {"type": "integer"},
+    "seed": {"type": "integer"},
+    "checkpointId": {"type": "string"},
+    "phase": {"type": "string"},
+    "revision": {"type": "integer"},
+    "sharedState": {"type": "object"},
+    "playerStates": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "object"}},
+    "persistentObjects": {"type": "array", "items": {"type": "object"}},
+    "tags": {"type": "array", "items": {"type": "string"}},
+    "eventQueue": {"type": "array", "items": {"type": "object"}},
+    "completedActions": {"type": "array", "items": {"type": "string"}},
+    "checksum": {"type": "string"}
+  },
+  "additionalProperties": false
+}
