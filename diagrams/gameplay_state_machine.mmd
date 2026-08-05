@@ -1,0 +1,16 @@
+stateDiagram-v2
+  [*] --> Intro
+  Intro --> Dawn
+  Dawn --> Planning
+  Planning --> ResolvePlan
+  ResolvePlan --> ActionSequence
+  ActionSequence --> ActionSequence: More actions
+  ActionSequence --> Dusk
+  Dusk --> Night
+  Night --> Dawn: Next day
+  Night --> Storm: Day 3
+  Storm --> Signal
+  Signal --> Epilogue: Success
+  Storm --> Results: Failure
+  Epilogue --> Results
+  Results --> [*]
