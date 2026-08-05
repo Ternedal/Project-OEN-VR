@@ -1,0 +1,33 @@
+{
+  "id": "SCN_STORMNATTEN_001",
+  "version": 1,
+  "playerCount": 2,
+  "displayKey": "scenario.stormnatten.name",
+  "seedPolicy": "random",
+  "phases": [
+    {"id": "INTRO", "type": "intro", "checkpoint": false, "actions": []},
+    {
+      "id": "DAY1_PLANNING",
+      "type": "planning",
+      "checkpoint": true,
+      "actions": ["ACT_GATHER_WOOD", "ACT_FIND_FOOD", "ACT_BUILD_SHELTER", "ACT_EXPLORE_CLIFF", "ACT_SECURE_SUPPLIES"]
+    },
+    {"id": "DAY1_NIGHT", "type": "night", "checkpoint": false, "actions": []},
+    {
+      "id": "DAY2_PLANNING",
+      "type": "planning",
+      "checkpoint": true,
+      "actions": ["ACT_REINFORCE_ROOF", "ACT_FIND_FIBER", "ACT_FIND_HERBS", "ACT_BUILD_SIGNAL", "ACT_EXPLORE_RIDGE", "ACT_TREAT_INJURY"]
+    },
+    {"id": "DAY3_STORM", "type": "storm", "checkpoint": true, "actions": []},
+    {"id": "SIGNAL", "type": "finale", "checkpoint": false, "actions": []}
+  ],
+  "initialState": {
+    "resources": {"wood": 1, "fiber": 0, "food": 1, "herbs": 0},
+    "camp": {"shelterIntegrity": 10, "fireStrength": 20, "signalProgress": 0, "campThreat": 0}
+  },
+  "eventPools": ["POOL_DAY1_STANDARD", "POOL_NIGHT2_CONSEQUENCES"],
+  "winRules": [{"type": "signalLitBeforeDeadline"}],
+  "loseRules": [{"type": "allPlayersIncapacitated"}, {"type": "signalWindowMissed"}],
+  "personalizationHooks": ["ENDING_CRATE", "RADIO_FINAL_MESSAGE"]
+}
