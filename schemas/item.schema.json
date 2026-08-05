@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ItemDefinition",
+  "type": "object",
+  "required": ["id", "category", "massClass", "interactionType"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^ITM_[A-Z0-9_]+_[0-9]{3}$"},
+    "category": {"type": "string"},
+    "massClass": {"enum": ["light", "medium", "heavy", "coop"]},
+    "interactionType": {"enum": ["grab", "two-hand", "coop", "snap-only", "tool"]},
+    "stackLimit": {"type": "integer", "minimum": 1},
+    "durability": {"type": "number", "minimum": 0},
+    "tags": {"type": "array", "items": {"type": "string"}},
+    "prefabKeys": {"type": "object"}
+  },
+  "additionalProperties": false
+}
