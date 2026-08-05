@@ -1,0 +1,31 @@
+name: Claude review finding
+about: Spor et CR-xxx-fund fra det eksterne review
+title: "[CR-XXX] "
+labels: [needs-review]
+body:
+  - type: input
+    id: comment_id
+    attributes: {label: Kommentar-ID, placeholder: "CR-001"}
+    validations: {required: true}
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Alvor
+      options: [BLOCKER, HIGH, MEDIUM, LOW]
+    validations: {required: true}
+  - type: textarea
+    id: finding
+    attributes: {label: Fund og konsekvens}
+    validations: {required: true}
+  - type: textarea
+    id: recommendation
+    attributes: {label: Anbefaling}
+  - type: dropdown
+    id: disposition
+    attributes:
+      label: Disposition
+      options: [UNDECIDED, ACCEPT, ACCEPT_WITH_MODIFICATION, REJECT, DEFER, NEEDS_EVIDENCE]
+    validations: {required: true}
+  - type: textarea
+    id: affected
+    attributes: {label: Berørte dokumenter, ADR'er og backlog-items}
