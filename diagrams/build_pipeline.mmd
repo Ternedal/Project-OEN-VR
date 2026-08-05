@@ -1,0 +1,12 @@
+flowchart LR
+  Code[Shared code/content] --> Validate[Tests + content validation]
+  Validate --> Q1[Q1_LEGACY manifest/profile]
+  Validate --> Q2[Q2_BASE profile]
+  Validate --> Q3[Q3_ENHANCED profile]
+  Q1 --> APK1[Signed sideload APK]
+  Q2 --> APK2[Alpha channel APK]
+  Q3 --> APK3[Alpha channel APK]
+  APK1 --> Matrix[Physical device test matrix]
+  APK2 --> Matrix
+  APK3 --> Matrix
+  Matrix --> RC[Release candidate]
