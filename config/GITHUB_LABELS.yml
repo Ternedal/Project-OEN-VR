@@ -1,0 +1,18 @@
+labels:
+  - {name: epic, color: "315E4D"}
+  - {name: story, color: "527968"}
+  - {name: spike, color: "C69B45"}
+  - {name: bug, color: "A65336"}
+  - {name: tech-debt, color: "67716D"}
+  - {name: needs-device-test, color: "9A3E35"}
+  - {name: "platform:q1", color: "8B8B8B"}
+  - {name: "platform:q2", color: "315E4D"}
+  - {name: "platform:q3", color: "4A7FA7"}
+  - {name: "area:network", color: "6C5CE7"}
+  - {name: "area:interaction", color: "00A8A8"}
+  - {name: "area:gameplay", color: "2E8B57"}
+  - {name: "area:save", color: "B8860B"}
+  - {name: "priority:p0", color: "B60205"}
+  - {name: "priority:p1", color: "D93F0B"}
+  - {name: "priority:p2", color: "FBCA04"}
+  - {name: "priority:p3", color: "0E8A16"}
