@@ -1,0 +1,11 @@
+flowchart TD
+  Coord[Scenario Coordinator] -->|authoritative| Phase[Scenario phase]
+  Coord --> Events[Event queue]
+  Coord --> Shared[Resources / camp / checkpoints]
+  C1[Client 1] -->|owns| Pose1[Head & hands 1]
+  C2[Client 2] -->|owns| Pose2[Head & hands 2]
+  C1 -->|intent/targets| Coop[CoopObjectController]
+  C2 -->|intent/targets| Coop
+  Coop -->|validated result| Shared
+  Shared --> C1
+  Shared --> C2
