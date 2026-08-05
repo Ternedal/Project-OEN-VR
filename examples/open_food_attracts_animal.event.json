@@ -1,0 +1,29 @@
+{
+  "id": "EVT_OPEN_FOOD_001",
+  "version": 1,
+  "priority": 40,
+  "trigger": {
+    "phase": "DUSK",
+    "conditions": [
+      {"path": "camp.foodSecurity", "operator": "<", "value": 50},
+      {"tagMissing": "FOOD_SECURED"}
+    ]
+  },
+  "effects": [
+    {"type": "addTag", "tag": "SCENT_HIGH"},
+    {"type": "addCampThreat", "amount": 15}
+  ],
+  "choices": [
+    {
+      "id": "SECURE_NOW",
+      "cost": {"effort": 1},
+      "effects": [{"type": "removeTag", "tag": "SCENT_HIGH"}]
+    }
+  ],
+  "tagsAdded": ["SCENT_HIGH"],
+  "delayed": [
+    {"triggerPhase": "NIGHT_2", "eventId": "EVT_ANIMAL_CAMP_001", "conditionTag": "SCENT_HIGH"}
+  ],
+  "presentation": {"audioCue": "SFX_FOOD_FLIES", "journalKey": "event.open_food.journal"},
+  "fallback": {"presentation": "journal-only"}
+}
