@@ -10,7 +10,9 @@ Filerne flyttes 1:1 til `Assets/ProjectOen/Scripts/Core/` med en asmdef, når M0
 dotnet test src/ProjectOen.Core.Tests/ProjectOen.Core.Tests.csproj
 ```
 
-Seneste kørsel i sandbox: **88 passed, 0 failed.**
+Seneste kørsel i sandbox: **98 passed, 0 failed.**
+
+De kører nu også i CI på hvert push — se `.github/workflows/core-tests.yml`. Indtil det job fandtes, beskyttede testsuiten ingenting mellem mine egne kørsler.
 
 ## Indhold
 
@@ -21,7 +23,8 @@ Seneste kørsel i sandbox: **88 passed, 0 failed.**
 | `Persistence/SaveChecksum.cs` | Checksum-reglen fra `docs/10`, én implementering |
 | `Persistence/AtomicSaveWriter.cs` | Skriveflowet fra `docs/06` §9: temp → verificér → backup → atomisk rename. Filsystemet bag et interface, så afbrudte skrivninger kan testes |
 | `Persistence/ScenarioSnapshot.cs` | Fuld capture/restore af scenariostate. Lukker PR 5 i `docs/20` |
-| `Scenario/ScenarioContract.cs` | Runtime-validering af ScenarioDefinition: actionCatalog-referencer, protokolversion, to roller pr. handling |
+| `Scenario/ScenarioContract.cs` | Runtime-validering af ScenarioDefinition: actionCatalog-referencer, protokolversion, to roller pr. handling, kendte regeltyper |
+| `Scenario/ScenarioOutcomeRules.cs` | Data-drevet win/lose fra `docs/05`. Stærk sejr, presset sejr, nederlag |
 | `Scenario/ScenarioModel.cs` | Faser, lejr-, spiller- og scenariostate, indsatsøkonomi, delayed event queue |
 | `Scenario/CommandsAndEvents.cs` | Command/event-mønstret fra `docs/06` §6. Klienten sender intents, aldrig resultater |
 | `Scenario/ScenarioDirector.cs` | Fasemaskinen. Kun den må skifte fase. Idempotens via command-ID |

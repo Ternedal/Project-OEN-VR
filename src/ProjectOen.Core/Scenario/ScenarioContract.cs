@@ -88,6 +88,31 @@ namespace ProjectOen.Core.Scenario
                 violations.Add(new Violation("CATALOG_MISSING", "Scenariet mangler 'actionCatalog'."));
             }
 
+            // Ukendte win/lose-regeltyper skal fanges her - ved indlaesning - og ikke
+            // foerst naar spillet forsoeger at afgoere, om spillerne har tabt.
+            foreach (var listKey in new[] { "winRules", "loseRules" })
+            {
+                if (!scenario.TryGetValue(listKey, out var rawRules) || !(rawRules is IEnumerable<object?> rules))
+                {
+                    violations.Add(new Violation("RULES_MISSING", $"Scenariet mangler '{listKey}'."));
+                    continue;
+                }
+
+                foreach (var rule in rules.OfType<IDictionary<string, object?>>())
+                {
+                    var type = rule.TryGetValue("type", out var raw) ? raw as string : null;
+                    if (string.IsNullOrWhiteSpace(type))
+                    {
+                        violations.Add(new Violation("RULE_TYPE_MISSING", $"En regel i {listKey} mangler 'type'."));
+                    }
+                    else if (!ScenarioOutcomeRules.KnownTypes.Contains(type))
+                    {
+                        violations.Add(new Violation("RULE_TYPE_UNKNOWN",
+                            $"{listKey}: ukendt regeltype '{type}'. Kendte: {string.Join(", ", ScenarioOutcomeRules.KnownTypes)}."));
+                    }
+                }
+            }
+
             if (scenario.TryGetValue("phases", out var rawPhases) && rawPhases is IEnumerable<object?> phases)
             {
                 foreach (var phase in phases.OfType<IDictionary<string, object?>>())
