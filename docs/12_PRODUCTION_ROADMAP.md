@@ -4,19 +4,31 @@
 
 Roadmappet er baseret på gennemførte gates, ikke kalenderløfter. En fase lukkes først, når dens acceptance criteria er demonstreret på fysiske headset.
 
-## M0 - Platform feasibility
+## M0 - Platform- og netværksfeasibility
 
-**Estimat:** 60-100 timer  
-**Mål:** Bevis én kodebase/buildlane på Quest 1, 2 og 3.
+**Estimat:** 160-200 timer (backlogsum: 176 t over 19 items)  
+**Mål:** Bevis én kodebase/buildlane **og** en fungerende to-klient-session på Quest 1, 2 og 3.
 
-Deliverables:
+M0 optager de session- og replikationsopgaver, der tidligere lå i M2 (PO-017, PO-018, PO-019, PO-020, PO-022, PO-025). Begrundelse: M0's gate kunne ikke bevises af M0's egne opgaver, hvilket flyttede stop/go på projektets største risiko til efter ca. 250 timer.
 
-- Unity project + pinned package candidates.
+### M0a - Det afgørende eksperiment (kør først)
+
+Byg en tom OpenXR-scene og installér den fysisk på Quest 1.
+
+- **Starter og tracker den?** → Quest 1 er en buildprofil. Fortsæt M0b med én pakkelane.
+- **Gør den ikke?** → Quest 1 kræver Oculus-provider v3.x, altså et andet XR-backend og en fork af interaktionslaget. Udløs exit-kriteriet i `docs/14` med det samme. Q1 bliver frossen demo, og hovedprojektet bygges på Unity 6 LTS.
+
+Alt andet i M0 er billigere at udføre, når dette svar foreligger. Vulkan/GLES3-spiket (OQ-003) køres først bagefter.
+
+### M0b - Deliverables
+
+- Unity project + pinned package candidates (editor låses her, ikke før).
 - Q1/Q2/Q3 build profiles.
 - XR tracking/grab.
-- Photon create/join.
+- Photon create/join med privat join code.
+- Compatibility handshake.
 - Head/hands replication.
-- Heavy shared box proof.
+- Heavy shared box proof (`CoopObjectController`).
 - Compatibility matrix.
 
 Gate:
@@ -25,11 +37,11 @@ Gate:
 - 10 løftegentagelser uden permanent desync.
 - 72 Hz i minimal scene.
 
-**Stop/go:** Hvis Quest 1 kræver så stor dependency fork, at shared gameplaykode ikke kan bevares, nedgraderes kravet til separat testdemo eller droppes efter ejergodkendelse.
+**Stop/go:** Afgøres ved afslutningen af M0, ikke efter et timeloft. Hvis Quest 1 kræver så stor dependency fork, at shared gameplaykode ikke kan bevares, nedgraderes kravet til separat testdemo eller droppes efter ejergodkendelse.
 
 ## M1 - Interaction foundation
 
-**Estimat:** 35-55 timer
+**Estimat:** 80-100 timer (backlogsum: 89 t)
 
 - XR rig, locomotion og calibration.
 - Grab/snap abstractions.
@@ -39,22 +51,25 @@ Gate:
 
 Gate: alle kerneinteraktioner kan udføres 10 gange af to testere uden reset.
 
-## M2 - Multiplayer foundation
+## M2 - Multiplayer hardening
 
-**Estimat:** 45-70 timer
+**Estimat:** 90-120 timer (backlogsum: 98 t over 8 items)
 
-- Lobby/join code/ready.
-- Player rig replication.
-- Authority rules.
-- Compatibility handshake.
-- Disconnect/reconnect skeleton.
+Session- og replikationsgrundlaget er bevist i M0. M2 hærder det.
+
+- Ready-flow og lobby-UX.
+- Authority rules for lette objekter.
+- Disconnect/reconnect og safe pause.
+- Checkpoint schema/checksum og snapshot-resync.
 - Network debug UI.
+- Packet loss/latency og failure injection.
+- Måling af standby → netværkstab på Q2/Q3, som sætter reconnect-vinduet (jf. CR-009).
 
 Gate: 10 session cycles og state transfer uden skjult divergence.
 
 ## M3 - One-day prototype
 
-**Estimat:** 55-85 timer
+**Estimat:** 230-280 timer i fuld backlog (P0-delen: 112 t) — afhænger af P1-udvælgelsen
 
 - Dawn/planning/action/dusk/night.
 - Four effort markers.
@@ -66,7 +81,7 @@ Gate: ekstern test kan gennemføre én dag uden forklaring og oplever et reelt p
 
 ## M4 - Consequence verticality
 
-**Estimat:** 40-65 timer
+**Estimat:** 140-170 timer i fuld backlog (P0-delen: 86 t)
 
 - Event definitions and delayed queue.
 - Open food -> animal chain.
@@ -78,7 +93,7 @@ Gate: tester kan forklare mindst én forsinket konsekvens.
 
 ## M5 - Storm vertical slice
 
-**Estimat:** 70-110 timer
+**Estimat:** 120-150 timer (backlogsum: 130 t, heraf 88 t P0)
 
 - Three storm phases minimum.
 - Two active roles per phase.
@@ -90,7 +105,7 @@ Gate: 20-minute repeated storm test uden netværks- eller memoryfejl; 72 Hz Ques
 
 ## M6 - Full Stormnatten content
 
-**Estimat:** 70-115 timer
+**Estimat:** 200-250 timer i fuld backlog (P0-delen: 28 t) — den mest scopefølsomme milepæl
 
 - Three complete days.
 - Ravine rescue.
@@ -102,7 +117,7 @@ Gate: median 35-45 minutter, ingen udviklerforklaring.
 
 ## M7 - Art/audio pass
 
-**Estimat:** 55-90 timer
+**Estimat:** 140-180 timer i fuld backlog (P0-delen: 24 t)
 
 - Consistent environment art.
 - Lighting and VFX profiles.
@@ -113,7 +128,7 @@ Gate: visuel polish uden performance regression.
 
 ## M8 - Personalization and gift release
 
-**Estimat:** 30-50 timer
+**Estimat:** 80-100 timer (backlogsum: 86 t)
 
 - PersonalizationProfile.
 - Private assets.
@@ -125,7 +140,7 @@ Gate: clean install på begge brugeres headset og gennemførsel uden dev tools.
 
 ## M9 - QA and release candidate
 
-**Estimat:** 40-70 timer
+**Estimat:** 85-110 timer (backlogsum: 90 t, heraf 82 t P0)
 
 - Regression matrix.
 - Comfort and accessibility pass.
@@ -135,9 +150,18 @@ Gate: clean install på begge brugeres headset og gennemførsel uden dev tools.
 
 ## Samlet interval og estimatmodel
 
-Summen af faseintervallerne er **500-810 timer** for den fokuserede, polerede gaveversion. Det forudsætter hård scopekontrol, genbrug eller køb af passende assets og at P2-opgaver kan udskydes.
+**Revideret 2026-08-06 (CR-005).** De to estimatmodeller var tidligere parallelle og uden afbildning mellem sig: roadmappet lovede 500-810 timer, mens backloggens milepælssummer var op til tre gange højere for samme milepæl (fx M3: 55-85 t mod 260 t). Roadmapintervallerne er nu bundet til backloggens faktiske itemsummer, og backloggen har fået kolonnen `Gaveversion`.
 
-Backlog-workbooken er en bredere engineering-plan og summerer til cirka **1.447 timer**. Den inkluderer alle P0/P1/P2-opgaver, ekstra tooling, gentagne device-tests, maksimal hardening og optional polish. Den må derfor ikke bruges som den forventede gave-dato uden først at vælge et konkret release-scope.
+Aktuel tilstand efter reviewet:
+
+| Model | Sum | Status |
+|---|---:|---|
+| Backlog i alt (110 items) | 1.473 t | Fuld engineering-plan, maksimal hardening |
+| `Gaveversion = In` (45 P0-items) | 634 t | Kritisk sti — låst, releasekritisk pr. `docs/12`s egen P0-definition |
+| `Gaveversion = TBD` (56 P1-items) | 712 t | **Skal vælges af ejeren.** Indtil da findes der ikke et forsvarligt gaveestimat |
+| `Gaveversion = Defer` (9 P2-items) | 127 t | Efter v1.0 |
+
+Det tidligere tal på 500-810 timer var top-down og kunne hverken forsvares eller spores. Det genindsættes først, når P1-udvælgelsen er foretaget — som `634 t + summen af de valgte P1-items`.
 
 Planlægningsregel:
 
@@ -150,6 +174,7 @@ Planlægningsregel:
 
 Hvis projektet bliver for stort, skæres i denne rækkefølge:
 
+0. **Quest 1-lanen** (jf. ADR-019 og exit-kriteriet i `docs/14`). Det er den dyreste enkeltstående valgfrie del af projektet, og den er allerede forberedt som en beslutning frem for et nederlag.
 1. Ekstra eventvariation.
 2. Avanceret avatar/IK.
 3. Parallelle fjernekspeditioner.
