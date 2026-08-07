@@ -12,7 +12,8 @@
     "winRules",
     "loseRules",
     "supportedBuildProtocol",
-    "actionCatalog"
+    "actionCatalog",
+    "effects"
   ],
   "properties": {
     "id": {
@@ -132,6 +133,221 @@
               "type": "string"
             }
           }
+        }
+      }
+    },
+    "effects": {
+      "type": "object",
+      "description": "actionId -> udfaldstier -> effekt. Alle fire tiers skal vaere til stede, og ingen maa vaere tom (docs/04 afsnit 9).",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "failForward",
+          "partialWithCost",
+          "success",
+          "criticalSuccess"
+        ],
+        "properties": {
+          "failForward": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "resourceDeltas": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              },
+              "campDeltas": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                },
+                "propertyNames": {
+                  "enum": [
+                    "shelterIntegrity",
+                    "fireStrength",
+                    "foodSecurity",
+                    "signalProgress",
+                    "campThreat"
+                  ]
+                }
+              },
+              "addTags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "removeTags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "fatigueCost": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "partialWithCost": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "resourceDeltas": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              },
+              "campDeltas": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                },
+                "propertyNames": {
+                  "enum": [
+                    "shelterIntegrity",
+                    "fireStrength",
+                    "foodSecurity",
+                    "signalProgress",
+                    "campThreat"
+                  ]
+                }
+              },
+              "addTags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "removeTags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "fatigueCost": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "success": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "resourceDeltas": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              },
+              "campDeltas": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                },
+                "propertyNames": {
+                  "enum": [
+                    "shelterIntegrity",
+                    "fireStrength",
+                    "foodSecurity",
+                    "signalProgress",
+                    "campThreat"
+                  ]
+                }
+              },
+              "addTags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "removeTags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "fatigueCost": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "criticalSuccess": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "resourceDeltas": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              },
+              "campDeltas": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                },
+                "propertyNames": {
+                  "enum": [
+                    "shelterIntegrity",
+                    "fireStrength",
+                    "foodSecurity",
+                    "signalProgress",
+                    "campThreat"
+                  ]
+                }
+              },
+              "addTags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "removeTags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "fatigueCost": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "outcomeThresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "partial",
+        "success",
+        "critical"
+      ],
+      "description": "Taerskler for udfaldsformlen. Ligger i data, saa balancering ikke kraever rebuild.",
+      "properties": {
+        "partial": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "success": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "critical": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
         }
       }
     }

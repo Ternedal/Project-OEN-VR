@@ -10,7 +10,7 @@ Filerne flyttes 1:1 til `Assets/ProjectOen/Scripts/Core/` med en asmdef, når M0
 dotnet test src/ProjectOen.Core.Tests/ProjectOen.Core.Tests.csproj
 ```
 
-Seneste kørsel i sandbox: **110 passed, 0 failed.**
+Seneste kørsel i sandbox: **120 passed, 0 failed.**
 
 De kører nu også i CI på hvert push — se `.github/workflows/core-tests.yml`. Indtil det job fandtes, beskyttede testsuiten ingenting mellem mine egne kørsler.
 
@@ -26,6 +26,7 @@ De kører nu også i CI på hvert push — se `.github/workflows/core-tests.yml`
 | `Scenario/ScenarioContract.cs` | Runtime-validering af ScenarioDefinition: actionCatalog-referencer, protokolversion, to roller pr. handling, kendte regeltyper |
 | `Scenario/ScenarioOutcomeRules.cs` | Data-drevet win/lose fra `docs/05`. Stærk sejr, presset sejr, nederlag |
 | `Scenario/ActionEffects.cs` | Udfald → ressourcer, lejrstatus og tags. Envejs: effekten kan aldrig ændre udfaldet |
+| `Scenario/ScenarioLoader.cs` | JSON → kørende scenario. Bindeleddet mellem data og alle de data-drevne systemer |
 | `Scenario/ScenarioModel.cs` | Faser, lejr-, spiller- og scenariostate, indsatsøkonomi, delayed event queue |
 | `Scenario/CommandsAndEvents.cs` | Command/event-mønstret fra `docs/06` §6. Klienten sender intents, aldrig resultater |
 | `Scenario/ScenarioDirector.cs` | Fasemaskinen. Kun den må skifte fase. Idempotens via command-ID |
@@ -84,6 +85,12 @@ En test skulle bekræfte, at et tag sat af en fejlet handling husker hvilken han
 Fejlen havde ligget der siden fasemaskinen blev skrevet, men ingen kodesti ramte den før nu. Alt der bygger på journalen — efterspilsrapporten, deltagelsesmålingen, checkpoint-journalen — ville have talt dobbelt. Årsagskæden ville have vist samme konsekvens to gange.
 
 Rettet til præcis ét journaliseringspunkt pr. event, og `No_event_is_journalled_twice` holder invarianten fast.
+
+## Loaderen — det manglende bindeled
+
+Der var bygget fem data-drevne systemer — effekter, win/lose-regler, tærskler, action-katalog, kontraktvalidering — og **ingen måde at indlæse deres data på**. Tabellerne fandtes kun, fordi de blev konstrueret i hånden i tests. Uden loaderen er "data-drevet" en påstand.
+
+`ScenarioLoader.Load()` går fra JSON til et `ScenarioDefinition`, som direktoren kan køre direkte på. Den fejler **hele** indlæsningen ved mindste kontraktbrud og samler alle problemer først: et scenario, der starter halvt indlæst, fejler midt i en session, og det er det dyreste tidspunkt at opdage en manglende effekt på.
 
 ## Hvad der bevidst IKKE ligger her
 

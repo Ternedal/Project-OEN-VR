@@ -165,5 +165,298 @@
         "EVT_SPLINTER_001"
       ]
     }
-  ]
+  ],
+  "effects": {
+    "INT_GATHER_WOOD_001": {
+      "criticalSuccess": {
+        "resourceDeltas": {
+          "supplies": 3
+        },
+        "fatigueCost": 5
+      },
+      "success": {
+        "resourceDeltas": {
+          "supplies": 2
+        },
+        "fatigueCost": 8
+      },
+      "partialWithCost": {
+        "resourceDeltas": {
+          "supplies": 1
+        },
+        "fatigueCost": 15
+      },
+      "failForward": {
+        "addTags": [
+          "ATTEMPT_FAILED"
+        ],
+        "fatigueCost": 20
+      }
+    },
+    "INT_FIND_FOOD_002": {
+      "criticalSuccess": {
+        "resourceDeltas": {
+          "supplies": 3
+        },
+        "fatigueCost": 5
+      },
+      "success": {
+        "resourceDeltas": {
+          "supplies": 2
+        },
+        "fatigueCost": 8
+      },
+      "partialWithCost": {
+        "resourceDeltas": {
+          "supplies": 1
+        },
+        "fatigueCost": 15
+      },
+      "failForward": {
+        "addTags": [
+          "ATTEMPT_FAILED"
+        ],
+        "fatigueCost": 20
+      }
+    },
+    "INT_BUILD_SHELTER_003": {
+      "criticalSuccess": {
+        "resourceDeltas": {
+          "supplies": 3
+        },
+        "fatigueCost": 5
+      },
+      "success": {
+        "resourceDeltas": {
+          "supplies": 2
+        },
+        "fatigueCost": 8
+      },
+      "partialWithCost": {
+        "resourceDeltas": {
+          "supplies": 1
+        },
+        "fatigueCost": 15
+      },
+      "failForward": {
+        "addTags": [
+          "ATTEMPT_FAILED"
+        ],
+        "fatigueCost": 20
+      }
+    },
+    "INT_EXPLORE_CLIFF_004": {
+      "criticalSuccess": {
+        "resourceDeltas": {
+          "supplies": 3
+        },
+        "fatigueCost": 5
+      },
+      "success": {
+        "resourceDeltas": {
+          "supplies": 2
+        },
+        "fatigueCost": 8
+      },
+      "partialWithCost": {
+        "resourceDeltas": {
+          "supplies": 1
+        },
+        "fatigueCost": 15
+      },
+      "failForward": {
+        "addTags": [
+          "ATTEMPT_FAILED"
+        ],
+        "fatigueCost": 20
+      }
+    },
+    "INT_SECURE_SUPPLIES_005": {
+      "criticalSuccess": {
+        "resourceDeltas": {
+          "supplies": 3
+        },
+        "fatigueCost": 5
+      },
+      "success": {
+        "resourceDeltas": {
+          "supplies": 2
+        },
+        "fatigueCost": 8
+      },
+      "partialWithCost": {
+        "resourceDeltas": {
+          "supplies": 1
+        },
+        "fatigueCost": 15
+      },
+      "failForward": {
+        "addTags": [
+          "ATTEMPT_FAILED"
+        ],
+        "fatigueCost": 20
+      }
+    },
+    "INT_REINFORCE_ROOF_006": {
+      "criticalSuccess": {
+        "resourceDeltas": {
+          "supplies": 3
+        },
+        "fatigueCost": 5
+      },
+      "success": {
+        "resourceDeltas": {
+          "supplies": 2
+        },
+        "fatigueCost": 8
+      },
+      "partialWithCost": {
+        "resourceDeltas": {
+          "supplies": 1
+        },
+        "fatigueCost": 15
+      },
+      "failForward": {
+        "addTags": [
+          "ATTEMPT_FAILED"
+        ],
+        "fatigueCost": 20
+      }
+    },
+    "INT_FIND_FIBER_007": {
+      "criticalSuccess": {
+        "resourceDeltas": {
+          "supplies": 3
+        },
+        "fatigueCost": 5
+      },
+      "success": {
+        "resourceDeltas": {
+          "supplies": 2
+        },
+        "fatigueCost": 8
+      },
+      "partialWithCost": {
+        "resourceDeltas": {
+          "supplies": 1
+        },
+        "fatigueCost": 15
+      },
+      "failForward": {
+        "addTags": [
+          "ATTEMPT_FAILED"
+        ],
+        "fatigueCost": 20
+      }
+    },
+    "INT_FIND_HERBS_008": {
+      "criticalSuccess": {
+        "resourceDeltas": {
+          "supplies": 3
+        },
+        "fatigueCost": 5
+      },
+      "success": {
+        "resourceDeltas": {
+          "supplies": 2
+        },
+        "fatigueCost": 8
+      },
+      "partialWithCost": {
+        "resourceDeltas": {
+          "supplies": 1
+        },
+        "fatigueCost": 15
+      },
+      "failForward": {
+        "addTags": [
+          "ATTEMPT_FAILED"
+        ],
+        "fatigueCost": 20
+      }
+    },
+    "INT_BUILD_SIGNAL_009": {
+      "criticalSuccess": {
+        "resourceDeltas": {
+          "supplies": 3
+        },
+        "fatigueCost": 5
+      },
+      "success": {
+        "resourceDeltas": {
+          "supplies": 2
+        },
+        "fatigueCost": 8
+      },
+      "partialWithCost": {
+        "resourceDeltas": {
+          "supplies": 1
+        },
+        "fatigueCost": 15
+      },
+      "failForward": {
+        "addTags": [
+          "ATTEMPT_FAILED"
+        ],
+        "fatigueCost": 20
+      }
+    },
+    "INT_EXPLORE_RIDGE_010": {
+      "criticalSuccess": {
+        "resourceDeltas": {
+          "supplies": 3
+        },
+        "fatigueCost": 5
+      },
+      "success": {
+        "resourceDeltas": {
+          "supplies": 2
+        },
+        "fatigueCost": 8
+      },
+      "partialWithCost": {
+        "resourceDeltas": {
+          "supplies": 1
+        },
+        "fatigueCost": 15
+      },
+      "failForward": {
+        "addTags": [
+          "ATTEMPT_FAILED"
+        ],
+        "fatigueCost": 20
+      }
+    },
+    "INT_TREAT_INJURY_011": {
+      "criticalSuccess": {
+        "resourceDeltas": {
+          "supplies": 3
+        },
+        "fatigueCost": 5
+      },
+      "success": {
+        "resourceDeltas": {
+          "supplies": 2
+        },
+        "fatigueCost": 8
+      },
+      "partialWithCost": {
+        "resourceDeltas": {
+          "supplies": 1
+        },
+        "fatigueCost": 15
+      },
+      "failForward": {
+        "addTags": [
+          "ATTEMPT_FAILED"
+        ],
+        "fatigueCost": 20
+      }
+    }
+  },
+  "outcomeThresholds": {
+    "partial": 0.35,
+    "success": 0.55,
+    "critical": 0.74
+  }
 }

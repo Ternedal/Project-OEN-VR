@@ -107,6 +107,19 @@ Uden en defineret dækning er checksummen dekoration. Reglen er:
 - Development builds kan wipe incompatible saves med tydelig besked.
 - Gift release skal kunne bevare sidste stabile checkpoint gennem patch-opdateringer inden for samme major version.
 
+## Effects og outcomeThresholds
+
+`effects` afbilder `actionId → udfaldstier → effekt`. En effekt kan indeholde `resourceDeltas`, `campDeltas`, `addTags`, `removeTags` og `fatigueCost`.
+
+Kontrakten er hård af to grunde:
+
+- **Alle fire tiers skal være til stede for hver handling i `actionCatalog`.** En manglende `failForward` opdages ellers først, når to spillere står og undrer sig over, at intet skete.
+- **Ingen effekt må være tom.** `docs/04` §9 forbyder "ingen effekt" — fejl skal have fremdrift.
+
+`outcomeThresholds` (`partial` < `success` < `critical`) ligger i data, så balancering ikke kræver rebuild. Se `docs/33` for hvorfor de nuværende værdier er, som de er — de blev målt, ikke valgt.
+
+**Værdierne i `examples/stormnatten.scenario.json` er placeholdere til validering, ikke balancering.** Rigtige tal kan først sættes, når nogen har spillet en dag igennem (M3).
+
 ## Content validation
 
 Build stopper ved:
