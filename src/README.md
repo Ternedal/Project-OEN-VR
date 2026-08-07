@@ -10,7 +10,7 @@ Filerne flyttes 1:1 til `Assets/ProjectOen/Scripts/Core/` med en asmdef, når M0
 dotnet test src/ProjectOen.Core.Tests/ProjectOen.Core.Tests.csproj
 ```
 
-Seneste kørsel i sandbox: **63 passed, 0 failed.**
+Seneste kørsel i sandbox: **82 passed, 0 failed.**
 
 ## Indhold
 
@@ -28,6 +28,7 @@ Seneste kørsel i sandbox: **63 passed, 0 failed.**
 | `Numerics/Vec3.cs` | Minimal vektortype, så solvermatematik kan testes uden `UnityEngine` |
 | `Interaction/CoopSolver.cs` | Kinematisk coop-solver: dæmpet midtpunkt, hastighedsloft, gradvist kvalitetsfald |
 | `Networking/CompatibilityHandshake.cs` | De seks felter fra `docs/07` §5. Dækker COMPAT-001 og COMPAT-002 |
+| `Networking/JoinCode.cs` | Alfabet uden forvekslingstegn, normalisering af det folk faktisk taster |
 | `Telemetry/ActiveParticipation.cs` | Måler "begge aktive ≥70 %" og passive perioder. Lukker CR-007 |
 | `Telemetry/AfterActionReport.cs` | Årsagskæden fra `docs/04` §10. Bygges kun af event-journalen |
 
@@ -65,4 +66,6 @@ Det er M4's gate i `docs/12` — "tester kan forklare mindst én forsinket konse
 
 ## Hvad der bevidst IKKE ligger her
 
-Alt der rører Unity eller Fusion. `ProjectOen.Interaction`, `ProjectOen.Networking` og `ProjectOen.Platform` kan ikke kompileres uden Editor og SDK, og skrives derfor først som kildefiler med eksplicit `UNVERIFIED-IN-SANDBOX`-markering — jf. `docs/32` fase 4.
+Alt der rører Unity eller Fusion. Det ligger i [`../src/unity/`](../src/unity/README.md) som ukompilerede kildefiler med eksplicit `UNVERIFIED-IN-SANDBOX`-markering og konkrete API-antagelser pr. fil.
+
+Grænsen er ikke vilkårlig. Alt hvad der kan verificeres, er flyttet hertil og testet — solvermatematikken, handshake-reglerne, join code-normaliseringen, fasemaskinen, målingerne. Fusion-laget transporterer data og træffer ingen beslutninger.
