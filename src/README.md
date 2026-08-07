@@ -10,7 +10,7 @@ Filerne flyttes 1:1 til `Assets/ProjectOen/Scripts/Core/` med en asmdef, når M0
 dotnet test src/ProjectOen.Core.Tests/ProjectOen.Core.Tests.csproj
 ```
 
-Seneste kørsel i sandbox: **38 passed, 0 failed.**
+Seneste kørsel i sandbox: **52 passed, 0 failed.**
 
 ## Indhold
 
@@ -25,6 +25,9 @@ Seneste kørsel i sandbox: **38 passed, 0 failed.**
 | `Scenario/CommandsAndEvents.cs` | Command/event-mønstret fra `docs/06` §6. Klienten sender intents, aldrig resultater |
 | `Scenario/ScenarioDirector.cs` | Fasemaskinen. Kun den må skifte fase. Idempotens via command-ID |
 | `Scenario/OutcomeResolver.cs` | Udfaldsformlen med gulv-regel fra `docs/04` §9 |
+| `Numerics/Vec3.cs` | Minimal vektortype, så solvermatematik kan testes uden `UnityEngine` |
+| `Interaction/CoopSolver.cs` | Kinematisk coop-solver: dæmpet midtpunkt, hastighedsloft, gradvist kvalitetsfald |
+| `Networking/CompatibilityHandshake.cs` | De seks felter fra `docs/07` §5. Dækker COMPAT-001 og COMPAT-002 |
 
 ## Den vigtigste test
 
@@ -41,6 +44,10 @@ Reviewet påstod, at den oprindelige otte-leddede formel ville klumpe, og anbefa
 Efter rettelsen (begrænset modstandsvægt + gulv-regel fra `docs/04` §9): største enkelt-tier 47,5 %, alle fire kategorier forekommer. Påstanden er trukket tilbage i `docs/33`.
 
 Testen fejler, hvis én tier dækker ≥70 %, hvis en kategori aldrig forekommer, eller hvis en perfekt udført sekvens kan blive `FailForward`.
+
+## Anden måling: coop-solveren
+
+`CoopSolverTests` afslørede, at hastighedsloftet gjorde én-hånds- og to-hånds-tilstanden identiske, så snart objektet var mere end få centimeter væk. Hele "tung kasse kræver to spillere"-mekanikken ville kun kunne mærkes tæt på målet. Rettet med `SingleHandSpeedFactor`. Skrevet op i `docs/33`.
 
 ## Hvad der bevidst IKKE ligger her
 

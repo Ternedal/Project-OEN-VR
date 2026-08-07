@@ -62,3 +62,25 @@ Den oprindelige påstand om "otte led klumper mere end fire" er **trukket tilbag
 - Simuleringen bruger en antaget kompetencemodel (0,45 → 0,75 hen over et run, gaussisk støj). Modellen er en antagelse om spillere, ikke en måling af dem.
 - Tallene siger noget om **fordelingen**, ikke om hvad der føles fair. OQ-008 er derfor ikke lukket — men den er nu et spørgsmål, der kan stilles til en playtest med et konkret udgangspunkt i stedet for til et tomt felt.
 - Tærsklerne skal genkalibreres, når rigtige interaktionsdata findes fra M3.
+
+---
+
+# Tillæg: coop-solveren — samme mønster, andet system
+
+**Dato:** 2026-08-07 · **Kilde:** `src/ProjectOen.Core.Tests/CoopSolverTests.cs`
+
+En test skulle bekræfte det, hele coop-mekanikken hviler på: at den tunge kasse bevæger sig langsommere med én hånd end med to. Den fejlede.
+
+Årsagen var ikke en fejl i implementeringen af den skrevne plan — den var i planen. Solveren dæmper responsiviteten ved ét greb (faktor 0,4), men hastighedsloftet var det samme i begge tilstande. Så snart objektet er mere end få centimeter fra hånden, klipper loftet begge tilstande til nøjagtig samme skridt, og forskellen forsvinder. "Tung kasse kræver to spillere" ville kun kunne mærkes tæt på målet — altså præcis dér, hvor det er mindst dramatisk.
+
+**Rettelse:** `SingleHandSpeedFactor = 0.4`. Hastighedsloftet sænkes nu sammen med responsiviteten.
+
+**Hvad testen ellers dokumenterer:**
+
+- Et hånd-target der hopper 50 meter væk (en enkelt dårlig pose-pakke) flytter objektet maksimalt 0,0278 m i det frame — hastighedsloftet ved 72 Hz. Det er mekanismen, der holder to klienters jitter ude af resultatet, jf. ADR-012.
+- Et enkelt frame med sprængt gribeafstand koster under 10 % kvalitet; vedvarende dårligt greb i ~2,8 s bringer den til 0,02. `docs/04` §7's "falder gradvist frem for at nulstille" er dermed håndhævet, ikke bare beskrevet.
+- Kvaliteten kan genvindes, når grebet genoprettes. Uden det ville en enkelt fejl gøre resten af sekvensen meningsløs.
+
+## Mønsteret er værd at bemærke
+
+To gange på én dag har en test modsagt et dokument, som var skrevet med omhu. Begge gange var fejlen usynlig ved gennemlæsning og åbenlys ved måling. Det er argumentet for, at Core-laget er rent C# og testbart uden headset: de her fejl ville ellers først være dukket op på en Quest, midt i en playtest, uden nogen der kunne pege på årsagen.
