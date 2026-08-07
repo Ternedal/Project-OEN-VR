@@ -64,3 +64,11 @@ coverage/
 __pycache__/
 *.py[cod]
 .venv/
+
+# Haandskrevet C#-kerne under src/ er IKKE Unity-genereret og skal med i repoet.
+# Filerne flyttes senere 1:1 til Assets/ProjectOen/Scripts/ med asmdefs.
+!src/**/*.csproj
+!src/**/*.sln
+src/**/bin/
+src/**/obj/
+src/**/TestResults/
