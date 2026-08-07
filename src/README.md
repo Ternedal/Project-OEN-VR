@@ -10,7 +10,7 @@ Filerne flyttes 1:1 til `Assets/ProjectOen/Scripts/Core/` med en asmdef, når M0
 dotnet test src/ProjectOen.Core.Tests/ProjectOen.Core.Tests.csproj
 ```
 
-Seneste kørsel i sandbox: **22 passed, 0 failed.**
+Seneste kørsel i sandbox: **38 passed, 0 failed.**
 
 ## Indhold
 
@@ -21,12 +21,26 @@ Seneste kørsel i sandbox: **22 passed, 0 failed.**
 | `Persistence/SaveChecksum.cs` | Checksum-reglen fra `docs/10`, én implementering |
 | `Persistence/AtomicSaveWriter.cs` | Skriveflowet fra `docs/06` §9: temp → verificér → backup → atomisk rename. Filsystemet bag et interface, så afbrudte skrivninger kan testes |
 | `Scenario/ScenarioContract.cs` | Runtime-validering af ScenarioDefinition: actionCatalog-referencer, protokolversion, to roller pr. handling |
+| `Scenario/ScenarioModel.cs` | Faser, lejr-, spiller- og scenariostate, indsatsøkonomi, delayed event queue |
+| `Scenario/CommandsAndEvents.cs` | Command/event-mønstret fra `docs/06` §6. Klienten sender intents, aldrig resultater |
+| `Scenario/ScenarioDirector.cs` | Fasemaskinen. Kun den må skifte fase. Idempotens via command-ID |
+| `Scenario/OutcomeResolver.cs` | Udfaldsformlen med gulv-regel fra `docs/04` §9 |
 
 ## Den vigtigste test
 
 `SaveChecksumTests.Matches_the_checksum_in_the_repository_test_vector` beregner checksummen for `examples/savegame.example.json` og sammenligner med den værdi, `tools/validate_handoff.py` skrev.
 
 To uafhængige implementeringer — Python i CI, C# i runtime — giver samme resultat. Uden den test er checksum-reglen i `docs/10` en hensigt; med den er den en kontrakt. Divergerer de, ville save-filer blive afvist på tværs af tooling og spil, og fejlen ville først vise sig hos en spiller.
+
+## Målingen der rettede reviewet
+
+`OutcomeDistributionTests` simulerer 20 runs × 12 handlinger og måler udfaldsfordelingen.
+
+Reviewet påstod, at den oprindelige otte-leddede formel ville klumpe, og anbefalede fire led. Målingen viste, at fire led klumpede *marginalt værre* (70,0 % mod 68,8 %) — antallet af led var ikke årsagen. Den var, at `penalty` blev trukket fra med fuld vægt fra en score, hvis positive led summerer til 1,0.
+
+Efter rettelsen (begrænset modstandsvægt + gulv-regel fra `docs/04` §9): største enkelt-tier 47,5 %, alle fire kategorier forekommer. Påstanden er trukket tilbage i `docs/33`.
+
+Testen fejler, hvis én tier dækker ≥70 %, hvis en kategori aldrig forekommer, eller hvis en perfekt udført sekvens kan blive `FailForward`.
 
 ## Hvad der bevidst IKKE ligger her
 

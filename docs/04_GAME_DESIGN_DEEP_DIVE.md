@@ -95,7 +95,20 @@ Designreglen (12 sek.) og testgrænsen (20 sek. i `docs/05` og `docs/13`) er bev
 
 Udfaldsscore:
 
+**Revideret 2026-08-07 efter måling — se [`33_OUTCOME_FORMULA_EVIDENCE.md`](33_OUTCOME_FORMULA_EVIDENCE.md).**
+
+Oprindelig formulering (bevaret for sporbarhed):
+
 `Preparation + ToolQuality + RoleBonus + PhysicalExecution + Cooperation - Injury - Weather - EventRisk`
+
+Gældende model:
+
+`base = 0,30·Preparation + 0,45·PhysicalExecution + 0,25·Cooperation`
+`score = base − Penalty · 0,35`
+
+hvor `Penalty` er skade, vejr og event risk lagt sammen af kaldstedet. Modstand er et **begrænset modifikator**, ikke et ligeværdigt led: med fuld vægt blev det det dominerende led og kollapsede 70 % af alle udfald til én kategori. Det blev målt, ikke gættet.
+
+Dertil en **gulv-regel**: modstand kan højst trække udfaldet ét trin ned fra det, den rene præstation fortjente. En perfekt udført sekvens kan koste dyrt, men kan aldrig blive "Fejl med fremdrift". Det er §9's egen regel, nu håndhævet i kode og test.
 
 Scoren mappes til:
 
