@@ -101,14 +101,36 @@ namespace ProjectOen.Core.Scenario
 
     public sealed class CampTagAdded : ScenarioEvent
     {
-        public CampTagAdded(string tag) => Tag = tag;
+        public CampTagAdded(string tag, string sourceActionId, int day)
+        {
+            Tag = tag;
+            SourceActionId = sourceActionId;
+            Day = day;
+        }
+
         public string Tag { get; }
+
+        /// <summary>Hvilken handling satte tagget. Uden proveniens kan aarsagskaeden i docs/04 afsnit 10 ikke bygges.</summary>
+        public string SourceActionId { get; }
+
+        public int Day { get; }
     }
 
     public sealed class DelayedEventTriggered : ScenarioEvent
     {
-        public DelayedEventTriggered(string eventId) => EventId = eventId;
+        public DelayedEventTriggered(string eventId, string requiredTag, int day)
+        {
+            EventId = eventId;
+            RequiredTag = requiredTag;
+            Day = day;
+        }
+
         public string EventId { get; }
+
+        /// <summary>Tagget der aabnede for eventet. Tom streng = ubetinget.</summary>
+        public string RequiredTag { get; }
+
+        public int Day { get; }
     }
 
     public sealed class PhaseChanged : ScenarioEvent

@@ -154,11 +154,12 @@ namespace ProjectOen.Core.Scenario
             Bump();
         }
 
-        public void AddTag(string tag, List<ScenarioEvent>? produced = null)
+        /// <param name="sourceActionId">Handlingen der satte tagget. Baeres med, saa efterspilsrapporten kan pege paa en aarsag.</param>
+        public void AddTag(string tag, string sourceActionId = "", List<ScenarioEvent>? produced = null)
         {
             if (!State.Tags.Add(tag)) return;
             Bump();
-            var evt = new CampTagAdded(tag) { Revision = State.Revision };
+            var evt = new CampTagAdded(tag, sourceActionId, State.Day) { Revision = State.Revision };
             _journal.Add(evt);
             produced?.Add(evt);
         }
@@ -195,7 +196,7 @@ namespace ProjectOen.Core.Scenario
                 if (!scheduled.ShouldFire(State.Day, State.Phase, State.Tags)) continue;
                 scheduled.Fired = true;
                 Bump();
-                produced.Add(new DelayedEventTriggered(scheduled.EventId));
+                produced.Add(new DelayedEventTriggered(scheduled.EventId, scheduled.RequiredTag, State.Day));
             }
         }
 

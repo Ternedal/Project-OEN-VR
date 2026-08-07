@@ -10,7 +10,7 @@ Filerne flyttes 1:1 til `Assets/ProjectOen/Scripts/Core/` med en asmdef, når M0
 dotnet test src/ProjectOen.Core.Tests/ProjectOen.Core.Tests.csproj
 ```
 
-Seneste kørsel i sandbox: **52 passed, 0 failed.**
+Seneste kørsel i sandbox: **63 passed, 0 failed.**
 
 ## Indhold
 
@@ -28,6 +28,8 @@ Seneste kørsel i sandbox: **52 passed, 0 failed.**
 | `Numerics/Vec3.cs` | Minimal vektortype, så solvermatematik kan testes uden `UnityEngine` |
 | `Interaction/CoopSolver.cs` | Kinematisk coop-solver: dæmpet midtpunkt, hastighedsloft, gradvist kvalitetsfald |
 | `Networking/CompatibilityHandshake.cs` | De seks felter fra `docs/07` §5. Dækker COMPAT-001 og COMPAT-002 |
+| `Telemetry/ActiveParticipation.cs` | Måler "begge aktive ≥70 %" og passive perioder. Lukker CR-007 |
+| `Telemetry/AfterActionReport.cs` | Årsagskæden fra `docs/04` §10. Bygges kun af event-journalen |
 
 ## Den vigtigste test
 
@@ -48,6 +50,18 @@ Testen fejler, hvis én tier dækker ≥70 %, hvis en kategori aldrig forekommer
 ## Anden måling: coop-solveren
 
 `CoopSolverTests` afslørede, at hastighedsloftet gjorde én-hånds- og to-hånds-tilstanden identiske, så snart objektet var mere end få centimeter væk. Hele "tung kasse kræver to spillere"-mekanikken ville kun kunne mærkes tæt på målet. Rettet med `SingleHandSpeedFactor`. Skrevet op i `docs/33`.
+
+## CR-007 er nu indfriet, ikke bare lovet
+
+Reviewet krævede, at "begge spillere aktive" måles i stedet for observeres, og `docs/13` blev opdateret til at love det. `ActiveParticipationTracker` gør det nu faktisk.
+
+Testen der betyder mest: en sekvens hvor gennemsnittet ser fint ud (75 % begge aktive) men skjuler en sammenhængende passiv periode på 25 sekunder. Andels-gaten alene ville godkende den. Rapporten fanger den, fordi den også tæller perioder over 12 s (designregel) og 20 s (testgrænse) hver for sig.
+
+Efterspilsrapporten producerer linjer som:
+
+> `Dag 2: EVT_ANIMAL_AT_CAMP_002 — fordi I lod maden stå åben på dag 1 (SCENT_HIGH).`
+
+Det er M4's gate i `docs/12` — "tester kan forklare mindst én forsinket konsekvens" — som noget der kan verificeres frem for vurderes.
 
 ## Hvad der bevidst IKKE ligger her
 
