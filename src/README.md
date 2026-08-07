@@ -10,7 +10,7 @@ Filerne flyttes 1:1 til `Assets/ProjectOen/Scripts/Core/` med en asmdef, når M0
 dotnet test src/ProjectOen.Core.Tests/ProjectOen.Core.Tests.csproj
 ```
 
-Seneste kørsel i sandbox: **82 passed, 0 failed.**
+Seneste kørsel i sandbox: **88 passed, 0 failed.**
 
 ## Indhold
 
@@ -20,6 +20,7 @@ Seneste kørsel i sandbox: **82 passed, 0 failed.**
 | `Persistence/CanonicalJson.cs` | Kanonisk JSON: sorterede nøgler, ingen whitespace. Findes udelukkende for at gøre checksummen reproducerbar |
 | `Persistence/SaveChecksum.cs` | Checksum-reglen fra `docs/10`, én implementering |
 | `Persistence/AtomicSaveWriter.cs` | Skriveflowet fra `docs/06` §9: temp → verificér → backup → atomisk rename. Filsystemet bag et interface, så afbrudte skrivninger kan testes |
+| `Persistence/ScenarioSnapshot.cs` | Fuld capture/restore af scenariostate. Lukker PR 5 i `docs/20` |
 | `Scenario/ScenarioContract.cs` | Runtime-validering af ScenarioDefinition: actionCatalog-referencer, protokolversion, to roller pr. handling |
 | `Scenario/ScenarioModel.cs` | Faser, lejr-, spiller- og scenariostate, indsatsøkonomi, delayed event queue |
 | `Scenario/CommandsAndEvents.cs` | Command/event-mønstret fra `docs/06` §6. Klienten sender intents, aldrig resultater |
@@ -63,6 +64,14 @@ Efterspilsrapporten producerer linjer som:
 > `Dag 2: EVT_ANIMAL_AT_CAMP_002 — fordi I lod maden stå åben på dag 1 (SCENT_HIGH).`
 
 Det er M4's gate i `docs/12` — "tester kan forklare mindst én forsinket konsekvens" — som noget der kan verificeres frem for vurderes.
+
+## Save round-trip — PR 5
+
+`ScenarioSnapshotTests` spiller til nat 1, skriver et checkpoint gennem den atomiske writer, læser det tilbage fra disk og genoptager. Det forsinkede event udløses præcis én gang — også hvis man genoptager fra det samme checkpoint to gange.
+
+Det, der gør snapshottet noget værd, er ikke serialiseringen. Det er, at `HandledCommands` og eventkøens `Fired`-flag følger med. Uden dem ville et resume udløse forsinkede events igen, og en gentaget command efter reconnect ville tælle to gange. Det er SAVE-001 i `docs/13`, hele vejen igennem.
+
+En test læser `schemas/savegame.schema.json` direkte og verificerer, at snapshottets feltsæt holder sig inden for det, skemaet tillader (`additionalProperties: false`) og indeholder alt påkrævet. CI og runtime kan dermed ikke blive uenige om, hvad en gyldig save er.
 
 ## Hvad der bevidst IKKE ligger her
 
