@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- netstandard2.1 = det Unity 6 (og 2022.3) forstaar. Filerne flyttes 1:1
+         til Assets/ProjectOen/Scripts/Core/ med en asmdef, naar M0a er besvaret. -->
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyName>ProjectOen.Core</AssemblyName>
+    <RootNamespace>ProjectOen.Core</RootNamespace>
+  </PropertyGroup>
+</Project>

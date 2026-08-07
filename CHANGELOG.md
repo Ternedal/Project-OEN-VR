@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.2 — 2026-08-07
+
+Core-lag bygget og bevist, mens M0a venter på hardware.
+
+- `src/ProjectOen.Core`: typed IDs, kanonisk JSON, save-checksum, atomisk skrivning, fuld snapshot round-trip, scenario-kontraktvalidering, fasemaskine med idempotens, delayed events med proveniens, udfaldsformel med gulv-regel, coop-solver, compatibility handshake, join code, deltagelsesmåling, efterspilsrapport, data-drevet win/lose og handlingseffekter. **110 tests grønne.**
+- `.github/workflows/core-tests.yml`: testene kører nu i CI på hvert push. Indtil da beskyttede de ingenting mellem manuelle kørsler.
+- `prototype/m0a-openxr-smoke/`: runbook, resultatskema og drop-in kildefiler til hardwaretesten.
+- `src/unity/`: Fusion-binding som ukompilerede kildefiler med `UNVERIFIED-IN-SANDBOX`-header og API-antagelser pr. fil.
+- `docs/33`: tre fejl fundet ved måling frem for gennemlæsning — udfaldsformlens klumpning, coop-solverens hastighedsloft, og events der blev journaliseret to gange.
+- `docs/34`: indhold til Notion-projektsiden (connector-skrivning afvist).
+- CR-007 lukket i kode: "begge aktive" måles nu fra event-journalen i stedet for at observeres.
+
 ## 2.1 — 2026-08-07
 
 Behandling af Claude-review v1.0, merget til `main`. Alle 10 fund og 6 konflikter dispositioneret i `review/RESPONSE_MATRIX.md`. To punkter er bevidst stadig åbne: CR-002 (kræver fysisk Q1-test) og CR-005 (kræver ejerens P1-udvælgelse).
