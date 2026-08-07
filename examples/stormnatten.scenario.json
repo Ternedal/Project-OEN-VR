@@ -5,29 +5,165 @@
   "displayKey": "scenario.stormnatten.name",
   "seedPolicy": "random",
   "phases": [
-    {"id": "INTRO", "type": "intro", "checkpoint": false, "actions": []},
+    {
+      "id": "INTRO",
+      "type": "intro",
+      "checkpoint": false,
+      "actions": []
+    },
     {
       "id": "DAY1_PLANNING",
       "type": "planning",
       "checkpoint": true,
-      "actions": ["ACT_GATHER_WOOD", "ACT_FIND_FOOD", "ACT_BUILD_SHELTER", "ACT_EXPLORE_CLIFF", "ACT_SECURE_SUPPLIES"]
+      "actions": [
+        "INT_GATHER_WOOD_001",
+        "INT_FIND_FOOD_002",
+        "INT_BUILD_SHELTER_003",
+        "INT_EXPLORE_CLIFF_004",
+        "INT_SECURE_SUPPLIES_005"
+      ]
     },
-    {"id": "DAY1_NIGHT", "type": "night", "checkpoint": false, "actions": []},
+    {
+      "id": "DAY1_NIGHT",
+      "type": "night",
+      "checkpoint": false,
+      "actions": []
+    },
     {
       "id": "DAY2_PLANNING",
       "type": "planning",
       "checkpoint": true,
-      "actions": ["ACT_REINFORCE_ROOF", "ACT_FIND_FIBER", "ACT_FIND_HERBS", "ACT_BUILD_SIGNAL", "ACT_EXPLORE_RIDGE", "ACT_TREAT_INJURY"]
+      "actions": [
+        "INT_REINFORCE_ROOF_006",
+        "INT_FIND_FIBER_007",
+        "INT_FIND_HERBS_008",
+        "INT_BUILD_SIGNAL_009",
+        "INT_EXPLORE_RIDGE_010",
+        "INT_TREAT_INJURY_011"
+      ]
     },
-    {"id": "DAY3_STORM", "type": "storm", "checkpoint": true, "actions": []},
-    {"id": "SIGNAL", "type": "finale", "checkpoint": false, "actions": []}
+    {
+      "id": "DAY3_STORM",
+      "type": "storm",
+      "checkpoint": true,
+      "actions": []
+    },
+    {
+      "id": "SIGNAL",
+      "type": "finale",
+      "checkpoint": false,
+      "actions": []
+    }
   ],
   "initialState": {
-    "resources": {"wood": 1, "fiber": 0, "food": 1, "herbs": 0},
-    "camp": {"shelterIntegrity": 10, "fireStrength": 20, "signalProgress": 0, "campThreat": 0}
+    "resources": {
+      "wood": 1,
+      "fiber": 0,
+      "food": 1,
+      "herbs": 0
+    },
+    "camp": {
+      "shelterIntegrity": 10,
+      "fireStrength": 20,
+      "signalProgress": 0,
+      "campThreat": 0
+    }
   },
-  "eventPools": ["POOL_DAY1_STANDARD", "POOL_NIGHT2_CONSEQUENCES"],
-  "winRules": [{"type": "signalLitBeforeDeadline"}],
-  "loseRules": [{"type": "allPlayersIncapacitated"}, {"type": "signalWindowMissed"}],
-  "personalizationHooks": ["ENDING_CRATE", "RADIO_FINAL_MESSAGE"]
+  "eventPools": [
+    "POOL_DAY1_STANDARD",
+    "POOL_NIGHT2_CONSEQUENCES"
+  ],
+  "winRules": [
+    {
+      "type": "signalLitBeforeDeadline"
+    }
+  ],
+  "loseRules": [
+    {
+      "type": "allPlayersIncapacitated"
+    },
+    {
+      "type": "signalWindowMissed"
+    }
+  ],
+  "personalizationHooks": [
+    "ENDING_CRATE",
+    "RADIO_FINAL_MESSAGE"
+  ],
+  "supportedBuildProtocol": 1,
+  "contentVersion": "stormnatten-1.0",
+  "actionCatalog": [
+    {
+      "id": "INT_GATHER_WOOD_001",
+      "effortCost": 1,
+      "primaryRole": "carry",
+      "secondaryRole": "clear_path"
+    },
+    {
+      "id": "INT_FIND_FOOD_002",
+      "effortCost": 1,
+      "primaryRole": "forage",
+      "secondaryRole": "spot"
+    },
+    {
+      "id": "INT_BUILD_SHELTER_003",
+      "effortCost": 1,
+      "primaryRole": "place_beam",
+      "secondaryRole": "tie_rope"
+    },
+    {
+      "id": "INT_EXPLORE_CLIFF_004",
+      "effortCost": 1,
+      "primaryRole": "climb",
+      "secondaryRole": "belay"
+    },
+    {
+      "id": "INT_SECURE_SUPPLIES_005",
+      "effortCost": 1,
+      "primaryRole": "stow",
+      "secondaryRole": "seal"
+    },
+    {
+      "id": "INT_REINFORCE_ROOF_006",
+      "effortCost": 1,
+      "primaryRole": "hold_beam",
+      "secondaryRole": "tie_rope"
+    },
+    {
+      "id": "INT_FIND_FIBER_007",
+      "effortCost": 1,
+      "primaryRole": "harvest",
+      "secondaryRole": "bundle"
+    },
+    {
+      "id": "INT_FIND_HERBS_008",
+      "effortCost": 1,
+      "primaryRole": "identify",
+      "secondaryRole": "gather",
+      "unlockedBy": [
+        "EVT_SPLINTER_001"
+      ]
+    },
+    {
+      "id": "INT_BUILD_SIGNAL_009",
+      "effortCost": 1,
+      "primaryRole": "raise_mast",
+      "secondaryRole": "stabilize"
+    },
+    {
+      "id": "INT_EXPLORE_RIDGE_010",
+      "effortCost": 1,
+      "primaryRole": "scout",
+      "secondaryRole": "navigate"
+    },
+    {
+      "id": "INT_TREAT_INJURY_011",
+      "effortCost": 1,
+      "primaryRole": "treat",
+      "secondaryRole": "hold_light",
+      "unlockedBy": [
+        "EVT_SPLINTER_001"
+      ]
+    }
+  ]
 }

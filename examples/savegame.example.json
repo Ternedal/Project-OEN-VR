@@ -9,20 +9,55 @@
   "phase": "DAY3_STORM",
   "revision": 57,
   "sharedState": {
-    "resources": {"wood": 2, "fiber": 1, "food": 0, "herbs": 1},
-    "camp": {"shelterIntegrity": 62, "fireStrength": 48, "signalProgress": 70, "campThreat": 15}
+    "resources": {
+      "wood": 2,
+      "fiber": 1,
+      "food": 0,
+      "herbs": 1
+    },
+    "camp": {
+      "shelterIntegrity": 62,
+      "fireStrength": 48,
+      "signalProgress": 70,
+      "campThreat": 15
+    }
   },
   "playerStates": [
-    {"playerSlot": 0, "health": 82, "fatigue": 36, "injuries": []},
-    {"playerSlot": 1, "health": 65, "fatigue": 51, "injuries": ["HAND_CUT"]}
+    {
+      "playerSlot": 0,
+      "health": 82,
+      "fatigue": 36,
+      "injuries": []
+    },
+    {
+      "playerSlot": 1,
+      "health": 65,
+      "fatigue": 51,
+      "injuries": [
+        "HAND_CUT"
+      ]
+    }
   ],
   "persistentObjects": [
-    {"id": "SIGNAL_FRAME", "state": "PARTIAL", "quality": 0.72}
+    {
+      "id": "SIGNAL_FRAME",
+      "state": "PARTIAL",
+      "quality": 0.72
+    }
   ],
-  "tags": ["SCENT_HIGH", "SHELTER_REINFORCED"],
+  "tags": [
+    "SCENT_HIGH",
+    "SHELTER_REINFORCED"
+  ],
   "eventQueue": [
-    {"eventId": "EVT_ANIMAL_CAMP_001", "triggerPhase": "STORM_PHASE_3"}
+    {
+      "eventId": "EVT_ANIMAL_CAMP_001",
+      "triggerPhase": "STORM_PHASE_3"
+    }
   ],
-  "completedActions": ["ACT_BUILD_SHELTER", "ACT_FIND_FIBER"],
-  "checksum": "EXAMPLE_ONLY"
+  "completedActions": [
+    "ACT_BUILD_SHELTER",
+    "ACT_FIND_FIBER"
+  ],
+  "checksum": "5dbed276daa0831a72651aae31e999d87ee5381411440bf73c36985c9a8c29ba"
 }

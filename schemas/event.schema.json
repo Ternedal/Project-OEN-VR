@@ -2,18 +2,62 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "EventDefinition",
   "type": "object",
-  "required": ["id", "version", "trigger", "effects"],
+  "required": [
+    "id",
+    "version",
+    "trigger",
+    "effects"
+  ],
   "properties": {
-    "id": {"type": "string", "pattern": "^EVT_[A-Z0-9_]+_[0-9]{3}$"},
-    "version": {"type": "integer", "minimum": 1},
-    "priority": {"type": "integer"},
-    "trigger": {"type": "object"},
-    "effects": {"type": "array", "items": {"type": "object"}},
-    "choices": {"type": "array", "items": {"type": "object"}},
-    "tagsAdded": {"type": "array", "items": {"type": "string"}},
-    "delayed": {"type": "array", "items": {"type": "object"}},
-    "presentation": {"type": "object"},
-    "fallback": {"type": "object"}
+    "id": {
+      "type": "string",
+      "pattern": "^EVT_[A-Z0-9_]+_[0-9]{3}$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "priority": {
+      "type": "integer"
+    },
+    "trigger": {
+      "type": "object"
+    },
+    "effects": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "choices": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "tagsAdded": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "delayed": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "presentation": {
+      "type": "object"
+    },
+    "fallback": {
+      "type": "object"
+    },
+    "cooldown": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Antal faser foer eventet kan udloeses igen. 0 = ingen cooldown."
+    }
   },
   "additionalProperties": false
 }

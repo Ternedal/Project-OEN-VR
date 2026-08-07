@@ -221,5 +221,5 @@ Minimum 10 event definitions:
 - Ekstern testgruppe forstår målet inden for 4 minutter.
 - Mindst ét tidligere valg ændrer hver stormfase.
 - Median gennemspilning 35-45 minutter.
-- Spillere oplever ingen sekvens med >20 sekunders ufrivillig passivitet.
+- Spillere oplever ingen sekvens med >20 sekunders ufrivillig passivitet (testgrænse; designreglen er 12 sek., jf. `docs/04` §8).
 - Begge kan nævne mindst ét valg, de ville ændre i næste run.

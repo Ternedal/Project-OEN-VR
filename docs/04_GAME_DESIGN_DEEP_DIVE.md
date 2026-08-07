@@ -87,7 +87,9 @@ Hver action-sekvens dokumenterer to roller:
 
 En sekundær rolle må ikke blot være “se på”. Den skal ændre sandsynlighed, kvalitet eller tid.
 
-Maksimal passiv periode: 12 sekunder, medmindre der foregår en dramatisk sekvens, som begge observerer.
+Maksimal passiv periode: **12 sekunder** som designregel, medmindre der foregår en dramatisk sekvens, som begge observerer.
+
+Designreglen (12 sek.) og testgrænsen (20 sek. i `docs/05` og `docs/13`) er bevidst forskellige: designet sigter mod 12, og en playtest fejler først ved 20. Begge tal måles automatisk fra event-journalen, ikke ved observation — se `docs/13` UX-002.
 
 ## 9. Usikkerhed og retfærdighed
 

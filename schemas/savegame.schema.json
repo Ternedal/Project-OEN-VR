@@ -2,24 +2,93 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "SaveGameCheckpoint",
   "type": "object",
-  "required": ["schemaVersion", "protocolVersion", "contentVersion", "scenarioId", "scenarioVersion", "seed", "checkpointId", "phase", "sharedState", "playerStates", "eventQueue", "checksum"],
+  "required": [
+    "schemaVersion",
+    "protocolVersion",
+    "contentVersion",
+    "scenarioId",
+    "scenarioVersion",
+    "seed",
+    "checkpointId",
+    "phase",
+    "sharedState",
+    "playerStates",
+    "eventQueue",
+    "checksum",
+    "revision"
+  ],
   "properties": {
-    "schemaVersion": {"type": "integer", "minimum": 1},
-    "protocolVersion": {"type": "integer", "minimum": 1},
-    "contentVersion": {"type": "string"},
-    "scenarioId": {"type": "string"},
-    "scenarioVersion": {"type": "integer"},
-    "seed": {"type": "integer"},
-    "checkpointId": {"type": "string"},
-    "phase": {"type": "string"},
-    "revision": {"type": "integer"},
-    "sharedState": {"type": "object"},
-    "playerStates": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "object"}},
-    "persistentObjects": {"type": "array", "items": {"type": "object"}},
-    "tags": {"type": "array", "items": {"type": "string"}},
-    "eventQueue": {"type": "array", "items": {"type": "object"}},
-    "completedActions": {"type": "array", "items": {"type": "string"}},
-    "checksum": {"type": "string"}
+    "schemaVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "protocolVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "contentVersion": {
+      "type": "string"
+    },
+    "scenarioId": {
+      "type": "string"
+    },
+    "scenarioVersion": {
+      "type": "integer"
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "checkpointId": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Monotont voksende scenario-state revision. Resync-logikken i docs/07 afsnit 11 afhaenger af den."
+    },
+    "sharedState": {
+      "type": "object"
+    },
+    "playerStates": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object"
+      }
+    },
+    "persistentObjects": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "eventQueue": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "completedActions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "checksum": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 over den kanoniske JSON af alle felter undtagen checksum selv, med sorterede noegler og uden whitespace. Se docs/10."
+    }
   },
   "additionalProperties": false
 }

@@ -64,6 +64,40 @@ EXAMPLE_SCHEMAS = {
 }
 
 
+def check_scenario_contract(errors: list[str]) -> None:
+    """CR-006: skemaet alene beviser ikke, at kontrakten er komplet."""
+    import hashlib
+
+    before = len(errors)
+    scenario_path = ROOT / "examples/stormnatten.scenario.json"
+    scenario = json.loads(scenario_path.read_text(encoding="utf-8"))
+    catalog = {a["id"] for a in scenario.get("actionCatalog", [])}
+    for phase in scenario.get("phases", []):
+        for action in phase.get("actions", []):
+            if action not in catalog:
+                fail(
+                    f"phase {phase['id']} refers to unknown action {action}",
+                    errors,
+                )
+    if "supportedBuildProtocol" not in scenario:
+        fail("scenario is missing supportedBuildProtocol", errors)
+
+    save_path = ROOT / "examples/savegame.example.json"
+    save = json.loads(save_path.read_text(encoding="utf-8"))
+    body = {k: v for k, v in save.items() if k != "checksum"}
+    expected = hashlib.sha256(
+        json.dumps(body, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+    if save.get("checksum") != expected:
+        fail(
+            f"savegame checksum mismatch: expected {expected}, got {save.get('checksum')}",
+            errors,
+        )
+
+    if len(errors) == before:
+        print("PASS: scenario action catalog and savegame checksum")
+
+
 def fail(message: str, errors: list[str]) -> None:
     errors.append(message)
     print(f"FAIL: {message}")
@@ -155,6 +189,7 @@ def main() -> int:
     errors: list[str] = []
     check_required(errors)
     check_json(errors)
+    check_scenario_contract(errors)
     check_yaml(errors)
     check_markdown_links(errors)
     check_private_payload(errors)
