@@ -41,13 +41,16 @@ Den første version skal være en personlig, poleret gaveoplevelse, som to perso
 | Platform | Rolle | Krav |
 |---|---|---|
 | Quest 1 | Legacy-test | Skal kunne starte, forbinde, gennemføre kerneflow og bruge samme scenario/saveformat i reduceret build. Sideload. Best effort. |
-| Quest 2 | Autoritativ baseline | Alle gameplay-, performance- og komfortbeslutninger valideres her. Stabil 72 Hz er releasekrav. |
+| Quest 2 | Autoritativ baseline og performancegulv | Alle gameplay-, performance- og komfortbeslutninger valideres her. Stabil 72 Hz er releasekrav. **EOL-note:** udgik af salg ultimo 2024, feature-opdateringer til dec. 2026, kritiske opdateringer til dec. 2027. Gyldig som konservativt performancegulv, men Quest 3S er antaget baseline for alt efter v1.0. |
 | Quest 3 / 3S | Forbedret målplatform | Samme gameplay og netværk. Højere opløsning, skarpere teksturer og flere visuelle effekter må aktiveres. |
 | Quest Pro | Sekundær kompatibilitet | Følger som udgangspunkt Quest 2-profilen; ikke særskilt optimeringsmål. |
 
 ## Teknisk anbefaling
 
-- Unity 2022.3 LTS som startkandidat, fordi den fortsat modtager 3-årige LTS-patches og giver en realistisk Quest 1-lane.
+- Editorvalget er **åbent og afgøres af M0**, jf. CR-002/CR-003. Unity 2022.3 LTS er ikke længere en fri startkandidat: Unitys LTS-politik giver to års support til Personal- og Pro-licenser, og det tredje år er forbeholdt Enterprise/Industry. 2022.3 udkom juni 2023, så Personal/Pro-supporten udløb medio 2025.
+- Kandidat A (foretrukken): **Unity 6 LTS**, hvis Unitys OpenXR-provider fysisk kan starte og tracke på Quest 1.
+- Kandidat B: Unity 6 LTS til Q2/Q3 plus en frossen Quest 1-demobuild på ældre stack, hvis OpenXR-testen fejler.
+- Kandidat C (fravalgt medmindre M0 tvinger det): Unity 2022.3 LTS uden patchsupport på den relevante licens.
 - OpenXR og XR Interaction Toolkit som kerne.
 - Ingen afhængighed af moderne Meta Platform SDK i det delte gameplaylag.
 - URP, Vulkan først; OpenGLES3 holdes kun som fallback under platformspiket.
@@ -78,7 +81,7 @@ Der bruges tre estimatniveauer, så det detaljerede backlogark ikke forveksles m
 
 | Niveau | Omfang | Estimat |
 |---|---|---:|
-| Kritisk P0-sti | Platform, multiplayer, kerneflow, storm og release-blockers | ca. 620 timer |
+| Kritisk P0-sti | Platform, multiplayer, kerneflow, storm og release-blockers | 622 timer |
 | Poleret gaveversion | P0 plus udvalgte P1-opgaver, købte assets og stram scopekontrol | 500-810 timer |
 | Fuld engineering-backlog | Alle 108 planlagte P0/P1/P2-opgaver, maksimal hardening og polish | ca. 1.447 timer før usikkerhedsbuffer |
 | Quest 1-lane | Indgår i ovenstående; forventet merarbejde koncentreres i platform, build og QA | typisk +15-25 % på de berørte områder |
