@@ -36,7 +36,8 @@ Vejledende gaveversion:
 
 | Post | Interval DKK |
 |---|---:|
-| Unity/Photon under hobby-/lav CCU-grænser | 0-1.500 |
+| Photon Fusion (100 CCU gratis, dækker udvikling og kommerciel brug for én app) | 0 |
+| Unity-licens (kun hvis Personal ikke kan bruges) | 0-1.500 |
 | Art-/environment-assets | 1.000-5.000 |
 | Audio/music/SFX | 500-3.000 |
 | Plugins/tools | 0-2.500 |
@@ -48,11 +49,13 @@ Den reelle omkostning er udviklingstid. Køb først assets, når greyboxen har b
 
 ## Tidsbudget
 
-- M0-M2: stop/go senest efter **250 timer**, også hvis alle planlagte opgaver ikke er afsluttet.
+- M0: stop/go **ved afslutningen af M0**, ikke efter et timeloft. Med den reviderede M0 falder det omkring 150-175 timer — og først dér findes beslutningsgrundlaget for Quest 1-lanen.
+- M0-M2: hårdt loft på **250 timer** som bagstopper, også hvis alle planlagte opgaver ikke er afsluttet.
 - M3-M5: stop/go senest efter yderligere **350 timer**.
 - Hvis en spilbar vertical slice ikke er overbevisende efter cirka **600 timer samlet**, skal scope, netværksmodel eller produktgrundlag revurderes før mere content.
-- P0-backloggen summerer til cirka **622 timer**. Den er det konservative kritiske loft - ikke et krav om at bruge alle timer før en gate må godkendes.
-- Den fulde 108-opgavers backlog summerer til cirka **1.447 timer** og repræsenterer maksimal hardening/polish. Release-scope vælges eksplicit i workbooken før produktion.
+- P0-backloggen (`Gaveversion = In`, 45 items) summerer til **634 timer**. Den er det konservative kritiske loft - ikke et krav om at bruge alle timer før en gate må godkendes.
+- Den fulde 110-opgavers backlog summerer til **1.473 timer** og repræsenterer maksimal hardening/polish.
+- De 56 P1-items (712 timer) står som `Gaveversion = TBD`. **Release-scope er ikke valgt endnu**, og der findes derfor ikke et forsvarligt samlet gaveestimat før den udvælgelse er foretaget.
 
 ## Quest 1 exit-kriterium
 

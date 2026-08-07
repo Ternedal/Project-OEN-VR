@@ -7,7 +7,12 @@
 | Quest 1 | Meta: Navigating Changes to Quest 1 | https://developers.meta.com/horizon/blog/managing-meta-quest-1-guidance-developers/ | Platform SDK v51+ starter ikke på Quest 1; multiplayer-versionvejledning |
 | Oculus XR | Unity Oculus XR Plugin changelog 4.3 | https://docs.unity3d.com/Packages/com.unity.xr.oculus@4.3/changelog/CHANGELOG.html | v4/v51 fjernede Quest 1 target |
 | Quest 1 Unity | Unity XR packages | https://docs.unity3d.com/6000.1/Documentation/Manual/xr-support-packages.html | Dokumenterer sidste kompatible Oculus provider v3.3.0 |
-| Unity editor | Unity 2022.3.76f1 | https://unity.com/releases/editor/whats-new/2022.3.76f1 | 3-year LTS patch pr. 2026-05-06 |
+| Unity editor | Unity 2022.3.76f1 | https://unity.com/releases/editor/whats-new/2022.3.76f1 | Patch pr. 2026-05-06. **Bemærk:** ligger i det tredje LTS-år, som Unity forbeholder Enterprise/Industry |
+| Unity LTS-politik | Unity Manual: New in Unity 2022 LTS | https://docs.unity3d.com/2022.3/Documentation/Manual/WhatsNew2022LTS.html | To års LTS-support for Personal og Pro; tre år for Enterprise og Industry |
+| Unity XR-support | Unity Manual: XR packages | https://docs.unity3d.com/6000.0/Documentation/Manual/xr-support-packages.html | Understøttet udvikling for Quest 2/3/3S/Pro. Oculus-provider v4+ understøtter ikke Quest 1 |
+| Oculus-provider | Oculus XR Plugin changelog 4.4 | https://docs.unity3d.com/Packages/com.unity.xr.oculus@4.4/changelog/CHANGELOG.html | Quest 1 fjernet som target device; v51-plugins understøtter ikke Quest 1; min. Unity hævet til 2022.3 |
+| Provider-deprecation | Meta: XR Plugin Management for Meta Quest | https://developers.meta.com/horizon/documentation/unity/unity-xr-plugin/ | Oculus XR Plugin er deprecated og planlagt fjernet; OpenXR er anbefalet |
+| Photon pricing | Photon pricing | https://doc.photonengine.com/photon/current/pricing | 100 CCU gratis til udvikling og kommerciel brug, én app |
 | Meta setup | Set up Unity for VR development | https://developers.meta.com/horizon/documentation/unity/unity-project-setup/ | Officiel Unity/Quest setup |
 | OpenXR | Meta Unity and OpenXR compatibility | https://developers.meta.com/horizon/documentation/unity/unity-and-openxr-compatibility/ | OpenXR relation på Horizon OS |
 | OpenXR Unity | Unity OpenXR package | https://docs.unity3d.com/Packages/com.unity.xr.openxr@latest/ | Package compatibility og features |

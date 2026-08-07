@@ -92,9 +92,35 @@ Checkpoint gemmes efter event scheduling, før trigger. Resume udløser event pr
 
 Quest går i standby i lobby, action og storm. Return flow er tydeligt og state er gyldig.
 
+### UX-002 Aktiv deltagelse (automatiseret)
+
+Andelen af action-tid med aktivt bidrag fra begge spillere udledes af event-journalen (`docs/06` §6), ikke af observation. Hver `ActionResolved` bærer aktive frames pr. spillerrolle, og en rapport pr. run udskriver:
+
+- andel af action-tid med begge aktive (gate: ≥70 %),
+- længste passive periode pr. spiller (designregel 12 sek., testgrænse 20 sek.),
+- antal perioder over hver af de to grænser.
+
+Manuel observation bruges stadig til *hvorfor*, men tallet afgør gaten.
+
+### PERF-002 Kollapssekvens isoleret
+
+Stormens fase 4 (delvist kollaps med tohånds-stabilisering og snap-reparation) er et gameplay-tungt, netværkssynkroniseret event oven i stormens VFX-peak. Den måles isoleret på Quest 2 **før** art pass, ikke først som del af PERF-001.
+
 ### PERF-001 Storm soak
 
 Storm gentages/holdes aktiv 20 min. Log CPU/GPU, memory, thermal, network.
+
+### DEV-002 Blandet siddende/stående
+
+Én spiller siddende, én stående, på det fælles coop-objekt. Snap-zoner og gribehøjder skal fungere for begge, og kalibreringen må ikke kræve, at begge vælger samme opsætning.
+
+### DEV-003 Afbrudt checkpoint-skrivning
+
+Skrivning afbrydes (fuld disk eller proceskill) midt i checkpoint. Forrige checkpoint skal være intakt og indlæsbart. Den atomiske skrivestrategi er kun værd noget, hvis den er testet.
+
+### COMPAT-002 Klokkeskævt content hash
+
+Q1-build med ældre content hash mod Q3-build med nyere. Sessionen skal afvises tydeligt før spawn, ikke fejle undervejs.
 
 ### CONTENT-001 Missing personalization asset
 

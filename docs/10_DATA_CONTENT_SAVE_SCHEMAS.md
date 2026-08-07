@@ -87,7 +87,18 @@ Felter:
 - tags and delayed queue.
 - completed actions.
 - deterministic RNG cursor where needed.
+- revision (monotont voksende, påkrævet — resync i `docs/07` §11 afhænger af den).
 - checksum.
+
+### Checksum-definition
+
+Uden en defineret dækning er checksummen dekoration. Reglen er:
+
+1. Fjern feltet `checksum` fra objektet.
+2. Serialisér resten som kanonisk JSON: sorterede nøgler, ingen whitespace, UTF-8.
+3. `SHA-256` over den byte-streng, gengivet som 64 hexadecimale tegn i lowercase.
+
+`examples/savegame.example.json` indeholder en checksum beregnet efter præcis denne regel og kan bruges som testvektor.
 
 ## Migration
 
@@ -100,6 +111,8 @@ Felter:
 
 Build stopper ved:
 
+- action-ID i `phases[].actions` uden tilsvarende post i `actionCatalog`.
+- `supportedBuildProtocol` der ikke matcher buildets `NetworkProtocolVersion`.
 - duplicate IDs.
 - missing localization key.
 - event cycle uden exit.

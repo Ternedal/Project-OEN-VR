@@ -27,7 +27,7 @@ Den første spiller, der opretter sessionen, vælges som logisk coordinator for:
 - checkpoint trigger,
 - event queue resolution.
 
-Dette er en gameplayrolle oven på Shared Mode. Hvis coordinator forlader, forsøges kontrolleret overdragelse. Ved tvivl pauses scenarioet og genoptages fra checkpoint.
+Dette er en gameplayrolle oven på Shared Mode. **Foreslået beslutning (ADR-020, afventer ejeren):** der er ingen live overdragelse. Med to spillere findes ingen tredje klient at overdrage til — hvis coordinator forsvinder, er sessionen enten slut eller den anden klient er per definition ny coordinator. Ved coordinator-tab: pause, checkpoint-resume, ny session. Det er én kodesti i stedet for to og fjerner en klasse af desync-fejl. Checkpoint-stien skal bygges og testes alligevel.
 
 ### Player authority
 
@@ -135,7 +135,7 @@ Designmål:
 
 - Scenario pauses diegetisk efter 2-3 sekunders manglende peer.
 - Lokale farer fryses eller går i safe loop.
-- Reconnect window: foreslået 90 sekunder.
+- Reconnect window: foreslået 90 sekunder. **Skal måles, ikke gættes (CR-009):** Quest går i standby få sekunder efter aftagning, så den hyppigste virkelige afbrydelse — "jeg tog headsettet af" — kan overskride vinduet og ramme den dyre sti. Mål faktisk standby → netværkstab på Q2/Q3 i M2 og sæt vinduet efter data.
 - Returnerende klient får fuldt authoritative snapshot og scene acknowledgement.
 
 ### Lang disconnect

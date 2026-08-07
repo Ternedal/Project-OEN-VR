@@ -65,7 +65,7 @@ Mange kooperative VR-spil er enten actiontunge, korte minispil eller symmetriske
 - Tutorial completion uden verbal udviklerhjælp.
 - Tid til første meningsfulde fælles beslutning.
 - Andel af handlinger hvor begge er aktive.
-- Antal situationer med mere end 20 sekunders passiv ventetid.
+- Antal situationer med mere end 20 sekunders passiv ventetid (testgrænse; designreglen er 12 sek., jf. `docs/04` §8). Måles fra event-journalen.
 - Antal misforståelser der skyldes UI frem for samarbejdsudfordring.
 - Komfortscore efter 15, 30 og 45 minutter.
 - Framerate og thermal headroom under stormen.

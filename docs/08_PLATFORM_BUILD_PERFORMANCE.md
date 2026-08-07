@@ -2,7 +2,9 @@
 
 ## 1. Platformpolitik
 
-### Quest 2 - baseline
+### Quest 2 - baseline og performancegulv
+
+Quest 2 udgik af salg ultimo 2024. Meta leverer feature-opdateringer til december 2026 og kritiske bug-/sikkerhedsopdateringer til december 2027. Den er derfor et gyldigt og bevidst konservativt performancegulv for gaveversionen — men den er ikke fremtidens målenhed. Quest 3S er antaget baseline for alt efter v1.0.
 
 Quest 2 bestemmer:
 
@@ -53,7 +55,9 @@ Ingen Quest 3-only gameplaymekanik i gaveversionen.
 
 - Meta oplyser, at apps med Platform SDK v51+ ikke kan starte på Quest 1.
 - Unitys Oculus XR Plugin v4+ fjernede Quest 1 som target; Unity dokumenterer v3.3.0 som sidste kompatible Oculus-provider.
-- Cross-device multiplayer via Meta Platform services kan begrænses af SDK-version. Projektet bruger derfor Photon og undgår Platform SDK i kerneflowet.
+- Cross-device multiplayer via Meta Platform services kan begrænses af SDK-version. Metas vejledning er eksplicit: en app på Quest 1 med v50 kan ikke spille multiplayer med en app på Quest 2 med v51. Projektet bruger derfor Photon og undgår Platform SDK i kerneflowet. Den beslutning (ADR-009) er korrekt og bekræftet.
+- Unitys manual angiver understøttet udvikling for Quest 2, 3, 3S og Quest Pro. Quest 1 står ikke på listen, og Oculus-provider v4+ har fjernet Quest 1 som target device.
+- **Metas egen Unity-dokumentation angiver Oculus XR Plugin som deprecated og planlagt til fjernelse**, med Unity OpenXR Plugin som anbefalet erstatning. En Quest 1-lane bygget på Oculus-provider v3.x er derfor en lane på en pakke, der er på vej ud — ikke bare en ældre version.
 
 Dette skal fysisk valideres. Dokumentationen alene er ikke bevis for, at en bestemt moderne OpenXR-pakke fungerer på alle tre headset.
 
