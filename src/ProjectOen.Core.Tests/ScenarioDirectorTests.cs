@@ -97,6 +97,30 @@ namespace ProjectOen.Core.Tests
             Assert.Contains(again.OfType<CommandRejected>(), r => r.Code == "ALREADY_COMPLETED");
         }
 
+        /// <summary>
+        /// Invariant: hvert event optræder præcis én gang i journalen. Fundet ved, at
+        /// en tag-proveniens-test faldt over to identiske CampTagAdded — AddTag
+        /// journaliserede selv OG blev journaliseret af Submit(). Alt der bygger på
+        /// journalen (efterspilsrapport, telemetri, save) ville have talt dobbelt.
+        /// </summary>
+        [Fact]
+        public void No_event_is_journalled_twice()
+        {
+            var d = AtPlanning();
+            d.AddTag("SCENT_HIGH", "lod maden stå åben");
+            d.Submit(new PlaceEffortMarkerCommand("m1", 0, "INT_A_001", 2));
+            d.Submit(new ConfirmPlanCommand("c1", 0));
+
+            var duplicates = d.Journal
+                .GroupBy(e => new { Type = e.GetType().Name, e.Revision, Text = e.ToString() })
+                .Where(g => g.Count() > 1)
+                .ToList();
+
+            Assert.True(duplicates.Count == 0,
+                "Dublerede events i journalen: " + string.Join(", ", duplicates.Select(g => g.Key.Type)));
+            Assert.Single(d.Journal.OfType<CampTagAdded>());
+        }
+
         [Fact]
         public void Revision_is_monotonic()
         {

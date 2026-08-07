@@ -17,10 +17,13 @@ namespace ProjectOen.Core.Scenario
         readonly OutcomeResolver _outcomes;
         readonly List<ScenarioEvent> _journal = new List<ScenarioEvent>();
 
-        public ScenarioDirector(ScenarioState state, OutcomeResolver? outcomes = null)
+        readonly EffectTable? _effects;
+
+        public ScenarioDirector(ScenarioState state, OutcomeResolver? outcomes = null, EffectTable? effects = null)
         {
             State = state ?? throw new ArgumentNullException(nameof(state));
             _outcomes = outcomes ?? new OutcomeResolver();
+            _effects = effects;
         }
 
         public ScenarioState State { get; }
@@ -141,6 +144,20 @@ namespace ProjectOen.Core.Scenario
             State.CompletedActions.Add(cmd.ActionId);
             Bump();
             produced.Add(new ActionResolved(cmd.ActionId, tier, score));
+
+            // Retningen er énvejs: udfaldet vaelger effekten. Effekten kan aldrig
+            // aendre udfaldet, og der findes derfor ingen vej tilbage fra verden
+            // til scoren - det er dét, der holder resultatet forudsigeligt for spillerne.
+            var effect = _effects?.Lookup(cmd.ActionId, tier);
+            if (effect != null)
+            {
+                foreach (var e in EffectApplier.Apply(State, effect, new[] { 0, 1 }))
+                {
+                    Bump();
+                    produced.Add(e);
+                }
+                foreach (var tag in effect.AddTags) AddTag(tag, cmd.ActionId, produced);
+            }
         }
 
         void Handle(ScheduleDelayedEventCommand cmd, List<ScenarioEvent> produced)
@@ -155,13 +172,26 @@ namespace ProjectOen.Core.Scenario
         }
 
         /// <param name="sourceActionId">Handlingen der satte tagget. Baeres med, saa efterspilsrapporten kan pege paa en aarsag.</param>
+        /// <param name="sourceActionId">Handlingen der satte tagget. Baeres med, saa efterspilsrapporten kan pege paa en aarsag.</param>
+        /// <param name="produced">
+        /// Naar den er sat, er vi midt i Submit(), som journaliserer til sidst. Journaliserer
+        /// vi ogsaa her, ender eventet to gange i journalen - og efterspilsrapporten faar
+        /// dubletter i aarsagskaeden. Der er praecis ét journaliseringspunkt pr. event.
+        /// </param>
         public void AddTag(string tag, string sourceActionId = "", List<ScenarioEvent>? produced = null)
         {
             if (!State.Tags.Add(tag)) return;
             Bump();
-            var evt = new CampTagAdded(tag, sourceActionId, State.Day) { Revision = State.Revision };
+            var evt = new CampTagAdded(tag, sourceActionId, State.Day);
+
+            if (produced != null)
+            {
+                produced.Add(evt);   // Submit() saetter Revision og journaliserer.
+                return;
+            }
+
+            evt.Revision = State.Revision;
             _journal.Add(evt);
-            produced?.Add(evt);
         }
 
         void Advance(List<ScenarioEvent> produced)

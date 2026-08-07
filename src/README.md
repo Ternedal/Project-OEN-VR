@@ -10,7 +10,7 @@ Filerne flyttes 1:1 til `Assets/ProjectOen/Scripts/Core/` med en asmdef, når M0
 dotnet test src/ProjectOen.Core.Tests/ProjectOen.Core.Tests.csproj
 ```
 
-Seneste kørsel i sandbox: **98 passed, 0 failed.**
+Seneste kørsel i sandbox: **110 passed, 0 failed.**
 
 De kører nu også i CI på hvert push — se `.github/workflows/core-tests.yml`. Indtil det job fandtes, beskyttede testsuiten ingenting mellem mine egne kørsler.
 
@@ -25,6 +25,7 @@ De kører nu også i CI på hvert push — se `.github/workflows/core-tests.yml`
 | `Persistence/ScenarioSnapshot.cs` | Fuld capture/restore af scenariostate. Lukker PR 5 i `docs/20` |
 | `Scenario/ScenarioContract.cs` | Runtime-validering af ScenarioDefinition: actionCatalog-referencer, protokolversion, to roller pr. handling, kendte regeltyper |
 | `Scenario/ScenarioOutcomeRules.cs` | Data-drevet win/lose fra `docs/05`. Stærk sejr, presset sejr, nederlag |
+| `Scenario/ActionEffects.cs` | Udfald → ressourcer, lejrstatus og tags. Envejs: effekten kan aldrig ændre udfaldet |
 | `Scenario/ScenarioModel.cs` | Faser, lejr-, spiller- og scenariostate, indsatsøkonomi, delayed event queue |
 | `Scenario/CommandsAndEvents.cs` | Command/event-mønstret fra `docs/06` §6. Klienten sender intents, aldrig resultater |
 | `Scenario/ScenarioDirector.cs` | Fasemaskinen. Kun den må skifte fase. Idempotens via command-ID |
@@ -75,6 +76,14 @@ Det er M4's gate i `docs/12` — "tester kan forklare mindst én forsinket konse
 Det, der gør snapshottet noget værd, er ikke serialiseringen. Det er, at `HandledCommands` og eventkøens `Fired`-flag følger med. Uden dem ville et resume udløse forsinkede events igen, og en gentaget command efter reconnect ville tælle to gange. Det er SAVE-001 i `docs/13`, hele vejen igennem.
 
 En test læser `schemas/savegame.schema.json` direkte og verificerer, at snapshottets feltsæt holder sig inden for det, skemaet tillader (`additionalProperties: false`) og indeholder alt påkrævet. CI og runtime kan dermed ikke blive uenige om, hvad en gyldig save er.
+
+## Tredje fund: events blev journaliseret to gange
+
+En test skulle bekræfte, at et tag sat af en fejlet handling husker hvilken handling der forårsagede det. Den fandt to identiske `CampTagAdded` i journalen: `AddTag` journaliserede selv **og** blev journaliseret af `Submit()`.
+
+Fejlen havde ligget der siden fasemaskinen blev skrevet, men ingen kodesti ramte den før nu. Alt der bygger på journalen — efterspilsrapporten, deltagelsesmålingen, checkpoint-journalen — ville have talt dobbelt. Årsagskæden ville have vist samme konsekvens to gange.
+
+Rettet til præcis ét journaliseringspunkt pr. event, og `No_event_is_journalled_twice` holder invarianten fast.
 
 ## Hvad der bevidst IKKE ligger her
 
