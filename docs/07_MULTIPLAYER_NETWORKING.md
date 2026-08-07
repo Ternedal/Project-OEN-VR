@@ -86,7 +86,16 @@ Quest 1 må spille med Quest 2/3, hvis protocol/content/schema matcher. Grafikpr
 
 ## 7. Commands
 
-Klienten sender intents, ikke endelige resultater:
+Klienten sender intents, ikke endelige resultater.
+
+**Præciseret 2026-08-07.** `CompleteInteractionStepCommand` bar oprindeligt hele udfaldsinputtet — inklusive `Preparation` og `Penalty`. Det brød princippet i denne sektion: klienten fortalte reelt direktoren, hvor hårdt den skulle straffes, og en fejl i én klients måling ville forplante sig til det delte resultat.
+
+Commanden bærer nu kun det, klienten alene kan måle: `PhysicalExecution` og `Cooperation`, begge fra coop-solverens quality samples. Direktoren udleder resten af autoritativ state:
+
+- `Preparation` = indsatsmarkører placeret på handlingen ÷ dens kostpris (fra planen).
+- `Penalty` = skader + træthed + scenariets egen modstand (vejr, hændelser).
+
+Commands:
 
 - RequestPlaceMarker.
 - RequestGrab.

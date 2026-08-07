@@ -10,7 +10,7 @@ Filerne flyttes 1:1 til `Assets/ProjectOen/Scripts/Core/` med en asmdef, når M0
 dotnet test src/ProjectOen.Core.Tests/ProjectOen.Core.Tests.csproj
 ```
 
-Seneste kørsel i sandbox: **120 passed, 0 failed.**
+Seneste kørsel i sandbox: **129 passed, 0 failed.**
 
 De kører nu også i CI på hvert push — se `.github/workflows/core-tests.yml`. Indtil det job fandtes, beskyttede testsuiten ingenting mellem mine egne kørsler.
 
@@ -27,6 +27,7 @@ De kører nu også i CI på hvert push — se `.github/workflows/core-tests.yml`
 | `Scenario/ScenarioOutcomeRules.cs` | Data-drevet win/lose fra `docs/05`. Stærk sejr, presset sejr, nederlag |
 | `Scenario/ActionEffects.cs` | Udfald → ressourcer, lejrstatus og tags. Envejs: effekten kan aldrig ændre udfaldet |
 | `Scenario/ScenarioLoader.cs` | JSON → kørende scenario. Bindeleddet mellem data og alle de data-drevne systemer |
+| `Scenario/Conditions.cs` | Skader og træthed. Modstand og forberedelse udledes af autoritativ state, ikke af klienten |
 | `Scenario/ScenarioModel.cs` | Faser, lejr-, spiller- og scenariostate, indsatsøkonomi, delayed event queue |
 | `Scenario/CommandsAndEvents.cs` | Command/event-mønstret fra `docs/06` §6. Klienten sender intents, aldrig resultater |
 | `Scenario/ScenarioDirector.cs` | Fasemaskinen. Kun den må skifte fase. Idempotens via command-ID |
@@ -91,6 +92,14 @@ Rettet til præcis ét journaliseringspunkt pr. event, og `No_event_is_journalle
 Der var bygget fem data-drevne systemer — effekter, win/lose-regler, tærskler, action-katalog, kontraktvalidering — og **ingen måde at indlæse deres data på**. Tabellerne fandtes kun, fordi de blev konstrueret i hånden i tests. Uden loaderen er "data-drevet" en påstand.
 
 `ScenarioLoader.Load()` går fra JSON til et `ScenarioDefinition`, som direktoren kan køre direkte på. Den fejler **hele** indlæsningen ved mindste kontraktbrud og samler alle problemer først: et scenario, der starter halvt indlæst, fejler midt i en session, og det er det dyreste tidspunkt at opdage en manglende effekt på.
+
+## Fjerde fund: klienten bestemte sin egen straf
+
+`CompleteInteractionStepCommand` bar hele `OutcomeInput` — inklusive `Preparation` og `Penalty`. Klienten fortalte altså direktoren, hvor hårdt den skulle straffes. Det bryder `docs/07` §7 direkte, og en fejl i én klients måling ville forplante sig til det delte resultat.
+
+Commanden bærer nu kun `PhysicalExecution` og `Cooperation` — de to ting, klienten alene kan måle, begge fra coop-solverens quality samples. Direktoren udleder `Preparation` fra planen (markører ÷ kostpris) og `Penalty` fra skader, træthed og scenariets modstand.
+
+Sidegevinst: træthed blev talt op af effektsystemet, men læst af ingenting. Nu tæller den.
 
 ## Hvad der bevidst IKKE ligger her
 
