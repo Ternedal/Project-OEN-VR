@@ -458,5 +458,28 @@
     "partial": 0.35,
     "success": 0.55,
     "critical": 0.74
+  },
+  "conditions": {
+    "maxFatiguePenalty": 0.2,
+    "injuries": [
+      {
+        "id": "HAND_CUT",
+        "penaltyContribution": 0.12,
+        "blocksActions": [],
+        "healedBy": [
+          "INT_TREAT_INJURY_011"
+        ]
+      },
+      {
+        "id": "SPRAINED_ANKLE",
+        "penaltyContribution": 0.18,
+        "blocksActions": [
+          "INT_EXPLORE_CLIFF_004"
+        ],
+        "healedBy": [
+          "INT_TREAT_INJURY_011"
+        ]
+      }
+    ]
   }
 }

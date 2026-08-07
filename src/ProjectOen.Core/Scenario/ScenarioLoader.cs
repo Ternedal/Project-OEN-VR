@@ -11,7 +11,8 @@ namespace ProjectOen.Core.Scenario
             IReadOnlyDictionary<string, ActionDefinition> actions, EffectTable effects,
             OutcomeThresholds thresholds,
             IReadOnlyList<ScenarioOutcomeRules.Rule> winRules,
-            IReadOnlyList<ScenarioOutcomeRules.Rule> loseRules)
+            IReadOnlyList<ScenarioOutcomeRules.Rule> loseRules,
+            ConditionTable conditions)
         {
             Id = id;
             SupportedBuildProtocol = supportedBuildProtocol;
@@ -21,6 +22,7 @@ namespace ProjectOen.Core.Scenario
             Thresholds = thresholds;
             WinRules = winRules;
             LoseRules = loseRules;
+            Conditions = conditions;
         }
 
         public string Id { get; }
@@ -31,6 +33,7 @@ namespace ProjectOen.Core.Scenario
         public OutcomeThresholds Thresholds { get; }
         public IReadOnlyList<ScenarioOutcomeRules.Rule> WinRules { get; }
         public IReadOnlyList<ScenarioOutcomeRules.Rule> LoseRules { get; }
+        public ConditionTable Conditions { get; }
 
         public OutcomeResolver CreateResolver() => new OutcomeResolver(Thresholds);
     }
@@ -129,6 +132,16 @@ namespace ProjectOen.Core.Scenario
                 problems.Add($"effects: mangler helt for '{missing}'.");
             problems.AddRange(effects.Validate());
 
+            var conditions = ReadConditions(json);
+            problems.AddRange(conditions.Validate());
+            foreach (var injury in conditions.All)
+            {
+                foreach (var blocked in injury.BlocksActions.Where(a => !actions.ContainsKey(a)))
+                    problems.Add($"conditions/{injury.Id}: blocksActions peger paa ukendt handling '{blocked}'.");
+                foreach (var healer in injury.HealedBy.Where(a => !actions.ContainsKey(a)))
+                    problems.Add($"conditions/{injury.Id}: healedBy peger paa ukendt handling '{healer}'.");
+            }
+
             var thresholds = ReadThresholds(json, problems);
             var winRules = ReadRules(json, "winRules");
             var loseRules = ReadRules(json, "loseRules");
@@ -139,7 +152,30 @@ namespace ProjectOen.Core.Scenario
                 (string)json["id"]!,
                 Convert.ToInt32(json["supportedBuildProtocol"]),
                 json.TryGetValue("contentVersion", out var cv) ? cv as string ?? "" : "",
-                actions, effects, thresholds, winRules, loseRules);
+                actions, effects, thresholds, winRules, loseRules, conditions);
+        }
+
+        static ConditionTable ReadConditions(IDictionary<string, object?> json)
+        {
+            var table = new ConditionTable();
+            if (!json.TryGetValue("conditions", out var raw) || !(raw is IDictionary<string, object?> map))
+                return table;
+
+            if (map.TryGetValue("maxFatiguePenalty", out var mf) && mf != null)
+                table.MaxFatiguePenalty = Convert.ToDouble(mf);
+
+            if (map.TryGetValue("injuries", out var rawInjuries) && rawInjuries is IEnumerable<object?> list)
+            {
+                foreach (var entry in list.OfType<IDictionary<string, object?>>())
+                {
+                    table.Add(new InjuryDefinition(
+                        Str(entry, "id"),
+                        Dbl(entry, "penaltyContribution"),
+                        ReadStrings(entry, "blocksActions"),
+                        ReadStrings(entry, "healedBy")));
+                }
+            }
+            return table;
         }
 
         static bool TryParseTier(string name, out OutcomeTier tier)

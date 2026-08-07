@@ -44,7 +44,7 @@ namespace ProjectOen.Core.Tests
         {
             var d = AtActionSequence(FullTableFor("INT_GATHER_WOOD_001"));
             var produced = d.Submit(new CompleteInteractionStepCommand("s1", 0, "INT_GATHER_WOOD_001",
-                new OutcomeInput(1, 1, 1, 0)));
+                new ExecutionSample(1, 1)));
 
             Assert.Equal(OutcomeTier.CriticalSuccess, produced.OfType<ActionResolved>().Single().Tier);
             Assert.Equal(5, d.State.Resources["wood"]);
@@ -58,7 +58,7 @@ namespace ProjectOen.Core.Tests
         {
             var d = AtActionSequence(FullTableFor("INT_GATHER_WOOD_001"));
             var produced = d.Submit(new CompleteInteractionStepCommand("s1", 0, "INT_GATHER_WOOD_001",
-                new OutcomeInput(0.05, 0.05, 0.05, 1.0)));
+                new ExecutionSample(0.05, 0.05)));
 
             Assert.Equal(OutcomeTier.FailForward, produced.OfType<ActionResolved>().Single().Tier);
             Assert.Equal(1, d.State.Resources["wood"]);
@@ -74,7 +74,7 @@ namespace ProjectOen.Core.Tests
         {
             var d = AtActionSequence(FullTableFor("INT_GATHER_WOOD_001"));
             d.Submit(new CompleteInteractionStepCommand("s1", 0, "INT_GATHER_WOOD_001",
-                new OutcomeInput(0.05, 0.05, 0.05, 1.0)));
+                new ExecutionSample(0.05, 0.05)));
 
             var tagged = d.Journal.OfType<CampTagAdded>().Single(t => t.Tag == "TOOL_DAMAGED");
             Assert.Equal("INT_GATHER_WOOD_001", tagged.SourceActionId);
@@ -168,7 +168,7 @@ namespace ProjectOen.Core.Tests
             d.Submit(new AdvancePhaseCommand("p3", 0));
 
             var produced = d.Submit(new CompleteInteractionStepCommand("s1", 0, "INT_A_001",
-                new OutcomeInput(0.9, 0.9, 0.9, 0)));
+                new ExecutionSample(0.9, 0.9)));
 
             Assert.Single(produced.OfType<ActionResolved>());
             Assert.Empty(produced.OfType<ResourceChanged>());

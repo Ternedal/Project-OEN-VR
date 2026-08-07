@@ -350,6 +350,54 @@
           "maximum": 1
         }
       }
+    },
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Skader og traethed. Modstanden i udfaldsformlen udledes herfra af direktoren - klienten sender den ikke med.",
+      "properties": {
+        "maxFatiguePenalty": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "injuries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "penaltyContribution",
+              "healedBy"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Z0-9_]+$"
+              },
+              "penaltyContribution": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "blocksActions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "healedBy": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "additionalProperties": false

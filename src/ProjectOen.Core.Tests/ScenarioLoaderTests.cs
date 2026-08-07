@@ -150,7 +150,7 @@ namespace ProjectOen.Core.Tests
             d.Submit(new AdvancePhaseCommand("p3", 0));
 
             var produced = d.Submit(new CompleteInteractionStepCommand("s1", 0, action,
-                new OutcomeInput(0.9, 0.9, 0.9, 0)));
+                new ExecutionSample(0.9, 0.9)));
 
             Assert.Single(produced.OfType<ActionResolved>());
             Assert.NotEmpty(produced.OfType<ResourceChanged>());

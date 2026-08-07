@@ -18,13 +18,22 @@ namespace ProjectOen.Core.Scenario
         readonly List<ScenarioEvent> _journal = new List<ScenarioEvent>();
 
         readonly EffectTable? _effects;
+        readonly ConditionTable _conditions;
+        readonly IReadOnlyDictionary<string, ActionDefinition>? _actions;
 
-        public ScenarioDirector(ScenarioState state, OutcomeResolver? outcomes = null, EffectTable? effects = null)
+        public ScenarioDirector(ScenarioState state, OutcomeResolver? outcomes = null, EffectTable? effects = null,
+                                ConditionTable? conditions = null,
+                                IReadOnlyDictionary<string, ActionDefinition>? actions = null)
         {
             State = state ?? throw new ArgumentNullException(nameof(state));
             _outcomes = outcomes ?? new OutcomeResolver();
             _effects = effects;
+            _conditions = conditions ?? new ConditionTable();
+            _actions = actions;
         }
+
+        /// <summary>Ekstra modstand fra vejr og hAendelser. Saettes af scenariet, ikke af klienten.</summary>
+        public double ScenarioPenaltyModifier { get; set; }
 
         public ScenarioState State { get; }
 
@@ -138,7 +147,23 @@ namespace ProjectOen.Core.Scenario
                 return;
             }
 
-            var score = _outcomes.Score(cmd.Outcome);
+            var blocked = State.Players.Any(p => ConditionModel.IsBlockedFor(p, _conditions, cmd.ActionId));
+            if (blocked)
+            {
+                Reject(produced, cmd.CommandId, "BLOCKED_BY_INJURY",
+                    $"En skade forhindrer {cmd.ActionId}. Behandl den foerst.");
+                return;
+            }
+
+            // Kun de to maalte led kommer fra klienten. Resten udledes her.
+            var effortCost = _actions != null && _actions.TryGetValue(cmd.ActionId, out var def) ? def.EffortCost : 1;
+            var input = new OutcomeInput(
+                preparation: ConditionModel.PreparationFor(State, cmd.ActionId, effortCost),
+                physicalExecution: cmd.Execution.PhysicalExecution,
+                cooperation: cmd.Execution.Cooperation,
+                penalty: ConditionModel.PenaltyFor(State, _conditions, ScenarioPenaltyModifier));
+
+            var score = _outcomes.Score(input);
             var tier = _outcomes.Tier(score);
 
             State.CompletedActions.Add(cmd.ActionId);
@@ -157,6 +182,13 @@ namespace ProjectOen.Core.Scenario
                     produced.Add(e);
                 }
                 foreach (var tag in effect.AddTags) AddTag(tag, cmd.ActionId, produced);
+            }
+
+            // En gennemfoert behandling fjerner de skader, den helbreder.
+            foreach (var healed in ConditionModel.ApplyHealing(State, _conditions, cmd.ActionId))
+            {
+                Bump();
+                produced.Add(new InjuryHealed(healed, cmd.ActionId));
             }
         }
 

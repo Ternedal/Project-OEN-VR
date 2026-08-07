@@ -89,7 +89,7 @@ namespace ProjectOen.Core.Tests
             d.Submit(new AdvancePhaseCommand("a1", 0));   // Planning -> ResolvePlan
             d.Submit(new AdvancePhaseCommand("a2", 0));   // ResolvePlan -> ActionSequence
 
-            var input = new OutcomeInput(0.8, 0.8, 0.8, 0.0);
+            var input = new ExecutionSample(0.8, 0.8);
             var first = d.Submit(new CompleteInteractionStepCommand("s1", 0, "INT_A_001", input));
             var again = d.Submit(new CompleteInteractionStepCommand("s2", 1, "INT_A_001", input));
 

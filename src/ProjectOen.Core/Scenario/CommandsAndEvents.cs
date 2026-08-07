@@ -36,17 +36,39 @@ namespace ProjectOen.Core.Scenario
         public ConfirmPlanCommand(string commandId, int playerSlot) : base(commandId, playerSlot) { }
     }
 
+    /// <summary>
+    /// docs/07 afsnit 7: klienten sender intents, ikke faerdige resultater.
+    ///
+    /// Derfor baerer commanden KUN det, klienten alene kan maale: hvor godt sekvensen
+    /// blev udfoert fysisk, og hvor godt de to arbejdede sammen. Begge kommer fra
+    /// coop-solverens quality samples. Preparation og Penalty udleder direktoren af
+    /// autoritativ state - ellers ville klienten kunne fortaelle serveren, hvor haardt
+    /// den skulle straffes.
+    /// </summary>
     public sealed class CompleteInteractionStepCommand : ScenarioCommand
     {
-        public CompleteInteractionStepCommand(string commandId, int playerSlot, string actionId, OutcomeInput outcome)
+        public CompleteInteractionStepCommand(string commandId, int playerSlot, string actionId, ExecutionSample execution)
             : base(commandId, playerSlot)
         {
             ActionId = actionId;
-            Outcome = outcome;
+            Execution = execution;
         }
 
         public string ActionId { get; }
-        public OutcomeInput Outcome { get; }
+        public ExecutionSample Execution { get; }
+    }
+
+    /// <summary>Det maalte, ikke det vurderede. Begge vaerdier 0-1.</summary>
+    public readonly struct ExecutionSample
+    {
+        public ExecutionSample(double physicalExecution, double cooperation)
+        {
+            PhysicalExecution = physicalExecution;
+            Cooperation = cooperation;
+        }
+
+        public double PhysicalExecution { get; }
+        public double Cooperation { get; }
     }
 
     public sealed class ScheduleDelayedEventCommand : ScenarioCommand
