@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4 — 2026-08-08
+
+Bygget videre på Core (efter M0a). Første post-M0a-feature.
+
+- `src/ProjectOen.Core/Interaction/InteractionSequence.cs`: PO-040 — den authorbare coop-opgave-model. Primær/sekundær-roller, vægtede trin, deterministisk score i [0,1] der fødes til `OutcomeResolver.Tier`. Coop-præmissen håndhæves: en opgave løst af én spiller alene loftes ved `PartialWithCost` (CoopSoloCeiling). Content-validering fanger dårligt forfattede sekvenser ved indlæsning. **15 nye tests.** Grundlaget crafting-content (PO-042 shelter, PO-044 fire) bygger videre på.
+
 ## 2.3 — 2026-08-08
 
 M0a kørt og afgjort på hardware. Beslutning: **`DROP_Q1_RUNTIME`**.
