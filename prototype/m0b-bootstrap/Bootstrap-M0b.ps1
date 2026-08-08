@@ -49,7 +49,12 @@ Note "skrevet: $manifestDst (OpenXR + XRI + Input System)"
 Step "Kopierer Core-laget + asmdef"
 $coreDst = Join-Path $ProjectPath "Assets\ProjectOen\Core"
 New-Item -ItemType Directory -Force -Path $coreDst | Out-Null
-Copy-Item "$repo\src\ProjectOen.Core\*" $coreDst -Recurse -Force -Exclude "bin","obj","*.csproj"
+Copy-Item "$repo\src\ProjectOen.Core\*" $coreDst -Recurse -Force
+# -Exclude paa Copy-Item -Recurse ekskluderer ikke mapper paalideligt; repoet har en
+# committet bin\ProjectOen.Core.dll. Fjern build-artefakter EFTER kopiering, ellers ser
+# Unity baade en precompiled DLL og .cs-filerne -> dublette typer -> compile-fejl.
+Get-ChildItem $coreDst -Recurse -Directory | Where-Object { $_.Name -in @("bin","obj") } | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+Get-ChildItem $coreDst -Recurse -File | Where-Object { $_.Extension -in @(".csproj",".dll",".pdb") } | Remove-Item -Force -ErrorAction SilentlyContinue
 Copy-Item "$PSScriptRoot\templates\ProjectOen.Core.asmdef" (Join-Path $coreDst "ProjectOen.Core.asmdef") -Force
 Note "Core -> Assets\ProjectOen\Core (kompilerer uden Unity/Fusion-referencer)"
 
