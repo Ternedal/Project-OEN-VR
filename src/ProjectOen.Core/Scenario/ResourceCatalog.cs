@@ -19,7 +19,12 @@ namespace ProjectOen.Core.Scenario
         public const string Food = "food";
         public const string Herbs = "herbs";
 
-        public static readonly IReadOnlyCollection<string> Known = new[] { Wood, Fiber, Food, Herbs };
+        /// <summary>Ikke i docs/04's fire (træ/fiber/mad/urter), men brugt i det faktiske content
+        /// (stormnatten.scenario, savegame, recipe). Medtaget så kataloget matcher virkeligheden;
+        /// doc/content-uoverensstemmelsen er noteret til ejeren.</summary>
+        public const string Supplies = "supplies";
+
+        public static readonly IReadOnlyCollection<string> Known = new[] { Wood, Fiber, Food, Herbs, Supplies };
 
         static readonly HashSet<string> KnownSet = new HashSet<string>(Known, StringComparer.Ordinal);
 
