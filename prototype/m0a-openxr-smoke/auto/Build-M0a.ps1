@@ -69,26 +69,41 @@ Copy-Item "$PSScriptRoot\Editor\M0aBuild.cs"       $editor  -Force
 Note "SmokeTestHud.cs, BuildInfo.cs -> Assets\Scripts"
 Note "M0aBuild.cs -> Assets\Editor"
 
-# --- 4. Unity ---
-$method = if ($ConfigureOnly) { "M0aBuild.Configure" } else { "M0aBuild.ConfigureAndBuild" }
-Step "Koerer Unity ($method)"
-Note "Foerste koersel importerer pakker og kan tage 5-15 minutter. Log foelger nedenfor."
+# --- 4. Unity: Configure og Build i HVER SIN session ---
+# OpenXR skriver sine build-settings under Configure, men Unitys build-pipeline
+# loader dem foerst ved naeste domain-load. Bygger man i samme session som man
+# aktiverede OpenXR, fejler det med "OpenXR Settings found in project but not yet
+# loaded. Please build again." Derfor: Configure -> quit -> ny session -> Build.
 
 $log = Join-Path $PSScriptRoot "m0a-build.log"
+Step "Koerer Unity (M0aBuild.Configure)"
+Note "Foerste koersel importerer pakker og kan tage 5-15 minutter. Log foelger nedenfor."
 & $UnityPath -batchmode -quit -nographics `
     -projectPath $ProjectPath `
     -buildTarget Android `
-    -executeMethod $method `
+    -executeMethod M0aBuild.Configure `
     -logFile $log
-$unityExit = $LASTEXITCODE
+if ($LASTEXITCODE -ne 0) { throw "Unity Configure fejlede (exit $LASTEXITCODE). Se $log" }
+
+$buildLog = Join-Path $PSScriptRoot "m0a-build2.log"
+if (-not $ConfigureOnly) {
+    Step "Koerer Unity (M0aBuild.Build) i frisk session"
+    & $UnityPath -batchmode -quit -nographics `
+        -projectPath $ProjectPath `
+        -buildTarget Android `
+        -executeMethod M0aBuild.Build `
+        -logFile $buildLog
+}
 
 Step "Resultat"
-if (Test-Path $log) {
-    Select-String -Path $log -Pattern "\[M0A-SETUP\]" | ForEach-Object { Note $_.Line.Trim() }
-    $errors = Select-String -Path $log -Pattern "error CS|BuildFailedException|Exception:" | Select-Object -First 15
-    if ($errors) {
-        Write-Host "`nFejl fra Unity:" -ForegroundColor Red
-        $errors | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red }
+foreach ($l in @($log, $buildLog)) {
+    if (Test-Path $l) {
+        Select-String -Path $l -Pattern "\[M0A-SETUP\]" | ForEach-Object { Note $_.Line.Trim() }
+        $errors = Select-String -Path $l -Pattern "error CS|BuildFailedException|Exception:" | Select-Object -First 15
+        if ($errors) {
+            Write-Host "`nFejl fra Unity ($l):" -ForegroundColor Red
+            $errors | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red }
+        }
     }
 }
 
