@@ -85,6 +85,12 @@ namespace ProjectOen.Core.Scenario
                         problems.Add($"{action}/{tier}: tom effekt. docs/04 afsnit 9 forbyder 'ingen effekt'.");
                 }
             }
+            // PO-035: fang stavede-forkerte ressourcenøgler før de bliver til fantom-ressourcer.
+            var resourceKeys = _table.Values
+                .SelectMany(perTier => perTier.Values)
+                .SelectMany(effect => effect.ResourceDeltas.Keys);
+            problems.AddRange(ResourceCatalog.Validate(resourceKeys, "effects"));
+
             return problems;
         }
     }
