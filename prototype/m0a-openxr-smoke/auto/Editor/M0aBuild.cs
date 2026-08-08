@@ -147,8 +147,14 @@ public static class M0aBuild
         // Præcis to features er nødvendige for M0a: Quest-support (manifest og
         // runtime) og Oculus Touch-profilen (controllere). Feature-typenavnene
         // matches, så en omdøbt feature ikke vælter opsætningen.
+        // OpenXR instantierer sine per-buildtarget-settings dovent. RefreshFeatures
+        // tvinger dem frem, ellers er GetSettingsForBuildTargetGroup null lige efter
+        // loaderen er sat aktiv i samme session.
+        try { UnityEditor.XR.OpenXR.Features.FeatureHelpers.RefreshFeatures(BuildTargetGroup.Android); }
+        catch (Exception ex) { Log("OpenXR features", "RefreshFeatures: " + ex.Message); }
+
         var settings = OpenXRSettings.GetSettingsForBuildTargetGroup(BuildTargetGroup.Android);
-        if (settings == null) { Fail("OpenXR features", "kunne ikke hente Android OpenXR-settings."); return; }
+        if (settings == null) { Fail("OpenXR features", "OpenXR-settings for Android er null selv efter RefreshFeatures."); return; }
 
         string[] wanted = { "MetaQuest", "OculusTouch" };
         foreach (var feature in settings.GetFeatures())
