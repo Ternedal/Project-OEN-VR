@@ -2,9 +2,11 @@
 
 > Tekstbaseret source-of-truth-eksport fra `17_BACKLOG_AND_MILESTONES.xlsx`. Excel-filen er fortsat den praktiske tracker, men alle reviewkritiske opgaver er gengivet her.
 
-**Status ved review-behandling 2026-08-06:** 110 backlog-items · 1473 estimerede timer · 45 P0-items · alle står som `Not Started`.
+**Status ved review-behandling 2026-08-06:** 110 backlog-items · 1473 estimerede timer · 45 P0-items · alle står som `Not Started`. *(Opdateret 2026-08-08 efter M0a/DROP_Q1_RUNTIME: 3 Q1-items droppet, 18 t frigjort fra P0 → P0-sum 616 t.)*
 
 > **Ændret 2026-08-06 (CR-001, CR-005, CR-008, CR-010):** PO-017, PO-018, PO-019, PO-020, PO-022 og PO-025 er flyttet fra M2 til M0, så M0's gate kan bevises af M0's egne opgaver. Kolonnen `Gaveversion` er tilføjet: `In` = med i gaveversionen, `Out` = udenfor, `Defer` = efter v1.0. P0 er forudfyldt som `In`, fordi `docs/12` definerer P0 som releasekritisk. **P1 står som `TBD` og skal vælges af ejeren** — indtil da er 500-810 timer ikke et sporbart tal. Nye items: PO-000 (reviewbehandling) og PO-104 (lokalisering).
+
+> **Ændret 2026-08-08 (M0a-resultat, `DROP_Q1_RUNTIME`):** Quest 1 kører ikke OpenXR-runtimen (jf. `prototype/m0a-openxr-smoke/RESULTAT.md`). Q1-specifikke items droppet: **PO-004 (8 t) og PO-007 (10 t) fjernet fra P0/gaveversion → 18 t frigjort** (P0-sum 634 → 616 t), og **PO-098 (10 t, var TBD)** droppet. PO-025 reduceret til Q2↔Q3. Testplatform `Q1/Q2/Q3` i øvrige items læses nu som `Q2/Q3`. COMPAT-001 (Q1↔Q3) udgået.
 
 ## Epics
 
@@ -29,7 +31,7 @@
 
 | ID | Navn | Output | Est. timer | Exit gate | Disposition |
 | --- | --- | --- | --- | --- | --- |
-| M0 | Platform feasibility | Fælles code/content lane bevist | 60-100 | Q1-Q2 og Q2-Q3 box; 72 Hz minimal | Go/Redesign |
+| M0 | Platform feasibility | Fælles code/content lane bevist | 60-100 | Q2-Q3 box; 72 Hz minimal (Q1 udgået: DROP_Q1_RUNTIME) | Go/Redesign |
 | M1 | Interaction foundation | Komfortabel lokal VR-interaktion | 35-55 | 10x greb/snap/tohånd; seated | Go/Fix |
 | M2 | Multiplayer foundation | Stabil privat session og authority | 45-70 | 10 cycles; reconnect skeleton | Go/Redesign |
 | M3 | One-day prototype | Planlægning og én fuld dag | 55-85 | Ekstern test uden forklaring | Go/Cut |
@@ -51,7 +53,7 @@
 | SAVE-001 | Delayed event resume | All | Save efter schedule | Trigger præcis én gang | M4 |
 | DEV-001 | Standby | Q1/Q2/Q3 | Sleep i tre faser | Kontrolleret resume | M6 |
 | PERF-001 | Storm soak | Q2 | 20 minutter | 72 Hz target; no leak | M5 |
-| COMPAT-001 | Q1-Q3 cross-play | Q1↔Q3 | Join/interaction/checkpoint | Samme protocol/content | M0/M9 |
+| ~~COMPAT-001~~ | ~~Q1-Q3 cross-play~~ UDGÅET (DROP_Q1_RUNTIME) | – | – | dækkes af COMPAT-002 (Q2↔Q3) | – |
 | CONTENT-001 | Missing private asset | All | Asset mangler | Neutral fallback | M8 |
 | UX-001 | No-help onboarding | Human | Nye spillere | Mål forstået <4 min | M6 |
 | UX-002 | Active participation | Human | Observer action time | Begge aktive ≥70% | M6 |
@@ -81,10 +83,10 @@
 | PO-001 | E00 | Spike | Pin Unity editor candidate | M0 | P0 | In | Not Started | 6 |  | Q1/Q2/Q3 | Version og lockfiles committed |
 | PO-002 | E00 | Spike | Konfigurer Android IL2CPP ARM64 og OpenXR | M0 | P0 | In | Not Started | 6 | 1 | Q1/Q2/Q3 | Tom APK starter og viser tracking |
 | PO-003 | E00 | Story | Implementér BuildInfo og platformdetektion | M0 | P1 | TBD | Not Started | 5 | 1 | All | Build viser version, profile, device og protocol |
-| PO-004 | E00 | Spike | Opret Q1_LEGACY buildprofil | M0 | P0 | In | Not Started | 8 | 2 | Q1 | Signeret APK starter fysisk |
+| PO-004 | E00 | Spike | ~~Opret Q1_LEGACY buildprofil~~ DROPPET | M0 | P0 | Out | Dropped (DROP_Q1_RUNTIME 08-08) | 8 | 2 | Q1 | Q1 kører ikke OpenXR — 8 t frigjort |
 | PO-005 | E00 | Spike | Opret Q2_BASE buildprofil | M0 | P0 | In | Not Started | 5 | 2 | Q2 | Tom scene holder 72 Hz |
 | PO-006 | E00 | Spike | Opret Q3_ENHANCED buildprofil | M0 | P1 | TBD | Not Started | 5 | 2 | Q3 | Samme gameplay flags og forbedret quality |
-| PO-007 | E00 | Spike | Sammenlign Vulkan/GLES3 på Quest 1 | M0 | P0 | In | Not Started | 10 | 4 | Q1 | Stability og frame timing dokumenteret |
+| PO-007 | E00 | Spike | ~~Sammenlign Vulkan/GLES3 på Quest 1~~ DROPPET | M0 | P0 | Out | Dropped (DROP_Q1_RUNTIME 08-08) | 10 | 4 | Q1 | Betinget af Q1-lanen — 10 t frigjort. Q2 bekræftet på Vulkan |
 | PO-008 | E00 | Decision | Fastlås package compatibility matrix | M0 | P0 | In | Not Started | 6 | 4,5,6 | Q1/Q2/Q3 | ADR og compatibility matrix opdateret |
 | PO-009 | E01 | Story | XR Origin og gulvkalibrering | M1 | P1 | TBD | Not Started | 8 | 2 | Q1/Q2/Q3 | Stående/siddende kan kalibreres |
 | PO-010 | E01 | Story | Teleport locomotion | M1 | P1 | TBD | Not Started | 6 | 9 | All | Teleport er stabil og bounded |
@@ -102,7 +104,7 @@
 | PO-022 | E02 | Story | CoopObjectController | M0 | P0 | In | Not Started | 24 | 14,20 | Cross-device | To hand targets styrer tung kasse |
 | PO-023 | E02 | Story | Scenario coordinator election | M2 | P0 | In | Not Started | 12 | 17 | Network | Coordinator kendt og kan håndteres ved loss |
 | PO-024 | E02 | Tooling | Network debug panel | M2 | P1 | TBD | Not Started | 8 | 17 | All | Ping, region, authority og revision vises |
-| PO-025 | E02 | QA | 10x Q1-Q2/Q2-Q3 box test | M0 | P0 | In | Not Started | 12 | 22 | Cross-device | Ingen permanent desync |
+| PO-025 | E02 | QA | 10x Q2-Q3 box test | M0 | P0 | In | Not Started | 12 | 22 | Cross-device | Ingen permanent desync (Q1 udgået) |
 | PO-026 | E02 | QA | Packet loss og latency test | M2 | P1 | TBD | Not Started | 10 | 22 | Network | Spilbart ved 120 ms |
 | PO-027 | E03 | Story | ScenarioDirector state machine | M3 | P0 | In | Not Started | 16 | 24 | All | Kun director kan skifte fase |
 | PO-028 | E03 | Story | Gameplay commands/domain events | M3 | P1 | TBD | Not Started | 12 | 27 | All | Commands valideres og events logges |
@@ -175,7 +177,7 @@
 | PO-095 | E12 | Build | Automated build metadata | M0 | P1 | TBD | Not Started | 8 | 3 | All | Commit/profile/hash i build |
 | PO-096 | E12 | Build | Signing og keystore backup | M8 | P0 | In | Not Started | 8 | 5 | All | Release key backup testet |
 | PO-097 | E12 | Release | Alpha release channel flow | M8 | P1 | TBD | Not Started | 10 | 90 | Q2/Q3 | Q2/3 private install/update |
-| PO-098 | E12 | QA | Quest 1 sideload-guide | M8 | P1 | TBD | Not Started | 10 | 4 | Q1 | Ikke-udvikler installerer build |
+| PO-098 | E12 | QA | ~~Quest 1 sideload-guide~~ DROPPET | M8 | P1 | Out | Dropped (DROP_Q1_RUNTIME 08-08) | 10 | 4 | Q1 | Kun relevant hvis frossen Q1-demo genoptages |
 | PO-099 | E12 | Tooling | Local log export | M6 | P1 | TBD | Not Started | 8 | 25 | All | Logs uden private data |
 | PO-100 | E12 | Release | Build artifact/rollback archive | M9 | P0 | In | Not Started | 8 | 91,92 | All | APK, symbols, locks og notes |
 | PO-101 | E13 | QA | EditMode core test suite | M0 | P1 | TBD | Not Started | 12 | 1 | Automated | Baseline tests grønne |

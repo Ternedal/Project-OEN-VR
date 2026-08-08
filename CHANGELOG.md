@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.3 — 2026-08-08
+
+M0a kørt og afgjort på hardware. Beslutning: **`DROP_Q1_RUNTIME`**.
+
+- Hele M0a-kæden kørt headless + on-device. Fem reelle fejl fundet og rettet på vejen: `manifest.json` UTF-8 BOM → ASCII; `M0aBuild.cs` CS1503-cast; reflection-XR-opsætning omskrevet til direkte, compile-tjekkede XR Management/OpenXR-kald (oprettede aldrig `XRManagerSettings` før → NullReference); Configure og Build splittet i hver sin Unity-session ("OpenXR Settings not yet loaded"); Windows Smart App Control blokerede Unitys Bee-DLL (`0x800711C7`, slået fra af ejer).
+- **Quest 2:** samme OpenXR-APK kører immersivt, head-tracking `valid=True tracked=True`, 71,8 fps, Vulkan.
+- **Quest 1:** deterministisk native crash — SIGABRT i `libopenxr_loader.so` kaldt fra `libUnityOpenXR.so` under XR-opstart, før første frame (to forsøg, tombstone). Unitys OpenXR-provider kan ikke initialisere mod Q1's frosne v50-runtime.
+- **Beslutning `DROP_Q1_RUNTIME`** dokumenteret i `prototype/m0a-openxr-smoke/RESULTAT.md`. Lukker den åbne halvdel af CR-002.
+- Konsekvens indarbejdet i baseline: ADR-004 superseded, ADR-018 resolved, ADR-019 accepted (docs/18); `Q1_LEGACY` arkiveret (docs/08); Q1 fjernet fra device-matrix + COMPAT-001 udgået (docs/13); PO-004/PO-007/PO-098 droppet og 18 t frigjort fra P0, PO-025 reduceret til Q2↔Q3 (docs/17).
+- `M0a`-automatisering committet som durable: `Build-M0a.ps1` (ASCII-manifest + Configure/Build i to sessioner) og den omskrevne `M0aBuild.cs`.
+
 ## 2.2 — 2026-08-07
 
 Core-lag bygget og bevist, mens M0a venter på hardware.

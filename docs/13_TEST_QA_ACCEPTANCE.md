@@ -5,19 +5,21 @@
 1. **EditMode:** pure state, event conditions, save migration, validators.
 2. **PlayMode:** phase flow, interactions, local multiplayer simulation.
 3. **Network integration:** to Unity instances og packet simulation.
-4. **Physical device:** Quest 1/2/3.
+4. **Physical device:** Quest 2/3. *(Quest 1 udgået jf. `DROP_Q1_RUNTIME`, M0a 2026-08-08 — kun evt. frossen sideload-demo.)*
 5. **Human playtest:** usability, cooperation, comfort and fun.
 
 ## Device matrix
 
-| Test | Q1 | Q2 | Q3 | Cross-device |
-|---|---:|---:|---:|---:|
-| Boot/input | Hver milestone | Hver build | Hver milestone | - |
-| Full scenario | RC | Hver RC | Hver RC | Q1↔Q2, Q2↔Q3 |
-| Performance | Legacy smoke | Autoritativ | Regression/enhanced | - |
-| Reconnect | M2+ | M2+ | M2+ | Ja |
-| Standby | M2+ | M2+ | M2+ | Ja |
-| Save/resume | M3+ | M3+ | M3+ | Ja |
+> Quest 1-kolonnen er fjernet jf. `DROP_Q1_RUNTIME` (M0a 2026-08-08). Cross-device er nu Q2↔Q3.
+
+| Test | Q2 | Q3 | Cross-device |
+|---|---:|---:|---:|
+| Boot/input | Hver build | Hver milestone | - |
+| Full scenario | Hver RC | Hver RC | Q2↔Q3 |
+| Performance | Autoritativ | Regression/enhanced | - |
+| Reconnect | M2+ | M2+ | Ja |
+| Standby | M2+ | M2+ | Ja |
+| Save/resume | M3+ | M3+ | Ja |
 
 ## Bug severity
 
@@ -120,15 +122,15 @@ Skrivning afbrydes (fuld disk eller proceskill) midt i checkpoint. Forrige check
 
 ### COMPAT-002 Klokkeskævt content hash
 
-Q1-build med ældre content hash mod Q3-build med nyere. Sessionen skal afvises tydeligt før spawn, ikke fejle undervejs.
+Build med ældre content hash mod build med nyere (Q2↔Q3). Sessionen skal afvises tydeligt før spawn, ikke fejle undervejs.
 
 ### CONTENT-001 Missing personalization asset
 
 Manglende/korrupt billede eller lyd bruger neutral fallback uden crash.
 
-### COMPAT-001 Q1-Q3
+### ~~COMPAT-001 Q1-Q3~~ — UDGÅET 2026-08-08 (`DROP_Q1_RUNTIME`)
 
-Q1 legacy build joiner Q3 enhanced build med samme protocol/content hash og gennemfører fælles interaction.
+Q1↔Q3 cross-play er ikke længere relevant: Q1 kører ikke OpenXR-runtimen. Cross-play dækkes af COMPAT-002 (Q2↔Q3).
 
 ## Playtest-protokol
 

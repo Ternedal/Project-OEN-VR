@@ -63,15 +63,13 @@ Dette skal fysisk valideres. Dokumentationen alene er ikke bevis for, at en best
 
 ## 3. Buildprofiler
 
-### `Q1_LEGACY`
+### `Q1_LEGACY` — ARKIVERET 2026-08-08 (`DROP_Q1_RUNTIME`)
 
-- Target: Quest 1.
-- 72 Hz.
-- Conservative render scale.
-- No dynamic shadows eller max én lille hovedshadow.
-- Low particles/vegetation/audio voices.
-- Older compatible XR provider/package lane hvis nødvendigt.
-- Sideload-only.
+> **Ikke en aktiv buildprofil.** M0a viste, at Unitys OpenXR-provider crasher på Quest 1's v50-runtime (native SIGABRT i `libopenxr_loader.so`, jf. `prototype/m0a-openxr-smoke/RESULTAT.md`). Q1 bevares udelukkende som en **frossen sideload-only demo-plan** — der bygges ingen Quest 1-lane i hovedprojektet. Aktive profiler er `Q2_BASE` og `Q3_ENHANCED`.
+
+Historisk profiludkast (arkiveret):
+
+- Target: Quest 1. 72 Hz. Conservative render scale. No dynamic shadows. Low particles/vegetation/audio. Sideload-only.
 
 ### `Q2_BASE`
 
