@@ -398,6 +398,135 @@
           }
         }
       }
+    },
+    "storm": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Stormens komplikationer. Udvaelgelsen er deterministisk - stormen laeser lejrens tilstand, den kaster ikke terninger.",
+      "required": [
+        "complications"
+      ],
+      "properties": {
+        "maxSimultaneous": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "complications": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "severity",
+              "effect"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^STM_[A-Z0-9_]+_[0-9]{3}$"
+              },
+              "severity": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5
+              },
+              "isBaseline": {
+                "type": "boolean"
+              },
+              "requiredTags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "forbiddenTags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "campConditions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "field",
+                    "comparison",
+                    "threshold"
+                  ],
+                  "properties": {
+                    "field": {
+                      "enum": [
+                        "shelterIntegrity",
+                        "fireStrength",
+                        "foodSecurity",
+                        "signalProgress",
+                        "campThreat"
+                      ]
+                    },
+                    "comparison": {
+                      "enum": [
+                        "atMost",
+                        "atLeast"
+                      ]
+                    },
+                    "threshold": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "effect": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "resourceDeltas": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "integer"
+                    }
+                  },
+                  "campDeltas": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "integer"
+                    },
+                    "propertyNames": {
+                      "enum": [
+                        "shelterIntegrity",
+                        "fireStrength",
+                        "foodSecurity",
+                        "signalProgress",
+                        "campThreat"
+                      ]
+                    }
+                  },
+                  "addTags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "removeTags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "fatigueCost": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "additionalProperties": false

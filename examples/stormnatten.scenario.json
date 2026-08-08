@@ -481,5 +481,98 @@
         ]
       }
     ]
+  },
+  "storm": {
+    "maxSimultaneous": 3,
+    "complications": [
+      {
+        "id": "STM_WIND_SURGE_001",
+        "severity": 1,
+        "isBaseline": true,
+        "effect": {
+          "campDeltas": {
+            "shelterIntegrity": -5
+          },
+          "fatigueCost": 5
+        }
+      },
+      {
+        "id": "STM_ROOF_TEAR_002",
+        "severity": 4,
+        "campConditions": [
+          {
+            "field": "shelterIntegrity",
+            "comparison": "atMost",
+            "threshold": 40
+          }
+        ],
+        "effect": {
+          "campDeltas": {
+            "shelterIntegrity": -20
+          },
+          "addTags": [
+            "ROOF_OPEN"
+          ],
+          "fatigueCost": 12
+        }
+      },
+      {
+        "id": "STM_FIRE_OUT_003",
+        "severity": 3,
+        "campConditions": [
+          {
+            "field": "fireStrength",
+            "comparison": "atMost",
+            "threshold": 25
+          }
+        ],
+        "effect": {
+          "campDeltas": {
+            "fireStrength": -25
+          },
+          "addTags": [
+            "FIRE_LOST"
+          ],
+          "fatigueCost": 8
+        }
+      },
+      {
+        "id": "STM_ANIMAL_RETURN_004",
+        "severity": 2,
+        "requiredTags": [
+          "SCENT_HIGH"
+        ],
+        "effect": {
+          "campDeltas": {
+            "campThreat": 15,
+            "foodSecurity": -15
+          },
+          "fatigueCost": 10
+        }
+      },
+      {
+        "id": "STM_SIGNAL_MAST_005",
+        "severity": 5,
+        "campConditions": [
+          {
+            "field": "signalProgress",
+            "comparison": "atLeast",
+            "threshold": 60
+          }
+        ],
+        "forbiddenTags": [
+          "MAST_SECURED"
+        ],
+        "effect": {
+          "campDeltas": {
+            "signalProgress": -30
+          },
+          "addTags": [
+            "MAST_DAMAGED"
+          ],
+          "fatigueCost": 15
+        }
+      }
+    ]
   }
 }

@@ -120,7 +120,12 @@ namespace ProjectOen.Core.Scenario
         public const int CampMin = 0;
         public const int CampMax = 100;
 
-        public static IReadOnlyList<ScenarioEvent> Apply(ScenarioState state, ActionEffect effect, int[] participants)
+        /// <param name="sourceId">
+        /// Hvad der forAarsagede effekten - en handling eller en stormkomplikation.
+        /// Uden den kan efterspilsrapporten ikke pege paa en aarsag.
+        /// </param>
+        public static IReadOnlyList<ScenarioEvent> Apply(ScenarioState state, ActionEffect effect, int[] participants,
+                                                         string sourceId = "")
         {
             var events = new List<ScenarioEvent>();
 
@@ -149,6 +154,14 @@ namespace ProjectOen.Core.Scenario
             }
 
             foreach (var tag in effect.RemoveTags) state.Tags.Remove(tag);
+
+            // Symmetrisk med RemoveTags. Tidligere tilfoejede applier'en ikke tags,
+            // saa en effekt anvendt uden for direktoren tabte dem stiltiende.
+            foreach (var tag in effect.AddTags)
+            {
+                if (state.Tags.Add(tag))
+                    events.Add(new CampTagAdded(tag, sourceId, state.Day));
+            }
 
             return events;
         }

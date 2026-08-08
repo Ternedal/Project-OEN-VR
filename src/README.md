@@ -10,7 +10,7 @@ Filerne flyttes 1:1 til `Assets/ProjectOen/Scripts/Core/` med en asmdef, når M0
 dotnet test src/ProjectOen.Core.Tests/ProjectOen.Core.Tests.csproj
 ```
 
-Seneste kørsel i sandbox: **129 passed, 0 failed.**
+Seneste kørsel i sandbox: **140 passed, 0 failed.**
 
 De kører nu også i CI på hvert push — se `.github/workflows/core-tests.yml`. Indtil det job fandtes, beskyttede testsuiten ingenting mellem mine egne kørsler.
 
@@ -28,6 +28,7 @@ De kører nu også i CI på hvert push — se `.github/workflows/core-tests.yml`
 | `Scenario/ActionEffects.cs` | Udfald → ressourcer, lejrstatus og tags. Envejs: effekten kan aldrig ændre udfaldet |
 | `Scenario/ScenarioLoader.cs` | JSON → kørende scenario. Bindeleddet mellem data og alle de data-drevne systemer |
 | `Scenario/Conditions.cs` | Skader og træthed. Modstand og forberedelse udledes af autoritativ state, ikke af klienten |
+| `Scenario/Storm.cs` | Stormens komplikationer. Deterministisk udvælgelse med loft og reserveret plads til optjente konsekvenser |
 | `Scenario/ScenarioModel.cs` | Faser, lejr-, spiller- og scenariostate, indsatsøkonomi, delayed event queue |
 | `Scenario/CommandsAndEvents.cs` | Command/event-mønstret fra `docs/06` §6. Klienten sender intents, aldrig resultater |
 | `Scenario/ScenarioDirector.cs` | Fasemaskinen. Kun den må skifte fase. Idempotens via command-ID |

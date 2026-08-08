@@ -12,7 +12,7 @@ namespace ProjectOen.Core.Scenario
             OutcomeThresholds thresholds,
             IReadOnlyList<ScenarioOutcomeRules.Rule> winRules,
             IReadOnlyList<ScenarioOutcomeRules.Rule> loseRules,
-            ConditionTable conditions)
+            ConditionTable conditions, StormCatalog storm)
         {
             Id = id;
             SupportedBuildProtocol = supportedBuildProtocol;
@@ -23,6 +23,7 @@ namespace ProjectOen.Core.Scenario
             WinRules = winRules;
             LoseRules = loseRules;
             Conditions = conditions;
+            Storm = storm;
         }
 
         public string Id { get; }
@@ -34,6 +35,7 @@ namespace ProjectOen.Core.Scenario
         public IReadOnlyList<ScenarioOutcomeRules.Rule> WinRules { get; }
         public IReadOnlyList<ScenarioOutcomeRules.Rule> LoseRules { get; }
         public ConditionTable Conditions { get; }
+        public StormCatalog Storm { get; }
 
         public OutcomeResolver CreateResolver() => new OutcomeResolver(Thresholds);
     }
@@ -142,6 +144,9 @@ namespace ProjectOen.Core.Scenario
                     problems.Add($"conditions/{injury.Id}: healedBy peger paa ukendt handling '{healer}'.");
             }
 
+            var storm = ReadStorm(json, problems);
+            problems.AddRange(storm.Validate());
+
             var thresholds = ReadThresholds(json, problems);
             var winRules = ReadRules(json, "winRules");
             var loseRules = ReadRules(json, "loseRules");
@@ -152,7 +157,48 @@ namespace ProjectOen.Core.Scenario
                 (string)json["id"]!,
                 Convert.ToInt32(json["supportedBuildProtocol"]),
                 json.TryGetValue("contentVersion", out var cv) ? cv as string ?? "" : "",
-                actions, effects, thresholds, winRules, loseRules, conditions);
+                actions, effects, thresholds, winRules, loseRules, conditions, storm);
+        }
+
+        static StormCatalog ReadStorm(IDictionary<string, object?> json, List<string> problems)
+        {
+            var catalog = new StormCatalog();
+            if (!json.TryGetValue("storm", out var raw) || !(raw is IDictionary<string, object?> map))
+            {
+                problems.Add("Scenariet mangler 'storm'.");
+                return catalog;
+            }
+
+            if (map.TryGetValue("maxSimultaneous", out var ms) && ms != null)
+                catalog.MaxSimultaneous = Convert.ToInt32(ms);
+
+            if (!map.TryGetValue("complications", out var rawList) || !(rawList is IEnumerable<object?> list))
+                return catalog;
+
+            foreach (var entry in list.OfType<IDictionary<string, object?>>())
+            {
+                var conditions = new List<CampCondition>();
+                if (entry.TryGetValue("campConditions", out var rawConds) && rawConds is IEnumerable<object?> conds)
+                {
+                    foreach (var c in conds.OfType<IDictionary<string, object?>>())
+                    {
+                        conditions.Add(new CampCondition(
+                            Str(c, "field"),
+                            Str(c, "comparison") == "atLeast" ? CampComparison.AtLeast : CampComparison.AtMost,
+                            Int(c, "threshold", 0)));
+                    }
+                }
+
+                catalog.Add(new StormComplication(
+                    Str(entry, "id"),
+                    Int(entry, "severity", 1),
+                    ReadEffect(entry.TryGetValue("effect", out var e) ? e : null),
+                    conditions,
+                    ReadStrings(entry, "requiredTags"),
+                    ReadStrings(entry, "forbiddenTags"),
+                    entry.TryGetValue("isBaseline", out var b) && b is bool flag && flag));
+            }
+            return catalog;
         }
 
         static ConditionTable ReadConditions(IDictionary<string, object?> json)

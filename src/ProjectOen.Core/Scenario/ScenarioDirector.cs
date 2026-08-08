@@ -176,12 +176,13 @@ namespace ProjectOen.Core.Scenario
             var effect = _effects?.Lookup(cmd.ActionId, tier);
             if (effect != null)
             {
-                foreach (var e in EffectApplier.Apply(State, effect, new[] { 0, 1 }))
+                // Applier'en ejer hele effekten inkl. tags, saa der findes én vej ind
+                // i state og ét journaliseringspunkt.
+                foreach (var e in EffectApplier.Apply(State, effect, new[] { 0, 1 }, cmd.ActionId))
                 {
                     Bump();
                     produced.Add(e);
                 }
-                foreach (var tag in effect.AddTags) AddTag(tag, cmd.ActionId, produced);
             }
 
             // En gennemfoert behandling fjerner de skader, den helbreder.

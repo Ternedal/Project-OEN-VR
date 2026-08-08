@@ -84,3 +84,41 @@ En test skulle bekræfte det, hele coop-mekanikken hviler på: at den tunge kass
 ## Mønsteret er værd at bemærke
 
 To gange på én dag har en test modsagt et dokument, som var skrevet med omhu. Begge gange var fejlen usynlig ved gennemlæsning og åbenlys ved måling. Det er argumentet for, at Core-laget er rent C# og testbart uden headset: de her fejl ville ellers først være dukket op på en Quest, midt i en playtest, uden nogen der kunne pege på årsagen.
+
+---
+
+# Tillæg 2: stormen skar den optjente konsekvens væk
+
+**Dato:** 2026-08-07 · **Kilde:** `src/ProjectOen.Core.Tests/StormTests.cs`
+
+Stormen har et loft på tre samtidige komplikationer — uden det giver en dårlig gennemgang en uspillelig ophobning i et 12-16 minutters vindue. Loftet skar efter severity: værst først.
+
+En test af, at hver komplikation bærer sin årsag, afslørede konsekvensen. I værste tilfælde valgte stormen:
+
+```
+STM_SIGNAL_MAST_005 (sev 5) <- signalProgress 80 >= 60
+STM_ROOF_TEAR_002   (sev 4) <- shelterIntegrity 20 <= 40
+STM_FIRE_OUT_003    (sev 3) <- fireStrength 10 <= 25
+```
+
+`STM_ANIMAL_RETURN_004` — dyret der vender tilbage, fordi maden blev efterladt åben på dag 1 — blev skåret væk. Den har severity 2.
+
+Det er ikke tilfældigt. **Tag-drevne komplikationer sporer tilbage til en konkret spillerbeslutning, og de har systematisk lavere severity end strukturelle svigt.** Et rent severity-loft skærer derfor netop de konsekvenser væk, spillerne selv har optjent. Stormen ville vise generiske katastrofer og skjule den ene ting, hele scenariet har bygget op til.
+
+**Rettelse:** mindst én plads reserveres til en tag-drevet komplikation, når en sådan kvalificerer sig. Samme værste tilfælde giver nu:
+
+```
+STM_SIGNAL_MAST_005 (sev 5) <- signalProgress 80 >= 60
+STM_ROOF_TEAR_002   (sev 4) <- shelterIntegrity 20 <= 40
+STM_ANIMAL_RETURN_004 (sev 2) <- SCENT_HIGH
+```
+
+## Sidefund: EffectApplier var asymmetrisk
+
+Den samme testrunde viste, at `EffectApplier` håndterede `RemoveTags`, men ikke `AddTags` — tags blev tilføjet af direktoren, fordi de skulle bære proveniens. En effekt anvendt uden for direktoren, som en stormkomplikation, tabte derfor sine tags stiltiende.
+
+Rettet: applier'en tager en `sourceId` og ejer hele effekten. Én vej ind i state, ét journaliseringspunkt.
+
+## Fjerde gang
+
+Det er nu fire fund fra tests mod dokumenter og kode, der så rigtige ud: udfaldsformlens klumpning, coop-solverens hastighedsloft, dobbelt-journaliseringen, klientens kontrol over sin egen straf — og nu stormens prioritering. Ingen af dem var synlige ved gennemlæsning.
