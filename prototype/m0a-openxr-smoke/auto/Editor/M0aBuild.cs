@@ -1,14 +1,14 @@
-// UNVERIFIED-IN-SANDBOX
-// Ikke kompileret. Ingen Unity Editor i skrivemiljøet.
+// M0a headless build/config for Project Øen.
 //
 // Formål: gøre hele M0a-opsætningen headless, så Anders kører én kommando i
 // stedet for at klikke gennem tyve trin. Hvert trin logger sit resultat, så en
 // fejl kan isoleres uden at gætte.
 //
-// XR-konfigurationen er den skrøbelige del: API'et har flyttet sig mellem
-// Unity-versioner. Features slås derfor til ved NAVNEMATCH frem for ved hårde
-// typereferencer — så scriptet kompilerer, selv hvis en type er flyttet, og
-// fortæller hvad den fandt i stedet for at fejle ved compile.
+// XR-opsætningen bruger DIREKTE, compile-tjekkede kald mod XR Management +
+// OpenXR (projektet er låst til Unity 6000.4.10f1 med com.unity.xr.management
+// 4.5.0 og com.unity.xr.openxr 1.14.3). Den tidligere reflection-udgave kaldte
+// et GetOrCreate(BuildTargetGroup), der ikke findes i 4.x, og oprettede aldrig
+// XRManagerSettings når den var null → NullReference under opsætningen.
 
 using System;
 using System.IO;
@@ -16,14 +16,19 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEditor.SceneManagement;
+using UnityEditor.XR.Management;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.Management;
+using UnityEngine.XR.OpenXR;
 
 public static class M0aBuild
 {
     const string SceneDir = "Assets/Scenes";
     const string ScenePath = SceneDir + "/Smoke.unity";
+    const string XrAssetDir = "Assets/XR";
+    const string XrAssetPath = XrAssetDir + "/XRGeneralSettings.asset";
 
     static void Log(string step, string result) => Debug.Log($"[M0A-SETUP] {step}: {result}");
     static void Fail(string step, string why) => Debug.LogError($"[M0A-SETUP] {step}: FEJL — {why}");
@@ -69,99 +74,94 @@ public static class M0aBuild
 
     static void ConfigureXR()
     {
-        // XR Plug-in Management og OpenXR-loaderen slås til via reflection, fordi
-        // typenavnene og assembly-placeringen har ændret sig mellem versioner.
-        // Et navnematch der fejler giver en tydelig besked; en hård typereference
-        // ville give en compile-fejl og stoppe hele scriptet.
         try
         {
-            var mgmtType = FindType("UnityEditor.XR.Management.XRGeneralSettingsPerBuildTarget");
-            var settingsKeyType = FindType("UnityEngine.XR.Management.XRGeneralSettings");
-            if (mgmtType == null || settingsKeyType == null)
+            var perTarget = GetOrCreatePerBuildTarget();
+
+            var general = perTarget.SettingsForBuildTarget(BuildTargetGroup.Android);
+            if (general == null)
             {
-                Fail("XR Management", "pakken com.unity.xr.management blev ikke fundet. Er manifest.json korrekt?");
-                return;
+                general = ScriptableObject.CreateInstance<XRGeneralSettings>();
+                general.name = "Android XR Settings";
+                perTarget.SetSettingsForBuildTarget(BuildTargetGroup.Android, general);
+                AssetDatabase.AddObjectToAsset(general, perTarget);
+                Log("XR Management", "oprettede Android XRGeneralSettings");
             }
 
-            var key = (string)settingsKeyType.GetField("k_SettingsKey").GetValue(null);
-            object perTarget = null;
-            var tryGet = typeof(EditorBuildSettings).GetMethods()
-                .First(m => m.Name == "TryGetConfigObject" && m.IsGenericMethod)
-                .MakeGenericMethod(mgmtType);
-            var args = new object[] { key, null };
-            var found = (bool)tryGet.Invoke(null, args);
-            perTarget = args[1];
-
-            if (!found || perTarget == null)
+            var manager = general.Manager;
+            if (manager == null)
             {
-                var asset = ScriptableObject.CreateInstance(mgmtType);
-                if (!Directory.Exists("Assets/XR")) Directory.CreateDirectory("Assets/XR");
-                AssetDatabase.CreateAsset(asset, "Assets/XR/XRGeneralSettingsPerBuildTarget.asset");
-                EditorBuildSettings.AddConfigObject(key, asset, true);
-                perTarget = asset;
-                Log("XR Management", "oprettede settings-asset");
+                manager = ScriptableObject.CreateInstance<XRManagerSettings>();
+                manager.name = "XR Manager";
+                general.Manager = manager;
+                AssetDatabase.AddObjectToAsset(manager, perTarget);
+                Log("XR Management", "oprettede XRManagerSettings");
             }
 
-            var getOrCreate = mgmtType.GetMethod("GetOrCreate", new[] { typeof(BuildTargetGroup) });
-            var general = getOrCreate.Invoke(perTarget, new object[] { BuildTargetGroup.Android });
-
-            var managerProp = general.GetType().GetProperty("Manager")
-                              ?? general.GetType().GetProperty("AssignedSettings");
-            var manager = managerProp.GetValue(general);
-
-            var loaderType = FindType("UnityEngine.XR.OpenXR.OpenXRLoader");
-            if (loaderType == null)
+            bool hasOpenXR = manager.activeLoaders.Any(l => l is OpenXRLoader);
+            if (!hasOpenXR)
             {
-                Fail("OpenXR", "com.unity.xr.openxr blev ikke fundet.");
-                return;
+                var loader = ScriptableObject.CreateInstance<OpenXRLoader>();
+                loader.name = "OpenXR Loader";
+                AssetDatabase.AddObjectToAsset(loader, perTarget);
+                bool added = manager.TryAddLoader(loader);
+                Log("OpenXR loader", added ? "tilføjet som aktiv loader for Android" : "TryAddLoader gav false");
+            }
+            else
+            {
+                Log("OpenXR loader", "allerede aktiv");
             }
 
-            var loader = ScriptableObject.CreateInstance(loaderType);
-            AssetDatabase.CreateAsset(loader, "Assets/XR/OpenXRLoader.asset");
+            EditorUtility.SetDirty(perTarget);
+            EditorUtility.SetDirty(general);
+            EditorUtility.SetDirty(manager);
+            AssetDatabase.SaveAssets();
 
-            var tryAdd = manager.GetType().GetMethod("TryAddLoader");
-            if (tryAdd != null)
-            {
-                var ok = (bool)tryAdd.Invoke(manager, new object[] { loader, -1 });
-                Log("OpenXR loader", ok ? "tilføjet til Android" : "kunne ikke tilføjes");
-            }
-
-            EditorUtility.SetDirty((UnityEngine.Object)manager);
             EnableOpenXRFeatures();
+            Log("XR", "OpenXR sat op for Android");
         }
         catch (Exception ex)
         {
-            Fail("XR-opsætning", ex.Message + "\nSlå den til manuelt: Project Settings → XR Plug-in Management → Android → OpenXR.");
+            Fail("XR-opsætning", ex.GetType().Name + ": " + ex.Message +
+                "\nSlå den til manuelt: Project Settings → XR Plug-in Management → Android → OpenXR.");
         }
+    }
+
+    static XRGeneralSettingsPerBuildTarget GetOrCreatePerBuildTarget()
+    {
+        XRGeneralSettingsPerBuildTarget perTarget;
+        EditorBuildSettings.TryGetConfigObject(XRGeneralSettings.k_SettingsKey, out perTarget);
+        if (perTarget == null)
+        {
+            perTarget = ScriptableObject.CreateInstance<XRGeneralSettingsPerBuildTarget>();
+            if (!Directory.Exists(XrAssetDir)) Directory.CreateDirectory(XrAssetDir);
+            AssetDatabase.CreateAsset(perTarget, XrAssetPath);
+            EditorBuildSettings.AddConfigObject(XRGeneralSettings.k_SettingsKey, perTarget, true);
+            Log("XR Management", "oprettede per-build-target asset");
+        }
+        return perTarget;
     }
 
     static void EnableOpenXRFeatures()
     {
-        var settingsType = FindType("UnityEngine.XR.OpenXR.OpenXRSettings");
-        if (settingsType == null) { Fail("OpenXR features", "OpenXRSettings ikke fundet."); return; }
-
-        var getSettings = settingsType.GetMethod("GetSettingsForBuildTargetGroup");
-        var settings = getSettings?.Invoke(null, new object[] { BuildTargetGroup.Android });
-        if (settings == null) { Fail("OpenXR features", "kunne ikke hente Android-settings."); return; }
-
-        var getFeatures = settings.GetType().GetMethod("GetFeatures", Type.EmptyTypes);
-        var features = getFeatures?.Invoke(settings, null) as Array;
-        if (features == null) { Fail("OpenXR features", "GetFeatures() gav intet."); return; }
-
         // Præcis to features er nødvendige for M0a: Quest-support (manifest og
-        // runtime) og Oculus Touch-profilen (controllere). Alt andet er variabler,
-        // vi ikke vil have med i en test der skal isolere én ting.
+        // runtime) og Oculus Touch-profilen (controllere). Feature-typenavnene
+        // matches, så en omdøbt feature ikke vælter opsætningen.
+        var settings = OpenXRSettings.GetSettingsForBuildTargetGroup(BuildTargetGroup.Android);
+        if (settings == null) { Fail("OpenXR features", "kunne ikke hente Android OpenXR-settings."); return; }
+
         string[] wanted = { "MetaQuest", "OculusTouch" };
-        foreach (var feature in features)
+        foreach (var feature in settings.GetFeatures())
         {
+            if (feature == null) continue;
             var name = feature.GetType().Name;
             if (!wanted.Any(w => name.IndexOf(w, StringComparison.OrdinalIgnoreCase) >= 0)) continue;
-
-            var enabled = feature.GetType().GetProperty("enabled");
-            enabled?.SetValue(feature, true);
-            EditorUtility.SetDirty((UnityEngine.Object)feature);
-            Log("OpenXR feature", $"{name} slået til");
+            feature.enabled = true;
+            EditorUtility.SetDirty(feature);
+            Log("OpenXR feature", name + " slået til");
         }
+        EditorUtility.SetDirty(settings);
+        AssetDatabase.SaveAssets();
     }
 
     static void CreateScene()
@@ -209,14 +209,25 @@ public static class M0aBuild
 
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
 
-        var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+        var opts = new BuildPlayerOptions
         {
             scenes = new[] { ScenePath },
             locationPathName = apk,
             target = BuildTarget.Android,
             targetGroup = BuildTargetGroup.Android,
             options = BuildOptions.None,
-        });
+        };
+
+        var report = BuildPipeline.BuildPlayer(opts);
+
+        // Kendt OpenXR-quirk: første build efter aktivering melder somtider
+        // "OpenXR Settings found in project but not yet loaded. Please build again."
+        // Et andet forsøg i samme session bygger så igennem.
+        if (report.summary.result != BuildResult.Succeeded)
+        {
+            Log("Build", "første forsøg fejlede — prøver igen (OpenXR-load quirk)");
+            report = BuildPipeline.BuildPlayer(opts);
+        }
 
         if (report.summary.result == BuildResult.Succeeded)
         {
