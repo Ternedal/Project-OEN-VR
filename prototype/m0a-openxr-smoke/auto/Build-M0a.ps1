@@ -54,7 +54,7 @@ $manifest = @{
     }
 }
 $manifestPath = Join-Path $ProjectPath "Packages\manifest.json"
-$manifest | ConvertTo-Json -Depth 5 | Set-Content $manifestPath -Encoding UTF8
+$manifest | ConvertTo-Json -Depth 5 | Set-Content $manifestPath -Encoding Ascii
 Note "skrevet: $manifestPath"
 Note "Versionsnumrene er BEDSTE GAET. Klager Unity, saa fjern versionen og lad Package Manager vaelge."
 
