@@ -1,11 +1,11 @@
 <#
-  M0b Fase 1 — opret det rigtige Projekt Øen Unity-projekt (Photon-uafhængigt).
+  M0b Fase 1 - opret det rigtige Projekt Oeen Unity-projekt (Photon-uafhaengigt).
 
-  Bygger på det, M0a beviste: ASCII-manifest (ingen BOM), direkte XR-API, Configure
-  i sin egen Unity-session. Efter denne kører: projektet findes, pakkerne er låst,
+  Bygger paa det, M0a beviste: ASCII-manifest (ingen BOM), direkte XR-API, Configure
+  i sin egen Unity-session. Efter denne koerer: projektet findes, pakkerne er laast,
   HELE Core-laget kompilerer som en Unity-assembly, og OpenXR er sat op for Android.
 
-  Fusion/netværk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret —
+  Fusion/netvaerk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret -
   ellers kan projektet ikke kompilere. Se RUNBOOK.md.
 
   Anders koerer:
@@ -38,7 +38,7 @@ if (Test-Path $ProjectPath) {
 }
 $ProjectPath = (Resolve-Path $ProjectPath).Path
 
-# --- 2. Pakker (ASCII, ingen BOM — M0a-lektien: Unity afviser BOM i manifest.json) ---
+# --- 2. Pakker (ASCII, ingen BOM - M0a-lektien: Unity afviser BOM i manifest.json) ---
 Step "Skriver pakkeliste"
 $manifestSrc = Join-Path $PSScriptRoot "templates\manifest.json"
 $manifestDst = Join-Path $ProjectPath "Packages\manifest.json"
@@ -85,6 +85,6 @@ if ($exit -eq 0) {
     Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
     Write-Host "Naeste: importer Photon Fusion 2 (App ID), koer saa Fase 2 i RUNBOOK.md." -ForegroundColor Green
 } else {
-    Write-Host "`nUnity exit $exit. Se $log — send de foerste fejllinjer." -ForegroundColor Red
+    Write-Host "`nUnity exit $exit. Se $log - send de foerste fejllinjer." -ForegroundColor Red
     exit 1
 }
