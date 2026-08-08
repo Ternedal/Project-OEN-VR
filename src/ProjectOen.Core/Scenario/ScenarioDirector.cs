@@ -32,8 +32,27 @@ namespace ProjectOen.Core.Scenario
             _actions = actions;
         }
 
+        readonly StormCatalog? _storm;
+        readonly IReadOnlyList<ScenarioOutcomeRules.Rule> _winRules = new List<ScenarioOutcomeRules.Rule>();
+        readonly IReadOnlyList<ScenarioOutcomeRules.Rule> _loseRules = new List<ScenarioOutcomeRules.Rule>();
+        bool _concluded;
+
+        /// <summary>
+        /// Den normale vej: et indlaest scenario leverer alle regler paa én gang.
+        /// Den granulaere constructor findes stadig, saa tests kan isolere ét system.
+        /// </summary>
+        public ScenarioDirector(ScenarioState state, ScenarioDefinition definition)
+            : this(state, definition.CreateResolver(), definition.Effects, definition.Conditions, definition.Actions)
+        {
+            _storm = definition.Storm;
+            _winRules = definition.WinRules;
+            _loseRules = definition.LoseRules;
+        }
+
         /// <summary>Ekstra modstand fra vejr og hAendelser. Saettes af scenariet, ikke af klienten.</summary>
         public double ScenarioPenaltyModifier { get; set; }
+
+        public ScenarioVerdict Verdict { get; private set; } = ScenarioVerdict.InProgress;
 
         public ScenarioState State { get; }
 
@@ -69,7 +88,10 @@ namespace ProjectOen.Core.Scenario
 
             foreach (var e in produced)
             {
-                e.Revision = State.Revision;
+                // Kun events der ikke allerede har faaet en revision af et Bump().
+                // Tidligere overskrev vi dem alle med slutvaerdien, saa den per-event
+                // revision, Bump() havde til formaal at give, gik tabt.
+                if (e.Revision == 0) e.Revision = State.Revision;
                 _journal.Add(e);
             }
             return produced;
@@ -130,7 +152,7 @@ namespace ProjectOen.Core.Scenario
 
             State.PlanLocked = true;
             Bump();
-            produced.Add(new PlanLocked(new Dictionary<string, int>(State.Plan)));
+            produced.Add(new PlanLocked(new Dictionary<string, int>(State.Plan)) { Revision = State.Revision });
         }
 
         void Handle(CompleteInteractionStepCommand cmd, List<ScenarioEvent> produced)
@@ -168,7 +190,7 @@ namespace ProjectOen.Core.Scenario
 
             State.CompletedActions.Add(cmd.ActionId);
             Bump();
-            produced.Add(new ActionResolved(cmd.ActionId, tier, score));
+            produced.Add(new ActionResolved(cmd.ActionId, tier, score) { Revision = State.Revision });
 
             // Retningen er énvejs: udfaldet vaelger effekten. Effekten kan aldrig
             // aendre udfaldet, og der findes derfor ingen vej tilbage fra verden
@@ -181,6 +203,7 @@ namespace ProjectOen.Core.Scenario
                 foreach (var e in EffectApplier.Apply(State, effect, new[] { 0, 1 }, cmd.ActionId))
                 {
                     Bump();
+                    e.Revision = State.Revision;
                     produced.Add(e);
                 }
             }
@@ -189,7 +212,7 @@ namespace ProjectOen.Core.Scenario
             foreach (var healed in ConditionModel.ApplyHealing(State, _conditions, cmd.ActionId))
             {
                 Bump();
-                produced.Add(new InjuryHealed(healed, cmd.ActionId));
+                produced.Add(new InjuryHealed(healed, cmd.ActionId) { Revision = State.Revision });
             }
         }
 
@@ -243,13 +266,48 @@ namespace ProjectOen.Core.Scenario
             }
 
             Bump();
-            produced.Add(new PhaseChanged(from, to, State.Day));
+            produced.Add(new PhaseChanged(from, to, State.Day) { Revision = State.Revision });
 
             // docs/06 afsnit 9 + docs/05: checkpoint ved dagens begyndelse og foer stormen.
             if (to == ScenarioPhase.Dawn || to == ScenarioPhase.Storm)
                 produced.Add(new CheckpointCreated($"{to}_DAY{State.Day}"));
 
             FireDueEvents(produced);
+
+            // Stormen laeser lejrens tilstand i det oejeblik, den bryder los.
+            if (to == ScenarioPhase.Storm && _storm != null) ResolveStorm(produced);
+
+            EvaluateVerdict(produced);
+        }
+
+        void ResolveStorm(List<ScenarioEvent> produced)
+        {
+            foreach (var selected in StormResolver.Select(State, _storm!))
+            {
+                Bump();
+                produced.Add(new StormComplicationTriggered(selected.Complication.Id, selected.Reason) { Revision = State.Revision });
+
+                foreach (var e in EffectApplier.Apply(State, selected.Complication.Effect, new[] { 0, 1 },
+                                                      selected.Complication.Id))
+                {
+                    Bump();
+                    e.Revision = State.Revision;
+                    produced.Add(e);
+                }
+            }
+        }
+
+        void EvaluateVerdict(List<ScenarioEvent> produced)
+        {
+            if (_concluded || (_winRules.Count == 0 && _loseRules.Count == 0)) return;
+
+            var result = ScenarioOutcomeRules.Evaluate(State, _winRules, _loseRules);
+            if (result.Verdict == ScenarioVerdict.InProgress) return;
+
+            _concluded = true;
+            Verdict = result.Verdict;
+            Bump();
+            produced.Add(new ScenarioConcluded(result.Verdict, result.Reasons) { Revision = State.Revision });
         }
 
         void FireDueEvents(List<ScenarioEvent> produced)
@@ -259,7 +317,7 @@ namespace ProjectOen.Core.Scenario
                 if (!scheduled.ShouldFire(State.Day, State.Phase, State.Tags)) continue;
                 scheduled.Fired = true;
                 Bump();
-                produced.Add(new DelayedEventTriggered(scheduled.EventId, scheduled.RequiredTag, State.Day));
+                produced.Add(new DelayedEventTriggered(scheduled.EventId, scheduled.RequiredTag, State.Day) { Revision = State.Revision });
             }
         }
 

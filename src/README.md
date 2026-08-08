@@ -10,7 +10,7 @@ Filerne flyttes 1:1 til `Assets/ProjectOen/Scripts/Core/` med en asmdef, når M0
 dotnet test src/ProjectOen.Core.Tests/ProjectOen.Core.Tests.csproj
 ```
 
-Seneste kørsel i sandbox: **140 passed, 0 failed.**
+Seneste kørsel i sandbox: **146 passed, 0 failed.**
 
 De kører nu også i CI på hvert push — se `.github/workflows/core-tests.yml`. Indtil det job fandtes, beskyttede testsuiten ingenting mellem mine egne kørsler.
 
@@ -101,6 +101,15 @@ Der var bygget fem data-drevne systemer — effekter, win/lose-regler, tærskler
 Commanden bærer nu kun `PhysicalExecution` og `Cooperation` — de to ting, klienten alene kan måle, begge fra coop-solverens quality samples. Direktoren udleder `Preparation` fra planen (markører ÷ kostpris) og `Penalty` fra skader, træthed og scenariets modstand.
 
 Sidegevinst: træthed blev talt op af effektsystemet, men læst af ingenting. Nu tæller den.
+
+## Fuld gennemspilning
+
+`FullPlaythroughTests` spiller et helt scenario: indlæs → tre dage → storm → udfald → efterspilsrapport, med checkpoint-genoptagelse undervejs. Den første kørsel fandt tre fejl på én gang — `initialState` blev aldrig læst, ingen handling kunne påvirke lejren, og per-event revision blev kastet væk. Alle tre lå i sømme mellem systemer, der hver for sig var korrekte. Se `docs/33`.
+
+Rapporten ser nu sådan ud:
+
+> `Stormen: STM_ROOF_TEAR_002 — udløst af shelterIntegrity 25 <= 40.`
+> `Udfald: Loss (signalWindowMissed).`
 
 ## Hvad der bevidst IKKE ligger her
 

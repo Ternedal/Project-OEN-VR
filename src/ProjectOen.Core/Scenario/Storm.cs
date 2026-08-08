@@ -189,3 +189,32 @@ namespace ProjectOen.Core.Scenario
         }
     }
 }
+
+namespace ProjectOen.Core.Scenario
+{
+    public sealed class StormComplicationTriggered : ScenarioEvent
+    {
+        public StormComplicationTriggered(string complicationId, string reason)
+        {
+            ComplicationId = complicationId;
+            Reason = reason;
+        }
+
+        public string ComplicationId { get; }
+
+        /// <summary>Hvilken lejrtilstand eller hvilket tag der udloeste den.</summary>
+        public string Reason { get; }
+    }
+
+    public sealed class ScenarioConcluded : ScenarioEvent
+    {
+        public ScenarioConcluded(ScenarioVerdict verdict, System.Collections.Generic.IReadOnlyList<string> reasons)
+        {
+            Verdict = verdict;
+            Reasons = reasons;
+        }
+
+        public ScenarioVerdict Verdict { get; }
+        public System.Collections.Generic.IReadOnlyList<string> Reasons { get; }
+    }
+}

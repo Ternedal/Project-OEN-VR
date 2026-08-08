@@ -38,6 +38,37 @@ namespace ProjectOen.Core.Scenario
         public StormCatalog Storm { get; }
 
         public OutcomeResolver CreateResolver() => new OutcomeResolver(Thresholds);
+
+        /// <summary>
+        /// Startilstanden fra scenariodata. Uden den starter hver lejr paa nul,
+        /// hvilket goer sejrsbetingelser uopnaaelige og udloeser alle stormens
+        /// taerskelbetingelser fra foerste oejeblik.
+        /// </summary>
+        public InitialState Initial { get; internal set; } = new InitialState();
+
+        public ScenarioState CreateState(int seed)
+        {
+            var state = new ScenarioState(Id, seed);
+            state.Camp.ShelterIntegrity = Initial.ShelterIntegrity;
+            state.Camp.FireStrength = Initial.FireStrength;
+            state.Camp.FoodSecurity = Initial.FoodSecurity;
+            state.Camp.SignalProgress = Initial.SignalProgress;
+            state.Camp.CampThreat = Initial.CampThreat;
+            foreach (var pair in Initial.Resources) state.Resources[pair.Key] = pair.Value;
+            foreach (var tag in Initial.Tags) state.Tags.Add(tag);
+            return state;
+        }
+    }
+
+    public sealed class InitialState
+    {
+        public int ShelterIntegrity { get; set; }
+        public int FireStrength { get; set; }
+        public int FoodSecurity { get; set; }
+        public int SignalProgress { get; set; }
+        public int CampThreat { get; set; }
+        public IDictionary<string, int> Resources { get; } = new Dictionary<string, int>();
+        public IList<string> Tags { get; } = new List<string>();
     }
 
     public sealed class ActionDefinition
@@ -153,11 +184,34 @@ namespace ProjectOen.Core.Scenario
 
             if (problems.Count > 0) throw new ScenarioLoadException(problems);
 
-            return new ScenarioDefinition(
+            var definition = new ScenarioDefinition(
                 (string)json["id"]!,
                 Convert.ToInt32(json["supportedBuildProtocol"]),
                 json.TryGetValue("contentVersion", out var cv) ? cv as string ?? "" : "",
                 actions, effects, thresholds, winRules, loseRules, conditions, storm);
+            definition.Initial = ReadInitialState(json);
+            return definition;
+        }
+
+        static InitialState ReadInitialState(IDictionary<string, object?> json)
+        {
+            var initial = new InitialState();
+            if (!json.TryGetValue("initialState", out var raw) || !(raw is IDictionary<string, object?> map))
+                return initial;
+
+            if (map.TryGetValue("camp", out var rawCamp) && rawCamp is IDictionary<string, object?> camp)
+            {
+                initial.ShelterIntegrity = Int(camp, "shelterIntegrity", 0);
+                initial.FireStrength = Int(camp, "fireStrength", 0);
+                initial.FoodSecurity = Int(camp, "foodSecurity", 0);
+                initial.SignalProgress = Int(camp, "signalProgress", 0);
+                initial.CampThreat = Int(camp, "campThreat", 0);
+            }
+            foreach (var pair in ReadIntMap(map, "resources") ?? new Dictionary<string, int>())
+                initial.Resources[pair.Key] = pair.Value;
+            foreach (var tag in ReadStrings(map, "tags") ?? new List<string>())
+                initial.Tags.Add(tag);
+            return initial;
         }
 
         static StormCatalog ReadStorm(IDictionary<string, object?> json, List<string> problems)

@@ -62,9 +62,22 @@ namespace ProjectOen.Core.Telemetry
         }
 
         /// <summary>Menneskelaesbare linjer. Ordlyden er UI'ets ansvar; formen er rapportens.</summary>
-        public static IReadOnlyList<string> Explain(IReadOnlyList<ScenarioEvent> journal) =>
-            BuildChains(journal).Select(link => link.HasKnownCause
+        public static IReadOnlyList<string> Explain(IReadOnlyList<ScenarioEvent> journal)
+        {
+            var lines = BuildChains(journal).Select(link => link.HasKnownCause
                 ? $"Dag {link.EffectDay}: {link.Effect} — fordi I {link.Cause} på dag {link.CauseDay} ({link.Tag})."
                 : $"Dag {link.EffectDay}: {link.Effect}.").ToList();
+
+            // Stormen er scenariets udbetaling. Uden dens linjer forklarer rapporten
+            // alt undtagen det, spillerne husker bedst.
+            lines.AddRange(journal.OfType<StormComplicationTriggered>()
+                .Select(s => $"Stormen: {s.ComplicationId} — udløst af {s.Reason}."));
+
+            var concluded = journal.OfType<ScenarioConcluded>().LastOrDefault();
+            if (concluded != null)
+                lines.Add($"Udfald: {concluded.Verdict} ({string.Join(", ", concluded.Reasons)}).");
+
+            return lines;
+        }
     }
 }

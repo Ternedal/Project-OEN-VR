@@ -98,7 +98,11 @@ namespace ProjectOen.Core.Scenario
 
     public abstract class ScenarioEvent
     {
-        public int Revision { get; internal set; }
+        /// <summary>
+        /// Saettes af det Bump(), der ledsagede eventet. 0 = endnu ikke stemplet;
+        /// Submit() giver da den aktuelle revision.
+        /// </summary>
+        public int Revision { get; set; }
     }
 
     public sealed class PlanLocked : ScenarioEvent

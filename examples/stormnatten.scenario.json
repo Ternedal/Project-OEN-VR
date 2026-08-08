@@ -56,18 +56,18 @@
     }
   ],
   "initialState": {
-    "resources": {
-      "wood": 1,
-      "fiber": 0,
-      "food": 1,
-      "herbs": 0
-    },
     "camp": {
-      "shelterIntegrity": 10,
+      "shelterIntegrity": 25,
       "fireStrength": 20,
+      "foodSecurity": 30,
       "signalProgress": 0,
-      "campThreat": 0
-    }
+      "campThreat": 10
+    },
+    "resources": {
+      "supplies": 2,
+      "wood": 0
+    },
+    "tags": []
   },
   "eventPools": [
     "POOL_DAY1_STANDARD",
@@ -172,25 +172,37 @@
         "resourceDeltas": {
           "supplies": 3
         },
-        "fatigueCost": 5
+        "fatigueCost": 5,
+        "campDeltas": {
+          "fireStrength": 9
+        }
       },
       "success": {
         "resourceDeltas": {
           "supplies": 2
         },
-        "fatigueCost": 8
+        "fatigueCost": 8,
+        "campDeltas": {
+          "fireStrength": 6
+        }
       },
       "partialWithCost": {
         "resourceDeltas": {
           "supplies": 1
         },
-        "fatigueCost": 15
+        "fatigueCost": 15,
+        "campDeltas": {
+          "fireStrength": 2
+        }
       },
       "failForward": {
         "addTags": [
           "ATTEMPT_FAILED"
         ],
-        "fatigueCost": 20
+        "fatigueCost": 20,
+        "campDeltas": {
+          "fireStrength": 1
+        }
       }
     },
     "INT_FIND_FOOD_002": {
@@ -198,25 +210,37 @@
         "resourceDeltas": {
           "supplies": 3
         },
-        "fatigueCost": 5
+        "fatigueCost": 5,
+        "campDeltas": {
+          "foodSecurity": 12
+        }
       },
       "success": {
         "resourceDeltas": {
           "supplies": 2
         },
-        "fatigueCost": 8
+        "fatigueCost": 8,
+        "campDeltas": {
+          "foodSecurity": 8
+        }
       },
       "partialWithCost": {
         "resourceDeltas": {
           "supplies": 1
         },
-        "fatigueCost": 15
+        "fatigueCost": 15,
+        "campDeltas": {
+          "foodSecurity": 3
+        }
       },
       "failForward": {
         "addTags": [
           "ATTEMPT_FAILED"
         ],
-        "fatigueCost": 20
+        "fatigueCost": 20,
+        "campDeltas": {
+          "foodSecurity": 1
+        }
       }
     },
     "INT_BUILD_SHELTER_003": {
@@ -224,25 +248,37 @@
         "resourceDeltas": {
           "supplies": 3
         },
-        "fatigueCost": 5
+        "fatigueCost": 5,
+        "campDeltas": {
+          "shelterIntegrity": 18
+        }
       },
       "success": {
         "resourceDeltas": {
           "supplies": 2
         },
-        "fatigueCost": 8
+        "fatigueCost": 8,
+        "campDeltas": {
+          "shelterIntegrity": 12
+        }
       },
       "partialWithCost": {
         "resourceDeltas": {
           "supplies": 1
         },
-        "fatigueCost": 15
+        "fatigueCost": 15,
+        "campDeltas": {
+          "shelterIntegrity": 5
+        }
       },
       "failForward": {
         "addTags": [
           "ATTEMPT_FAILED"
         ],
-        "fatigueCost": 20
+        "fatigueCost": 20,
+        "campDeltas": {
+          "shelterIntegrity": 1
+        }
       }
     },
     "INT_EXPLORE_CLIFF_004": {
@@ -250,25 +286,37 @@
         "resourceDeltas": {
           "supplies": 3
         },
-        "fatigueCost": 5
+        "fatigueCost": 5,
+        "campDeltas": {
+          "signalProgress": 9
+        }
       },
       "success": {
         "resourceDeltas": {
           "supplies": 2
         },
-        "fatigueCost": 8
+        "fatigueCost": 8,
+        "campDeltas": {
+          "signalProgress": 6
+        }
       },
       "partialWithCost": {
         "resourceDeltas": {
           "supplies": 1
         },
-        "fatigueCost": 15
+        "fatigueCost": 15,
+        "campDeltas": {
+          "signalProgress": 2
+        }
       },
       "failForward": {
         "addTags": [
           "ATTEMPT_FAILED"
         ],
-        "fatigueCost": 20
+        "fatigueCost": 20,
+        "campDeltas": {
+          "signalProgress": 1
+        }
       }
     },
     "INT_SECURE_SUPPLIES_005": {
@@ -276,25 +324,37 @@
         "resourceDeltas": {
           "supplies": 3
         },
-        "fatigueCost": 5
+        "fatigueCost": 5,
+        "campDeltas": {
+          "foodSecurity": 15
+        }
       },
       "success": {
         "resourceDeltas": {
           "supplies": 2
         },
-        "fatigueCost": 8
+        "fatigueCost": 8,
+        "campDeltas": {
+          "foodSecurity": 10
+        }
       },
       "partialWithCost": {
         "resourceDeltas": {
           "supplies": 1
         },
-        "fatigueCost": 15
+        "fatigueCost": 15,
+        "campDeltas": {
+          "foodSecurity": 4
+        }
       },
       "failForward": {
         "addTags": [
           "ATTEMPT_FAILED"
         ],
-        "fatigueCost": 20
+        "fatigueCost": 20,
+        "campDeltas": {
+          "foodSecurity": 1
+        }
       }
     },
     "INT_REINFORCE_ROOF_006": {
@@ -302,25 +362,37 @@
         "resourceDeltas": {
           "supplies": 3
         },
-        "fatigueCost": 5
+        "fatigueCost": 5,
+        "campDeltas": {
+          "shelterIntegrity": 21
+        }
       },
       "success": {
         "resourceDeltas": {
           "supplies": 2
         },
-        "fatigueCost": 8
+        "fatigueCost": 8,
+        "campDeltas": {
+          "shelterIntegrity": 14
+        }
       },
       "partialWithCost": {
         "resourceDeltas": {
           "supplies": 1
         },
-        "fatigueCost": 15
+        "fatigueCost": 15,
+        "campDeltas": {
+          "shelterIntegrity": 6
+        }
       },
       "failForward": {
         "addTags": [
           "ATTEMPT_FAILED"
         ],
-        "fatigueCost": 20
+        "fatigueCost": 20,
+        "campDeltas": {
+          "shelterIntegrity": 1
+        }
       }
     },
     "INT_FIND_FIBER_007": {
@@ -328,25 +400,37 @@
         "resourceDeltas": {
           "supplies": 3
         },
-        "fatigueCost": 5
+        "fatigueCost": 5,
+        "campDeltas": {
+          "shelterIntegrity": 8
+        }
       },
       "success": {
         "resourceDeltas": {
           "supplies": 2
         },
-        "fatigueCost": 8
+        "fatigueCost": 8,
+        "campDeltas": {
+          "shelterIntegrity": 5
+        }
       },
       "partialWithCost": {
         "resourceDeltas": {
           "supplies": 1
         },
-        "fatigueCost": 15
+        "fatigueCost": 15,
+        "campDeltas": {
+          "shelterIntegrity": 2
+        }
       },
       "failForward": {
         "addTags": [
           "ATTEMPT_FAILED"
         ],
-        "fatigueCost": 20
+        "fatigueCost": 20,
+        "campDeltas": {
+          "shelterIntegrity": 1
+        }
       }
     },
     "INT_FIND_HERBS_008": {
@@ -354,25 +438,37 @@
         "resourceDeltas": {
           "supplies": 3
         },
-        "fatigueCost": 5
+        "fatigueCost": 5,
+        "campDeltas": {
+          "foodSecurity": 6
+        }
       },
       "success": {
         "resourceDeltas": {
           "supplies": 2
         },
-        "fatigueCost": 8
+        "fatigueCost": 8,
+        "campDeltas": {
+          "foodSecurity": 4
+        }
       },
       "partialWithCost": {
         "resourceDeltas": {
           "supplies": 1
         },
-        "fatigueCost": 15
+        "fatigueCost": 15,
+        "campDeltas": {
+          "foodSecurity": 2
+        }
       },
       "failForward": {
         "addTags": [
           "ATTEMPT_FAILED"
         ],
-        "fatigueCost": 20
+        "fatigueCost": 20,
+        "campDeltas": {
+          "foodSecurity": 1
+        }
       }
     },
     "INT_BUILD_SIGNAL_009": {
@@ -380,25 +476,37 @@
         "resourceDeltas": {
           "supplies": 3
         },
-        "fatigueCost": 5
+        "fatigueCost": 5,
+        "campDeltas": {
+          "signalProgress": 27
+        }
       },
       "success": {
         "resourceDeltas": {
           "supplies": 2
         },
-        "fatigueCost": 8
+        "fatigueCost": 8,
+        "campDeltas": {
+          "signalProgress": 18
+        }
       },
       "partialWithCost": {
         "resourceDeltas": {
           "supplies": 1
         },
-        "fatigueCost": 15
+        "fatigueCost": 15,
+        "campDeltas": {
+          "signalProgress": 7
+        }
       },
       "failForward": {
         "addTags": [
           "ATTEMPT_FAILED"
         ],
-        "fatigueCost": 20
+        "fatigueCost": 20,
+        "campDeltas": {
+          "signalProgress": 2
+        }
       }
     },
     "INT_EXPLORE_RIDGE_010": {
@@ -406,25 +514,37 @@
         "resourceDeltas": {
           "supplies": 3
         },
-        "fatigueCost": 5
+        "fatigueCost": 5,
+        "campDeltas": {
+          "signalProgress": 15
+        }
       },
       "success": {
         "resourceDeltas": {
           "supplies": 2
         },
-        "fatigueCost": 8
+        "fatigueCost": 8,
+        "campDeltas": {
+          "signalProgress": 10
+        }
       },
       "partialWithCost": {
         "resourceDeltas": {
           "supplies": 1
         },
-        "fatigueCost": 15
+        "fatigueCost": 15,
+        "campDeltas": {
+          "signalProgress": 4
+        }
       },
       "failForward": {
         "addTags": [
           "ATTEMPT_FAILED"
         ],
-        "fatigueCost": 20
+        "fatigueCost": 20,
+        "campDeltas": {
+          "signalProgress": 1
+        }
       }
     },
     "INT_TREAT_INJURY_011": {
@@ -432,25 +552,37 @@
         "resourceDeltas": {
           "supplies": 3
         },
-        "fatigueCost": 5
+        "fatigueCost": 5,
+        "campDeltas": {
+          "campThreat": -9
+        }
       },
       "success": {
         "resourceDeltas": {
           "supplies": 2
         },
-        "fatigueCost": 8
+        "fatigueCost": 8,
+        "campDeltas": {
+          "campThreat": -6
+        }
       },
       "partialWithCost": {
         "resourceDeltas": {
           "supplies": 1
         },
-        "fatigueCost": 15
+        "fatigueCost": 15,
+        "campDeltas": {
+          "campThreat": -2
+        }
       },
       "failForward": {
         "addTags": [
           "ATTEMPT_FAILED"
         ],
-        "fatigueCost": 20
+        "fatigueCost": 20,
+        "campDeltas": {
+          "campThreat": -1
+        }
       }
     }
   },

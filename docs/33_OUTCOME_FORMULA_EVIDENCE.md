@@ -122,3 +122,43 @@ Rettet: applier'en tager en `sourceId` og ejer hele effekten. Én vej ind i stat
 ## Fjerde gang
 
 Det er nu fire fund fra tests mod dokumenter og kode, der så rigtige ud: udfaldsformlens klumpning, coop-solverens hastighedsloft, dobbelt-journaliseringen, klientens kontrol over sin egen straf — og nu stormens prioritering. Ingen af dem var synlige ved gennemlæsning.
+
+---
+
+# Tillæg 3: den første fulde gennemspilning
+
+**Dato:** 2026-08-07 · **Kilde:** `src/ProjectOen.Core.Tests/FullPlaythroughTests.cs`
+
+Alle tidligere tests kørte ét system i isolation. Den første test, der spillede et helt scenario igennem — indlæs → tre dage → storm → udfald → efterspilsrapport — fandt tre ting på én gang. Alle tre lå i sømmene mellem systemer, hvor de fem foregående fund også lå.
+
+## 1. `initialState` blev aldrig læst
+
+Feltet fandtes i skemaet fra begyndelsen. Ingen kode læste det. Hver scenariostart havde derfor en lejr på **nul** i alle felter.
+
+Konsekvenserne var kaskaderende og ville have været umulige at diagnosticere i VR: sejrsbetingelser var uopnåelige, fordi `signalProgress` startede på 0 uden mulighed for at nå tærsklen; alle stormens tærskelbetingelser (`shelterIntegrity <= 40`, `fireStrength <= 25`) udløste fra første øjeblik uanset hvordan der blev spillet; og en velspillet gennemgang endte med en kollapset lejr.
+
+Rettet: `ScenarioDefinition.CreateState(seed)` bygger starttilstanden fra data.
+
+## 2. Ingen handling kunne påvirke lejren
+
+Eksempelscenariets effekter rørte kun `supplies`. Ingen handling ændrede `shelterIntegrity`, `fireStrength` eller noget andet lejrfelt.
+
+Det betød, at **stormen læste præcis samme lejrtilstand uanset hvordan spillerne havde spillet.** Hele scenariets præmis — tre dages beslutninger udbetalt i finalen — var mekanisk til stede og praktisk uden virkning. Målingen var 45 mod 45.
+
+Rettet: hver handling har nu en campDelta, skaleret efter udfaldstier. Samme måling giver nu 103 mod 23.
+
+## 3. Per-event revision blev kastet væk
+
+`Submit()` satte `e.Revision = State.Revision` på hvert event, efter at hvert event allerede havde fået sit eget `Bump()`. Alle events fra én kommando endte derfor med samme revisionstal — netop det, `Bump()` pr. event var indført for at undgå. En klient, der ville genafspille inkrementelt, kunne ikke skelne rækkefølgen.
+
+Rettet: kun events uden revision stemples af `Submit()`.
+
+## Om testen selv
+
+Den første udgave målte `shelterIntegrity` og gav 0 mod 0. Ikke fordi udførelsen var ligegyldig, men fordi kørslen aldrig byggede læ — den valgte altid de to første tilgængelige handlinger, og ingen af dem rørte det felt. Testen målte det forkerte og er rettet til at måle lejrens samlede tilstand.
+
+Værd at bemærke: fejlen i testen lignede en fejl i koden. Havde jeg tunet indholdstal, til den blev grøn, ville jeg have skjult, at målingen var forkert stillet op.
+
+## Seks fund
+
+Udfaldsformlen · coop-solverens hastighedsloft · dobbelt-journalisering · klientens kontrol over sin egen straf · stormens prioritering · og nu de tre ovenstående. Ingen af dem var synlige ved gennemlæsning. Fem af otte lå i sømme mellem systemer, som først blev spændt ud, da noget kørte hele vejen igennem.
