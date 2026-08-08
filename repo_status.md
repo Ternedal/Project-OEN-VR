@@ -1,7 +1,7 @@
 # Repository status
 
 - Handoff baseline: **v2.1** (review v1.0 behandlet og merget)
-- Review state: **9 af 10 fund lukket.** CR-002 lukket 2026-08-08 (M0a on-device → DROP_Q1_RUNTIME). **Åben:** CR-005 (kræver P1-udvælgelse)
+- Review state: **9 af 10 fund lukket.** CR-002 lukket 2026-08-08 (M0a on-device → DROP_Q1_RUNTIME). **Alle 10 review-fund lukket** (CR-005/P1-scope besluttet 2026-08-08: gaveversion = 1.006 t)
 - Implementation state: **Core-lag komplet og bevist** — `src/ProjectOen.Core`, 146 tests grønne, kørt i CI på hvert push (senest grøn 08-08 07:25)
 - Unity-projekt: findes ikke endnu. Editorversion låses først af M0a
 - **M0a AFGJORT 2026-08-08:** Quest 2 kører OpenXR (72 fps, Vulkan, head-tracking OK); Quest 1 crasher (SIGABRT i libopenxr_loader.so) → **DROP_Q1_RUNTIME**. Evidens: `prototype/m0a-openxr-smoke/RESULTAT.md`. **Næste gate: M0b** (Unity-projekt + Photon-session)
