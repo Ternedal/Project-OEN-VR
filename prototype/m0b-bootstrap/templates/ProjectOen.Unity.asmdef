@@ -1,0 +1,20 @@
+{
+  "name": "ProjectOen.Unity",
+  "rootNamespace": "ProjectOen",
+  "references": [
+    "ProjectOen.Core",
+    "Fusion.Runtime",
+    "Unity.XR.Interaction.Toolkit",
+    "Unity.InputSystem",
+    "Unity.XR.CoreUtils"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
