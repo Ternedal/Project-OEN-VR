@@ -1,5 +1,6 @@
 using System.Linq;
 using ProjectOen.Core.Interaction;
+using ProjectOen.Core.Scenario;
 using Xunit;
 
 namespace ProjectOen.Core.Tests
@@ -195,6 +196,65 @@ namespace ProjectOen.Core.Tests
             });
             Assert.Equal(a.Score, b.Score, 9);
             Assert.Equal(a.BothPlayersActive, b.BothPlayersActive);
+        }
+
+        // ---- Bro til OutcomeResolver (outcomes authorable, ende-til-ende) ----
+
+        [Fact]
+        public void Bridge_maps_score_to_execution_and_both_active_to_cooperation()
+        {
+            var r = InteractionResolver.Resolve(Shelter(), new[]
+            {
+                new StepContribution("raiseFrame", 0, 0.8),
+                new StepContribution("lashCorners", 1, 0.6),
+            });
+            var input = InteractionResolver.ToOutcomeInput(r, preparation: 0.5, penalty: 0.1);
+            Assert.Equal(r.Score, input.PhysicalExecution, 9);
+            Assert.Equal(1.0, input.Cooperation, 9);
+            Assert.Equal(0.5, input.Preparation, 9);
+            Assert.Equal(0.1, input.Penalty, 9);
+        }
+
+        [Fact]
+        public void Full_coop_sequence_with_preparation_resolves_to_critical_success()
+        {
+            var tier = InteractionResolver.ResolveTier(Shelter(), new[]
+            {
+                new StepContribution("raiseFrame", 0, 1.0),
+                new StepContribution("lashCorners", 1, 1.0),
+            }, new OutcomeResolver(), preparation: 1.0, penalty: 0.0);
+            Assert.Equal(OutcomeTier.CriticalSuccess, tier);
+        }
+
+        [Fact]
+        public void Solo_completion_cannot_exceed_partial_even_with_full_preparation()
+        {
+            // Coop-præmissen bæres helt frem til tieren.
+            var tier = InteractionResolver.ResolveTier(Shelter(), new[]
+            {
+                new StepContribution("raiseFrame", 0, 1.0),
+                new StepContribution("lashCorners", 0, 1.0),
+            }, new OutcomeResolver(), preparation: 1.0, penalty: 0.0);
+            Assert.Equal(OutcomeTier.PartialWithCost, tier);
+        }
+
+        [Fact]
+        public void Penalty_floor_keeps_a_great_sequence_from_collapsing()
+        {
+            // Perfekt coop + fuld prep, men høj modstand. Gulvet: højst ét trin ned.
+            var tier = InteractionResolver.ResolveTier(Shelter(), new[]
+            {
+                new StepContribution("raiseFrame", 0, 1.0),
+                new StepContribution("lashCorners", 1, 1.0),
+            }, new OutcomeResolver(), preparation: 1.0, penalty: 1.0);
+            Assert.True(tier >= OutcomeTier.Success);
+        }
+
+        [Fact]
+        public void ResolveTier_rejects_null_resolver()
+        {
+            Assert.Throws<System.ArgumentNullException>(() =>
+                InteractionResolver.ResolveTier(Shelter(), System.Array.Empty<StepContribution>(), null!));
         }
     }
 }

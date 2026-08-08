@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectOen.Core.Scenario;
 
 namespace ProjectOen.Core.Interaction
 {
@@ -186,6 +187,29 @@ namespace ProjectOen.Core.Interaction
                 score = Math.Min(score, CoopSoloCeiling);
 
             return new InteractionResult(score, bothActive, activeSlots.ToList());
+        }
+
+        /// <summary>
+        /// Bygger et OutcomeInput: sekvensens score er den fysiske udførelse, og "begge
+        /// aktive" bliver cooperation-leddet. Preparation og penalty kommer fra autoritativ
+        /// state (direktoren), ikke fra klienten. Den nuancerede kvalitetsvægtning er PO-041.
+        /// </summary>
+        public static OutcomeInput ToOutcomeInput(InteractionResult result, double preparation, double penalty)
+        {
+            if (result == null) throw new ArgumentNullException(nameof(result));
+            return new OutcomeInput(preparation, result.Score, result.BothPlayersActive ? 1.0 : 0.0, penalty);
+        }
+
+        /// <summary>
+        /// Hele vejen: sekvens + bidrag -> score -> OutcomeTier via OutcomeResolver (som
+        /// også håndhæver penalty-gulvet). Det er "outcomes authorable" fra ende til anden.
+        /// </summary>
+        public static OutcomeTier ResolveTier(InteractionSequence sequence, IEnumerable<StepContribution>? contributions,
+                                              OutcomeResolver resolver, double preparation = 0.0, double penalty = 0.0)
+        {
+            if (resolver == null) throw new ArgumentNullException(nameof(resolver));
+            var result = Resolve(sequence, contributions);
+            return resolver.Resolve(ToOutcomeInput(result, preparation, penalty));
         }
 
         static double Clamp01(double value)
