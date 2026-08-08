@@ -126,7 +126,7 @@ public static class M0aBuild
                 Log("OpenXR loader", ok ? "tilføjet til Android" : "kunne ikke tilføjes");
             }
 
-            EditorUtility.SetDirty(manager);
+            EditorUtility.SetDirty((UnityEngine.Object)manager);
             EnableOpenXRFeatures();
         }
         catch (Exception ex)
