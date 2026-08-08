@@ -34,6 +34,7 @@ Der skal altid være flere værdifulde handlinger end tilgængelige markører. H
 | Fiber | Reb, binding, tag | Binder crafting og stormforberedelse sammen |
 | Mad | Undgå udmattelse/moraleproblem | Må aldrig kræve lang jagtgrind |
 | Urter | Sår og sygdom | Sjælden nok til at skabe reelt valg |
+| Forsyninger (`supplies`) | Generel forsyningspulje | *Content-drevet (brugt i stormnatten/savegame/recipe). Tilføjet 2026-08-08 for at matche content; bekræft som officiel femte ressource eller lug ud.* |
 | Gløder/ild | Progression og signal | Sårbar, dramatisk, fysisk håndterbar |
 | Tid/indsats | Primær knaphed | Kan ikke farmes |
 
