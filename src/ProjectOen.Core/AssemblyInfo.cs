@@ -1,3 +1,5 @@
+#nullable enable
+
 using System.Runtime.CompilerServices;
 
 // docs/06 afsnit 5: "Kun ScenarioDirector maa skifte scenariofase."
