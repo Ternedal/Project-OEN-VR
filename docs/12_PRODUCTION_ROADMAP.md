@@ -38,6 +38,20 @@ Gate:
 
 **Stop/go:** Afgøres ved afslutningen af M0, ikke efter et timeloft. Quest 1-delen er allerede afgjort: lanen er droppet efter ejergodkendelse (`DROP_Q1_RUNTIME`, 2026-08-08).
 
+## M-Pre - Greybox-gate for kernehypotesen
+
+**Estimat:** 10-20 timer (backlogsum: 15 t, PO-110) · **ADR-022**
+
+Bevis kernehypotesen, før der bygges gameplay og content oven på den: skaber fordelingen af fire
+indsatsmarkører **diskussion** mellem to spillere, eller føles den som **administration**?
+
+- Papir eller fladskærm. Ingen VR, intet netværk, ingen art.
+- To eksterne testere, ikke gavemodtageren.
+- Protokol, materialer og målepunkter: `docs/35_M_PRE_GREYBOX_GATE.md`.
+
+**Gate:** mindst to af tre sessioner viser reel forhandling om markørerne (målt som defineret i `docs/35`).
+Rødt gate udløser redesign af kerneloopet, før M1 påbegyndes — potentiel besparelse er hele M1-M3.
+
 ## M1 - Interaction foundation
 
 **Estimat:** 80-100 timer (backlogsum: 89 t)
@@ -90,9 +104,12 @@ Gate: ekstern test kan gennemføre én dag uden forklaring og oplever et reelt p
 
 Gate: tester kan forklare mindst én forsinket konsekvens.
 
-## M5 - Storm vertical slice
+## M5 - Storm vertical slice — **Release 1** (ADR-023)
 
 **Estimat:** 120-150 timer (backlogsum: 130 t, heraf 88 t P0)
+
+M5 er projektets **afsendbare gave**: én spilbar dag plus storm i tre faser (vind → regn/ild → signal).
+Alt fra M6 og frem er stretch oven på noget, der allerede kan gives væk.
 
 - Three storm phases minimum.
 - Two active roles per phase.
@@ -155,7 +172,7 @@ Aktuel tilstand efter reviewet:
 
 | Model | Sum | Status |
 |---|---:|---|
-| Aktiv backlog (107 items) | 1.436 t | Fuld engineering-plan, maksimal hardening. 3 Q1-items (28 t) droppet |
+| Aktiv backlog (108 items) | 1.451 t | Fuld engineering-plan, maksimal hardening. 3 Q1-items (28 t) droppet |
 | `Gaveversion = In` (45 P0-items) | 634 t | Kritisk sti — låst, releasekritisk pr. `docs/12`s egen P0-definition |
 | `Gaveversion = TBD` (56 P1-items) | 712 t | **Skal vælges af ejeren.** Indtil da findes der ikke et forsvarligt gaveestimat |
 | `Gaveversion = Defer` (9 P2-items) | 127 t | Efter v1.0 |

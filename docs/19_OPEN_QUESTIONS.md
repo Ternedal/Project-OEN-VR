@@ -14,8 +14,8 @@
 
 | ID | Spørgsmål | Beslutningsmetode |
 |---|---|---|
-| OQ-006 | Skaber fire effort markers nok diskussion? | Ekstern one-day playtest |
-| OQ-007 | Er rollerne for asymmetriske eller for ens? | Observeret arbejdsfordeling |
+| OQ-006 | Skaber fire effort markers nok diskussion? | **M-Pre greybox-gate** (ADR-022, `docs/35`) — flyttet frem fra M3 |
+| OQ-007 | Er rollerne for asymmetriske eller for ens? | Observeret arbejdsfordeling i M-Pre (`docs/35`) |
 | OQ-008 | Hvor meget randomness føles fair? | A/B event outcome tests |
 | OQ-009 | Skal spillerroller vælges eller skifte automatisk? | To prototypevarianter |
 | OQ-010 | Er efterspils-konkurrence ønskelig i gavebuild? | Test med målbrugerne efter neutral run |

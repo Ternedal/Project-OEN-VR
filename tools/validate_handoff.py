@@ -229,9 +229,9 @@ def check_backlog_totals(errors: list[str]) -> None:
 
     # Quoted figures that must stay in sync with the table above.
     expected = [
-        ("gaveversion (Gaveversion = In)", gift, 997.0),
+        ("gaveversion (Gaveversion = In)", gift, 1012.0),
         ("udskudt (Gaveversion = Defer)", deferred, 439.0),
-        ("aktiv backlog (In + Defer)", active, 1436.0),
+        ("aktiv backlog (In + Defer)", active, 1451.0),
     ]
     for label, actual, quoted in expected:
         if abs(actual - quoted) > 0.5:
@@ -241,8 +241,8 @@ def check_backlog_totals(errors: list[str]) -> None:
                 errors,
             )
 
-    if active_items != 107:
-        fail(f"active backlog item count is {active_items}, docs quote 107", errors)
+    if active_items != 108:
+        fail(f"active backlog item count is {active_items}, docs quote 108", errors)
 
     if len(errors) == before:
         print(

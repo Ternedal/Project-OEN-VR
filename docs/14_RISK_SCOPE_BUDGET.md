@@ -54,9 +54,9 @@ Den reelle omkostning er udviklingstid. Køb først assets, når greyboxen har b
 - M0-M2: hårdt loft på **250 timer** som bagstopper, også hvis alle planlagte opgaver ikke er afsluttet.
 - M3-M5: stop/go senest efter yderligere **350 timer**.
 - Hvis en spilbar vertical slice ikke er overbevisende efter cirka **600 timer samlet**, skal scope, netværksmodel eller produktgrundlag revurderes før mere content.
-- P0-backloggen (`Gaveversion = In`, 43 items) summerer til **616 timer** efter at PO-004 og PO-007 blev droppet med `DROP_Q1_RUNTIME`. Den er det konservative kritiske loft - ikke et krav om at bruge alle timer før en gate må godkendes.
-- Den fulde aktive backlog (107 items) summerer til **1.436 timer** og repræsenterer maksimal hardening/polish. De 3 droppede Q1-items (28 t) er ikke medregnet.
-- P1-scope blev valgt 2026-08-08: **gaveversion = 997 t** (P0 616 + P1 381, i alt 76 items). Udskudt til efter v1.0: **439 t** (31 items = 312 t P1 + 127 t P2).
+- P0-backloggen (`Gaveversion = In`, 44 items) summerer til **631 timer** efter at PO-004 og PO-007 blev droppet med `DROP_Q1_RUNTIME`. Den er det konservative kritiske loft - ikke et krav om at bruge alle timer før en gate må godkendes.
+- Den fulde aktive backlog (108 items) summerer til **1.451 timer** og repræsenterer maksimal hardening/polish. De 3 droppede Q1-items (28 t) er ikke medregnet.
+- P1-scope blev valgt 2026-08-08: **gaveversion = 1.012 t** (P0 631 + P1 381, i alt 77 items) efter at M-Pre (PO-110, 15 t) kom til med ADR-022. Udskudt til efter v1.0: **439 t** (31 items = 312 t P1 + 127 t P2).
 
 ## Quest 1 exit-kriterium - UDLØST 2026-08-08
 

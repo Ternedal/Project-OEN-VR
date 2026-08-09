@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.7 - 2026-08-09
+
+ADR-022 og ADR-023 accepteret af ejeren og indarbejdet.
+
+- **M-Pre er nu en milepael** i docs/12 og docs/17 med backlog-item **PO-110** (15 t, P0, In). Gaten ligger
+  foer M1: bevis kernehypotesen paa papir, foer der bygges gameplay og content oven paa den.
+- **Ny fil: docs/35_M_PRE_GREYBOX_GATE.md** - koerbar protokol. Seks opgavekort, fire markoerer, tre dage
+  plus storm; fem maalepunkter med taerskler; gate-kriterium og fire konkrete redesign-knapper ved roedt.
+  Eksplicit: gavemodtageren maa ikke vaere tester.
+- **M5 markeret som Release 1** (ADR-023) i begge dokumenter: een spilbar dag plus storm i tre faser er den
+  afsendbare gave; M6-M9 er stretch.
+- **Tal opdateret** efter PO-110: gaveversion 997 -> **1.012 t** (P0 631 + P1 381, 77 items), aktiv backlog
+  1.436 -> **1.451 t** over 108 items. Validatorens forventede summer er rettet tilsvarende.
+- PR #2 (DP-001) lukket som afloest af #4.
+
 ## 2.6 - 2026-08-09
 
 Genindfoerer to beslutninger fra DP-001, som aldrig blev merget.

@@ -8,7 +8,7 @@
 
 > **Ændret 2026-08-08 (M0a-resultat, `DROP_Q1_RUNTIME`):** Quest 1 kører ikke OpenXR-runtimen (jf. `prototype/m0a-openxr-smoke/RESULTAT.md`). Q1-specifikke items droppet: **PO-004 (8 t) og PO-007 (10 t) fjernet fra P0/gaveversion → 18 t frigjort** (P0-sum 634 → 616 t), og **PO-098 (10 t, var TBD)** droppet. PO-025 reduceret til Q2↔Q3. COMPAT-001 (Q1↔Q3) udgået.
 
-> **P1-scope besluttet 2026-08-08 (Q-004, CR-005 lukket):** alle 55 P1-items sat til `In`/`Defer`. **Gaveversion = 997 t** (P0 616 + P1 381, i alt 76 items). Udskudt til efter v1.0: **439 t** (31 items: 312 t P1 — survival-dybde, ekstra content/art, dev/QA-luksus, undertekster — plus 127 t P2). PO-104-dubletten rettet (telemetri = PO-109). Ved 15 t/uge ≈ **15-16 måneder** → landing omkring årsskiftet 2027/28.
+> **P1-scope besluttet 2026-08-08 (Q-004, CR-005 lukket):** alle 55 P1-items sat til `In`/`Defer`. **Gaveversion = 1.012 t** (P0 631 + P1 381, i alt 77 items; inkl. M-Pre/PO-110 15 t fra ADR-022). Udskudt til efter v1.0: **439 t** (31 items: 312 t P1 — survival-dybde, ekstra content/art, dev/QA-luksus, undertekster — plus 127 t P2). PO-104-dubletten rettet (telemetri = PO-109). Ved 15 t/uge ≈ **15-16 måneder** → landing omkring årsskiftet 2027/28.
 
 ## Epics
 
@@ -34,11 +34,12 @@
 | ID | Navn | Output | Est. timer | Exit gate | Disposition |
 | --- | --- | --- | --- | --- | --- |
 | M0 | Platform feasibility | Fælles code/content lane bevist | 60-100 | Q2-Q3 box; 72 Hz minimal (Q1 udgået: DROP_Q1_RUNTIME) | Go/Redesign |
+| M-Pre | Greybox-gate (ADR-022) | Kernehypotesen bevist uden VR | 10-20 | 2 af 3 sessioner viser reel forhandling (`docs/35`) | Go/Redesign |
 | M1 | Interaction foundation | Komfortabel lokal VR-interaktion | 35-55 | 10x greb/snap/tohånd; seated | Go/Fix |
 | M2 | Multiplayer foundation | Stabil privat session og authority | 45-70 | 10 cycles; reconnect skeleton | Go/Redesign |
 | M3 | One-day prototype | Planlægning og én fuld dag | 55-85 | Ekstern test uden forklaring | Go/Cut |
 | M4 | Consequences | Forsinket årsag/virkning | 40-65 | Tester forklarer chain | Go/Cut |
-| M5 | Storm vertical slice | Finale med branches | 70-110 | 72 Hz Q2; 20 min soak | Go/Cut |
+| M5 | Storm vertical slice — **Release 1** | Finale med branches; afsendbar gave (ADR-023) | 70-110 | 72 Hz Q2; 20 min soak | Go/Cut |
 | M6 | Full Stormnatten | Tre dage og 35-45 min | 70-115 | Median tid; active ≥70% | Go/Polish |
 | M7 | Art/audio pass | Sammenhængende stil | 55-90 | Q2 budget + Q3 profile | Go/Fix |
 | M8 | Gift personalization | Privat profile/distribution | 30-50 | Fallback og clean install | Go/Fix |
@@ -91,6 +92,7 @@
 | PO-007 | E00 | Spike | ~~Sammenlign Vulkan/GLES3 på Quest 1~~ DROPPET | M0 | P0 | Out | Dropped (DROP_Q1_RUNTIME 08-08) | 10 | 4 | Q1 | Betinget af Q1-lanen — 10 t frigjort. Q2 bekræftet på Vulkan |
 | PO-008 | E00 | Decision | Fastlås package compatibility matrix | M0 | P0 | In | Not Started | 6 | 4,5,6 | Q2/Q3 | ADR og compatibility matrix opdateret |
 | PO-009 | E01 | Story | XR Origin og gulvkalibrering | M1 | P1 | In | Not Started | 8 | 2 | Q2/Q3 | Stående/siddende kan kalibreres |
+| PO-110 | E00 | Proces | M-Pre greybox-gate: kernehypotesen bevist uden VR | M-Pre | P0 | In | Not Started | 15 |  | Ingen | 2 af 3 sessioner viser reel forhandling om markørerne, målt som defineret i `docs/35`; resultat og rå noter arkiveret |
 | PO-010 | E01 | Story | Teleport locomotion | M1 | P1 | In | Not Started | 6 | 9 | All | Teleport er stabil og bounded |
 | PO-011 | E01 | Story | Snap turn og comfort settings | M1 | P1 | In | Not Started | 6 | 9 | All | 15/30/45 grader; default 30 |
 | PO-012 | E01 | Story | Grab wrapper og object reset | M1 | P1 | In | Not Started | 10 | 9 | All | Item kan gribes, overdrages og resettes |

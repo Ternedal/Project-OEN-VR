@@ -23,14 +23,17 @@
 | ADR-019 | Accepted — afgjort 2026-08-08 | Quest 1-lanens levedygtighed afgøres af én test: starter og tracker Unitys OpenXR-provider på Q1's frosne v50-runtime? | **Testet 2026-08-08:** samme OpenXR-APK kører på Quest 2 (immersivt, head-tracking valid+tracked, 72 fps, Vulkan) men crasher deterministisk på Quest 1 med native SIGABRT i `libopenxr_loader.so` under XR-opstart (to forsøg, tombstone) | **Svar: NEGATIVT → `DROP_Q1_RUNTIME`.** Exit-kriteriet i `docs/14` udløst; Q1 bliver frossen demo, ikke en lane i hovedprojektet. Evidens: `prototype/m0a-openxr-smoke/RESULTAT.md` |
 | ADR-020 | Proposed | Ingen live coordinator-handover. Ved coordinator-tab: pause og checkpoint-resume | Med to spillere findes ingen tredje klient at overdrage til. Checkpoint-stien skal alligevel bygges og testes | Én kodesti i stedet for to. Fjerner en klasse af desync-fejl. PO-023 reduceres |
 | ADR-021 | Proposed | Dansk er eneste sprog i gaveversionen | Undertekster og localization keys kræves alligevel af `docs/09`/`docs/10`; et andet sprog er ren scopevækst | Nøglestruktur på plads fra M3. Ingen oversættelsespas før en eventuel offentlig version |
-| ADR-022 | Proposed | M-Pre: greybox-gate for kernehypotesen, før gameplay- og contentarbejdet begynder | Hypotesen — at markørallokering skaber diskussion frem for administration — bevises i dag først i M3, efter al platform-, netværks- og interaktionsarbejdet | Ny milepæl på 10-20 t uden VR og uden netværk. Rødt gate udløser redesign af kerneloopet, før M1-M3 bygges. Ny risiko R-013 registreres |
-| ADR-023 | Proposed | Release 1 = afslutning af M5 | Gaveversionen er 997 t uden ekstern deadline; den mest sandsynlige dødsårsag er, at den aldrig bliver færdig | 1 spilbar dag + storm reduceret til 3 faser er en afsendbar gave. M6-M9 bliver stretch oven på noget, der allerede kan gives væk |
+| ADR-022 | Accepted — 2026-08-09 | M-Pre: greybox-gate for kernehypotesen, før gameplay- og contentarbejdet begynder | Hypotesen — at markørallokering skaber diskussion frem for administration — bevises i dag først i M3, efter al platform-, netværks- og interaktionsarbejdet | Ny milepæl på 10-20 t uden VR og uden netværk. Rødt gate udløser redesign af kerneloopet, før M1-M3 bygges. Ny risiko R-013 registreres |
+| ADR-023 | Accepted — 2026-08-09 | Release 1 = afslutning af M5 | Gaveversionen er 997 t uden ekstern deadline; den mest sandsynlige dødsårsag er, at den aldrig bliver færdig | 1 spilbar dag + storm reduceret til 3 faser er en afsendbar gave. M6-M9 bliver stretch oven på noget, der allerede kan gives væk |
 
 ## Detaljer for ADR-022 og ADR-023
 
 Begge stammer fra beslutningspakke DP-001 (2026-08-05). De blev ikke merget dengang, fordi resten af den
 pakke blev overhalet af M0a's hardwareresultat. Argumenterne bag disse to er uafhængige af Quest 1-lanen og
 holder stadig; de genindføres derfor mod nuværende `main` med ledige numre. Se PR-diskussionen på #2.
+
+**Begge accepteret af ejeren 2026-08-09.** M-Pre er indarbejdet i `docs/12` og `docs/17` (PO-110), og
+protokollen ligger i `docs/35_M_PRE_GREYBOX_GATE.md`. M5 er markeret som Release 1.
 
 ### ADR-022 - M-Pre greybox-gate
 
