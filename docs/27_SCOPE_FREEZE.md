@@ -6,7 +6,7 @@ Følgende er frosset, indtil Claude-reviewet er behandlet:
 - Stormnatten som første scenario,
 - 30-45 minutters mission,
 - Quest 2-baseline,
-- Quest 1 best-effort legacy-test,
+- ~~Quest 1 best-effort legacy-test~~ - optøet og fjernet 2026-08-08 ved ejerbeslutning (`DROP_Q1_RUNTIME`, ADR-004 superseded / ADR-019 accepted),
 - Quest 3/3S gameplayparitet,
 - controllerbaseret VR,
 - ingen open world eller persistent base,

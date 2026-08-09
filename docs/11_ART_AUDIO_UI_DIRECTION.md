@@ -18,7 +18,7 @@ En stiliseret, håndbygget eventyrø: grove former, tydelige silhuetter, varme l
 - Vertex colors og packed masks frem for mange unikke shaders.
 - Wind animation via simple vertex offset.
 - Wetness via global parameter, ikke individuelle dyre materialer.
-- Quest 1 fallback uden dyre shader features.
+- Shaderomkostninger holdes inden for Quest 2-budgettet; ingen separat legacy-fallback.
 
 ## Miljø
 

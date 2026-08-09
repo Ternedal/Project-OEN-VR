@@ -2,7 +2,7 @@
 
 ## 1. Arkitekturmål
 
-- Én kodebase for Quest 1/2/3.
+- Én kodebase for Quest 2/3.
 - Platformforskelle isoleres i buildprofiler og adapters.
 - Gameplay-state er data-drevet og kan testes uden headset, hvor det er muligt.
 - Netværk må ikke være dybt flettet ind i alle gameplayklasser.
@@ -199,9 +199,9 @@ Write flow:
 - Boot og lobby er små selvstændige scener.
 - Camp er persistent under scenarioet.
 - Action-zoner indlæses additivt.
-- Maksimalt camp + én fuld action-zone resident på Quest 1/2.
+- Maksimalt camp + én fuld action-zone resident på Quest 2.
 - Addressables bruges primært til lokal organisering og loading; remote content er uden for gaveversionen.
-- Shared assets har LOD0-2; Quest 1 kan skippe LOD0.
+- Shared assets har LOD0-2.
 
 ## 11. Dependency rules
 

@@ -15,27 +15,15 @@ Quest 2 bestemmer:
 - memory discipline,
 - QA-gates.
 
-### Quest 1 - legacy-test
+### Quest 1 - udgået som runtime (DROP_Q1_RUNTIME, 2026-08-08)
 
-Quest 1 skal kunne:
+Quest 1 er ikke en understøttet runtime, testlane eller målenhed. M0a viste deterministisk
+native crash (SIGABRT i `libopenxr_loader.so`) mod Q1's frosne v50-runtime, jf.
+`prototype/m0a-openxr-smoke/RESULTAT.md`.
 
-- starte en signeret sideload-build,
-- tracke Touch-controllere,
-- forbinde via Photon,
-- gennemføre Stormnatten,
-- bruge samme network protocol, scenario data og save schema.
-
-Quest 1 må bruge:
-
-- lavere render scale,
-- enklere skygger,
-- færre partikler,
-- færre audio voices,
-- lavere texture mips,
-- mere aggressiv scene unloading,
-- reducerede post effects.
-
-Quest 1 er ikke offentlig supportgaranti og må ikke kræve moderne Meta Platform SDK.
+Q1 eksisterer udelukkende som en eventuel frossen sideload-demo uden for hovedprojektet:
+ingen buildprofil, intet performancebudget, ingen QA-gates, ingen cross-play. Genoptages
+den, kræver det en ny ADR.
 
 ### Quest 3/3S - enhanced
 
@@ -51,7 +39,7 @@ Quest 3 må forbedre:
 
 Ingen Quest 3-only gameplaymekanik i gaveversionen.
 
-## 2. SDK-realitet for Quest 1
+## 2. SDK-baggrund for Quest 1 (historik bag DROP_Q1_RUNTIME)
 
 - Meta oplyser, at apps med Platform SDK v51+ ikke kan starte på Quest 1.
 - Unitys Oculus XR Plugin v4+ fjernede Quest 1 som target; Unity dokumenterer v3.3.0 som sidste kompatible Oculus-provider.
@@ -59,7 +47,7 @@ Ingen Quest 3-only gameplaymekanik i gaveversionen.
 - Unitys manual angiver understøttet udvikling for Quest 2, 3, 3S og Quest Pro. Quest 1 står ikke på listen, og Oculus-provider v4+ har fjernet Quest 1 som target device.
 - **Metas egen Unity-dokumentation angiver Oculus XR Plugin som deprecated og planlagt til fjernelse**, med Unity OpenXR Plugin som anbefalet erstatning. En Quest 1-lane bygget på Oculus-provider v3.x er derfor en lane på en pakke, der er på vej ud — ikke bare en ældre version.
 
-Dette skal fysisk valideres. Dokumentationen alene er ikke bevis for, at en bestemt moderne OpenXR-pakke fungerer på alle tre headset.
+Dette blev fysisk valideret i M0a (2026-08-08): samme OpenXR-APK kører på Quest 2 (71,8 fps, Vulkan), men crasher deterministisk på Quest 1. Dokumentationens billede blev bekræftet på hardware.
 
 ## 3. Buildprofiler
 
@@ -121,7 +109,7 @@ Budgetter er startpunkter; OVR Metrics/Meta tools og Unity Profiler på device e
 
 - Miljøteksturer typisk 512-1024; hero objects op til 2048 på modern profile.
 - ASTC compression.
-- Quest 1/2 bruger aggressive mipmaps.
+- Quest 2 bruger aggressive mipmaps.
 - Maks. 2-3 materials pr. almindeligt prefab.
 - Static batching/mesh combining hvor det giver mening.
 - Vegetation som cards/low-poly clusters, ikke tusind separate GameObjects.
@@ -132,7 +120,7 @@ Budgetter er startpunkter; OVR Metrics/Meta tools og Unity Profiler på device e
 
 - Baked global lighting.
 - Light probes ved bevægelige objekter.
-- Én styliseret directional light uden realtime shadow på Q1, valgfri shadow på Q2/3 efter profiling.
+- Én styliseret directional light; realtime shadow er valgfri på Q2/Q3 efter profiling.
 - Stormeffekt skabes primært med skybox, fog, audio, material animation og lokale overlays.
 
 ## 8. Memory og loading
@@ -144,29 +132,29 @@ Budgetter er startpunkter; OVR Metrics/Meta tools og Unity Profiler på device e
 - Ingen store runtime-generated textures.
 - Memory watermark logges per fase.
 
-## 9. Render/API spike
+## 9. Render/API - afgjort
 
-M0 sammenligner:
-
-- Vulkan + OpenXR.
-- GLES3 fallback kun hvis Q1 viser blocker.
+- Vulkan + OpenXR. Bekræftet on-device på Quest 2 i M0a.
+- GLES3-fallback er droppet (ADR-018 resolved, OQ-003 udgået): begrundelsen var Q1-lanen, og den findes ikke længere.
 - Single-pass instanced/multiview hvor understøttet.
 - Foveated rendering kun via stabil, fælles API; aldrig som eneste vej til 72 Hz.
 
 ## 10. Build- og distributionsmatrix
 
-| Kanal | Q1 | Q2 | Q3 |
-|---|---|---|---|
-| Lokal development APK | Ja | Ja | Ja |
-| Meta Alpha channel | Ikke primær plan | Ja | Ja |
-| Signeret gavebuild | Sideload APK | Alpha/private | Alpha/private |
-| Production store | Nej | Senere | Senere |
+| Kanal | Q2 | Q3 |
+|---|---|---|
+| Lokal development APK | Ja | Ja |
+| Meta Alpha channel | Ja | Ja |
+| Signeret gavebuild | Alpha/private | Alpha/private |
+| Production store | Senere | Senere |
+
+Quest 1 indgår ikke i distributionsmatricen (DROP_Q1_RUNTIME).
 
 ## 11. Performance gates
 
 ### M0
 
-Tom netværksscene holder 72 Hz på alle enheder.
+Tom netværksscene holder 72 Hz på Quest 2 og Quest 3.
 
 ### M2
 
@@ -178,7 +166,7 @@ Fælles kasseinteraktion holder 72 Hz og har acceptabel jitter.
 
 ### M5
 
-Stormen køres 20 minutters soak på Quest 2. Quest 1 gennemfører reduceret storm. Quest 3 regression og enhancement testes separat.
+Stormen køres 20 minutters soak på Quest 2. Quest 3 regression og enhancement testes separat.
 
 ### Release
 

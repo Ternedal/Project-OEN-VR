@@ -8,7 +8,6 @@
 
 # Platform impact
 
-- [ ] Quest 1
 - [ ] Quest 2
 - [ ] Quest 3
 - [ ] Not applicable

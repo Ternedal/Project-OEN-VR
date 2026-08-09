@@ -14,7 +14,7 @@ Denne plan må først bruges, når Claude-kommentarerne er behandlet.
 - XR Origin.
 - controller input.
 - grab cube.
-- Q1/Q2/Q3 builds.
+- Q2/Q3 builds.
 
 ## PR 3 - Photon session spike
 

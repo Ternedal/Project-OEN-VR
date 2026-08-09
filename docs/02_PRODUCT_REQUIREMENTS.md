@@ -73,4 +73,4 @@ Mange kooperative VR-spil er enten actiontunge, korte minispil eller symmetriske
 
 ## Releasekrav
 
-Se `docs/13_TEST_QA_ACCEPTANCE.md` for målelige gates. Et flot build er ikke releaseklart, hvis det ikke består fysisk test på Quest 2 og den definerede legacy-test på Quest 1.
+Se `docs/13_TEST_QA_ACCEPTANCE.md` for målelige gates. Et flot build er ikke releaseklart, hvis det ikke består fysisk test på Quest 2 og regressionstest på Quest 3.

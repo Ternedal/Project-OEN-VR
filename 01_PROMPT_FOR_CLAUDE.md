@@ -1,3 +1,5 @@
+> **Arkiveret.** Dette prompt gjaldt review v1.0 (2026-08-06). Platformrammerne er siden ændret af `DROP_Q1_RUNTIME` — se `docs/18` og `repo_status.md`.
+
 # Prompt til Claude - kritisk review af PROJECT ØEN
 
 Du modtager en komplet handoff-pakke for et to-spiller VR-overlevelsesspil med arbejdstitlen **PROJECT ØEN - STRANDET SAMMEN**.
@@ -9,7 +11,7 @@ Du er senior game designer, Unity/Quest-teknisk arkitekt, multiplayer-reviewer o
 ## Faste forudsætninger
 
 - Quest 2 er den primære udviklings- og performancebaseline.
-- Quest 1 skal kunne bruges til en reduceret, fysisk legacy-testbuild.
+- Quest 1 er udgået som runtime (`DROP_Q1_RUNTIME`); antag ikke en Q1-lane.
 - Quest 3/3S skal være fuldt brugbare og kan få forbedret grafik.
 - To spillere er et krav.
 - Første leverance er ét 30-45 minutters scenario.

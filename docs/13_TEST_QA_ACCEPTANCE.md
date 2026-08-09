@@ -49,7 +49,6 @@
 
 - Quest 2 stabil 72 Hz gennem fuld mission og storm.
 - 20 minutters storm soak uden memory leak/thermal collapse.
-- Quest 1 reduceret build gennemfører.
 - Quest 3 regression og enhancement profile dokumenteret.
 
 ### Comfort/accessibility
@@ -146,7 +145,7 @@ Q1↔Q3 cross-play er ikke længere relevant: Q1 kører ikke OpenXR-runtimen. Cr
 - Demonstreret på to fysiske headset.
 - Network authority/reconnect vurderet.
 - Performance målt på Quest 2.
-- Quest 1 smoke og Quest 3 regression hvis relevant.
+- Quest 3 regression hvis relevant.
 - Subtitles/handedness/comfort vurderet.
 - Ingen P0/P1.
 

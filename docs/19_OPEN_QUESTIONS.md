@@ -4,9 +4,9 @@
 
 | ID | Spørgsmål | Beslutningsmetode |
 |---|---|---|
-| OQ-001 | Kan Unity 2022.3 + valgt OpenXR/XR provider starte stabilt på Q1/Q2/Q3? | Fysisk buildmatrix |
-| OQ-002 | Kræves to package manifests for Quest 1 vs modern? | Build spike |
-| OQ-003 | Vulkan stabil på Quest 1 med valgte features? | 20 min soak + fallback comparison |
+| ~~OQ-001~~ | **Besvaret 2026-08-08 (M0a):** OpenXR starter stabilt på Q2 (og Q3), ikke på Q1. Editor låst til Unity 6 LTS. | Lukket |
+| ~~OQ-002~~ | **Bortfaldet 2026-08-08:** kun ét manifest, da Q1-lanen er droppet (DROP_Q1_RUNTIME). | Lukket |
+| ~~OQ-003~~ | **Droppet 2026-08-08:** spiket var betinget af Q1-lanen. Vulkan er bekræftet på Quest 2 i M0a; GLES3-fallback udgår (ADR-018 resolved). | Lukket |
 | OQ-004 | Kan Fusion Shared håndtere coop box uden permanent desync? | 10x cross-device interaction test |
 | OQ-005 | Hvordan håndteres coordinator loss mest robust? | Prototype handover vs checkpoint resume |
 

@@ -9,7 +9,7 @@ Endelige værdier låses efter M0.
 - [ ] Input System active.
 - [ ] URP mobile renderer.
 - [ ] Linear color space, hvis fysisk device-test er stabil.
-- [ ] Vulkan first; GLES3 fallback profile kun hvis nødvendig.
+- [ ] Vulkan (eneste graphics API - GLES3-fallback droppet, ADR-018).
 - [ ] Multithreaded rendering testet.
 - [ ] Texture compression ASTC.
 - [ ] Managed stripping sat og smoke-testet.

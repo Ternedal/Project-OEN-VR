@@ -68,9 +68,10 @@ ADB/MQDH sideload på alle devices.
 
 Quest 2/3 gift test. Invite-only. Brugere får app i Library/My Preview Apps.
 
-### Quest 1 legacy
+### Quest 1 - udgået kanal
 
-Signeret APK og verificeret sideload-guide. Appens compatibility hash skal matche modern build.
+Quest 1 er ikke en releasekanal (`DROP_Q1_RUNTIME`, 2026-08-08). Genoptages en frossen sideload-demo,
+kræver den sin egen build, sin egen guide og en ny ADR - den deler ikke compatibility hash med hovedbuildet.
 
 ## Release checklist
 
@@ -78,7 +79,7 @@ Signeret APK og verificeret sideload-guide. Appens compatibility hash skal match
 - Content/schema/protocol hash korrekt.
 - Clean install + upgrade test.
 - Save migration test.
-- Q1/Q2/Q3 matrix gennemført.
+- Q2/Q3 matrix gennemført.
 - P0/P1 = 0.
 - Known issues.
 - Rollback APK tilgængelig.
@@ -120,7 +121,9 @@ Gift release kan gemme logs lokalt og eksportere manuelt. Ingen cloud analytics 
 2. Bevar save backup.
 3. Reproducer med development symbols.
 
-## Quest 1 guidekrav
+## Sideload-guidekrav (kun hvis en frossen Q1-demo genoptages)
+
+Ikke en aktiv leverance. PO-098 er droppet med `DROP_Q1_RUNTIME`.
 
 - Skridt-for-skridt med MQDH eller adb.
 - Developer mode forudsætninger.

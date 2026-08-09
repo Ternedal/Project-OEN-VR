@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.5 - 2026-08-09
+
+Konsistensoprydning efter `DROP_Q1_RUNTIME` plus M0b-fremdrift on-device.
+
+- **Docs:** beslutningen var truffet 08-08, men Quest 1 stod stadig som runtime-lane, testplatform eller acceptkriterium i ~25 filer. Rettet i docs/01, 02, 06, 07, 08, 11, 12, 13, 14, 15, 17, 19, 20, 21, 23, 24, 25, 26, 27, 30, 32, 34 samt README, CLAUDE.md, 00_READ_ME_FIRST, 01_PROMPT_FOR_CLAUDE (arkiveret), repo_status, VALIDATION_REPORT, review/RESPONSE_MATRIX, diagrams og PR-/issue-skabeloner.
+- **docs/08:** Q1-legacyafsnittet erstattet af en udgaaet-note; distributionsmatricen, M5-gaten, lighting- og assetbudgettet renset for Q1. GLES3-fallbacken (OQ-003) fjernet - Vulkan er eneste API.
+- **docs/13:** Q1 fjernet fra release gates og Definition of Done.
+- **docs/17:** R-001 lukket, E00/E12/M7 omformuleret, 16 Testplatform-celler sat til Q2/Q3, PO-083 og PO-087 reduceret (9 t frigjort).
+- **docs/19:** OQ-001, OQ-002 og OQ-003 lukket med resultat.
+- **docs/14:** Quest 1 exit-kriteriet markeret som UDLOEST; estimater rettet til 616 t P0 / 1.006 t gaveversion.
+- **Ny fil:** `config/COMPATIBILITY_MATRIX.md` oprettet (uden Q1-kolonne), forudfyldt med M0a/M0b-resultater.
+- **M0b on-device:** head-tracking loest - poser drives nu fra `UnityEngine.XR.InputDevices` i stedet for en ubundet `TrackedPoseDriver` (som skrev nul-pose). Verificeret paa Quest: head ikke-nul og bevaegelig, greb -> `CoopSolver` flytter kassen, `quality` 1,00. Se `src/unity/RUNBOOK_FUSION.md` §8.
+- **Afventer on-device med to headset:** head/hands mellem klienter, handshake-gate, 10x loeftetest, 72 Hz-maaling.
+
 ## 2.4 — 2026-08-08
 
 Bygget videre på Core (efter M0a). Første post-M0a-feature.

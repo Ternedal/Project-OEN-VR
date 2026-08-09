@@ -7,23 +7,22 @@ Roadmappet er baseret på gennemførte gates, ikke kalenderløfter. En fase lukk
 ## M0 - Platform- og netværksfeasibility
 
 **Estimat:** 160-200 timer (backlogsum: 176 t over 19 items)  
-**Mål:** Bevis én kodebase/buildlane **og** en fungerende to-klient-session på Quest 1, 2 og 3.
+**Mål:** Bevis én kodebase/buildlane **og** en fungerende to-klient-session på Quest 2 og 3.
 
 M0 optager de session- og replikationsopgaver, der tidligere lå i M2 (PO-017, PO-018, PO-019, PO-020, PO-022, PO-025). Begrundelse: M0's gate kunne ikke bevises af M0's egne opgaver, hvilket flyttede stop/go på projektets største risiko til efter ca. 250 timer.
 
-### M0a - Det afgørende eksperiment (kør først)
+### M0a - Afgjort 2026-08-08
 
-Byg en tom OpenXR-scene og installér den fysisk på Quest 1.
+Den tomme OpenXR-scene blev installeret fysisk. Quest 2: immersiv, 71,8 fps, Vulkan, head-tracking valid.
+Quest 1: deterministisk SIGABRT i `libopenxr_loader.so` før første frame.
 
-- **Starter og tracker den?** → Quest 1 er en buildprofil. Fortsæt M0b med én pakkelane.
-- **Gør den ikke?** → Quest 1 kræver Oculus-provider v3.x, altså et andet XR-backend og en fork af interaktionslaget. Udløs exit-kriteriet i `docs/14` med det samme. Q1 bliver frossen demo, og hovedprojektet bygges på Unity 6 LTS.
-
-Alt andet i M0 er billigere at udføre, når dette svar foreligger. Vulkan/GLES3-spiket (OQ-003) køres først bagefter.
+Resultat: `DROP_Q1_RUNTIME`. Exit-kriteriet i `docs/14` er udløst; Q1 er frossen sideload-demo, og
+hovedprojektet bygges på Unity 6 LTS. Vulkan/GLES3-spiket (OQ-003) er droppet sammen med lanen.
 
 ### M0b - Deliverables
 
 - Unity project + pinned package candidates (editor låses her, ikke før).
-- Q1/Q2/Q3 build profiles.
+- Q2/Q3 build profiles.
 - XR tracking/grab.
 - Photon create/join med privat join code.
 - Compatibility handshake.
@@ -33,11 +32,11 @@ Alt andet i M0 er billigere at udføre, når dette svar foreligger. Vulkan/GLES3
 
 Gate:
 
-- Samme scenario/protocol kan køre Q1↔Q2 og Q2↔Q3.
+- Samme scenario/protocol kan køre Q2↔Q3.
 - 10 løftegentagelser uden permanent desync.
 - 72 Hz i minimal scene.
 
-**Stop/go:** Afgøres ved afslutningen af M0, ikke efter et timeloft. Hvis Quest 1 kræver så stor dependency fork, at shared gameplaykode ikke kan bevares, nedgraderes kravet til separat testdemo eller droppes efter ejergodkendelse.
+**Stop/go:** Afgøres ved afslutningen af M0, ikke efter et timeloft. Quest 1-delen er allerede afgjort: lanen er droppet efter ejergodkendelse (`DROP_Q1_RUNTIME`, 2026-08-08).
 
 ## M1 - Interaction foundation
 
@@ -134,7 +133,7 @@ Gate: visuel polish uden performance regression.
 - Private assets.
 - Neutral fallback.
 - Finale.
-- Release channel + Quest 1 sideload guide.
+- Release channel (Alpha/private til Q2/Q3).
 
 Gate: clean install på begge brugeres headset og gennemførsel uden dev tools.
 
@@ -174,7 +173,7 @@ Planlægningsregel:
 
 Hvis projektet bliver for stort, skæres i denne rækkefølge:
 
-0. **Quest 1-lanen** (jf. ADR-019 og exit-kriteriet i `docs/14`). Det er den dyreste enkeltstående valgfrie del af projektet, og den er allerede forberedt som en beslutning frem for et nederlag.
+0. ~~**Quest 1-lanen**~~ - **skåret 2026-08-08** (`DROP_Q1_RUNTIME`). Projektets dyreste valgfrie del er allerede fjernet; næste skæring starter derfor ved punkt 1.
 1. Ekstra eventvariation.
 2. Avanceret avatar/IK.
 3. Parallelle fjernekspeditioner.

@@ -15,7 +15,7 @@ Nedenfor er alt, klar til copy/paste. Opret siden i **ProjectRig HQ → Projekte
 | **Prioritet** | `P2 Normal` |
 | **Type** | `VR` |
 | **Tech stack** | `Unity`, `Claude` |
-| **Version** | `2.1 (review behandlet) · Core 98 tests grønne` |
+| **Version** | `2.1 (review behandlet) · Core 146 tests grønne` |
 | **Repo** | `https://github.com/Ternedal/Project-OEN-VR` |
 | **Projekt ID** | *rør ikke — auto_increment* |
 | **Handoff ZIP** | *tom — ingen zip leveret endnu* |
@@ -23,13 +23,11 @@ Nedenfor er alt, klar til copy/paste. Opret siden i **ProjectRig HQ → Projekte
 ### Næste handling
 
 ```
-M0a på hardware — ét spørgsmål: starter og tracker Unitys OpenXR-provider fysisk på Quest 1?
-Alt andet i M0 venter på svaret. Runbook, drop-in kildefiler og resultatskema ligger klar i
-prototype/m0a-openxr-smoke/ på branchen agent/m0-platform-feasibility. Kør på Quest 2 FØRST,
-så en fejl kan isoleres til opsætning vs. Quest 1, derefter Quest 1. Meld GO / REDESIGN /
-DROP_Q1_RUNTIME i RESULTAT.md. Udestår desuden: Q-004 — hvilke af de 56 P1-items
-(Gaveversion = TBD) er med i gaveversionen; indtil da findes der ikke et forsvarligt samlet
-estimat. Og M0-issuet skal oprettes manuelt fra docs/30 (tokenet mangler issues-scope).
+M0b: Unity-projektet er oprettet, Fusion-sessionen kører on-device, og co-op-kassen spawner.
+Naeste gate er privat session mellem to klienter med head/hands-replikation og 10x loeftetest
+uden permanent desync (Q2<->Q3). M0a er afgjort: DROP_Q1_RUNTIME. P1-scope er valgt
+(gaveversion = 1.006 t). Udestaar: M0-issuet skal oprettes manuelt fra docs/30
+(tokenet mangler issues-scope).
 ```
 
 ---
@@ -40,22 +38,22 @@ estimat. Og M0-issuet skal oprettes manuelt fra docs/30 (tokenet mangler issues-
 
 To-spiller kooperativt VR-overlevelsesspil til Meta Quest. Original IP, tænkt som en personlig gaveoplevelse: to spillere fordeler fire indsatsmarkører ved daggry, udfører opgaverne fysisk i VR, og opdager under en afsluttende storm om prioriteringerne holdt. Første scenario er **Stormnatten** — tre døgn, 30-45 minutter.
 
-Quest 2 er performancegulv, Quest 3/3S enhanced parity. Quest 1-lanen er under afgørelse.
+Quest 2 er performancegulv, Quest 3/3S enhanced parity. Quest 1-lanen er droppet 2026-08-08 (`DROP_Q1_RUNTIME`) — Q1 er højst en frossen sideload-demo.
 
 # Aktuel status
 
-**Baseline v2.1.** Design-, arkitektur- og produktionsgrundlaget er komplet (33 dokumenter, JSON-skemaer, backlog med 110 items).
+**Baseline v2.1.** Design-, arkitektur- og produktionsgrundlaget er komplet (33 dokumenter, JSON-skemaer, backlog med 107 aktive items (3 droppet med `DROP_Q1_RUNTIME`)).
 
-Kritisk review gennemført 2026-08-06: verdict `PROCEED_WITH_BLOCKERS`, 2 BLOCKER, 5 HIGH, 3 MEDIUM, 6 dokumentkonflikter. Ændringspakken er merget til `main`. 8 af 10 fund er lukket — de sidste to kan kun lukkes af Anders.
+Kritisk review gennemført 2026-08-06: verdict `PROCEED_WITH_BLOCKERS`, 2 BLOCKER, 5 HIGH, 3 MEDIUM, 6 dokumentkonflikter. Ændringspakken er merget til `main`. Alle 10 fund er lukket (CR-002 lukket af M0a 2026-08-08, CR-005 af P1-scopevalget samme dag).
 
-**Der findes endnu intet Unity-projekt.** Til gengæld findes hele det lag, der kan verificeres uden headset: `src/ProjectOen.Core` er ren C# (netstandard2.1, ingen UnityEngine-referencer) med **98 tests grønne**, som nu også kører i CI på hvert push.
+**Unity-projektet er oprettet** (`ProjektOenApp`, Unity 6000.4.10f1 + OpenXR + Fusion 2.0.12), og M0b-bindingen kompilerer og kører on-device. Derudover findes hele det lag, der kan verificeres uden headset: `src/ProjectOen.Core` er ren C# (netstandard2.1, ingen UnityEngine-referencer) med **146 tests grønne**, som kører i CI på hvert push.
 
 Alt netværks- og Unity-specifikt ligger i `src/unity/` som **ukompilerede** kildefiler med `UNVERIFIED-IN-SANDBOX`-header og konkrete API-antagelser pr. fil.
 
 # Reviewets to blockers
 
 - **CR-001 (lukket):** M0's gate krævede netværksbevis, men alle Photon-opgaver lå i M2. Seks items flyttet til M0, der nu er 176 t / 19 items. Stop/go flyttet fra et 250-timers loft til M0's afslutning.
-- **CR-002 (åben — kræver hardware):** Quest 1-lanen blev beskrevet som en pakkeversionsforskel. Den er reelt et andet XR-backend: Q1 kræver Oculus-provider v3.x, som Meta har markeret deprecated og planlagt fjernet, mens Q2/Q3 kører OpenXR. Afgøres af ét fysisk eksperiment (ADR-019).
+- **CR-002 (lukket 2026-08-08):** Quest 1-lanen var reelt et andet XR-backend. M0a afgjorde det på hardware: Unitys OpenXR-provider crasher (SIGABRT) på Q1's v50-runtime. Lanen er droppet — ADR-004 superseded, ADR-019 accepted.
 
 # Verificerede platformfakta
 
@@ -77,26 +75,26 @@ Det tidligere tal på 500-810 timer var top-down og kunne ikke spores til backlo
 
 | Model | Sum |
 |---|---|
-| Backlog i alt (110 items) | 1.473 t |
-| `Gaveversion = In` (45 P0-items) | 634 t |
-| `Gaveversion = TBD` (56 P1-items) | 712 t |
-| `Gaveversion = Defer` (9 P2-items) | 127 t |
+| Backlog i alt (107 aktive items) | 1.455 t |
+| Gaveversion (P0 616 + tvunget P1 266 + valgt P1 124) | **1.006 t** |
+| Udskudt til efter v1.0 | 312 t |
+| Droppet med `DROP_Q1_RUNTIME` | 28 t (PO-004, PO-007, PO-098) |
 
-Der findes ikke et forsvarligt gaveestimat, før P1-udvælgelsen er foretaget. Ingen deadline er registreret nogen steder; med 15 t/uge fra august 2026 lander gaveversionen tidligst medio 2027.
+Gaveestimatet er 1.006 t. Ved 15 t/uge lander det omkring årsskiftet 2027/28.
 
 # Roadmap
 
-## Nu — M0a (blokeret på hardware)
+## Afsluttet — M0a (2026-08-08)
 
-OpenXR-smoketest på Quest 1. Runbook, drop-in kildefiler og resultatskema ligger i `prototype/m0a-openxr-smoke/`. Accept: appen starter immersivt og hovedtracking virker — eller `DROP_Q1_RUNTIME` meldes med logcat-evidens.
+OpenXR-smoketest kørt on-device. Quest 2 grøn (71,8 fps, Vulkan, head-tracking valid); Quest 1 native SIGABRT i `libopenxr_loader.so`. Resultat: `DROP_Q1_RUNTIME` med logcat- og tombstone-evidens i `prototype/m0a-openxr-smoke/RESULTAT.md`.
 
 ## Leveret parallelt (uden hardware)
 
-Core-laget: typed IDs, kanonisk JSON, save-checksum, atomisk skrivning, scenario-kontrakt, fasemaskine med idempotens, delayed events, udfaldsformel, coop-solver, compatibility handshake, join code, deltagelsesmåling, efterspilsrapport, fuld save round-trip og data-drevet win/lose. 98 tests, CI-kørt.
+Core-laget: typed IDs, kanonisk JSON, save-checksum, atomisk skrivning, scenario-kontrakt, fasemaskine med idempotens, delayed events, udfaldsformel, coop-solver, compatibility handshake, join code, deltagelsesmåling, efterspilsrapport, fuld save round-trip og data-drevet win/lose. 146 tests, CI-kørt.
 
 ## Næste — M0b
 
-Unity-projekt oprettes, editor og pakker låses, Photon-session, handshake, head/hands-replication, CoopObjectController, 10× cross-device løftetest. Accept: Q1↔Q2 og Q2↔Q3 uden permanent desync, 72 Hz i minimal scene.
+Unity-projekt oprettes, editor og pakker låses, Photon-session, handshake, head/hands-replication, CoopObjectController, 10× cross-device løftetest. Accept: Q2↔Q3 uden permanent desync, 72 Hz i minimal scene.
 
 ## Senere — M1 til M9
 
@@ -108,8 +106,9 @@ Open world, procedural ø, permanent base, håndtracking, mixed reality, offentl
 
 # Risici
 
-- **Quest 1-lanen kan kræve en fork af interaktionslaget** frem for en pakkeprofil. Mitigation: afgøres af ét eksperiment før alt andet; exit-planen er skrevet på forhånd, så et nej er en beslutning og ikke et nederlag.
-- **P1-scope er ikke valgt.** 712 timer står som `TBD`. Uden udvælgelsen kan hverken tid eller færdiggørelse estimeres.
+- **Scope er nu valgt, men ikke bevist.** Gaveversionen er sat til 1.006 t; ved 15 t/uge er det 15-16 måneder. Estimatet er kun så godt som backloggens itemvurderinger.
+
+**Lukkede risici:** Quest 1-lanen (lukket 2026-08-08). Risikoen indtraf: Q1 kan ikke køre OpenXR. Exit-planen var skrevet på forhånd, så beslutningen kostede ét eksperiment i stedet for en fork af interaktionslaget.
 - **Content før core er sjov** (R-004, sandsynlighed høj). Videre gameplay-mekanik ud over det byggede ville være spekulativt før M0 og M3.
 - **Fusion-koden er ukompileret.** Alt i `src/unity/` er påstand indtil den kører på Windows.
 

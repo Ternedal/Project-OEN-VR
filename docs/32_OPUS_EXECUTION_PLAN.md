@@ -1,6 +1,6 @@
 # Eksekveringsplan — PROJECT ØEN
 
-> **Opdateret 2026-08-07.** Fase 1-4 er gennemført. Læs "Tilstand" før du planlægger noget: en tidligere udgave af dette dokument beskrev arbejde, der nu er lavet, og en session der fulgte den blindt ville bygge det om.
+> **Opdateret 2026-08-09.** M0a er afgjort (`DROP_Q1_RUNTIME`), M0b er i gang. Fase 1-4 er gennemført. Læs "Tilstand" før du planlægger noget: en tidligere udgave af dette dokument beskrev arbejde, der nu er lavet, og en session der fulgte den blindt ville bygge det om.
 
 ---
 
@@ -32,9 +32,9 @@ Ved konflikt gælder hierarkiet i `00_READ_ME_FIRST.md`. Ændr aldrig en `Accept
 
 | Område | Status |
 |---|---|
-| Kritisk review | Leveret, dispositioneret, merget. 8 af 10 fund lukket |
+| Kritisk review | Leveret, dispositioneret, merget. **Alle 10 fund lukket** |
 | Baseline | v2.1 på `main` |
-| Core-lag (`src/ProjectOen.Core`) | **110 tests grønne**, CI-kørt på hvert push |
+| Core-lag (`src/ProjectOen.Core`) | **146 tests grønne**, CI-kørt på hvert push |
 | M0a-hardwarepakke | Klar i `prototype/m0a-openxr-smoke/` |
 | Fusion-binding | Skrevet i `src/unity/` — **ukompileret**, markeret `UNVERIFIED-IN-SANDBOX` |
 | Notion-projektside | Indhold klar i `docs/34`; connector-skrivning afvist ("No approval received") |
@@ -43,8 +43,6 @@ Core dækker: typed IDs · kanonisk JSON · save-checksum · atomisk skrivning �
 
 ### Blokeret på Anders
 
-- **M0a** — starter og tracker Unitys OpenXR-provider fysisk på Quest 1? Alt i M0 venter.
-- **Q-004** — hvilke af de 56 P1-items er med i gaveversionen? Uden det findes intet forsvarligt estimat.
 - **Q-005** — Unity-licenstier (Personal/Pro vs. Enterprise). Afgør om 2022.3 stadig patches.
 - **M0-issue** — skal oprettes manuelt fra `docs/30`; tokenet mangler `issues`-scope.
 - **Notion** — skriveadgang skal godkendes.
@@ -53,7 +51,7 @@ Core dækker: typed IDs · kanonisk JSON · save-checksum · atomisk skrivning �
 
 ## Constraints
 
-1. **Ingen Unity Editor, intet Android SDK, ingen Quest.** Påstå aldrig, at noget virker på device.
+1. **Sandboxen har ingen Unity Editor og ingen Quest.** On-device-verifikation sker på Anders' maskine; påstå aldrig at noget virker på device uden logcat-evidens.
 2. **Fusion 2 SDK kan ikke installeres.** Fusion-kode skrives som kildefiler med dokumenterede API-antagelser.
 3. **Ren C# uden UnityEngine KAN verificeres.** `dotnet test` i sandbox er ægte verifikation — og har allerede fanget tre fejl, der var usynlige på skrift.
 4. Tokens (Notion Secrets → "Projekt øen VR") må aldrig lande i git-config, filer eller output. Sæt remote tilbage efter push.
@@ -72,11 +70,12 @@ Core dækker: typed IDs · kanonisk JSON · save-checksum · atomisk skrivning �
 
 ## Hvad der bør ske nu
 
-### 1. Vent på M0a, hvis det er muligt
+### 1. M0a er afgjort — gå videre til M0b
 
-Alt herefter afhænger af editorversionen, og den låses først af M0a-svaret. Bygger du Unity-kode nu, bygger du på en ukendt stak.
+Editorvalget er ikke længere åbent: Unity 6 LTS (`6000.4.10f1`) + OpenXR, Quest 2 som gulv og Quest 3 som
+parity. Stakken er kendt, og Unity-kode må bygges.
 
-### 2. Hvis Anders siger "kør" alligevel
+### 2. Sideløbende: mekanisme, ikke content
 
 Byg **mekanisme, ikke content**. Grænsen er: kommer tallene fra scenariodata, eller står de i koden? Kun det første er forsvarligt før M3.
 
@@ -88,11 +87,15 @@ Kandidater, i prioriteret rækkefølge:
 
 Byg **ikke**: Stormnatten-værdier, balancering, art, personalisering, Unity-scener. `docs/20` og R-004 forbyder det før gaterne, og R-004 har sandsynlighed **høj**.
 
-### 3. Efter M0a
+### 3. Efter M0a — udført
 
-**`GO`:** lås editor + pakker (`ProjectVersion.txt`, manifest, lockfile). Flyt `src/ProjectOen.Core/` 1:1 til `Assets/ProjectOen/Scripts/Core/` med asmdef (`noEngineReferences: true`). Følg `src/unity/RUNBOOK_FUSION.md`. Udfyld `config/COMPATIBILITY_MATRIX.md`. Sæt ADR-006/018/019 til `Accepted` via response matrix.
+Beslutningen blev `DROP_Q1_RUNTIME`. Eksekveret: ADR-004 superseded, ADR-018 resolved, ADR-019 accepted
+(`docs/18`); `Q1_LEGACY` arkiveret (`docs/08` §3); Q1 fjernet fra device-matrix, release gates og
+Definition of Done (`docs/13`); PO-004/PO-007/PO-098 droppet, 18 t frigjort fra P0, PO-025 reduceret til
+Q2↔Q3 (`docs/17`); dokumentoprydning på tværs af repoet gennemført 2026-08-09.
 
-**`DROP_Q1_RUNTIME`:** opdatér ADR-004/019, fjern `Q1_LEGACY` fra aktive buildprofiler i `docs/08`, arkivér som frossen demo-plan, justér items og estimater i `docs/17`, fjern Q1 fra testmatricen i `docs/13` og COMPAT-001. Meld den frigjorte tid.
+Editor låst til Unity 6 LTS; Core flyttet til Unity-projektet; `config/COMPATIBILITY_MATRIX.md` udfyldes,
+når to-klient-testen er kørt.
 
 ---
 

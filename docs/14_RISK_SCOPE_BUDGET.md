@@ -4,7 +4,7 @@
 
 | ID | Risiko | Sandsynlighed | Effekt | Tidligt signal | Mitigation |
 |---|---|---:|---:|---|---|
-| R-001 | Quest 1 kræver inkompatibel package lane | Høj | Høj | Tom build kan ikke starte eller cross-play | M0 først; isoleret legacy manifest; best-effort exit-kriterium |
+| ~~R-001~~ | Quest 1 kræver inkompatibel package lane | - | - | **Indtruffet 2026-08-08:** tom OpenXR-build crashede på Q1 | **Lukket.** Exit-kriteriet udløst; lanen droppet (`DROP_Q1_RUNTIME`) |
 | R-002 | Shared VR physics desync | Høj | Høj | Jitter/ownership loops i kassetest | Kinematic coop solver; replicate intents/results, ikke rå forces |
 | R-003 | Planlægning føles som administration | Mellem | Høj | Testere vælger uden diskussion | Reducér handlinger; tydelig prognose; skarpere tradeoffs |
 | R-004 | For meget content før core er sjov | Høj | Høj | Art/assets produceres før M3 | Stop/go gates; greybox first |
@@ -49,22 +49,22 @@ Den reelle omkostning er udviklingstid. Køb først assets, når greyboxen har b
 
 ## Tidsbudget
 
-- M0: stop/go **ved afslutningen af M0**, ikke efter et timeloft. Med den reviderede M0 falder det omkring 150-175 timer — og først dér findes beslutningsgrundlaget for Quest 1-lanen.
+- M0: stop/go **ved afslutningen af M0**, ikke efter et timeloft. Med den reviderede M0 falder det omkring 150-175 timer. Quest 1-beslutningen faldt allerede i M0a (`DROP_Q1_RUNTIME`); resten af M0's stop/go handler om netværkslanen.
 - M0-M2: hårdt loft på **250 timer** som bagstopper, også hvis alle planlagte opgaver ikke er afsluttet.
 - M3-M5: stop/go senest efter yderligere **350 timer**.
 - Hvis en spilbar vertical slice ikke er overbevisende efter cirka **600 timer samlet**, skal scope, netværksmodel eller produktgrundlag revurderes før mere content.
-- P0-backloggen (`Gaveversion = In`, 45 items) summerer til **634 timer**. Den er det konservative kritiske loft - ikke et krav om at bruge alle timer før en gate må godkendes.
-- Den fulde 110-opgavers backlog summerer til **1.473 timer** og repræsenterer maksimal hardening/polish.
-- De 56 P1-items (712 timer) står som `Gaveversion = TBD`. **Release-scope er ikke valgt endnu**, og der findes derfor ikke et forsvarligt samlet gaveestimat før den udvælgelse er foretaget.
+- P0-backloggen (`Gaveversion = In`, 43 items) summerer til **616 timer** efter at PO-004 og PO-007 blev droppet med `DROP_Q1_RUNTIME`. Den er det konservative kritiske loft - ikke et krav om at bruge alle timer før en gate må godkendes.
+- Den fulde backlog (107 aktive items) summerer til **1.455 timer** og repræsenterer maksimal hardening/polish.
+- P1-scope blev valgt 2026-08-08: **gaveversion = 1.006 t** (P0 616 + tvunget P1 266 + valgt P1 124); 312 t er udskudt til efter v1.0.
 
-## Quest 1 exit-kriterium
+## Quest 1 exit-kriterium - UDLØST 2026-08-08
 
-Quest 1 kan nedgraderes fra “fuld legacy-test af Stormnatten” til “kompatibilitetsdemo” hvis alle er opfyldt:
+Kriteriet blev udløst af M0a: Unitys OpenXR-provider crasher (SIGABRT) på Q1's frosne v50-runtime, så en
+Q1-lane ville kræve en separat Oculus-provider-fork af hele interaktionslaget. Ejeren accepterede
+nedgraderingen samme dag.
 
-- Kræver separat gameplayfork eller mere end 15 % vedvarende ekstraarbejde.
-- Kræver at Quest 2/3 forbliver på kritisk usikker/forældet stack.
-- Cross-play kan ikke gøres stabilt uden platformservice-versionkonflikt.
-- Ejeren accepterer ændringen efter fysisk M0-evidens.
+Resultat: Quest 1 er ikke længere legacy-test eller kompatibilitetsdemo i hovedprojektet - kun en eventuel
+frossen sideload-demo uden for lanen. Genoptagelse kræver ny ADR.
 
 ## Juridisk/IP
 

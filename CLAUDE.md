@@ -9,7 +9,7 @@ Før kodegenerering skal du levere det kritiske review, der er defineret i `01_P
 ## Ufravigelige rammer
 
 - Quest 2 er produktets performance- og kvalitetsbaseline.
-- Quest 1 er best-effort legacy-test og må ikke drive moderne produktbeslutninger.
+- Quest 1 er udgået som runtime (DROP_Q1_RUNTIME) og må ikke indgå i test-, build- eller acceptkriterier.
 - Quest 3/3S skal have samme gameplay og må kun få additive forbedringer.
 - MVP'en har præcis to spillere og ét 30-45 minutters scenario.
 - Projektet er original IP.

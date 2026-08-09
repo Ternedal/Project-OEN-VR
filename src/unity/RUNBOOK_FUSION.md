@@ -63,7 +63,7 @@ Stop ved første røde. Går du videre, ved du ikke længere hvilken ændring de
 |---|---|---|
 | 1 | To editor-instanser joiner samme kode | Begge ser hinandens hoved og hænder |
 | 2 | Join med forkert kode | Afvises tydeligt, ingen session |
-| 3 | Handshake med forskellig `PlatformProfile` | **Accepteres** — det er hele Q1↔Q3-lanen |
+| 3 | Handshake med forskellig `PlatformProfile` | **Accepteres** — grafikprofil må afvige på Q2↔Q3-lanen |
 | 4 | Handshake med forskelligt content hash | Afvises før spawn (COMPAT-002) |
 | 5 | Begge griber kassen | Den følger midtpunktet på begge klienter |
 | 6 | Én slipper | Kassen bliver markant tungere at flytte |
@@ -102,5 +102,26 @@ Bevist på Quest (serial 1WMHH818L30444, `com.projectoen.app`, IL2CPP/ARM64, Uni
 ### Kritisk config: AssembliesToWeave
 `Assets/Photon/Fusion/Resources/NetworkProjectConfig.fusion` → `AssembliesToWeave` SKAL indeholde `ProjectOen.Networking` og `ProjectOen.Interaction`, ellers fejler spawn med *"Type … has not been weaved"*. Efter ændring: tving en recompile (rør en kildefil) — weaveren kører kun ved recompile. Projekt-lokal config (App Id/TickRate) dokumenteres som post-import-trin; commit den ikke.
 
-### Head-tracking: brug InputDevices, ikke en ubundet TrackedPoseDriver
+### Head-tracking: brug InputDevices, ikke en ubundet TrackedPoseDriver (VERIFICERET on-device)
 Inkrement 3 loggede `head=(0.00,0.00,0.00)` — også da headsettet blev bevæget. Årsag: en programmatisk `AddComponent<TrackedPoseDriver>()` får INGEN input-action-bindinger og skriver derfor nul-pose til kameraet (den overskriver endda den satte `localPosition`). M0a beviste tracking på præcis dette rig via den robuste, binding-frie vej: `UnityEngine.XR.InputDevices.GetDevicesAtXRNode(XRNode.Head/LeftHand/RightHand)` + `TryGetFeatureValue(CommonUsages.devicePosition/deviceRotation)`. **Konklusion:** driv `NetworkPlayerRig._localHead/_localLeftHand/_localRightHand` fra `InputDevices` (ikke fra en ubundet TrackedPoseDriver). Replikerings-halvdelen (`[Networked]` pose + interpolation) er allerede compile- og spawn-sund; det, der manglede, var en levende pose-kilde.
+
+**Bekræftet 2026-08-09 (inkrement 4):** med `InputDevices`-kilden logger samme scene ikke-nul, bevægelig
+hovedpose (`head=(-0.01, 1.18, -0.05)` → `(0.08, 1.19, -0.09)`, Y ≈ 1,14-1,20 m over gulv-origin), mens
+greb→solver-kæden fortsat holder `quality` 1,00. Mønsteret ligger i `Assets/Scripts/M0bHeadRig.cs`:
+tre transforms drevet af `GetDevicesAtXRNode` + `TryGetFeatureValue`, bundet ind i `NetworkPlayerRig`
+via `BindLocalRig` i `Runner.Spawn(..., onBeforeSpawned)`.
+
+## 9. Status: hvad der mangler on-device (to headset)
+
+Alt **per-klient** er de-risket på hardware. Følgende kræver to Quests samtidig og er **ikke** verificeret:
+
+| # | Venter på | Accept |
+|---|---|---|
+| 1 | Head/hands replikeret mellem to klienter | Begge ser hinandens hoved og hænder bevæge sig |
+| 2 | Handshake-gaten afviser version-mismatch | Afvist før spawn (COMPAT-002) |
+| 3 | Kassen delt mellem to spillere | Identisk position på begge klienter; `HeldByTwo` ved to greb |
+| 4 | 10× løftetest (PO-025) | Identisk slutposition, 10/10 |
+| 5 | 72 Hz i minimal netværksscene | Stabil, ingen vedvarende drops |
+| 6 | Reconnect-vinduet (CR-009) | Måles, jf. §6 |
+
+Resultaterne føres ind i `config/COMPATIBILITY_MATRIX.md`.

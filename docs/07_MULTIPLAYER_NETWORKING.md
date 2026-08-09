@@ -69,7 +69,7 @@ Begge builds sender:
 - platform profile.
 - required feature flags.
 
-Quest 1 må spille med Quest 2/3, hvis protocol/content/schema matcher. Grafikprofil må være forskellig.
+Quest 2 og Quest 3 må spille sammen, hvis protocol/content/schema matcher. Grafikprofil må være forskellig.
 
 ## 6. Replikationskategorier
 
@@ -181,12 +181,12 @@ Behandles som disconnect. Testes specifikt, fordi Quest ofte går i standby.
 - Standby under loading.
 - Duplicate confirm command.
 - Mismatched scenario hash.
-- Quest 1 reconnect til Quest 3-session.
+- Quest 2 reconnect til Quest 3-session.
 
 ## 14. Go/no-go-kriterium
 
 Før contentproduktion:
 
-- 10 gentagelser af fælles løft Q1↔Q2 og Q2↔Q3 uden permanent desync.
+- 10 gentagelser af fælles løft Q2↔Q3 uden permanent desync.
 - 10 session create/join/leave/rejoin cycles.
 - Coordinator disconnect giver enten vellykket handover eller kontrolleret checkpoint-resume; aldrig skjult divergens.

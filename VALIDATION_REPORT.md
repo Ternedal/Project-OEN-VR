@@ -49,8 +49,7 @@ GitHub Actions-workflowen `.github/workflows/validate-handoff.yml` kører den sa
 
 Følgende kan ikke bevises af dokumentpakken og er derfor eksplicitte M0/M1-spikes:
 
-- at den valgte Unity-, OpenXR- og XR-provider-kombination starter fysisk på Quest 1, Quest 2 og Quest 3,
-- at Quest 1 kan cross-playe stabilt med Quest 2/3 under den endelige package-lane,
+- at Quest 2 og Quest 3 kan cross-playe stabilt under den endelige package-lane,
 - at Photon Fusion Shared Mode leverer acceptabel jitter og authority-adfærd for tohånds-/fællesobjekter,
 - at Stormnatten kan holde 72 Hz og memory/thermal-budget på Quest 2,
 - at scenarioet reelt varer 30-45 minutter og holder begge spillere aktive mindst 70 % af action-tiden.
