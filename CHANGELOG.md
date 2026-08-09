@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.6 - 2026-08-09
+
+Genindfoerer to beslutninger fra DP-001, som aldrig blev merget.
+
+- **ADR-022 (Proposed): M-Pre greybox-gate.** Kernehypotesen - at markoerallokering skaber diskussion frem for administration - bevises i dag foerst i M3, efter hele platform- og netvaerkslaget. Ny milepael paa 10-20 t uden VR og uden netvaerk, placeret foer M1. DP-001 placerede gaten foer M0; det er overhalet, da M0a er afgjort og M0b er per-klient bevist on-device.
+- **ADR-023 (Proposed): Release 1 = afslutning af M5.** Gaveversionen er 997 t uden ekstern deadline. En eksplicit afsendbar delmaengde - een spilbar dag plus storm i tre faser - giver projektet et defineret "faerdigt", laenge foer backloggen er tom.
+- **R-013 registreret** i docs/14: momentum-drift, hoej/hoej, mitigeret af de to ADR'er ovenfor. DP-001 registrerede den som R-011, men det nummer er optaget af purchased-asset visual clash.
+
+Resten af DP-001 (PR #2) er ikke taget med: den kolliderer med ADR-019/020/021 i main og foreskriver Unity 6000.3.x og Fusion 2.1, hvor projektet allerede koerer 6000.4.10f1 og Fusion 2.0.12 verificeret paa hardware.
+
 ## 2.5 - 2026-08-09
 
 Konsistensoprydning efter `DROP_Q1_RUNTIME` plus M0b-fremdrift on-device.
