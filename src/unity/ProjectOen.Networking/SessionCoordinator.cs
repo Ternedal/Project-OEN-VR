@@ -12,6 +12,8 @@
 using System;
 using System.Threading.Tasks;
 using Fusion;
+using Fusion.Sockets;
+using System.Collections.Generic;
 using ProjectOen.Core.Networking;
 using UnityEngine;
 
@@ -117,5 +119,18 @@ namespace ProjectOen.Networking
         public void OnConnectedToServer(NetworkRunner runner) { }
         public void OnSceneLoadDone(NetworkRunner runner) { }
         public void OnSceneLoadStart(NetworkRunner runner) { }
+        // Fusion 2.0.12 extended INetworkRunnerCallbacks. The following are new callbacks
+        // (AOI, reliable data, connect/auth) - empty stubs; not used by the project yet.
+        // TODO(Anders): OnConnectFailed is the natural place for connection-failure UX (SessionFailed).
+        public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
+        public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
+        public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
+        public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
+        public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
+        public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
+        public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
+        public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
+        public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
+        public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
     }
 }
