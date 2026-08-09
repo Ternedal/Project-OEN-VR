@@ -155,7 +155,7 @@ Aktuel tilstand efter reviewet:
 
 | Model | Sum | Status |
 |---|---:|---|
-| Backlog i alt (110 items) | 1.473 t | Fuld engineering-plan, maksimal hardening |
+| Aktiv backlog (107 items) | 1.436 t | Fuld engineering-plan, maksimal hardening. 3 Q1-items (28 t) droppet |
 | `Gaveversion = In` (45 P0-items) | 634 t | Kritisk sti — låst, releasekritisk pr. `docs/12`s egen P0-definition |
 | `Gaveversion = TBD` (56 P1-items) | 712 t | **Skal vælges af ejeren.** Indtil da findes der ikke et forsvarligt gaveestimat |
 | `Gaveversion = Defer` (9 P2-items) | 127 t | Efter v1.0 |

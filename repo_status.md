@@ -1,7 +1,7 @@
 # Repository status
 
 - Handoff baseline: **v2.1** (review v1.0 behandlet og merget)
-- Review state: **alle 10 review-fund lukket.** CR-002 lukket 2026-08-08 (M0a on-device → DROP_Q1_RUNTIME); CR-005 lukket samme dag (P1-scope valgt: gaveversion = 1.006 t)
+- Review state: **alle 10 review-fund lukket.** CR-002 lukket 2026-08-08 (M0a on-device → DROP_Q1_RUNTIME); CR-005 lukket samme dag (P1-scope valgt: gaveversion = 997 t)
 - Implementation state: **Core-lag komplet og bevist** — `src/ProjectOen.Core`, 146 tests grønne, kørt i CI på hvert push (senest grøn 08-08 07:25)
 - Unity-projekt: **oprettet** (`ProjektOenApp`, Unity `6000.4.10f1` + OpenXR + Fusion 2.0.12). M0b-binding kompilerer og kører on-device
 - **M0a AFGJORT 2026-08-08:** Quest 2 kører OpenXR (72 fps, Vulkan, head-tracking OK); Quest 1 crasher (SIGABRT i libopenxr_loader.so) → **DROP_Q1_RUNTIME**. Evidens: `prototype/m0a-openxr-smoke/RESULTAT.md`. **Næste gate: M0b** (Unity-projekt + Photon-session)
@@ -11,7 +11,7 @@
 
 1. ~~Kør M0a~~ — **gjort 08-08**: Q2 grøn, Q1 crasher → `DROP_Q1_RUNTIME`. Evidens i `prototype/m0a-openxr-smoke/RESULTAT.md`.
 2. ~~Udfyld `RESULTAT.md` og meld beslutning~~ — **gjort 08-08**: `DROP_Q1_RUNTIME`.
-3. ~~Vælg P1-scope (Q-004)~~ — **gjort 08-08**: alle 55 P1-items sat til `In`/`Defer`; gaveversion = 1.006 t.
+3. ~~Vælg P1-scope (Q-004)~~ — **gjort 08-08**: alle 55 P1-items sat til `In`/`Defer`; gaveversion = 997 t.
 4. Opret M0-issuet fra [`docs/30_M0_ISSUE_BODY.md`](docs/30_M0_ISSUE_BODY.md) — tokenet mangler `issues`-scope.
 5. ~~Opret Notion-projektsiden~~ — **gjort 08-08**: [projektsiden er oprettet](https://app.notion.com/p/3b6e6b11bf7b812c96fbfb85f84385a1) fra `docs/34`, ajourført til repoets faktiske stand (146 tests, M0a-automatisering, main).
 

@@ -185,6 +185,72 @@ def check_private_payload(errors: list[str]) -> None:
         print("PASS: no private assets or signing material")
 
 
+def check_backlog_totals(errors: list[str]) -> None:
+    """Recompute the backlog sums from docs/17 and compare against the totals quoted
+    across the docs.
+
+    Rationale: the hour totals are quoted in at least six documents. On 2026-08-09 all
+    three aggregate figures had drifted from the table they claim to summarise (one
+    dropped item was never subtracted, the deferred sum silently omitted P2, and a
+    reduced item was not propagated). Numbers that nobody recomputes stop being facts.
+    """
+    before = len(errors)
+    backlog = ROOT / "docs" / "17_BACKLOG_AND_MILESTONES.md"
+    if not backlog.exists():
+        fail("backlog file missing: docs/17_BACKLOG_AND_MILESTONES.md", errors)
+        return
+
+    totals: dict[str, float] = {}
+    counts: dict[str, int] = {}
+    for line in backlog.read_text(encoding="utf-8").splitlines():
+        if not line.startswith("| PO-"):
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) < 9:
+            fail(f"backlog row has too few columns: {cells[0] if cells else line[:40]}", errors)
+            continue
+        gaveversion, hours = cells[6], cells[8]
+        try:
+            value = float(hours)
+        except ValueError:
+            fail(f"backlog row {cells[0]} has non-numeric hours: {hours!r}", errors)
+            continue
+        totals[gaveversion] = totals.get(gaveversion, 0.0) + value
+        counts[gaveversion] = counts.get(gaveversion, 0) + 1
+
+    if not totals:
+        fail("backlog table produced no rows - has the format changed?", errors)
+        return
+
+    gift = totals.get("In", 0.0)
+    deferred = totals.get("Defer", 0.0)
+    active = gift + deferred
+    active_items = counts.get("In", 0) + counts.get("Defer", 0)
+
+    # Quoted figures that must stay in sync with the table above.
+    expected = [
+        ("gaveversion (Gaveversion = In)", gift, 997.0),
+        ("udskudt (Gaveversion = Defer)", deferred, 439.0),
+        ("aktiv backlog (In + Defer)", active, 1436.0),
+    ]
+    for label, actual, quoted in expected:
+        if abs(actual - quoted) > 0.5:
+            fail(
+                f"backlog total drifted: {label} is {actual:.0f} t in docs/17 "
+                f"but {quoted:.0f} t is quoted in the docs - recompute and update both",
+                errors,
+            )
+
+    if active_items != 107:
+        fail(f"active backlog item count is {active_items}, docs quote 107", errors)
+
+    if len(errors) == before:
+        print(
+            f"PASS: backlog totals ({active_items} active items, "
+            f"gift {gift:.0f} t, deferred {deferred:.0f} t)"
+        )
+
+
 def main() -> int:
     errors: list[str] = []
     check_required(errors)
@@ -192,6 +258,7 @@ def main() -> int:
     check_scenario_contract(errors)
     check_yaml(errors)
     check_markdown_links(errors)
+    check_backlog_totals(errors)
     check_private_payload(errors)
     print(f"\nValidation complete: {len(errors)} error(s).")
     return 1 if errors else 0

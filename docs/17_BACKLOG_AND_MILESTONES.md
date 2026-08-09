@@ -8,7 +8,7 @@
 
 > **Ændret 2026-08-08 (M0a-resultat, `DROP_Q1_RUNTIME`):** Quest 1 kører ikke OpenXR-runtimen (jf. `prototype/m0a-openxr-smoke/RESULTAT.md`). Q1-specifikke items droppet: **PO-004 (8 t) og PO-007 (10 t) fjernet fra P0/gaveversion → 18 t frigjort** (P0-sum 634 → 616 t), og **PO-098 (10 t, var TBD)** droppet. PO-025 reduceret til Q2↔Q3. COMPAT-001 (Q1↔Q3) udgået.
 
-> **P1-scope besluttet 2026-08-08 (Q-004, CR-005 lukket):** alle 55 P1-items sat til `In`/`Defer`. **Gaveversion = 1.006 t** (P0 616 + tvunget P1 266 + valgt P1 124). Udskudt til efter v1.0: 312 t (survival-dybde, ekstra content/art, dev/QA-luksus, undertekster). PO-104-dubletten rettet (telemetri = PO-109). Ved 15 t/uge ≈ **15-16 måneder** → landing omkring årsskiftet 2027/28.
+> **P1-scope besluttet 2026-08-08 (Q-004, CR-005 lukket):** alle 55 P1-items sat til `In`/`Defer`. **Gaveversion = 997 t** (P0 616 + P1 381, i alt 76 items). Udskudt til efter v1.0: **439 t** (31 items: 312 t P1 — survival-dybde, ekstra content/art, dev/QA-luksus, undertekster — plus 127 t P2). PO-104-dubletten rettet (telemetri = PO-109). Ved 15 t/uge ≈ **15-16 måneder** → landing omkring årsskiftet 2027/28.
 
 ## Epics
 

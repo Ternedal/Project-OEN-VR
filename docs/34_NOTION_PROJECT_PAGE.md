@@ -26,7 +26,7 @@ Nedenfor er alt, klar til copy/paste. Opret siden i **ProjectRig HQ → Projekte
 M0b: Unity-projektet er oprettet, Fusion-sessionen kører on-device, og co-op-kassen spawner.
 Naeste gate er privat session mellem to klienter med head/hands-replikation og 10x loeftetest
 uden permanent desync (Q2<->Q3). M0a er afgjort: DROP_Q1_RUNTIME. P1-scope er valgt
-(gaveversion = 1.006 t). Udestaar: M0-issuet skal oprettes manuelt fra docs/30
+(gaveversion = 997 t). Udestaar: M0-issuet skal oprettes manuelt fra docs/30
 (tokenet mangler issues-scope).
 ```
 
@@ -75,12 +75,12 @@ Det tidligere tal på 500-810 timer var top-down og kunne ikke spores til backlo
 
 | Model | Sum |
 |---|---|
-| Backlog i alt (107 aktive items) | 1.455 t |
-| Gaveversion (P0 616 + tvunget P1 266 + valgt P1 124) | **1.006 t** |
-| Udskudt til efter v1.0 | 312 t |
+| Aktiv backlog (107 items) | 1.436 t |
+| Gaveversion (76 items: P0 616 + P1 381) | **997 t** |
+| Udskudt til efter v1.0 (31 items) | 439 t |
 | Droppet med `DROP_Q1_RUNTIME` | 28 t (PO-004, PO-007, PO-098) |
 
-Gaveestimatet er 1.006 t. Ved 15 t/uge lander det omkring årsskiftet 2027/28.
+Gaveestimatet er 997 t. Ved 15 t/uge lander det omkring årsskiftet 2027/28.
 
 # Roadmap
 
@@ -106,7 +106,7 @@ Open world, procedural ø, permanent base, håndtracking, mixed reality, offentl
 
 # Risici
 
-- **Scope er nu valgt, men ikke bevist.** Gaveversionen er sat til 1.006 t; ved 15 t/uge er det 15-16 måneder. Estimatet er kun så godt som backloggens itemvurderinger.
+- **Scope er nu valgt, men ikke bevist.** Gaveversionen er sat til 997 t; ved 15 t/uge er det 15-16 måneder. Estimatet er kun så godt som backloggens itemvurderinger.
 
 **Lukkede risici:** Quest 1-lanen (lukket 2026-08-08). Risikoen indtraf: Q1 kan ikke køre OpenXR. Exit-planen var skrevet på forhånd, så beslutningen kostede ét eksperiment i stedet for en fork af interaktionslaget.
 - **Content før core er sjov** (R-004, sandsynlighed høj). Videre gameplay-mekanik ud over det byggede ville være spekulativt før M0 og M3.

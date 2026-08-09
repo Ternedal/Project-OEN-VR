@@ -54,8 +54,8 @@ Den reelle omkostning er udviklingstid. Køb først assets, når greyboxen har b
 - M3-M5: stop/go senest efter yderligere **350 timer**.
 - Hvis en spilbar vertical slice ikke er overbevisende efter cirka **600 timer samlet**, skal scope, netværksmodel eller produktgrundlag revurderes før mere content.
 - P0-backloggen (`Gaveversion = In`, 43 items) summerer til **616 timer** efter at PO-004 og PO-007 blev droppet med `DROP_Q1_RUNTIME`. Den er det konservative kritiske loft - ikke et krav om at bruge alle timer før en gate må godkendes.
-- Den fulde backlog (107 aktive items) summerer til **1.455 timer** og repræsenterer maksimal hardening/polish.
-- P1-scope blev valgt 2026-08-08: **gaveversion = 1.006 t** (P0 616 + tvunget P1 266 + valgt P1 124); 312 t er udskudt til efter v1.0.
+- Den fulde aktive backlog (107 items) summerer til **1.436 timer** og repræsenterer maksimal hardening/polish. De 3 droppede Q1-items (28 t) er ikke medregnet.
+- P1-scope blev valgt 2026-08-08: **gaveversion = 997 t** (P0 616 + P1 381, i alt 76 items). Udskudt til efter v1.0: **439 t** (31 items = 312 t P1 + 127 t P2).
 
 ## Quest 1 exit-kriterium - UDLØST 2026-08-08
 
