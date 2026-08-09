@@ -125,3 +125,35 @@ Alt **per-klient** er de-risket på hardware. Følgende kræver to Quests samtid
 | 6 | Reconnect-vinduet (CR-009) | Måles, jf. §6 |
 
 Resultaterne føres ind i `config/COMPATIBILITY_MATRIX.md`.
+
+## 10. To lukkede "risici" — begge var falsk alarm (undersøgt 2026-08-09)
+
+Begge stod på listen som ting, der skulle ordnes før release. Undersøgelsen viste, at der ikke er noget
+at ordne. De er dokumenteret her, så de ikke bliver genopfundet.
+
+### TickRate i `NetworkProjectConfig` — ingen defekt
+
+Configen har `TickRateSelection: { Client: 64, ServerIndex: 0, ClientSendIndex: 1, ServerSendIndex: 1 }`.
+`ServerIndex: 0` blev tidligere aflæst som "ikke sat". Det er forkert. Fusions egen property drawer
+(`Assets/Photon/Fusion/Editor/…/TickRateDrawer.cs`) kommenterer eksplicit:
+
+> *"SERVER SIM RATE - Force it to be 1:1 with the client tick rate - since different tick rates are not supported."*
+
+Drawer'en bygger derfor server-dropdownen med **én** valgmulighed, og indeks **0** er det eneste gyldige
+valg. Validitet tjekkes på `Client` (64 Hz), ikke på indekset. Ingen `TickRate`-advarsel findes i Unitys
+`Editor.log` (1,7 MB på tværs af sessionerne). **Konklusion: rør ikke ved den.** Skulle en runtime-advarsel
+dukke op i en device-log, hører den til her — men der er intet at ændre på forhånd.
+
+### "Invalid signature" på XR/Input-pakker — ingen defekt
+
+Ingen forekomster af `unsigned`, `not signed`, `tampered`, `integrity` eller `invalid signature` i
+`Editor.log`, og nul PackageManager-fejl/advarsler. Alle XR-pakker resolver rent fra
+`Library/PackageCache/<navn>@<hash>` — hash-suffikset er netop Unitys markør for en registry-hentet,
+integritetsverificeret pakke — og versionerne matcher `packages-lock.json`:
+
+`com.unity.xr.openxr@1.14.3` · `com.unity.xr.management@4.5.0` · `com.unity.xr.interaction.toolkit@3.0.8`
+· `com.unity.xr.core-utils@2.3.0` · `com.unity.xr.legacyinputhelpers@3.0.1`
+
+De eneste "signature"-linjer i loggen er `[Licensing::Client] Code 10 while verifying Licensing Client
+signature` (Unitys eget licens-**program**, en kendt godartet besked) og en Hub-autoupdater-note. Ingen af
+dem har med pakker at gøre. **Konklusion: ingen blocker før release.**
