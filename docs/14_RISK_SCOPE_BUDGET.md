@@ -16,6 +16,7 @@
 | R-010 | Personligt indhold bliver kitschet | Mellem | Mellem | Finale føles løsrevet | Kort, fortjent epilog; neutral fallback |
 | R-011 | Purchased assets clash visually | Mellem | Mellem | Uens art direction | Style pass and material unification |
 | R-012 | AI-assistance skaber inkonsistent kode | Høj | Mellem | Duplikerede abstractions og scripts | Architecture rules, small PRs, tests and review |
+| R-013 | Momentum-drift: gaven bliver aldrig afsendt | Høj | Høj | Milepæle skrider uden at noget er spilbart; ingen dato nævnes | Release 1 defineret som afslutning af M5 (ADR-023); M-Pre-gate før M1 (ADR-022) |
 
 ## Scopekontrol
 
