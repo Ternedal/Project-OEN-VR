@@ -251,6 +251,78 @@ def check_backlog_totals(errors: list[str]) -> None:
         )
 
 
+TYPED_ID_PATTERNS = {
+    "SCN": re.compile(r"^SCN_[A-Z0-9_]+_\d{3}$"),
+    "EVT": re.compile(r"^EVT_[A-Z0-9_]+_\d{3}$"),
+    "ITM": re.compile(r"^ITM_[A-Z0-9_]+_\d{3}$"),
+    "RCP": re.compile(r"^RCP_[A-Z0-9_]+_\d{3}$"),
+    "INT": re.compile(r"^INT_[A-Z0-9_]+_\d{3}$"),
+}
+
+
+def _walk_ids(node: object, path: str, found: list[tuple[str, str]]) -> None:
+    if isinstance(node, dict):
+        for key, value in node.items():
+            child = f"{path}/{key}"
+            if key == "id" and isinstance(value, str):
+                found.append((value, child))
+            _walk_ids(value, child, found)
+    elif isinstance(node, list):
+        for index, item in enumerate(node):
+            _walk_ids(item, f"{path}[{index}]", found)
+
+
+def check_stable_ids(errors: list[str]) -> None:
+    """Enforce the typed-ID contract from src/ProjectOen.Core/Ids/TypedIds.cs on the data.
+
+    Rationale: docs/10 requires stable IDs, but nothing enforced it outside C#. A typed ID
+    is only constructed when code happens to parse that field, so a malformed ID in data
+    can sit unnoticed until the exact scenario branch that reads it runs. IDs are also the
+    join keys between scenario, save and content - a renamed ID silently breaks old saves.
+    """
+    before = len(errors)
+    examples = ROOT / "examples"
+    if not examples.is_dir():
+        fail("examples/ directory missing", errors)
+        return
+
+    checked = 0
+    for path in sorted(examples.glob("*.json")):
+        rel = path.relative_to(ROOT)
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            fail(f"{rel}: invalid JSON ({exc})", errors)
+            continue
+
+        found: list[tuple[str, str]] = []
+        _walk_ids(data, "", found)
+
+        seen: dict[str, str] = {}
+        for value, where in found:
+            prefix = value.split("_", 1)[0]
+            pattern = TYPED_ID_PATTERNS.get(prefix)
+            if pattern is not None:
+                checked += 1
+                if not pattern.fullmatch(value):
+                    fail(
+                        f"{rel}: id {value!r} at {where} has a typed prefix but does not match "
+                        f"{pattern.pattern} - TypedIds.cs would reject it at runtime",
+                        errors,
+                    )
+                if value in seen:
+                    fail(
+                        f"{rel}: id {value!r} is used twice ({seen[value]} and {where}); "
+                        f"IDs are join keys and must be unique",
+                        errors,
+                    )
+                else:
+                    seen[value] = where
+
+    if len(errors) == before:
+        print(f"PASS: stable ids ({checked} typed ids across examples/)")
+
+
 def main() -> int:
     errors: list[str] = []
     check_required(errors)
@@ -259,6 +331,7 @@ def main() -> int:
     check_yaml(errors)
     check_markdown_links(errors)
     check_backlog_totals(errors)
+    check_stable_ids(errors)
     check_private_payload(errors)
     print(f"\nValidation complete: {len(errors)} error(s).")
     return 1 if errors else 0

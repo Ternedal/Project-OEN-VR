@@ -26,6 +26,17 @@ namespace ProjectOen.Core.Tests
         public static IDictionary<string, object?> LoadScenarioExample() =>
             LoadJsonObject(Path.Combine(RepoRoot, "examples", "stormnatten.scenario.json"));
 
+        /// <summary>Laeser en vilkaarlig fil fra examples/ ved filnavn.</summary>
+        public static IDictionary<string, object?> LoadExample(string fileName) =>
+            LoadJsonObject(Path.Combine(RepoRoot, "examples", fileName));
+
+        /// <summary>Parser en JSON-streng til samme struktur som eksempelfilerne.</summary>
+        public static IDictionary<string, object?> ParseJsonObject(string json)
+        {
+            using var doc = JsonDocument.Parse(json);
+            return (IDictionary<string, object?>)Convert(doc.RootElement)!;
+        }
+
         static IDictionary<string, object?> LoadJsonObject(string path)
         {
             using var doc = JsonDocument.Parse(File.ReadAllText(path));
