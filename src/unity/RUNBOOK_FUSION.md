@@ -89,3 +89,18 @@ Sæt vinduet efter tallene og opdatér `docs/07` §10. Det er CR-009's `NEEDS_EV
 ## 7. Når det virker
 
 Opdatér `config/COMPATIBILITY_MATRIX.md` med de faktiske resultater, sæt ADR-008 til `Accepted` via response matrix, og tag en release med zip som asset.
+
+## 8. On-device resultater (M0b inkrement 1-3 · 9. august 2026)
+
+Bevist på Quest (serial 1WMHH818L30444, `com.projectoen.app`, IL2CPP/ARM64, Unity 6000.4.10f1, Fusion 2.0.12):
+
+- **Feasibility:** `NetworkRunner.StartGame` (Shared) forbinder til Photon — `[Fusion] adding player [Player:1]`. App Id sat i `PhotonAppSettings`.
+- **Inkrement 1 (kasse):** `Runner.Spawn` af `NetworkedCoopObject` med state authority; `CoopSolver` kører stabilt (`quality=1.00`).
+- **Inkrement 2 (rig):** `Runner.Spawn` af `NetworkPlayerRig` med input authority; `BindLocalRig` binder de lokale kilder. Ingen NullRef.
+- **Inkrement 3b (greb→kasse):** simuleret `SubmitHandTarget(gripping=true)` → fase `Released`→`HeldByOne` → `CoopSolver` flytter `boxPos.X` langs et sinus-mål, `quality` holder 1.00. Hele den netværkede interaktion (spawn m. authority → greb → solver → replikering) er de-risket på hardware.
+
+### Kritisk config: AssembliesToWeave
+`Assets/Photon/Fusion/Resources/NetworkProjectConfig.fusion` → `AssembliesToWeave` SKAL indeholde `ProjectOen.Networking` og `ProjectOen.Interaction`, ellers fejler spawn med *"Type … has not been weaved"*. Efter ændring: tving en recompile (rør en kildefil) — weaveren kører kun ved recompile. Projekt-lokal config (App Id/TickRate) dokumenteres som post-import-trin; commit den ikke.
+
+### Head-tracking: brug InputDevices, ikke en ubundet TrackedPoseDriver
+Inkrement 3 loggede `head=(0.00,0.00,0.00)` — også da headsettet blev bevæget. Årsag: en programmatisk `AddComponent<TrackedPoseDriver>()` får INGEN input-action-bindinger og skriver derfor nul-pose til kameraet (den overskriver endda den satte `localPosition`). M0a beviste tracking på præcis dette rig via den robuste, binding-frie vej: `UnityEngine.XR.InputDevices.GetDevicesAtXRNode(XRNode.Head/LeftHand/RightHand)` + `TryGetFeatureValue(CommonUsages.devicePosition/deviceRotation)`. **Konklusion:** driv `NetworkPlayerRig._localHead/_localLeftHand/_localRightHand` fra `InputDevices` (ikke fra en ubundet TrackedPoseDriver). Replikerings-halvdelen (`[Networked]` pose + interpolation) er allerede compile- og spawn-sund; det, der manglede, var en levende pose-kilde.

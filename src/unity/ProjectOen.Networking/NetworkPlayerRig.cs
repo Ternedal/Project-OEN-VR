@@ -70,6 +70,12 @@ namespace ProjectOen.Networking
             Apply(_rightHand, RightPosition, RightRotation, t);
         }
 
+        // Runtime-binding af den lokale XR-rig (kaldes via Runner.Spawn onBeforeSpawned).
+        public void BindLocalRig(Transform head, Transform left, Transform right)
+        {
+            _localHead = head; _localLeftHand = left; _localRightHand = right;
+        }
+
         static void Apply(Transform target, Vector3 position, Quaternion rotation, float t)
         {
             target.position = Vector3.Lerp(target.position, position, t);
