@@ -29,16 +29,62 @@ Source contract:
 
 `content/audio/authored_audio_manifest.csv` is the authoritative list for this pack.
 
-### Lane B — CC0 field recordings
+### Lane B1 — CI-buildable Public Domain / CC0 environmental candidates
 
-Use real recordings for environmental material where procedural synthesis would sound artificial in VR:
+Use this lane to create reproducible technical candidates from explicitly reviewed, redistributable source recordings without requiring a service login.
 
-- ocean and shoreline
-- jungle beds and fauna
-- rain and rain-on-tarp
-- campfire beds and crackles
-- natural wind and storm gusts
-- thunder
+The source registry is `content/audio/public_domain_environment_sources.csv`. Every source row records:
+
+- original Commons page
+- direct source URL
+- creator
+- exact license state (`Public-Domain` or `CC0-1.0`)
+- verification date
+- pinned SHA256 of the downloaded source
+
+`tools/build_public_domain_environment_pack.py` only accepts those two license states, only fetches from the registered Wikimedia/Commons endpoints, identifies itself to Wikimedia, retries transient HTTP failures with backoff, paces downloads, and refuses to continue if a downloaded source differs from its pinned SHA256.
+
+`content/audio/environment_candidate_build.csv` defines the current v0 derivative set. CI builds 10 WAV candidates:
+
+- `SFX_AMB_Beach_OceanNear_01/02`
+- `SFX_AMB_Beach_OceanFar_01/02`
+- `SFX_WTH_Rain_Light_01`
+- `SFX_WTH_Rain_Heavy_01`
+- `SFX_WTH_Storm_Wind_01/02`
+- `SFX_ENV_Fire_Idle_01`
+- `SFX_ENV_Fire_Low_01`
+
+The build emits `oen-public-domain-environment-v0.zip`. Each derivative is 48 kHz / 24-bit PCM WAV and `PROVENANCE.csv` records both source SHA256 and output SHA256 together with the source page, creator and license.
+
+Current source set:
+
+- water/waves — Dsw4, Public Domain
+- light rain — ジダネ, Public Domain
+- heavy rain — ezwa / PDSounds, Public Domain
+- howling wind — Tvabutzku1234, CC0 1.0
+- campfire — Cary Bass, Public Domain
+
+**Important:** v0 is a *candidate pack*, not a mastered production pack. All rows remain `candidate-headset-listen`. Technical normalization and provenance do not replace listening QA, seamless-loop editing or scene/headset approval.
+
+Before promotion from candidate to production:
+
+1. Listen to every full derivative on neutral headphones and Quest.
+2. Reject speech, music, traffic, handling noise or source-specific contamination.
+3. Edit loop-intended assets into genuinely seamless loops; do not rely on Unity looping a raw cut.
+4. Verify that Near/Far variants read as different distances rather than simple volume copies.
+5. Check fire against the actual campfire visual scale and attenuation.
+6. Check rain/wind under the complete storm mix and shelter snapshot.
+7. Change status only after the approved derivative is frozen and its production hash is recorded.
+
+### Lane B2 — manually reviewed CC0 field-recording candidates
+
+Use real recordings from libraries such as Freesound when they offer materially better source quality than the CI-buildable set, especially for:
+
+- tropical jungle beds and fauna
+- rain-on-tarp / tent material
+- longer and richer campfire beds/crackles
+- shoreline detail
+- natural wind gusts and thunder
 
 Candidates are recorded in `content/audio/field_recording_candidates.csv`. A candidate is not production audio merely because it is listed. Before ingest:
 
@@ -124,6 +170,7 @@ A file outside one of these load-profile folders gets a warning and conservative
 - source rate 48 kHz after preparation
 - intended channel layout
 - no obvious DC offset or unexpected silence
+- source/provenance hash present for externally sourced recordings
 
 ### Variation-set
 
@@ -158,13 +205,18 @@ Implemented:
 - authored UI/status generator: 65 WAV variations
 - authored-pack deterministic QA
 - CI-built downloadable authored ZIP artifact
-- CC0 field-recording shortlist
+- verified Public Domain / CC0 environmental source registry with SHA256 pins
+- CI environmental candidate builder with retry/backoff and source-hash verification
+- 10-file `oen-public-domain-environment-v0` candidate artifact for ocean/rain/wind/fire
+- manual CC0 field-recording shortlist for higher-quality environmental sourcing
 - field-recording preparation tool
 - Unity import postprocessor
 
 Still required for the full sound pack:
 
-- reviewed and edited environmental recordings
+- headset listening and seamless-loop editing of environmental candidates
+- tropical jungle/fauna masters
+- rain-on-tarp master and additional campfire variations
 - bespoke Foley variation sets
 - final stingers/adaptive music masters
 - Unity asset definitions/catalog population with real clips
