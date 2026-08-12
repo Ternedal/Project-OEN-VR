@@ -15,6 +15,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: project-oen-art-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   generate:
     runs-on: ubuntu-latest
@@ -77,6 +81,8 @@ jobs:
         run: python tools/generated_art/validate_ui_sprite_art.py
       - name: Validate diegetic UI prefab integration
         run: python tools/generated_art/validate_diegetic_ui_builder.py
+      - name: Validate diegetic UI physical-scale showcase
+        run: python tools/generated_art/validate_ui_showcase.py
       - name: Validate refined materials
         run: python tools/generated_art/validate_material_textures.py
       - name: Validate hero-art refinement
@@ -94,33 +100,21 @@ jobs:
       - name: Commit generated and production assets
         shell: bash
         run: |
+          set -euo pipefail
+          branch='${{ github.ref_name }}'
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add Assets/ProjectOEN/GeneratedArtRuntime256 Assets/ProjectOEN/GeneratedArtRuntime256Docs
           git add Assets/ProjectOEN/ProductionArt
-          git add -A tools/generated_art/generate_production_art.py 2>/dev/null || true
-          git add -A tools/generated_art/refine_material_textures.py 2>/dev/null || true
-          git add -A tools/generated_art/refine_hero_art.py 2>/dev/null || true
-          git add -A tools/generated_art/refine_hero_joinery.py 2>/dev/null || true
-          git add -A tools/generated_art/refine_environment_art.py 2>/dev/null || true
-          git add -A tools/generated_art/refine_prop_art.py 2>/dev/null || true
-          git add -A tools/generated_art/refine_set_dressing_art.py 2>/dev/null || true
-          git add -A tools/generated_art/refine_ui_sprite_art.py 2>/dev/null || true
-          git add -A tools/generated_art/finalize_production_art_docs.py 2>/dev/null || true
-          git add -A tools/generated_art/validate_ui_sprite_art.py 2>/dev/null || true
-          git add -A tools/generated_art/validate_diegetic_ui_builder.py 2>/dev/null || true
-          git add -A tools/generated_art/validate_material_textures.py 2>/dev/null || true
-          git add -A tools/generated_art/validate_hero_art.py 2>/dev/null || true
-          git add -A tools/generated_art/validate_environment_art.py 2>/dev/null || true
-          git add -A tools/generated_art/validate_prop_art.py 2>/dev/null || true
-          git add -A tools/generated_art/validate_set_dressing_art.py 2>/dev/null || true
-          git add -A tools/generated_art/validate_showcase_content.py 2>/dev/null || true
-          git add -A tools/generated_art/validate_unity_art_builder.py 2>/dev/null || true
+          git add -A tools/generated_art 2>/dev/null || true
           git add -A art_payloads 2>/dev/null || true
-          git add -A tools/generated_art/import_trigger.txt 2>/dev/null || true
           if git diff --cached --quiet; then
             echo 'No generated or production art changes.'
             exit 0
           fi
           git commit -m 'Generate refined Project OEN production art'
-          git push origin HEAD:${{ github.ref_name }}
+          # A human/tool commit can land while generation is running. Rebase the
+          # deterministic generated commit onto the latest branch head before push.
+          git fetch origin "$branch"
+          git rebase "origin/$branch"
+          git push origin "HEAD:$branch"
