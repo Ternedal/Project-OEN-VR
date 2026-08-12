@@ -85,6 +85,8 @@ jobs:
         run: python tools/generated_art/validate_vfx_art.py
       - name: Validate Unity VFX integration
         run: python tools/generated_art/validate_vfx_builder.py
+      - name: Validate isolated production VFX showcase
+        run: python tools/generated_art/validate_vfx_showcase.py
       - name: Validate diegetic UI prefab integration
         run: python tools/generated_art/validate_diegetic_ui_builder.py
       - name: Validate diegetic UI physical-scale showcase
@@ -109,7 +111,7 @@ jobs:
           set -euo pipefail
           branch='${{ github.ref_name }}'
           git config user.name 'github-actions[bot]'
-          git config user.email '4189828+github-actions[bot]@users.noreply.github.com'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add Assets/ProjectOEN/GeneratedArtRuntime256 Assets/ProjectOEN/GeneratedArtRuntime256Docs
           git add Assets/ProjectOEN/ProductionArt
           git add -A tools/generated_art 2>/dev/null || true
