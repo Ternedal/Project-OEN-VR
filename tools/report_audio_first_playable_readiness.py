@@ -2,8 +2,8 @@
 """Report Project OEN audio first-playable production readiness.
 
 The canonical manifest is the inventory. Authored/environment build registries prove what has
-actual generated candidate files; Foley and reviewed-field plans explain known missing lanes.
-Everything else remains explicitly unassigned rather than being silently treated as done.
+actual generated candidate files; Foley, reviewed-field and production-backlog registries explain
+every known missing lane. No runtime event is allowed to remain silently unassigned.
 
 The production manifest still carries two historical status labels. They are canonicalized here
 to the stable runtime names without rewriting the source manifest, because Unity/runtime IDs and
@@ -25,6 +25,7 @@ MUSIC = AUDIO / "authored_adaptive_music_manifest.csv"
 ENVIRONMENT = AUDIO / "environment_candidate_build.csv"
 FOLEY = AUDIO / "foley_recording_plan.csv"
 REVIEWED = AUDIO / "reviewed_field_recording_jobs.csv"
+BACKLOG = AUDIO / "audio_production_backlog.csv"
 
 LEGACY_EVENT_ALIASES = {
     "SFX_STS_Hunger_Warn": "SFX_STS_Injury_Warn",
@@ -97,6 +98,7 @@ def write_markdown(
         f"- Events with actual produced candidate WAVs: **{produced_event_count}**",
         f"- Produced candidate WAV files represented by registries: **{produced_file_count}**",
         f"- Runtime events still without produced WAVs: **{missing}**",
+        "- Missing runtime events without an explicit production lane: **0**",
         "",
         "Historical manifest labels `SFX_STS_Hunger_Warn` and `SFX_STS_Thirst_Warn` are reported "
         "as canonical runtime `SFX_STS_Injury_Warn` and `SFX_STS_ColdWet_Warn`; the source manifest "
@@ -140,6 +142,7 @@ def main() -> int:
     parser.add_argument("--expect-canonical-events", type=int, default=115)
     parser.add_argument("--expect-produced-events", type=int, default=45)
     parser.add_argument("--expect-produced-files", type=int, default=160)
+    parser.add_argument("--expect-backlog-events", type=int, default=25)
     args = parser.parse_args()
 
     canonical_rows = read_csv(CANONICAL)
@@ -148,6 +151,7 @@ def main() -> int:
     environment_rows = read_csv(ENVIRONMENT)
     foley_rows = read_csv(FOLEY)
     reviewed_rows = read_csv(REVIEWED)
+    backlog_rows = read_csv(BACKLOG)
 
     canonical_order: list[str] = []
     canonical_by_id: dict[str, dict[str, str]] = {}
@@ -207,9 +211,35 @@ def main() -> int:
         if row.get("event_id", "").strip()
     }
 
+    backlog_lane: dict[str, str] = {}
+    for row in backlog_rows:
+        event_id = canonicalize_event_id(row.get("event_id", ""))
+        if not event_id:
+            raise SystemExit("audio production backlog contains blank event_id")
+        if event_id in backlog_lane:
+            raise SystemExit(f"duplicate audio production backlog event: {event_id}")
+        production_lane = row.get("production_lane", "").strip()
+        if production_lane not in {"field-source", "public-domain-candidate", "supplemental-field-foley"}:
+            raise SystemExit(f"invalid production_lane for {event_id}: {production_lane!r}")
+        target_variations = int_field(row, "target_variations", "audio production backlog")
+        canonical_variations = int_field(canonical_by_id.get(event_id, {}), "variations", f"canonical event {event_id}")
+        if target_variations != canonical_variations:
+            raise SystemExit(
+                f"backlog target variation mismatch for {event_id}: "
+                f"{target_variations} != canonical {canonical_variations}"
+            )
+        if not row.get("source_strategy", "").strip() or not row.get("acceptance", "").strip():
+            raise SystemExit(f"backlog event lacks source strategy/acceptance: {event_id}")
+        backlog_lane[event_id] = production_lane
+
+    backlog = set(backlog_lane)
     ensure_known(produced, canonical, "produced registries")
     ensure_known(foley, canonical, "Foley recording plan")
     ensure_known(reviewed, canonical, "reviewed field-recording jobs")
+    ensure_known(backlog, canonical, "audio production backlog")
+
+    if len(backlog) != args.expect_backlog_events:
+        raise SystemExit(f"expected {args.expect_backlog_events} backlog events, got {len(backlog)}")
 
     produced_files = sum(produced_variations.values())
     if len(produced) != args.expect_produced_events:
@@ -224,8 +254,25 @@ def main() -> int:
     missing = canonical - produced
     missing_foley = missing & foley
     missing_reviewed = (missing & reviewed) - foley
-    missing_unassigned = missing - foley - reviewed
+    missing_backlog = missing & backlog
     reviewed_upgrades = sorted(produced & reviewed)
+
+    overlaps = sorted((backlog & foley) | (backlog & reviewed) | (backlog & produced))
+    if overlaps:
+        raise SystemExit(
+            "audio production backlog must contain only otherwise-unassigned missing events; overlaps: "
+            + ", ".join(overlaps)
+        )
+
+    unassigned = missing - foley - reviewed - backlog
+    unexpected_backlog = backlog - missing
+    if unassigned or unexpected_backlog:
+        details = []
+        if unassigned:
+            details.append("unassigned=" + ",".join(sorted(unassigned)))
+        if unexpected_backlog:
+            details.append("backlog-not-missing=" + ",".join(sorted(unexpected_backlog)))
+        raise SystemExit("audio readiness lane coverage mismatch: " + "; ".join(details))
 
     rows: list[dict[str, str]] = []
     lane_counts: Counter[str] = Counter()
@@ -237,8 +284,10 @@ def main() -> int:
             lane = "missing-foley-recording"
         elif event_id in missing_reviewed:
             lane = "missing-reviewed-field-source"
+        elif event_id in missing_backlog:
+            lane = "missing-" + backlog_lane[event_id]
         else:
-            lane = "missing-unassigned-production"
+            raise SystemExit(f"internal readiness classification gap: {event_id}")
 
         lane_counts[lane] += 1
         rows.append(
@@ -268,12 +317,16 @@ def main() -> int:
             rows,
         )
 
+    backlog_counts = Counter(backlog_lane.values())
     print(
         "Audio first-playable readiness OK: "
         f"{len(produced)}/{len(canonical)} events produced ({produced_files} WAVs); "
-        f"missing={len(missing)} [foley={len(missing_foley)}, "
-        f"reviewed-field={len(missing_reviewed)}, unassigned={len(missing_unassigned)}]; "
-        f"reviewed-upgrades={len(reviewed_upgrades)}"
+        f"missing={len(missing)} [foley={len(missing_foley)}, reviewed-field={len(missing_reviewed)}, "
+        f"backlog={len(missing_backlog)}: "
+        f"field-source={backlog_counts['field-source']}, "
+        f"public-domain={backlog_counts['public-domain-candidate']}, "
+        f"supplemental-foley={backlog_counts['supplemental-field-foley']}]; "
+        f"unassigned={len(unassigned)}; reviewed-upgrades={len(reviewed_upgrades)}"
     )
     return 0
 
