@@ -66,10 +66,17 @@ namespace ProjectOen.Audio
         public AudioStormPhase StormPhase => _stormPhase;
         public bool Sheltered => _sheltered;
 
+        /// <summary>
+        /// Raised after an audio-relevant world state changes and after the initial state is applied.
+        /// Dependent audio adapters can subscribe without polling or owning simulation state.
+        /// </summary>
+        public event Action StateChanged;
+
         private void Start()
         {
             ApplyBiomeLayer();
             ApplyStormLayer();
+            StateChanged?.Invoke();
         }
 
         public void SetBiome(AudioBiome biome)
@@ -80,6 +87,7 @@ namespace ProjectOen.Audio
             _biome = biome;
             if (!_sheltered)
                 ApplyBiomeLayer();
+            StateChanged?.Invoke();
         }
 
         public void SetDayPhase(AudioDayPhase phase)
@@ -89,6 +97,7 @@ namespace ProjectOen.Audio
 
             _dayPhase = phase;
             ApplyBiomeLayer();
+            StateChanged?.Invoke();
         }
 
         public void SetStormPhase(AudioStormPhase phase)
@@ -98,6 +107,7 @@ namespace ProjectOen.Audio
 
             _stormPhase = phase;
             ApplyStormLayer();
+            StateChanged?.Invoke();
         }
 
         public void SetSheltered(bool sheltered)
@@ -108,6 +118,7 @@ namespace ProjectOen.Audio
             _sheltered = sheltered;
             ApplyBiomeLayer();
             ApplyMixerSnapshot();
+            StateChanged?.Invoke();
         }
 
         private void ApplyBiomeLayer()
