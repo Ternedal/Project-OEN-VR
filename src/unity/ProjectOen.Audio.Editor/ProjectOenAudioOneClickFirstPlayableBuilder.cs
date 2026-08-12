@@ -23,6 +23,8 @@ namespace ProjectOen.Audio.Editor
         private const string ProfilesRoot = GeneratedRoot + "/Profiles";
         private const string RuntimeRoot = GeneratedRoot + "/Runtime";
         private const string RuntimePrefabPath = RuntimeRoot + "/AudioRuntime_FirstPlayable.prefab";
+        private const int ExpectedFirstPlayableClipCount = 160;
+        private const int ExpectedFirstPlayableEventCount = 45;
 
         private readonly struct LayerSpec
         {
@@ -39,6 +41,18 @@ namespace ProjectOen.Audio.Editor
         [MenuItem("Project Oen/Audio/Build First Playable (One Click)", priority = 0)]
         public static void BuildOneClick()
         {
+            var coverage = MeasureCanonicalClipCoverage();
+            if (coverage.clipCount < ExpectedFirstPlayableClipCount ||
+                coverage.eventCount < ExpectedFirstPlayableEventCount)
+            {
+                Debug.LogError(
+                    "Project Oen audio one-click build stopped: incomplete first-playable audio import. " +
+                    $"Found {coverage.clipCount}/{ExpectedFirstPlayableClipCount} canonical clips across " +
+                    $"{coverage.eventCount}/{ExpectedFirstPlayableEventCount} events below '{AudioRoot}'. " +
+                    "Extract the current oen-unity-first-playable-audio-v1 artifact at the Unity project root first.");
+                return;
+            }
+
             ProjectOenAudioFirstPlayableBuilder.BuildFirstPlayable();
 
             var catalog = AssetDatabase.LoadAssetAtPath<AudioCatalog>(CatalogPath);
@@ -150,6 +164,7 @@ namespace ProjectOen.Audio.Editor
             var profileGuids = AssetDatabase.IsValidFolder(ProfilesRoot)
                 ? AssetDatabase.FindAssets("t:AudioAmbienceProfile", new[] { ProfilesRoot })
                 : Array.Empty<string>();
+            var coverage = MeasureCanonicalClipCoverage();
 
             var definitionCount = catalog?.Events.Count ?? 0;
             var profileCount = profileGuids.Length;
@@ -157,7 +172,16 @@ namespace ProjectOen.Audio.Editor
                            prefab.GetComponent<AudioService>() != null &&
                            prefab.GetComponent<AudioWorldStateRouter>() != null &&
                            prefab.GetComponentsInChildren<AudioAmbienceController>(true).Length >= 3;
+            var coverageOk = coverage.clipCount >= ExpectedFirstPlayableClipCount &&
+                             coverage.eventCount >= ExpectedFirstPlayableEventCount;
 
+            if (!coverageOk)
+            {
+                Debug.LogError(
+                    $"First-playable audit: incomplete canonical clip coverage: " +
+                    $"{coverage.clipCount}/{ExpectedFirstPlayableClipCount} clips across " +
+                    $"{coverage.eventCount}/{ExpectedFirstPlayableEventCount} events.");
+            }
             if (catalog == null)
                 Debug.LogError($"First-playable audit: missing catalog '{CatalogPath}'.");
             if (profileCount < 10)
@@ -168,9 +192,60 @@ namespace ProjectOen.Audio.Editor
                     "AudioWorldStateRouter, or the three ambience controllers.");
 
             Debug.Log(
-                $"Project Oen first-playable audit: catalog={(catalog != null ? "OK" : "MISSING")}, " +
-                $"definitions={definitionCount}, generatedProfiles={profileCount}, " +
-                $"runtimePrefab={(prefabOk ? "OK" : "MISSING/INVALID")}.");
+                $"Project Oen first-playable audit: clipCoverage={(coverageOk ? "OK" : "INCOMPLETE")}, " +
+                $"catalog={(catalog != null ? "OK" : "MISSING")}, definitions={definitionCount}, " +
+                $"generatedProfiles={profileCount}, runtimePrefab={(prefabOk ? "OK" : "MISSING/INVALID")}.");
+        }
+
+        private static (int clipCount, int eventCount) MeasureCanonicalClipCoverage()
+        {
+            if (!AssetDatabase.IsValidFolder(AudioRoot))
+                return (0, 0);
+
+            var clips = 0;
+            var events = new HashSet<AudioEventId>();
+            foreach (var guid in AssetDatabase.FindAssets("t:AudioClip", new[] { AudioRoot }))
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                var clip = AssetDatabase.LoadAssetAtPath<AudioClip>(path);
+                if (clip == null || !TryResolveCanonicalClipEvent(clip.name, out var id))
+                    continue;
+
+                clips++;
+                events.Add(id);
+            }
+
+            return (clips, events.Count);
+        }
+
+        private static bool TryResolveCanonicalClipEvent(string clipName, out AudioEventId id)
+        {
+            id = AudioEventId.None;
+
+            var names = Enum.GetNames(typeof(AudioEventId))
+                .Where(name =>
+                    name != nameof(AudioEventId.None) &&
+                    name != "SFX_STS_Hunger_Warn" &&
+                    name != "SFX_STS_Thirst_Warn")
+                .OrderByDescending(name => name.Length);
+
+            foreach (var name in names)
+            {
+                var prefix = name + "_";
+                if (!clipName.StartsWith(prefix, StringComparison.Ordinal))
+                    continue;
+
+                var suffix = clipName.Substring(prefix.Length);
+                if (!int.TryParse(suffix, out var variation) || variation <= 0)
+                    return false;
+
+                if (!Enum.TryParse(name, out id) || id == AudioEventId.None)
+                    return false;
+
+                return true;
+            }
+
+            return false;
         }
 
         private static Dictionary<AudioEventId, AudioEventDefinition> FindDefinitions()
