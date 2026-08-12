@@ -88,7 +88,7 @@ def main() -> int:
     require(one_click, 'profileCount < ExpectedGeneratedProfileCount', "generated profile audit")
     require(one_click, 'GetComponentsInChildren<AudioAmbienceController>(true).Length >= 3', "runtime controller audit")
 
-    # First-playable v1 must fail closed if the 160-WAV / 45-event import is incomplete.
+    # Stable minimum first-playable baseline. Current artifacts may contain more clips/events.
     require(one_click, 'ExpectedFirstPlayableClipCount = 160', "first-playable coverage gate")
     require(one_click, 'ExpectedFirstPlayableEventCount = 45', "first-playable coverage gate")
     require(one_click, 'MeasureCanonicalClipCoverage()', "first-playable coverage gate")
@@ -110,9 +110,12 @@ def main() -> int:
     require(router, 'StateChanged?.Invoke()', "world-state notifications")
     require(emitter_router, '_worldState', "world emitter router")
     require(emitter_router, '_bindings', "world emitter router")
+    require(emitter_router, '_matchBiome', "world emitter optional biome gate")
+    require(emitter_router, '_stormPhase', "world emitter storm gate")
     require(emitter_router, 'StateChanged += Apply', "world emitter router subscription")
     require(emitter_router, 'StateChanged -= Apply', "world emitter router subscription")
     require(emitter_router, 'state.Sheltered', "world emitter shelter gating")
+    require(emitter_router, 'Application.isPlaying', "world emitter edit-mode guard")
 
     # World anchor follows an explicit scene-assigned listener target and never searches globally.
     require(world_anchor, 'public void Configure(Transform target', "world audio anchor")
@@ -124,6 +127,7 @@ def main() -> int:
     # Scene installer is the high-level one-click path. It must preserve scene ownership,
     # refuse duplicates/stale imports, keep listener ambiguity silent, and not auto-save scenes.
     require(scene_installer, 'Project Oen/Audio/Build + Install First Playable (One Click)', "scene one-click menu")
+    require(scene_installer, 'EditorApplication.isPlayingOrWillChangePlaymode', "scene install play-mode guard")
     require(scene_installer, 'PrefabStageUtility.GetCurrentPrefabStage()', "scene install prefab-stage guard")
     require(scene_installer, 'string.IsNullOrWhiteSpace(scene.path)', "scene install saved-scene guard")
     require(scene_installer, 'ExpectedFirstPlayableClipCount = 160', "scene install coverage guard")
@@ -133,16 +137,27 @@ def main() -> int:
     require(scene_installer, 'EditorSceneManager.MarkSceneDirty(scene)', "scene dirty tracking")
     forbid(scene_installer, 'EditorSceneManager.SaveScene', "scene auto-save prohibition")
     require(scene_installer, 'listeners.Count == 1', "listener ownership guard")
-    require(scene_installer, 'worldFauna.gameObject.SetActive(false)', "listener ambiguity silence")
+    require(scene_installer, 'root.SetActive(false)', "listener ambiguity silence")
+    require(scene_installer, 'WorldFaunaName = "WorldFauna"', "WorldFauna root")
+    require(scene_installer, 'WorldWeatherName = "WorldWeather"', "WorldWeather root")
+    require(scene_installer, 'followers.Count >= 2', "two listener-relative world roots")
+    require(scene_installer, 'emitterRouters.Count >= 2', "two world-state emitter routers")
+    require(scene_installer, 'randomEmitters.Count >= 2', "two random world emitters")
+
+    # First real world transient lanes: calm Jungle Day cicadas + biome-independent RainFire thunder.
     require(scene_installer, 'AudioEventId.SFX_NAT_Insect_CicadaCluster', "first world-fauna event")
     require(scene_installer, 'new Vector2(14f, 34f)', "cicada cadence")
+    require(scene_installer, 'AudioEventId.SFX_WTH_Thunder_Far', "first world-weather event")
+    require(scene_installer, 'new Vector2(18f, 42f)', "distant thunder cadence")
+    require(scene_installer, 'AudioStormPhase.RainFire', "distant thunder storm phase")
+    require(scene_installer, 'false,\n                AudioDayPhase.Day,\n                false,\n                AudioStormPhase.RainFire', "distant thunder biome/day independence")
     require(scene_installer, 'FindProperty("_playOnEnable").boolValue = false', "state-owned random emitter")
 
     for token in ("_audioService", "_events", "_delaySeconds", "_horizontalRadius", "_verticalJitter", "_playOnEnable"):
         require(random_emitter, token, "AudioRandomEmitter")
         require(scene_installer, f'FindProperty("{token}")', "scene random-emitter wiring")
 
-    for token in ("_emitter", "_biome", "_dayPhase", "_matchDayPhase", "_exteriorOnly"):
+    for token in ("_emitter", "_biome", "_matchBiome", "_dayPhase", "_matchDayPhase", "_stormPhase", "_exteriorOnly"):
         require(emitter_router, token, "AudioWorldStateEmitterRouter binding")
         require(scene_installer, f'FindPropertyRelative("{token}")', "scene emitter-router wiring")
 
@@ -156,7 +171,7 @@ def main() -> int:
 
     print(
         "Unity audio editor contract OK: serialized wiring, numeric IDs, one-click bootstrap/install, "
-        "160/45 coverage gates, silent fallbacks, listener-relative WorldFauna and canonical statuses"
+        "160/45 minimum coverage, silent fallbacks, listener-relative fauna/weather transients and canonical statuses"
     )
     return 0
 
