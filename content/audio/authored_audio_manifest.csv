@@ -1,0 +1,17 @@
+event_id,variations,format,channels,sample_rate_hz,bit_depth,peak_dbfs,origin,third_party_samples,status
+SFX_UI_Hover,4,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_UI_Select,4,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_UI_Back,4,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_UI_Error,4,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_UI_PageTurn,5,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_UI_Map_Open,4,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_UI_Map_Close,4,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_UI_Radio_Click,5,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_UI_Radio_Static,5,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_UI_Inventory_Open,4,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_UI_Inventory_Close,4,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_STS_Injury_Warn,3,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_STS_ColdWet_Warn,3,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_STS_Fatigue_Warn,3,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_STS_Health_Damage,6,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_STS_Health_Critical,3,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
