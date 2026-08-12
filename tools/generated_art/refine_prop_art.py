@@ -86,7 +86,6 @@ def lantern(variant:str)->Mesh:
     add_cylinder(m,(0,.55,0),.17,.10,"Metal",12)
     for x,z in ((-.14,0),(.14,0),(0,-.14),(0,.14)):
         add_cylinder(m,(x,.34,z),.012,.40,"Metal",6)
-    # glass/readability volume
     for ang in (0,90): add_box(m,(0,.34,0),(.28,.34,.012),"Water",(0,ang,0))
     add_torus(m,(0,.69,0),.18,.014,"Metal",18,5,(90,0,0))
     if lit:
@@ -140,9 +139,8 @@ def cloth_bundle(variant:str)->Mesh:
 
 
 def signal_flag(variant:str)->Mesh:
-    m=Mesh(); damaged=variant=="storm-damaged"
+    m=Mesh(); damaged=variant in ("storm-damaged","storm_damaged")
     add_cylinder(m,(-.36,.55,0),.026,1.12,"Wood",7)
-    # cloth panel, with a missing corner in damaged state
     p0=(-.33,.92,0); p1=(.42,.84,0); p2=(.38,.40,0); p3=(-.33,.48,0)
     if damaged:
         a=m.v(p0); b=m.v(p1); c=m.v((.12,.63,0)); m.tri(a,b,c,"Cloth")
@@ -158,7 +156,6 @@ def signal_flag(variant:str)->Mesh:
 def cookpot(variant:str)->Mesh:
     m=Mesh(); cooking=variant=="cooking"
     add_cylinder(m,(0,.18,0),.27,.32,"Metal",14)
-    # hollow/readable top lip
     add_torus(m,(0,.35,0),.255,.018,"Metal",18,5,(90,0,0))
     add_torus(m,(0,.50,0),.34,.012,"Metal",18,5,(0,0,0))
     add_rope_between(m,(-.25,.38,0),(-.31,.58,0),.012,"Metal",6)
@@ -171,7 +168,6 @@ def cookpot(variant:str)->Mesh:
 
 def water_collector(variant:str)->Mesh:
     m=Mesh(); collecting=variant=="collecting"; full=variant=="full"
-    # tripod/frame
     for x,z,ang in ((-.48,-.35,-13),(.48,-.35,13),(-.48,.35,-13),(.48,.35,13)):
         add_cylinder(m,(x,.48,z),.035,1.05,"Wood",7,(0,0,ang))
     add_tarp(m,(0,.78,0),1.18,.82,"Tarp",.15,6,False,collecting or full)
@@ -197,7 +193,6 @@ def knife(variant:str)->Mesh:
     m=Mesh(); worn=variant=="worn"
     add_box(m,(0,.16,0),(.16,.32,.10),"Wood")
     add_torus(m,(0,.20,0),.08,.010,"Rope",12,4,(90,0,0))
-    # stylized broad blade
     p=[(-.07,.31,0),(.07,.31,0),(.04,.92,0),(-.01,1.05,0),(-.07,.90,0)]
     for a,b,c in ((0,1,2),(0,2,4),(4,2,3)):
         ia=m.v(p[a]); ib=m.v(p[b]); ic=m.v(p[c]); m.tri(ia,ib,ic,"Metal")
