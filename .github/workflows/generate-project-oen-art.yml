@@ -61,12 +61,16 @@ jobs:
         run: python tools/generated_art/refine_hero_art.py
       - name: Add readable hero joinery
         run: python tools/generated_art/refine_hero_joinery.py
+      - name: Refine Stormnatten environment world assets
+        run: python tools/generated_art/refine_environment_art.py
       - name: Validate full production art
         run: python tools/generated_art/validate_production_art.py
       - name: Validate refined materials
         run: python tools/generated_art/validate_material_textures.py
       - name: Validate hero-art refinement
         run: python tools/generated_art/validate_hero_art.py
+      - name: Validate environment-art refinement
+        run: python tools/generated_art/validate_environment_art.py
       - name: Validate Unity production-art wiring
         run: python tools/generated_art/validate_unity_art_builder.py
       - name: Commit generated and production assets
@@ -80,8 +84,10 @@ jobs:
           git add -A tools/generated_art/refine_material_textures.py 2>/dev/null || true
           git add -A tools/generated_art/refine_hero_art.py 2>/dev/null || true
           git add -A tools/generated_art/refine_hero_joinery.py 2>/dev/null || true
+          git add -A tools/generated_art/refine_environment_art.py 2>/dev/null || true
           git add -A tools/generated_art/validate_material_textures.py 2>/dev/null || true
           git add -A tools/generated_art/validate_hero_art.py 2>/dev/null || true
+          git add -A tools/generated_art/validate_environment_art.py 2>/dev/null || true
           git add -A tools/generated_art/validate_unity_art_builder.py 2>/dev/null || true
           git add -A art_payloads 2>/dev/null || true
           git add -A tools/generated_art/import_trigger.txt 2>/dev/null || true
