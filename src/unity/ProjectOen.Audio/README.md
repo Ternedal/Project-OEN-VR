@@ -27,11 +27,11 @@ The repository stores this module because the full Unity project is maintained o
 - `AudioRandomEmitter`: intermittent spatial one-shots for fauna, fire pops, shoreline washes, branch snaps and gusts; cadence can be adjusted at runtime.
 - `AudioSurfaceTag`: material marker for walkable colliders.
 - `FootstepAudioEmitter`: Quest-friendly distance-driven footsteps with ground probing and surface-specific events.
-- `AudioFoleyProfile`: semantic object-action to typed-event mapping.
-- `AudioFoleyEmitter`: reusable prefab bridge for tarp/rope/wood/stone/water/container/crate/metal/fire interactions without direct clip references.
 - `AudioWorldStateRouter`: separates biome/day-night, weather/storm and adaptive-music layers and selects mixer snapshots.
 - `AudioFireStateEmitter`: maps fire intensity and fire interactions to low/burning loops, pops, ignition, wood-add and extinguish events.
 - `AudioTarpWeatherEmitter`: maps normalized wind/rain to local flap cadence and rain-on-tarp gain.
+- `AudioFoleyProfile`: reusable semantic object-Foley mapping.
+- `AudioFoleyEmitter`: prefab-side semantic Foley trigger component.
 
 Gameplay code depends on `IAudioService`, not concrete clip paths.
 
@@ -171,8 +171,6 @@ This local emitter is deliberately separate from the broad 2D weather bed so the
 
 ## Object Foley integration
 
-Run `Project Oen > Audio > Rebuild Default Foley Profiles` in the Unity Editor. It creates/updates nine typed profiles under `Assets/ProjectOen/Audio/FoleyProfiles/`: Tarp, Rope, Wood, Stone, Water, Container, Crate, Metal and Fire.
-
 For an interactable prefab, add `AudioFoleyEmitter`, assign the scene-owned `AudioService`, assign the relevant profile and optionally set a child emission point. Interaction code or UnityEvents then call semantic actions such as `EmitPickup`, `EmitDrop`, `EmitImpact`, `EmitOpen`, `EmitTighten`, `EmitBreak`, `EmitPour` or `EmitScrape`.
 
 The prefab never references individual clips. Variation choice remains in `AudioEventDefinition`.
@@ -231,10 +229,13 @@ Audio follows the same canonical player-status vocabulary as the production art 
 
 ## Produced audio artifacts
 
-The audio CI currently builds two separate artifacts:
+The audio pipeline defines three produced artifact lanes:
 
 - `oen-authored-ui-status-v1`: 65 original authored UI/status WAV variations.
+- `oen-authored-gameplay-stingers-v1`: 66 original authored gameplay-feedback/stinger WAV variations across 14 events; short feedback is mono and stingers are stereo.
 - `oen-public-domain-environment-v0`: 15 technically normalized Public Domain / CC0 candidate derivatives for ocean, rain, storm wind, campfire, Guadeloupe rainforest and cicadas.
+
+The two authored packs contain no third-party samples and target 48 kHz / 24-bit PCM with a -3 dBFS peak ceiling. The gameplay/stinger pack deliberately excludes physical Foley and long adaptive-music beds.
 
 The environmental v0 pack carries `PROVENANCE.csv` with source/output SHA256 values, and the source registry pins every upstream SHA256. It remains a **candidate** pack: do not promote those clips into the production catalog before headset listening, contamination review and seamless-loop editing.
 
@@ -246,7 +247,7 @@ Baseline:
 
 - 48 kHz source WAV.
 - Mono for local 3D one-shots and emitters.
-- Stereo for non-spatial beds/music.
+- Stereo for non-spatial beds/music/stingers where spatial width is intentional.
 - Long ambience/music loops: Vorbis + Streaming.
 - Short repeated SFX: ADPCM + Decompress On Load.
 - Pool size begins at 24 one-shots and must be profiled on Quest 2 before increasing.
@@ -266,9 +267,10 @@ A first playable passes the audio layer when all of these are true:
 - fauna one-shots are spatial and do not repeat at a visibly fixed cadence
 - storm phases can progress Calm -> Wind -> RainFire -> Signal without hard-cutting biome ambience
 - adaptive music can follow storm phases without muting critical diegetic cues
+- authored gameplay feedback and stingers remain subordinate to critical diegetic cues
 - storm can layer wind, rough ocean, rain and tarp rain without clipping the master bus
 - disabling or missing an individual audio event fails silently rather than breaking gameplay
 
 ## Status
 
-Runtime architecture, production manifest, authored UI/status WAV pack, technically normalized environmental candidate pack, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters, surface footsteps, data-driven object Foley profiles/emitter and editor-side catalog/profile tools are implemented. Environmental candidate building is CI-verified with pinned source hashes and provenance. Headset listening/loop QA, reviewed tarp/Amazon originals, the 388 planned physical Foley recordings and final music/stingers remain production work.
+Runtime architecture, production manifest, 65 authored UI/status WAVs, 66 authored gameplay/stinger WAVs, technically normalized environmental candidate pack, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters, surface footsteps, data-driven object Foley profiles/emitter and editor-side catalog/profile tools are implemented. Environmental candidate building was CI-verified before the current account-level Actions runner block. Headset listening/loop QA, reviewed tarp/Amazon originals, the 388 planned physical Foley recordings and long adaptive-music masters remain production work.
