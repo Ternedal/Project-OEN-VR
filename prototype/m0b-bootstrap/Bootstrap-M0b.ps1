@@ -6,10 +6,10 @@
   HELE Core-laget kompilerer som en Unity-assembly, OpenXR er sat op for Android,
   og den genererede Project OEN production-art pakke er installeret i Unity-projektet.
 
-  Production-art-delen bygger world-prefabs, ground decals, diegetiske VR UI-prefabs,
-  en fysisk UI-review-scene med Unity-side skala/struktur-audit, en separat Stormnatten
-  art-showcase, lokal stormregn og Quest 2 art-budgetaudit. Review-scenerne er IKKE
-  M0b's CoopGame performance/netvaerksgate.
+  Production-art-delen bygger world-prefabs, ground decals, Quest-venlige VFX,
+  diegetiske VR UI-prefabs, fysisk UI-review/audit, Stormnatten art-showcase,
+  lokal stormregn og Quest 2 art-budgetaudit. Review-scenerne er IKKE M0b's
+  CoopGame performance/netvaerksgate.
 
   Fusion/netvaerk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret.
 #>
@@ -28,9 +28,8 @@ $repo = (Resolve-Path "$PSScriptRoot\..\..").Path
 Note "repo: $repo"
 
 Step "Opretter projekt"
-if (Test-Path $ProjectPath) {
-    Note "findes allerede: $ProjectPath (genbruges)"
-} else {
+if (Test-Path $ProjectPath) { Note "findes allerede: $ProjectPath (genbruges)" }
+else {
     & $UnityPath -batchmode -quit -nographics -createProject $ProjectPath -logFile - | Out-Null
     if ($LASTEXITCODE -ne 0) { throw "Unity kunne ikke oprette projektet (exit $LASTEXITCODE)" }
 }
@@ -68,6 +67,7 @@ New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
 foreach ($builder in @(
     "ProductionArtPrefabBuilder.cs",
     "ProductionArtDecalBuilder.cs",
+    "ProductionArtVfxBuilder.cs",
     "ProductionArtDiegeticUiBuilder.cs",
     "ProductionArtUiShowcaseBuilder.cs",
     "ProductionArtUiShowcaseAudit.cs",
@@ -77,7 +77,7 @@ foreach ($builder in @(
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
 }
-Note "ProductionArt + world/decal/UI/showcase builders -> ProjektOenApp"
+Note "ProductionArt + world/decal/VFX/UI/showcase builders -> ProjektOenApp"
 
 Step "Kopierer XR-config editor"
 $editorDst = Join-Path $ProjectPath "Assets\Editor"
@@ -111,9 +111,7 @@ $log = Join-Path $PSScriptRoot "m0b-configure.log"
     -executeMethod M0bConfigure.Configure `
     -logFile $log
 if ($LASTEXITCODE -ne 0) {
-    if (Test-Path $log) {
-        Select-String -Path $log -Pattern "\[M0B-SETUP\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red }
-    }
+    if (Test-Path $log) { Select-String -Path $log -Pattern "\[M0B-SETUP\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red } }
     exit 1
 }
 
@@ -124,6 +122,10 @@ $artLog = Run-UnityStep "Bygger production-art prefabs" `
 $decalLog = Run-UnityStep "Bygger ground decals" `
     "ProjectOen.Art.Editor.ProductionArtDecalBuilder.BuildAll" `
     "production-art-decals.log"
+
+$vfxLog = Run-UnityStep "Bygger Quest-venlige production VFX" `
+    "ProjectOen.Art.Editor.ProductionArtVfxBuilder.BuildAll" `
+    "production-art-vfx.log"
 
 $uiLog = Run-UnityStep "Bygger diegetiske VR UI-prefabs" `
     "ProjectOen.Art.Editor.ProductionArtDiegeticUiBuilder.BuildAll" `
@@ -153,7 +155,8 @@ $budgetLog = Run-UnityStep "Auditerer Stormnatten showcase mod Quest 2-budget" `
 Step "Resultat"
 if (Test-Path $log) { Select-String -Path $log -Pattern "\[M0B-SETUP\]" | ForEach-Object { Note $_.Line.Trim() } }
 Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
-Write-Host "World meshes/prefabs, ground decals og diegetic UI-prefabs er bygget." -ForegroundColor Green
+Write-Host "World meshes/prefabs, ground decals, production VFX og diegetic UI-prefabs er bygget." -ForegroundColor Green
+Write-Host "VFX prefabs: Assets\ProjectOEN\ProductionArt\VfxPrefabs" -ForegroundColor Green
 Write-Host "UI physical-scale audit: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
 Write-Host "Stormnatten art audit: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
 Write-Host "Begge review-scener er visual review og ikke M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
