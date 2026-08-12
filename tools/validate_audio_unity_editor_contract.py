@@ -64,8 +64,10 @@ def main() -> int:
         require(router, token, "AudioWorldStateRouter")
         require(one_click, f'FindProperty("{token}")', "one-click builder")
 
-    for token in ("_biome", "_day", "_night", "_phase", "_weatherProfile", "_musicProfile",
-                  "_exteriorSnapshot", "_shelteredSnapshot"):
+    for token in (
+        "_biome", "_day", "_night", "_phase", "_weatherProfile", "_musicProfile",
+        "_exteriorSnapshot", "_shelteredSnapshot",
+    ):
         require(router, token, "AudioWorldStateRouter nested bindings")
         require(one_click, f'FindPropertyRelative("{token}")', "one-click builder")
 
@@ -81,11 +83,22 @@ def main() -> int:
     require(one_click, 'profileCount < 10', "generated profile audit")
     require(one_click, 'GetComponentsInChildren<AudioAmbienceController>(true).Length >= 3', "runtime controller audit")
 
-    # Canonical runtime vocabulary only: legacy aliases must not leak into new bootstrap logic.
-    forbid(one_click, "Hunger", "one-click builder")
-    forbid(one_click, "Thirst", "one-click builder")
+    # First-playable v1 must fail closed if the 160-WAV / 45-event import is incomplete.
+    require(one_click, 'ExpectedFirstPlayableClipCount = 160', "first-playable coverage gate")
+    require(one_click, 'ExpectedFirstPlayableEventCount = 45', "first-playable coverage gate")
+    require(one_click, 'MeasureCanonicalClipCoverage()', "first-playable coverage gate")
+    require(one_click, 'incomplete first-playable audio import', "first-playable coverage gate")
 
-    print("Unity audio editor contract OK: serialized field wiring, numeric IDs, one-click bootstrap and canonical statuses")
+    # Legacy aliases may appear only as explicit name exclusions while parsing filenames.
+    require(one_click, 'name != "SFX_STS_Hunger_Warn"', "legacy alias exclusion")
+    require(one_click, 'name != "SFX_STS_Thirst_Warn"', "legacy alias exclusion")
+    forbid(one_click, 'AudioEventId.SFX_STS_Hunger_Warn', "active legacy alias use")
+    forbid(one_click, 'AudioEventId.SFX_STS_Thirst_Warn', "active legacy alias use")
+
+    print(
+        "Unity audio editor contract OK: serialized field wiring, numeric IDs, "
+        "one-click bootstrap, 160/45 coverage gate and canonical status usage"
+    )
     return 0
 
 
