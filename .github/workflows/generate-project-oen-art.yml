@@ -30,22 +30,16 @@ jobs:
       - name: Import production-art source payload when requested
         run: python tools/generated_art/import_production_art_payload.py
       - name: Generate full production art
-        shell: bash
-        run: |
-          if [ -f tools/generated_art/generate_production_art.py ]; then
-            python tools/generated_art/generate_production_art.py
-          else
-            echo 'Production-art generator not present yet.'
-          fi
+        run: python tools/generated_art/generate_production_art.py
+      - name: Validate full production art
+        run: python tools/generated_art/validate_production_art.py
       - name: Commit generated and production assets
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add Assets/ProjectOEN/GeneratedArtRuntime256 Assets/ProjectOEN/GeneratedArtRuntime256Docs
-          if [ -d Assets/ProjectOEN/ProductionArt ]; then
-            git add Assets/ProjectOEN/ProductionArt
-          fi
+          git add Assets/ProjectOEN/ProductionArt
           git add -A tools/generated_art/generate_production_art.py 2>/dev/null || true
           git add -A art_payloads 2>/dev/null || true
           git add -A tools/generated_art/import_trigger.txt 2>/dev/null || true
