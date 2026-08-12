@@ -25,10 +25,18 @@ jobs:
           python-version: '3.12'
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check Pillow==11.3.0
-      - name: Generate separate Unity PNG sprites
+      - name: Generate compact runtime sprites
         run: python tools/generated_art/generate_runtime_sprites.py
-      - name: Import HQ production art payload when requested
+      - name: Import production-art source payload when requested
         run: python tools/generated_art/import_production_art_payload.py
+      - name: Generate full production art
+        shell: bash
+        run: |
+          if [ -f tools/generated_art/generate_production_art.py ]; then
+            python tools/generated_art/generate_production_art.py
+          else
+            echo 'Production-art generator not present yet.'
+          fi
       - name: Commit generated and production assets
         shell: bash
         run: |
@@ -38,11 +46,12 @@ jobs:
           if [ -d Assets/ProjectOEN/ProductionArt ]; then
             git add Assets/ProjectOEN/ProductionArt
           fi
+          git add -A tools/generated_art/generate_production_art.py 2>/dev/null || true
           git add -A art_payloads 2>/dev/null || true
           git add -A tools/generated_art/import_trigger.txt 2>/dev/null || true
           if git diff --cached --quiet; then
             echo 'No generated or production art changes.'
             exit 0
           fi
-          git commit -m 'Import Project OEN HQ production art'
+          git commit -m 'Generate Project OEN production art'
           git push origin HEAD:${{ github.ref_name }}
