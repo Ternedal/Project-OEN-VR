@@ -18,6 +18,9 @@ namespace ProjectOen.Audio
 
         private Coroutine _routine;
 
+        public bool IsEmitting => _routine != null;
+        public Vector2 DelaySeconds => _delaySeconds;
+
         private void OnEnable()
         {
             if (_playOnEnable)
@@ -44,6 +47,13 @@ namespace ProjectOen.Audio
 
             StopCoroutine(_routine);
             _routine = null;
+        }
+
+        public void SetDelayRange(float minSeconds, float maxSeconds)
+        {
+            minSeconds = Mathf.Max(0.05f, minSeconds);
+            maxSeconds = Mathf.Max(minSeconds, maxSeconds);
+            _delaySeconds = new Vector2(minSeconds, maxSeconds);
         }
 
         public bool EmitNow()
@@ -77,8 +87,7 @@ namespace ProjectOen.Audio
 
         private void OnValidate()
         {
-            _delaySeconds.x = Mathf.Max(0.05f, _delaySeconds.x);
-            _delaySeconds.y = Mathf.Max(0.05f, _delaySeconds.y);
+            SetDelayRange(_delaySeconds.x, _delaySeconds.y);
         }
     }
 }
