@@ -6,22 +6,43 @@ using UnityEngine;
 namespace ProjectOen.Art.Editor
 {
     /// <summary>
-    /// Small editor entrypoint used by Review-ProductionArt.ps1 to open the generated
-    /// Stormnatten showcase after the deterministic build/audit passes have completed.
+    /// Editor entrypoints for the three generated production-art review scenes.
+    /// Review-ProductionArt.ps1 continues to call OpenShowcase for the default
+    /// Stormnatten landing scene after all audits complete.
     /// </summary>
     public static class ProductionArtReviewMenu
     {
-        private const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StormnattenArtShowcase.unity";
+        private const string WorldScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StormnattenArtShowcase.unity";
+        private const string UiScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/DiegeticUiArtShowcase.unity";
+        private const string VfxScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/ProductionVfxShowcase.unity";
 
         [MenuItem("Project OEN/Art/Open Stormnatten Art Showcase")]
         public static void OpenShowcase()
         {
-            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(ScenePath) == null)
-                throw new InvalidOperationException("Showcase scene missing. Build it first: " + ScenePath);
+            OpenReviewScene(WorldScenePath, "Stormnatten");
+        }
 
-            EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
-            Selection.activeObject = AssetDatabase.LoadAssetAtPath<SceneAsset>(ScenePath);
-            Debug.Log("[ProjectOEN.Art] Opened Stormnatten visual-review scene: " + ScenePath);
+        [MenuItem("Project OEN/Art/Open Diegetic UI Art Showcase")]
+        public static void OpenUiShowcase()
+        {
+            OpenReviewScene(UiScenePath, "Diegetic UI");
+        }
+
+        [MenuItem("Project OEN/Art/Open Production VFX Showcase")]
+        public static void OpenVfxShowcase()
+        {
+            OpenReviewScene(VfxScenePath, "Production VFX");
+        }
+
+        private static void OpenReviewScene(string scenePath, string label)
+        {
+            SceneAsset scene = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
+            if (scene == null)
+                throw new InvalidOperationException(label + " review scene missing. Build the production-art review pipeline first: " + scenePath);
+
+            EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+            Selection.activeObject = scene;
+            Debug.Log("[ProjectOEN.Art] Opened " + label + " visual-review scene: " + scenePath);
         }
     }
 }
