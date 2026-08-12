@@ -31,12 +31,16 @@ jobs:
         run: python tools/generated_art/import_production_art_payload.py
       - name: Generate full production art
         run: python tools/generated_art/generate_production_art.py
+      - name: Refine shared Quest-friendly materials
+        run: python tools/generated_art/refine_material_textures.py
       - name: Refine Stormnatten hero world assets
         run: python tools/generated_art/refine_hero_art.py
       - name: Add readable hero joinery
         run: python tools/generated_art/refine_hero_joinery.py
       - name: Validate full production art
         run: python tools/generated_art/validate_production_art.py
+      - name: Validate refined materials
+        run: python tools/generated_art/validate_material_textures.py
       - name: Validate hero-art refinement
         run: python tools/generated_art/validate_hero_art.py
       - name: Commit generated and production assets
@@ -47,8 +51,10 @@ jobs:
           git add Assets/ProjectOEN/GeneratedArtRuntime256 Assets/ProjectOEN/GeneratedArtRuntime256Docs
           git add Assets/ProjectOEN/ProductionArt
           git add -A tools/generated_art/generate_production_art.py 2>/dev/null || true
+          git add -A tools/generated_art/refine_material_textures.py 2>/dev/null || true
           git add -A tools/generated_art/refine_hero_art.py 2>/dev/null || true
           git add -A tools/generated_art/refine_hero_joinery.py 2>/dev/null || true
+          git add -A tools/generated_art/validate_material_textures.py 2>/dev/null || true
           git add -A tools/generated_art/validate_hero_art.py 2>/dev/null || true
           git add -A art_payloads 2>/dev/null || true
           git add -A tools/generated_art/import_trigger.txt 2>/dev/null || true
