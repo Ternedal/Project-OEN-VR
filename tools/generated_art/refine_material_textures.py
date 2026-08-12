@@ -8,6 +8,7 @@ on the same material names, so existing OBJ/MTL references remain stable.
 from __future__ import annotations
 
 import hashlib
+import json
 import math
 import random
 from pathlib import Path
@@ -16,7 +17,10 @@ from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-TEX = ROOT / "Assets" / "ProjectOEN" / "ProductionArt" / "Materials" / "Textures"
+PROD = ROOT / "Assets" / "ProjectOEN" / "ProductionArt"
+TEX = PROD / "Materials" / "Textures"
+DOCS = PROD / "Docs"
+MANIFEST = DOCS / "production_art_manifest.json"
 
 MATERIALS = {
     "wood": ((116,79,46), 0, 72),
@@ -137,10 +141,35 @@ def write_maps(name: str, base_rgb, metallic: int, smooth: int) -> None:
     mp=TEX/f"{name}_metallic_smoothness.png"; mask.save(mp,compress_level=6); Path(str(mp)+".meta").write_text(meta(mp,512),encoding="utf-8")
 
 
+def write_final_docs() -> None:
+    sprite_count = mesh_count = 0
+    if MANIFEST.exists():
+        manifest=json.loads(MANIFEST.read_text(encoding="utf-8"))
+        sprite_count=sum(1 for e in manifest if e.get("kind")=="sprite")
+        mesh_count=sum(1 for e in manifest if e.get("kind")=="mesh")
+    material_names=", ".join(MATERIALS.keys())
+    (DOCS/"README.md").write_text(
+        "# Project ØEN Production Art\n\n"
+        "Generated from the canonical 148-row asset master and then refined by the hero/surface pipeline. "
+        "Every listed state/variant is exported as an individual Unity-importable file.\n\n"
+        f"- Separate sprites: **{sprite_count}**\n"
+        f"- Separate world meshes: **{mesh_count}**\n"
+        f"- Shared surface materials: **{len(MATERIALS)}**\n"
+        f"- Surface texture maps: **{len(MATERIALS)*3}** (1024px albedo + 512px normal + 512px metallic/smoothness)\n"
+        "- Source: `tools/generated_art/asset_master.csv`\n\n"
+        "The production pass uses coherent handmade wood/rope/tarp/metal/stone materials, diegetic-first UI, "
+        "warm camp accents and cool storm accents. Hero world assets receive a subsequent high-detail geometry "
+        "and rope-joinery pass. No Hunger/Thirst HUD assets are generated.\n\n"
+        f"Surface set: {material_names}.\n",
+        encoding="utf-8")
+
+
 def main() -> int:
     TEX.mkdir(parents=True,exist_ok=True)
+    DOCS.mkdir(parents=True,exist_ok=True)
     for name,(rgb,metallic,smooth) in MATERIALS.items():
         write_maps(name,rgb,metallic,smooth)
+    write_final_docs()
     print(f"Refined {len(MATERIALS)} shared materials: 1024 albedo + 512 normal/mask maps")
     return 0
 
