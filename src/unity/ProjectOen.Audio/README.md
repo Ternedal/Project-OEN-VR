@@ -249,4 +249,4 @@ A first playable passes the audio layer when all of these are true:
 
 ## Status
 
-Runtime architecture, production manifest, authored UI/status WAV pack, technically normalized environmental candidate pack, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters and surface footsteps are implemented. Environmental candidates still require listening/loop QA; tropical jungle/fauna, tarp-specific recordings, bespoke Foley and final music/stingers remain production work.
+Runtime architecture, production manifest, authored UI/status WAV pack, technically normalized environmental candidate pack, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters and surface footsteps are implemented. Environmental candidate building is CI-verified with pinned source hashes and provenance; headset listening/loop QA, tropical jungle/fauna, tarp-specific recordings, bespoke Foley and final music/stingers remain production work.
