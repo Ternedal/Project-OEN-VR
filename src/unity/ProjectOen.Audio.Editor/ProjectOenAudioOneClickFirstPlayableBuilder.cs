@@ -25,6 +25,7 @@ namespace ProjectOen.Audio.Editor
         private const string RuntimePrefabPath = RuntimeRoot + "/AudioRuntime_FirstPlayable.prefab";
         private const int ExpectedFirstPlayableClipCount = 160;
         private const int ExpectedFirstPlayableEventCount = 45;
+        private const int ExpectedGeneratedProfileCount = 11;
 
         private readonly struct LayerSpec
         {
@@ -68,6 +69,13 @@ namespace ProjectOen.Audio.Editor
             EnsureFolder(RuntimeRoot);
 
             var definitions = FindDefinitions();
+
+            // This empty profile is an intentional fail-closed target for states whose real
+            // beds have not been produced yet. It prevents a previous biome from continuing
+            // to play when entering an unavailable Night/Ridge/Camp/Shelter state.
+            var biomeSilence = CreateProfileIfMissing(
+                "FP_Biome_Silence",
+                definitions);
 
             var beachDay = CreateProfileIfMissing(
                 "FP_Biome_Beach_Day",
@@ -124,6 +132,7 @@ namespace ProjectOen.Audio.Editor
             {
                 runtimePrefab = CreateRuntimePrefab(
                     catalog,
+                    biomeSilence,
                     beachDay,
                     jungleDay,
                     weatherCalm,
@@ -184,12 +193,18 @@ namespace ProjectOen.Audio.Editor
             }
             if (catalog == null)
                 Debug.LogError($"First-playable audit: missing catalog '{CatalogPath}'.");
-            if (profileCount < 10)
-                Debug.LogWarning($"First-playable audit: expected at least 10 generated profiles, found {profileCount}.");
+            if (profileCount < ExpectedGeneratedProfileCount)
+            {
+                Debug.LogWarning(
+                    $"First-playable audit: expected at least {ExpectedGeneratedProfileCount} generated profiles, " +
+                    $"found {profileCount}.");
+            }
             if (!prefabOk)
+            {
                 Debug.LogError(
                     "First-playable audit: runtime prefab is missing or lacks AudioService, " +
                     "AudioWorldStateRouter, or the three ambience controllers.");
+            }
 
             Debug.Log(
                 $"Project Oen first-playable audit: clipCoverage={(coverageOk ? "OK" : "INCOMPLETE")}, " +
@@ -319,6 +334,7 @@ namespace ProjectOen.Audio.Editor
 
         private static GameObject CreateRuntimePrefab(
             AudioCatalog catalog,
+            AudioAmbienceProfile biomeSilence,
             AudioAmbienceProfile beachDay,
             AudioAmbienceProfile jungleDay,
             AudioAmbienceProfile weatherCalm,
@@ -357,8 +373,10 @@ namespace ProjectOen.Audio.Editor
                 routerObject.FindProperty("_biomeAmbience").objectReferenceValue = biomeController;
                 routerObject.FindProperty("_weatherAmbience").objectReferenceValue = weatherController;
                 routerObject.FindProperty("_musicAmbience").objectReferenceValue = musicController;
+                routerObject.FindProperty("_shelterDay").objectReferenceValue = biomeSilence;
+                routerObject.FindProperty("_shelterNight").objectReferenceValue = biomeSilence;
 
-                ConfigureBiomeBindings(routerObject, beachDay, jungleDay);
+                ConfigureBiomeBindings(routerObject, biomeSilence, beachDay, jungleDay);
                 ConfigureStormBindings(
                     routerObject,
                     weatherCalm,
@@ -393,22 +411,33 @@ namespace ProjectOen.Audio.Editor
 
         private static void ConfigureBiomeBindings(
             SerializedObject routerObject,
+            AudioAmbienceProfile biomeSilence,
             AudioAmbienceProfile beachDay,
             AudioAmbienceProfile jungleDay)
         {
             var biomes = routerObject.FindProperty("_biomes");
-            biomes.arraySize = 2;
+            biomes.arraySize = 4;
 
             ConfigureBiomeBinding(
                 biomes.GetArrayElementAtIndex(0),
                 AudioBiome.Beach,
                 beachDay,
-                null);
+                biomeSilence);
             ConfigureBiomeBinding(
                 biomes.GetArrayElementAtIndex(1),
                 AudioBiome.Jungle,
                 jungleDay,
-                null);
+                biomeSilence);
+            ConfigureBiomeBinding(
+                biomes.GetArrayElementAtIndex(2),
+                AudioBiome.Ridge,
+                biomeSilence,
+                biomeSilence);
+            ConfigureBiomeBinding(
+                biomes.GetArrayElementAtIndex(3),
+                AudioBiome.Camp,
+                biomeSilence,
+                biomeSilence);
         }
 
         private static void ConfigureBiomeBinding(
