@@ -31,7 +31,8 @@ def main():
         "fx_007_fire_glow.prefab","fx_007_lantern_glow.prefab",
         "fx_008_small_objective_pulse.prefab","fx_008_medium_objective_pulse.prefab",
         "Wet Sheen Helper","DestroyCollider(basePlane)","DestroyCollider(sheen)",
-        "renderer.shadowCastingMode = ShadowCastingMode.Off","renderer.receiveShadows = false",
+        "baseRenderer.shadowCastingMode = ShadowCastingMode.Off","baseRenderer.receiveShadows = false",
+        "sheenRenderer.shadowCastingMode = ShadowCastingMode.Off","sheenRenderer.receiveShadows = false",
     ),errors)
     a=require(AUDIT,"VFX showcase audit",(
         "ProductionVfxShowcase.unity","ExpectedParticleSystems = 7","ExpectedBillboardSprites = 6",
