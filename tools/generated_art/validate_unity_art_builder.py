@@ -3,9 +3,9 @@
 
 This intentionally does not claim to replace a real Unity Editor compile/run. It
 protects the repo-side contract: refined material wiring, prefab construction,
-Stormnatten showcase composition, Quest-conscious lighting/weather, an actual
-Unity-import budget audit, a fast repeatable visual-review loop, and strict
-separation from the minimal M0b CoopGame gate.
+state-specific puddle/shoreline decals, Stormnatten showcase composition,
+Quest-conscious lighting/weather, an actual Unity-import budget audit, a fast
+repeatable visual-review loop, and strict separation from the minimal M0b CoopGame gate.
 """
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 EDITOR = ROOT / "src" / "unity" / "ProjectOen.Art" / "Editor"
 BUILDER = EDITOR / "ProductionArtPrefabBuilder.cs"
+DECAL_BUILDER = EDITOR / "ProductionArtDecalBuilder.cs"
 SHOWCASE = EDITOR / "ProductionArtShowcaseBuilder.cs"
 ATMOSPHERE = EDITOR / "ProductionArtStormAtmosphereBuilder.cs"
 AUDIT = EDITOR / "ProductionArtShowcaseAudit.cs"
@@ -41,6 +42,22 @@ REQUIRED_BUILDER_TOKENS = (
     'slug + "_metallic_smoothness.png"',
 )
 MATERIAL_NAMES = ("Wood","Rope","Tarp","Metal","Stone","Leaf","Cloth","Mud","Fire","Char","Water")
+
+REQUIRED_DECAL_TOKENS = (
+    'Assets/ProjectOEN/ProductionArt/Decals/environment_set_dressing',
+    'Assets/ProjectOEN/ProductionArt/Prefabs/environment_set_dressing',
+    'Universal Render Pipeline/Unlit',
+    'Unlit/Transparent',
+    'Sprites/Default',
+    'StartsWith("en-011_"',
+    'StartsWith("en-025_"',
+    'built != 5',
+    'renderer.shadowCastingMode = ShadowCastingMode.Off',
+    'renderer.receiveShadows = false',
+    'DestroyImmediate(collider)',
+    'material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT")',
+    'RenderQueue.Transparent',
+)
 
 REQUIRED_SHOWCASE_TOKENS = (
     'StormnattenArtShowcase.unity',
@@ -97,7 +114,10 @@ REQUIRED_REVIEW_MENU_TOKENS = (
 
 REQUIRED_REVIEW_SCRIPT_TOKENS = (
     'Review-ProductionArt.ps1',
+    '"Decals"',
+    'ProductionArtDecalBuilder.cs',
     'ProductionArtPrefabBuilder.BuildAll',
+    'ProductionArtDecalBuilder.BuildAll',
     'ProductionArtShowcaseBuilder.BuildShowcase',
     'ProductionArtStormAtmosphereBuilder.AddStormAtmosphere',
     'ProductionArtShowcaseAudit.AuditShowcase',
@@ -126,6 +146,15 @@ def main() -> int:
         for name in MATERIAL_NAMES:
             if f'"{name}"' not in builder_text:
                 errors.append(f"Unity art builder material catalog missing: {name}")
+
+    decal_text=require_tokens(errors,"Ground decal builder",DECAL_BUILDER,REQUIRED_DECAL_TOKENS)
+    if decal_text:
+        if "AddComponent<BoxCollider>" in decal_text:
+            errors.append("Ground decal builder must not create colliders")
+        if "LightShadows.Soft" in decal_text or "LightShadows.Hard" in decal_text:
+            errors.append("Ground decals must not add shadow-casting lights")
+        if "BuildPipeline.BuildPlayer" in decal_text or "EditorBuildSettings.scenes" in decal_text:
+            errors.append("Ground decal builder must not alter Android build settings")
 
     showcase_text=require_tokens(errors,"Showcase",SHOWCASE,REQUIRED_SHOWCASE_TOKENS)
     if showcase_text:
@@ -165,21 +194,27 @@ def main() -> int:
         for token in forbidden:
             if token in review_script_text:
                 errors.append(f"Fast art review loop must not mutate/rebuild M0b platform path: {token}")
+        prefab_pos=review_script_text.find("ProductionArtPrefabBuilder.BuildAll")
+        decal_pos=review_script_text.find("ProductionArtDecalBuilder.BuildAll")
+        showcase_pos=review_script_text.find("ProductionArtShowcaseBuilder.BuildShowcase")
         audit_pos=review_script_text.find("ProductionArtShowcaseAudit.AuditShowcase")
         open_pos=review_script_text.find("ProductionArtReviewMenu.OpenShowcase")
-        if audit_pos < 0 or open_pos < 0 or audit_pos > open_pos:
-            errors.append("Fast art review loop must audit before optionally opening Unity")
+        if min(prefab_pos,decal_pos,showcase_pos,audit_pos,open_pos) < 0 or not (prefab_pos < decal_pos < showcase_pos < audit_pos < open_pos):
+            errors.append("Fast art review order must be prefabs -> decals -> showcase -> audit -> optional editor open")
 
     if not BOOTSTRAP.exists():
         errors.append("M0b bootstrap is missing")
     else:
         b=BOOTSTRAP.read_text(encoding="utf-8")
         bootstrap_tokens=(
+            '"Decals"',
             "ProductionArtPrefabBuilder.cs",
+            "ProductionArtDecalBuilder.cs",
             "ProductionArtShowcaseBuilder.cs",
             "ProductionArtStormAtmosphereBuilder.cs",
             "ProductionArtShowcaseAudit.cs",
             "ProjectOen.Art.Editor.ProductionArtPrefabBuilder.BuildAll",
+            "ProjectOen.Art.Editor.ProductionArtDecalBuilder.BuildAll",
             "ProjectOen.Art.Editor.ProductionArtShowcaseBuilder.BuildShowcase",
             "ProjectOen.Art.Editor.ProductionArtStormAtmosphereBuilder.AddStormAtmosphere",
             "ProjectOen.Art.Editor.ProductionArtShowcaseAudit.AuditShowcase",
@@ -190,6 +225,11 @@ def main() -> int:
         for token in bootstrap_tokens:
             if token not in b:
                 errors.append(f"Bootstrap production-art/showcase contract missing: {token}")
+        prefab_pos=b.find("ProductionArtPrefabBuilder.BuildAll")
+        decal_pos=b.find("ProductionArtDecalBuilder.BuildAll")
+        showcase_pos=b.find("ProductionArtShowcaseBuilder.BuildShowcase")
+        if min(prefab_pos,decal_pos,showcase_pos) < 0 or not (prefab_pos < decal_pos < showcase_pos):
+            errors.append("Bootstrap must build holder prefabs, then wire decals, then compose showcase")
 
     if not COOP_SETUP.exists():
         errors.append("CoopGameSetup.cs is missing")
@@ -205,11 +245,12 @@ def main() -> int:
     print("Project ØEN Unity art integration QA")
     print(f"  material catalog : {len(MATERIAL_NAMES)}")
     print("  maps             : albedo + normal + metallic/smoothness")
+    print("  ground decals    : 3 puddle + 2 shoreline RGBA states / no colliders or shadows")
     print("  showcase         : usable camp + radio + wreck + unlit beacon")
     print("  shadow casters   : exactly 1")
     print("  storm weather    : 1 local rain system / max 180 / no collision / no shadows")
     print("  Unity hard audit : 750k tris / 130 draw proxy / 1 shadow / 10 particle systems")
-    print("  fast review loop : sync -> rebuild -> storm -> audit -> optional editor open")
+    print("  fast review loop : sync -> prefabs -> decals -> showcase -> storm -> audit -> optional editor open")
     print("  M0b separation   : CoopGame-only Android build")
 
     if errors:
@@ -217,7 +258,7 @@ def main() -> int:
         for e in errors: print(" - "+e)
         return 1
 
-    print("\nPASS: Unity production-art, showcase, storm, audit and review-loop contracts are intact.")
+    print("\nPASS: Unity production-art, decals, showcase, storm, audit and review-loop contracts are intact.")
     return 0
 
 
