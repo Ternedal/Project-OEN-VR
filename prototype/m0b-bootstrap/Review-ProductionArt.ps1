@@ -3,9 +3,8 @@
 
   This is deliberately separate from Bootstrap-M0b.ps1. It does not recreate the
   Unity project, touch Packages/, configure XR, import Fusion, or build the M0b APK.
-  It syncs production-art sources/editor builders, rebuilds world prefabs, decals,
-  Quest-friendly VFX, diegetic UI prefabs, the physical-scale UI review scene/audit,
-  then the Stormnatten showcase + storm pass + Quest 2 art budget audit.
+  It syncs production art, rebuilds world/decal/VFX/UI assets, runs isolated VFX
+  and physical-scale UI audits, then the Stormnatten showcase and Quest 2 art audit.
 #>
 
 param(
@@ -43,6 +42,8 @@ foreach ($builder in @(
     "ProductionArtPrefabBuilder.cs",
     "ProductionArtDecalBuilder.cs",
     "ProductionArtVfxBuilder.cs",
+    "ProductionArtVfxShowcaseBuilder.cs",
+    "ProductionArtVfxShowcaseAudit.cs",
     "ProductionArtDiegeticUiBuilder.cs",
     "ProductionArtUiShowcaseBuilder.cs",
     "ProductionArtUiShowcaseAudit.cs",
@@ -53,7 +54,7 @@ foreach ($builder in @(
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
 }
-Note "Art + world/decal/VFX/diegetic-UI/showcase builders er synkroniseret til $ProjectPath"
+Note "Art + world/decal/VFX/UI/showcase builders er synkroniseret til $ProjectPath"
 
 function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
     Step $Label
@@ -88,6 +89,14 @@ Run-UnityArtStep "Bygger Quest-venlige production VFX" `
     "ProjectOen.Art.Editor.ProductionArtVfxBuilder.BuildAll" `
     "review-art-vfx.log"
 
+Run-UnityArtStep "Bygger isoleret VFX review-scene" `
+    "ProjectOen.Art.Editor.ProductionArtVfxShowcaseBuilder.BuildShowcase" `
+    "review-art-vfx-showcase.log"
+
+Run-UnityArtStep "Auditerer isoleret VFX review-scene" `
+    "ProjectOen.Art.Editor.ProductionArtVfxShowcaseAudit.AuditShowcase" `
+    "review-art-vfx-audit.log"
+
 Run-UnityArtStep "Bygger diegetiske VR UI-prefabs" `
     "ProjectOen.Art.Editor.ProductionArtDiegeticUiBuilder.BuildAll" `
     "review-art-diegetic-ui.log"
@@ -113,9 +122,10 @@ Run-UnityArtStep "Auditerer showcase mod Quest 2-budget" `
     "review-art-budget.log"
 
 Step "Resultat"
-Write-Host "Production-art visual-review er bygget; world assets, decals, VFX og diegetic UI er wired; UI-audit og Stormnatten-budgetaudit bestod." -ForegroundColor Green
-Write-Host "World scene: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
+Write-Host "Production-art review er bygget; world/decal/VFX/UI assets er wired; isoleret VFX-audit, fysisk UI-audit og Stormnatten-budgetaudit bestod." -ForegroundColor Green
+Write-Host "VFX scene: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
 Write-Host "UI scene: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
+Write-Host "World scene: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
 Write-Host "VFX prefabs: Assets\ProjectOEN\ProductionArt\VfxPrefabs" -ForegroundColor Green
 Write-Host "UI prefabs: Assets\ProjectOEN\ProductionArt\UiPrefabs" -ForegroundColor Green
 Write-Host "M0b CoopGame/build settings er ikke aendret." -ForegroundColor Green
