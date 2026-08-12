@@ -34,7 +34,12 @@ def inspect(path:Path):
         bbox=a.getbbox(); extrema=a.getextrema()
         visible=sum(1 for p in a.getdata() if p>8)
         strong=sum(1 for p in a.getdata() if p>180)
-        variance=sum(ImageStat.Stat(rgba.convert("RGB")).var)
+        # Many VFX textures intentionally use a nearly constant RGB tint and
+        # encode their actual visual structure in alpha. Measure the rendered
+        # result over black rather than hidden RGB beneath transparent pixels.
+        black=Image.new("RGBA",rgba.size,(0,0,0,255))
+        composed=Image.alpha_composite(black,rgba).convert("RGB")
+        variance=sum(ImageStat.Stat(composed).var)
         return rgba.size,bbox,extrema,visible,strong,variance,hashlib.sha256(path.read_bytes()).hexdigest()
 
 
@@ -84,7 +89,7 @@ def main()->int:
         if bbox is None or visible<7000: errors.append(f"Too little VFX alpha content: {rel}")
         if extrema[0]!=0 or extrema[1]<120: errors.append(f"VFX alpha range lacks transparent gutter/useful peak: {rel} -> {extrema}")
         if visible>=1024*1024*.94: errors.append(f"VFX texture is effectively full-frame opaque: {rel}")
-        if variance<20: errors.append(f"VFX RGB content suspiciously flat: {rel}")
+        if variance<20: errors.append(f"VFX rendered content suspiciously flat: {rel}")
         if aid=="FX-001" and smoke_cells(path)!=16: errors.append(f"Smoke flipbook must occupy all 16 cells: {rel}")
 
     for aid,expected in EXPECTED.items():
