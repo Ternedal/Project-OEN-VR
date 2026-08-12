@@ -1,0 +1,49 @@
+name: Unpack Project OEN generated art
+
+on:
+  push:
+    branches:
+      - agent/unity-graphics-assets
+    paths:
+      - 'tools/oen_generated256.tar.gz.b64'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack-generated-art:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout asset branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/unity-graphics-assets
+          fetch-depth: 0
+
+      - name: Decode and unpack generated PNG assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f tools/oen_generated256.tar.gz.b64 ]; then
+            echo 'No asset bundle present; nothing to unpack.'
+            exit 0
+          fi
+          base64 --decode tools/oen_generated256.tar.gz.b64 > /tmp/oen_generated256.tar.gz
+          echo 'c39ab73872418a1162ac7dd0c83ffb76c928f100c4460d7027fccabf2f306dcd  /tmp/oen_generated256.tar.gz' | sha256sum -c -
+          tar -xzf /tmp/oen_generated256.tar.gz -C .
+          rm tools/oen_generated256.tar.gz.b64
+
+      - name: Commit individual Unity PNG assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet && [ -z "$(git status --porcelain)" ]; then
+            echo 'No changes to commit.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Assets/ProjectOEN tools/oen_generated256.tar.gz.b64 || true
+          git commit -m 'Add Project OEN generated Unity PNG assets'
+          git push origin HEAD:agent/unity-graphics-assets
