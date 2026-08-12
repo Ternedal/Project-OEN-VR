@@ -13,6 +13,7 @@ namespace ProjectOen.Art.Editor
     ///
     /// Design goals:
     /// - deterministic output paths;
+    /// - Quest 2-friendly URP materials using the generated albedo/normal/mask maps;
     /// - simple static colliders suitable for Quest 2 baseline prototyping;
     /// - no dependency on Meta Avatars, Shader Graph or third-party packages;
     /// - lightweight fire/signal dressing only where the asset name explicitly represents an active flame.
@@ -20,7 +21,15 @@ namespace ProjectOen.Art.Editor
     public static class ProductionArtPrefabBuilder
     {
         private const string MeshRoot = "Assets/ProjectOEN/ProductionArt/Meshes";
+        private const string TextureRoot = "Assets/ProjectOEN/ProductionArt/Materials/Textures";
+        private const string MaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials";
         private const string PrefabRoot = "Assets/ProjectOEN/ProductionArt/Prefabs";
+
+        private static readonly string[] ProductionMaterialNames =
+        {
+            "Wood", "Rope", "Tarp", "Metal", "Stone", "Leaf",
+            "Cloth", "Mud", "Fire", "Char", "Water"
+        };
 
         [MenuItem("Project OEN/Art/Build Production Art Prefabs")]
         public static void BuildAll()
@@ -32,7 +41,9 @@ namespace ProjectOen.Art.Editor
             }
 
             EnsureFolder(PrefabRoot);
+            EnsureFolder(MaterialRoot);
 
+            Dictionary<string, Material> productionMaterials = BuildOrUpdateProductionMaterials();
             string[] guids = AssetDatabase.FindAssets("t:GameObject", new[] { MeshRoot });
             int built = 0;
             var failures = new List<string>();
@@ -45,7 +56,7 @@ namespace ProjectOen.Art.Editor
 
                 try
                 {
-                    BuildOne(sourcePath);
+                    BuildOne(sourcePath, productionMaterials);
                     built++;
                 }
                 catch (Exception ex)
@@ -59,7 +70,8 @@ namespace ProjectOen.Art.Editor
 
             if (failures.Count == 0)
             {
-                Debug.Log("[ProjectOEN.Art] Built " + built + " production-art prefabs.");
+                Debug.Log("[ProjectOEN.Art] Built " + built + " production-art prefabs using " +
+                          productionMaterials.Count + " refined materials.");
             }
             else
             {
@@ -68,7 +80,98 @@ namespace ProjectOen.Art.Editor
             }
         }
 
-        private static void BuildOne(string sourcePath)
+        private static Dictionary<string, Material> BuildOrUpdateProductionMaterials()
+        {
+            var result = new Dictionary<string, Material>(StringComparer.OrdinalIgnoreCase);
+            Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+            if (shader == null)
+                shader = Shader.Find("Standard");
+            if (shader == null)
+                throw new InvalidOperationException("Neither URP/Lit nor Standard shader is available.");
+
+            foreach (string materialName in ProductionMaterialNames)
+            {
+                string slug = materialName.ToLowerInvariant();
+                string assetPath = MaterialRoot + "/" + slug + ".mat";
+                Material material = AssetDatabase.LoadAssetAtPath<Material>(assetPath);
+                if (material == null)
+                {
+                    material = new Material(shader);
+                    material.name = materialName;
+                    AssetDatabase.CreateAsset(material, assetPath);
+                }
+                else
+                {
+                    material.shader = shader;
+                    material.name = materialName;
+                }
+
+                Texture2D albedo = LoadTexture(slug + "_albedo.png", true);
+                Texture2D normal = LoadTexture(slug + "_normal.png", true);
+                Texture2D metallicSmoothness = LoadTexture(slug + "_metallic_smoothness.png", true);
+
+                if (material.HasProperty("_BaseMap")) material.SetTexture("_BaseMap", albedo);
+                if (material.HasProperty("_MainTex")) material.SetTexture("_MainTex", albedo);
+                if (material.HasProperty("_BaseColor")) material.SetColor("_BaseColor", Color.white);
+                if (material.HasProperty("_Color")) material.SetColor("_Color", Color.white);
+
+                if (material.HasProperty("_BumpMap"))
+                {
+                    material.SetTexture("_BumpMap", normal);
+                    material.SetFloat("_BumpScale", 1.0f);
+                    material.EnableKeyword("_NORMALMAP");
+                }
+
+                if (material.HasProperty("_MetallicGlossMap"))
+                {
+                    material.SetTexture("_MetallicGlossMap", metallicSmoothness);
+                    if (material.HasProperty("_Metallic")) material.SetFloat("_Metallic", 1.0f);
+                    if (material.HasProperty("_Smoothness")) material.SetFloat("_Smoothness", 1.0f);
+                    material.EnableKeyword("_METALLICSPECGLOSSMAP");
+                    material.EnableKeyword("_METALLICGLOSSMAP");
+                }
+
+                // Tarp, cloth, leaves and the crossed fire cards must read from both sides in VR.
+                if (materialName == "Tarp" || materialName == "Cloth" ||
+                    materialName == "Leaf" || materialName == "Fire")
+                {
+                    if (material.HasProperty("_Cull")) material.SetFloat("_Cull", 0.0f);
+                }
+
+                if (materialName == "Fire")
+                {
+                    Color emission = new Color(2.5f, 0.65f, 0.12f, 1.0f);
+                    if (material.HasProperty("_EmissionColor")) material.SetColor("_EmissionColor", emission);
+                    if (material.HasProperty("_EmissionMap")) material.SetTexture("_EmissionMap", albedo);
+                    material.EnableKeyword("_EMISSION");
+                    material.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
+                }
+
+                // Water is deliberately modest: no transparent shader dependency and no realtime refraction.
+                if (materialName == "Water")
+                {
+                    if (material.HasProperty("_Smoothness")) material.SetFloat("_Smoothness", 0.82f);
+                    if (material.HasProperty("_Metallic")) material.SetFloat("_Metallic", 0.0f);
+                }
+
+                EditorUtility.SetDirty(material);
+                result[materialName] = material;
+            }
+
+            AssetDatabase.SaveAssets();
+            return result;
+        }
+
+        private static Texture2D LoadTexture(string fileName, bool required)
+        {
+            string path = TextureRoot + "/" + fileName;
+            Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            if (texture == null && required)
+                throw new InvalidOperationException("Required production texture was not imported: " + path);
+            return texture;
+        }
+
+        private static void BuildOne(string sourcePath, Dictionary<string, Material> productionMaterials)
         {
             GameObject model = AssetDatabase.LoadAssetAtPath<GameObject>(sourcePath);
             if (model == null)
@@ -95,6 +198,7 @@ namespace ProjectOen.Art.Editor
                 instance.name = "Visual";
                 instance.transform.SetParent(root.transform, false);
 
+                ApplyProductionMaterials(instance, productionMaterials);
                 AddSimpleBoundsCollider(root);
                 AddQuestFriendlyActiveFireIfNeeded(root, fileName);
 
@@ -105,6 +209,37 @@ namespace ProjectOen.Art.Editor
             finally
             {
                 UnityEngine.Object.DestroyImmediate(root);
+            }
+        }
+
+        private static void ApplyProductionMaterials(GameObject instance, Dictionary<string, Material> productionMaterials)
+        {
+            Renderer[] renderers = instance.GetComponentsInChildren<Renderer>(true);
+            foreach (Renderer renderer in renderers)
+            {
+                Material[] current = renderer.sharedMaterials;
+                bool changed = false;
+                for (int i = 0; i < current.Length; i++)
+                {
+                    Material source = current[i];
+                    if (source == null)
+                        continue;
+
+                    string sourceName = source.name;
+                    const string instanceSuffix = " (Instance)";
+                    if (sourceName.EndsWith(instanceSuffix, StringComparison.Ordinal))
+                        sourceName = sourceName.Substring(0, sourceName.Length - instanceSuffix.Length);
+
+                    Material replacement;
+                    if (!productionMaterials.TryGetValue(sourceName, out replacement))
+                        continue;
+
+                    current[i] = replacement;
+                    changed = true;
+                }
+
+                if (changed)
+                    renderer.sharedMaterials = current;
             }
         }
 
