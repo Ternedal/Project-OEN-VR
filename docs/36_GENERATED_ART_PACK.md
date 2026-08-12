@@ -65,13 +65,24 @@ The showcase composes:
 
 `src/unity/ProjectOen.Art/Editor/ProductionArtStormAtmosphereBuilder.cs` adds one local Quest-friendly rain volume to the showcase: max 180 particles, stretched unlit rain streaks, no particle collision and no particle shadows.
 
-`prototype/m0b-bootstrap/Bootstrap-M0b.ps1` mirrors ProductionArt into the generated `ProjektOenApp` Unity project, installs all three art builders, builds the prefabs, generates the showcase scene and adds the local storm-rain pass in separate Unity batch sessions.
+### Unity-side Quest 2 art audit
+
+`src/unity/ProjectOen.Art/Editor/ProductionArtShowcaseAudit.cs` opens the **actually imported** showcase scene and measures conservative scene-level proxies before the bootstrap reports success:
+
+- triangles: target ≤500k, hard fail >750k;
+- renderer material slots as a conservative draw-call proxy: target ≤100, hard fail >130;
+- shadow-casting realtime lights: hard fail >1;
+- active particle systems: hard fail >10.
+
+The audit intentionally does not claim to replace headset profiling. Real Quest 2 frame timing/draw calls remain authoritative. Its job is to stop obviously over-budget visual work before anyone reaches the headset.
+
+`prototype/m0b-bootstrap/Bootstrap-M0b.ps1` mirrors ProductionArt into the generated `ProjektOenApp` Unity project, installs all four art builders, builds the prefabs, generates the showcase scene, adds the local storm-rain pass and runs the Unity-side budget audit in separate batch sessions.
 
 The important boundary is explicit: **the visual-review scene is not the M0b 72 Hz/network feasibility scene**. `CoopGame.unity` remains minimal and is still the only scene built into the M0b APK.
 
 ## CI gates
 
-`.github/workflows/generate-project-oen-art.yml` regenerates and checks the complete pack. Current gates cover:
+`.github/workflows/generate-project-oen-art.yml` regenerates and checks the complete pack. Current repo-side gates cover:
 
 - canonical 148-ID master completeness;
 - PNG/OBJ validity and Unity metadata;
@@ -80,9 +91,10 @@ The important boundary is explicit: **the visual-review scene is not the M0b 72 
 - Unity material/prefab/bootstrap wiring contract;
 - showcase composition and exactly one shadow-casting realtime light;
 - storm atmosphere limited to one local rain system with no collision/shadows;
+- presence/configuration of the Unity-side Quest 2 budget audit;
 - strict separation from `CoopGame.unity` / the M0b Android build.
 
-The current repo-side pipeline passes every generation and validation gate. Actual Unity Editor import/build remains an on-machine verification step because this CI workflow does not run a licensed Unity Editor.
+The repo-side pipeline passes its generation and static validation gates. The Unity-side showcase build and imported-scene budget audit are executed by `Bootstrap-M0b.ps1` on the machine that has Unity; CI does not currently run a licensed Unity Editor.
 
 ## Canonical constraints retained
 
