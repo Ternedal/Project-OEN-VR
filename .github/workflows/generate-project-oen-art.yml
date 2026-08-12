@@ -33,6 +33,8 @@ jobs:
         run: python tools/generated_art/generate_production_art.py
       - name: Refine Stormnatten hero world assets
         run: python tools/generated_art/refine_hero_art.py
+      - name: Add readable hero joinery
+        run: python tools/generated_art/refine_hero_joinery.py
       - name: Validate full production art
         run: python tools/generated_art/validate_production_art.py
       - name: Validate hero-art refinement
@@ -46,6 +48,7 @@ jobs:
           git add Assets/ProjectOEN/ProductionArt
           git add -A tools/generated_art/generate_production_art.py 2>/dev/null || true
           git add -A tools/generated_art/refine_hero_art.py 2>/dev/null || true
+          git add -A tools/generated_art/refine_hero_joinery.py 2>/dev/null || true
           git add -A tools/generated_art/validate_hero_art.py 2>/dev/null || true
           git add -A art_payloads 2>/dev/null || true
           git add -A tools/generated_art/import_trigger.txt 2>/dev/null || true
