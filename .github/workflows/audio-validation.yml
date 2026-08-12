@@ -177,8 +177,8 @@ jobs:
           --environment build/oen-public-domain-environment-v0
           --output build/oen-unity-first-playable-audio-v1
           --zip build/oen-unity-first-playable-audio-v1.zip
-          --expect-files 160
-          --expect-events 45
+          --expect-files 163
+          --expect-events 46
       - name: Upload Unity first-playable audio pack
         uses: actions/upload-artifact@v4
         with:
