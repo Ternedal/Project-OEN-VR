@@ -5,8 +5,8 @@ using UnityEngine.Audio;
 namespace ProjectOen.Audio
 {
     /// <summary>
-    /// Keeps location/day ambience and storm ambience on separate buses so weather can layer
-    /// over the current biome instead of requiring a profile for every state combination.
+    /// Keeps location/day ambience, storm ambience and adaptive music on separate buses so
+    /// weather can layer over the current biome without a profile for every state combination.
     /// </summary>
     public sealed class AudioWorldStateRouter : MonoBehaviour
     {
@@ -27,11 +27,13 @@ namespace ProjectOen.Audio
         {
             [SerializeField] private AudioStormPhase _phase;
             [SerializeField] private AudioAmbienceProfile _weatherProfile;
+            [SerializeField] private AudioAmbienceProfile _musicProfile;
             [SerializeField] private AudioMixerSnapshot _exteriorSnapshot;
             [SerializeField] private AudioMixerSnapshot _shelteredSnapshot;
 
             public AudioStormPhase Phase => _phase;
             public AudioAmbienceProfile WeatherProfile => _weatherProfile;
+            public AudioAmbienceProfile MusicProfile => _musicProfile;
             public AudioMixerSnapshot ExteriorSnapshot => _exteriorSnapshot;
             public AudioMixerSnapshot ShelteredSnapshot => _shelteredSnapshot;
         }
@@ -39,6 +41,7 @@ namespace ProjectOen.Audio
         [Header("Layer controllers")]
         [SerializeField] private AudioAmbienceController _biomeAmbience;
         [SerializeField] private AudioAmbienceController _weatherAmbience;
+        [SerializeField] private AudioAmbienceController _musicAmbience;
 
         [Header("Biome profiles")]
         [SerializeField] private BiomeBinding[] _biomes = Array.Empty<BiomeBinding>();
@@ -49,6 +52,7 @@ namespace ProjectOen.Audio
         [SerializeField] private StormBinding[] _storms = Array.Empty<StormBinding>();
         [SerializeField, Min(0f)] private float _biomeFadeSeconds = 4f;
         [SerializeField, Min(0f)] private float _weatherFadeSeconds = 3f;
+        [SerializeField, Min(0f)] private float _musicFadeSeconds = 2.5f;
         [SerializeField, Min(0f)] private float _snapshotFadeSeconds = 1.5f;
 
         [Header("Initial state")]
@@ -139,9 +143,13 @@ namespace ProjectOen.Audio
             if (binding == null)
                 return;
 
-            // Calm should use an assigned empty/near-silent profile so weather can fade away cleanly.
+            // Calm should use assigned empty/near-silent weather and music profiles so both
+            // state layers can crossfade back to silence cleanly.
             if (_weatherAmbience != null && binding.WeatherProfile != null)
                 _weatherAmbience.TransitionTo(binding.WeatherProfile, _weatherFadeSeconds);
+
+            if (_musicAmbience != null && binding.MusicProfile != null)
+                _musicAmbience.TransitionTo(binding.MusicProfile, _musicFadeSeconds);
 
             ApplyMixerSnapshot(binding);
         }
