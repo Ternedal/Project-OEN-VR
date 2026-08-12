@@ -175,11 +175,14 @@ def main() -> int:
     (args.output / "README.txt").write_text(
         "Project OEN Unity first-playable audio pack v1\n\n"
         "Extract this ZIP at the Unity project root so the included Assets/ProjectOen/Audio tree lands in Assets.\n"
-        "After Unity imports the clips, run: Project Oen > Audio > Build First Playable (One Click).\n"
-        "The one-click builder verifies 160 canonical clips / 45 events before creating definitions, catalog, baseline profiles and AudioRuntime_FirstPlayable.prefab.\n"
-        "Existing designer tuning and generated runtime/profile assets are preserved on reruns.\n"
+        "Save/open the target gameplay scene, then run: Project Oen > Audio > Build + Install First Playable (One Click).\n"
+        "The command verifies 160 canonical clips / 45 events before creating definitions, catalog, baseline profiles and AudioRuntime_FirstPlayable.prefab, then installs exactly one generated runtime instance into the active scene.\n"
+        "Scene installation refuses Prefab Mode, unsaved scenes, duplicate AudioService ownership and stale/incomplete audio imports.\n"
+        "WorldFauna binds to exactly one active AudioListener; otherwise it stays disabled rather than emitting from a wrong world position.\n"
+        "The first WorldFauna lane is Jungle Day cicadas, active only outdoors during Calm, with randomized 14-34 second cadence around the listener-relative anchor.\n"
+        "The scene is marked dirty but never auto-saved. Existing designer tuning and generated runtime/profile assets are preserved on reruns.\n"
         "Unavailable Night/Ridge/Camp/Shelter ambience resolves to an explicit empty fallback rather than stale or unrelated audio.\n"
-        "The lower-level Project Oen > Audio > Build First-Playable Definitions + Catalog command remains available for manual integration.\n"
+        "Lower-level build/install/audit commands remain available for manual production integration.\n"
         "Environmental and adaptive-music material remains candidate-headset-listen until physical listening QA.\n",
         encoding="utf-8",
     )
