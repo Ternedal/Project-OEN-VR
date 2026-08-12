@@ -9,6 +9,7 @@ on:
       - 'tools/validate_audio_manifest.py'
       - 'tools/generate_authored_audio_pack.py'
       - 'tools/validate_authored_audio_pack.py'
+      - 'tools/build_public_domain_environment_pack.py'
       - '.github/workflows/audio-validation.yml'
   push:
     branches:
@@ -20,6 +21,7 @@ on:
       - 'tools/validate_audio_manifest.py'
       - 'tools/generate_authored_audio_pack.py'
       - 'tools/validate_authored_audio_pack.py'
+      - 'tools/build_public_domain_environment_pack.py'
       - '.github/workflows/audio-validation.yml'
 
 permissions:
@@ -33,6 +35,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Ensure ffmpeg is available
+        run: |
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
       - name: Validate audio manifest and runtime IDs
         run: python tools/validate_audio_manifest.py
       - name: Validate deterministic authored WAV pack
@@ -48,5 +56,18 @@ jobs:
         with:
           name: oen-authored-ui-status-v1
           path: build/oen-authored-ui-status-v1.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Build public-domain environmental candidate pack
+        run: >-
+          python tools/build_public_domain_environment_pack.py
+          --clean
+          --output build/oen-public-domain-environment-v0
+          --zip build/oen-public-domain-environment-v0.zip
+      - name: Upload environmental candidate pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: oen-public-domain-environment-v0
+          path: build/oen-public-domain-environment-v0.zip
           if-no-files-found: error
           retention-days: 30
