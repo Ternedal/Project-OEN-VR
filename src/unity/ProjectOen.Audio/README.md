@@ -207,6 +207,17 @@ Audio follows the same canonical player-status vocabulary as the production art 
 
 `SFX_STS_Injury_Warn` and `SFX_STS_ColdWet_Warn` retain numeric values 1100/1101. The original Hunger/Thirst enum names remain only as obsolete compatibility aliases until the production-manifest row labels are regenerated; new gameplay code must not use them.
 
+## Produced audio artifacts
+
+The audio CI currently builds two separate artifacts:
+
+- `oen-authored-ui-status-v1`: 65 original authored UI/status WAV variations.
+- `oen-public-domain-environment-v0`: 10 technically normalized Public Domain / CC0 candidate derivatives for ocean, rain, storm wind and campfire.
+
+The environmental v0 pack carries `PROVENANCE.csv` with source/output SHA256 values, and the source registry pins every upstream SHA256. It remains a **candidate** pack: do not promote those clips into the production catalog before headset listening, contamination review and seamless-loop editing.
+
+See `docs/37_AUDIO_PRODUCTION_PIPELINE.md` for source/provenance policy and promotion gates.
+
 ## Quest profile
 
 Baseline:
@@ -238,4 +249,4 @@ A first playable passes the audio layer when all of these are true:
 
 ## Status
 
-Runtime architecture, production manifest, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters and surface footsteps are implemented. Final mastered recordings remain `production-needed`; no placeholder clip is represented as production audio.
+Runtime architecture, production manifest, authored UI/status WAV pack, technically normalized environmental candidate pack, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters and surface footsteps are implemented. Environmental candidates still require listening/loop QA; tropical jungle/fauna, tarp-specific recordings, bespoke Foley and final music/stingers remain production work.
