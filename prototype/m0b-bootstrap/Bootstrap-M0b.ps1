@@ -7,9 +7,9 @@
   og den genererede Project OEN production-art pakke er installeret i Unity-projektet.
 
   Production-art-delen bygger Unity-prefabs, state-specifikke puddle/shoreline decals,
-  en separat Stormnatten art-showcase-scene, en billig lokal stormregn-pass og en
-  Unity-side Quest 2 budgetaudit. Showcase-scenen er IKKE M0b's CoopGame
-  performance/netvaerksgate.
+  diegetiske VR UI-prefabs, en separat Stormnatten art-showcase-scene, en billig lokal
+  stormregn-pass og en Unity-side Quest 2 budgetaudit. Showcase-scenen er IKKE M0b's
+  CoopGame performance/netvaerksgate.
 
   Fusion/netvaerk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret -
   ellers kan projektet ikke kompilere. Se RUNBOOK.md.
@@ -56,9 +56,6 @@ Step "Kopierer Core-laget + asmdef"
 $coreDst = Join-Path $ProjectPath "Assets\ProjectOen\Core"
 New-Item -ItemType Directory -Force -Path $coreDst | Out-Null
 Copy-Item "$repo\src\ProjectOen.Core\*" $coreDst -Recurse -Force
-# -Exclude paa Copy-Item -Recurse ekskluderer ikke mapper paalideligt; repoet har en
-# committet bin\ProjectOen.Core.dll. Fjern build-artefakter EFTER kopiering, ellers ser
-# Unity baade en precompiled DLL og .cs-filerne -> dublette typer -> compile-fejl.
 Get-ChildItem $coreDst -Recurse -Directory | Where-Object { $_.Name -in @("bin","obj") } | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 Get-ChildItem $coreDst -Recurse -File | Where-Object { $_.Extension -in @(".csproj",".dll",".pdb") } | Remove-Item -Force -ErrorAction SilentlyContinue
 Copy-Item "$PSScriptRoot\templates\ProjectOen.Core.asmdef" (Join-Path $coreDst "ProjectOen.Core.asmdef") -Force
@@ -73,8 +70,6 @@ if (-not (Test-Path $artSrc)) {
 $artDst = Join-Path $ProjectPath "Assets\ProjectOEN\ProductionArt"
 New-Item -ItemType Directory -Force -Path $artDst | Out-Null
 
-# Kun generatorens source-of-truth mapper spejles. Prefabs/scenes bevares indtil de
-# genbygges i Unity-trinnene nedenfor, saa reruns ikke efterlader projektet uden dem ved fejl.
 foreach ($folder in @("Sprites", "Meshes", "Materials", "Decals", "Docs")) {
     $srcFolder = Join-Path $artSrc $folder
     $dstFolder = Join-Path $artDst $folder
@@ -86,11 +81,12 @@ $artEditorDst = Join-Path $ProjectPath "Assets\ProjectOEN\Editor"
 New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
 Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtPrefabBuilder.cs" (Join-Path $artEditorDst "ProductionArtPrefabBuilder.cs") -Force
 Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtDecalBuilder.cs" (Join-Path $artEditorDst "ProductionArtDecalBuilder.cs") -Force
+Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtDiegeticUiBuilder.cs" (Join-Path $artEditorDst "ProductionArtDiegeticUiBuilder.cs") -Force
 Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtShowcaseBuilder.cs" (Join-Path $artEditorDst "ProductionArtShowcaseBuilder.cs") -Force
 Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtStormAtmosphereBuilder.cs" (Join-Path $artEditorDst "ProductionArtStormAtmosphereBuilder.cs") -Force
 Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtShowcaseAudit.cs" (Join-Path $artEditorDst "ProductionArtShowcaseAudit.cs") -Force
 Note "ProductionArt -> Assets\ProjectOEN\ProductionArt (sprites, meshes, materials, decals, docs)"
-Note "Prefab + decal + showcase + storm-atmosphere + budget-audit builders -> Assets\ProjectOEN\Editor"
+Note "Prefab + decal + diegetic-UI + showcase + storm-atmosphere + budget-audit builders -> Assets\ProjectOEN\Editor"
 
 # --- 5. XR-configure-editor ---
 Step "Kopierer XR-config editor"
@@ -98,7 +94,7 @@ $editorDst = Join-Path $ProjectPath "Assets\Editor"
 New-Item -ItemType Directory -Force -Path $editorDst | Out-Null
 Copy-Item "$PSScriptRoot\Editor\M0bConfigure.cs" (Join-Path $editorDst "M0bConfigure.cs") -Force
 
-# --- 6. Unity: konfigurer i egen session (importerer pakker + production art foerst) ---
+# --- 6. Unity: konfigurer i egen session ---
 Step "Koerer Unity (M0bConfigure.Configure)"
 Note "Foerste koersel importerer OpenXR + XRI + production art og kan tage flere minutter."
 $log = Join-Path $PSScriptRoot "m0b-configure.log"
@@ -108,7 +104,6 @@ $log = Join-Path $PSScriptRoot "m0b-configure.log"
     -executeMethod M0bConfigure.Configure `
     -logFile $log
 $exit = $LASTEXITCODE
-
 if ($exit -ne 0) {
     Step "Resultat"
     if (Test-Path $log) {
@@ -132,14 +127,12 @@ $artExit = $LASTEXITCODE
 if ($artExit -ne 0) {
     Write-Host "`nPrefab-build fejlede (Unity exit $artExit)." -ForegroundColor Red
     if (Test-Path $artLog) {
-        Select-String -Path $artLog -Pattern "\[ProjectOEN.Art\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object {
-            Write-Host "   $($_.Line.Trim())" -ForegroundColor Red
-        }
+        Select-String -Path $artLog -Pattern "\[ProjectOEN.Art\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red }
     }
     exit 1
 }
 
-# --- 8. Wire state-specifikke puddle/shoreline decals paa holder-prefabs ---
+# --- 8. Wire state-specifikke puddle/shoreline decals ---
 Step "Bygger ground decals"
 $decalLog = Join-Path $PSScriptRoot "production-art-decals.log"
 & $UnityPath -batchmode -quit -nographics `
@@ -151,14 +144,29 @@ $decalExit = $LASTEXITCODE
 if ($decalExit -ne 0) {
     Write-Host "`nGround-decal build fejlede (Unity exit $decalExit)." -ForegroundColor Red
     if (Test-Path $decalLog) {
-        Select-String -Path $decalLog -Pattern "\[ProjectOEN.Art\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object {
-            Write-Host "   $($_.Line.Trim())" -ForegroundColor Red
-        }
+        Select-String -Path $decalLog -Pattern "\[ProjectOEN.Art\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red }
     }
     exit 1
 }
 
-# --- 9. Byg separat Stormnatten visual-review scene ---
+# --- 9. Byg diegetiske wrist/planning/world-space UI-prefabs ---
+Step "Bygger diegetiske VR UI-prefabs"
+$uiLog = Join-Path $PSScriptRoot "production-art-diegetic-ui.log"
+& $UnityPath -batchmode -quit -nographics `
+    -projectPath $ProjectPath `
+    -buildTarget Android `
+    -executeMethod ProjectOen.Art.Editor.ProductionArtDiegeticUiBuilder.BuildAll `
+    -logFile $uiLog
+$uiExit = $LASTEXITCODE
+if ($uiExit -ne 0) {
+    Write-Host "`nDiegetic UI prefab-build fejlede (Unity exit $uiExit)." -ForegroundColor Red
+    if (Test-Path $uiLog) {
+        Select-String -Path $uiLog -Pattern "\[ProjectOEN.Art.UI\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red }
+    }
+    exit 1
+}
+
+# --- 10. Byg separat Stormnatten visual-review scene ---
 Step "Bygger Stormnatten art showcase"
 $showcaseLog = Join-Path $PSScriptRoot "production-art-showcase.log"
 & $UnityPath -batchmode -quit -nographics `
@@ -170,14 +178,12 @@ $showcaseExit = $LASTEXITCODE
 if ($showcaseExit -ne 0) {
     Write-Host "`nShowcase-build fejlede (Unity exit $showcaseExit)." -ForegroundColor Red
     if (Test-Path $showcaseLog) {
-        Select-String -Path $showcaseLog -Pattern "\[ProjectOEN.Art\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object {
-            Write-Host "   $($_.Line.Trim())" -ForegroundColor Red
-        }
+        Select-String -Path $showcaseLog -Pattern "\[ProjectOEN.Art\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red }
     }
     exit 1
 }
 
-# --- 10. Tilfoej billig lokal stormregn til visual-review-scenen ---
+# --- 11. Tilfoej billig lokal stormregn ---
 Step "Tilfoejer stormatmosfaere"
 $stormLog = Join-Path $PSScriptRoot "production-art-storm.log"
 & $UnityPath -batchmode -quit -nographics `
@@ -189,14 +195,12 @@ $stormExit = $LASTEXITCODE
 if ($stormExit -ne 0) {
     Write-Host "`nStorm-atmosfaere fejlede (Unity exit $stormExit)." -ForegroundColor Red
     if (Test-Path $stormLog) {
-        Select-String -Path $stormLog -Pattern "\[ProjectOEN.Art\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object {
-            Write-Host "   $($_.Line.Trim())" -ForegroundColor Red
-        }
+        Select-String -Path $stormLog -Pattern "\[ProjectOEN.Art\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red }
     }
     exit 1
 }
 
-# --- 11. Audit af faktisk importerede showcase-assets mod Quest 2-hard limits ---
+# --- 12. Audit af faktisk importerede showcase-assets mod Quest 2-hard limits ---
 Step "Auditerer Stormnatten showcase mod Quest 2-budget"
 $budgetLog = Join-Path $PSScriptRoot "production-art-budget.log"
 & $UnityPath -batchmode -quit -nographics `
@@ -208,9 +212,7 @@ $budgetExit = $LASTEXITCODE
 if ($budgetExit -ne 0) {
     Write-Host "`nQuest 2 art-budgetaudit fejlede (Unity exit $budgetExit)." -ForegroundColor Red
     if (Test-Path $budgetLog) {
-        Select-String -Path $budgetLog -Pattern "\[ProjectOEN.Art.Budget\]|error CS|Exception:" | Select-Object -First 40 | ForEach-Object {
-            Write-Host "   $($_.Line.Trim())" -ForegroundColor Red
-        }
+        Select-String -Path $budgetLog -Pattern "\[ProjectOEN.Art.Budget\]|error CS|Exception:" | Select-Object -First 40 | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red }
     }
     exit 1
 }
@@ -219,13 +221,14 @@ Step "Resultat"
 if (Test-Path $log) {
     Select-String -Path $log -Pattern "\[M0B-SETUP\]" | ForEach-Object { Note $_.Line.Trim() }
 }
-foreach ($artResultLog in @($artLog, $decalLog, $showcaseLog, $stormLog, $budgetLog)) {
+foreach ($artResultLog in @($artLog, $decalLog, $uiLog, $showcaseLog, $stormLog, $budgetLog)) {
     if (Test-Path $artResultLog) {
         Select-String -Path $artResultLog -Pattern "\[ProjectOEN.Art" | ForEach-Object { Note $_.Line.Trim() }
     }
 }
 Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
-Write-Host "Production art er installeret, world meshes er bygget til prefabs, ground decals er wired, og StormnattenArtShowcase.unity er genereret med lokal stormregn." -ForegroundColor Green
+Write-Host "Production art er installeret, world meshes/prefabs, ground decals og diegetic UI-prefabs er bygget, og StormnattenArtShowcase.unity er genereret med lokal stormregn." -ForegroundColor Green
+Write-Host "UI prefabs: Assets\ProjectOEN\ProductionArt\UiPrefabs" -ForegroundColor Green
 Write-Host "Unity-side art-budgetaudit bestod de repo-definerede Quest 2-hard limits." -ForegroundColor Green
 Write-Host "Showcase-scenen er kun visual review og er ikke M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
 Write-Host "Naeste: importer Photon Fusion 2 (App ID), koer saa Fase 2 i RUNBOOK.md." -ForegroundColor Green
