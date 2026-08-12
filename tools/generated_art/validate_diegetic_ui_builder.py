@@ -22,46 +22,22 @@ REQUIRED_BUILDER = (
     'PlanningBoard_Diegetic.prefab',
     'InteractionMarkers_Diegetic.prefab',
     'MetaStatus_Diegetic.prefab',
-    '"ui-002_"',
-    '"ui-003_"',
-    '"ui-004_"',
-    '"ui-005_"',
-    '"ui-012_"',
-    '"ui-013_"',
-    '"ui-014_"',
-    '"pl-003_"',
-    '"pl-004_"',
-    '"pl-005_"',
-    '"pl-006_"',
-    '"wk-001_"',
-    '"wk-002_"',
-    '"wk-003_"',
-    '"wk-005_"',
-    '"wk-010_"',
-    '"wk-011_"',
-    '"wk-013_"',
+    '"ui-002_"', '"ui-003_"', '"ui-004_"', '"ui-005_"',
+    '"ui-012_"', '"ui-013_"', '"ui-014_"',
+    '"pl-003_"', '"pl-004_"', '"pl-005_"', '"pl-006_"',
+    '"wk-001_"', '"wk-002_"', '"wk-003_"', '"wk-005_"',
+    '"wk-010_"', '"wk-011_"', '"wk-013_"',
     'SpriteRenderer',
     'renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off',
     'renderer.receiveShadows = false',
     'targetWidthMeters',
 )
 
-# Match actual package/component/API dependencies, not words inside comments such
-# as "no Canvas/TMP dependency".
 FORBIDDEN_BUILDER = (
-    'using UnityEngine.UI',
-    'UnityEngine.UI.',
-    'AddComponent<Canvas>',
-    'AddComponent<CanvasScaler>',
-    'AddComponent<GraphicRaycaster>',
-    'TextMeshPro',
-    'TMPro.',
-    'BuildPipeline.BuildPlayer',
-    'EditorBuildSettings.scenes',
-    'Hunger',
-    'Thirst',
-    'Malik',
-    'Lighthouse',
+    'using UnityEngine.UI', 'UnityEngine.UI.', 'AddComponent<Canvas>',
+    'AddComponent<CanvasScaler>', 'AddComponent<GraphicRaycaster>',
+    'TextMeshPro', 'TMPro.', 'BuildPipeline.BuildPlayer',
+    'EditorBuildSettings.scenes', 'Hunger', 'Thirst', 'Malik', 'Lighthouse',
 )
 
 
@@ -77,8 +53,8 @@ def require(path: Path, label: str, tokens, errors):
 
 
 def main() -> int:
-    errors = []
-    builder = require(BUILDER, "diegetic UI builder", REQUIRED_BUILDER, errors)
+    errors=[]
+    builder=require(BUILDER,"diegetic UI builder",REQUIRED_BUILDER,errors)
     if builder:
         for token in FORBIDDEN_BUILDER:
             if token in builder:
@@ -88,32 +64,32 @@ def main() -> int:
         if builder.count("AddComponent<BoxCollider>") > 1:
             errors.append("diegetic UI art layer should only add the planning-board bounds collider")
 
-    bootstrap = require(BOOTSTRAP, "M0b bootstrap", (
+    bootstrap=require(BOOTSTRAP,"M0b bootstrap",(
         "ProductionArtDiegeticUiBuilder.cs",
         "ProjectOen.Art.Editor.ProductionArtDiegeticUiBuilder.BuildAll",
         "production-art-diegetic-ui.log",
-        "UI prefabs: Assets\\ProjectOEN\\ProductionArt\\UiPrefabs",
-    ), errors)
-    review = require(REVIEW, "fast art review", (
+        "ProductionArtUiShowcaseBuilder.BuildShowcase",
+        "ProductionArtUiShowcaseAudit.AuditShowcase",
+    ),errors)
+    review=require(REVIEW,"fast art review",(
         "ProductionArtDiegeticUiBuilder.cs",
         "ProjectOen.Art.Editor.ProductionArtDiegeticUiBuilder.BuildAll",
         "review-art-diegetic-ui.log",
         "UI prefabs: Assets\\ProjectOEN\\ProductionArt\\UiPrefabs",
-    ), errors)
+        "ProductionArtUiShowcaseBuilder.BuildShowcase",
+        "ProductionArtUiShowcaseAudit.AuditShowcase",
+    ),errors)
 
-    if bootstrap:
-        prefab_pos = bootstrap.find("ProductionArtPrefabBuilder.BuildAll")
-        ui_pos = bootstrap.find("ProductionArtDiegeticUiBuilder.BuildAll")
-        showcase_pos = bootstrap.find("ProductionArtShowcaseBuilder.BuildShowcase")
-        if min(prefab_pos, ui_pos, showcase_pos) < 0 or not (prefab_pos < ui_pos < showcase_pos):
-            errors.append("M0b bootstrap must build world prefabs -> diegetic UI -> showcase")
+    for label,text in (("M0b bootstrap",bootstrap),("Fast review",review)):
+        if text:
+            prefab_pos=text.find("ProductionArtPrefabBuilder.BuildAll")
+            ui_pos=text.find("ProductionArtDiegeticUiBuilder.BuildAll")
+            ui_scene_pos=text.find("ProductionArtUiShowcaseBuilder.BuildShowcase")
+            storm_pos=text.find("ProductionArtShowcaseBuilder.BuildShowcase")
+            if min(prefab_pos,ui_pos,ui_scene_pos,storm_pos) < 0 or not (prefab_pos < ui_pos < ui_scene_pos < storm_pos):
+                errors.append(f"{label} must build world prefabs -> diegetic UI -> UI review -> Stormnatten showcase")
 
     if review:
-        prefab_pos = review.find("ProductionArtPrefabBuilder.BuildAll")
-        ui_pos = review.find("ProductionArtDiegeticUiBuilder.BuildAll")
-        showcase_pos = review.find("ProductionArtShowcaseBuilder.BuildShowcase")
-        if min(prefab_pos, ui_pos, showcase_pos) < 0 or not (prefab_pos < ui_pos < showcase_pos):
-            errors.append("Fast review must build world prefabs -> diegetic UI -> showcase")
         for forbidden in ("M0bConfigure.Configure", "BuildPipeline.BuildPlayer", "Packages\\manifest.json"):
             if forbidden in review:
                 errors.append(f"Fast art review must not mutate M0b platform path: {forbidden}")
@@ -122,18 +98,14 @@ def main() -> int:
     print("  visual prefabs : 4")
     print("  renderer path  : SpriteRenderer (no Canvas/TMP dependency)")
     print("  canonical UI   : Health / Fatigue / Injury / Cold-Wet + camp states")
-    print("  build order    : world prefabs -> decals/UI -> showcase")
+    print("  build order    : world -> diegetic UI -> physical-scale audit -> Stormnatten")
     print("  Quest intent   : no UI shadows; one board collider only")
-
     if errors:
         print(f"\nFAILED with {len(errors)} issue(s):")
-        for error in errors:
-            print(" - " + error)
+        for error in errors: print(" - "+error)
         return 1
-
     print("\nPASS: diegetic UI art-prefab integration contract is intact.")
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())
