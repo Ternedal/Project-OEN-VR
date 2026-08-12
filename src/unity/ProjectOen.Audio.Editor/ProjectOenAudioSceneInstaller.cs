@@ -19,13 +19,22 @@ namespace ProjectOen.Audio.Editor
             "Assets/ProjectOen/Audio/GeneratedFirstPlayable/Runtime/AudioRuntime_FirstPlayable.prefab";
         private const string RuntimeName = "AudioRuntime_FirstPlayable";
         private const string WorldFaunaName = "WorldFauna";
+        private const string WorldWeatherName = "WorldWeather";
         private const string CicadaEmitterName = "JungleDay_Cicadas";
+        private const string ThunderEmitterName = "RainFire_ThunderFar";
         private const int ExpectedFirstPlayableClipCount = 160;
         private const int ExpectedFirstPlayableEventCount = 45;
 
         [MenuItem("Project Oen/Audio/Build + Install First Playable (One Click)", priority = -10)]
         public static void BuildAndInstall()
         {
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                Debug.LogError(
+                    "Project Oen audio build/install stopped: exit Play Mode before mutating generated audio assets or scene composition.");
+                return;
+            }
+
             ProjectOenAudioOneClickFirstPlayableBuilder.BuildOneClick();
             InstallIntoActiveScene();
         }
@@ -33,6 +42,13 @@ namespace ProjectOen.Audio.Editor
         [MenuItem("Project Oen/Audio/Install First-Playable Runtime Into Active Scene")]
         public static void InstallIntoActiveScene()
         {
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                Debug.LogError(
+                    "Project Oen audio scene install stopped: exit Play Mode before changing scene composition.");
+                return;
+            }
+
             if (PrefabStageUtility.GetCurrentPrefabStage() != null)
             {
                 Debug.LogError(
@@ -119,7 +135,10 @@ namespace ProjectOen.Audio.Editor
                 return;
             }
 
-            ConfigureWorldFauna(runtimeRoot, service, worldState, scene);
+            var listeners = FindActiveListeners(scene);
+            ConfigureWorldFauna(runtimeRoot, service, worldState, listeners);
+            ConfigureWorldWeather(runtimeRoot, service, worldState, listeners);
+
             EditorSceneManager.MarkSceneDirty(scene);
             Selection.activeGameObject = runtimeRoot;
 
@@ -153,9 +172,9 @@ namespace ProjectOen.Audio.Editor
             var ok = coverageOk &&
                      services.Count == 1 &&
                      routers.Count == 1 &&
-                     followers.Count >= 1 &&
-                     emitterRouters.Count >= 1 &&
-                     randomEmitters.Count >= 1;
+                     followers.Count >= 2 &&
+                     emitterRouters.Count >= 2 &&
+                     randomEmitters.Count >= 2;
 
             if (!coverageOk)
             {
@@ -168,31 +187,40 @@ namespace ProjectOen.Audio.Editor
             if (!ok)
             {
                 Debug.LogError(
-                    "Project Oen active-scene audio audit failed: expected complete first-playable coverage, one " +
-                    "AudioService/router and at least one WorldFauna follower/state-router/random-emitter set.");
+                    "Project Oen active-scene audio audit failed: expected complete first-playable coverage, one AudioService/router, " +
+                    "and listener-relative WorldFauna + WorldWeather follower/router/emitter sets.");
             }
 
             if (listeners.Count != 1)
             {
                 Debug.LogWarning(
                     $"Project Oen active-scene audio audit: expected exactly one active AudioListener, found {listeners.Count}. " +
-                    "WorldFauna must stay disabled until listener ownership is unambiguous.");
+                    "Listener-relative world emitters must stay disabled until listener ownership is unambiguous.");
             }
 
-            var followerTargetOk = followers.Count > 0 &&
-                                   listeners.Count == 1 &&
-                                   followers.Exists(follower => follower != null && follower.Target == listeners[0].transform);
-            if (listeners.Count == 1 && !followerTargetOk)
+            var followerTargetCount = 0;
+            if (listeners.Count == 1)
             {
-                Debug.LogError(
-                    "Project Oen active-scene audio audit: WorldFauna anchor is not bound to the active AudioListener.");
+                for (var i = 0; i < followers.Count; i++)
+                {
+                    var follower = followers[i];
+                    if (follower != null && follower.Target == listeners[0].transform)
+                        followerTargetCount++;
+                }
+
+                if (followerTargetCount < 2)
+                {
+                    Debug.LogError(
+                        "Project Oen active-scene audio audit: both WorldFauna and WorldWeather anchors must be bound to the active AudioListener.");
+                }
             }
 
             Debug.Log(
                 $"Project Oen active-scene audio audit: coverage={coverage.clipCount}/{coverage.eventCount}, " +
                 $"services={services.Count}, routers={routers.Count}, worldAnchors={followers.Count}, " +
                 $"emitterRouters={emitterRouters.Count}, randomEmitters={randomEmitters.Count}, " +
-                $"activeListeners={listeners.Count}, status={(ok && (listeners.Count != 1 || followerTargetOk) ? "OK" : "CHECK")}.");
+                $"listenerBoundAnchors={followerTargetCount}, activeListeners={listeners.Count}, " +
+                $"status={(ok && (listeners.Count != 1 || followerTargetCount >= 2) ? "OK" : "CHECK")}.");
         }
 
         private static (int clipCount, int eventCount) MeasureCanonicalClipCoverage()
@@ -258,98 +286,163 @@ namespace ProjectOen.Audio.Editor
             GameObject runtimeRoot,
             AudioService service,
             AudioWorldStateRouter worldState,
-            Scene scene)
+            IReadOnlyList<AudioListener> listeners)
         {
-            var worldFauna = FindDirectChild(runtimeRoot.transform, WorldFaunaName);
-            if (worldFauna == null)
-            {
-                var created = new GameObject(WorldFaunaName);
-                Undo.RegisterCreatedObjectUndo(created, "Create Project Oen WorldFauna");
-                created.transform.SetParent(runtimeRoot.transform, false);
-                worldFauna = created.transform;
-            }
+            var root = GetOrCreateDirectChild(runtimeRoot.transform, WorldFaunaName, "Create Project Oen WorldFauna");
+            var follower = GetOrAddComponent<AudioWorldAnchorFollower>(root.gameObject);
 
-            var follower = worldFauna.GetComponent<AudioWorldAnchorFollower>();
-            if (follower == null)
-                follower = Undo.AddComponent<AudioWorldAnchorFollower>(worldFauna.gameObject);
+            var cicadaTransform = GetOrCreateDirectChild(root, CicadaEmitterName, "Create Project Oen Cicada Emitter");
+            var cicadaEmitter = GetOrAddComponent<AudioRandomEmitter>(cicadaTransform.gameObject);
+            ConfigureRandomEmitter(
+                cicadaEmitter,
+                service,
+                AudioEventId.SFX_NAT_Insect_CicadaCluster,
+                new Vector2(14f, 34f),
+                18f,
+                2.5f);
 
-            var cicadaTransform = FindDirectChild(worldFauna, CicadaEmitterName);
-            if (cicadaTransform == null)
-            {
-                var created = new GameObject(CicadaEmitterName);
-                Undo.RegisterCreatedObjectUndo(created, "Create Project Oen Cicada Emitter");
-                created.transform.SetParent(worldFauna, false);
-                cicadaTransform = created.transform;
-            }
+            var emitterRouter = GetOrAddComponent<AudioWorldStateEmitterRouter>(root.gameObject);
+            var serialized = new SerializedObject(emitterRouter);
+            serialized.FindProperty("_worldState").objectReferenceValue = worldState;
+            var bindings = serialized.FindProperty("_bindings");
+            bindings.arraySize = 1;
+            ConfigureEmitterBinding(
+                bindings.GetArrayElementAtIndex(0),
+                cicadaEmitter,
+                AudioBiome.Jungle,
+                true,
+                AudioDayPhase.Day,
+                true,
+                AudioStormPhase.Calm,
+                true);
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(emitterRouter);
 
-            var cicadaEmitter = cicadaTransform.GetComponent<AudioRandomEmitter>();
-            if (cicadaEmitter == null)
-                cicadaEmitter = Undo.AddComponent<AudioRandomEmitter>(cicadaTransform.gameObject);
-            ConfigureCicadaEmitter(cicadaEmitter, service);
-
-            var emitterRouter = worldFauna.GetComponent<AudioWorldStateEmitterRouter>();
-            if (emitterRouter == null)
-                emitterRouter = Undo.AddComponent<AudioWorldStateEmitterRouter>(worldFauna.gameObject);
-            ConfigureEmitterRouter(emitterRouter, worldState, cicadaEmitter);
-
-            var listeners = FindActiveListeners(scene);
-            Undo.RecordObject(worldFauna.gameObject, "Configure Project Oen WorldFauna");
-            Undo.RecordObject(follower, "Configure Project Oen WorldFauna Anchor");
-
-            if (listeners.Count == 1)
-            {
-                follower.Configure(listeners[0].transform, false);
-                worldFauna.gameObject.SetActive(true);
-                EditorUtility.SetDirty(follower);
-            }
-            else
-            {
-                follower.Configure(null, false);
-                worldFauna.gameObject.SetActive(false);
-                EditorUtility.SetDirty(follower);
-                Debug.LogWarning(
-                    $"Project Oen audio: WorldFauna disabled because active scene has {listeners.Count} active AudioListeners. " +
-                    "Resolve listener ownership and rerun the scene installer.",
-                    runtimeRoot);
-            }
+            BindListenerRelativeRoot(root.gameObject, follower, listeners, "WorldFauna");
         }
 
-        private static void ConfigureCicadaEmitter(AudioRandomEmitter emitter, AudioService service)
+        private static void ConfigureWorldWeather(
+            GameObject runtimeRoot,
+            AudioService service,
+            AudioWorldStateRouter worldState,
+            IReadOnlyList<AudioListener> listeners)
+        {
+            var root = GetOrCreateDirectChild(runtimeRoot.transform, WorldWeatherName, "Create Project Oen WorldWeather");
+            var follower = GetOrAddComponent<AudioWorldAnchorFollower>(root.gameObject);
+
+            var thunderTransform = GetOrCreateDirectChild(root, ThunderEmitterName, "Create Project Oen Thunder Emitter");
+            var thunderEmitter = GetOrAddComponent<AudioRandomEmitter>(thunderTransform.gameObject);
+            ConfigureRandomEmitter(
+                thunderEmitter,
+                service,
+                AudioEventId.SFX_WTH_Thunder_Far,
+                new Vector2(18f, 42f),
+                32f,
+                10f);
+
+            var emitterRouter = GetOrAddComponent<AudioWorldStateEmitterRouter>(root.gameObject);
+            var serialized = new SerializedObject(emitterRouter);
+            serialized.FindProperty("_worldState").objectReferenceValue = worldState;
+            var bindings = serialized.FindProperty("_bindings");
+            bindings.arraySize = 1;
+            ConfigureEmitterBinding(
+                bindings.GetArrayElementAtIndex(0),
+                thunderEmitter,
+                AudioBiome.Beach,
+                false,
+                AudioDayPhase.Day,
+                false,
+                AudioStormPhase.RainFire,
+                true);
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(emitterRouter);
+
+            BindListenerRelativeRoot(root.gameObject, follower, listeners, "WorldWeather");
+        }
+
+        private static void ConfigureRandomEmitter(
+            AudioRandomEmitter emitter,
+            AudioService service,
+            AudioEventId eventId,
+            Vector2 delaySeconds,
+            float horizontalRadius,
+            float verticalJitter)
         {
             var serialized = new SerializedObject(emitter);
             serialized.FindProperty("_audioService").objectReferenceValue = service;
 
             var eventsProperty = serialized.FindProperty("_events");
             eventsProperty.arraySize = 1;
-            eventsProperty.GetArrayElementAtIndex(0).intValue = (int)AudioEventId.SFX_NAT_Insect_CicadaCluster;
+            eventsProperty.GetArrayElementAtIndex(0).intValue = (int)eventId;
 
-            serialized.FindProperty("_delaySeconds").vector2Value = new Vector2(14f, 34f);
-            serialized.FindProperty("_horizontalRadius").floatValue = 18f;
-            serialized.FindProperty("_verticalJitter").floatValue = 2.5f;
+            serialized.FindProperty("_delaySeconds").vector2Value = delaySeconds;
+            serialized.FindProperty("_horizontalRadius").floatValue = horizontalRadius;
+            serialized.FindProperty("_verticalJitter").floatValue = verticalJitter;
             serialized.FindProperty("_playOnEnable").boolValue = false;
             serialized.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(emitter);
         }
 
-        private static void ConfigureEmitterRouter(
-            AudioWorldStateEmitterRouter emitterRouter,
-            AudioWorldStateRouter worldState,
-            AudioRandomEmitter cicadaEmitter)
+        private static void ConfigureEmitterBinding(
+            SerializedProperty binding,
+            AudioRandomEmitter emitter,
+            AudioBiome biome,
+            bool matchBiome,
+            AudioDayPhase dayPhase,
+            bool matchDayPhase,
+            AudioStormPhase stormPhase,
+            bool exteriorOnly)
         {
-            var serialized = new SerializedObject(emitterRouter);
-            serialized.FindProperty("_worldState").objectReferenceValue = worldState;
+            binding.FindPropertyRelative("_emitter").objectReferenceValue = emitter;
+            binding.FindPropertyRelative("_biome").intValue = (int)biome;
+            binding.FindPropertyRelative("_matchBiome").boolValue = matchBiome;
+            binding.FindPropertyRelative("_dayPhase").intValue = (int)dayPhase;
+            binding.FindPropertyRelative("_matchDayPhase").boolValue = matchDayPhase;
+            binding.FindPropertyRelative("_stormPhase").intValue = (int)stormPhase;
+            binding.FindPropertyRelative("_exteriorOnly").boolValue = exteriorOnly;
+        }
 
-            var bindings = serialized.FindProperty("_bindings");
-            bindings.arraySize = 1;
-            var binding = bindings.GetArrayElementAtIndex(0);
-            binding.FindPropertyRelative("_emitter").objectReferenceValue = cicadaEmitter;
-            binding.FindPropertyRelative("_biome").intValue = (int)AudioBiome.Jungle;
-            binding.FindPropertyRelative("_dayPhase").intValue = (int)AudioDayPhase.Day;
-            binding.FindPropertyRelative("_matchDayPhase").boolValue = true;
-            binding.FindPropertyRelative("_exteriorOnly").boolValue = true;
+        private static void BindListenerRelativeRoot(
+            GameObject root,
+            AudioWorldAnchorFollower follower,
+            IReadOnlyList<AudioListener> listeners,
+            string label)
+        {
+            Undo.RecordObject(root, $"Configure Project Oen {label}");
+            Undo.RecordObject(follower, $"Configure Project Oen {label} Anchor");
 
-            serialized.ApplyModifiedPropertiesWithoutUndo();
-            EditorUtility.SetDirty(emitterRouter);
+            if (listeners.Count == 1)
+            {
+                follower.Configure(listeners[0].transform, false);
+                root.SetActive(true);
+                EditorUtility.SetDirty(follower);
+                return;
+            }
+
+            follower.Configure(null, false);
+            root.SetActive(false);
+            EditorUtility.SetDirty(follower);
+            Debug.LogWarning(
+                $"Project Oen audio: {label} disabled because active scene has {listeners.Count} active AudioListeners. " +
+                "Resolve listener ownership and rerun the scene installer.");
+        }
+
+        private static T GetOrAddComponent<T>(GameObject gameObject) where T : Component
+        {
+            var existing = gameObject.GetComponent<T>();
+            return existing != null ? existing : Undo.AddComponent<T>(gameObject);
+        }
+
+        private static Transform GetOrCreateDirectChild(Transform parent, string name, string undoName)
+        {
+            var existing = FindDirectChild(parent, name);
+            if (existing != null)
+                return existing;
+
+            var created = new GameObject(name);
+            Undo.RegisterCreatedObjectUndo(created, undoName);
+            created.transform.SetParent(parent, false);
+            return created.transform;
         }
 
         private static List<T> FindInScene<T>(Scene scene) where T : Component
