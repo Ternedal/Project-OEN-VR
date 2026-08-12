@@ -8,6 +8,7 @@ on:
       - 'tools/generated_art/**'
       - 'src/unity/ProjectOen.Art/**'
       - 'prototype/m0b-bootstrap/**'
+      - 'docs/36_GENERATED_ART_PACK.md'
       - '.github/workflows/generate-project-oen-art.yml'
   workflow_dispatch:
 
