@@ -17,6 +17,7 @@ on:
       - 'tools/validate_audio_manifest.py'
       - 'tools/validate_foley_recording_plan.py'
       - 'tools/validate_audio_unity_editor_contract.py'
+      - 'tools/report_audio_first_playable_readiness.py'
       - 'tools/generate_authored_audio_pack.py'
       - 'tools/validate_authored_audio_pack.py'
       - 'tools/generate_authored_gameplay_stingers.py'
@@ -46,6 +47,7 @@ on:
       - 'tools/validate_audio_manifest.py'
       - 'tools/validate_foley_recording_plan.py'
       - 'tools/validate_audio_unity_editor_contract.py'
+      - 'tools/report_audio_first_playable_readiness.py'
       - 'tools/generate_authored_audio_pack.py'
       - 'tools/validate_authored_audio_pack.py'
       - 'tools/generate_authored_gameplay_stingers.py'
@@ -83,6 +85,21 @@ jobs:
         run: python tools/validate_foley_recording_plan.py
       - name: Validate Unity Editor serialized-field contract
         run: python tools/validate_audio_unity_editor_contract.py
+      - name: Report first-playable audio readiness
+        run: |
+          python tools/report_audio_first_playable_readiness.py \
+            --csv build/audio-first-playable-readiness.csv \
+            --markdown build/audio-first-playable-readiness.md
+          cat build/audio-first-playable-readiness.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload audio readiness report
+        uses: actions/upload-artifact@v4
+        with:
+          name: oen-audio-first-playable-readiness-v1
+          path: |
+            build/audio-first-playable-readiness.csv
+            build/audio-first-playable-readiness.md
+          if-no-files-found: error
+          retention-days: 30
       - name: Validate deterministic authored UI/status WAV pack
         run: python tools/validate_authored_audio_pack.py
       - name: Validate deterministic authored gameplay/stinger WAV pack
