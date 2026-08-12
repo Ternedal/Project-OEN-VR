@@ -6,9 +6,10 @@
   HELE Core-laget kompilerer som en Unity-assembly, OpenXR er sat op for Android,
   og den genererede Project OEN production-art pakke er installeret i Unity-projektet.
 
-  Production-art-delen bygger Unity-prefabs, en separat Stormnatten art-showcase-scene,
-  en billig lokal stormregn-pass og en Unity-side Quest 2 budgetaudit. Showcase-scenen
-  er IKKE M0b's CoopGame performance/netvaerksgate.
+  Production-art-delen bygger Unity-prefabs, state-specifikke puddle/shoreline decals,
+  en separat Stormnatten art-showcase-scene, en billig lokal stormregn-pass og en
+  Unity-side Quest 2 budgetaudit. Showcase-scenen er IKKE M0b's CoopGame
+  performance/netvaerksgate.
 
   Fusion/netvaerk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret -
   ellers kan projektet ikke kompilere. Se RUNBOOK.md.
@@ -74,7 +75,7 @@ New-Item -ItemType Directory -Force -Path $artDst | Out-Null
 
 # Kun generatorens source-of-truth mapper spejles. Prefabs/scenes bevares indtil de
 # genbygges i Unity-trinnene nedenfor, saa reruns ikke efterlader projektet uden dem ved fejl.
-foreach ($folder in @("Sprites", "Meshes", "Materials", "Docs")) {
+foreach ($folder in @("Sprites", "Meshes", "Materials", "Decals", "Docs")) {
     $srcFolder = Join-Path $artSrc $folder
     $dstFolder = Join-Path $artDst $folder
     if (Test-Path $dstFolder) { Remove-Item $dstFolder -Recurse -Force }
@@ -84,11 +85,12 @@ foreach ($folder in @("Sprites", "Meshes", "Materials", "Docs")) {
 $artEditorDst = Join-Path $ProjectPath "Assets\ProjectOEN\Editor"
 New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
 Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtPrefabBuilder.cs" (Join-Path $artEditorDst "ProductionArtPrefabBuilder.cs") -Force
+Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtDecalBuilder.cs" (Join-Path $artEditorDst "ProductionArtDecalBuilder.cs") -Force
 Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtShowcaseBuilder.cs" (Join-Path $artEditorDst "ProductionArtShowcaseBuilder.cs") -Force
 Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtStormAtmosphereBuilder.cs" (Join-Path $artEditorDst "ProductionArtStormAtmosphereBuilder.cs") -Force
 Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtShowcaseAudit.cs" (Join-Path $artEditorDst "ProductionArtShowcaseAudit.cs") -Force
-Note "ProductionArt -> Assets\ProjectOEN\ProductionArt (sprites, meshes, materials, docs)"
-Note "Prefab + showcase + storm-atmosphere + budget-audit builders -> Assets\ProjectOEN\Editor"
+Note "ProductionArt -> Assets\ProjectOEN\ProductionArt (sprites, meshes, materials, decals, docs)"
+Note "Prefab + decal + showcase + storm-atmosphere + budget-audit builders -> Assets\ProjectOEN\Editor"
 
 # --- 5. XR-configure-editor ---
 Step "Kopierer XR-config editor"
@@ -137,7 +139,26 @@ if ($artExit -ne 0) {
     exit 1
 }
 
-# --- 8. Byg separat Stormnatten visual-review scene ---
+# --- 8. Wire state-specifikke puddle/shoreline decals paa holder-prefabs ---
+Step "Bygger ground decals"
+$decalLog = Join-Path $PSScriptRoot "production-art-decals.log"
+& $UnityPath -batchmode -quit -nographics `
+    -projectPath $ProjectPath `
+    -buildTarget Android `
+    -executeMethod ProjectOen.Art.Editor.ProductionArtDecalBuilder.BuildAll `
+    -logFile $decalLog
+$decalExit = $LASTEXITCODE
+if ($decalExit -ne 0) {
+    Write-Host "`nGround-decal build fejlede (Unity exit $decalExit)." -ForegroundColor Red
+    if (Test-Path $decalLog) {
+        Select-String -Path $decalLog -Pattern "\[ProjectOEN.Art\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object {
+            Write-Host "   $($_.Line.Trim())" -ForegroundColor Red
+        }
+    }
+    exit 1
+}
+
+# --- 9. Byg separat Stormnatten visual-review scene ---
 Step "Bygger Stormnatten art showcase"
 $showcaseLog = Join-Path $PSScriptRoot "production-art-showcase.log"
 & $UnityPath -batchmode -quit -nographics `
@@ -156,7 +177,7 @@ if ($showcaseExit -ne 0) {
     exit 1
 }
 
-# --- 9. Tilfoej billig lokal stormregn til visual-review-scenen ---
+# --- 10. Tilfoej billig lokal stormregn til visual-review-scenen ---
 Step "Tilfoejer stormatmosfaere"
 $stormLog = Join-Path $PSScriptRoot "production-art-storm.log"
 & $UnityPath -batchmode -quit -nographics `
@@ -175,7 +196,7 @@ if ($stormExit -ne 0) {
     exit 1
 }
 
-# --- 10. Audit af faktisk importerede showcase-assets mod Quest 2-hard limits ---
+# --- 11. Audit af faktisk importerede showcase-assets mod Quest 2-hard limits ---
 Step "Auditerer Stormnatten showcase mod Quest 2-budget"
 $budgetLog = Join-Path $PSScriptRoot "production-art-budget.log"
 & $UnityPath -batchmode -quit -nographics `
@@ -198,13 +219,13 @@ Step "Resultat"
 if (Test-Path $log) {
     Select-String -Path $log -Pattern "\[M0B-SETUP\]" | ForEach-Object { Note $_.Line.Trim() }
 }
-foreach ($artResultLog in @($artLog, $showcaseLog, $stormLog, $budgetLog)) {
+foreach ($artResultLog in @($artLog, $decalLog, $showcaseLog, $stormLog, $budgetLog)) {
     if (Test-Path $artResultLog) {
         Select-String -Path $artResultLog -Pattern "\[ProjectOEN.Art" | ForEach-Object { Note $_.Line.Trim() }
     }
 }
 Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
-Write-Host "Production art er installeret, world meshes er bygget til prefabs, og StormnattenArtShowcase.unity er genereret med lokal stormregn." -ForegroundColor Green
+Write-Host "Production art er installeret, world meshes er bygget til prefabs, ground decals er wired, og StormnattenArtShowcase.unity er genereret med lokal stormregn." -ForegroundColor Green
 Write-Host "Unity-side art-budgetaudit bestod de repo-definerede Quest 2-hard limits." -ForegroundColor Green
 Write-Host "Showcase-scenen er kun visual review og er ikke M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
 Write-Host "Naeste: importer Photon Fusion 2 (App ID), koer saa Fase 2 i RUNBOOK.md." -ForegroundColor Green
