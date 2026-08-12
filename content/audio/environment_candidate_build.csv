@@ -7,5 +7,5 @@ SFX_WTH_Rain_Light,01,SFX_WTH_Rain_Light_01.wav,rain_light_pd,0,9,source,bed,"hi
 SFX_WTH_Rain_Heavy,01,SFX_WTH_Rain_Heavy_01.wav,rain_heavy_pd,0,40,source,bed,"highpass=f=65,lowpass=f=14500",2D/Streaming/Weather,yes,candidate-headset-listen
 SFX_WTH_Storm_Wind,01,SFX_WTH_Storm_Wind_01.wav,wind_cc0,8,52,source,bed,"highpass=f=35,lowpass=f=10000",2D/Streaming/Weather,yes,candidate-headset-listen
 SFX_WTH_Storm_Wind,02,SFX_WTH_Storm_Wind_02.wav,wind_cc0,66,52,source,bed,"highpass=f=35,lowpass=f=10000",2D/Streaming/Weather,yes,candidate-headset-listen
-SFX_ENV_Fire_Idle,01,SFX_ENV_Fire_Idle_01.wav,fire_cc0,2,25,mono,bed,"highpass=f=70,lowpass=f=15000",Spatial/Streaming/Environment,yes,candidate-headset-listen
-SFX_ENV_Fire_Low,01,SFX_ENV_Fire_Low_01.wav,fire_cc0,2,25,mono,bed,"highpass=f=90,lowpass=f=8000,volume=-6dB",Spatial/Streaming/Environment,yes,candidate-headset-listen
+SFX_ENV_Fire_Idle,01,SFX_ENV_Fire_Idle_01.wav,fire_pd,0,9,mono,bed,"highpass=f=70,lowpass=f=15000",Spatial/Streaming/Environment,yes,candidate-headset-listen
+SFX_ENV_Fire_Low,01,SFX_ENV_Fire_Low_01.wav,fire_pd,0,9,mono,bed,"highpass=f=90,lowpass=f=8000,volume=-6dB",Spatial/Streaming/Environment,yes,candidate-headset-listen
