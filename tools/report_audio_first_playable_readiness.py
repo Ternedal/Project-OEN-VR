@@ -4,12 +4,16 @@
 The canonical manifest is the inventory. Authored/environment build registries prove what has
 actual generated candidate files; Foley and reviewed-field plans explain known missing lanes.
 Everything else remains explicitly unassigned rather than being silently treated as done.
+
+The production manifest still carries two historical status labels. They are canonicalized here
+to the stable runtime names without rewriting the source manifest, because Unity/runtime IDs and
+new authored assets use Injury/ColdWet while old manifest rows remain compatibility data.
 """
 from __future__ import annotations
 
 import argparse
 import csv
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,6 +25,16 @@ MUSIC = AUDIO / "authored_adaptive_music_manifest.csv"
 ENVIRONMENT = AUDIO / "environment_candidate_build.csv"
 FOLEY = AUDIO / "foley_recording_plan.csv"
 REVIEWED = AUDIO / "reviewed_field_recording_jobs.csv"
+
+LEGACY_EVENT_ALIASES = {
+    "SFX_STS_Hunger_Warn": "SFX_STS_Injury_Warn",
+    "SFX_STS_Thirst_Warn": "SFX_STS_ColdWet_Warn",
+}
+
+
+def canonicalize_event_id(event_id: str) -> str:
+    cleaned = event_id.strip()
+    return LEGACY_EVENT_ALIASES.get(cleaned, cleaned)
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -50,6 +64,7 @@ def write_csv(path: Path, rows: list[dict[str, str]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = [
         "event_id",
+        "manifest_event_id",
         "category",
         "subcategory",
         "canonical_variations",
@@ -83,6 +98,10 @@ def write_markdown(
         f"- Produced candidate WAV files represented by registries: **{produced_file_count}**",
         f"- Runtime events still without produced WAVs: **{missing}**",
         "",
+        "Historical manifest labels `SFX_STS_Hunger_Warn` and `SFX_STS_Thirst_Warn` are reported "
+        "as canonical runtime `SFX_STS_Injury_Warn` and `SFX_STS_ColdWet_Warn`; the source manifest "
+        "is intentionally not rewritten by this report.",
+        "",
         "## Readiness lanes",
         "",
         "| Lane | Events |",
@@ -98,7 +117,13 @@ def write_markdown(
     else:
         lines.append("- none")
 
-    lines.extend(["", "## Event inventory", "", "| Event | Lane | Produced / canonical variations |", "| --- | --- | ---: |"])
+    lines.extend([
+        "",
+        "## Event inventory",
+        "",
+        "| Event | Lane | Produced / canonical variations |",
+        "| --- | --- | ---: |",
+    ])
     for row in rows:
         lines.append(
             f"| `{row['event_id']}` | `{row['readiness_lane']}` | "
@@ -126,14 +151,20 @@ def main() -> int:
 
     canonical_order: list[str] = []
     canonical_by_id: dict[str, dict[str, str]] = {}
+    manifest_event_id_by_canonical: dict[str, str] = {}
     for row in canonical_rows:
-        event_id = row.get("event_id", "").strip()
-        if not event_id:
+        manifest_event_id = row.get("event_id", "").strip()
+        if not manifest_event_id:
             raise SystemExit("canonical manifest contains blank event_id")
+        event_id = canonicalize_event_id(manifest_event_id)
         if event_id in canonical_by_id:
-            raise SystemExit(f"duplicate canonical event_id: {event_id}")
+            raise SystemExit(
+                f"duplicate canonical event_id after alias normalization: {event_id} "
+                f"(latest manifest label {manifest_event_id})"
+            )
         canonical_order.append(event_id)
         canonical_by_id[event_id] = row
+        manifest_event_id_by_canonical[event_id] = manifest_event_id
 
     canonical = set(canonical_by_id)
     if len(canonical) != args.expect_canonical_events:
@@ -145,18 +176,18 @@ def main() -> int:
     produced_lane: dict[str, str] = {}
 
     for row in authored_rows:
-        event_id = row["event_id"].strip()
+        event_id = canonicalize_event_id(row["event_id"])
         produced_variations[event_id] += int_field(row, "variations", "authored audio manifest")
         produced_lane[event_id] = "produced-authored"
 
     for row in music_rows:
-        event_id = row["event_id"].strip()
+        event_id = canonicalize_event_id(row["event_id"])
         produced_variations[event_id] += int_field(row, "variations", "adaptive music manifest")
         produced_lane[event_id] = "produced-authored-candidate"
 
     environment_counts: Counter[str] = Counter()
     for row in environment_rows:
-        event_id = row["event_id"].strip()
+        event_id = canonicalize_event_id(row["event_id"])
         environment_counts[event_id] += 1
     for event_id, count in environment_counts.items():
         if event_id in produced_variations:
@@ -165,8 +196,16 @@ def main() -> int:
         produced_lane[event_id] = "produced-environment-candidate"
 
     produced = set(produced_variations)
-    foley = {row["event_id"].strip() for row in foley_rows if row.get("event_id", "").strip()}
-    reviewed = {row["event_id"].strip() for row in reviewed_rows if row.get("event_id", "").strip()}
+    foley = {
+        canonicalize_event_id(row["event_id"])
+        for row in foley_rows
+        if row.get("event_id", "").strip()
+    }
+    reviewed = {
+        canonicalize_event_id(row["event_id"])
+        for row in reviewed_rows
+        if row.get("event_id", "").strip()
+    }
 
     ensure_known(produced, canonical, "produced registries")
     ensure_known(foley, canonical, "Foley recording plan")
@@ -205,6 +244,7 @@ def main() -> int:
         rows.append(
             {
                 "event_id": event_id,
+                "manifest_event_id": manifest_event_id_by_canonical[event_id],
                 "category": canonical_row.get("category", ""),
                 "subcategory": canonical_row.get("subcategory", ""),
                 "canonical_variations": canonical_row.get("variations", ""),
