@@ -37,7 +37,7 @@ Gameplay code depends on `IAudioService`, not concrete clip paths.
 
 ## Minimum scene setup
 
-Create one scene object called `AudioRuntime` and add:
+The preferred first-playable workflow now generates this composition automatically. For a manual production composition, create one scene object called `AudioRuntime` and add:
 
 1. `AudioService`
    - assign the production `AudioCatalog`
@@ -58,7 +58,7 @@ Do not use `DontDestroyOnLoad` or convert these components into global singleton
 
 ## Recommended ambience profiles
 
-Create these ScriptableObjects first:
+Create these ScriptableObjects first for the final production mix. The one-click first-playable builder uses a smaller generated subset based only on audio that actually exists today.
 
 ### AMB_Beach_Day
 
@@ -98,7 +98,7 @@ Storm phase ambience is driven by gameplay/weather state rather than only by tri
 
 Use `SetBiome()` and `SetDayPhase()` from the authoritative world/phase system. The router crossfades only the biome controller.
 
-Baseline mappings:
+Final production mappings should cover:
 
 - Beach + Day -> `AMB_Beach_Day`
 - Beach + Night -> `AMB_Beach_Night`
@@ -106,6 +106,8 @@ Baseline mappings:
 - Jungle + Night -> `AMB_Jungle_Night`
 - Ridge + Day/Night -> ridge variants
 - `SetSheltered(true)` overrides the exterior profile with shelter day/night while retaining the exterior biome for exit
+
+The generated first-playable prefab deliberately routes currently unavailable Night/Ridge/Camp/Shelter states to `FP_Biome_Silence`, so a missing profile cannot leave the previous biome bed playing.
 
 ### Storm and music layers
 
@@ -177,29 +179,32 @@ The prefab never references individual clips. Variation choice remains in `Audio
 
 The full physical recording plan is `content/audio/foley_recording_plan.csv`: 40 Foley events / 388 planned selected variations. `tools/validate_foley_recording_plan.py` checks every count against the canonical audio manifest. See `docs/39_FOLEY_AND_UNITY_BINDING.md` for recording recipes and acceptance rules.
 
-## First-playable definitions and catalog
+## First-playable one-click assembly
 
-CI now builds `oen-unity-first-playable-audio-v1`, a combined Unity-ready pack with **160 WAV files across 45 currently populated runtime events**. Extract it at the Unity project root so it lands under `Assets/ProjectOen/Audio/`.
+CI builds `oen-unity-first-playable-audio-v1`, a combined Unity-ready pack with **160 WAV files across 45 currently populated runtime events**. Extract it at the Unity project root so it lands under `Assets/ProjectOen/Audio/`.
 
-After Unity finishes importing the clips, run:
+After Unity finishes importing the clips, use the preferred command:
 
-`Project Oen > Audio > Build First-Playable Definitions + Catalog`
+`Project Oen > Audio > Build First Playable (One Click)`
 
-`ProjectOenAudioFirstPlayableBuilder` then:
+Before mutating generated runtime content, the command measures imported canonical clips directly and refuses to continue unless the v1 baseline contains at least **160 clips / 45 events**. It then:
 
-- scans canonical numbered clip names;
-- groups variations by stable `AudioEventId`;
-- creates missing `AudioEventDefinition` assets under `Assets/ProjectOen/Audio/Definitions/`;
-- updates clip membership on existing definitions without resetting designer playback tuning;
-- writes the stable numeric enum value, avoiding the obsolete Hunger/Thirst alias names;
-- fills a missing mixer route when a matching Project OEN mixer group exists;
-- creates/updates `AudioCatalog.asset` and sorts entries by stable runtime ID.
+- runs the lower-level canonical definition/catalog population;
+- creates/updates `AudioEventDefinition` clip membership while preserving existing playback tuning;
+- creates/updates `AudioCatalog.asset` sorted by stable numeric `AudioEventId`;
+- creates 11 missing generated first-playable profiles, including `FP_Biome_Silence`;
+- creates `AudioRuntime_FirstPlayable.prefab` with `AudioService`, three ambience controllers, `AudioWorldStateRouter`, and `WorldFauna` composition root;
+- wires Beach Day and Jungle Day to available beds;
+- wires unavailable Beach/Jungle Night, Ridge, Camp, and shelter states to explicit silence rather than retaining stale ambience;
+- wires Calm/Wind/RainFire/Signal weather and Phase1/2/3 adaptive music;
+- fills missing mixer group/snapshot references only when matching assets already exist;
+- preserves generated profiles and runtime prefab on rerun so designer edits are not overwritten.
 
-Use `Project Oen > Audio > Audit First-Playable Clip Coverage` for a per-event coverage report. Missing runtime events are expected production gaps, not permission to synthesize or alias unrelated sounds.
+Use `Project Oen > Audio > Audit First Playable (One Click)` for the generated runtime/coverage check and `Project Oen > Audio > Audit First-Playable Clip Coverage` for per-event coverage.
 
-For the older manual workflow, `Project Oen > Audio > Rebuild Selected Audio Catalog` and `Project Oen > Audio > Audit Audio Event Definitions` remain available.
+The lower-level `Project Oen > Audio > Build First-Playable Definitions + Catalog`, `Rebuild Selected Audio Catalog`, and `Audit Audio Event Definitions` commands remain available for manual production integration.
 
-See `docs/41_UNITY_FIRST_PLAYABLE_AUDIO_ASSEMBLY.md`.
+See `docs/41_UNITY_FIRST_PLAYABLE_AUDIO_ASSEMBLY.md` and `docs/42_AUDIO_ONE_CLICK_FIRST_PLAYABLE.md`.
 
 ## World emitters
 
@@ -243,7 +248,7 @@ Audio follows the same canonical player-status vocabulary as the production art 
 
 ## Produced audio artifacts
 
-The current green Audio Validation workflow uploads five artifacts:
+Audio Validation uploads five artifacts:
 
 - `oen-authored-ui-status-v1`: 65 original authored UI/status WAV variations.
 - `oen-authored-gameplay-stingers-v1`: 66 original authored gameplay-feedback/stinger WAV variations across 14 events; short feedback is mono and stingers are stereo.
@@ -255,9 +260,9 @@ The authored UI/status and gameplay/stinger packs contain no third-party samples
 
 The environmental v0 pack carries `PROVENANCE.csv` with source/output SHA256 values, and the source registry pins every upstream SHA256. Environmental and adaptive-music material remains **candidate** material pending headset listening, contamination/loop review and in-scene mix approval.
 
-The combined Unity pack carries `FIRST_PLAYABLE_MANIFEST.csv` with one SHA-256 row per staged WAV. Current CI and post-download QA both confirm 160 WAV / 160 manifest rows / 45 unique events / 0 hash mismatches.
+The combined Unity pack carries `FIRST_PLAYABLE_MANIFEST.csv` with one SHA-256 row per staged WAV. CI enforces 160 WAV / 45 unique events when constructing it.
 
-See `docs/37_AUDIO_PRODUCTION_PIPELINE.md`, `docs/40_ADAPTIVE_MUSIC_CANDIDATE_PACK.md` and `docs/41_UNITY_FIRST_PLAYABLE_AUDIO_ASSEMBLY.md`.
+See `docs/37_AUDIO_PRODUCTION_PIPELINE.md`, `docs/40_ADAPTIVE_MUSIC_CANDIDATE_PACK.md`, `docs/41_UNITY_FIRST_PLAYABLE_AUDIO_ASSEMBLY.md`, and `docs/42_AUDIO_ONE_CLICK_FIRST_PLAYABLE.md`.
 
 ## Quest profile
 
@@ -277,8 +282,9 @@ Baseline:
 A first playable passes the audio layer when all of these are true:
 
 - moving from beach to jungle produces a smooth ambience transition with no hard cut
+- unavailable biome/night/shelter states crossfade to silence rather than retaining stale ambience
 - day/night changes replace the relevant biome bed without restarting unrelated weather/music layers
-- entering/exiting the shelter changes the acoustic bed and mixer balance coherently
+- entering/exiting the shelter changes the acoustic bed and mixer balance coherently once shelter beds are produced
 - footsteps audibly change on at least sand, wood and shallow water
 - campfire follows Off/Low/Burning state and has non-synchronised pops
 - tarp flap cadence increases with wind and rain-on-tarp gain follows rain intensity
@@ -291,6 +297,6 @@ A first playable passes the audio layer when all of these are true:
 
 ## Status
 
-Runtime architecture, production manifest, 65 authored UI/status WAVs, 66 authored gameplay/stinger WAVs, 14 adaptive-music candidates, 15 technically normalized environmental candidates, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters, surface footsteps, data-driven object Foley profiles/emitter, editor-side catalog/profile tools, automatic first-playable definition creation and the 160-WAV Unity staging artifact are implemented.
+Runtime architecture, production manifest, 65 authored UI/status WAVs, 66 authored gameplay/stinger WAVs, 14 adaptive-music candidates, 15 technically normalized environmental candidates, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters, surface footsteps, data-driven object Foley profiles/emitter, editor-side catalog/profile tools, automatic first-playable definition creation, the 160-WAV Unity staging artifact, and the non-destructive one-click runtime bootstrap are implemented.
 
-Current PR-head CI is green for Core tests, Validate handoff and Audio Validation. Physical Unity 6000.4.10f1 import/compile of the Editor tooling, headset listening/loop QA, reviewed tarp/Amazon originals, the 388 planned physical Foley recordings and Quest 2 in-scene performance/mix validation remain production gates.
+Audio Validation contains a static Unity Editor contract gate for serialized field wiring, numeric event-ID serialization, the 160/45 import requirement, canonical status usage, and explicit silence fallbacks. Physical Unity 6000.4.10f1 import/compile of the Editor tooling, headset listening/loop QA, reviewed tarp/Amazon originals, the 388 planned physical Foley recordings and Quest 2 in-scene performance/mix validation remain production gates.
