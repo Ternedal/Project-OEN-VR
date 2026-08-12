@@ -106,15 +106,16 @@ def main() -> int:
             errors.append(f"Sprite never reaches useful opacity: {rel}")
         if visible >= size[0] * size[1] * 0.97:
             errors.append(f"Sprite alpha covers essentially entire image: {rel}")
-        if variance < 30:
+        # UI graphics need internal RGB detail. VFX often encodes visual structure
+        # primarily in alpha and has its own dedicated rendered-content validator.
+        if category != VFX_CATEGORY and variance < 30:
             errors.append(f"Sprite RGB content is suspiciously flat: {rel}")
 
         by_asset[aid].append((variant, path.read_bytes(), category))
         by_category[category] += 1
 
-    # Non-VFX state variants for one canonical asset must not collapse to
-    # identical PNGs. VFX support is explicitly preserved by the UI refinement
-    # pass and has its own production-art structural validation elsewhere.
+    # Non-VFX state variants must not collapse to identical PNGs. VFX has a
+    # dedicated state-distinctness/flipbook gate after its own refinement pass.
     for aid, variants in by_asset.items():
         categories = {category for _, _, category in variants}
         if categories == {VFX_CATEGORY}:
@@ -143,7 +144,7 @@ def main() -> int:
 
     vfx_count = by_category.get(VFX_CATEGORY, 0)
     if report.get("intentionally_unmodified_vfx_count") != vfx_count:
-        errors.append("UI refinement report VFX untouched count mismatch")
+        errors.append("UI refinement report VFX-skip count mismatch")
     if report.get("refined_count", 0) != len(sprites) - vfx_count:
         errors.append("Every non-VFX production sprite must be changed by the UI refinement pass")
 
@@ -151,7 +152,7 @@ def main() -> int:
     print(f"  sprites          : {len(sprites)}")
     print(f"  canonical IDs    : {len(by_asset)}")
     print(f"  refined non-VFX  : {report.get('refined_count', 0)}")
-    print(f"  VFX preserved    : {vfx_count}")
+    print(f"  VFX skipped here : {vfx_count} (validated by dedicated VFX gate)")
     for category, count in sorted(by_category.items()):
         print(f"  {category:<35}: {count}")
 
@@ -161,7 +162,7 @@ def main() -> int:
             print(" - " + e)
         return 1
 
-    print("\nPASS: all production sprites remain separate Unity assets and meet alpha/state/canonical UI gates.")
+    print("\nPASS: UI/non-VFX production sprites remain separate Unity assets and meet alpha/state/canonical gates.")
     return 0
 
 
