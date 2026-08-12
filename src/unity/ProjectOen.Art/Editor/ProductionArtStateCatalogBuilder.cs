@@ -121,10 +121,8 @@ namespace ProjectOen.Art.Editor
                 "WORLD-SHELTER", "Shelter construction progression", "Construction states", "foundation",
                 new[]
                 {
-                    Pair("foundation", "CS-001"),
-                    Pair("partial_frame", "CS-002"),
-                    Pair("covered_usable", "CS-003"),
-                    Pair("damaged", "CS-004"),
+                    Pair("foundation", "CS-001"), Pair("partial_frame", "CS-002"),
+                    Pair("covered_usable", "CS-003"), Pair("damaged", "CS-004"),
                     Pair("repaired_reinforced", "CS-005"),
                 },
                 CompositeRoot + "/world_shelter_progression.asset");
@@ -133,10 +131,8 @@ namespace ProjectOen.Art.Editor
                 "WORLD-CAMPFIRE", "Campfire strength progression", "Construction states", "laid_unlit",
                 new[]
                 {
-                    Pair("laid_unlit", "CS-006"),
-                    Pair("ember", "CS-007"),
-                    Pair("small_flame", "CS-008"),
-                    Pair("strong_flame", "CS-009"),
+                    Pair("laid_unlit", "CS-006"), Pair("ember", "CS-007"),
+                    Pair("small_flame", "CS-008"), Pair("strong_flame", "CS-009"),
                     Pair("nearly_out_wet", "CS-010"),
                 },
                 CompositeRoot + "/world_campfire_progression.asset");
@@ -145,10 +141,8 @@ namespace ProjectOen.Art.Editor
                 "WORLD-SIGNAL-BEACON", "Signal beacon construction progression", "Construction states", "base",
                 new[]
                 {
-                    Pair("base", "CS-011"),
-                    Pair("partial", "CS-012"),
-                    Pair("complete", "CS-013"),
-                    Pair("lit_active", "CS-014"),
+                    Pair("base", "CS-011"), Pair("partial", "CS-012"),
+                    Pair("complete", "CS-013"), Pair("lit_active", "CS-014"),
                     Pair("storm_damaged", "CS-015"),
                 },
                 CompositeRoot + "/world_signal_beacon_progression.asset");
@@ -197,12 +191,16 @@ namespace ProjectOen.Art.Editor
         {
             if (string.IsNullOrEmpty(meshPath) || !meshPath.EndsWith(".obj", StringComparison.OrdinalIgnoreCase))
                 throw new InvalidOperationException("Unexpected mesh manifest path: " + meshPath);
-            return meshPath.Replace("/Meshes/", "/Prefabs/").Substring(0, meshPath.Length - 4).Replace("/Meshes/", "/Prefabs/") + ".prefab";
+
+            string prefabPath = meshPath.Replace("/Meshes/", "/Prefabs/");
+            return prefabPath.Substring(0, prefabPath.Length - 4) + ".prefab";
         }
 
         private static string NormalizeState(string value)
         {
-            return string.IsNullOrWhiteSpace(value) ? "default" : value.Trim().ToLowerInvariant().Replace('-', '_').Replace(' ', '_');
+            return string.IsNullOrWhiteSpace(value)
+                ? "default"
+                : value.Trim().ToLowerInvariant().Replace('-', '_').Replace(' ', '_');
         }
 
         private static KeyValuePair<string, string> Pair(string state, string assetId)
