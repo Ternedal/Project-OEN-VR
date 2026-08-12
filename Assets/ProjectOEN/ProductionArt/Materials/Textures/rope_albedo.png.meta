@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d34b592249a2f8da0faf2b6acb64e33d
+guid: 4e669cd1634c8f54ecf72aa886ff693a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -18,21 +18,20 @@ TextureImporter:
     wrapV: 0
     wrapW: 0
   nPOTScale: 0
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   textureType: 0
-  spriteMode: 0
   alphaSource: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 512
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
-    compressionQuality: 70
+    compressionQuality: 72
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  userData: Project OEN production art generated texture
+  userData: Project OEN refined surface map
   assetBundleName: 
   assetBundleVariant: 
