@@ -14,7 +14,3 @@ SFX_NAT_Insect_CicadaCluster,01,SFX_NAT_Insect_CicadaCluster_01.wav,cicada_qingf
 SFX_NAT_Insect_CicadaCluster,02,SFX_NAT_Insect_CicadaCluster_02.wav,cicada_qingfeng_cc0,8,6,mono,oneshot,"highpass=f=100,lowpass=f=15000",Spatial/OneShots/Nature,no,candidate-headset-listen
 SFX_NAT_Insect_CicadaCluster,03,SFX_NAT_Insect_CicadaCluster_03.wav,cicada_qingfeng_cc0,16,6,mono,oneshot,"highpass=f=100,lowpass=f=15000",Spatial/OneShots/Nature,no,candidate-headset-listen
 SFX_NAT_Insect_CicadaCluster,04,SFX_NAT_Insect_CicadaCluster_04.wav,cicada_qingfeng_cc0,24,6,mono,oneshot,"highpass=f=100,lowpass=f=15000",Spatial/OneShots/Nature,no,candidate-headset-listen
-SFX_WTH_Thunder_Far,01,SFX_WTH_Thunder_Far_01.wav,thunder_tonitrus_pd,0,8,source,oneshot,"highpass=f=35,lowpass=f=12000",2D/OneShots/Weather,no,candidate-headset-listen
-SFX_WTH_Thunder_Far,02,SFX_WTH_Thunder_Far_02.wav,thunder_tonitrus_pd,8,8,source,oneshot,"highpass=f=35,lowpass=f=12000",2D/OneShots/Weather,no,candidate-headset-listen
-SFX_WTH_Thunder_Far,03,SFX_WTH_Thunder_Far_03.wav,thunder_tonitrus_pd,16,8,source,oneshot,"highpass=f=35,lowpass=f=12000",2D/OneShots/Weather,no,candidate-headset-listen
-SFX_WTH_Thunder_Far,04,SFX_WTH_Thunder_Far_04.wav,thunder_tonitrus_pd,24,8,source,oneshot,"highpass=f=35,lowpass=f=12000",2D/OneShots/Weather,no,candidate-headset-listen
