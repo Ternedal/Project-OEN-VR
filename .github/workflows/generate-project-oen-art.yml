@@ -31,8 +31,12 @@ jobs:
         run: python tools/generated_art/import_production_art_payload.py
       - name: Generate full production art
         run: python tools/generated_art/generate_production_art.py
+      - name: Refine Stormnatten hero world assets
+        run: python tools/generated_art/refine_hero_art.py
       - name: Validate full production art
         run: python tools/generated_art/validate_production_art.py
+      - name: Validate hero-art refinement
+        run: python tools/generated_art/validate_hero_art.py
       - name: Commit generated and production assets
         shell: bash
         run: |
@@ -41,11 +45,13 @@ jobs:
           git add Assets/ProjectOEN/GeneratedArtRuntime256 Assets/ProjectOEN/GeneratedArtRuntime256Docs
           git add Assets/ProjectOEN/ProductionArt
           git add -A tools/generated_art/generate_production_art.py 2>/dev/null || true
+          git add -A tools/generated_art/refine_hero_art.py 2>/dev/null || true
+          git add -A tools/generated_art/validate_hero_art.py 2>/dev/null || true
           git add -A art_payloads 2>/dev/null || true
           git add -A tools/generated_art/import_trigger.txt 2>/dev/null || true
           if git diff --cached --quiet; then
             echo 'No generated or production art changes.'
             exit 0
           fi
-          git commit -m 'Generate Project OEN production art'
+          git commit -m 'Generate refined Project OEN production art'
           git push origin HEAD:${{ github.ref_name }}
