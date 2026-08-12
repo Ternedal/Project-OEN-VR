@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'content/audio/**'
+      - 'docs/36_AUDIO_SYSTEM_AND_PRODUCTION_SPEC.md'
+      - 'docs/37_AUDIO_PRODUCTION_PIPELINE.md'
       - 'src/unity/ProjectOen.Audio/**'
       - 'src/unity/ProjectOen.Audio.Editor/**'
       - 'tools/validate_audio_manifest.py'
@@ -16,6 +18,8 @@ on:
       - main
     paths:
       - 'content/audio/**'
+      - 'docs/36_AUDIO_SYSTEM_AND_PRODUCTION_SPEC.md'
+      - 'docs/37_AUDIO_PRODUCTION_PIPELINE.md'
       - 'src/unity/ProjectOen.Audio/**'
       - 'src/unity/ProjectOen.Audio.Editor/**'
       - 'tools/validate_audio_manifest.py'
