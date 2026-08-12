@@ -22,12 +22,12 @@ The repository stores this module because the full Unity project is maintained o
 - `AudioService`: scene-owned, pooled one-shot playback service. It is intentionally **not** a singleton.
 - `AudioLoopEmitter`: runtime-switchable scene component for persistent physical emitters such as campfire and rain-on-tarp.
 - `AudioAmbienceProfile`: layered ambience definition for a biome/state such as beach day, jungle night or shelter windy.
-- `AudioAmbienceController`: two-bank ambience player that crossfades profiles without hard cuts.
+- `AudioAmbienceController`: two-bank layered-loop player that crossfades profiles without hard cuts; reused for biome, weather and music layers.
 - `AudioAmbienceZone`: trigger volume for biome, shelter and location transitions.
 - `AudioRandomEmitter`: intermittent spatial one-shots for fauna, fire pops, shoreline washes, branch snaps and gusts; cadence can be adjusted at runtime.
 - `AudioSurfaceTag`: material marker for walkable colliders.
 - `FootstepAudioEmitter`: Quest-friendly distance-driven footsteps with ground probing and surface-specific events.
-- `AudioWorldStateRouter`: separates biome/day-night ambience from weather/storm ambience and selects mixer snapshots.
+- `AudioWorldStateRouter`: separates biome/day-night, weather/storm and adaptive-music layers and selects mixer snapshots.
 - `AudioFireStateEmitter`: maps fire intensity and fire interactions to low/burning loops, pops, ignition, wood-add and extinguish events.
 - `AudioTarpWeatherEmitter`: maps normalized wind/rain to local flap cadence and rain-on-tarp gain.
 
@@ -40,11 +40,12 @@ Create one scene object called `AudioRuntime` and add:
 1. `AudioService`
    - assign the production `AudioCatalog`
    - leave one-shot pool at 24 for the Quest 2 baseline
-2. two `AudioAmbienceController` components or child objects
+2. three `AudioAmbienceController` components or child objects
    - `BiomeAmbience` for location/day-night beds
    - `WeatherAmbience` for storm/weather beds
+   - `MusicAmbience` for sparse adaptive music textures
 3. `AudioWorldStateRouter`
-   - wire both ambience controllers
+   - wire all three controllers
    - assign biome day/night profiles
    - assign four storm bindings: Calm, Wind, RainFire, Signal
 4. child object `WorldFauna`
@@ -104,7 +105,7 @@ Baseline mappings:
 - Ridge + Day/Night -> ridge variants
 - `SetSheltered(true)` overrides the exterior profile with shelter day/night while retaining the exterior biome for exit
 
-### Storm layer
+### Storm and music layers
 
 Release-1 storm progression is represented as:
 
@@ -113,7 +114,16 @@ Release-1 storm progression is represented as:
 3. `RainFire`
 4. `Signal`
 
-Each phase has its own weather `AudioAmbienceProfile` plus optional exterior/sheltered `AudioMixerSnapshot` references. Keep Calm wired to an empty or near-silent weather profile so the weather layer can crossfade back to silence cleanly.
+Each phase has its own weather `AudioAmbienceProfile`, adaptive-music `AudioAmbienceProfile`, and optional exterior/sheltered `AudioMixerSnapshot` references. Keep Calm wired to empty or near-silent weather/music profiles when no music should play so the layers can crossfade back to silence cleanly.
+
+Suggested music mappings:
+
+- Calm -> silence or a very sparse `MUS_Camp_WarmTexture`
+- Wind -> `MUS_Storm_Phase1`
+- RainFire -> `MUS_Storm_Phase2`
+- Signal -> `MUS_Storm_Phase3`
+
+Music remains subordinate to diegetic audio. Do not fill ordinary exploration with a permanent score.
 
 Suggested mixer snapshots:
 
@@ -215,16 +225,17 @@ Baseline:
 A first playable passes the audio layer when all of these are true:
 
 - moving from beach to jungle produces a smooth ambience transition with no hard cut
-- day/night changes replace the relevant biome bed without restarting unrelated weather layers
+- day/night changes replace the relevant biome bed without restarting unrelated weather/music layers
 - entering/exiting the shelter changes the acoustic bed and mixer balance coherently
 - footsteps audibly change on at least sand, wood and shallow water
 - campfire follows Off/Low/Burning state and has non-synchronised pops
 - tarp flap cadence increases with wind and rain-on-tarp gain follows rain intensity
 - fauna one-shots are spatial and do not repeat at a visibly fixed cadence
 - storm phases can progress Calm -> Wind -> RainFire -> Signal without hard-cutting biome ambience
+- adaptive music can follow storm phases without muting critical diegetic cues
 - storm can layer wind, rough ocean, rain and tarp rain without clipping the master bus
 - disabling or missing an individual audio event fails silently rather than breaking gameplay
 
 ## Status
 
-Runtime architecture, production manifest, biome/day-night and storm routing, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters and surface footsteps are implemented. Final mastered recordings remain `production-needed`; no placeholder clip is represented as production audio.
+Runtime architecture, production manifest, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters and surface footsteps are implemented. Final mastered recordings remain `production-needed`; no placeholder clip is represented as production audio.
