@@ -6,6 +6,9 @@
   HELE Core-laget kompilerer som en Unity-assembly, OpenXR er sat op for Android,
   og den genererede Project OEN production-art pakke er installeret i Unity-projektet.
 
+  Production-art-delen bygger baade Unity-prefabs og en separat Stormnatten art-
+  showcase-scene. Showcase-scenen er IKKE M0b's CoopGame performance/netvaerksgate.
+
   Fusion/netvaerk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret -
   ellers kan projektet ikke kompilere. Se RUNBOOK.md.
 
@@ -68,8 +71,8 @@ if (-not (Test-Path $artSrc)) {
 $artDst = Join-Path $ProjectPath "Assets\ProjectOEN\ProductionArt"
 New-Item -ItemType Directory -Force -Path $artDst | Out-Null
 
-# Kun generatorens source-of-truth mapper spejles. Prefabs bevares indtil de genbygges
-# i Unity-trinnet nedenfor, saa reruns ikke efterlader projektet uden prefabs ved fejl.
+# Kun generatorens source-of-truth mapper spejles. Prefabs/scenes bevares indtil de
+# genbygges i Unity-trinnene nedenfor, saa reruns ikke efterlader projektet uden dem ved fejl.
 foreach ($folder in @("Sprites", "Meshes", "Materials", "Docs")) {
     $srcFolder = Join-Path $artSrc $folder
     $dstFolder = Join-Path $artDst $folder
@@ -80,8 +83,9 @@ foreach ($folder in @("Sprites", "Meshes", "Materials", "Docs")) {
 $artEditorDst = Join-Path $ProjectPath "Assets\ProjectOEN\Editor"
 New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
 Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtPrefabBuilder.cs" (Join-Path $artEditorDst "ProductionArtPrefabBuilder.cs") -Force
+Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtShowcaseBuilder.cs" (Join-Path $artEditorDst "ProductionArtShowcaseBuilder.cs") -Force
 Note "ProductionArt -> Assets\ProjectOEN\ProductionArt (sprites, meshes, materials, docs)"
-Note "Prefab builder -> Assets\ProjectOEN\Editor"
+Note "Prefab + showcase builders -> Assets\ProjectOEN\Editor"
 
 # --- 5. XR-configure-editor ---
 Step "Kopierer XR-config editor"
@@ -130,6 +134,25 @@ if ($artExit -ne 0) {
     exit 1
 }
 
+# --- 8. Byg separat Stormnatten visual-review scene ---
+Step "Bygger Stormnatten art showcase"
+$showcaseLog = Join-Path $PSScriptRoot "production-art-showcase.log"
+& $UnityPath -batchmode -quit -nographics `
+    -projectPath $ProjectPath `
+    -buildTarget Android `
+    -executeMethod ProjectOen.Art.Editor.ProductionArtShowcaseBuilder.BuildShowcase `
+    -logFile $showcaseLog
+$showcaseExit = $LASTEXITCODE
+if ($showcaseExit -ne 0) {
+    Write-Host "`nShowcase-build fejlede (Unity exit $showcaseExit)." -ForegroundColor Red
+    if (Test-Path $showcaseLog) {
+        Select-String -Path $showcaseLog -Pattern "\[ProjectOEN.Art\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object {
+            Write-Host "   $($_.Line.Trim())" -ForegroundColor Red
+        }
+    }
+    exit 1
+}
+
 Step "Resultat"
 if (Test-Path $log) {
     Select-String -Path $log -Pattern "\[M0B-SETUP\]" | ForEach-Object { Note $_.Line.Trim() }
@@ -137,6 +160,10 @@ if (Test-Path $log) {
 if (Test-Path $artLog) {
     Select-String -Path $artLog -Pattern "\[ProjectOEN.Art\]" | ForEach-Object { Note $_.Line.Trim() }
 }
+if (Test-Path $showcaseLog) {
+    Select-String -Path $showcaseLog -Pattern "\[ProjectOEN.Art\]" | ForEach-Object { Note $_.Line.Trim() }
+}
 Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
-Write-Host "Production art er installeret, og world meshes er bygget til prefabs med colliders." -ForegroundColor Green
+Write-Host "Production art er installeret, world meshes er bygget til prefabs, og StormnattenArtShowcase.unity er genereret." -ForegroundColor Green
+Write-Host "Showcase-scenen er kun visual review og er ikke M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
 Write-Host "Naeste: importer Photon Fusion 2 (App ID), koer saa Fase 2 i RUNBOOK.md." -ForegroundColor Green
