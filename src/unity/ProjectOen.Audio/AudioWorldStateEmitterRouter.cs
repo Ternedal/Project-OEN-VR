@@ -14,6 +14,7 @@ namespace ProjectOen.Audio
         {
             [SerializeField] private AudioRandomEmitter _emitter;
             [SerializeField] private AudioBiome _biome;
+            [SerializeField] private bool _matchBiome = true;
             [SerializeField] private AudioDayPhase _dayPhase = AudioDayPhase.Day;
             [SerializeField] private bool _matchDayPhase = true;
             [SerializeField] private AudioStormPhase _stormPhase = AudioStormPhase.Calm;
@@ -25,7 +26,7 @@ namespace ProjectOen.Audio
             {
                 if (state == null || _emitter == null)
                     return false;
-                if (state.Biome != _biome)
+                if (_matchBiome && state.Biome != _biome)
                     return false;
                 if (_matchDayPhase && state.DayPhase != _dayPhase)
                     return false;
