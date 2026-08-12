@@ -14,13 +14,16 @@ import hashlib
 import json
 import shutil
 import subprocess
-import urllib.request
+import time
+import urllib.error
 import urllib.parse
+import urllib.request
 import zipfile
 from pathlib import Path
 
 ALLOWED_LICENSES = {"Public-Domain", "CC0-1.0"}
-USER_AGENT = "ProjectOEN-AudioBuilder/1.0"
+USER_AGENT = "ProjectOEN-AudioBuilder/1.1 (https://github.com/Ternedal/Project-OEN-VR)"
+RETRYABLE_HTTP = {429, 500, 502, 503, 504}
 
 
 def sha256(path: Path) -> str:
@@ -36,13 +39,44 @@ def load_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
-def download(url: str, target: Path) -> None:
+def download(url: str, target: Path, max_attempts: int = 6) -> None:
     if target.exists():
         return
+
     target.parent.mkdir(parents=True, exist_ok=True)
-    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(request, timeout=120) as response, target.open("wb") as out:
-        shutil.copyfileobj(response, out)
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": "audio/ogg,audio/*,video/webm,application/octet-stream;q=0.8,*/*;q=0.5",
+    }
+
+    for attempt in range(1, max_attempts + 1):
+        request = urllib.request.Request(url, headers=headers)
+        try:
+            with urllib.request.urlopen(request, timeout=180) as response, target.open("wb") as out:
+                shutil.copyfileobj(response, out)
+            return
+        except urllib.error.HTTPError as exc:
+            target.unlink(missing_ok=True)
+            if exc.code not in RETRYABLE_HTTP or attempt == max_attempts:
+                raise
+
+            retry_after = exc.headers.get("Retry-After")
+            try:
+                delay = max(float(retry_after), 1.0) if retry_after else float(2**attempt)
+            except ValueError:
+                delay = float(2**attempt)
+            delay = min(delay, 60.0)
+            print(f"HTTP {exc.code} fetching {url}; retry {attempt}/{max_attempts} in {delay:.1f}s")
+            time.sleep(delay)
+        except urllib.error.URLError as exc:
+            target.unlink(missing_ok=True)
+            if attempt == max_attempts:
+                raise
+            delay = min(float(2**attempt), 30.0)
+            print(f"Network error fetching {url}: {exc}; retry {attempt}/{max_attempts} in {delay:.1f}s")
+            time.sleep(delay)
+
+    raise RuntimeError(f"failed to download {url}")
 
 
 def run(command: list[str]) -> None:
@@ -118,6 +152,8 @@ def main() -> int:
         download(row["direct_url"], cached)
         source_paths[key] = cached
         source_hashes[key] = sha256(cached)
+        # Wikimedia asks automated clients to identify themselves and avoid bursty access.
+        time.sleep(1.0)
 
     provenance_rows: list[dict[str, str]] = []
     for row in builds:
