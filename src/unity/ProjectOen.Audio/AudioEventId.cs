@@ -108,7 +108,11 @@ namespace ProjectOen.Audio
         SFX_UI_Inventory_Open = 1098,
         SFX_UI_Inventory_Close = 1099,
         SFX_STS_Injury_Warn = 1100,
+        [System.Obsolete("Legacy manifest alias. Use SFX_STS_Injury_Warn.")]
+        SFX_STS_Hunger_Warn = SFX_STS_Injury_Warn,
         SFX_STS_ColdWet_Warn = 1101,
+        [System.Obsolete("Legacy manifest alias. Use SFX_STS_ColdWet_Warn.")]
+        SFX_STS_Thirst_Warn = SFX_STS_ColdWet_Warn,
         SFX_STS_Fatigue_Warn = 1102,
         SFX_STS_Health_Damage = 1103,
         SFX_STS_Health_Critical = 1104,
