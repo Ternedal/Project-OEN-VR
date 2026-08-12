@@ -17,8 +17,9 @@ namespace ProjectOen.Art.Editor
     ///
     /// The showcase gives the art pack a concrete, reproducible composition:
     /// cool storm ambience, one shadow-casting moon/key light, warm campfire
-    /// accent, usable shelter, radio/crates, handmade signal beacon and a small
-    /// amount of beach/jungle set dressing.
+    /// accent, usable shelter, repair/storage/rain-catcher dressing, radio/crates,
+    /// handmade signal beacon, real puddle/shoreline decal states, shipwreck and
+    /// jungle framing.
     /// </summary>
     public static class ProductionArtShowcaseBuilder
     {
@@ -44,7 +45,9 @@ namespace ProjectOen.Art.Editor
 
             ConfigureEnvironment();
             BuildGround();
+            BuildGroundWeatherAccents();
             BuildCampComposition();
+            BuildCampDressing();
             BuildSignalComposition();
             BuildBeachWreckage();
             BuildVegetationFrame();
@@ -115,6 +118,15 @@ namespace ProjectOen.Art.Editor
             MarkEnvironmentStatic(ground);
         }
 
+        private static void BuildGroundWeatherAccents()
+        {
+            // These holder-prefabs receive state-specific transparent materials from
+            // ProductionArtDecalBuilder before the showcase is authored.
+            Place("en-011_", "large", new Vector3(0.75f, 0.004f, -1.75f), 12f, 1.45f, "Wet Mud Puddle Large", false);
+            Place("en-011_", "medium", new Vector3(-3.15f, 0.003f, 2.20f), -19f, 0.95f, "Wet Mud Puddle Medium", false);
+            Place("en-025_", "storm", new Vector3(0.15f, 0.002f, -7.25f), -4f, 4.10f, "Storm Shoreline Foam", false);
+        }
+
         private static void BuildCampComposition()
         {
             // Canonical usable camp state: covered shelter + small flame.
@@ -128,19 +140,40 @@ namespace ProjectOen.Art.Editor
             Place("pr-003_", "bundle", new Vector3(-0.15f, 0.02f, 1.55f), 82f, 0.88f, "Wood Bundle", false);
         }
 
+        private static void BuildCampDressing()
+        {
+            Place("en-016_", "worn", new Vector3(-1.10f, 0.012f, -0.38f), -9f, 0.82f, "Worn Camp Groundsheet", false);
+            Place("cs-016_", "mid_repair", new Vector3(-3.25f, 0f, -0.10f), 12f, 0.95f, "Radio Repair Station", false);
+            Place("en-017_", "pot", new Vector3(0.62f, 0f, -0.05f), -18f, 0.80f, "Cooking Corner Pot", false);
+            Place("en-018_", "sack", new Vector3(1.72f, 0f, 1.20f), -28f, 0.92f, "Storage Sack", false);
+
+            // Rain catcher components are authored as individual master-list assets;
+            // place the three states/components together as one readable camp cluster.
+            Vector3 catcher = new Vector3(2.95f, 0f, 1.85f);
+            Place("en-020_", "frame", catcher, -8f, 0.88f, "Rain Catcher Frame", true);
+            Place("en-020_", "cloth", catcher + new Vector3(0f, 0.02f, 0f), -8f, 0.88f, "Rain Catcher Cloth", false);
+            Place("en-020_", "basin", catcher + new Vector3(0f, 0.01f, 0f), -8f, 0.88f, "Rain Catcher Basin", false);
+
+            Place("en-023_", "loose_cloth", new Vector3(-2.35f, 0.01f, 2.78f), 31f, 0.78f, "Loose Storm Cloth", false);
+        }
+
         private static void BuildSignalComposition()
         {
             // Complete-but-unlit avoids a second active fire VFX/light in the
             // showcase while still presenting the canonical handmade goal structure.
             Place("cs-013_", "", new Vector3(5.4f, 0f, 5.8f), -28f, 1.25f, "Signal Beacon Complete", true);
             Place("pr-014_", "worn", new Vector3(4.85f, 0f, 5.15f), -12f, 1.0f, "Signal Cloth", true);
+            Place("en-019_", "logs", new Vector3(4.45f, 0f, 6.50f), 26f, 0.90f, "Signal Fuel Logs", true);
+            Place("en-019_", "ropes", new Vector3(5.75f, 0f, 4.95f), -18f, 0.78f, "Signal Spare Ropes", false);
+            Place("en-019_", "stones", new Vector3(6.25f, 0f, 6.05f), 0f, 0.92f, "Signal Hill Stones", true);
         }
 
         private static void BuildBeachWreckage()
         {
             Place("en-001_", "large", new Vector3(-6.4f, 0f, -3.8f), 32f, 1.45f, "Shipwreck Hull", true);
             Place("en-002_", "medium", new Vector3(-4.25f, 0f, -2.2f), -16f, 1.0f, "Broken Planks", true);
-            Place("en-003_", "broken", new Vector3(-3.55f, 0f, -3.15f), 24f, 0.9f, "Broken Container", true);
+            Place("en-003_", "broken", new Vector3(-3.55f, 0f, -3.15f), 24f, 0.9f, "Broken Barrel", true);
+            Place("en-004_", "medium", new Vector3(-5.05f, 0.02f, -1.65f), -14f, 0.95f, "Rope Debris", false);
             Place("en-005_", "medium", new Vector3(3.15f, 0f, -3.8f), 0f, 1.15f, "Beach Stones A", true);
             Place("en-005_", "small", new Vector3(4.4f, 0f, -2.75f), 76f, 0.8f, "Beach Stones B", true);
             Place("en-006_", "large", new Vector3(-0.75f, 0f, -4.65f), 68f, 1.15f, "Driftwood", true);
@@ -157,6 +190,7 @@ namespace ProjectOen.Art.Editor
             Place("en-009_", "dense", new Vector3(-5.3f, 0f, 5.7f), 35f, 1.15f, "Broadleaf Bush A", true);
             Place("en-009_", "medium", new Vector3(6.1f, 0f, 6.6f), -15f, 0.95f, "Broadleaf Bush B", true);
             Place("en-010_", "hanging", new Vector3(-6.25f, 0f, 2.9f), 10f, 1.0f, "Vines", true);
+            Place("en-013_", "dense", new Vector3(7.15f, 0f, -1.30f), -20f, 1.1f, "Cliff Edge Grass", true);
         }
 
         private static void BuildPreviewCamera()
