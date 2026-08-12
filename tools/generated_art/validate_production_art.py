@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import csv
 import json
-import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -24,12 +23,12 @@ PROD = ROOT / "Assets" / "ProjectOEN" / "ProductionArt"
 MANIFEST = PROD / "Docs" / "production_art_manifest.json"
 
 MUST_HAVE_IDS = {
-    "UI-002", "UI-003", "UI-004", "UI-005",  # player states
-    "PR-001", "PR-002", "PR-003", "PR-004", "PR-005",  # tarp/rope/wood/crate/radio
-    "CS-001", "CS-002", "CS-003", "CS-004", "CS-005",  # shelter states
-    "CS-006", "CS-007", "CS-008", "CS-009", "CS-010",  # fire states
-    "CS-011", "CS-012", "CS-013", "CS-014", "CS-015",  # signal states
-    "EN-001", "EN-007", "EN-009", "EN-012",  # wreck + environment anchors
+    "UI-002", "UI-003", "UI-004", "UI-005",
+    "PR-001", "PR-002", "PR-003", "PR-004", "PR-005",
+    "CS-001", "CS-002", "CS-003", "CS-004", "CS-005",
+    "CS-006", "CS-007", "CS-008", "CS-009", "CS-010",
+    "CS-011", "CS-012", "CS-013", "CS-014", "CS-015",
+    "EN-001", "EN-007", "EN-009", "EN-012",
 }
 FORBIDDEN_CANONICAL_TERMS = ("hunger", "thirst")
 
@@ -62,7 +61,6 @@ def validate_png(path: Path, declared_dimensions, errors: list[str]) -> None:
                 fail(errors, f"Completely transparent/blank sprite: {path}")
                 return
 
-            # Reject tiny accidental marks masquerading as a completed sprite.
             occupied = (bbox[2] - bbox[0]) * (bbox[3] - bbox[1])
             total = width * height
             if occupied / total < 0.01:
@@ -201,7 +199,6 @@ def main() -> int:
     if missing_required:
         fail(errors, f"Required core gameplay asset IDs missing: {missing_required}")
 
-    # Sanity floors catch catastrophic generator regressions without freezing exact counts forever.
     if counts["sprite"] < 180:
         fail(errors, f"Too few production sprites: {counts['sprite']} (expected >=180)")
     if counts["mesh"] < 120:
@@ -209,15 +206,14 @@ def main() -> int:
     if total_vertices < 10_000 or total_faces < 5_000:
         fail(errors, f"World mesh geometry suspiciously small: vertices={total_vertices}, faces={total_faces}")
 
-    # Shared material maps are deliverables even though they are not per-row manifest entries.
-    material_pngs = sorted((PROD / "Materials").glob("*.png"))
+    # Material maps live in Materials/Textures; recurse deliberately so layout changes do not fake a zero count.
+    material_pngs = sorted((PROD / "Materials").rglob("*.png"))
     if len(material_pngs) < 10:
         fail(errors, f"Too few shared material textures: {len(material_pngs)} (expected >=10)")
     for tex in material_pngs:
         if not Path(str(tex) + ".meta").exists():
             fail(errors, f"Unity .meta missing for material texture: {tex.relative_to(ROOT)}")
 
-    # Explicit filename-level guarantees for the things the visual mockups rely on most.
     required_globs = {
         "tarp/presenning": "Meshes/props_tools/pr-001_tarp_presenning*.obj",
         "rope": "Meshes/props_tools/pr-002_rope_coil*.obj",
