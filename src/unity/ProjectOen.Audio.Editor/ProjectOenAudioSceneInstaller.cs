@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -13,11 +14,14 @@ namespace ProjectOen.Audio.Editor
     /// </summary>
     public static class ProjectOenAudioSceneInstaller
     {
+        private const string AudioRoot = "Assets/ProjectOen/Audio";
         private const string RuntimePrefabPath =
             "Assets/ProjectOen/Audio/GeneratedFirstPlayable/Runtime/AudioRuntime_FirstPlayable.prefab";
         private const string RuntimeName = "AudioRuntime_FirstPlayable";
         private const string WorldFaunaName = "WorldFauna";
         private const string CicadaEmitterName = "JungleDay_Cicadas";
+        private const int ExpectedFirstPlayableClipCount = 160;
+        private const int ExpectedFirstPlayableEventCount = 45;
 
         [MenuItem("Project Oen/Audio/Build + Install First Playable (One Click)", priority = -10)]
         public static void BuildAndInstall()
@@ -47,6 +51,17 @@ namespace ProjectOen.Audio.Editor
             {
                 Debug.LogError(
                     "Project Oen audio scene install stopped: save the active scene before installing the runtime.");
+                return;
+            }
+
+            var coverage = MeasureCanonicalClipCoverage();
+            if (coverage.clipCount < ExpectedFirstPlayableClipCount ||
+                coverage.eventCount < ExpectedFirstPlayableEventCount)
+            {
+                Debug.LogError(
+                    "Project Oen audio scene install stopped: incomplete first-playable audio import. " +
+                    $"Found {coverage.clipCount}/{ExpectedFirstPlayableClipCount} canonical clips across " +
+                    $"{coverage.eventCount}/{ExpectedFirstPlayableEventCount} events below '{AudioRoot}'.");
                 return;
             }
 
@@ -131,18 +146,30 @@ namespace ProjectOen.Audio.Editor
             var emitterRouters = FindInScene<AudioWorldStateEmitterRouter>(scene);
             var randomEmitters = FindInScene<AudioRandomEmitter>(scene);
             var listeners = FindActiveListeners(scene);
+            var coverage = MeasureCanonicalClipCoverage();
 
-            var ok = services.Count == 1 &&
+            var coverageOk = coverage.clipCount >= ExpectedFirstPlayableClipCount &&
+                             coverage.eventCount >= ExpectedFirstPlayableEventCount;
+            var ok = coverageOk &&
+                     services.Count == 1 &&
                      routers.Count == 1 &&
                      followers.Count >= 1 &&
                      emitterRouters.Count >= 1 &&
                      randomEmitters.Count >= 1;
 
+            if (!coverageOk)
+            {
+                Debug.LogError(
+                    $"Project Oen active-scene audio audit: incomplete audio import: {coverage.clipCount}/" +
+                    $"{ExpectedFirstPlayableClipCount} clips across {coverage.eventCount}/" +
+                    $"{ExpectedFirstPlayableEventCount} events.");
+            }
+
             if (!ok)
             {
                 Debug.LogError(
-                    "Project Oen active-scene audio audit failed: expected one AudioService/router and at least one " +
-                    "WorldFauna follower/state-router/random-emitter set.");
+                    "Project Oen active-scene audio audit failed: expected complete first-playable coverage, one " +
+                    "AudioService/router and at least one WorldFauna follower/state-router/random-emitter set.");
             }
 
             if (listeners.Count != 1)
@@ -162,9 +189,52 @@ namespace ProjectOen.Audio.Editor
             }
 
             Debug.Log(
-                $"Project Oen active-scene audio audit: services={services.Count}, routers={routers.Count}, " +
-                $"worldAnchors={followers.Count}, emitterRouters={emitterRouters.Count}, randomEmitters={randomEmitters.Count}, " +
+                $"Project Oen active-scene audio audit: coverage={coverage.clipCount}/{coverage.eventCount}, " +
+                $"services={services.Count}, routers={routers.Count}, worldAnchors={followers.Count}, " +
+                $"emitterRouters={emitterRouters.Count}, randomEmitters={randomEmitters.Count}, " +
                 $"activeListeners={listeners.Count}, status={(ok && (listeners.Count != 1 || followerTargetOk) ? "OK" : "CHECK")}.");
+        }
+
+        private static (int clipCount, int eventCount) MeasureCanonicalClipCoverage()
+        {
+            if (!AssetDatabase.IsValidFolder(AudioRoot))
+                return (0, 0);
+
+            var clipCount = 0;
+            var events = new HashSet<AudioEventId>();
+            foreach (var guid in AssetDatabase.FindAssets("t:AudioClip", new[] { AudioRoot }))
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                var clip = AssetDatabase.LoadAssetAtPath<AudioClip>(path);
+                if (clip == null || !TryResolveCanonicalClipEvent(clip.name, out var id))
+                    continue;
+
+                clipCount++;
+                events.Add(id);
+            }
+
+            return (clipCount, events.Count);
+        }
+
+        private static bool TryResolveCanonicalClipEvent(string clipName, out AudioEventId id)
+        {
+            id = AudioEventId.None;
+            if (string.IsNullOrWhiteSpace(clipName))
+                return false;
+
+            var separator = clipName.LastIndexOf('_');
+            if (separator <= 0 || separator >= clipName.Length - 1)
+                return false;
+
+            var eventName = clipName.Substring(0, separator);
+            var variationText = clipName.Substring(separator + 1);
+            if (!int.TryParse(variationText, out var variation) || variation <= 0)
+                return false;
+
+            if (eventName == "SFX_STS_Hunger_Warn" || eventName == "SFX_STS_Thirst_Warn")
+                return false;
+
+            return Enum.TryParse(eventName, out id) && id != AudioEventId.None;
         }
 
         private static GameObject ResolveExistingGeneratedRuntimeRoot(AudioService service)
