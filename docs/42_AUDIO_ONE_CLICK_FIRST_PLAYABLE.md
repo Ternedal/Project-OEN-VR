@@ -10,8 +10,8 @@ Run:
 
 ## What the command does
 
-1. Runs the existing first-playable definition/catalog builder.
-2. Scans canonical numbered clips below `Assets/ProjectOen/Audio/`.
+1. Scans canonical numbered clips below `Assets/ProjectOen/Audio/` and refuses to continue unless the v1 import contains at least **160 clips across 45 runtime events**.
+2. Runs the existing first-playable definition/catalog builder.
 3. Creates or updates `AudioEventDefinition` assets and `AudioCatalog.asset`.
 4. Creates missing baseline first-playable ambience/weather/music profiles.
 5. Creates `AudioRuntime_FirstPlayable.prefab` with:
@@ -20,13 +20,15 @@ Run:
    - `AudioWorldStateRouter` wired to those controllers;
    - a `WorldFauna` composition child ready for spatial random emitters.
 6. Wires the available first-playable biome, storm, and adaptive-music profiles.
-7. Reuses exact-name mixer snapshots if the real Unity project already contains them.
-8. Runs a structural first-playable audit.
+7. Wires unavailable biome/night/shelter states to an explicit empty profile so stale ambience cannot leak across state changes.
+8. Reuses exact-name mixer snapshots if the real Unity project already contains them.
+9. Runs a structural first-playable audit.
 
 ## Generated baseline profiles
 
 The command creates these assets only when they are missing:
 
+- `FP_Biome_Silence`
 - `FP_Biome_Beach_Day`
 - `FP_Biome_Jungle_Day`
 - `FP_Weather_Calm`
@@ -38,7 +40,7 @@ The command creates these assets only when they are missing:
 - `FP_Music_RainFire`
 - `FP_Music_Signal`
 
-The current baseline intentionally does **not** invent Beach Night, Jungle Night, Ridge, or shelter content when approved clips are unavailable. Missing production states stay visibly incomplete rather than silently reusing unrelated sounds.
+The current baseline intentionally does **not** invent Beach Night, Jungle Night, Ridge, Camp, or shelter content when approved clips are unavailable. Instead those states resolve to `FP_Biome_Silence`. This is deliberate fail-closed behaviour: missing audio becomes silence rather than accidentally retaining the previous biome bed or reusing unrelated sound.
 
 ## Non-destructive reruns
 
@@ -59,10 +61,23 @@ These mappings are first-playable starting points, not final mix approval.
 
 ## Current default biome mapping
 
-- Beach Day -> `SFX_AMB_Beach_OceanNear`
-- Jungle Day -> `SFX_AMB_Jungle_DayBed`
+| State | First-playable profile |
+| --- | --- |
+| Beach Day | `SFX_AMB_Beach_OceanNear` |
+| Jungle Day | `SFX_AMB_Jungle_DayBed` |
+| Beach Night | `FP_Biome_Silence` |
+| Jungle Night | `FP_Biome_Silence` |
+| Ridge Day/Night | `FP_Biome_Silence` |
+| Camp Day/Night | `FP_Biome_Silence` |
+| Shelter Day/Night | `FP_Biome_Silence` |
 
-Night bindings remain null until real approved night beds exist. This is deliberate fail-closed behaviour.
+When real approved beds become available, replace the silence bindings in the generated prefab/profile configuration during production integration.
+
+## Import coverage gate
+
+The one-click command does not trust an old `AudioCatalog.asset` as proof that the current audio artifact is present. It measures imported canonical `AudioClip` assets directly and stops before mutating generated runtime content unless it finds the current v1 baseline of at least **160 clips / 45 events**.
+
+Legacy Hunger/Thirst enum aliases are explicitly excluded from canonical filename resolution; new assets and gameplay bindings remain Injury/ColdWet.
 
 ## Mixer behaviour
 
@@ -81,7 +96,9 @@ Expected snapshot names remain:
 
 ## CI guard
 
-`tools/validate_audio_unity_editor_contract.py` checks the string-based `SerializedObject` contract used by the Editor builders. If a private serialized runtime field is renamed without updating the builders, CI fails rather than allowing the mismatch to reach manual Unity import.
+`tools/validate_audio_unity_editor_contract.py` checks the string-based `SerializedObject` contract used by the Editor builders. It also verifies the 160/45 import gate, the explicit silence fallbacks, numeric event-ID serialization, and that legacy Hunger/Thirst aliases are only mentioned as exclusions rather than active runtime enum references.
+
+If a private serialized runtime field is renamed without updating the builders, CI fails rather than allowing the mismatch to reach manual Unity import.
 
 This is a static contract check, **not** a claim that Unity has compiled the scripts. Physical Unity 6000.4.10f1 import/compile remains an explicit production gate.
 
@@ -89,11 +106,13 @@ This is a static contract check, **not** a claim that Unity has compiled the scr
 
 After running the one-click command in the real project:
 
-1. Confirm `AudioRuntime_FirstPlayable.prefab` has no Missing Script references.
-2. Open `AudioCatalog.asset` and confirm expected definitions are populated.
-3. Run `Project Oen > Audio > Audit Audio Event Definitions`.
-4. Run `Project Oen > Audio > Audit First Playable (One Click)`.
-5. Instantiate the runtime prefab from the project bootstrap/composition root.
-6. Exercise Beach Day, Jungle Day, and Calm -> Wind -> RainFire -> Signal transitions.
-7. Confirm mixer routes/snapshots if the production mixer exists.
-8. Perform headset listening and Quest 2 profiling before promoting candidate audio to mastered/production status.
+1. Confirm the command reports complete 160/45 import coverage.
+2. Confirm `AudioRuntime_FirstPlayable.prefab` has no Missing Script references.
+3. Open `AudioCatalog.asset` and confirm expected definitions are populated.
+4. Run `Project Oen > Audio > Audit Audio Event Definitions`.
+5. Run `Project Oen > Audio > Audit First Playable (One Click)`.
+6. Instantiate the runtime prefab from the project bootstrap/composition root.
+7. Exercise Beach Day, Jungle Day, missing Night/Ridge/Shelter states, and Calm -> Wind -> RainFire -> Signal transitions.
+8. Confirm missing biome states crossfade to silence instead of retaining the previous bed.
+9. Confirm mixer routes/snapshots if the production mixer exists.
+10. Perform headset listening and Quest 2 profiling before promoting candidate audio to mastered/production status.
