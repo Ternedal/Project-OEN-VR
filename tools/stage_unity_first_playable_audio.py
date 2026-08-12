@@ -175,9 +175,11 @@ def main() -> int:
     (args.output / "README.txt").write_text(
         "Project OEN Unity first-playable audio pack v1\n\n"
         "Extract this ZIP at the Unity project root so the included Assets/ProjectOen/Audio tree lands in Assets.\n"
-        "After Unity imports the clips, run: Project Oen > Audio > Build First-Playable Definitions + Catalog.\n"
-        "The Editor builder groups numbered variations by AudioEventId and creates/updates AudioEventDefinition assets.\n"
-        "Existing designer tuning is preserved. Missing production events remain missing by design.\n"
+        "After Unity imports the clips, run: Project Oen > Audio > Build First Playable (One Click).\n"
+        "The one-click builder verifies 160 canonical clips / 45 events before creating definitions, catalog, baseline profiles and AudioRuntime_FirstPlayable.prefab.\n"
+        "Existing designer tuning and generated runtime/profile assets are preserved on reruns.\n"
+        "Unavailable Night/Ridge/Camp/Shelter ambience resolves to an explicit empty fallback rather than stale or unrelated audio.\n"
+        "The lower-level Project Oen > Audio > Build First-Playable Definitions + Catalog command remains available for manual integration.\n"
         "Environmental and adaptive-music material remains candidate-headset-listen until physical listening QA.\n",
         encoding="utf-8",
     )
