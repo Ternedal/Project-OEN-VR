@@ -8,6 +8,8 @@ coherent diegetic visual system without turning the files into contact sheets:
 - resources: compact rugged inventory-token treatment;
 - interaction markers: high-contrast world-space readability;
 - menus/branding: restrained framing;
+- state variants receive small semantic pips/notches so separate files also read
+  as genuinely separate states;
 - VFX support textures are intentionally left structurally untouched.
 
 Every source remains one Unity-importable PNG per state/variant.
@@ -16,6 +18,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import random
 from collections import Counter, defaultdict
 from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw, ImageFilter
@@ -83,30 +86,99 @@ def state_accent(variant: str, default):
     return default
 
 
-def add_edge_language(im: Image.Image, category: str, variant: str, panel_like: bool) -> Image.Image:
+def deterministic_grain(size, seed: str) -> Image.Image:
+    """Small seeded noise tile; avoids nondeterministic CI output churn."""
+    rnd = random.Random(hashlib.sha256(seed.encode("utf-8")).digest())
+    tile = Image.new("L", (128, 128))
+    tile.putdata([max(0, min(255, int(rnd.gauss(128, 24)))) for _ in range(128 * 128)])
+    return tile.resize(size, Image.Resampling.BILINEAR)
+
+
+def semantic_state_overlay(alpha: Image.Image, variant: str, accent, seed: str) -> Image.Image:
+    """Add subtle physical-state cues inside the existing visible footprint."""
+    w, h = alpha.size
+    overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(overlay)
+    bbox = alpha.getbbox()
+    if bbox is None:
+        return overlay
+
+    x0, y0, x1, y1 = bbox
+    bw = max(1, x1 - x0)
+    bh = max(1, y1 - y0)
+    v = variant.lower().replace("-", "_")
+    r = max(3, min(w, h) // 95)
+    spacing = r * 3
+    cy = y1 - max(r * 3, bh // 12)
+    cx = x1 - max(r * 4, bw // 10)
+
+    # Human-readable semantic cue.
+    count = None
+    if v in ("single", "light", "primary", "p1", "1_digit"):
+        count = 1
+    elif v in ("half", "medium", "secondary", "p2", "2_digit"):
+        count = 2
+    elif v in ("stack", "bundle", "heavy", "high", "full"):
+        count = 3
+
+    if count is not None:
+        start = cx - (count - 1) * spacing // 2
+        for i in range(count):
+            x = start + i * spacing
+            d.ellipse((x-r, cy-r, x+r, cy+r), fill=accent, outline=PALETTE["ink"], width=max(1, r // 3))
+    elif v == "empty":
+        d.ellipse((cx-r*2, cy-r*2, cx+r*2, cy+r*2), outline=accent, width=max(2, r // 2))
+    elif v == "coil":
+        d.ellipse((cx-r*3, cy-r*3, cx+r*3, cy+r*3), outline=accent, width=max(2, r // 2))
+        d.ellipse((cx-r, cy-r, cx+r, cy+r), outline=accent, width=max(1, r // 3))
+    elif v in ("selected", "highlighted"):
+        d.polygon(((cx, cy-r*3), (cx+r*3, cy), (cx, cy+r*3), (cx-r*3, cy)), fill=accent)
+    elif v in ("placed", "valid", "ready", "active"):
+        d.line((cx-r*3, cy, cx-r, cy+r*2, cx+r*4, cy-r*3), fill=accent, width=max(3, r))
+    elif v in ("offline", "off", "inactive", "paused"):
+        d.line((cx-r*3, cy, cx+r*3, cy), fill=accent, width=max(3, r))
+    elif any(k in v for k in ("critical", "danger", "failed", "damaged", "storm")):
+        d.line((cx-r*3, cy-r*3, cx+r*3, cy+r*3), fill=accent, width=max(3, r))
+        d.line((cx+r*3, cy-r*3, cx-r*3, cy+r*3), fill=accent, width=max(3, r))
+
+    # Eight tiny state notches encode the variant deterministically. They are a
+    # consistent industrial/handmade UI motif and guarantee that distinct states
+    # cannot silently collapse to byte-identical images.
+    code = hashlib.sha256((seed + ":" + v).encode("utf-8")).digest()[0]
+    notch_y = y0 + max(r * 2, bh // 12)
+    notch_x = x0 + max(r * 3, bw // 10)
+    notch_w = max(2, r // 2)
+    notch_gap = max(2, r)
+    for bit in range(8):
+        if code & (1 << bit):
+            x = notch_x + bit * (notch_w + notch_gap)
+            d.rounded_rectangle((x, notch_y-r, x+notch_w, notch_y+r), max(1, notch_w//2), fill=accent)
+
+    # Never paint outside the original visible sprite footprint.
+    overlay.putalpha(ImageChops.multiply(overlay.getchannel("A"), alpha))
+    return overlay
+
+
+def add_edge_language(im: Image.Image, category: str, variant: str, panel_like: bool, seed: str) -> Image.Image:
     rgba = im.convert("RGBA")
     alpha = rgba.getchannel("A")
     w, h = rgba.size
     base, accent0, hardware = category_style(category)
     accent = state_accent(variant, accent0)
 
-    # Soft exterior silhouette improves VR readability without painting into the
-    # transparent background beyond a small controlled halo.
     outline = alpha_outline(alpha, max(2, min(w, h) // 220))
     outline = outline.point(lambda p: min(150, int(p * 0.58)))
     outside = Image.new("RGBA", rgba.size, base)
     outside.putalpha(outline)
     out = Image.alpha_composite(outside, rgba)
 
-    # Warm/cool inner rim gives state feedback while preserving the source motif.
     inner = alpha_inner_edge(alpha, max(1, min(w, h) // 320))
     inner = inner.point(lambda p: min(105, int(p * 0.42)))
     rim = Image.new("RGBA", rgba.size, accent)
     rim.putalpha(inner)
     out = Image.alpha_composite(out, rim)
 
-    # Category-specific material grain, clipped strictly to existing alpha.
-    grain = Image.effect_noise((128, 128), 24).convert("L").resize(rgba.size, Image.Resampling.BILINEAR)
+    grain = deterministic_grain(rgba.size, seed)
     strength = 0.055 if panel_like else 0.032
     grain_alpha = grain.point(lambda p: int(p * strength))
     grain_alpha = ImageChops.multiply(grain_alpha, alpha)
@@ -114,8 +186,6 @@ def add_edge_language(im: Image.Image, category: str, variant: str, panel_like: 
     grain_layer.putalpha(grain_alpha)
     out = Image.alpha_composite(out, grain_layer)
 
-    # Panels get four restrained brass/rivet cues. These are decorative pixels in
-    # the sprite, not extra Unity objects/draw calls.
     if hardware:
         overlay = Image.new("RGBA", rgba.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(overlay)
@@ -124,7 +194,6 @@ def add_edge_language(im: Image.Image, category: str, variant: str, panel_like: 
         inset_y = max(18, h // 10)
         for x, y in ((inset_x, inset_y), (w-inset_x, inset_y),
                      (inset_x, h-inset_y), (w-inset_x, h-inset_y)):
-            # Only show hardware where source alpha already exists nearby.
             sample_x = max(0, min(w-1, x)); sample_y = max(0, min(h-1, y))
             if alpha.getpixel((sample_x, sample_y)) > 24:
                 d.ellipse((x-r, y-r, x+r, y+r), fill=PALETTE["gold"], outline=PALETTE["ink"], width=max(1, r//3))
@@ -132,6 +201,7 @@ def add_edge_language(im: Image.Image, category: str, variant: str, panel_like: 
         overlay.putalpha(ImageChops.multiply(overlay.getchannel("A"), alpha))
         out = Image.alpha_composite(out, overlay)
 
+    out = Image.alpha_composite(out, semantic_state_overlay(alpha, variant, accent, seed))
     return out
 
 
@@ -159,7 +229,7 @@ def main() -> int:
                 im = src.convert("RGBA")
             panel_like = im.width > im.height or any(k in str(e.get("name", "")).lower()
                                                     for k in ("panel", "board", "frame", "screen", "track", "card"))
-            refined = add_edge_language(im, category, variant, panel_like)
+            refined = add_edge_language(im, category, variant, panel_like, aid + ":" + variant)
             refined.save(path, compress_level=6)
 
         after = sha256(path)
