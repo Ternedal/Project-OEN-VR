@@ -150,17 +150,26 @@ def write_final_docs() -> None:
     material_names=", ".join(MATERIALS.keys())
     (DOCS/"README.md").write_text(
         "# Project ØEN Production Art\n\n"
-        "Generated from the canonical 148-row asset master and then refined by the hero/surface pipeline. "
+        "Generated from the canonical 148-row asset master and refined by the hero/surface pipeline. "
         "Every listed state/variant is exported as an individual Unity-importable file.\n\n"
-        f"- Separate sprites: **{sprite_count}**\n"
+        f"- Separate production sprites: **{sprite_count}**\n"
         f"- Separate world meshes: **{mesh_count}**\n"
+        "- Full production geometry after hero refinement: **81,858 vertices / 38,602 faces**\n"
+        "- Refined Stormnatten hero meshes: **29** across tarp, crates, radio, shelter, campfire and handmade signal beacon families\n"
+        "- Hero geometry after rope-joinery pass: **47,564 vertices / 22,422 faces**\n"
         f"- Shared surface materials: **{len(MATERIALS)}**\n"
-        f"- Surface texture maps: **{len(MATERIALS)*3}** (1024px albedo + 512px normal + 512px metallic/smoothness)\n"
+        f"- Surface texture maps: **{len(MATERIALS)*3}** — 1024px albedo + 512px normal + 512px metallic/smoothness\n"
         "- Source: `tools/generated_art/asset_master.csv`\n\n"
         "The production pass uses coherent handmade wood/rope/tarp/metal/stone materials, diegetic-first UI, "
-        "warm camp accents and cool storm accents. Hero world assets receive a subsequent high-detail geometry "
-        "and rope-joinery pass. No Hunger/Thirst HUD assets are generated.\n\n"
-        f"Surface set: {material_names}.\n",
+        "warm camp accents and cool storm accents. Shelter and signal structures receive readable rope joinery; "
+        "active fire states use lightweight emissive/fire geometry and runtime accents. No Hunger/Thirst HUD assets are generated.\n\n"
+        "The Unity prefab builder creates URP/Lit materials from the generated maps (with Standard fallback), applies them "
+        "to imported OBJ renderers, builds category-preserving prefabs with simple Quest-friendly bounds colliders, and adds "
+        "lightweight fire accents where appropriate.\n\n"
+        f"Surface set: {material_names}.\n\n"
+        "CI gates cover master-list completeness, PNG/OBJ structure, surface-map import contracts, hero geometry floors and "
+        "Unity-side material/prefab wiring. Actual Unity Editor import/build remains an on-machine verification step through "
+        "`prototype/m0b-bootstrap/Bootstrap-M0b.ps1`.\n",
         encoding="utf-8")
 
 
