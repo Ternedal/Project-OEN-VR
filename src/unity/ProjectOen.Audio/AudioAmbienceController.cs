@@ -17,9 +17,11 @@ namespace ProjectOen.Audio
         private AudioSource[][] _banks;
         private int _activeBank;
         private AudioAmbienceProfile _currentProfile;
+        private AudioAmbienceProfile _targetProfile;
         private Coroutine _transitionRoutine;
 
         public AudioAmbienceProfile CurrentProfile => _currentProfile;
+        public AudioAmbienceProfile TargetProfile => _targetProfile;
 
         private void Awake()
         {
@@ -32,17 +34,33 @@ namespace ProjectOen.Audio
                 ApplyImmediate(_initialProfile);
         }
 
+        private void OnDisable()
+        {
+            if (_transitionRoutine != null)
+            {
+                StopCoroutine(_transitionRoutine);
+                _transitionRoutine = null;
+            }
+
+            if (_banks != null)
+            {
+                StopBank(_banks[0]);
+                StopBank(_banks[1]);
+            }
+        }
+
         public void TransitionTo(AudioAmbienceProfile profile)
             => TransitionTo(profile, _defaultFadeSeconds);
 
         public void TransitionTo(AudioAmbienceProfile profile, float fadeSeconds)
         {
-            if (profile == null || profile == _currentProfile)
+            if (profile == null || profile == _targetProfile)
                 return;
 
             if (_transitionRoutine != null)
                 StopCoroutine(_transitionRoutine);
 
+            _targetProfile = profile;
             _transitionRoutine = StartCoroutine(TransitionRoutine(profile, Mathf.Max(0f, fadeSeconds)));
         }
 
@@ -62,6 +80,7 @@ namespace ProjectOen.Audio
             _activeBank = 0;
             PrepareBank(_banks[_activeBank], profile, true);
             _currentProfile = profile;
+            _targetProfile = profile;
         }
 
         private IEnumerator TransitionRoutine(AudioAmbienceProfile nextProfile, float duration)
@@ -80,6 +99,7 @@ namespace ProjectOen.Audio
                 StopBank(oldBank);
                 _activeBank = newBankIndex;
                 _currentProfile = nextProfile;
+                _targetProfile = nextProfile;
                 _transitionRoutine = null;
                 yield break;
             }
@@ -105,6 +125,7 @@ namespace ProjectOen.Audio
             StopBank(oldBank);
             _activeBank = newBankIndex;
             _currentProfile = nextProfile;
+            _targetProfile = nextProfile;
             _transitionRoutine = null;
         }
 
