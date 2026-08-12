@@ -3,8 +3,9 @@
 
   This is deliberately separate from Bootstrap-M0b.ps1. It does not recreate the
   Unity project, touch Packages/, configure XR, import Fusion, or build the M0b APK.
-  It syncs production art, rebuilds world/decal/VFX/UI assets, runs isolated VFX
-  and physical-scale UI audits, then the Stormnatten showcase and Quest 2 art audit.
+  It syncs production art + lightweight runtime state controllers, rebuilds world
+  prefabs/state catalogs/decals/VFX/UI assets, runs isolated VFX and physical-scale
+  UI audits, then the Stormnatten showcase and Quest 2 art audit.
 #>
 
 param(
@@ -24,6 +25,7 @@ $repo = (Resolve-Path "$PSScriptRoot\..\..").Path
 $ProjectPath = (Resolve-Path $ProjectPath).Path
 $artSrc = Join-Path $repo "Assets\ProjectOEN\ProductionArt"
 $artDst = Join-Path $ProjectPath "Assets\ProjectOEN\ProductionArt"
+$artRuntimeDst = Join-Path $ProjectPath "Assets\ProjectOEN\ArtRuntime"
 $artEditorDst = Join-Path $ProjectPath "Assets\ProjectOEN\Editor"
 if (-not (Test-Path $artSrc)) { throw "Production art mangler i repoet: $artSrc" }
 
@@ -37,9 +39,14 @@ foreach ($folder in @("Sprites", "Meshes", "Materials", "Decals", "Docs")) {
     Copy-Item $srcFolder $dstFolder -Recurse -Force
 }
 
+Step "Synkroniserer production-art runtime state controllers"
+New-Item -ItemType Directory -Force -Path $artRuntimeDst | Out-Null
+Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Runtime\*.cs") $artRuntimeDst -Force
+
 New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
 foreach ($builder in @(
     "ProductionArtPrefabBuilder.cs",
+    "ProductionArtStateCatalogBuilder.cs",
     "ProductionArtDecalBuilder.cs",
     "ProductionArtVfxBuilder.cs",
     "ProductionArtVfxShowcaseBuilder.cs",
@@ -54,7 +61,7 @@ foreach ($builder in @(
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
 }
-Note "Art + world/decal/VFX/UI/showcase builders er synkroniseret til $ProjectPath"
+Note "Art + runtime state controllers + world/state/decal/VFX/UI/showcase builders er synkroniseret til $ProjectPath"
 
 function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
     Step $Label
@@ -80,6 +87,10 @@ function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
 Run-UnityArtStep "Bygger production-art prefabs" `
     "ProjectOen.Art.Editor.ProductionArtPrefabBuilder.BuildAll" `
     "review-art-prefabs.log"
+
+Run-UnityArtStep "Bygger runtime art state catalogs" `
+    "ProjectOen.Art.Editor.ProductionArtStateCatalogBuilder.BuildAll" `
+    "review-art-state-catalog.log"
 
 Run-UnityArtStep "Bygger puddle/shoreline ground decals" `
     "ProjectOen.Art.Editor.ProductionArtDecalBuilder.BuildAll" `
@@ -122,7 +133,8 @@ Run-UnityArtStep "Auditerer showcase mod Quest 2-budget" `
     "review-art-budget.log"
 
 Step "Resultat"
-Write-Host "Production-art review er bygget; world/decal/VFX/UI assets er wired; isoleret VFX-audit, fysisk UI-audit og Stormnatten-budgetaudit bestod." -ForegroundColor Green
+Write-Host "Production-art review er bygget; world assets, runtime state catalogs, decals, VFX og UI er wired; alle tre art-audits bestod." -ForegroundColor Green
+Write-Host "State catalogs: Assets\ProjectOEN\ProductionArt\StateSets" -ForegroundColor Green
 Write-Host "VFX scene: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
 Write-Host "UI scene: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
 Write-Host "World scene: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
