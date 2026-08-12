@@ -37,3 +37,16 @@ jobs:
         run: python tools/validate_audio_manifest.py
       - name: Validate deterministic authored WAV pack
         run: python tools/validate_authored_audio_pack.py
+      - name: Build authored UI/status pack
+        run: >-
+          python tools/generate_authored_audio_pack.py
+          --clean
+          --output build/oen-authored-ui-status-v1
+          --zip build/oen-authored-ui-status-v1.zip
+      - name: Upload authored audio pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: oen-authored-ui-status-v1
+          path: build/oen-authored-ui-status-v1.zip
+          if-no-files-found: error
+          retention-days: 30
