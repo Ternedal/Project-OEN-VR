@@ -6,7 +6,7 @@ import json
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
-from PIL import Image, ImageChops, ImageStat
+from PIL import Image, ImageStat
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -15,6 +15,7 @@ MANIFEST = PROD / "Docs" / "production_art_manifest.json"
 REPORT = PROD / "Docs" / "ui_sprite_refinement.json"
 
 FORBIDDEN = ("hunger", "thirst", "malik", "lighthouse", "firearm", "gun")
+VFX_CATEGORY = "VFX support graphics"
 REQUIRED_P0_IDS = {
     "UI-001","UI-002","UI-003","UI-004","UI-005","UI-006","UI-007","UI-008",
     "UI-012","UI-013","UI-014",
@@ -58,7 +59,6 @@ def main() -> int:
     by_category = Counter()
     paths = set()
     refined_report_paths = {e.get("path") for e in report.get("entries", [])}
-    total_visible = 0
 
     for e in sprites:
         aid = str(e.get("asset_id", ""))
@@ -109,15 +109,19 @@ def main() -> int:
         if variance < 30:
             errors.append(f"Sprite RGB content is suspiciously flat: {rel}")
 
-        total_visible += visible
-        by_asset[aid].append((variant, path.read_bytes()))
+        by_asset[aid].append((variant, path.read_bytes(), category))
         by_category[category] += 1
 
-    # State variants for one canonical asset must not collapse to identical PNGs.
+    # Non-VFX state variants for one canonical asset must not collapse to
+    # identical PNGs. VFX support is explicitly preserved by the UI refinement
+    # pass and has its own production-art structural validation elsewhere.
     for aid, variants in by_asset.items():
-        blobs = [blob for _, blob in variants]
+        categories = {category for _, _, category in variants}
+        if categories == {VFX_CATEGORY}:
+            continue
+        blobs = [blob for _, blob, _ in variants]
         if len(blobs) > 1 and len(set(blobs)) != len(blobs):
-            dup_variants = [v for v, _ in variants]
+            dup_variants = [v for v, _, _ in variants]
             errors.append(f"{aid} contains byte-identical state variants: {dup_variants}")
 
     present_ids = set(by_asset)
@@ -132,12 +136,12 @@ def main() -> int:
         "Resource icons & inventory support",
         "Interaction markers & helper UI",
         "Menus & meta screens",
-        "VFX support graphics",
+        VFX_CATEGORY,
     }
     if set(by_category) != expected_categories:
         errors.append(f"Sprite category coverage mismatch: {sorted(by_category)}")
 
-    vfx_count = by_category.get("VFX support graphics", 0)
+    vfx_count = by_category.get(VFX_CATEGORY, 0)
     if report.get("intentionally_unmodified_vfx_count") != vfx_count:
         errors.append("UI refinement report VFX untouched count mismatch")
     if report.get("refined_count", 0) != len(sprites) - vfx_count:
