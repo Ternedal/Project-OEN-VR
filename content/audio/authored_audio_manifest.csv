@@ -15,3 +15,17 @@ SFX_STS_ColdWet_Warn,3,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,
 SFX_STS_Fatigue_Warn,3,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
 SFX_STS_Health_Damage,6,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
 SFX_STS_Health_Critical,3,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-v1
+SFX_INT_Place_Valid,6,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-gameplay-v1
+SFX_INT_Place_Invalid,4,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-gameplay-v1
+SFX_INT_Objective_Complete,4,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-gameplay-v1
+SFX_INT_Discovery,6,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-gameplay-v1
+SFX_INT_Danger_Warning,4,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-gameplay-v1
+SFX_INT_Resource_Depleted,4,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-gameplay-v1
+SFX_CRF_Start,6,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-gameplay-v1
+SFX_CRF_Progress,8,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-gameplay-v1
+SFX_CRF_Success,6,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-gameplay-v1
+SFX_CRF_Fail,5,WAV PCM,mono,48000,24,-3,in-repo procedural synthesis,no,authored-gameplay-v1
+STG_Discovery_Small,4,WAV PCM,stereo,48000,24,-3,in-repo procedural synthesis,no,authored-stinger-v1
+STG_Objective_Major,3,WAV PCM,stereo,48000,24,-3,in-repo procedural synthesis,no,authored-stinger-v1
+STG_Danger_Reveal,3,WAV PCM,stereo,48000,24,-3,in-repo procedural synthesis,no,authored-stinger-v1
+STG_Signal_Success,3,WAV PCM,stereo,48000,24,-3,in-repo procedural synthesis,no,authored-stinger-v1
