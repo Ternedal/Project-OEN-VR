@@ -76,7 +76,10 @@ jobs:
       - name: Validate deterministic authored gameplay/stinger WAV pack
         run: python tools/validate_authored_gameplay_stingers.py
       - name: Audit reviewed field-recording sources
-        run: python tools/build_reviewed_field_recording_pack.py --audit
+        run: >-
+          python tools/build_reviewed_field_recording_pack.py
+          --source-dir build/reviewed-field-recording-sources
+          --audit-sources
       - name: Build authored UI/status pack
         run: >-
           python tools/generate_authored_audio_pack.py
