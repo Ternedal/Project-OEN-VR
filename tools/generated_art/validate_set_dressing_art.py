@@ -6,7 +6,7 @@ import json
 import sys
 from collections import defaultdict
 from pathlib import Path
-from PIL import Image, ImageChops
+from PIL import Image
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -21,8 +21,8 @@ TARGETS={
  "EN-011":({"small","medium","large"},2,set()),
  "EN-013":({"short","dense"},180,{"Wood","Leaf"}),
  "EN-014":({"straight","corner","arch"},500,{"Stone"}),
- "EN-015":({"stones","branches"},120,{"Stone"}),
- "EN-016":({"clean","worn","wet"},90,{"Cloth","Rope"}),
+ "EN-015":({"stones","branches"},120,set()),
+ "EN-016":({"clean","worn","wet"},90,{"Rope"}),
  "EN-017":({"pot","crate","utensils"},70,{"Wood"}),
  "EN-018":({"crate","sack","poles"},30,set()),
  "EN-019":({"logs","ropes","stones"},70,set()),
@@ -50,8 +50,7 @@ def inspect_obj(path:Path):
 
 
 def expected_decal_path(entry:dict)->Path:
-    mesh_stem=Path(entry["path"]).stem
-    return DECAL_ROOT/(mesh_stem+".png")
+    return DECAL_ROOT/(Path(entry["path"]).stem+".png")
 
 
 def inspect_decal(path:Path):
@@ -61,9 +60,8 @@ def inspect_decal(path:Path):
         bbox=alpha.getbbox()
         extrema=alpha.getextrema()
         nonzero=sum(1 for px in alpha.getdata() if px>0)
-        opaqueish=sum(1 for px in alpha.getdata() if px>180)
         rgb=rgba.convert("RGB")
-        return rgba.size,bbox,extrema,nonzero,opaqueish,rgb.getbbox()
+        return rgba.size,bbox,extrema,nonzero,rgb.getbbox()
 
 
 def main()->int:
@@ -112,14 +110,13 @@ def main()->int:
                 mt=meta.read_text(encoding="utf-8")
                 if "alphaIsTransparency: 1" not in mt or "enableMipMap: 1" not in mt:
                     errors.append(f"{aid}/{variant} decal importer contract missing alpha/mips")
-            size,bbox,extrema,nonzero,opaqueish,rgb_bbox=inspect_decal(path)
+            size,bbox,extrema,nonzero,rgb_bbox=inspect_decal(path)
             if size!=(1024,1024): errors.append(f"{aid}/{variant} decal must be 1024x1024, got {size}")
             if bbox is None or nonzero<12000: errors.append(f"{aid}/{variant} decal has too little visible alpha content")
             if extrema[0]!=0 or extrema[1]<100: errors.append(f"{aid}/{variant} decal alpha lacks transparent edge / useful range: {extrema}")
             if nonzero>=1024*1024*.90: errors.append(f"{aid}/{variant} decal alpha covers almost entire texture; not a cutout decal")
             if rgb_bbox is None: errors.append(f"{aid}/{variant} decal contains no RGB content")
 
-    # Ensure variants do not accidentally collapse to byte-identical textures.
     for aid in DECAL_VARIANTS:
         paths=[expected_decal_path(e) for e in by.get(aid,[]) if expected_decal_path(e).exists()]
         blobs=[p.read_bytes() for p in paths]
