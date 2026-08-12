@@ -27,6 +27,8 @@ The repository stores this module because the full Unity project is maintained o
 - `AudioRandomEmitter`: intermittent spatial one-shots for fauna, fire pops, shoreline washes, branch snaps and gusts; cadence can be adjusted at runtime.
 - `AudioSurfaceTag`: material marker for walkable colliders.
 - `FootstepAudioEmitter`: Quest-friendly distance-driven footsteps with ground probing and surface-specific events.
+- `AudioFoleyProfile`: semantic object-action to typed-event mapping.
+- `AudioFoleyEmitter`: reusable prefab bridge for tarp/rope/wood/stone/water/container/crate/metal/fire interactions without direct clip references.
 - `AudioWorldStateRouter`: separates biome/day-night, weather/storm and adaptive-music layers and selects mixer snapshots.
 - `AudioFireStateEmitter`: maps fire intensity and fire interactions to low/burning loops, pops, ignition, wood-add and extinguish events.
 - `AudioTarpWeatherEmitter`: maps normalized wind/rain to local flap cadence and rain-on-tarp gain.
@@ -167,6 +169,26 @@ Call `SetWeather(wind01, rain01)` from the authoritative weather/storm system. W
 
 This local emitter is deliberately separate from the broad 2D weather bed so the player can hear where the shelter physically is in VR.
 
+## Object Foley integration
+
+Run `Project Oen > Audio > Rebuild Default Foley Profiles` in the Unity Editor. It creates/updates nine typed profiles under `Assets/ProjectOen/Audio/FoleyProfiles/`: Tarp, Rope, Wood, Stone, Water, Container, Crate, Metal and Fire.
+
+For an interactable prefab, add `AudioFoleyEmitter`, assign the scene-owned `AudioService`, assign the relevant profile and optionally set a child emission point. Interaction code or UnityEvents then call semantic actions such as `EmitPickup`, `EmitDrop`, `EmitImpact`, `EmitOpen`, `EmitTighten`, `EmitBreak`, `EmitPour` or `EmitScrape`.
+
+The prefab never references individual clips. Variation choice remains in `AudioEventDefinition`.
+
+The full physical recording plan is `content/audio/foley_recording_plan.csv`: 40 Foley events / 388 planned selected variations. `tools/validate_foley_recording_plan.py` checks every count against the canonical audio manifest. See `docs/39_FOLEY_AND_UNITY_BINDING.md` for recording recipes and acceptance rules.
+
+## Audio definition/catalog audit
+
+After approved clips are imported and assigned to `AudioEventDefinition` assets:
+
+1. select the production `AudioCatalog` asset;
+2. run `Project Oen > Audio > Rebuild Selected Audio Catalog`;
+3. run `Project Oen > Audio > Audit Audio Event Definitions`.
+
+The audit reports None/duplicate event IDs, null/duplicate clip references and clip/event naming drift. Catalog entries are sorted by stable numeric `AudioEventId` before writing.
+
 ## World emitters
 
 Useful starting configurations:
@@ -212,7 +234,7 @@ Audio follows the same canonical player-status vocabulary as the production art 
 The audio CI currently builds two separate artifacts:
 
 - `oen-authored-ui-status-v1`: 65 original authored UI/status WAV variations.
-- `oen-public-domain-environment-v0`: 10 technically normalized Public Domain / CC0 candidate derivatives for ocean, rain, storm wind and campfire.
+- `oen-public-domain-environment-v0`: 15 technically normalized Public Domain / CC0 candidate derivatives for ocean, rain, storm wind, campfire, Guadeloupe rainforest and cicadas.
 
 The environmental v0 pack carries `PROVENANCE.csv` with source/output SHA256 values, and the source registry pins every upstream SHA256. It remains a **candidate** pack: do not promote those clips into the production catalog before headset listening, contamination review and seamless-loop editing.
 
@@ -249,4 +271,4 @@ A first playable passes the audio layer when all of these are true:
 
 ## Status
 
-Runtime architecture, production manifest, authored UI/status WAV pack, technically normalized environmental candidate pack, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters and surface footsteps are implemented. Environmental candidate building is CI-verified with pinned source hashes and provenance; headset listening/loop QA, tropical jungle/fauna, tarp-specific recordings, bespoke Foley and final music/stingers remain production work.
+Runtime architecture, production manifest, authored UI/status WAV pack, technically normalized environmental candidate pack, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters, surface footsteps, data-driven object Foley profiles/emitter and editor-side catalog/profile tools are implemented. Environmental candidate building is CI-verified with pinned source hashes and provenance. Headset listening/loop QA, reviewed tarp/Amazon originals, the 388 planned physical Foley recordings and final music/stingers remain production work.
