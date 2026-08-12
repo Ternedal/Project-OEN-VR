@@ -6,8 +6,9 @@
   HELE Core-laget kompilerer som en Unity-assembly, OpenXR er sat op for Android,
   og den genererede Project OEN production-art pakke er installeret i Unity-projektet.
 
-  Production-art-delen bygger baade Unity-prefabs og en separat Stormnatten art-
-  showcase-scene. Showcase-scenen er IKKE M0b's CoopGame performance/netvaerksgate.
+  Production-art-delen bygger Unity-prefabs, en separat Stormnatten art-showcase-scene
+  og en billig lokal stormregn-pass. Showcase-scenen er IKKE M0b's CoopGame
+  performance/netvaerksgate.
 
   Fusion/netvaerk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret -
   ellers kan projektet ikke kompilere. Se RUNBOOK.md.
@@ -84,8 +85,9 @@ $artEditorDst = Join-Path $ProjectPath "Assets\ProjectOEN\Editor"
 New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
 Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtPrefabBuilder.cs" (Join-Path $artEditorDst "ProductionArtPrefabBuilder.cs") -Force
 Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtShowcaseBuilder.cs" (Join-Path $artEditorDst "ProductionArtShowcaseBuilder.cs") -Force
+Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtStormAtmosphereBuilder.cs" (Join-Path $artEditorDst "ProductionArtStormAtmosphereBuilder.cs") -Force
 Note "ProductionArt -> Assets\ProjectOEN\ProductionArt (sprites, meshes, materials, docs)"
-Note "Prefab + showcase builders -> Assets\ProjectOEN\Editor"
+Note "Prefab + showcase + storm-atmosphere builders -> Assets\ProjectOEN\Editor"
 
 # --- 5. XR-configure-editor ---
 Step "Kopierer XR-config editor"
@@ -153,17 +155,35 @@ if ($showcaseExit -ne 0) {
     exit 1
 }
 
+# --- 9. Tilfoej billig lokal stormregn til visual-review-scenen ---
+Step "Tilfoejer stormatmosfaere"
+$stormLog = Join-Path $PSScriptRoot "production-art-storm.log"
+& $UnityPath -batchmode -quit -nographics `
+    -projectPath $ProjectPath `
+    -buildTarget Android `
+    -executeMethod ProjectOen.Art.Editor.ProductionArtStormAtmosphereBuilder.AddStormAtmosphere `
+    -logFile $stormLog
+$stormExit = $LASTEXITCODE
+if ($stormExit -ne 0) {
+    Write-Host "`nStorm-atmosfaere fejlede (Unity exit $stormExit)." -ForegroundColor Red
+    if (Test-Path $stormLog) {
+        Select-String -Path $stormLog -Pattern "\[ProjectOEN.Art\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object {
+            Write-Host "   $($_.Line.Trim())" -ForegroundColor Red
+        }
+    }
+    exit 1
+}
+
 Step "Resultat"
 if (Test-Path $log) {
     Select-String -Path $log -Pattern "\[M0B-SETUP\]" | ForEach-Object { Note $_.Line.Trim() }
 }
-if (Test-Path $artLog) {
-    Select-String -Path $artLog -Pattern "\[ProjectOEN.Art\]" | ForEach-Object { Note $_.Line.Trim() }
-}
-if (Test-Path $showcaseLog) {
-    Select-String -Path $showcaseLog -Pattern "\[ProjectOEN.Art\]" | ForEach-Object { Note $_.Line.Trim() }
+foreach ($artResultLog in @($artLog, $showcaseLog, $stormLog)) {
+    if (Test-Path $artResultLog) {
+        Select-String -Path $artResultLog -Pattern "\[ProjectOEN.Art\]" | ForEach-Object { Note $_.Line.Trim() }
+    }
 }
 Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
-Write-Host "Production art er installeret, world meshes er bygget til prefabs, og StormnattenArtShowcase.unity er genereret." -ForegroundColor Green
+Write-Host "Production art er installeret, world meshes er bygget til prefabs, og StormnattenArtShowcase.unity er genereret med lokal stormregn." -ForegroundColor Green
 Write-Host "Showcase-scenen er kun visual review og er ikke M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
 Write-Host "Naeste: importer Photon Fusion 2 (App ID), koer saa Fase 2 i RUNBOOK.md." -ForegroundColor Green
