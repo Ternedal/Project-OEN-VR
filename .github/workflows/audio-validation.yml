@@ -14,6 +14,8 @@ on:
       - 'tools/validate_foley_recording_plan.py'
       - 'tools/generate_authored_audio_pack.py'
       - 'tools/validate_authored_audio_pack.py'
+      - 'tools/generate_authored_gameplay_stingers.py'
+      - 'tools/validate_authored_gameplay_stingers.py'
       - 'tools/build_public_domain_environment_pack.py'
       - 'tools/build_reviewed_field_recording_pack.py'
       - '.github/workflows/audio-validation.yml'
@@ -32,6 +34,8 @@ on:
       - 'tools/validate_foley_recording_plan.py'
       - 'tools/generate_authored_audio_pack.py'
       - 'tools/validate_authored_audio_pack.py'
+      - 'tools/generate_authored_gameplay_stingers.py'
+      - 'tools/validate_authored_gameplay_stingers.py'
       - 'tools/build_public_domain_environment_pack.py'
       - 'tools/build_reviewed_field_recording_pack.py'
       - '.github/workflows/audio-validation.yml'
@@ -57,8 +61,10 @@ jobs:
         run: python tools/validate_audio_manifest.py
       - name: Validate Foley recording plan
         run: python tools/validate_foley_recording_plan.py
-      - name: Validate deterministic authored WAV pack
+      - name: Validate deterministic authored UI/status WAV pack
         run: python tools/validate_authored_audio_pack.py
+      - name: Validate deterministic authored gameplay/stinger WAV pack
+        run: python tools/validate_authored_gameplay_stingers.py
       - name: Audit reviewed field-recording sources
         run: python tools/build_reviewed_field_recording_pack.py --audit
       - name: Build authored UI/status pack
@@ -67,11 +73,24 @@ jobs:
           --clean
           --output build/oen-authored-ui-status-v1
           --zip build/oen-authored-ui-status-v1.zip
-      - name: Upload authored audio pack
+      - name: Upload authored UI/status pack
         uses: actions/upload-artifact@v4
         with:
           name: oen-authored-ui-status-v1
           path: build/oen-authored-ui-status-v1.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Build authored gameplay/stinger pack
+        run: >-
+          python tools/generate_authored_gameplay_stingers.py
+          --clean
+          --output build/oen-authored-gameplay-stingers-v1
+          --zip build/oen-authored-gameplay-stingers-v1.zip
+      - name: Upload authored gameplay/stinger pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: oen-authored-gameplay-stingers-v1
+          path: build/oen-authored-gameplay-stingers-v1.zip
           if-no-files-found: error
           retention-days: 30
       - name: Build public-domain environmental candidate pack
