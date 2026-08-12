@@ -22,11 +22,8 @@ namespace ProjectOen.Art.Editor
         [MenuItem("Project OEN/Art/Add Storm Atmosphere To Showcase")]
         public static void AddStormAtmosphere()
         {
-            if (!System.IO.File.Exists(ScenePath))
-            {
-                Debug.LogError("[ProjectOEN.Art] Showcase scene missing: " + ScenePath);
-                return;
-            }
+            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(ScenePath) == null)
+                throw new InvalidOperationException("Showcase scene missing: " + ScenePath);
 
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
             RemoveExistingRain();
@@ -109,6 +106,8 @@ namespace ProjectOen.Art.Editor
             if (material.HasProperty("_Color")) material.SetColor("_Color", rainColor);
             if (material.HasProperty("_Surface")) material.SetFloat("_Surface", 1f);
             if (material.HasProperty("_Blend")) material.SetFloat("_Blend", 0f);
+            if (material.HasProperty("_SrcBlend")) material.SetFloat("_SrcBlend", (float)BlendMode.SrcAlpha);
+            if (material.HasProperty("_DstBlend")) material.SetFloat("_DstBlend", (float)BlendMode.OneMinusSrcAlpha);
             if (material.HasProperty("_ZWrite")) material.SetFloat("_ZWrite", 0f);
             material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
             material.renderQueue = 3000;
