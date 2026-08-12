@@ -177,15 +177,29 @@ The prefab never references individual clips. Variation choice remains in `Audio
 
 The full physical recording plan is `content/audio/foley_recording_plan.csv`: 40 Foley events / 388 planned selected variations. `tools/validate_foley_recording_plan.py` checks every count against the canonical audio manifest. See `docs/39_FOLEY_AND_UNITY_BINDING.md` for recording recipes and acceptance rules.
 
-## Audio definition/catalog audit
+## First-playable definitions and catalog
 
-After approved clips are imported and assigned to `AudioEventDefinition` assets:
+CI now builds `oen-unity-first-playable-audio-v1`, a combined Unity-ready pack with **160 WAV files across 45 currently populated runtime events**. Extract it at the Unity project root so it lands under `Assets/ProjectOen/Audio/`.
 
-1. select the production `AudioCatalog` asset;
-2. run `Project Oen > Audio > Rebuild Selected Audio Catalog`;
-3. run `Project Oen > Audio > Audit Audio Event Definitions`.
+After Unity finishes importing the clips, run:
 
-The audit reports None/duplicate event IDs, null/duplicate clip references and clip/event naming drift. Catalog entries are sorted by stable numeric `AudioEventId` before writing.
+`Project Oen > Audio > Build First-Playable Definitions + Catalog`
+
+`ProjectOenAudioFirstPlayableBuilder` then:
+
+- scans canonical numbered clip names;
+- groups variations by stable `AudioEventId`;
+- creates missing `AudioEventDefinition` assets under `Assets/ProjectOen/Audio/Definitions/`;
+- updates clip membership on existing definitions without resetting designer playback tuning;
+- writes the stable numeric enum value, avoiding the obsolete Hunger/Thirst alias names;
+- fills a missing mixer route when a matching Project OEN mixer group exists;
+- creates/updates `AudioCatalog.asset` and sorts entries by stable runtime ID.
+
+Use `Project Oen > Audio > Audit First-Playable Clip Coverage` for a per-event coverage report. Missing runtime events are expected production gaps, not permission to synthesize or alias unrelated sounds.
+
+For the older manual workflow, `Project Oen > Audio > Rebuild Selected Audio Catalog` and `Project Oen > Audio > Audit Audio Event Definitions` remain available.
+
+See `docs/41_UNITY_FIRST_PLAYABLE_AUDIO_ASSEMBLY.md`.
 
 ## World emitters
 
@@ -229,17 +243,21 @@ Audio follows the same canonical player-status vocabulary as the production art 
 
 ## Produced audio artifacts
 
-The audio pipeline defines three produced artifact lanes:
+The current green Audio Validation workflow uploads five artifacts:
 
 - `oen-authored-ui-status-v1`: 65 original authored UI/status WAV variations.
 - `oen-authored-gameplay-stingers-v1`: 66 original authored gameplay-feedback/stinger WAV variations across 14 events; short feedback is mono and stingers are stereo.
+- `oen-authored-adaptive-music-v1`: 14 stereo adaptive-music candidates across all six `MUS_*` events; 12 loop tracks plus two non-looping finale cues.
 - `oen-public-domain-environment-v0`: 15 technically normalized Public Domain / CC0 candidate derivatives for ocean, rain, storm wind, campfire, Guadeloupe rainforest and cicadas.
+- `oen-unity-first-playable-audio-v1`: combined Unity-root staging artifact containing all **160 currently produced WAV files across 45 runtime events**.
 
-The two authored packs contain no third-party samples and target 48 kHz / 24-bit PCM with a -3 dBFS peak ceiling. The gameplay/stinger pack deliberately excludes physical Foley and long adaptive-music beds.
+The authored UI/status and gameplay/stinger packs contain no third-party samples and target 48 kHz / 24-bit PCM with a -3 dBFS peak ceiling. Adaptive music targets -6 dBFS peak to preserve mix headroom.
 
-The environmental v0 pack carries `PROVENANCE.csv` with source/output SHA256 values, and the source registry pins every upstream SHA256. It remains a **candidate** pack: do not promote those clips into the production catalog before headset listening, contamination review and seamless-loop editing.
+The environmental v0 pack carries `PROVENANCE.csv` with source/output SHA256 values, and the source registry pins every upstream SHA256. Environmental and adaptive-music material remains **candidate** material pending headset listening, contamination/loop review and in-scene mix approval.
 
-See `docs/37_AUDIO_PRODUCTION_PIPELINE.md` for source/provenance policy and promotion gates.
+The combined Unity pack carries `FIRST_PLAYABLE_MANIFEST.csv` with one SHA-256 row per staged WAV. Current CI and post-download QA both confirm 160 WAV / 160 manifest rows / 45 unique events / 0 hash mismatches.
+
+See `docs/37_AUDIO_PRODUCTION_PIPELINE.md`, `docs/40_ADAPTIVE_MUSIC_CANDIDATE_PACK.md` and `docs/41_UNITY_FIRST_PLAYABLE_AUDIO_ASSEMBLY.md`.
 
 ## Quest profile
 
@@ -273,4 +291,6 @@ A first playable passes the audio layer when all of these are true:
 
 ## Status
 
-Runtime architecture, production manifest, 65 authored UI/status WAVs, 66 authored gameplay/stinger WAVs, technically normalized environmental candidate pack, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters, surface footsteps, data-driven object Foley profiles/emitter and editor-side catalog/profile tools are implemented. Environmental candidate building was CI-verified before the current account-level Actions runner block. Headset listening/loop QA, reviewed tarp/Amazon originals, the 388 planned physical Foley recordings and long adaptive-music masters remain production work.
+Runtime architecture, production manifest, 65 authored UI/status WAVs, 66 authored gameplay/stinger WAVs, 14 adaptive-music candidates, 15 technically normalized environmental candidates, biome/day-night and storm routing, adaptive-music crossfades, mixer-snapshot routing, campfire/tarp state adapters, randomized world emitters, surface footsteps, data-driven object Foley profiles/emitter, editor-side catalog/profile tools, automatic first-playable definition creation and the 160-WAV Unity staging artifact are implemented.
+
+Current PR-head CI is green for Core tests, Validate handoff and Audio Validation. Physical Unity 6000.4.10f1 import/compile of the Editor tooling, headset listening/loop QA, reviewed tarp/Amazon originals, the 388 planned physical Foley recordings and Quest 2 in-scene performance/mix validation remain production gates.
