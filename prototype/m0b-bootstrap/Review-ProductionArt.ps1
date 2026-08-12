@@ -4,9 +4,9 @@
   This is deliberately separate from Bootstrap-M0b.ps1. It does not recreate the
   Unity project, touch Packages/, configure XR, import Fusion, or build the M0b APK.
   It only syncs the current production-art sources/editor builders into an existing
-  ProjektOenApp, rebuilds the art prefabs + state-specific ground decals + showcase,
-  adds storm rain, runs the imported-scene Quest 2 budget audit, and optionally
-  launches Unity on the showcase.
+  ProjektOenApp, rebuilds the art prefabs + state-specific ground decals + diegetic
+  UI prefabs + showcase, adds storm rain, runs the imported-scene Quest 2 budget
+  audit, and optionally launches Unity on the showcase.
 
   Example:
     .\Review-ProductionArt.ps1 `
@@ -53,6 +53,7 @@ New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
 foreach ($builder in @(
     "ProductionArtPrefabBuilder.cs",
     "ProductionArtDecalBuilder.cs",
+    "ProductionArtDiegeticUiBuilder.cs",
     "ProductionArtShowcaseBuilder.cs",
     "ProductionArtStormAtmosphereBuilder.cs",
     "ProductionArtShowcaseAudit.cs",
@@ -60,7 +61,7 @@ foreach ($builder in @(
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
 }
-Note "Art + prefab/decal/showcase-builders er synkroniseret til $ProjectPath"
+Note "Art + prefab/decal/diegetic-UI/showcase-builders er synkroniseret til $ProjectPath"
 
 function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
     Step $Label
@@ -93,6 +94,10 @@ Run-UnityArtStep "Bygger puddle/shoreline ground decals" `
     "ProjectOen.Art.Editor.ProductionArtDecalBuilder.BuildAll" `
     "review-art-decals.log"
 
+Run-UnityArtStep "Bygger diegetiske VR UI-prefabs" `
+    "ProjectOen.Art.Editor.ProductionArtDiegeticUiBuilder.BuildAll" `
+    "review-art-diegetic-ui.log"
+
 Run-UnityArtStep "Bygger Stormnatten showcase" `
     "ProjectOen.Art.Editor.ProductionArtShowcaseBuilder.BuildShowcase" `
     "review-art-showcase.log"
@@ -106,8 +111,9 @@ Run-UnityArtStep "Auditerer showcase mod Quest 2-budget" `
     "review-art-budget.log"
 
 Step "Resultat"
-Write-Host "Production-art visual-review er bygget, ground decals er wired, og Unity-budgetauditen bestod." -ForegroundColor Green
+Write-Host "Production-art visual-review er bygget, ground decals og diegetic UI-prefabs er wired, og Unity-budgetauditen bestod." -ForegroundColor Green
 Write-Host "Scene: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
+Write-Host "UI prefabs: Assets\ProjectOEN\ProductionArt\UiPrefabs" -ForegroundColor Green
 Write-Host "M0b CoopGame/build settings er ikke aendret." -ForegroundColor Green
 
 if ($OpenEditor) {
