@@ -42,6 +42,12 @@ namespace ProjectOen.Audio
 
         private void OnEnable()
         {
+            if (!Application.isPlaying)
+            {
+                StopAll();
+                return;
+            }
+
             if (_worldState != null)
                 _worldState.StateChanged += Apply;
             Apply();
@@ -56,6 +62,12 @@ namespace ProjectOen.Audio
 
         public void Apply()
         {
+            if (!Application.isPlaying)
+            {
+                StopAll();
+                return;
+            }
+
             if (_bindings == null)
                 return;
 
