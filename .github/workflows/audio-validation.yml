@@ -17,6 +17,7 @@ on:
       - 'tools/validate_audio_manifest.py'
       - 'tools/validate_foley_recording_plan.py'
       - 'tools/validate_supplemental_foley_recording_plan.py'
+      - 'tools/validate_public_domain_candidate_audit.py'
       - 'tools/validate_audio_unity_editor_contract.py'
       - 'tools/report_audio_first_playable_readiness.py'
       - 'tools/generate_authored_audio_pack.py'
@@ -48,6 +49,7 @@ on:
       - 'tools/validate_audio_manifest.py'
       - 'tools/validate_foley_recording_plan.py'
       - 'tools/validate_supplemental_foley_recording_plan.py'
+      - 'tools/validate_public_domain_candidate_audit.py'
       - 'tools/validate_audio_unity_editor_contract.py'
       - 'tools/report_audio_first_playable_readiness.py'
       - 'tools/generate_authored_audio_pack.py'
@@ -87,6 +89,8 @@ jobs:
         run: python tools/validate_foley_recording_plan.py
       - name: Validate supplemental Foley recording plan
         run: python tools/validate_supplemental_foley_recording_plan.py
+      - name: Validate public-domain candidate audit
+        run: python tools/validate_public_domain_candidate_audit.py
       - name: Validate Unity Editor serialized-field contract
         run: python tools/validate_audio_unity_editor_contract.py
       - name: Report first-playable audio readiness
@@ -177,8 +181,8 @@ jobs:
           --environment build/oen-public-domain-environment-v0
           --output build/oen-unity-first-playable-audio-v1
           --zip build/oen-unity-first-playable-audio-v1.zip
-          --expect-files 163
-          --expect-events 46
+          --expect-files 173
+          --expect-events 47
       - name: Upload Unity first-playable audio pack
         uses: actions/upload-artifact@v4
         with:
