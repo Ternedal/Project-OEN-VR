@@ -1,5 +1,3 @@
-#nullable enable
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,8 +8,8 @@ using UnityEngine;
 namespace ProjectOen.Art.Editor
 {
     /// <summary>
-    /// Converts the generated Project ØEN production-art OBJ models into reusable Unity prefabs.
-    /// The source meshes remain untouched under Assets/ProjectOEN/ProductionArt/Meshes.
+    /// Converts generated Project ØEN production-art OBJ models into reusable Unity prefabs.
+    /// Source meshes remain untouched under Assets/ProjectOEN/ProductionArt/Meshes.
     ///
     /// Design goals:
     /// - deterministic output paths;
@@ -29,7 +27,7 @@ namespace ProjectOen.Art.Editor
         {
             if (!AssetDatabase.IsValidFolder(MeshRoot))
             {
-                Debug.LogError($"[ProjectOEN.Art] Missing generated mesh root: {MeshRoot}");
+                Debug.LogError("[ProjectOEN.Art] Missing generated mesh root: " + MeshRoot);
                 return;
             }
 
@@ -39,71 +37,75 @@ namespace ProjectOen.Art.Editor
             int built = 0;
             var failures = new List<string>();
 
-            try
+            foreach (string guid in guids)
             {
-                AssetDatabase.StartAssetEditing();
+                string sourcePath = AssetDatabase.GUIDToAssetPath(guid);
+                if (!sourcePath.EndsWith(".obj", StringComparison.OrdinalIgnoreCase))
+                    continue;
 
-                foreach (string guid in guids)
+                try
                 {
-                    string sourcePath = AssetDatabase.GUIDToAssetPath(guid);
-                    if (!sourcePath.EndsWith(".obj", StringComparison.OrdinalIgnoreCase))
-                        continue;
-
-                    try
-                    {
-                        BuildOne(sourcePath);
-                        built++;
-                    }
-                    catch (Exception ex)
-                    {
-                        failures.Add($"{sourcePath}: {ex.Message}");
-                    }
+                    BuildOne(sourcePath);
+                    built++;
+                }
+                catch (Exception ex)
+                {
+                    failures.Add(sourcePath + ": " + ex.Message);
                 }
             }
-            finally
-            {
-                AssetDatabase.StopAssetEditing();
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
 
             if (failures.Count == 0)
             {
-                Debug.Log($"[ProjectOEN.Art] Built {built} production-art prefabs.");
+                Debug.Log("[ProjectOEN.Art] Built " + built + " production-art prefabs.");
             }
             else
             {
-                Debug.LogError($"[ProjectOEN.Art] Built {built} prefabs with {failures.Count} failure(s):\n" +
-                               string.Join("\n", failures));
+                Debug.LogError("[ProjectOEN.Art] Built " + built + " prefabs with " + failures.Count +
+                               " failure(s):\n" + string.Join("\n", failures));
             }
         }
 
         private static void BuildOne(string sourcePath)
         {
-            GameObject? model = AssetDatabase.LoadAssetAtPath<GameObject>(sourcePath);
+            GameObject model = AssetDatabase.LoadAssetAtPath<GameObject>(sourcePath);
             if (model == null)
                 throw new InvalidOperationException("Unity did not import the OBJ as a GameObject.");
 
             string relative = sourcePath.Substring(MeshRoot.Length).TrimStart('/');
-            string category = Path.GetDirectoryName(relative)?.Replace('\\', '/') ?? string.Empty;
+            string category = Path.GetDirectoryName(relative);
+            category = string.IsNullOrEmpty(category) ? string.Empty : category.Replace('\\', '/');
             string prefabDirectory = string.IsNullOrEmpty(category)
                 ? PrefabRoot
-                : $"{PrefabRoot}/{category}";
+                : PrefabRoot + "/" + category;
             EnsureFolder(prefabDirectory);
 
             string fileName = Path.GetFileNameWithoutExtension(sourcePath);
-            string prefabPath = $"{prefabDirectory}/{fileName}.prefab";
+            string prefabPath = prefabDirectory + "/" + fileName + ".prefab";
 
             var root = new GameObject(fileName);
-            GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(model);
-            instance.name = "Visual";
-            instance.transform.SetParent(root.transform, false);
+            try
+            {
+                GameObject instance = PrefabUtility.InstantiatePrefab(model) as GameObject;
+                if (instance == null)
+                    throw new InvalidOperationException("PrefabUtility could not instantiate imported OBJ.");
 
-            AddSimpleBoundsCollider(root);
-            AddQuestFriendlyActiveFireIfNeeded(root, fileName);
+                instance.name = "Visual";
+                instance.transform.SetParent(root.transform, false);
 
-            PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
-            UnityEngine.Object.DestroyImmediate(root);
+                AddSimpleBoundsCollider(root);
+                AddQuestFriendlyActiveFireIfNeeded(root, fileName);
+
+                GameObject saved = PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
+                if (saved == null)
+                    throw new InvalidOperationException("PrefabUtility.SaveAsPrefabAsset returned null.");
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(root);
+            }
         }
 
         private static void AddSimpleBoundsCollider(GameObject root)
@@ -113,21 +115,21 @@ namespace ProjectOen.Art.Editor
                 return;
 
             bool hasBounds = false;
-            Bounds localBounds = default;
+            Bounds localBounds = default(Bounds);
 
             foreach (Renderer renderer in renderers)
             {
                 Bounds world = renderer.bounds;
                 Vector3[] corners =
                 {
-                    new(world.min.x, world.min.y, world.min.z),
-                    new(world.min.x, world.min.y, world.max.z),
-                    new(world.min.x, world.max.y, world.min.z),
-                    new(world.min.x, world.max.y, world.max.z),
-                    new(world.max.x, world.min.y, world.min.z),
-                    new(world.max.x, world.min.y, world.max.z),
-                    new(world.max.x, world.max.y, world.min.z),
-                    new(world.max.x, world.max.y, world.max.z),
+                    new Vector3(world.min.x, world.min.y, world.min.z),
+                    new Vector3(world.min.x, world.min.y, world.max.z),
+                    new Vector3(world.min.x, world.max.y, world.min.z),
+                    new Vector3(world.min.x, world.max.y, world.max.z),
+                    new Vector3(world.max.x, world.min.y, world.min.z),
+                    new Vector3(world.max.x, world.min.y, world.max.z),
+                    new Vector3(world.max.x, world.max.y, world.min.z),
+                    new Vector3(world.max.x, world.max.y, world.max.z),
                 };
 
                 foreach (Vector3 corner in corners)
@@ -170,7 +172,7 @@ namespace ProjectOen.Art.Editor
             if (renderers.Length > 0)
             {
                 float top = renderers.Max(r => r.bounds.max.y);
-                Vector3 worldTop = new(root.transform.position.x, top, root.transform.position.z);
+                Vector3 worldTop = new Vector3(root.transform.position.x, top, root.transform.position.z);
                 fireRoot.transform.position = worldTop;
             }
 
@@ -201,9 +203,6 @@ namespace ProjectOen.Art.Editor
             shape.angle = 9f;
             shape.radius = activeBeacon ? 0.14f : 0.08f;
 
-            // Disable the default particle renderer material rather than introducing
-            // a pipeline-specific dependency here. Runtime art can provide its own
-            // URP particle material without changing prefab structure.
             var particleRenderer = ps.GetComponent<ParticleSystemRenderer>();
             particleRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             particleRenderer.receiveShadows = false;
@@ -219,7 +218,7 @@ namespace ProjectOen.Art.Editor
             string current = parts[0];
             for (int i = 1; i < parts.Length; i++)
             {
-                string next = $"{current}/{parts[i]}";
+                string next = current + "/" + parts[i];
                 if (!AssetDatabase.IsValidFolder(next))
                     AssetDatabase.CreateFolder(current, parts[i]);
                 current = next;
