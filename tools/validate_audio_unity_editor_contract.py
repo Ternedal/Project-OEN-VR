@@ -35,8 +35,12 @@ def main() -> int:
     controller = read("src/unity/ProjectOen.Audio/AudioAmbienceController.cs")
     router = read("src/unity/ProjectOen.Audio/AudioWorldStateRouter.cs")
     service = read("src/unity/ProjectOen.Audio/AudioService.cs")
+    random_emitter = read("src/unity/ProjectOen.Audio/AudioRandomEmitter.cs")
+    world_anchor = read("src/unity/ProjectOen.Audio/AudioWorldAnchorFollower.cs")
+    emitter_router = read("src/unity/ProjectOen.Audio/AudioWorldStateEmitterRouter.cs")
     definition_builder = read("src/unity/ProjectOen.Audio.Editor/ProjectOenAudioFirstPlayableBuilder.cs")
     one_click = read("src/unity/ProjectOen.Audio.Editor/ProjectOenAudioOneClickFirstPlayableBuilder.cs")
+    scene_installer = read("src/unity/ProjectOen.Audio.Editor/ProjectOenAudioSceneInstaller.cs")
 
     for token in (
         "_id", "_clips", "_output", "_loop", "_spatialBlend", "_volumeMin",
@@ -99,15 +103,60 @@ def main() -> int:
     require(one_click, 'AudioBiome.Ridge', "complete biome fallback bindings")
     require(one_click, 'AudioBiome.Camp', "complete biome fallback bindings")
 
+    # World-state dependent emitters must react to the existing authoritative audio state.
+    require(router, 'public event Action StateChanged', "world-state notifications")
+    for setter in ("SetBiome", "SetDayPhase", "SetStormPhase", "SetSheltered"):
+        require(router, setter, "world-state notifications")
+    require(router, 'StateChanged?.Invoke()', "world-state notifications")
+    require(emitter_router, '_worldState', "world emitter router")
+    require(emitter_router, '_bindings', "world emitter router")
+    require(emitter_router, 'StateChanged += Apply', "world emitter router subscription")
+    require(emitter_router, 'StateChanged -= Apply', "world emitter router subscription")
+    require(emitter_router, 'state.Sheltered', "world emitter shelter gating")
+
+    # World anchor follows an explicit scene-assigned listener target and never searches globally.
+    require(world_anchor, 'public void Configure(Transform target', "world audio anchor")
+    require(world_anchor, 'public Transform Target => _target', "world audio anchor")
+    forbid(world_anchor, 'Camera.main', "world audio anchor")
+    forbid(world_anchor, 'FindFirstObjectByType', "world audio anchor")
+    forbid(world_anchor, 'FindObjectOfType', "world audio anchor")
+
+    # Scene installer is the high-level one-click path. It must preserve scene ownership,
+    # refuse duplicates/stale imports, keep listener ambiguity silent, and not auto-save scenes.
+    require(scene_installer, 'Project Oen/Audio/Build + Install First Playable (One Click)', "scene one-click menu")
+    require(scene_installer, 'PrefabStageUtility.GetCurrentPrefabStage()', "scene install prefab-stage guard")
+    require(scene_installer, 'string.IsNullOrWhiteSpace(scene.path)', "scene install saved-scene guard")
+    require(scene_installer, 'ExpectedFirstPlayableClipCount = 160', "scene install coverage guard")
+    require(scene_installer, 'ExpectedFirstPlayableEventCount = 45', "scene install coverage guard")
+    require(scene_installer, 'services.Count > 1', "scene duplicate-service guard")
+    require(scene_installer, 'PrefabUtility.InstantiatePrefab(prefab, scene)', "scene prefab install")
+    require(scene_installer, 'EditorSceneManager.MarkSceneDirty(scene)', "scene dirty tracking")
+    forbid(scene_installer, 'EditorSceneManager.SaveScene', "scene auto-save prohibition")
+    require(scene_installer, 'listeners.Count == 1', "listener ownership guard")
+    require(scene_installer, 'worldFauna.gameObject.SetActive(false)', "listener ambiguity silence")
+    require(scene_installer, 'AudioEventId.SFX_NAT_Insect_CicadaCluster', "first world-fauna event")
+    require(scene_installer, 'new Vector2(14f, 34f)', "cicada cadence")
+    require(scene_installer, 'FindProperty("_playOnEnable").boolValue = false', "state-owned random emitter")
+
+    for token in ("_audioService", "_events", "_delaySeconds", "_horizontalRadius", "_verticalJitter", "_playOnEnable"):
+        require(random_emitter, token, "AudioRandomEmitter")
+        require(scene_installer, f'FindProperty("{token}")', "scene random-emitter wiring")
+
+    for token in ("_emitter", "_biome", "_dayPhase", "_matchDayPhase", "_exteriorOnly"):
+        require(emitter_router, token, "AudioWorldStateEmitterRouter binding")
+        require(scene_installer, f'FindPropertyRelative("{token}")', "scene emitter-router wiring")
+
     # Legacy aliases may appear only as explicit name exclusions while parsing filenames.
     require(one_click, 'name != "SFX_STS_Hunger_Warn"', "legacy alias exclusion")
     require(one_click, 'name != "SFX_STS_Thirst_Warn"', "legacy alias exclusion")
     forbid(one_click, 'AudioEventId.SFX_STS_Hunger_Warn', "active legacy alias use")
     forbid(one_click, 'AudioEventId.SFX_STS_Thirst_Warn', "active legacy alias use")
+    forbid(scene_installer, 'AudioEventId.SFX_STS_Hunger_Warn', "scene active legacy alias use")
+    forbid(scene_installer, 'AudioEventId.SFX_STS_Thirst_Warn', "scene active legacy alias use")
 
     print(
-        "Unity audio editor contract OK: serialized field wiring, numeric IDs, one-click bootstrap, "
-        "160/45 coverage gate, silent fallbacks and canonical status usage"
+        "Unity audio editor contract OK: serialized wiring, numeric IDs, one-click bootstrap/install, "
+        "160/45 coverage gates, silent fallbacks, listener-relative WorldFauna and canonical statuses"
     )
     return 0
 
