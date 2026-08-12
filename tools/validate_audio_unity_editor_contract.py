@@ -59,7 +59,7 @@ def main() -> int:
 
     for token in (
         "_biomeAmbience", "_weatherAmbience", "_musicAmbience", "_biomes", "_storms",
-        "_biome", "_dayPhase", "_stormPhase", "_sheltered",
+        "_shelterDay", "_shelterNight", "_biome", "_dayPhase", "_stormPhase", "_sheltered",
     ):
         require(router, token, "AudioWorldStateRouter")
         require(one_click, f'FindProperty("{token}")', "one-click builder")
@@ -80,7 +80,8 @@ def main() -> int:
 
     require(one_click, 'Project Oen/Audio/Build First Playable (One Click)', "one-click menu")
     require(one_click, 'AudioRuntime_FirstPlayable.prefab', "runtime prefab")
-    require(one_click, 'profileCount < 10', "generated profile audit")
+    require(one_click, 'ExpectedGeneratedProfileCount = 11', "generated profile audit")
+    require(one_click, 'profileCount < ExpectedGeneratedProfileCount', "generated profile audit")
     require(one_click, 'GetComponentsInChildren<AudioAmbienceController>(true).Length >= 3', "runtime controller audit")
 
     # First-playable v1 must fail closed if the 160-WAV / 45-event import is incomplete.
@@ -89,6 +90,15 @@ def main() -> int:
     require(one_click, 'MeasureCanonicalClipCoverage()', "first-playable coverage gate")
     require(one_click, 'incomplete first-playable audio import', "first-playable coverage gate")
 
+    # Missing biome-state content must crossfade to an explicit empty profile rather than
+    # accidentally leaving the previous biome bed playing.
+    require(one_click, '"FP_Biome_Silence"', "silent biome fallback")
+    require(one_click, 'routerObject.FindProperty("_shelterDay").objectReferenceValue = biomeSilence', "shelter silence fallback")
+    require(one_click, 'routerObject.FindProperty("_shelterNight").objectReferenceValue = biomeSilence', "shelter silence fallback")
+    require(one_click, 'biomes.arraySize = 4', "complete biome fallback bindings")
+    require(one_click, 'AudioBiome.Ridge', "complete biome fallback bindings")
+    require(one_click, 'AudioBiome.Camp', "complete biome fallback bindings")
+
     # Legacy aliases may appear only as explicit name exclusions while parsing filenames.
     require(one_click, 'name != "SFX_STS_Hunger_Warn"', "legacy alias exclusion")
     require(one_click, 'name != "SFX_STS_Thirst_Warn"', "legacy alias exclusion")
@@ -96,8 +106,8 @@ def main() -> int:
     forbid(one_click, 'AudioEventId.SFX_STS_Thirst_Warn', "active legacy alias use")
 
     print(
-        "Unity audio editor contract OK: serialized field wiring, numeric IDs, "
-        "one-click bootstrap, 160/45 coverage gate and canonical status usage"
+        "Unity audio editor contract OK: serialized field wiring, numeric IDs, one-click bootstrap, "
+        "160/45 coverage gate, silent fallbacks and canonical status usage"
     )
     return 0
 
