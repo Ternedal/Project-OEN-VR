@@ -139,8 +139,8 @@ def main() -> int:
     parser.add_argument("--environment", type=Path, required=True)
     parser.add_argument("--output", type=Path, default=Path("build/oen-unity-first-playable-audio-v1"))
     parser.add_argument("--zip", dest="zip_path", type=Path)
-    parser.add_argument("--expect-files", type=int, default=160)
-    parser.add_argument("--expect-events", type=int, default=45)
+    parser.add_argument("--expect-files", type=int, default=163)
+    parser.add_argument("--expect-events", type=int, default=46)
     parser.add_argument("--clean", action="store_true")
     args = parser.parse_args()
 
@@ -176,12 +176,13 @@ def main() -> int:
         "Project OEN Unity first-playable audio pack v1\n\n"
         "Extract this ZIP at the Unity project root so the included Assets/ProjectOen/Audio tree lands in Assets.\n"
         "Save/open the target gameplay scene, then run: Project Oen > Audio > Build + Install First Playable (One Click).\n"
-        "The command verifies 160 canonical clips / 45 events before creating definitions, catalog, baseline profiles and AudioRuntime_FirstPlayable.prefab, then installs exactly one generated runtime instance into the active scene.\n"
+        "The command verifies 163 canonical clips / 46 events before creating definitions, catalog, baseline profiles and AudioRuntime_FirstPlayable.prefab, then installs exactly one generated runtime instance into the active scene.\n"
         "Scene installation refuses Prefab Mode, unsaved scenes, duplicate AudioService ownership and stale/incomplete audio imports.\n"
         "WorldFauna binds to exactly one active AudioListener; otherwise it stays disabled rather than emitting from a wrong world position.\n"
         "The first WorldFauna lane is Jungle Day cicadas, active only outdoors during Calm, with randomized 14-34 second cadence around the listener-relative anchor.\n"
         "The scene is marked dirty but never auto-saved. Existing designer tuning and generated runtime/profile assets are preserved on reruns.\n"
         "Unavailable Night/Ridge/Camp/Shelter ambience resolves to an explicit empty fallback rather than stale or unrelated audio.\n"
+        "Distant-thunder candidates are included from the SHA256-pinned Public Domain Tonitrus recording and still require headset/listening approval.\n"
         "Lower-level build/install/audit commands remain available for manual production integration.\n"
         "Environmental and adaptive-music material remains candidate-headset-listen until physical listening QA.\n",
         encoding="utf-8",
