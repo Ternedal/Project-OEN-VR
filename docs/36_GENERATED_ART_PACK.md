@@ -7,7 +7,8 @@
 The pipeline covers the canonical **148-row asset master** and currently produces:
 
 - **206** separate production sprites;
-- **192** dedicated refined non-VFX sprite states + **14** intentionally preserved VFX-support sprites;
+- **192** dedicated refined non-VFX sprite states;
+- **14** dedicated refined VFX texture states;
 - **134** separate refined world-space OBJ meshes;
 - **172,802 vertices / 76,868 faces** across the final refined world-mesh set;
 - **5** separate 1024×1024 transparent RGBA ground decals — 3 puddle states + 2 shoreline-foam states;
@@ -50,9 +51,26 @@ The 206 production sprites remain separate Unity-importable PNGs across:
 - menus & meta screens: **19**;
 - VFX support graphics: **14**.
 
-`refine_ui_sprite_art.py` gives **192 non-VFX states** a dedicated category-aware pass: cool teal/metal wrist language, warm wood/brass planning language, rugged resource tokens, high-contrast world-space markers and restrained menu/branding framing. State variants get deterministic semantic pips/notches so distinct files cannot silently collapse to the same image. The **14 VFX-support sprites** are intentionally preserved for their separate effect/animation role.
+`refine_ui_sprite_art.py` gives **192 non-VFX states** a dedicated category-aware pass: cool teal/metal wrist language, warm wood/brass planning language, rugged resource tokens, high-contrast world-space markers and restrained menu/branding framing. State variants get deterministic semantic pips/notches so distinct files cannot silently collapse to the same image. The VFX category is deliberately skipped by this UI pass and handled separately below.
 
 `validate_ui_sprite_art.py` gates alpha/transparency, Unity sprite import metadata, dimensions, non-VFX state uniqueness, canonical UI constraints and exact category coverage. Hunger/Thirst, Malik, lighthouse and firearm direction are rejected from the UI production set.
+
+## Dedicated VFX refinement
+
+`refine_vfx_art.py` replaces the broad icon-like treatment of all **14 VFX states** with effect-oriented **1024×1024 RGBA textures**:
+
+- `FX-001`: small / medium smoke as true **4×4 flipbook atlases**;
+- `FX-002`: small / medium ember particle textures;
+- `FX-003`: ash particle texture;
+- `FX-004`: small / medium rain-splash textures;
+- `FX-005`: wet-sheen material-helper mask;
+- `FX-006`: near / far lightning overlays;
+- `FX-007`: fire / lantern glow halos;
+- `FX-008`: small / medium objective pulse rings.
+
+`validate_vfx_art.py` verifies all 14 canonical states, 1024×1024 dimensions, alpha range/gutter, visible content, distinct state hashes and all 16 occupied cells in each smoke flipbook.
+
+`ProductionArtVfxBuilder.cs` creates transparent unlit materials and lightweight effect prefabs. Smoke uses Unity Texture Sheet Animation with a 4×4 grid. The VFX layer deliberately adds **zero realtime lights, zero colliders, zero particle collision and zero shadows**. Particle counts are bounded per effect. Wet sheen stays a material-helper asset rather than being faked into a particle prefab.
 
 ## Diegetic VR UI prefabs
 
@@ -94,7 +112,7 @@ Albedo maps are 1024px. Normal and metallic/smoothness maps are 512px. Unity `.m
 
 `Bootstrap-M0b.ps1` and `Review-ProductionArt.ps1` now run the art sequence as:
 
-**world prefabs → decals → diegetic UI prefabs → physical UI showcase → physical UI audit → Stormnatten showcase → storm atmosphere → Quest 2 world-art audit**.
+**world prefabs → decals → production VFX → diegetic UI prefabs → physical UI showcase → physical UI audit → Stormnatten showcase → storm atmosphere → Quest 2 world-art audit**.
 
 ### Stormnatten visual-review scene
 
@@ -113,6 +131,8 @@ Neither `StormnattenArtShowcase.unity` nor `DiegeticUiArtShowcase.unity` is the 
 - PowerShell parse validation for both production-art entrypoints;
 - canonical 148-ID master completeness;
 - 206 production sprites and dedicated 192-state non-VFX refinement;
+- all **14 dedicated VFX states** and smoke flipbook structure;
+- Quest-conscious Unity VFX builder constraints;
 - sprite alpha/import/state-uniqueness/canonical constraints;
 - four diegetic UI prefab contracts;
 - physical-scale UI showcase/audit wiring;
@@ -128,7 +148,7 @@ Neither `StormnattenArtShowcase.unity` nor `DiegeticUiArtShowcase.unity` is the 
 
 Art CI is serialized per branch and rebases its deterministic generated commit on the latest branch head before push, preventing concurrent runs from rejecting otherwise-green output.
 
-Actual Unity Editor import, physical-scale UI audit, world-art budget audit and headset profiling still require the machine with Unity/Quest; CI does not claim those runtime gates have passed.
+Actual Unity Editor import, VFX material/prefab build, physical-scale UI audit, world-art budget audit and headset profiling still require the machine with Unity/Quest; CI does not claim those runtime gates have passed.
 
 ## Canonical constraints retained
 
