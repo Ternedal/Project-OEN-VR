@@ -20,7 +20,7 @@ TARGETS={
  "PR-011":({"small","medium"},90,{"Leaf","Wood"}),
  "PR-012":({"small","medium"},120,{"Metal","Rope"}),
  "PR-013":({"small","medium"},120,{"Cloth","Rope"}),
- "PR-014":({"clean","worn","storm-damaged"},45,{"Cloth","Wood","Rope"}),
+ "PR-014":({"clean","worn","storm_damaged"},45,{"Cloth","Wood","Rope"}),
  "PR-015":({"empty","cooking"},250,{"Metal"}),
  "PR-016":({"empty","collecting","full"},250,{"Wood","Tarp","Metal"}),
  "PR-017":({"clean","worn"},100,{"Wood","Rope"}),
