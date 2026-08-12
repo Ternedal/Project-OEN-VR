@@ -27,9 +27,9 @@ REQUIRED_BUILDER_TOKENS = (
     '"_Cull"',
     'AddSimpleBoundsCollider',
     'AddQuestFriendlyActiveFireIfNeeded',
-    'wood_albedo.png',
-    'wood_normal.png',
-    'wood_metallic_smoothness.png',
+    'slug + "_albedo.png"',
+    'slug + "_normal.png"',
+    'slug + "_metallic_smoothness.png"',
 )
 MATERIAL_NAMES = ("Wood","Rope","Tarp","Metal","Stone","Leaf","Cloth","Mud","Fire","Char","Water")
 
