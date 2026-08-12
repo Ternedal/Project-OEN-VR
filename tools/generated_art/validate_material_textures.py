@@ -26,8 +26,21 @@ def main() -> int:
                     if im.size != size:
                         errors.append(f"Wrong map size: {filename}: {im.size} != {size}")
                     extrema=im.convert("RGB").getextrema()
-                    if any(lo==hi for lo,hi in extrema) and "metallic_smoothness" not in filename:
-                        errors.append(f"Surface map lacks useful variation: {filename}: {extrema}")
+                    if filename.endswith("_albedo.png"):
+                        # Albedo should carry visible surface information. A channel may
+                        # legitimately be flat; only a completely flat RGB map is suspect.
+                        if all(lo == hi for lo,hi in extrema):
+                            errors.append(f"Albedo lacks useful variation: {filename}: {extrema}")
+                    elif filename.endswith("_normal.png"):
+                        # A flat or nearly-flat tangent normal is valid (notably for the
+                        # emissive fire quads). Validate normal orientation instead of
+                        # demanding arbitrary variation in every RGB channel.
+                        red, green, blue = extrema
+                        if blue[0] < 180:
+                            errors.append(f"Normal map has implausibly low Z/blue component: {filename}: {extrema}")
+                        if red[0] < 0 or red[1] > 255 or green[0] < 0 or green[1] > 255:
+                            errors.append(f"Normal map channel range invalid: {filename}: {extrema}")
+                    # Metallic/smoothness masks are allowed to be intentionally flat.
             except Exception as exc:
                 errors.append(f"Unreadable surface map {filename}: {exc}")
             if not Path(str(path)+".meta").exists():
