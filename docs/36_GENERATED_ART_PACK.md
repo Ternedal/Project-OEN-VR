@@ -115,6 +115,10 @@ The important boundary remains explicit: **the visual-review scene is not the M0
 
 The latest full repo-side workflow passes all generation and static validation gates. Actual Unity Editor import, prefab/material compilation and imported-scene budget audit still require the machine with the licensed Unity Editor; this repository does not claim those have passed in CI.
 
+## Next refinement frontier
+
+The world-art pass is complete at repo level: **134/134 world-mesh variants have dedicated refinement coverage**. The next production frontier is the **206 separate 2D/UI/VFX sprites**: branding, wrist/status UI, planning board, resource/inventory support, interaction markers, menus/meta screens and VFX support. Those assets already exist as individual Unity-importable PNGs and have specialized broad-pass motifs, but they are the next layer to receive a dedicated readability/detail refinement pass.
+
 ## Canonical constraints retained
 
 - Health, Fatigue, Injury and Cold/Wet are canonical player states; Hunger/Thirst assets are forbidden.
