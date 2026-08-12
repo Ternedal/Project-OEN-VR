@@ -212,6 +212,8 @@ Implemented:
 - field-recording preparation tool
 - Unity import postprocessor
 
+Final verified environmental candidate build on the PR head produced a ~78 MB GitHub Actions artifact and passed `Audio Validation`, `Core tests`, and `Validate handoff`. The artifact remains a candidate deliverable, not a mastered audio release.
+
 Still required for the full sound pack:
 
 - headset listening and seamless-loop editing of environmental candidates
