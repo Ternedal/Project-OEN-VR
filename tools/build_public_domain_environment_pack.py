@@ -2,9 +2,9 @@
 """Build a technically normalized Project ØEN environmental candidate pack.
 
 The source registry contains only manually verified Public Domain / CC0 sources.
-This builder downloads them, creates 48 kHz / 24-bit WAV derivatives and emits
-provenance hashes. Outputs are *candidate* assets until headset listening and
-loop-edit QA approve them for production use.
+This builder downloads them, verifies pinned source hashes, creates 48 kHz / 24-bit
+WAV derivatives and emits provenance hashes. Outputs are *candidate* assets until
+headset listening and loop-edit QA approve them for production use.
 """
 from __future__ import annotations
 
@@ -138,6 +138,9 @@ def main() -> int:
             raise SystemExit(f"{key}: direct URL must be an upload.wikimedia.org asset")
         if not row["source_page_url"].startswith("https://commons.wikimedia.org/"):
             raise SystemExit(f"{key}: source page must be Wikimedia Commons")
+        expected = row.get("expected_sha256", "").strip().lower()
+        if len(expected) != 64 or any(ch not in "0123456789abcdef" for ch in expected):
+            raise SystemExit(f"{key}: expected_sha256 must be a pinned 64-character hex digest")
 
     if args.clean:
         shutil.rmtree(args.output, ignore_errors=True)
@@ -150,8 +153,16 @@ def main() -> int:
         suffix = Path(urllib.parse.urlparse(row["direct_url"]).path).suffix or ".bin"
         cached = args.cache / f"{key}{suffix}"
         download(row["direct_url"], cached)
+        actual_hash = sha256(cached)
+        expected_hash = row["expected_sha256"].strip().lower()
+        if actual_hash != expected_hash:
+            cached.unlink(missing_ok=True)
+            raise SystemExit(
+                f"{key}: source SHA256 mismatch; expected {expected_hash}, got {actual_hash}. "
+                "Re-verify the original source page before updating the pin."
+            )
         source_paths[key] = cached
-        source_hashes[key] = sha256(cached)
+        source_hashes[key] = actual_hash
         # Wikimedia asks automated clients to identify themselves and avoid bursty access.
         time.sleep(1.0)
 
@@ -229,6 +240,7 @@ def main() -> int:
         "\n"
         "These are technically normalized candidate derivatives, not final mastered assets.\n"
         "Every file is 48 kHz / 24-bit PCM and has source provenance in PROVENANCE.csv.\n"
+        "Source downloads are SHA256-pinned and fail closed if an upstream file changes.\n"
         "Before promotion to production: listen in Quest headset, remove contamination,\n"
         "perform seamless-loop edits where loop_intent=yes, and approve variation quality.\n",
         encoding="utf-8",
