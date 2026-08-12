@@ -3,7 +3,8 @@
 
   Bygger paa det, M0a beviste: ASCII-manifest (ingen BOM), direkte XR-API, Configure
   i sin egen Unity-session. Efter denne koerer: projektet findes, pakkerne er laast,
-  HELE Core-laget kompilerer som en Unity-assembly, og OpenXR er sat op for Android.
+  HELE Core-laget kompilerer som en Unity-assembly, OpenXR er sat op for Android,
+  og den genererede Project OEN production-art pakke er installeret i Unity-projektet.
 
   Fusion/netvaerk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret -
   ellers kan projektet ikke kompilere. Se RUNBOOK.md.
@@ -11,8 +12,8 @@
   Anders koerer:
     .\Bootstrap-M0b.ps1 -UnityPath "C:\Program Files\Unity\Hub\Editor\<version>\Editor\Unity.exe"
 
-  UNVERIFIED-IN-SANDBOX: scriptet er ikke koert (ingen Unity i skrivemiljoeet), men
-  hvert trin bygger paa den verificerede M0a-vej og logger sit resultat.
+  UNVERIFIED-IN-SANDBOX: scriptet er ikke koert her (ingen Unity i skrivemiljoeet), men
+  alle filkopier og generated-art CI valideres i repoets GitHub Actions.
 #>
 
 param(
@@ -58,15 +59,39 @@ Get-ChildItem $coreDst -Recurse -File | Where-Object { $_.Extension -in @(".cspr
 Copy-Item "$PSScriptRoot\templates\ProjectOen.Core.asmdef" (Join-Path $coreDst "ProjectOen.Core.asmdef") -Force
 Note "Core -> Assets\ProjectOen\Core (kompilerer uden Unity/Fusion-referencer)"
 
-# --- 4. XR-configure-editor ---
+# --- 4. Production art ind i det RIGTIGE Unity-projekt ---
+Step "Installerer Project OEN production art"
+$artSrc = Join-Path $repo "Assets\ProjectOEN\ProductionArt"
+if (-not (Test-Path $artSrc)) {
+    throw "Production art mangler i repoet: $artSrc. Koer generated-art workflowet foerst."
+}
+$artDst = Join-Path $ProjectPath "Assets\ProjectOEN\ProductionArt"
+New-Item -ItemType Directory -Force -Path $artDst | Out-Null
+
+# Kun generatorens source-of-truth mapper spejles. Prefabs bevares indtil de genbygges
+# i Unity-trinnet nedenfor, saa reruns ikke efterlader projektet uden prefabs ved fejl.
+foreach ($folder in @("Sprites", "Meshes", "Materials", "Docs")) {
+    $srcFolder = Join-Path $artSrc $folder
+    $dstFolder = Join-Path $artDst $folder
+    if (Test-Path $dstFolder) { Remove-Item $dstFolder -Recurse -Force }
+    Copy-Item $srcFolder $dstFolder -Recurse -Force
+}
+
+$artEditorDst = Join-Path $ProjectPath "Assets\ProjectOEN\Editor"
+New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
+Copy-Item "$repo\src\unity\ProjectOen.Art\Editor\ProductionArtPrefabBuilder.cs" (Join-Path $artEditorDst "ProductionArtPrefabBuilder.cs") -Force
+Note "ProductionArt -> Assets\ProjectOEN\ProductionArt (sprites, meshes, materials, docs)"
+Note "Prefab builder -> Assets\ProjectOEN\Editor"
+
+# --- 5. XR-configure-editor ---
 Step "Kopierer XR-config editor"
 $editorDst = Join-Path $ProjectPath "Assets\Editor"
 New-Item -ItemType Directory -Force -Path $editorDst | Out-Null
 Copy-Item "$PSScriptRoot\Editor\M0bConfigure.cs" (Join-Path $editorDst "M0bConfigure.cs") -Force
 
-# --- 5. Unity: konfigurer i egen session (importerer pakker foerst, 5-15 min) ---
+# --- 6. Unity: konfigurer i egen session (importerer pakker + production art foerst) ---
 Step "Koerer Unity (M0bConfigure.Configure)"
-Note "Foerste koersel importerer OpenXR + XRI og kan tage 5-15 minutter."
+Note "Foerste koersel importerer OpenXR + XRI + production art og kan tage flere minutter."
 $log = Join-Path $PSScriptRoot "m0b-configure.log"
 & $UnityPath -batchmode -quit -nographics `
     -projectPath $ProjectPath `
@@ -75,16 +100,43 @@ $log = Join-Path $PSScriptRoot "m0b-configure.log"
     -logFile $log
 $exit = $LASTEXITCODE
 
-Step "Resultat"
-if (Test-Path $log) {
-    Select-String -Path $log -Pattern "\[M0B-SETUP\]" | ForEach-Object { Note $_.Line.Trim() }
-    $errs = Select-String -Path $log -Pattern "error CS|Exception:" | Select-Object -First 15
-    if ($errs) { Write-Host "`nFejl fra Unity:" -ForegroundColor Red; $errs | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red } }
-}
-if ($exit -eq 0) {
-    Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
-    Write-Host "Naeste: importer Photon Fusion 2 (App ID), koer saa Fase 2 i RUNBOOK.md." -ForegroundColor Green
-} else {
+if ($exit -ne 0) {
+    Step "Resultat"
+    if (Test-Path $log) {
+        Select-String -Path $log -Pattern "\[M0B-SETUP\]" | ForEach-Object { Note $_.Line.Trim() }
+        $errs = Select-String -Path $log -Pattern "error CS|Exception:" | Select-Object -First 15
+        if ($errs) { Write-Host "`nFejl fra Unity:" -ForegroundColor Red; $errs | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red } }
+    }
     Write-Host "`nUnity exit $exit. Se $log - send de foerste fejllinjer." -ForegroundColor Red
     exit 1
 }
+
+# --- 7. Byg alle genererede world meshes til Unity-prefabs ---
+Step "Bygger production-art prefabs"
+$artLog = Join-Path $PSScriptRoot "production-art-prefabs.log"
+& $UnityPath -batchmode -quit -nographics `
+    -projectPath $ProjectPath `
+    -buildTarget Android `
+    -executeMethod ProjectOen.Art.Editor.ProductionArtPrefabBuilder.BuildAll `
+    -logFile $artLog
+$artExit = $LASTEXITCODE
+if ($artExit -ne 0) {
+    Write-Host "`nPrefab-build fejlede (Unity exit $artExit)." -ForegroundColor Red
+    if (Test-Path $artLog) {
+        Select-String -Path $artLog -Pattern "\[ProjectOEN.Art\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object {
+            Write-Host "   $($_.Line.Trim())" -ForegroundColor Red
+        }
+    }
+    exit 1
+}
+
+Step "Resultat"
+if (Test-Path $log) {
+    Select-String -Path $log -Pattern "\[M0B-SETUP\]" | ForEach-Object { Note $_.Line.Trim() }
+}
+if (Test-Path $artLog) {
+    Select-String -Path $artLog -Pattern "\[ProjectOEN.Art\]" | ForEach-Object { Note $_.Line.Trim() }
+}
+Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
+Write-Host "Production art er installeret, og world meshes er bygget til prefabs med colliders." -ForegroundColor Green
+Write-Host "Naeste: importer Photon Fusion 2 (App ID), koer saa Fase 2 i RUNBOOK.md." -ForegroundColor Green
