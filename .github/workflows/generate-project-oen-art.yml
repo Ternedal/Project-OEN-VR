@@ -67,10 +67,14 @@ jobs:
         run: python tools/generated_art/refine_prop_art.py
       - name: Refine remaining set dressing and decal assets
         run: python tools/generated_art/refine_set_dressing_art.py
+      - name: Refine production UI and world-space sprites
+        run: python tools/generated_art/refine_ui_sprite_art.py
       - name: Finalize generated production-art documentation
         run: python tools/generated_art/finalize_production_art_docs.py
       - name: Validate full production art
         run: python tools/generated_art/validate_production_art.py
+      - name: Validate production UI and sprite refinement
+        run: python tools/generated_art/validate_ui_sprite_art.py
       - name: Validate refined materials
         run: python tools/generated_art/validate_material_textures.py
       - name: Validate hero-art refinement
@@ -99,7 +103,9 @@ jobs:
           git add -A tools/generated_art/refine_environment_art.py 2>/dev/null || true
           git add -A tools/generated_art/refine_prop_art.py 2>/dev/null || true
           git add -A tools/generated_art/refine_set_dressing_art.py 2>/dev/null || true
+          git add -A tools/generated_art/refine_ui_sprite_art.py 2>/dev/null || true
           git add -A tools/generated_art/finalize_production_art_docs.py 2>/dev/null || true
+          git add -A tools/generated_art/validate_ui_sprite_art.py 2>/dev/null || true
           git add -A tools/generated_art/validate_material_textures.py 2>/dev/null || true
           git add -A tools/generated_art/validate_hero_art.py 2>/dev/null || true
           git add -A tools/generated_art/validate_environment_art.py 2>/dev/null || true
