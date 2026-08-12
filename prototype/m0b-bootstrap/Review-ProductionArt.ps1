@@ -3,15 +3,9 @@
 
   This is deliberately separate from Bootstrap-M0b.ps1. It does not recreate the
   Unity project, touch Packages/, configure XR, import Fusion, or build the M0b APK.
-  It only syncs the current production-art sources/editor builders into an existing
-  ProjektOenApp, rebuilds the art prefabs + state-specific ground decals + diegetic
-  UI prefabs + showcase, adds storm rain, runs the imported-scene Quest 2 budget
-  audit, and optionally launches Unity on the showcase.
-
-  Example:
-    .\Review-ProductionArt.ps1 `
-      -UnityPath "C:\Program Files\Unity\Hub\Editor\6000.4.10f1\Editor\Unity.exe" `
-      -OpenEditor
+  It syncs current production-art sources/editor builders, rebuilds world prefabs,
+  decals, diegetic UI prefabs, the physical-scale UI review scene/audit, then the
+  Stormnatten showcase + storm pass + Quest 2 art budget audit.
 #>
 
 param(
@@ -25,19 +19,14 @@ function Step($m) { Write-Host "`n== $m ==" -ForegroundColor Cyan }
 function Note($m) { Write-Host "   $m" -ForegroundColor DarkGray }
 
 if (-not (Test-Path $UnityPath)) { throw "Unity ikke fundet: $UnityPath" }
-if (-not (Test-Path $ProjectPath)) {
-    throw "Unity-projekt ikke fundet: $ProjectPath. Koer Bootstrap-M0b.ps1 foerst."
-}
+if (-not (Test-Path $ProjectPath)) { throw "Unity-projekt ikke fundet: $ProjectPath. Koer Bootstrap-M0b.ps1 foerst." }
 
 $repo = (Resolve-Path "$PSScriptRoot\..\..").Path
 $ProjectPath = (Resolve-Path $ProjectPath).Path
 $artSrc = Join-Path $repo "Assets\ProjectOEN\ProductionArt"
 $artDst = Join-Path $ProjectPath "Assets\ProjectOEN\ProductionArt"
 $artEditorDst = Join-Path $ProjectPath "Assets\ProjectOEN\Editor"
-
-if (-not (Test-Path $artSrc)) {
-    throw "Production art mangler i repoet: $artSrc"
-}
+if (-not (Test-Path $artSrc)) { throw "Production art mangler i repoet: $artSrc" }
 
 Step "Synkroniserer production art"
 New-Item -ItemType Directory -Force -Path $artDst | Out-Null
@@ -54,6 +43,8 @@ foreach ($builder in @(
     "ProductionArtPrefabBuilder.cs",
     "ProductionArtDecalBuilder.cs",
     "ProductionArtDiegeticUiBuilder.cs",
+    "ProductionArtUiShowcaseBuilder.cs",
+    "ProductionArtUiShowcaseAudit.cs",
     "ProductionArtShowcaseBuilder.cs",
     "ProductionArtStormAtmosphereBuilder.cs",
     "ProductionArtShowcaseAudit.cs",
@@ -61,7 +52,7 @@ foreach ($builder in @(
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
 }
-Note "Art + prefab/decal/diegetic-UI/showcase-builders er synkroniseret til $ProjectPath"
+Note "Art + world/decal/diegetic-UI/showcase builders er synkroniseret til $ProjectPath"
 
 function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
     Step $Label
@@ -81,9 +72,7 @@ function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
         }
         exit 1
     }
-    if (Test-Path $log) {
-        Select-String -Path $log -Pattern "\[ProjectOEN.Art" | ForEach-Object { Note $_.Line.Trim() }
-    }
+    if (Test-Path $log) { Select-String -Path $log -Pattern "\[ProjectOEN.Art" | ForEach-Object { Note $_.Line.Trim() } }
 }
 
 Run-UnityArtStep "Bygger production-art prefabs" `
@@ -98,6 +87,14 @@ Run-UnityArtStep "Bygger diegetiske VR UI-prefabs" `
     "ProjectOen.Art.Editor.ProductionArtDiegeticUiBuilder.BuildAll" `
     "review-art-diegetic-ui.log"
 
+Run-UnityArtStep "Bygger fysisk diegetic-UI review-scene" `
+    "ProjectOen.Art.Editor.ProductionArtUiShowcaseBuilder.BuildShowcase" `
+    "review-art-ui-showcase.log"
+
+Run-UnityArtStep "Auditerer diegetic UI i fysisk VR-skala" `
+    "ProjectOen.Art.Editor.ProductionArtUiShowcaseAudit.AuditShowcase" `
+    "review-art-ui-audit.log"
+
 Run-UnityArtStep "Bygger Stormnatten showcase" `
     "ProjectOen.Art.Editor.ProductionArtShowcaseBuilder.BuildShowcase" `
     "review-art-showcase.log"
@@ -111,17 +108,15 @@ Run-UnityArtStep "Auditerer showcase mod Quest 2-budget" `
     "review-art-budget.log"
 
 Step "Resultat"
-Write-Host "Production-art visual-review er bygget, ground decals og diegetic UI-prefabs er wired, og Unity-budgetauditen bestod." -ForegroundColor Green
-Write-Host "Scene: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
+Write-Host "Production-art visual-review er bygget; ground decals, diegetic UI-prefabs og fysisk UI-audit bestod; Stormnatten-budgetauditen bestod." -ForegroundColor Green
+Write-Host "World scene: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
+Write-Host "UI scene: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
 Write-Host "UI prefabs: Assets\ProjectOEN\ProductionArt\UiPrefabs" -ForegroundColor Green
 Write-Host "M0b CoopGame/build settings er ikke aendret." -ForegroundColor Green
 
 if ($OpenEditor) {
     Step "Aabner Unity visual-review"
-    $args = @(
-        "-projectPath", $ProjectPath,
-        "-executeMethod", "ProjectOen.Art.Editor.ProductionArtReviewMenu.OpenShowcase"
-    )
+    $args = @("-projectPath", $ProjectPath, "-executeMethod", "ProjectOen.Art.Editor.ProductionArtReviewMenu.OpenShowcase")
     Start-Process -FilePath $UnityPath -ArgumentList $args | Out-Null
     Note "Unity starter med Stormnatten-showcase som aktiv scene."
 }
