@@ -7,9 +7,9 @@
   og den genererede Project OEN production-art pakke er installeret i Unity-projektet.
 
   Production-art-delen bygger world-prefabs, ground decals, Quest-venlige VFX,
-  diegetiske VR UI-prefabs, fysisk UI-review/audit, Stormnatten art-showcase,
-  lokal stormregn og Quest 2 art-budgetaudit. Review-scenerne er IKKE M0b's
-  CoopGame performance/netvaerksgate.
+  isoleret VFX review/audit, diegetiske VR UI-prefabs, fysisk UI review/audit,
+  Stormnatten art-showcase, lokal stormregn og Quest 2 art-budgetaudit.
+  Review-scenerne er IKKE M0b's CoopGame performance/netvaerksgate.
 
   Fusion/netvaerk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret.
 #>
@@ -68,6 +68,8 @@ foreach ($builder in @(
     "ProductionArtPrefabBuilder.cs",
     "ProductionArtDecalBuilder.cs",
     "ProductionArtVfxBuilder.cs",
+    "ProductionArtVfxShowcaseBuilder.cs",
+    "ProductionArtVfxShowcaseAudit.cs",
     "ProductionArtDiegeticUiBuilder.cs",
     "ProductionArtUiShowcaseBuilder.cs",
     "ProductionArtUiShowcaseAudit.cs",
@@ -127,6 +129,14 @@ $vfxLog = Run-UnityStep "Bygger Quest-venlige production VFX" `
     "ProjectOen.Art.Editor.ProductionArtVfxBuilder.BuildAll" `
     "production-art-vfx.log"
 
+$vfxShowcaseLog = Run-UnityStep "Bygger isoleret VFX review-scene" `
+    "ProjectOen.Art.Editor.ProductionArtVfxShowcaseBuilder.BuildShowcase" `
+    "production-art-vfx-showcase.log"
+
+$vfxAuditLog = Run-UnityStep "Auditerer isoleret VFX review-scene" `
+    "ProjectOen.Art.Editor.ProductionArtVfxShowcaseAudit.AuditShowcase" `
+    "production-art-vfx-audit.log"
+
 $uiLog = Run-UnityStep "Bygger diegetiske VR UI-prefabs" `
     "ProjectOen.Art.Editor.ProductionArtDiegeticUiBuilder.BuildAll" `
     "production-art-diegetic-ui.log"
@@ -156,8 +166,8 @@ Step "Resultat"
 if (Test-Path $log) { Select-String -Path $log -Pattern "\[M0B-SETUP\]" | ForEach-Object { Note $_.Line.Trim() } }
 Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
 Write-Host "World meshes/prefabs, ground decals, production VFX og diegetic UI-prefabs er bygget." -ForegroundColor Green
-Write-Host "VFX prefabs: Assets\ProjectOEN\ProductionArt\VfxPrefabs" -ForegroundColor Green
-Write-Host "UI physical-scale audit: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
+Write-Host "VFX audit: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
+Write-Host "UI audit: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
 Write-Host "Stormnatten art audit: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
-Write-Host "Begge review-scener er visual review og ikke M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
+Write-Host "Alle tre review-scener er visual review og ikke M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
 Write-Host "Naeste: importer Photon Fusion 2 (App ID), koer saa Fase 2 i RUNBOOK.md." -ForegroundColor Green
