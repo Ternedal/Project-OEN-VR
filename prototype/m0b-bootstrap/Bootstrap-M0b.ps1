@@ -6,10 +6,10 @@
   HELE Core-laget kompilerer som en Unity-assembly, OpenXR er sat op for Android,
   og den genererede Project OEN production-art pakke er installeret i Unity-projektet.
 
-  Production-art-delen bygger world-prefabs, ground decals, Quest-venlige VFX,
-  isoleret VFX review/audit, diegetiske VR UI-prefabs, fysisk UI review/audit,
-  Stormnatten art-showcase, lokal stormregn og Quest 2 art-budgetaudit.
-  Review-scenerne er IKKE M0b's CoopGame performance/netvaerksgate.
+  Production-art-delen bygger world-prefabs, runtime art state catalogs, ground
+  decals, Quest-venlige VFX, isoleret VFX review/audit, diegetiske VR UI-prefabs,
+  fysisk UI review/audit, Stormnatten art-showcase, lokal stormregn og Quest 2
+  art-budgetaudit. Review-scenerne er IKKE M0b's CoopGame performance/netvaerksgate.
 
   Fusion/netvaerk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret.
 #>
@@ -54,6 +54,8 @@ Step "Installerer Project OEN production art"
 $artSrc = Join-Path $repo "Assets\ProjectOEN\ProductionArt"
 if (-not (Test-Path $artSrc)) { throw "Production art mangler i repoet: $artSrc. Koer generated-art workflowet foerst." }
 $artDst = Join-Path $ProjectPath "Assets\ProjectOEN\ProductionArt"
+$artRuntimeDst = Join-Path $ProjectPath "Assets\ProjectOEN\ArtRuntime"
+$artEditorDst = Join-Path $ProjectPath "Assets\ProjectOEN\Editor"
 New-Item -ItemType Directory -Force -Path $artDst | Out-Null
 foreach ($folder in @("Sprites", "Meshes", "Materials", "Decals", "Docs")) {
     $srcFolder = Join-Path $artSrc $folder
@@ -62,10 +64,14 @@ foreach ($folder in @("Sprites", "Meshes", "Materials", "Decals", "Docs")) {
     Copy-Item $srcFolder $dstFolder -Recurse -Force
 }
 
-$artEditorDst = Join-Path $ProjectPath "Assets\ProjectOEN\Editor"
+Step "Installerer production-art runtime state controllers"
+New-Item -ItemType Directory -Force -Path $artRuntimeDst | Out-Null
+Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Runtime\*.cs") $artRuntimeDst -Force
+
 New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
 foreach ($builder in @(
     "ProductionArtPrefabBuilder.cs",
+    "ProductionArtStateCatalogBuilder.cs",
     "ProductionArtDecalBuilder.cs",
     "ProductionArtVfxBuilder.cs",
     "ProductionArtVfxShowcaseBuilder.cs",
@@ -79,7 +85,7 @@ foreach ($builder in @(
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
 }
-Note "ProductionArt + world/decal/VFX/UI/showcase builders -> ProjektOenApp"
+Note "ProductionArt + runtime state controllers + world/state/decal/VFX/UI/showcase builders -> ProjektOenApp"
 
 Step "Kopierer XR-config editor"
 $editorDst = Join-Path $ProjectPath "Assets\Editor"
@@ -120,6 +126,10 @@ if ($LASTEXITCODE -ne 0) {
 $artLog = Run-UnityStep "Bygger production-art prefabs" `
     "ProjectOen.Art.Editor.ProductionArtPrefabBuilder.BuildAll" `
     "production-art-prefabs.log"
+
+$stateCatalogLog = Run-UnityStep "Bygger runtime art state catalogs" `
+    "ProjectOen.Art.Editor.ProductionArtStateCatalogBuilder.BuildAll" `
+    "production-art-state-catalog.log"
 
 $decalLog = Run-UnityStep "Bygger ground decals" `
     "ProjectOen.Art.Editor.ProductionArtDecalBuilder.BuildAll" `
@@ -165,7 +175,8 @@ $budgetLog = Run-UnityStep "Auditerer Stormnatten showcase mod Quest 2-budget" `
 Step "Resultat"
 if (Test-Path $log) { Select-String -Path $log -Pattern "\[M0B-SETUP\]" | ForEach-Object { Note $_.Line.Trim() } }
 Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
-Write-Host "World meshes/prefabs, ground decals, production VFX og diegetic UI-prefabs er bygget." -ForegroundColor Green
+Write-Host "World meshes/prefabs, runtime state catalogs, ground decals, production VFX og diegetic UI-prefabs er bygget." -ForegroundColor Green
+Write-Host "State catalogs: Assets\ProjectOEN\ProductionArt\StateSets" -ForegroundColor Green
 Write-Host "VFX audit: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
 Write-Host "UI audit: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
 Write-Host "Stormnatten art audit: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
