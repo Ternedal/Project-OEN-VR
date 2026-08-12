@@ -49,7 +49,25 @@ Albedo maps are 1024px. Normal and metallic/smoothness maps are 512px. Unity `.m
 7. adds simple Quest-friendly bounds colliders;
 8. adds lightweight non-shadowing fire accents to active fire/signal/torch states.
 
-`prototype/m0b-bootstrap/Bootstrap-M0b.ps1` mirrors ProductionArt into the generated `ProjektOenApp` Unity project, installs the prefab builder and invokes it in a Unity batch session.
+### Stormnatten visual-review scene
+
+`src/unity/ProjectOen.Art/Editor/ProductionArtShowcaseBuilder.cs` builds a separate `StormnattenArtShowcase.unity` scene from the generated prefabs. It deliberately does **not** alter M0b's `CoopGame.unity` Android build.
+
+The showcase composes:
+
+- usable shelter state (CS-003);
+- small campfire (CS-008);
+- portable radio, supply crate and shared-carry box;
+- complete/unlit handmade signal beacon (CS-013);
+- shipwreck hull, planks, containers, beach stones and driftwood;
+- palm/broadleaf/vine framing;
+- cool fog/ambient light with one shadow-casting directional key and one non-shadowing fill.
+
+`src/unity/ProjectOen.Art/Editor/ProductionArtStormAtmosphereBuilder.cs` adds one local Quest-friendly rain volume to the showcase: max 180 particles, stretched unlit rain streaks, no particle collision and no particle shadows.
+
+`prototype/m0b-bootstrap/Bootstrap-M0b.ps1` mirrors ProductionArt into the generated `ProjektOenApp` Unity project, installs all three art builders, builds the prefabs, generates the showcase scene and adds the local storm-rain pass in separate Unity batch sessions.
+
+The important boundary is explicit: **the visual-review scene is not the M0b 72 Hz/network feasibility scene**. `CoopGame.unity` remains minimal and is still the only scene built into the M0b APK.
 
 ## CI gates
 
@@ -59,7 +77,10 @@ Albedo maps are 1024px. Normal and metallic/smoothness maps are 512px. Unity `.m
 - PNG/OBJ validity and Unity metadata;
 - **11-material / 33-map** surface completeness and importer contracts;
 - hero geometry/detail floors and state-family coverage;
-- Unity material/prefab/bootstrap wiring contract.
+- Unity material/prefab/bootstrap wiring contract;
+- showcase composition and exactly one shadow-casting realtime light;
+- storm atmosphere limited to one local rain system with no collision/shadows;
+- strict separation from `CoopGame.unity` / the M0b Android build.
 
 The current repo-side pipeline passes every generation and validation gate. Actual Unity Editor import/build remains an on-machine verification step because this CI workflow does not run a licensed Unity Editor.
 
