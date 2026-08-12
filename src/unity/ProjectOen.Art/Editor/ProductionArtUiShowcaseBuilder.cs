@@ -58,12 +58,16 @@ namespace ProjectOen.Art.Editor
                 new Vector3(0.72f, 1.28f, 0.52f), new Vector3(0f, 0f, 0f), 0.78f,
                 "Meta Status - physical scale");
 
-            // One metre reference stick makes scale errors obvious in the editor.
+            // One metre reference stick makes scale errors obvious in the editor,
+            // but it is visual-only and deliberately has no collider.
             var reference = GameObject.CreatePrimitive(PrimitiveType.Cube);
             reference.name = "1m Scale Reference";
             reference.transform.SetParent(root.transform, false);
             reference.transform.position = new Vector3(-0.92f, 0.50f, 0.62f);
             reference.transform.localScale = new Vector3(0.025f, 1.0f, 0.025f);
+            var collider = reference.GetComponent<Collider>();
+            if (collider != null)
+                UnityEngine.Object.DestroyImmediate(collider);
             var renderer = reference.GetComponent<Renderer>();
             if (renderer != null)
             {
