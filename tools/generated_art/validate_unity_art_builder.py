@@ -4,7 +4,8 @@
 This intentionally does not claim to replace a real Unity Editor compile/run. It
 protects the repo-side contract: refined material wiring, prefab construction,
 Stormnatten showcase composition, Quest-conscious lighting/weather, an actual
-Unity-import budget audit, and strict separation from the minimal M0b CoopGame gate.
+Unity-import budget audit, a fast repeatable visual-review loop, and strict
+separation from the minimal M0b CoopGame gate.
 """
 from __future__ import annotations
 
@@ -18,7 +19,9 @@ BUILDER = EDITOR / "ProductionArtPrefabBuilder.cs"
 SHOWCASE = EDITOR / "ProductionArtShowcaseBuilder.cs"
 ATMOSPHERE = EDITOR / "ProductionArtStormAtmosphereBuilder.cs"
 AUDIT = EDITOR / "ProductionArtShowcaseAudit.cs"
+REVIEW_MENU = EDITOR / "ProductionArtReviewMenu.cs"
 BOOTSTRAP = ROOT / "prototype" / "m0b-bootstrap" / "Bootstrap-M0b.ps1"
+REVIEW_SCRIPT = ROOT / "prototype" / "m0b-bootstrap" / "Review-ProductionArt.ps1"
 COOP_SETUP = ROOT / "src" / "unity" / "App" / "CoopGameSetup.cs"
 
 REQUIRED_BUILDER_TOKENS = (
@@ -68,6 +71,8 @@ REQUIRED_ATMOSPHERE_TOKENS = (
     'renderer.renderMode = ParticleSystemRenderMode.Stretch',
     'renderer.shadowCastingMode = ShadowCastingMode.Off',
     'renderer.receiveShadows = false',
+    'BlendMode.SrcAlpha',
+    'BlendMode.OneMinusSrcAlpha',
 )
 
 REQUIRED_AUDIT_TOKENS = (
@@ -82,6 +87,23 @@ REQUIRED_AUDIT_TOKENS = (
     'rendererMaterialSlots(draw-call proxy)',
     'l.shadows != LightShadows.None',
     'Quest 2 showcase budget hard gate failed',
+)
+
+REQUIRED_REVIEW_MENU_TOKENS = (
+    'Open Stormnatten Art Showcase',
+    'StormnattenArtShowcase.unity',
+    'EditorSceneManager.OpenScene',
+)
+
+REQUIRED_REVIEW_SCRIPT_TOKENS = (
+    'Review-ProductionArt.ps1',
+    'ProductionArtPrefabBuilder.BuildAll',
+    'ProductionArtShowcaseBuilder.BuildShowcase',
+    'ProductionArtStormAtmosphereBuilder.AddStormAtmosphere',
+    'ProductionArtShowcaseAudit.AuditShowcase',
+    'ProductionArtReviewMenu.OpenShowcase',
+    '-OpenEditor',
+    'M0b CoopGame/build settings er ikke aendret',
 )
 
 
@@ -133,6 +155,21 @@ def main() -> int:
         if "EditorApplication.Exit(0)" in audit_text:
             errors.append("Budget audit must not force-success the Unity batch process")
 
+    review_menu_text=require_tokens(errors,"Review menu",REVIEW_MENU,REQUIRED_REVIEW_MENU_TOKENS)
+    if review_menu_text and ("BuildPipeline.BuildPlayer" in review_menu_text or "EditorBuildSettings.scenes" in review_menu_text):
+        errors.append("Review menu must only open the showcase, never alter build settings")
+
+    review_script_text=require_tokens(errors,"Fast art review script",REVIEW_SCRIPT,REQUIRED_REVIEW_SCRIPT_TOKENS)
+    if review_script_text:
+        forbidden=("M0bConfigure.Configure", "BuildPipeline.BuildPlayer", "CoopGameSetup.SetupAndBuild", "Packages\\manifest.json")
+        for token in forbidden:
+            if token in review_script_text:
+                errors.append(f"Fast art review loop must not mutate/rebuild M0b platform path: {token}")
+        audit_pos=review_script_text.find("ProductionArtShowcaseAudit.AuditShowcase")
+        open_pos=review_script_text.find("ProductionArtReviewMenu.OpenShowcase")
+        if audit_pos < 0 or open_pos < 0 or audit_pos > open_pos:
+            errors.append("Fast art review loop must audit before optionally opening Unity")
+
     if not BOOTSTRAP.exists():
         errors.append("M0b bootstrap is missing")
     else:
@@ -172,6 +209,7 @@ def main() -> int:
     print("  shadow casters   : exactly 1")
     print("  storm weather    : 1 local rain system / max 180 / no collision / no shadows")
     print("  Unity hard audit : 750k tris / 130 draw proxy / 1 shadow / 10 particle systems")
+    print("  fast review loop : sync -> rebuild -> storm -> audit -> optional editor open")
     print("  M0b separation   : CoopGame-only Android build")
 
     if errors:
@@ -179,7 +217,7 @@ def main() -> int:
         for e in errors: print(" - "+e)
         return 1
 
-    print("\nPASS: Unity production-art, showcase, storm and budget-audit contracts are intact.")
+    print("\nPASS: Unity production-art, showcase, storm, audit and review-loop contracts are intact.")
     return 0
 
 
