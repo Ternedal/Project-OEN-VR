@@ -46,12 +46,16 @@ REQUIRED_BUILDER = (
     'targetWidthMeters',
 )
 
+# Match actual package/component/API dependencies, not words inside comments such
+# as "no Canvas/TMP dependency".
 FORBIDDEN_BUILDER = (
-    'UnityEngine.UI',
+    'using UnityEngine.UI',
+    'UnityEngine.UI.',
+    'AddComponent<Canvas>',
+    'AddComponent<CanvasScaler>',
+    'AddComponent<GraphicRaycaster>',
     'TextMeshPro',
-    'TMPro',
-    'Canvas',
-    'GraphicRaycaster',
+    'TMPro.',
     'BuildPipeline.BuildPlayer',
     'EditorBuildSettings.scenes',
     'Hunger',
