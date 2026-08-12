@@ -1,0 +1,7 @@
+event_id,variations,format,channels,sample_rate_hz,bit_depth,duration_seconds,loop,peak_dbfs,origin,third_party_samples,status
+MUS_Camp_WarmTexture,3,WAV PCM,stereo,48000,24,90,yes,-6,in-repo procedural synthesis,no,candidate-headset-listen
+MUS_Warning_LowPulse,3,WAV PCM,stereo,48000,24,60,yes,-6,in-repo procedural synthesis,no,candidate-headset-listen
+MUS_Storm_Phase1,2,WAV PCM,stereo,48000,24,90,yes,-6,in-repo procedural synthesis,no,candidate-headset-listen
+MUS_Storm_Phase2,2,WAV PCM,stereo,48000,24,90,yes,-6,in-repo procedural synthesis,no,candidate-headset-listen
+MUS_Storm_Phase3,2,WAV PCM,stereo,48000,24,90,yes,-6,in-repo procedural synthesis,no,candidate-headset-listen
+MUS_Finale_Success,2,WAV PCM,stereo,48000,24,24,no,-6,in-repo procedural synthesis,no,candidate-headset-listen
