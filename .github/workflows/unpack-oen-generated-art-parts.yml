@@ -1,0 +1,47 @@
+name: Unpack Project OEN generated art parts
+
+on:
+  push:
+    branches:
+      - agent/unity-graphics-assets
+    paths:
+      - 'tools/oen_parts/part-013.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack-generated-art:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout asset branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/unity-graphics-assets
+          fetch-depth: 0
+
+      - name: Assemble, verify and unpack PNG assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f tools/oen_parts/part-013.txt
+          cat tools/oen_parts/part-*.txt > /tmp/oen_generated192.tar.gz.b64
+          base64 --decode /tmp/oen_generated192.tar.gz.b64 > /tmp/oen_generated192.tar.gz
+          echo 'd6d92308b57acd0c62bf2c02df12aa49fd25eca1d719d4407fd6147f31696a61  /tmp/oen_generated192.tar.gz' | sha256sum -c -
+          tar -xzf /tmp/oen_generated192.tar.gz -C .
+          rm -rf tools/oen_parts
+
+      - name: Commit individual Unity PNG assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A Assets/ProjectOEN tools/oen_parts || true
+          if git diff --cached --quiet; then
+            echo 'No changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Add Project OEN generated Unity PNG assets'
+          git push origin HEAD:agent/unity-graphics-assets
