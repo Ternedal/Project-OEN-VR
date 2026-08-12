@@ -4,8 +4,9 @@
   This is deliberately separate from Bootstrap-M0b.ps1. It does not recreate the
   Unity project, touch Packages/, configure XR, import Fusion, or build the M0b APK.
   It only syncs the current production-art sources/editor builders into an existing
-  ProjektOenApp, rebuilds the art prefabs/showcase, adds storm rain, runs the imported-
-  scene Quest 2 budget audit, and optionally launches Unity on the showcase.
+  ProjektOenApp, rebuilds the art prefabs + state-specific ground decals + showcase,
+  adds storm rain, runs the imported-scene Quest 2 budget audit, and optionally
+  launches Unity on the showcase.
 
   Example:
     .\Review-ProductionArt.ps1 `
@@ -40,7 +41,7 @@ if (-not (Test-Path $artSrc)) {
 
 Step "Synkroniserer production art"
 New-Item -ItemType Directory -Force -Path $artDst | Out-Null
-foreach ($folder in @("Sprites", "Meshes", "Materials", "Docs")) {
+foreach ($folder in @("Sprites", "Meshes", "Materials", "Decals", "Docs")) {
     $srcFolder = Join-Path $artSrc $folder
     $dstFolder = Join-Path $artDst $folder
     if (-not (Test-Path $srcFolder)) { throw "Production-art mappe mangler: $srcFolder" }
@@ -51,6 +52,7 @@ foreach ($folder in @("Sprites", "Meshes", "Materials", "Docs")) {
 New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
 foreach ($builder in @(
     "ProductionArtPrefabBuilder.cs",
+    "ProductionArtDecalBuilder.cs",
     "ProductionArtShowcaseBuilder.cs",
     "ProductionArtStormAtmosphereBuilder.cs",
     "ProductionArtShowcaseAudit.cs",
@@ -58,7 +60,7 @@ foreach ($builder in @(
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
 }
-Note "Art + editor-builders er synkroniseret til $ProjectPath"
+Note "Art + prefab/decal/showcase-builders er synkroniseret til $ProjectPath"
 
 function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
     Step $Label
@@ -87,6 +89,10 @@ Run-UnityArtStep "Bygger production-art prefabs" `
     "ProjectOen.Art.Editor.ProductionArtPrefabBuilder.BuildAll" `
     "review-art-prefabs.log"
 
+Run-UnityArtStep "Bygger puddle/shoreline ground decals" `
+    "ProjectOen.Art.Editor.ProductionArtDecalBuilder.BuildAll" `
+    "review-art-decals.log"
+
 Run-UnityArtStep "Bygger Stormnatten showcase" `
     "ProjectOen.Art.Editor.ProductionArtShowcaseBuilder.BuildShowcase" `
     "review-art-showcase.log"
@@ -100,7 +106,7 @@ Run-UnityArtStep "Auditerer showcase mod Quest 2-budget" `
     "review-art-budget.log"
 
 Step "Resultat"
-Write-Host "Production-art visual-review er bygget og Unity-budgetauditen bestod." -ForegroundColor Green
+Write-Host "Production-art visual-review er bygget, ground decals er wired, og Unity-budgetauditen bestod." -ForegroundColor Green
 Write-Host "Scene: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
 Write-Host "M0b CoopGame/build settings er ikke aendret." -ForegroundColor Green
 
