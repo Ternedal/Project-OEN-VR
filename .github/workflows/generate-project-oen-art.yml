@@ -26,6 +26,27 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Parse production-art PowerShell entrypoints
+        shell: pwsh
+        run: |
+          $files = @(
+            'prototype/m0b-bootstrap/Bootstrap-M0b.ps1',
+            'prototype/m0b-bootstrap/Review-ProductionArt.ps1'
+          )
+          $failed = $false
+          foreach ($file in $files) {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($file, [ref]$tokens, [ref]$errors) | Out-Null
+            if ($errors.Count -gt 0) {
+              Write-Host "PowerShell parse errors in $file" -ForegroundColor Red
+              $errors | ForEach-Object { Write-Host ("  " + $_.Message) -ForegroundColor Red }
+              $failed = $true
+            } else {
+              Write-Host "PASS: $file"
+            }
+          }
+          if ($failed) { exit 1 }
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check Pillow==11.3.0
       - name: Generate compact runtime sprites
