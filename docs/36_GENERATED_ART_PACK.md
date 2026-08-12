@@ -1,36 +1,45 @@
-# Project ØEN — generated production-art pipeline
+# Project ØEN — production-art pipeline
 
-`Assets/ProjectOEN/ProductionArt/` is now the implementation target. `Assets/ProjectOEN/GeneratedArtRuntime256/` is retained only as the compact/fallback tier.
+`Assets/ProjectOEN/ProductionArt/` is the implementation target. `Assets/ProjectOEN/GeneratedArtRuntime256/` is retained only as the compact/fallback tier.
 
 ## Current production output
 
-The pipeline covers the canonical 148-row asset master and currently produces:
+The pipeline covers the canonical **148-row asset master** and currently produces:
 
 - **206** separate production sprites;
 - **134** separate world-space OBJ meshes;
-- **81,858 vertices / 38,602 faces** across the final production mesh set after hero refinement;
-- **29 refined Stormnatten hero meshes** with **47,564 vertices / 22,422 faces** after rope-joinery refinement;
+- **172,802 vertices / 76,868 faces** across the final refined world-mesh set;
+- **5** separate 1024×1024 transparent RGBA ground decals — 3 puddle states + 2 shoreline-foam states;
 - **11** shared Quest-friendly surface materials;
 - **33** surface maps: 11 × (1024px albedo + 512px normal + 512px metallic/smoothness).
 
 Every listed state/variant is an individual asset, not a collage or cropped mockup board.
 
-## Hero refinement
+## Complete 3D refinement coverage
 
-The broad generator guarantees asset-master coverage. `tools/generated_art/refine_hero_art.py` then spends additional geometry on the world-space assets that dominate Stormnatten and the gameplay mockups:
+The broad generator still owns deterministic master-list coverage and stable paths/GUIDs, but it is no longer the final visual pass for any world mesh. **All 134 world-mesh variants are refined after broad generation:**
 
-- tarp / presenning;
-- supply crate and shared-carry heavy box;
-- portable radio;
-- all five shelter construction/damage states;
-- all five campfire states;
-- all five handmade signal-beacon states.
+- **29 hero meshes** — tarp/presenning, supply/heavy boxes, portable radio, all shelter states, all campfire states and all handmade signal-beacon states;
+- **25 environment meshes** — shipwreck, plank piles, beach stones, driftwood, palms, ground fronds, broadleaf bushes, vines and rock/ravine modules;
+- **38 survival/tool meshes** — rope, poles, first aid, canteen, lantern, torch, resource bundles, signal cloth, cookpot, water collector, mallet, knife and traversal anchor;
+- **42 remaining set-dressing/world meshes** — CS-016 radio-repair station plus barrel/rope debris, cliff/cave dressing, groundsheet, cooking/storage/signal/rain-catcher clusters, torch/path markers, storm debris, camp boundary rope and the puddle/foam holder planes.
 
-`tools/generated_art/refine_hero_joinery.py` adds readable rope lashings to shelter and beacon construction so the handmade wood/rope/tarp visual language survives Quest-scale viewing.
+`refine_hero_joinery.py` adds readable rope lashings to shelter and beacon construction so the handmade wood/rope/tarp language survives VR viewing distance.
+
+## Ground decals
+
+EN-011 and EN-025 are intentionally represented by minimal stable holder meshes plus true state-specific RGBA textures rather than pretending a generic Mud/Water material is enough.
+
+`Assets/ProjectOEN/ProductionArt/Decals/environment_set_dressing/` contains:
+
+- puddle: small / medium / large;
+- shoreline foam: calm / storm.
+
+`ProductionArtDecalBuilder.cs` creates transparent unlit materials, applies the matching texture to each holder prefab, disables receive/cast shadows and removes colliders. This keeps the effect cheap and avoids invisible collision slabs.
 
 ## Surface pipeline
 
-`tools/generated_art/refine_material_textures.py` generates the shared material set:
+`refine_material_textures.py` generates the shared material set:
 
 `wood`, `rope`, `tarp`, `metal`, `stone`, `leaf`, `cloth`, `mud`, `fire`, `char`, `water`.
 
@@ -38,63 +47,73 @@ Albedo maps are 1024px. Normal and metallic/smoothness maps are 512px. Unity `.m
 
 ## Unity integration
 
-`src/unity/ProjectOen.Art/Editor/ProductionArtPrefabBuilder.cs`:
+`ProductionArtPrefabBuilder.cs`:
 
-1. creates or updates URP/Lit materials with Standard fallback;
-2. wires the generated albedo, normal and metallic/smoothness maps;
+1. creates URP/Lit materials with Standard fallback;
+2. wires albedo, normal and metallic/smoothness maps;
 3. makes tarp, cloth, leaf and fire double-sided for VR readability;
 4. enables emissive fire treatment;
-5. replaces imported OBJ/MTL materials with the production Unity materials;
+5. replaces imported OBJ/MTL materials with production Unity materials;
 6. creates category-preserving prefabs;
 7. adds simple Quest-friendly bounds colliders;
 8. adds lightweight non-shadowing fire accents to active fire/signal/torch states.
 
+`ProductionArtDecalBuilder.cs` then wires the five puddle/shoreline decal prefabs before showcase creation.
+
 ### Stormnatten visual-review scene
 
-`src/unity/ProjectOen.Art/Editor/ProductionArtShowcaseBuilder.cs` builds a separate `StormnattenArtShowcase.unity` scene from the generated prefabs. It deliberately does **not** alter M0b's `CoopGame.unity` Android build.
+`ProductionArtShowcaseBuilder.cs` builds a separate `StormnattenArtShowcase.unity` scene from the actual generated prefabs. It deliberately does **not** alter M0b's `CoopGame.unity` Android build.
 
-The showcase composes:
+The enriched showcase now exercises:
 
-- usable shelter state (CS-003);
-- small campfire (CS-008);
+- usable shelter and small campfire;
 - portable radio, supply crate and shared-carry box;
-- complete/unlit handmade signal beacon (CS-013);
-- shipwreck hull, planks, containers, beach stones and driftwood;
-- palm/broadleaf/vine framing;
-- cool fog/ambient light with one shadow-casting directional key and one non-shadowing fill.
+- CS-016 radio-repair station;
+- worn groundsheet, cooking/storage dressing and all three rain-catcher components;
+- complete/unlit handmade signal beacon plus signal-hill logs/ropes/stones;
+- shipwreck, planks, broken barrel, rope debris, beach stones and driftwood;
+- palms, fronds, bushes, vines and cliff-edge grass;
+- large/medium puddle decals and storm shoreline foam;
+- cool fog/ambient light with exactly one shadow-casting directional key and one non-shadowing fill.
 
-`src/unity/ProjectOen.Art/Editor/ProductionArtStormAtmosphereBuilder.cs` adds one local Quest-friendly rain volume to the showcase: max 180 particles, stretched unlit rain streaks, no particle collision and no particle shadows.
+`ProductionArtStormAtmosphereBuilder.cs` adds one local Quest-friendly rain volume: max 180 particles, stretched unlit alpha-blended rain streaks, no collision and no particle shadows.
 
 ### Unity-side Quest 2 art audit
 
-`src/unity/ProjectOen.Art/Editor/ProductionArtShowcaseAudit.cs` opens the **actually imported** showcase scene and measures conservative scene-level proxies before the bootstrap reports success:
+`ProductionArtShowcaseAudit.cs` opens the **actually imported** showcase scene and measures conservative scene-level proxies:
 
 - triangles: target ≤500k, hard fail >750k;
-- renderer material slots as a conservative draw-call proxy: target ≤100, hard fail >130;
+- renderer material slots as draw-call proxy: target ≤100, hard fail >130;
 - shadow-casting realtime lights: hard fail >1;
 - active particle systems: hard fail >10.
 
-The audit intentionally does not claim to replace headset profiling. Real Quest 2 frame timing/draw calls remain authoritative. Its job is to stop obviously over-budget visual work before anyone reaches the headset.
+This does not replace headset profiling. Real Quest 2 frame timing/draw calls remain authoritative.
 
-`prototype/m0b-bootstrap/Bootstrap-M0b.ps1` mirrors ProductionArt into the generated `ProjektOenApp` Unity project, installs all four art builders, builds the prefabs, generates the showcase scene, adds the local storm-rain pass and runs the Unity-side budget audit in separate batch sessions.
+`Bootstrap-M0b.ps1` installs production art, builds prefabs, wires decals, generates the showcase, adds storm rain and runs the imported-scene budget audit. `Review-ProductionArt.ps1` provides the faster repeatable art-only path after initial bootstrap.
 
-The important boundary is explicit: **the visual-review scene is not the M0b 72 Hz/network feasibility scene**. `CoopGame.unity` remains minimal and is still the only scene built into the M0b APK.
+The important boundary remains explicit: **the visual-review scene is not the M0b 72 Hz/network feasibility scene**. `CoopGame.unity` remains minimal and is still the only scene built into the M0b APK.
 
 ## CI gates
 
-`.github/workflows/generate-project-oen-art.yml` regenerates and checks the complete pack. Current repo-side gates cover:
+`.github/workflows/generate-project-oen-art.yml` currently gates:
 
+- PowerShell parse validation for both production-art entrypoints;
 - canonical 148-ID master completeness;
-- PNG/OBJ validity and Unity metadata;
-- **11-material / 33-map** surface completeness and importer contracts;
-- hero geometry/detail floors and state-family coverage;
-- Unity material/prefab/bootstrap wiring contract;
-- showcase composition and exactly one shadow-casting realtime light;
-- storm atmosphere limited to one local rain system with no collision/shadows;
+- PNG/OBJ validity and deterministic Unity metadata;
+- **11-material / 33-map** surface completeness/import contracts;
+- hero geometry/state-family floors;
+- environment refinement coverage/floors;
+- survival/tool refinement coverage/floors;
+- remaining set-dressing + CS-016 coverage/floors;
+- five decal size/alpha/distinctness/import contracts;
+- enriched Stormnatten showcase content;
+- Unity material/prefab/decal/bootstrap wiring;
+- storm atmosphere bounded to one no-collision/no-shadow rain system;
 - presence/configuration of the Unity-side Quest 2 budget audit;
-- strict separation from `CoopGame.unity` / the M0b Android build.
+- strict separation from `CoopGame.unity` / the M0b Android build;
+- generated documentation derived from the actual final files.
 
-The repo-side pipeline passes its generation and static validation gates. The Unity-side showcase build and imported-scene budget audit are executed by `Bootstrap-M0b.ps1` on the machine that has Unity; CI does not currently run a licensed Unity Editor.
+The latest full repo-side workflow passes all generation and static validation gates. Actual Unity Editor import, prefab/material compilation and imported-scene budget audit still require the machine with the licensed Unity Editor; this repository does not claim those have passed in CI.
 
 ## Canonical constraints retained
 
