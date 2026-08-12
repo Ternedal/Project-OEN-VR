@@ -66,7 +66,7 @@ namespace ProjectOen.Audio.Editor
                 }
 
                 var serialized = new SerializedObject(definition);
-                serialized.FindProperty("_id").enumValueIndex = EnumIndex(group.Key);
+                serialized.FindProperty("_id").intValue = (int)group.Key;
 
                 var clipsProperty = serialized.FindProperty("_clips");
                 clipsProperty.arraySize = clips.Length;
@@ -253,21 +253,13 @@ namespace ProjectOen.Audio.Editor
             return Enum.GetName(typeof(AudioEventId), id) ?? id.ToString();
         }
 
-        private static int EnumIndex(AudioEventId id)
-        {
-            var names = Enum.GetNames(typeof(AudioEventId));
-            var canonical = CanonicalName(id);
-            var index = Array.IndexOf(names, canonical);
-            return Mathf.Max(0, index);
-        }
-
         private static void ApplyCreationDefaults(
             AudioEventDefinition definition,
             AudioEventId id,
             string sampleAssetPath)
         {
             var serialized = new SerializedObject(definition);
-            serialized.FindProperty("_id").enumValueIndex = EnumIndex(id);
+            serialized.FindProperty("_id").intValue = (int)id;
             serialized.FindProperty("_loop").boolValue = IsLoopEvent(id);
 
             var spatialBlend = InferSpatialBlend(id, sampleAssetPath);
