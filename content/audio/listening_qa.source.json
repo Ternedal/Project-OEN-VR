@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "status": "source-ready",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "input": "PrivateContent/AudioSourceIncoming/acquisition_manifest.json",
+  "states": [
+    "candidate",
+    "acquired-original-not-listening-approved",
+    "listening-rejected",
+    "source-approved",
+    "derived-master-approved",
+    "Unity-integrated",
+    "release-approved"
+  ],
+  "requiredListeningChecks": [
+    {"id":"CONTAMINATION","question":"Voices, traffic, birds, room tone, handling noise or unrelated events that conflict with the island context?","result":"pass/fail + note"},
+    {"id":"MATERIAL_MATCH","question":"Does the sound read as the intended material/action at normal level without relying on filename knowledge?","result":"1-5 + note"},
+    {"id":"LOOP_OR_SLICE","question":"Can useful loop regions or clean one-shots be derived without obvious repeated artifacts?","result":"pass/fail/not-applicable + note"},
+    {"id":"NOISE_FLOOR","question":"Is noise/hiss acceptable for the intended use after normal game gain staging?","result":"pass/fail + note"},
+    {"id":"TRANSIENT_QUALITY","question":"Are important transients unclipped and useful for editing?","result":"pass/fail/not-applicable + note"},
+    {"id":"SPACE_IDENTITY","question":"Does the recording contain obvious indoor/outdoor or distance character that conflicts with intended use?","result":"pass/fail + note"},
+    {"id":"VARIATION_VALUE","question":"Does this source provide enough distinct material for non-repeating variants or layering?","result":"1-5 + note"},
+    {"id":"SPEECH_SPACE","question":"For loops/beds, is there avoidable dense midrange energy likely to mask partner/radio speech?","result":"pass/fail/not-applicable + note"}
+  ],
+  "technicalChecks": [
+    "record actual codec/sample rate/channels/bit depth from technicalProbe",
+    "preserve source SHA-256",
+    "do not overwrite the acquired original",
+    "record every edit/resample operation used for a derived master"
+  ],
+  "approvalRule": {
+    "sourceApprovedRequires": ["license evidence preserved", "SHA-256 preserved", "all applicable required listening checks completed", "no unresolved contamination failure", "material match >= 3"],
+    "derivedMasterApprovedRequires": ["source-approved original", "edit recipe documented", "48 kHz/24-bit WAV target where appropriate", "no clipping", "listening QA repeated on derived file"]
+  },
+  "runtimeBoundary": "Claude owns final Unity mix, spatialization, ducking, compression/import settings and device listening QA."
+}
