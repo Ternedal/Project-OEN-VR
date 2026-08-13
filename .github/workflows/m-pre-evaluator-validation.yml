@@ -23,4 +23,4 @@ jobs:
         with:
           python-version: '3.12'
       - name: Run evaluator code QA
-        run: python -m unittest tools/test_evaluate_mpre.py -v
+        run: python tools/test_evaluate_mpre.py -v
