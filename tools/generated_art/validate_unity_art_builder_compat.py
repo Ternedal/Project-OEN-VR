@@ -1,17 +1,10 @@
 #!/usr/bin/env python3
-"""Run the legacy global art validator with helper-aware review semantics.
-
-Review-ProductionArt.ps1 now routes editor opening through Open-ShowcaseEditor.
-The legacy validator still expects the concrete ProductionArtReviewMenu.OpenShowcase
-method name after the sequential build/audit calls. This adapter preserves every
-legacy check, but expands the verified helper call into that semantic marker before
-the legacy order check runs.
-"""
+"""Run source-stamp QA and the legacy global art validator with helper-aware semantics."""
 from __future__ import annotations
 
 import sys
-from pathlib import Path
 
+import validate_review_source_stamp as source_stamp
 import validate_unity_art_builder as legacy
 
 
@@ -40,7 +33,6 @@ def helper_aware_need(path, label, tokens, errors):
         errors.append("Fast review sequential fallback no longer opens editor through Open-ShowcaseEditor")
         return text
 
-    # Feed the legacy order check an explicit semantic marker at the helper call.
     semantic_call = helper_call + '\n# helper target: ProductionArtReviewMenu.OpenShowcase'
     patched_fallback = fallback.replace(helper_call, semantic_call, 1)
     return text[:fallback_start] + patched_fallback
@@ -49,4 +41,7 @@ def helper_aware_need(path, label, tokens, errors):
 legacy.need = helper_aware_need
 
 if __name__ == "__main__":
+    source_result = source_stamp.main()
+    if source_result != 0:
+        sys.exit(source_result)
     sys.exit(legacy.main())
