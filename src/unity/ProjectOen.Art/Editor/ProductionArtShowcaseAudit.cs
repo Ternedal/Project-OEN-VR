@@ -17,12 +17,13 @@ namespace ProjectOen.Art.Editor
     /// - draw calls: target < 100, hard fail proxy > 130;
     /// - realtime shadow lights: max 1;
     /// - active particle systems/effects: max 10;
-    /// - legacy Animation components: max 12 (9 wind + distant lightning + headroom).
+    /// - legacy Animation components: max 12 (9 wind + 1 layered-lightning rig + headroom).
     ///
     /// The Stormnatten art scene must also contain exactly one event-driven
     /// ProductionArtWetnessDriver at the authored storm wetness range plus the
-    /// bounded motion-FX layer and nine renderer-culled wind-responsive dressing
-    /// objects. This keeps the scene alive without per-object Update() scripts.
+    /// bounded motion-FX layer, a two-billboard near/far lightning rig and nine
+    /// renderer-culled wind-responsive dressing objects. This keeps the scene
+    /// alive without per-object Update() scripts.
     ///
     /// Renderer material-slot count is used as a conservative draw-call proxy in
     /// this editor audit. Device profiling remains authoritative for final draw calls.
@@ -39,6 +40,8 @@ namespace ProjectOen.Art.Editor
         private const int AnimationComponentHardLimit = 12;
         private const float StormWetnessMin = 0.74f;
         private const float StormWetnessMax = 0.82f;
+        private const string FarLightningName = "Far Lightning";
+        private const string NearLightningName = "Near Lightning";
 
         private static readonly string[] WindResponseTargets =
         {
@@ -77,7 +80,16 @@ namespace ProjectOen.Art.Editor
             ParticleSystem rainSplashes = rainSplashGo == null ? null : rainSplashGo.GetComponentInChildren<ParticleSystem>(true);
             Animation lightningAnimation = lightningGo == null ? null : lightningGo.GetComponent<Animation>();
             Light lightningLight = lightningGo == null ? null : lightningGo.GetComponent<Light>();
-            SpriteRenderer lightningSprite = lightningGo == null ? null : lightningGo.GetComponentInChildren<SpriteRenderer>(true);
+            Transform farLightning = lightningGo == null ? null : lightningGo.transform.Find(FarLightningName);
+            Transform nearLightning = lightningGo == null ? null : lightningGo.transform.Find(NearLightningName);
+            SpriteRenderer farLightningSprite = farLightning == null ? null : farLightning.GetComponentInChildren<SpriteRenderer>(true);
+            SpriteRenderer nearLightningSprite = nearLightning == null ? null : nearLightning.GetComponentInChildren<SpriteRenderer>(true);
+            SpriteRenderer[] lightningSprites = lightningGo == null
+                ? new SpriteRenderer[0]
+                : lightningGo.GetComponentsInChildren<SpriteRenderer>(true);
+            Collider[] lightningColliders = lightningGo == null
+                ? new Collider[0]
+                : lightningGo.GetComponentsInChildren<Collider>(true);
 
             var windResponse = WindResponseTargets
                 .Select(name => new
@@ -115,6 +127,13 @@ namespace ProjectOen.Art.Editor
                 l.gameObject.activeInHierarchy && l.shadows != LightShadows.None);
             int activeParticles = particleSystems.Count(p => p != null && p.gameObject.activeInHierarchy && p.emission.enabled);
 
+            bool farPulse = HasPulseCurve(lightningAnimation == null ? null : lightningAnimation.clip,
+                                          FarLightningName, typeof(SpriteRenderer), "m_Color.a", 0.55f);
+            bool nearPulse = HasPulseCurve(lightningAnimation == null ? null : lightningAnimation.clip,
+                                           NearLightningName, typeof(SpriteRenderer), "m_Color.a", 0.90f);
+            bool lightPulse = HasPulseCurve(lightningAnimation == null ? null : lightningAnimation.clip,
+                                            string.Empty, typeof(Light), "m_Intensity", 0.60f);
+
             Debug.Log("[ProjectOEN.Art.Budget] Stormnatten showcase audit");
             Debug.Log("[ProjectOEN.Art.Budget] triangles=" + triangles +
                       " target<=" + TriangleTarget + " hard<=" + TriangleHardLimit);
@@ -131,7 +150,7 @@ namespace ProjectOen.Art.Editor
             Debug.Log("[ProjectOEN.Art.Budget] stormMotionFx=" +
                       "wind:" + (windDebris != null ? windDebris.main.maxParticles.ToString() : "missing") +
                       " splash:" + (rainSplashes != null ? rainSplashes.main.maxParticles.ToString() : "missing") +
-                      " lightning:" + (lightningAnimation != null && lightningLight != null && lightningSprite != null ? "ready" : "missing"));
+                      " lightning:" + (farPulse && nearPulse && lightPulse ? "near+far layered" : "incomplete"));
 
             if (triangles > TriangleTarget)
                 Debug.LogWarning("[ProjectOEN.Art.Budget] Triangle target exceeded; device profile before adding more geometry.");
@@ -167,12 +186,33 @@ namespace ProjectOen.Art.Editor
 
             if (lightningAnimation == null || lightningAnimation.clip == null)
                 hardFailures.Add("Distant Storm Lightning animation missing");
-            if (lightningSprite == null)
-                hardFailures.Add("Distant Storm Lightning sprite missing");
+            else
+            {
+                if (!lightningAnimation.clip.legacy)
+                    hardFailures.Add("Distant Storm Lightning clip must stay legacy");
+                if (lightningAnimation.clip.wrapMode != WrapMode.Loop)
+                    hardFailures.Add("Distant Storm Lightning clip must loop");
+                if (lightningAnimation.cullingType != AnimationCullingType.AlwaysAnimate)
+                    hardFailures.Add("Distant Storm Lightning rig must always animate so off-alpha billboards can flash back on");
+            }
+            if (lightningSprites.Length != 2)
+                hardFailures.Add("layered lightning SpriteRenderer count " + lightningSprites.Length + " != 2");
+            if (farLightningSprite == null)
+                hardFailures.Add("Far Lightning sprite missing");
+            if (nearLightningSprite == null)
+                hardFailures.Add("Near Lightning sprite missing");
+            if (!farPulse)
+                hardFailures.Add("Far Lightning alpha pulse curve missing/too weak");
+            if (!nearPulse)
+                hardFailures.Add("Near Lightning alpha pulse curve missing/too weak");
             if (lightningLight == null)
-                hardFailures.Add("Distant Storm Lightning flash light missing");
+                hardFailures.Add("Distant Storm Lightning shared flash light missing");
             else if (lightningLight.shadows != LightShadows.None)
-                hardFailures.Add("Distant Storm Lightning must not cast shadows");
+                hardFailures.Add("Distant Storm Lightning shared flash light must not cast shadows");
+            if (!lightPulse)
+                hardFailures.Add("Distant Storm Lightning shared light pulse curve missing/too weak");
+            if (lightningColliders.Length != 0)
+                hardFailures.Add("layered lightning must remain collider-free");
 
             foreach (var response in windResponse)
             {
@@ -192,7 +232,24 @@ namespace ProjectOen.Art.Editor
             if (hardFailures.Count > 0)
                 throw new InvalidOperationException("Quest 2 showcase budget hard gate failed: " + string.Join("; ", hardFailures));
 
-            Debug.Log("[ProjectOEN.Art.Budget] PASS: showcase stays inside repository Quest 2 hard limits with centralized wet surfaces, bounded storm motion FX and nine renderer-culled wind-responsive dressing objects. Device profiling still required for authoritative frame timing/draw calls.");
+            Debug.Log("[ProjectOEN.Art.Budget] PASS: showcase stays inside repository Quest 2 hard limits with centralized wet surfaces, bounded storm motion FX, layered near/far lightning and nine renderer-culled wind-responsive dressing objects. Device profiling still required for authoritative frame timing/draw calls.");
+        }
+
+        private static bool HasPulseCurve(AnimationClip clip, string path, Type type, string propertyName, float minimumPeak)
+        {
+            if (clip == null)
+                return false;
+
+            EditorCurveBinding binding = AnimationUtility.GetCurveBindings(clip)
+                .FirstOrDefault(b => b.path == path && b.type == type && b.propertyName == propertyName);
+            if (binding.type == null)
+                return false;
+
+            AnimationCurve curve = AnimationUtility.GetEditorCurve(clip, binding);
+            if (curve == null || curve.keys.Length < 3)
+                return false;
+
+            return curve.keys.Max(key => key.value) >= minimumPeak;
         }
     }
 }
