@@ -227,5 +227,5 @@ Write-Host "Material audit: Assets\ProjectOEN\ProductionArt\Scenes\MaterialCalib
 Write-Host "VFX audit: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
 Write-Host "UI audit: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
 Write-Host "Stormnatten art audit: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
-Write-Host "Alle fem art-reviewscener er visual review og ikke M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
+Write-Host "Alle tre review-scener er visual review: VFX, diegetic UI og Stormnatten; materialekalibrering og state-transition er to yderligere isolerede visual-reviewscener. Ingen af de fem er M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
 Write-Host "Naeste: importer Photon Fusion 2 (App ID), koer saa Fase 2 i RUNBOOK.md." -ForegroundColor Green
