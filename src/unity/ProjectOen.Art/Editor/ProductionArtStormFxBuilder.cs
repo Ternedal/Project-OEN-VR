@@ -14,9 +14,10 @@ namespace ProjectOen.Art.Editor
     ///
     /// Quest 2 constraints:
     /// - two extra particle systems only (wind debris + ground rain splashes);
-    /// - one non-shadowing directional flash light;
+    /// - one non-shadowing directional flash light shared by the lightning rig;
+    /// - two unlit lightning billboards (near + far), never two lighting passes;
     /// - no particle collision, no realtime shadowing, no custom shader;
-    /// - lightning uses a legacy AnimationClip instead of an Update() script.
+    /// - the whole lightning rig uses one legacy AnimationClip instead of Update().
     /// </summary>
     public static class ProductionArtStormFxBuilder
     {
@@ -28,6 +29,8 @@ namespace ProjectOen.Art.Editor
         private const string WindDebrisName = "Windblown Storm Debris";
         private const string RainSplashName = "Camp Rain Splashes";
         private const string LightningName = "Distant Storm Lightning";
+        private const string FarLightningName = "Far Lightning";
+        private const string NearLightningName = "Near Lightning";
 
         [MenuItem("Project OEN/Art/Add Storm Motion FX To Showcase")]
         public static void AddStormMotionFx()
@@ -44,15 +47,15 @@ namespace ProjectOen.Art.Editor
 
             BuildWindDebris();
             BuildCampRainSplashes();
-            BuildDistantLightning();
+            BuildLayeredLightning();
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene, ScenePath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
-            Debug.Log("[ProjectOEN.Art.StormFX] Added wind debris, camp rain splashes and distant lightning " +
-                      "to Stormnatten (2 particle systems, 1 non-shadowing flash light, no collision).");
+            Debug.Log("[ProjectOEN.Art.StormFX] Added wind debris, camp rain splashes and layered near/far lightning " +
+                      "to Stormnatten (2 particle systems, 2 unlit lightning billboards, 1 non-shadowing shared flash light, no collision).");
         }
 
         private static void BuildWindDebris()
@@ -123,31 +126,32 @@ namespace ProjectOen.Art.Editor
             renderer.receiveShadows = false;
         }
 
-        private static void BuildDistantLightning()
+        private static void BuildLayeredLightning()
         {
             EnsureFolder(AnimationRoot);
 
-            GameObject prefab = FindVfxPrefab("fx_006_far_lightning");
-            GameObject go = Instantiate(prefab, LightningName);
-            go.transform.position = new Vector3(-7.8f, 6.2f, 12.0f);
+            GameObject rig = new GameObject(LightningName);
+            GameObject far = Instantiate(FindVfxPrefab("fx_006_far_lightning"), FarLightningName);
+            GameObject near = Instantiate(FindVfxPrefab("fx_006_near_lightning"), NearLightningName);
+            far.transform.SetParent(rig.transform, true);
+            near.transform.SetParent(rig.transform, true);
+
+            far.transform.position = new Vector3(-8.2f, 6.4f, 12.8f);
+            near.transform.position = new Vector3(8.4f, 7.0f, 8.2f);
 
             Camera camera = UnityEngine.Object.FindObjectOfType<Camera>();
-            if (camera != null)
-            {
-                go.transform.LookAt(camera.transform.position);
-                go.transform.Rotate(0f, 180f, 0f, Space.Self);
-            }
+            FaceCamera(far, camera);
+            FaceCamera(near, camera);
 
-            SpriteRenderer spriteRenderer = go.GetComponentInChildren<SpriteRenderer>(true);
-            if (spriteRenderer == null)
-                throw new InvalidOperationException("Lightning VFX prefab has no SpriteRenderer.");
-            spriteRenderer.color = new Color(0.72f, 0.82f, 1.0f, 0.10f);
-            spriteRenderer.shadowCastingMode = ShadowCastingMode.Off;
-            spriteRenderer.receiveShadows = false;
+            SpriteRenderer farSprite = RequireLightningSprite(far, FarLightningName);
+            SpriteRenderer nearSprite = RequireLightningSprite(near, NearLightningName);
+            ConfigureLightningSprite(farSprite, new Color(0.70f, 0.80f, 1.0f, 0.04f), 18);
+            ConfigureLightningSprite(nearSprite, new Color(0.80f, 0.88f, 1.0f, 0.00f), 22);
 
-            Light flash = go.GetComponent<Light>();
-            if (flash == null)
-                flash = go.AddComponent<Light>();
+            // One shared, non-shadowing flash light gives the strike a scene response.
+            // Both billboard strikes drive this same light, so layered lightning does
+            // not add a second dynamic lighting pass.
+            Light flash = rig.AddComponent<Light>();
             flash.type = LightType.Directional;
             flash.color = new Color(0.63f, 0.77f, 1.0f);
             flash.intensity = 0f;
@@ -171,33 +175,74 @@ namespace ProjectOen.Art.Editor
             }
 
             clip.wrapMode = WrapMode.Loop;
-            AnimationCurve alphaCurve = new AnimationCurve(
-                new Keyframe(0.00f, 0.10f),
-                new Keyframe(4.72f, 0.10f),
-                new Keyframe(4.76f, 0.95f),
-                new Keyframe(4.84f, 0.24f),
-                new Keyframe(4.91f, 1.00f),
-                new Keyframe(5.02f, 0.10f),
-                new Keyframe(8.00f, 0.10f));
+
+            // The far strike rolls through first; a brighter near double-strike
+            // follows later. Long dark gaps preserve storm contrast and keep both
+            // transparent billboards effectively invisible between strikes.
+            AnimationCurve farAlphaCurve = new AnimationCurve(
+                new Keyframe(0.00f, 0.04f),
+                new Keyframe(2.60f, 0.04f),
+                new Keyframe(2.65f, 0.62f),
+                new Keyframe(2.72f, 0.10f),
+                new Keyframe(2.79f, 0.82f),
+                new Keyframe(2.92f, 0.04f),
+                new Keyframe(9.00f, 0.04f));
+            AnimationCurve nearAlphaCurve = new AnimationCurve(
+                new Keyframe(0.00f, 0.00f),
+                new Keyframe(5.08f, 0.00f),
+                new Keyframe(5.13f, 1.00f),
+                new Keyframe(5.20f, 0.16f),
+                new Keyframe(5.27f, 1.00f),
+                new Keyframe(5.39f, 0.00f),
+                new Keyframe(9.00f, 0.00f));
             AnimationCurve lightCurve = new AnimationCurve(
                 new Keyframe(0.00f, 0.00f),
-                new Keyframe(4.72f, 0.00f),
-                new Keyframe(4.76f, 0.55f),
-                new Keyframe(4.84f, 0.12f),
-                new Keyframe(4.91f, 0.72f),
-                new Keyframe(5.02f, 0.00f),
-                new Keyframe(8.00f, 0.00f));
+                new Keyframe(2.60f, 0.00f),
+                new Keyframe(2.65f, 0.20f),
+                new Keyframe(2.72f, 0.04f),
+                new Keyframe(2.79f, 0.28f),
+                new Keyframe(2.92f, 0.00f),
+                new Keyframe(5.08f, 0.00f),
+                new Keyframe(5.13f, 0.64f),
+                new Keyframe(5.20f, 0.10f),
+                new Keyframe(5.27f, 0.78f),
+                new Keyframe(5.39f, 0.00f),
+                new Keyframe(9.00f, 0.00f));
 
-            clip.SetCurve(string.Empty, typeof(SpriteRenderer), "m_Color.a", alphaCurve);
+            clip.SetCurve(FarLightningName, typeof(SpriteRenderer), "m_Color.a", farAlphaCurve);
+            clip.SetCurve(NearLightningName, typeof(SpriteRenderer), "m_Color.a", nearAlphaCurve);
             clip.SetCurve(string.Empty, typeof(Light), "m_Intensity", lightCurve);
             EditorUtility.SetDirty(clip);
 
-            Animation animation = go.GetComponent<Animation>();
-            if (animation == null)
-                animation = go.AddComponent<Animation>();
+            Animation animation = rig.AddComponent<Animation>();
             animation.playAutomatically = true;
+            animation.cullingType = AnimationCullingType.AlwaysAnimate;
             animation.AddClip(clip, clip.name);
             animation.clip = clip;
+        }
+
+        private static void FaceCamera(GameObject go, Camera camera)
+        {
+            if (camera == null)
+                return;
+            go.transform.LookAt(camera.transform.position);
+            go.transform.Rotate(0f, 180f, 0f, Space.Self);
+        }
+
+        private static SpriteRenderer RequireLightningSprite(GameObject go, string label)
+        {
+            SpriteRenderer renderer = go.GetComponentInChildren<SpriteRenderer>(true);
+            if (renderer == null)
+                throw new InvalidOperationException(label + " VFX prefab has no SpriteRenderer.");
+            return renderer;
+        }
+
+        private static void ConfigureLightningSprite(SpriteRenderer renderer, Color color, int sortingOrder)
+        {
+            renderer.color = color;
+            renderer.sortingOrder = sortingOrder;
+            renderer.shadowCastingMode = ShadowCastingMode.Off;
+            renderer.receiveShadows = false;
         }
 
         private static GameObject FindVfxPrefab(string stem)
