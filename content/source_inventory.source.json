@@ -9,7 +9,7 @@
     {"id":"NEUTRAL_FALLBACK","status":"produced-source-qa","path":"source_art/neutral","format":"SVG","next":"Claude neutral fallback integration"},
     {"id":"A2_CORE_PROPS","status":"reference-produced-final-3d-open","path":"source_art/props/a2","format":"Markdown+SVG","next":"produce final external meshes only where runtime greybox proves necessary"},
     {"id":"A3_STORM_VFX","status":"produced-source-reference","path":"source_art/vfx/a3","format":"SVG","next":"Claude runtime VFX implementation/device tuning"},
-    {"id":"A4_CAMP","status":"produced-source-reference","path":"source_art/environment/a4","format":"SVG","next":"final environment art waits stable geometry"},
+    {"id":"A4_CAMP","status":"produced-source-reference-expanded","path":"source_art/environment/a4","format":"SVG","producedIds":["ENV_BEACH_CAMP_001","ENV_WRECKAGE_001","ENV_CAMP_GROUND_001","ENV_STORM_CAMP_001","PRP_RADIO_001","PRP_SIGNAL_FRAME_001"],"next":"Claude Unity implementation; final environment art/material polish waits stable geometry and Quest 2 evidence"},
     {"id":"B1_ENVIRONMENT","status":"produced-source-reference","path":"source_art/environment/b1","format":"SVG","next":"Claude world implementation; richer art after spatial evidence"},
     {"id":"B1_WORLD_ITEMS","status":"partial-produced","path":"source_art/items/b1","format":"SVG","producedIds":["ITM_WOOD_BUNDLE_001","ITM_FIBER_BUNDLE_001","ITM_HERB_BUNDLE_001","ITM_FOOD_PARCEL_001","ITM_GENERAL_SUPPLIES_001"],"next":"remaining scenario items and runtime handoff"},
     {"id":"B2_EVENT_PRESENTATION","status":"produced-and-mapped","path":"source_art/events/b2","format":"SVG","next":"Claude binds machine-readable event presentation contract"},
