@@ -1,0 +1,34 @@
+name: Validate source inventory backing
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/source_inventory.source.json'
+      - 'content/source_inventory.reference_map.source.json'
+      - 'source_art/**'
+      - 'tools/validate_source_inventory_backing.py'
+      - '.github/workflows/source-inventory-backing-validation.yml'
+  pull_request:
+    paths:
+      - 'content/source_inventory.source.json'
+      - 'content/source_inventory.reference_map.source.json'
+      - 'source_art/**'
+      - 'tools/validate_source_inventory_backing.py'
+      - '.github/workflows/source-inventory-backing-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate produced source backing files
+        run: python tools/validate_source_inventory_backing.py
