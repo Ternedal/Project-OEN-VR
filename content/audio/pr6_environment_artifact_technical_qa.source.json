@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "status": "objective-technical-qa-passed-human-headset-listening-required",
+  "owner": "ChatGPT",
+  "artifactAudit": "content/audio/pr6_environment_artifact_audit.source.json",
+  "sourcePr": 6,
+  "sourceHeadAtAudit": "6b3d22f4b7a3e100fa7d237331b66225e55d0f4f",
+  "method": "Decoded WAV format inspection plus FFmpeg ebur128 integrated loudness/LRA/true-peak analysis. No semantic listening judgment.",
+  "summary": {
+    "filesMeasured": 28,
+    "sampleRateHz": 48000,
+    "bitDepth": 24,
+    "truePeakOver0Dbfs": 0,
+    "maxMeasuredTruePeakDbfs": -3.0,
+    "integratedLufsRange": {"min": -25.2, "max": -17.8},
+    "result": "no-objective-clipping-blocker"
+  },
+  "groups": [
+    {
+      "eventId": "SFX_AMB_Beach_OceanNear",
+      "variations": [
+        {"id":"01","integratedLufs":-24.1,"lraLu":8.3,"truePeakDbfs":-6.9},
+        {"id":"02","integratedLufs":-22.6,"lraLu":12.6,"truePeakDbfs":-3.1}
+      ]
+    },
+    {
+      "eventId": "SFX_AMB_Beach_OceanFar",
+      "variations": [
+        {"id":"01","integratedLufs":-21.3,"lraLu":6.3,"truePeakDbfs":-3.3},
+        {"id":"02","integratedLufs":-24.7,"lraLu":8.9,"truePeakDbfs":-7.4}
+      ]
+    },
+    {
+      "eventId": "SFX_WTH_Rain_Light",
+      "variations": [{"id":"01","integratedLufs":-23.4,"lraLu":0.9,"truePeakDbfs":-10.5}]
+    },
+    {
+      "eventId": "SFX_WTH_Rain_Heavy",
+      "variations": [{"id":"01","integratedLufs":-22.9,"lraLu":1.6,"truePeakDbfs":-6.3}]
+    },
+    {
+      "eventId": "SFX_WTH_Storm_Wind",
+      "variations": [
+        {"id":"01","integratedLufs":-22.4,"lraLu":3.6,"truePeakDbfs":-6.3},
+        {"id":"02","integratedLufs":-24.1,"lraLu":4.0,"truePeakDbfs":-10.3}
+      ]
+    },
+    {
+      "eventId": "SFX_ENV_Fire_Idle",
+      "variations": [{"id":"01","integratedLufs":-25.2,"lraLu":1.4,"truePeakDbfs":-3.0}]
+    },
+    {
+      "eventId": "SFX_ENV_Fire_Low",
+      "variations": [{"id":"01","integratedLufs":-25.2,"lraLu":1.4,"truePeakDbfs":-3.0}]
+    },
+    {
+      "eventId": "SFX_AMB_Jungle_DayBed",
+      "variations": [{"id":"01","integratedLufs":-23.6,"lraLu":1.6,"truePeakDbfs":-8.7}]
+    },
+    {
+      "eventId": "SFX_NAT_Insect_CicadaCluster",
+      "variations": [
+        {"id":"01","integratedLufs":-18.9,"lraLu":2.5,"truePeakDbfs":-3.2},
+        {"id":"02","integratedLufs":-18.1,"lraLu":0.6,"truePeakDbfs":-7.3},
+        {"id":"03","integratedLufs":-18.2,"lraLu":0.4,"truePeakDbfs":-7.1},
+        {"id":"04","integratedLufs":-18.5,"lraLu":3.4,"truePeakDbfs":-4.4}
+      ]
+    },
+    {
+      "eventId": "SFX_WTH_Thunder_Far",
+      "variations": [
+        {"id":"01","integratedLufs":-19.2,"lraLu":2.7,"truePeakDbfs":-3.0},
+        {"id":"02","integratedLufs":-18.5,"lraLu":0.5,"truePeakDbfs":-3.0},
+        {"id":"03","integratedLufs":-19.4,"lraLu":1.5,"truePeakDbfs":-3.0}
+      ]
+    },
+    {
+      "eventId": "SFX_AMB_Shore_Wash",
+      "variationCount": 10,
+      "integratedLufsRange": {"min":-20.5,"max":-17.8},
+      "truePeakDbfsRange": {"min":-3.5,"max":-3.0},
+      "lraLuRange": {"min":0.4,"max":7.1}
+    }
+  ],
+  "humanReviewPriorities": [
+    "Confirm OceanNear and OceanFar read as meaningfully different perspectives despite sharing waves_pd.",
+    "Confirm all ten ShoreWash variations contain enough audible variation; unique hashes do not prove perceptual diversity.",
+    "Check fire derivatives for room/recording identity and whether Idle vs Low are perceptually distinct; both come from fire_pd.",
+    "Check storm-wind derivatives for natural variation and avoid obvious repeated source character.",
+    "Check jungle bed and cicadas for biome fit and contamination.",
+    "Check distant thunder tails for unwanted source artifacts and adequate variation."
+  ],
+  "rules": [
+    "Objective technical QA does not promote any file beyond candidate-headset-listen.",
+    "No Unity/Quest physical evidence is created by this file.",
+    "PR #6 must still sync current main and collect its six real physical QA gates on the post-sync payload."
+  ]
+}
