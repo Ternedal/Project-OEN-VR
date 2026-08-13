@@ -1,9 +1,16 @@
 {
-  "version": 1,
-  "status": "source-ready",
+  "version": 2,
+  "status": "source-ready-expanded-acquired-review",
   "owner": "ChatGPT",
   "runtimeOwner": "Claude",
   "input": "PrivateContent/AudioSourceIncoming/acquisition_manifest.json",
+  "inputs": [
+    "content/audio/acquisition_receipt.source.json",
+    "content/audio/acquisition_extension_receipt.source.json",
+    "content/audio/acquisition_extension_member_shortlist.source.json",
+    "content/audio/listening_review_targets.source.json",
+    "content/audio/pr6_environment_artifact_audit.source.json"
+  ],
   "states": [
     "candidate",
     "acquired-original-not-listening-approved",
@@ -12,6 +19,37 @@
     "derived-master-approved",
     "Unity-integrated",
     "release-approved"
+  ],
+  "reviewDecisionValues": ["keep", "maybe", "reject"],
+  "reviewDecisionRule": "keep/maybe/reject is a source-selection note only. Only a completed pass through sourceApprovedRequires may change a source to source-approved.",
+  "reviewGroups": [
+    {
+      "id": "MAIN_ACQUIRED_ORIGINALS",
+      "targets": ["AMB_WIND_WORLD", "AMB_RAIN_ALT", "SFX_FIRE_ALT"],
+      "focus": ["contamination", "space identity", "material/context fit", "loop/edit usefulness", "speech masking"]
+    },
+    {
+      "id": "OCEAN_EXTENSION",
+      "targets": ["AMB_OCEAN_ALT"],
+      "focus": ["wave character", "edit usefulness", "short-source loop risk", "48 kHz derivation need"]
+    },
+    {
+      "id": "WOOD_EXTENSION",
+      "targets": ["SFX_WOOD_PACK_ALT"],
+      "members": ["floor_creak1.wav", "floor_creak2.wav", "floor_creak3.wav", "door_creak_open.wav", "door_creak_close.wav"],
+      "focus": ["shelter-timber fit", "obvious floor/door identity", "transient quality", "variation value"]
+    },
+    {
+      "id": "CLOTH_EXTENSION",
+      "targets": ["SFX_CLOTH_PACK_ALT"],
+      "members": ["OGG/cloth1.ogg", "OGG/cloth2.ogg", "OGG/cloth3.ogg", "OGG/cloth4.ogg", "OGG/clothBelt.ogg", "OGG/clothBelt2.ogg", "OGG/creak1.ogg", "OGG/creak2.ogg", "OGG/creak3.ogg"],
+      "focus": ["tarp/cloth material scale", "synthetic/game-SFX character", "tension usefulness", "lossy-source handling"]
+    },
+    {
+      "id": "PR6_ENVIRONMENT_CANDIDATES",
+      "source": "content/audio/pr6_environment_artifact_audit.source.json",
+      "focus": ["seam risk", "source reuse", "perspective differentiation", "fire idle/low differentiation", "wind space identity"]
+    }
   ],
   "requiredListeningChecks": [
     {"id":"CONTAMINATION","question":"Voices, traffic, birds, room tone, handling noise or unrelated events that conflict with the island context?","result":"pass/fail + note"},
@@ -27,7 +65,9 @@
     "record actual codec/sample rate/channels/bit depth from technicalProbe",
     "preserve source SHA-256",
     "do not overwrite the acquired original",
-    "record every edit/resample operation used for a derived master"
+    "record every edit/resample operation used for a derived master",
+    "preserve selected archive member SHA-256 before any extraction-derived edit",
+    "avoid repeated lossy transcodes when a selected source member is Vorbis/OGG"
   ],
   "approvalRule": {
     "sourceApprovedRequires": ["license evidence preserved", "SHA-256 preserved", "all applicable required listening checks completed", "no unresolved contamination failure", "material match >= 3"],
