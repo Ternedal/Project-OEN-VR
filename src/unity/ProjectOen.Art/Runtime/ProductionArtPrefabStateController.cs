@@ -48,8 +48,7 @@ namespace ProjectOen.Art.Runtime
             if (!stateSet.TryGetPrefab(stateKey, out prefab))
                 return false;
 
-            if (currentInstance != null)
-                Destroy(currentInstance);
+            ReleaseCurrentInstance();
 
             currentInstance = Instantiate(prefab, mount, false);
             currentInstance.name = prefab.name + " [" + stateKey + "]";
@@ -67,6 +66,32 @@ namespace ProjectOen.Art.Runtime
             stateSet = set;
             mount = targetMount;
             initialState = stateKey;
+        }
+
+        private void ReleaseCurrentInstance()
+        {
+            if (currentInstance == null)
+                return;
+
+            if (Application.isPlaying)
+            {
+                UnityEngine.Object.Destroy(currentInstance);
+            }
+#if UNITY_EDITOR
+            else
+            {
+                // Editor-side art audits deliberately exercise real SetState calls.
+                // Immediate destruction keeps those deterministic and prevents old
+                // state instances from surviving beside the replacement.
+                UnityEngine.Object.DestroyImmediate(currentInstance);
+            }
+#else
+            else
+            {
+                UnityEngine.Object.Destroy(currentInstance);
+            }
+#endif
+            currentInstance = null;
         }
     }
 }
