@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="#282C2D"/>
+<text x="42" y="58" fill="#E8E0CF" font-size="32" font-family="sans-serif">PRP_RADIO_001 — source design reference</text>
+<text x="42" y="92" fill="#C8B58D" font-size="18" font-family="sans-serif">diegetic narrative/status object · readable dead / weak / active states</text>
+<g transform="translate(62 150)">
+<rect width="470" height="410" rx="30" fill="#3B4243" stroke="#E8E0CF" stroke-width="9"/>
+<rect x="58" y="72" width="235" height="164" rx="18" fill="#4C5553" stroke="#B8AA8C" stroke-width="8"/>
+<g stroke="#282C2D" stroke-width="9"><path d="M82 108h187"/><path d="M82 139h187"/><path d="M82 170h187"/><path d="M82 201h187"/></g>
+<circle cx="365" cy="112" r="46" fill="#6B513D" stroke="#E8E0CF" stroke-width="8"/>
+<circle cx="365" cy="233" r="33" fill="#55717A" stroke="#E8E0CF" stroke-width="8"/>
+<rect x="80" y="285" width="160" height="72" rx="14" fill="#252B2D" stroke="#D59A52" stroke-width="7"/>
+<path d="M304 344h102" stroke="#D59A52" stroke-width="10" stroke-linecap="round"/>
+<path d="M410 70 445 24" stroke="#B8AA8C" stroke-width="11" stroke-linecap="round"/>
+</g>
+<g transform="translate(590 160)" font-family="sans-serif">
+<text x="0" y="18" fill="#E8E0CF" font-size="24">STATE LANGUAGE</text>
+<text x="0" y="78" fill="#E8E0CF" font-size="19">DEAD — dark display, no pulse, heavy silence</text>
+<text x="0" y="126" fill="#E8E0CF" font-size="19">WEAK — intermittent amber tick + unstable audio</text>
+<text x="0" y="174" fill="#E8E0CF" font-size="19">ACTIVE — steady signal rhythm + readable display</text>
+<text x="0" y="242" fill="#C8B58D" font-size="18">Grip/readability:</text>
+<text x="0" y="282" fill="#E8E0CF" font-size="18">• oversized dial / handle language</text>
+<text x="0" y="318" fill="#E8E0CF" font-size="18">• removable power source has keyed socket</text>
+<text x="0" y="354" fill="#E8E0CF" font-size="18">• no real brand, military model or modern sci-fi UI</text>
+<text x="0" y="408" fill="#AFA488" font-size="17">Claude owns interaction, audio binding, material and runtime state.</text>
+</g>
+</svg>

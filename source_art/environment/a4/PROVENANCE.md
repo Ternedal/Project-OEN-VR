@@ -15,7 +15,15 @@ No map screenshot, game screenshot, third-party concept art, stock illustration 
 
 Current source references:
 
-- `CAMP_LAYOUT_REFERENCE_001.svg`
-- `CAMP_STATE_REFERENCE_001.svg`
+- `CAMP_LAYOUT_REFERENCE_001.svg` — camp relationship, sightlines and spatial hierarchy
+- `CAMP_STATE_REFERENCE_001.svg` — intro → day 2 → storm → epilogue state continuity
+- `WRECK_HERO_REFERENCE_001.svg` — fictional wreck hero silhouette and landmark contract
+- `CAMP_GROUND_MATERIAL_REFERENCE_001.svg` — dry/wet ground and readability targets
+- `RADIO_SOURCE_REFERENCE_001.svg` — dead/weak/active diegetic radio language
+- `SIGNAL_FRAME_REFERENCE_001.svg` — stage 0–3 signal-frame progression
 
-These establish relationship, sightlines and state progression only. They are not final Unity geometry, lighting or environment art.
+All six references are project-original source masters. They define product/art intent only; they are not final Unity geometry, materials, shaders, lighting, colliders, LODs, prefabs, VFX, networking or runtime state.
+
+## Handoff boundary
+
+ChatGPT owns these source references and their design intent. Claude owns translation into Unity and must preserve the gameplay readability rules from the references while adapting implementation for Quest 2 performance and Quest 3/3S parity.
