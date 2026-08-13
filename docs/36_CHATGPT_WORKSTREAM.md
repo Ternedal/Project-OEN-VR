@@ -61,6 +61,22 @@ Aktuelle contracts omfatter:
 
 ---
 
+# M-Pre testværktøj
+
+`tools/evaluate_mpre.py` evaluerer kun anonymt, faktisk human-session CSV-input mod den accepterede gate i `docs/35`.
+
+Kode-QA:
+
+- `tools/test_evaluate_mpre.py` bruger kun midlertidige syntetiske data og producerer aldrig playtest-evidens.
+- `.github/workflows/m-pre-evaluator-validation.yml` kører testen automatisk.
+- første CI-run fangede en reel import-path-fejl i workflowet; den blev rettet uden ændring af gatekode.
+- anden CI-run `83371af` er **grøn**: 4/4 tests passerer.
+- dækkede cases: 2/3 grøn → GREEN; 1/3 grøn → gyldig RED; ét testerpar → invalid; non-human/gavemodtager → invalid.
+
+M-Pre er stadig **ikke kørt**. Testværktøj og syntetisk kode-QA må aldrig tælles som menneskelig evidens.
+
+---
+
 # Audio/source-status
 
 ## AU-1
@@ -92,11 +108,14 @@ Aktive guards omfatter:
 - Validate handoff
 - Validate non-Unity sources
 - Validate source inventory
+- Validate M-Pre evaluator
 - action placeholder-cost mirror
 - AU-1 regeneration/validation
 - event presentation validation
 
-Seneste planning/status inventory-commit `36a38dd` er grøn på Core, handoff, non-Unity og source-inventory.
+Planning/status inventory-commit `36a38dd` er grøn på Core, handoff, non-Unity og source-inventory.
+
+M-Pre evaluator-CI `83371af` er grøn med 4/4 tests.
 
 Forsøg på at udvide `validate_source_inventory.py` med dybere planning/status cross-file checks blev filtreret og tælles **ikke** som leveret. Den eksisterende pipeline er fortsat grøn.
 
@@ -122,20 +141,21 @@ PR #12 fjernede 89 tracked genererede `src/**/bin/` build/test-filer. Gælden er
 
 # Næste aktive ChatGPT-bølge
 
-1. fortsæt stabile B1/world source assets, men kun hvor et manglende source master reducerer reel Unity-gætteri
-2. actual audio acquisition + listening QA på en internetforbundet workstation; ingen fake WAV-status
-3. derefter derived audio masters/Foley/ambience, når source originals faktisk er acquired og godkendt
-4. radio VO recording efter samme provenance/listening pipeline
-5. yderligere machine-readable contracts kun hvor de erstatter manuel mapping — ikke for dokumentationens egen skyld
-6. richer environment/polish og torso først når geometry/device evidence reducerer rework-risiko
-7. private personalization source uden for public repo senere
-8. M1 implementation handoff når både M0b + M-Pre er grønne
+1. **M-Pre human sessions**: næste reelle produktgate; evaluator og facilitatorpakke er klar.
+2. **Actual audio acquisition + listening QA** på en internetforbundet workstation; ingen fake WAV-status.
+3. **Derived audio masters/Foley/ambience** først når originals faktisk er acquired og godkendt.
+4. **Radio VO recording** efter samme provenance/listening pipeline.
+5. Fortsæt kun B1/source-art hvor en konkret manglende master reducerer Unity-gætteri; undgå grafikproduktion for grafikkens egen skyld.
+6. Richer environment/polish og torso først når geometry/device evidence reducerer rework-risiko.
+7. Private personalization source uden for public repo senere.
+8. M1 implementation handoff når både M0b + M-Pre er grønne.
 
-## Kendte ikke-leverede artifacts
+## Kendte ikke-leverede artifacts / gæld
 
 - ember-carrier source blev genereret som blob, men commit blev filtreret; tælles **ikke** som produceret
 - repair-mallet source blev genereret som blob, men er ikke committed; tælles **ikke** som produceret
 - fuld gameplay interaction-feedback JSON-binding blev filtreret; planning/status-delen blev i stedet leveret som separat contract
+- `docs/38_SOURCE_ASSET_MANIFEST.md` har stadig stale statuslinjer for rope-strain og player hands; inventory + denne workstream er korrekte, og manifest-rewrite blev filtreret
 
 Der omgås ikke sikkerhedsfiltre, og ucommittede artifacts tælles aldrig som produktion.
 
