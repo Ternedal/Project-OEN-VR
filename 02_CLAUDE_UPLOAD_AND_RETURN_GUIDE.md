@@ -1,22 +1,25 @@
-# Upload- og returguide
+# Upload- og returguide — ARKIVERET
 
-## Sådan gives projektet til Claude
+> **Arkiveret 2026-08-13.** Denne fil beskriver review v1.0-flowet og er ikke længere den aktuelle måde at arbejde med Claude på.
 
-Den foretrukne vej er at give Claude adgang til dette private repository og bede den starte med `01_PROMPT_FOR_CLAUDE.md`.
+Claude arbejder nu direkte mod repositoryets aktuelle source of truth.
 
-Alternativt:
+## Aktuel Claude-indgang
 
-1. Upload hele `PROJECT_OEN_CLAUDE_HANDOFF_v2.0.zip`.
-2. Indsæt teksten fra `01_PROMPT_FOR_CLAUDE.md` som første besked.
-3. Bed Claude bekræfte, at den har læst `00_READ_ME_FIRST.md`.
-4. Lad Claude gennemføre reviewet før nogen kodegenerering.
+Brug i stedet:
 
-## Det Claude skal returnere
+1. `00_READ_ME_FIRST.md`
+2. `AI_COLLABORATION_AGREEMENT.md`
+3. `repo_status.md`
+4. `CLAUDE.md`
+5. `docs/32_OPUS_EXECUTION_PLAN.md`
 
-- Hele reviewet i ét Markdown-dokument.
-- Stabile ID'er: `CR-001`, `CR-002` osv.
-- Ingen implementering eller omskrivning af source-of-truth i første svar.
-- Kilder til platformpåstande.
-- En afsluttende maskinlæsbar JSON-blok som specificeret i prompten.
+Aktuel Claude-opgave er M0b cross-device i Unity-sporet — ikke et nyt kritisk review.
 
-Gem svaret som `review/CLAUDE_RAW_REVIEW.md` og send enten filen eller hele teksten tilbage. Derefter behandles hvert punkt i `review/RESPONSE_MATRIX.md` og den detaljerede backlog.
+## Historisk flow
+
+Review v1.0 blev oprindeligt kørt ved at give Claude handoff-pakken og prompten i `01_PROMPT_FOR_CLAUDE.md`, hvorefter output blev gemt i `review/CLAUDE_RAW_REVIEW.md` og behandlet i `review/RESPONSE_MATRIX.md`.
+
+Det review er gennemført, dispositioneret og merget. Alle 10 oprindelige fund er lukket.
+
+Filerne bevares som evidens og historik, men må ikke bruges som næste arbejdsordre.
