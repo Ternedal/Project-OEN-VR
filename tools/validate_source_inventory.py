@@ -38,10 +38,61 @@ def resolve(value, owner):
     return path
 
 
-def files(path: Path):
+def source_files(path: Path) -> list[Path]:
     if path.is_file():
         return [path]
     return [p for p in path.rglob("*") if p.is_file() and p.suffix.lower() in SUFFIXES]
+
+
+def validate_ids(owner: str, field: str, value) -> list[str]:
+    if value is None:
+        return []
+    if not isinstance(value, list) or not value:
+        fail(f"{owner}: invalid {field}")
+        return []
+    result: list[str] = []
+    seen: set[str] = set()
+    for asset_id in value:
+        if not isinstance(asset_id, str) or not asset_id:
+            fail(f"{owner}: {field} contains invalid asset id {asset_id!r}")
+            continue
+        if asset_id in seen:
+            fail(f"{owner}: duplicate {field} asset id {asset_id}")
+            continue
+        seen.add(asset_id)
+        result.append(asset_id)
+    return result
+
+
+def validate_source_map(owner: str, package_path: Path, produced: list[str], value) -> dict[str, str]:
+    if value is None:
+        return {}
+    if not isinstance(value, dict):
+        fail(f"{owner}: sourceMap must be an object")
+        return {}
+
+    produced_set = set(produced)
+    result: dict[str, str] = {}
+    for asset_id, rel in value.items():
+        if asset_id not in produced_set:
+            fail(f"{owner}: sourceMap has orphan key {asset_id}")
+            continue
+        if not isinstance(rel, str) or not rel:
+            fail(f"{owner}: sourceMap {asset_id} has invalid path")
+            continue
+        rel_path = Path(rel)
+        if rel_path.is_absolute() or ".." in rel_path.parts:
+            fail(f"{owner}: sourceMap {asset_id} must stay inside package path")
+            continue
+        mapped = package_path / rel_path
+        if not mapped.is_file():
+            fail(f"{owner}: sourceMap {asset_id} missing backing file {rel}")
+            continue
+        if mapped.suffix.lower() not in SUFFIXES:
+            fail(f"{owner}: sourceMap {asset_id} uses unsupported source type {mapped.suffix}")
+            continue
+        result[asset_id] = rel
+    return result
 
 
 def validate_inventory(data) -> tuple[set[str], set[str]]:
@@ -54,21 +105,23 @@ def validate_inventory(data) -> tuple[set[str], set[str]]:
         if pid in packages:
             fail(f"duplicate package id: {pid}")
         packages.add(pid)
+
         path = resolve(package.get("path"), pid)
         if path is None:
             continue
-        src = files(path)
-        produced = package.get("producedIds")
-        if produced is not None and (not isinstance(produced, list) or not produced):
-            fail(f"{pid}: invalid producedIds")
-        elif isinstance(produced, list) and len(src) < len(produced):
-            fail(f"{pid}: {len(produced)} producedIds but {len(src)} source files")
-        individual = package.get("individualMasterIds")
-        if isinstance(individual, list):
-            stems = {p.stem for p in src}
-            for asset_id in individual:
-                if asset_id not in stems:
-                    fail(f"{pid}: missing individual master {asset_id}")
+        src = source_files(path)
+        stems = {p.stem for p in src}
+
+        produced = validate_ids(pid, "producedIds", package.get("producedIds"))
+        source_map = validate_source_map(pid, path, produced, package.get("sourceMap"))
+        for asset_id in produced:
+            if asset_id not in stems and asset_id not in source_map:
+                fail(f"{pid}: producedId {asset_id} has no direct or mapped backing source file")
+
+        individual = validate_ids(pid, "individualMasterIds", package.get("individualMasterIds"))
+        for asset_id in individual:
+            if asset_id not in stems:
+                fail(f"{pid}: missing individual master {asset_id}")
 
     contracts: set[str] = set()
     for contract in data.get("contentContracts", []):
@@ -151,7 +204,10 @@ def main() -> int:
         print(f"Source inventory validation FAILED: {len(ERRORS)} error(s).")
         return 1
 
-    print(f"Source inventory OK: {len(packages)} packages, {len(contracts)} contracts; UI/material links valid.")
+    print(
+        f"Source inventory OK: {len(packages)} packages, {len(contracts)} contracts; "
+        "declared source IDs have direct or mapped backing files."
+    )
     return 0
 
 
