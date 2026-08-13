@@ -6,11 +6,11 @@
   HELE Core-laget kompilerer som en Unity-assembly, OpenXR er sat op for Android,
   og den genererede Project OEN production-art pakke er installeret i Unity-projektet.
 
-  Production-art-delen bygger world-prefabs, runtime art state catalogs, ground
-  decals, Quest-venlige VFX, isoleret VFX review/audit, diegetiske VR UI-prefabs,
-  fysisk UI review/audit, Stormnatten art-showcase, lokal stormregn, vaade overflader,
-  vind/regnsplash/fjernt lyn, renderer-culled vindrespons paa dug/reb/vegetation og
-  Quest 2 art-budgetaudit. Review-scenerne er IKKE M0b's CoopGame performance/netvaerksgate.
+  Production-art-delen bygger world-prefabs, en isoleret dry/mid/storm materialekalibrering,
+  runtime art state catalogs, ground decals, Quest-venlige VFX, isoleret VFX review/audit,
+  diegetiske VR UI-prefabs, fysisk UI review/audit, Stormnatten art-showcase, lokal stormregn,
+  vaade overflader, vind/regnsplash/fjernt lyn, renderer-culled vindrespons paa dug/reb/vegetation
+  og Quest 2 art-budgetaudit. Review-scenerne er IKKE M0b's CoopGame performance/netvaerksgate.
 
   Fusion/netvaerk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret.
 #>
@@ -72,6 +72,8 @@ Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Runtime\*.cs") $artRuntimeD
 New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
 foreach ($builder in @(
     "ProductionArtPrefabBuilder.cs",
+    "ProductionArtMaterialCalibrationBuilder.cs",
+    "ProductionArtMaterialCalibrationAudit.cs",
     "ProductionArtStateCatalogBuilder.cs",
     "ProductionArtDecalBuilder.cs",
     "ProductionArtVfxBuilder.cs",
@@ -88,7 +90,7 @@ foreach ($builder in @(
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
 }
-Note "ProductionArt + runtime state controllers + world/state/decal/VFX/UI/showcase builders -> ProjektOenApp"
+Note "ProductionArt + runtime state controllers + material/world/state/decal/VFX/UI/showcase builders -> ProjektOenApp"
 
 Step "Kopierer XR-config editor"
 $editorDst = Join-Path $ProjectPath "Assets\Editor"
@@ -129,6 +131,14 @@ if ($LASTEXITCODE -ne 0) {
 $artLog = Run-UnityStep "Bygger production-art prefabs" `
     "ProjectOen.Art.Editor.ProductionArtPrefabBuilder.BuildAll" `
     "production-art-prefabs.log"
+
+$materialCalibrationLog = Run-UnityStep "Bygger dry/mid/storm materialekalibrering" `
+    "ProjectOen.Art.Editor.ProductionArtMaterialCalibrationBuilder.BuildShowcase" `
+    "production-art-material-calibration.log"
+
+$materialCalibrationAuditLog = Run-UnityStep "Auditerer materialekalibrering og scoped vaadhed" `
+    "ProjectOen.Art.Editor.ProductionArtMaterialCalibrationAudit.AuditShowcase" `
+    "production-art-material-calibration-audit.log"
 
 $stateCatalogLog = Run-UnityStep "Bygger runtime art state catalogs" `
     "ProjectOen.Art.Editor.ProductionArtStateCatalogBuilder.BuildAll" `
@@ -186,11 +196,13 @@ $budgetLog = Run-UnityStep "Auditerer Stormnatten showcase mod Quest 2-budget" `
 Step "Resultat"
 if (Test-Path $log) { Select-String -Path $log -Pattern "\[M0B-SETUP\]" | ForEach-Object { Note $_.Line.Trim() } }
 Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
-Write-Host "World meshes/prefabs, runtime state catalogs, ground decals, production VFX og diegetic UI-prefabs er bygget." -ForegroundColor Green
+Write-Host "World meshes/prefabs, dry/mid/storm materialekalibrering, runtime state catalogs, ground decals, production VFX og diegetic UI-prefabs er bygget." -ForegroundColor Green
 Write-Host "Stormnatten review har regn, vaade overflader, vindblaest debris, campsplash, animeret fjernt lyn og renderer-culled vindrespons paa dug/reb/vegetation." -ForegroundColor Green
 Write-Host "State catalogs: Assets\ProjectOEN\ProductionArt\StateSets" -ForegroundColor Green
+Write-Host "Material audit: Assets\ProjectOEN\ProductionArt\Scenes\MaterialCalibrationShowcase.unity" -ForegroundColor Green
 Write-Host "VFX audit: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
 Write-Host "UI audit: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
 Write-Host "Stormnatten art audit: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
+Write-Host "Materialekalibreringen er visual review og ikke M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
 Write-Host "Alle tre review-scener er visual review og ikke M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
 Write-Host "Naeste: importer Photon Fusion 2 (App ID), koer saa Fase 2 i RUNBOOK.md." -ForegroundColor Green
