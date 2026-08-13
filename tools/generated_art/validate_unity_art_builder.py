@@ -4,8 +4,8 @@
 Dedicated validators own detailed VFX/UI/world quality. This gate protects the
 shared integration order, core material/decal/storm contracts, event-driven wet
 surface response, canonical storm-pressure prefab states, bounded layered
-Stormnatten motion FX, renderer-culled wind response and strict separation from
-the minimal M0b CoopGame Android gate.
+Stormnatten motion FX, renderer-culled wind response, the six specialist review
+scenes and strict separation from the minimal M0b CoopGame Android gate.
 """
 from __future__ import annotations
 import sys
@@ -203,7 +203,8 @@ def main():
         'ProductionArtDiegeticUiBuilder.BuildAll','ProductionArtUiShowcaseBuilder.BuildShowcase','ProductionArtUiShowcaseAudit.AuditShowcase',
         'ProductionArtShowcaseBuilder.BuildShowcase','ProductionArtStormAtmosphereBuilder.AddStormAtmosphere',
         'ProductionArtStormFxBuilder.AddStormMotionFx','ProductionArtWindResponseBuilder.AddWindResponse',
-        'ProductionArtShowcaseAudit.AuditShowcase','Alle tre review-scener er visual review',
+        'ProductionArtShowcaseAudit.AuditShowcase',
+        'VFX, diegetic UI, materialekalibrering, state-transition, hero-readability og Stormnatten er seks visual-reviewscener',
     ),errors)
     boot_sequence=sequence[:-1]
     if boot and not ordered(boot,boot_sequence): errors.append("M0b bootstrap art sequence is out of order")
@@ -213,7 +214,7 @@ def main():
         "StormnattenArtShowcase","DiegeticUiArtShowcase","ProductionVfxShowcase","Storm Rain Volume","Storm Surface Wetness",
         "Windblown Storm Debris","Camp Rain Splashes","Distant Storm Lightning","Far Lightning","Near Lightning",
         "Storm-Damaged Shelter","Campfire Nearly Out Wet","Wet Tarp","Signal Beacon Storm Damaged",
-        "ProductionArtWindResponseBuilder")):
+        "Signal Finale Micro Story","Storm Camp Micro Story","ProductionArtWindResponseBuilder")):
         errors.append("Visual-review content leaked into minimal CoopGame M0b gate")
 
     print("Project ØEN global Unity art integration QA")
@@ -222,8 +223,8 @@ def main():
     print(f"  storm states    : {len(STORM_STATE_OBJECTS)} canonical damaged/wet showcase states")
     print("  storm motion FX : 2 bounded particle systems + layered near/far no-shadow lightning")
     print(f"  wind response   : {len(WIND_TARGETS)} renderer-culled legacy Animation clips")
-    print("  review scenes   : VFX + physical UI + Stormnatten")
-    print("  review order    : world -> decals -> VFX/audit -> UI/audit -> Stormnatten atmosphere/motion/wind -> audit")
+    print("  review scenes   : VFX + physical UI + material calibration + state transitions + hero readability + Stormnatten")
+    print("  review order    : world/state/material -> decals -> VFX/audit -> UI/audit -> Stormnatten stories/atmosphere/motion/wind -> audit")
     print("  M0b separation  : CoopGame-only Android build")
     if errors:
         print(f"\nFAILED with {len(errors)} issue(s):")
