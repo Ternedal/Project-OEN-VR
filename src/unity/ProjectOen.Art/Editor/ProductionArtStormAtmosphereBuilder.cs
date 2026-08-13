@@ -1,4 +1,5 @@
 using System;
+using ProjectOen.Art.Runtime;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -7,10 +8,9 @@ using UnityEngine.Rendering;
 namespace ProjectOen.Art.Editor
 {
     /// <summary>
-    /// Adds one cheap local rain volume to the generated Stormnatten art showcase.
-    /// Editor-authored only: no collision, no shadowing, no runtime script and no
-    /// second weather system. This keeps the review scene visually stormy without
-    /// turning the M0b performance gate into an art benchmark.
+    /// Adds a cheap local rain volume plus one event-driven wet-surface driver to
+    /// the generated Stormnatten art showcase. Rain has no collision or shadows;
+    /// wetness uses MaterialPropertyBlocks and no per-frame Update loop.
     /// </summary>
     public static class ProductionArtStormAtmosphereBuilder
     {
@@ -18,6 +18,8 @@ namespace ProjectOen.Art.Editor
         private const string MaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials";
         private const string RainMaterialPath = MaterialRoot + "/storm_rain.mat";
         private const string RainObjectName = "Storm Rain Volume";
+        private const string WetnessObjectName = "Storm Surface Wetness";
+        private const float ShowcaseWetness = 0.78f;
 
         [MenuItem("Project OEN/Art/Add Storm Atmosphere To Showcase")]
         public static void AddStormAtmosphere()
@@ -26,7 +28,7 @@ namespace ProjectOen.Art.Editor
                 throw new InvalidOperationException("Showcase scene missing: " + ScenePath);
 
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
-            RemoveExistingRain();
+            RemoveExistingAtmosphere();
 
             Material rainMaterial = BuildOrUpdateRainMaterial();
             var rainGo = new GameObject(RainObjectName);
@@ -68,13 +70,18 @@ namespace ProjectOen.Art.Editor
             renderer.receiveShadows = false;
             renderer.sharedMaterial = rainMaterial;
 
+            var wetnessGo = new GameObject(WetnessObjectName);
+            var wetnessDriver = wetnessGo.AddComponent<ProductionArtWetnessDriver>();
+            wetnessDriver.SetWetness(ShowcaseWetness);
+
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene, ScenePath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
-            Debug.Log("[ProjectOEN.Art] Added Quest-friendly local rain volume to " + ScenePath +
-                      " (1 particle system, max 180 particles, no collision, no shadows).");
+            Debug.Log("[ProjectOEN.Art] Added Quest-friendly storm atmosphere to " + ScenePath +
+                      " (1 rain particle system, max 180 particles, no collision/shadows; " +
+                      "event-driven surface wetness=" + ShowcaseWetness.ToString("0.00") + ").");
         }
 
         private static Material BuildOrUpdateRainMaterial()
@@ -116,9 +123,15 @@ namespace ProjectOen.Art.Editor
             return material;
         }
 
-        private static void RemoveExistingRain()
+        private static void RemoveExistingAtmosphere()
         {
-            var existing = GameObject.Find(RainObjectName);
+            RemoveIfPresent(RainObjectName);
+            RemoveIfPresent(WetnessObjectName);
+        }
+
+        private static void RemoveIfPresent(string objectName)
+        {
+            var existing = GameObject.Find(objectName);
             if (existing != null)
                 UnityEngine.Object.DestroyImmediate(existing);
         }
