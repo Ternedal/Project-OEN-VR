@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "status": "objective-loop-seam-screening-human-listening-required",
+  "owner": "ChatGPT",
+  "sourcePr": 6,
+  "sourceHeadAtAudit": "6b3d22f4b7a3e100fa7d237331b66225e55d0f4f",
+  "artifactAudit": "content/audio/pr6_environment_artifact_audit.source.json",
+  "technicalQa": "content/audio/pr6_environment_artifact_technical_qa.source.json",
+  "canonicalLoopContractSource": "content/audio/audio_asset_manifest.csv on PR #6",
+  "method": "For artifact candidates whose canonical event is loop=yes, compare the last decoded sample to the first sample against the file's internal sample-to-sample delta distribution, compare first-vs-last one-second RMS level and spectral shape, and inspect stereo correlation for stereo beds. Metrics identify seam-review risk; they do not prove audibility.",
+  "criticalFindings": [
+    {
+      "eventId": "SFX_WTH_Storm_Wind",
+      "variation": "01",
+      "file": "2D/Streaming/Weather/SFX_WTH_Storm_Wind_01.wav",
+      "durationSeconds": 52.0,
+      "seamJumpDbfs": -12.072,
+      "seamJumpInternalPercentile": 100.0,
+      "seamJumpAboveInternalP99Db": 20.707,
+      "firstLastOneSecondRmsDifferenceDb": 1.987,
+      "boundarySpectralCosine": 0.261,
+      "risk": "critical-seam-review",
+      "reason": "The loop boundary is the largest sample transition in the entire file and is ~20.7 dB above the internal p99 delta. A click/step is plausible if looped without an intentional seam treatment.",
+      "requiredReview": "A/B listen across the exact Unity loop boundary. Re-derive/crossfade if the transition is audible; do not accept based only on overall ambience quality."
+    },
+    {
+      "eventId": "SFX_AMB_Beach_OceanNear",
+      "variation": "02",
+      "file": "2D/Streaming/Ambience/SFX_AMB_Beach_OceanNear_02.wav",
+      "durationSeconds": 50.0,
+      "seamJumpDbfs": -24.020,
+      "seamJumpInternalPercentile": 99.985,
+      "seamJumpAboveInternalP99Db": 12.736,
+      "firstLastOneSecondRmsDifferenceDb": 11.082,
+      "boundarySpectralCosine": 0.719,
+      "stereoCorrelation": 0.011,
+      "risk": "critical-seam-review",
+      "reason": "The boundary combines a rare sample jump with ~11 dB first/last level mismatch, creating a strong risk of a perceptible loop level step.",
+      "requiredReview": "Listen specifically through repeated loops at matched game gain; re-derive the seam if the level reset is perceptible."
+    }
+  ],
+  "highPriorityFindings": [
+    {
+      "eventId": "SFX_ENV_Fire_Idle",
+      "variation": "01",
+      "durationSeconds": 8.916,
+      "seamJumpDbfs": -22.132,
+      "seamJumpInternalPercentile": 99.985,
+      "seamJumpAboveInternalP99Db": 12.521,
+      "firstLastOneSecondRmsDifferenceDb": 0.213,
+      "boundarySpectralCosine": 0.779,
+      "risk": "high-seam-click-review"
+    },
+    {
+      "eventId": "SFX_ENV_Fire_Low",
+      "variation": "01",
+      "durationSeconds": 8.916,
+      "seamJumpDbfs": -22.657,
+      "seamJumpInternalPercentile": 99.979,
+      "seamJumpAboveInternalP99Db": 11.925,
+      "firstLastOneSecondRmsDifferenceDb": 0.209,
+      "boundarySpectralCosine": 0.779,
+      "risk": "high-seam-click-review"
+    },
+    {
+      "eventId": "SFX_AMB_Beach_OceanFar",
+      "variation": "02",
+      "durationSeconds": 49.9997,
+      "seamJumpDbfs": -25.818,
+      "seamJumpInternalPercentile": 99.985,
+      "seamJumpAboveInternalP99Db": 8.454,
+      "firstLastOneSecondRmsDifferenceDb": 4.274,
+      "boundarySpectralCosine": 0.615,
+      "stereoCorrelation": 0.068,
+      "risk": "high-seam-review"
+    },
+    {
+      "eventId": "SFX_WTH_Rain_Light",
+      "variation": "01",
+      "durationSeconds": 8.9314,
+      "seamJumpDbfs": -27.581,
+      "seamJumpInternalPercentile": 99.727,
+      "seamJumpAboveInternalP99Db": 1.446,
+      "firstLastOneSecondRmsDifferenceDb": 7.179,
+      "boundarySpectralCosine": 0.775,
+      "risk": "high-level-reset-review"
+    }
+  ],
+  "lowerRiskScreened": [
+    {"eventId":"SFX_AMB_Beach_OceanFar","variation":"01","seamJumpAboveInternalP99Db":2.620,"firstLastOneSecondRmsDifferenceDb":0.730},
+    {"eventId":"SFX_AMB_Beach_OceanNear","variation":"01","seamJumpAboveInternalP99Db":3.307,"firstLastOneSecondRmsDifferenceDb":5.594},
+    {"eventId":"SFX_AMB_Jungle_DayBed","variation":"01","seamJumpAboveInternalP99Db":-6.540,"firstLastOneSecondRmsDifferenceDb":0.536},
+    {"eventId":"SFX_WTH_Rain_Heavy","variation":"01","seamJumpAboveInternalP99Db":0.295,"firstLastOneSecondRmsDifferenceDb":2.356},
+    {"eventId":"SFX_WTH_Storm_Wind","variation":"02","seamJumpAboveInternalP99Db":3.555,"firstLastOneSecondRmsDifferenceDb":0.135}
+  ],
+  "stereoObservation": {
+    "events": ["SFX_AMB_Beach_OceanNear", "SFX_AMB_Beach_OceanFar"],
+    "fullFileLeftRightCorrelationRange": [0.011, 0.108],
+    "interpretation": "The ocean beds are intentionally/strongly wide rather than anti-phase. This is not an automatic failure, but Quest playback plus any mono/fallback path should confirm that width does not collapse important surf information."
+  },
+  "durationObservation": "The audition candidates are materially shorter than the canonical full-production loop-duration targets in the PR #6 asset manifest (for example ocean ~50 s, rain light ~8.9 s, fire ~8.9 s versus longer planned production beds). Treat them as first-playable candidates, not proof that final production-duration requirements are satisfied.",
+  "rules": [
+    "Loop seam metrics are technical triage, not human listening evidence.",
+    "A candidate remains candidate-headset-listen until the exact repeated boundary is reviewed in the intended playback path.",
+    "Do not hide an audible seam by increasing ambience level or masking it with another layer.",
+    "Any re-derived loop must receive a new output hash and repeat technical/listening QA.",
+    "PR #6 must still synchronize current main and refresh its payload pin before authoritative Unity/Quest evidence."
+  ]
+}
