@@ -33,22 +33,35 @@ Ved konflikter gælder denne rækkefølge:
 4. `docs/03_CURRENT_MASTER_SPEC_v1.1.md` - eksisterende samlede baseline.
 5. Backlog, eksempler og skemaer - implementeringsdetaljer.
 
+`AI_COLLABORATION_AGREEMENT.md` er særskilt autoritativ for **rolle-, ansvar- og handoff-grænser mellem ChatGPT og Claude**, men ændrer ikke ovenstående hierarki for produkt- og tekniske beslutninger.
+
 Hvis Claude finder en reel konflikt, skal den markeres som `CONFLICT-xxx` i reviewet frem for at blive løst stiltiende.
+
+## Samarbejdsmodel
+
+Fra 2026-08-13 gælder den permanente arbejdsdeling i `AI_COLLABORATION_AGREEMENT.md`:
+
+- **Claude = Unity**: Unity-projekt, C#, XR, runtime-integration, builds, profiling og Unity-side QA.
+- **ChatGPT = alt andet**: produkt, design, specs, source assets, lydmateriale, ekstern arkitektur, roadmap og tværgående produkt-QA.
+- Anders er produktejer og har altid sidste ord.
+
+Ved tværgående arbejde leverer ChatGPT krav/assets/input, hvorefter Claude implementerer Unity-delen.
 
 ## Anbefalet læserækkefølge for Claude
 
-1. `01_PROMPT_FOR_CLAUDE.md`
-2. `docs/01_EXECUTIVE_HANDOFF.md`
-3. `docs/03_CURRENT_MASTER_SPEC_v1.1.md`
-4. `docs/04_GAME_DESIGN_DEEP_DIVE.md`
-5. `docs/05_STORMNATTEN_CONTENT_BIBLE.md`
-6. `docs/06_TECHNICAL_ARCHITECTURE.md`
-7. `docs/07_MULTIPLAYER_NETWORKING.md`
-8. `docs/08_PLATFORM_BUILD_PERFORMANCE.md`
-9. `docs/12_PRODUCTION_ROADMAP.md`
-10. `docs/13_TEST_QA_ACCEPTANCE.md`
-11. `docs/14_RISK_SCOPE_BUDGET.md`
-12. `review/CLAUDE_REVIEW_TEMPLATE.md`
+1. `AI_COLLABORATION_AGREEMENT.md`
+2. `01_PROMPT_FOR_CLAUDE.md`
+3. `docs/01_EXECUTIVE_HANDOFF.md`
+4. `docs/03_CURRENT_MASTER_SPEC_v1.1.md`
+5. `docs/04_GAME_DESIGN_DEEP_DIVE.md`
+6. `docs/05_STORMNATTEN_CONTENT_BIBLE.md`
+7. `docs/06_TECHNICAL_ARCHITECTURE.md`
+8. `docs/07_MULTIPLAYER_NETWORKING.md`
+9. `docs/08_PLATFORM_BUILD_PERFORMANCE.md`
+10. `docs/12_PRODUCTION_ROADMAP.md`
+11. `docs/13_TEST_QA_ACCEPTANCE.md`
+12. `docs/14_RISK_SCOPE_BUDGET.md`
+13. `review/CLAUDE_REVIEW_TEMPLATE.md`
 
 ## Centrale leverancer i pakken
 
