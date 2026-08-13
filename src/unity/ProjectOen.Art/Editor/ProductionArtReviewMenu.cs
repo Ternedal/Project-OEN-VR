@@ -6,7 +6,7 @@ using UnityEngine;
 namespace ProjectOen.Art.Editor
 {
     /// <summary>
-    /// Editor entrypoints for the three generated production-art review scenes.
+    /// Editor entrypoints for the four generated production-art review scenes.
     /// Review-ProductionArt.ps1 continues to call OpenShowcase for the default
     /// Stormnatten landing scene after all audits complete.
     /// </summary>
@@ -15,6 +15,7 @@ namespace ProjectOen.Art.Editor
         private const string WorldScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StormnattenArtShowcase.unity";
         private const string UiScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/DiegeticUiArtShowcase.unity";
         private const string VfxScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/ProductionVfxShowcase.unity";
+        private const string MaterialScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/MaterialCalibrationShowcase.unity";
 
         [MenuItem("Project OEN/Art/Open Stormnatten Art Showcase")]
         public static void OpenShowcase()
@@ -32,6 +33,12 @@ namespace ProjectOen.Art.Editor
         public static void OpenVfxShowcase()
         {
             OpenReviewScene(VfxScenePath, "Production VFX");
+        }
+
+        [MenuItem("Project OEN/Art/Open Material Calibration Showcase")]
+        public static void OpenMaterialCalibrationShowcase()
+        {
+            OpenReviewScene(MaterialScenePath, "Material Calibration");
         }
 
         private static void OpenReviewScene(string scenePath, string label)
