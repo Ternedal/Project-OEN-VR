@@ -10,6 +10,8 @@
 - `B1_JUNGLE_READABILITY_001.svg`
 - `B1_RAVINE_READABILITY_001.svg`
 - `B1_RIDGE_READABILITY_001.svg`
+- `PRP_RAVINE_ANCHOR_001.svg`
+- `PRP_RAVINE_GUIDE_MARKERS_001.svg`
 
 ## Origin
 
@@ -27,12 +29,15 @@ They do not contain:
 
 These SVGs are source/readability references for later world and level production. They are **not** final Unity geometry, textures or baked navigation maps.
 
+The ravine prop masters define the product-visible anchor/guide language referenced by `design/interactions/RAVINE_RESCUE.md`; final 3D source/runtime implementation remains separate.
+
 Derived assets may be created from them, but release provenance must preserve the link back to this record.
 
 ## Product constraints carried by the source
 
 - jungle must not become a maze
 - ravine must preserve two active roles and fail-forward recovery
+- ravine route information uses shape + position/order, not color alone
 - ridge must provide foresight without forcing dangerous VR edge behavior
 - return/navigation landmarks remain readable
 
