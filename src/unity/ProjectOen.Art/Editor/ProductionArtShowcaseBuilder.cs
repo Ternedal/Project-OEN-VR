@@ -16,9 +16,9 @@ namespace ProjectOen.Art.Editor
     /// 72 Hz feasibility scene.
     ///
     /// The showcase gives the art pack a concrete, reproducible composition:
-    /// cool storm ambience, one shadow-casting moon/key light, warm campfire
-    /// accent, usable shelter, repair/storage/rain-catcher dressing, radio/crates,
-    /// handmade signal beacon, real puddle/shoreline decal states, shipwreck and
+    /// cool storm ambience, one shadow-casting moon/key light, storm-damaged
+    /// shelter/fire/signal states, wet camp dressing, repair/storage/rain-catcher
+    /// dressing, radio/crates, real puddle/shoreline decal states, shipwreck and
     /// jungle framing.
     /// </summary>
     public static class ProductionArtShowcaseBuilder
@@ -129,20 +129,25 @@ namespace ProjectOen.Art.Editor
 
         private static void BuildCampComposition()
         {
-            // Canonical usable camp state: covered shelter + small flame.
-            Place("cs-003_", "", new Vector3(-1.5f, 0f, 1.0f), 18f, 1.35f, "Usable Shelter", true);
-            Place("cs-008_", "", new Vector3(0.0f, 0f, 0.15f), 0f, 1.0f, "Campfire Small Flame", false);
+            // Stormnatten should read as active pressure, not a calm pre-storm camp.
+            // Use the canonical storm-damaged shelter and nearly-out/wet fire states.
+            Place("cs-004_", "", new Vector3(-1.5f, 0f, 1.0f), 18f, 1.35f, "Storm-Damaged Shelter", true);
+            Place("cs-010_", "", new Vector3(0.0f, 0f, 0.15f), 0f, 1.0f, "Campfire Nearly Out Wet", false);
 
             Place("pr-005_", "active", new Vector3(-0.65f, 0.12f, -0.75f), -18f, 0.82f, "Portable Radio", false);
             Place("pr-004_", "closed", new Vector3(1.15f, 0f, 0.55f), -22f, 0.86f, "Supply Crate", false);
             Place("pr-020_", "idle", new Vector3(1.55f, 0f, -0.55f), 12f, 0.82f, "Shared Carry Box", false);
             Place("pr-002_", "coil", new Vector3(0.55f, 0.04f, 1.3f), 15f, 0.9f, "Rope Coil", false);
             Place("pr-003_", "bundle", new Vector3(-0.15f, 0.02f, 1.55f), 82f, 0.88f, "Wood Bundle", false);
+
+            // PR-001 has a dedicated wet production state. Keeping it loose next
+            // to the damaged shelter makes the storm consequence readable at a glance.
+            Place("pr-001_", "wet", new Vector3(-2.42f, 0.025f, 0.08f), 48f, 0.92f, "Wet Tarp", false);
         }
 
         private static void BuildCampDressing()
         {
-            Place("en-016_", "worn", new Vector3(-1.10f, 0.012f, -0.38f), -9f, 0.82f, "Worn Camp Groundsheet", false);
+            Place("en-016_", "wet", new Vector3(-1.10f, 0.012f, -0.38f), -9f, 0.82f, "Wet Camp Groundsheet", false);
             Place("cs-016_", "mid_repair", new Vector3(-3.25f, 0f, -0.10f), 12f, 0.95f, "Radio Repair Station", false);
             Place("en-017_", "pot", new Vector3(0.62f, 0f, -0.05f), -18f, 0.80f, "Cooking Corner Pot", false);
             Place("en-018_", "sack", new Vector3(1.72f, 0f, 1.20f), -28f, 0.92f, "Storage Sack", false);
@@ -159,10 +164,12 @@ namespace ProjectOen.Art.Editor
 
         private static void BuildSignalComposition()
         {
-            // Complete-but-unlit avoids a second active fire VFX/light in the
-            // showcase while still presenting the canonical handmade goal structure.
-            Place("cs-013_", "", new Vector3(5.4f, 0f, 5.8f), -28f, 1.25f, "Signal Beacon Complete", true);
-            Place("pr-014_", "worn", new Vector3(4.85f, 0f, 5.15f), -12f, 1.0f, "Signal Cloth", true);
+            // The finale objective is visibly under storm pressure: use the
+            // canonical damaged beacon and storm-damaged signal-cloth states.
+            Place("cs-015_", "", new Vector3(5.4f, 0f, 5.8f), -28f, 1.25f, "Signal Beacon Storm Damaged", true);
+            // Keep this scene-object name stable because the wind-response builder
+            // targets it, while the underlying prefab state is storm_damaged.
+            Place("pr-014_", "storm_damaged", new Vector3(4.85f, 0f, 5.15f), -12f, 1.0f, "Signal Cloth", true);
             Place("en-019_", "logs", new Vector3(4.45f, 0f, 6.50f), 26f, 0.90f, "Signal Fuel Logs", true);
             Place("en-019_", "ropes", new Vector3(5.75f, 0f, 4.95f), -18f, 0.78f, "Signal Spare Ropes", false);
             Place("en-019_", "stones", new Vector3(6.25f, 0f, 6.05f), 0f, 0.92f, "Signal Hill Stones", true);
