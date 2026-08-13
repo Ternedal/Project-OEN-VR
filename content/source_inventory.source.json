@@ -33,6 +33,7 @@
     {"id":"AFTER_ACTION_PRESENTATION","status":"source-ready-qualitative","path":"content/outcomes/after_action.presentation.source.json"},
     {"id":"MATERIAL_FAMILIES","status":"source-reference-ready","path":"content/materials/material_families.source.json"},
     {"id":"RELEASE_UI_SURFACES","status":"source-ready","path":"content/ui/release_ui_surfaces.source.json"},
+    {"id":"PLANNING_STATUS_UI","status":"source-ready","path":"content/ui/planning_status_ui.source.json"},
     {"id":"AUDIO_ACQUISITION_CANDIDATES","status":"license-verified-candidates-not-acquired","path":"content/audio/acquisition_candidates.source.json"},
     {"id":"AUDIO_LISTENING_QA","status":"source-ready","path":"content/audio/listening_qa.source.json"},
     {"id":"NEUTRAL_PERSONALIZATION","status":"source-ready","path":"content/personalization/neutral_profile.source.json"},
