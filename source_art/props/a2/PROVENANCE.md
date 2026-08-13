@@ -11,14 +11,17 @@ No third-party models, stock artwork, external game screenshots or traced artwor
 
 ## Individual source masters currently committed in this production pass
 
-Current count: **3 individual SVG source masters**.
+Current count: **4 individual SVG source masters**.
 
 - `ITM_FIRESTEEL_001.svg`
 - `ITM_TINDER_001.svg`
 - `ITM_ROPE_COIL_001.svg`
+- `PRP_PLAN_TABLE_001.svg`
+
+The plan-table master preserves six large card bays, four physical effort markers, two-sided reach intent and distinct editable / ready / locked shapes without relying on color alone.
 
 The corresponding Markdown files remain product/handoff contracts.
 
-ChatGPT owns source shape/state/readability intent. Claude owns Unity mesh/material/collider/grab/runtime configuration, XR scale tuning and Quest device QA.
+ChatGPT owns source shape/state/readability intent. Claude owns Unity implementation, XR scale tuning and Quest device QA.
 
 Source existence does not imply release approval; runtime readability, performance and interaction still require the relevant gates.
