@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "status": "source-page-license-claims-verified-human-fit-review-required",
+  "owner": "ChatGPT",
+  "sourcePr": 6,
+  "sourceHeadAtAudit": "6b3d22f4b7a3e100fa7d237331b66225e55d0f4f",
+  "sourceRegistry": "content/audio/public_domain_environment_sources.csv on PR #6",
+  "artifactAudit": "content/audio/pr6_environment_artifact_audit.source.json",
+  "method": "Re-open each upstream Wikimedia Commons file page, verify the license statement/author-source description currently shown there, and cross-check each artifact provenance source_sha256 against the pinned expected_sha256 in PR #6's source registry. This is provenance QA, not legal advice and not creative/listening approval.",
+  "summary": {
+    "sourceKeys": 8,
+    "sourcePageLicenseClaimsVerified": 8,
+    "pinnedSourceShaMatchesArtifactProvenance": 8,
+    "licenseClaimMismatches": 0,
+    "sourceHashMismatches": 0
+  },
+  "sources": [
+    {
+      "sourceKey": "waves_pd",
+      "title": "Waves.ogg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Waves.ogg",
+      "registryLicense": "Public-Domain",
+      "licensePageClaimVerified": true,
+      "sourceDescription": "Uploader describes own recordings made with a shotgun microphone on the shores of Lake Ontario in Webster, New York.",
+      "expectedSourceSha256": "8015cbcf2e8016ccdcaab103342cc53c105f2592e29c0fa754285c9b54bfaaba",
+      "artifactProvenanceShaMatches": true,
+      "creativeRisk": "Freshwater/Lake Ontario source is not inherently tropical/oceanic; human review must confirm surf identity and perspective before Beach OceanNear/Far/ShoreWash approval."
+    },
+    {
+      "sourceKey": "rain_light_pd",
+      "title": "Rain.ogg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Rain.ogg",
+      "registryLicense": "Public-Domain",
+      "licensePageClaimVerified": true,
+      "sourceDescription": "Uploader describes an own recording of rain.",
+      "expectedSourceSha256": "c34d12243125c28f09426c076019f8321b602347a8564c38be771cb997c1a152",
+      "artifactProvenanceShaMatches": true,
+      "creativeRisk": "Generic rain source; human review still needs to check enclosure/handling identity and tropical-storm fit."
+    },
+    {
+      "sourceKey": "rain_heavy_pd",
+      "title": "Rain (1).ogg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Rain_(1).ogg",
+      "registryLicense": "Public-Domain",
+      "licensePageClaimVerified": true,
+      "sourceDescription": "PDSounds rain recording attributed to ezwa and released to the public domain by the author.",
+      "expectedSourceSha256": "31efcbe952a3989a9276774e2d7be61a2dc98fdd785a94d1435fc19cda9a84d1",
+      "artifactProvenanceShaMatches": true,
+      "creativeRisk": "Generic source; intensity/material-space suitability remains a listening question."
+    },
+    {
+      "sourceKey": "wind_cc0",
+      "title": "Howling wind.ogg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Howling_wind.ogg",
+      "registryLicense": "CC0-1.0",
+      "licensePageClaimVerified": true,
+      "sourceDescription": "Uploader explicitly describes the source as wind howling in a building.",
+      "expectedSourceSha256": "cc585200603027ca808ab68ab4b381d1a828c55d58f010222f5ff687929d084d",
+      "artifactProvenanceShaMatches": true,
+      "creativeRisk": "HIGH: indoor/building resonance may read as architectural/interior wind rather than exposed tropical outdoor storm wind. Requires explicit space-identity listening review; license correctness does not solve this fit risk."
+    },
+    {
+      "sourceKey": "fire_pd",
+      "title": "Fire.ogv",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Fire.ogv",
+      "registryLicense": "Public-Domain",
+      "licensePageClaimVerified": true,
+      "sourceDescription": "Uploader describes own work as a campfire.",
+      "expectedSourceSha256": "1944cbd39abcafeba51d4a1296724de776852e8cae62dc490466bbc5716a380f",
+      "artifactProvenanceShaMatches": true,
+      "creativeRisk": "Source subject matches campfire intent, but PR #6's Idle/Low derivatives remain separately flagged for extreme objective similarity and loop-seam review."
+    },
+    {
+      "sourceKey": "rainforest_guadeloupe_pd",
+      "title": "Walk in the rainforest.ogg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Walk_in_the_rainforest.ogg",
+      "registryLicense": "Public-Domain",
+      "licensePageClaimVerified": true,
+      "sourceDescription": "PDSounds source described as a walk in the Guadeloupean rainforest with bird/birdsong tags.",
+      "expectedSourceSha256": "24dd8245130186af92393968a8df037eaa70916fcc2d28381b992aaa9cfcf3c0",
+      "artifactProvenanceShaMatches": true,
+      "creativeRisk": "Geographic/biome fit is promising, but bird identity and any movement/footstep contamination must be checked before a persistent jungle bed is approved."
+    },
+    {
+      "sourceKey": "cicada_qingfeng_cc0",
+      "title": "蝉鸣.ogg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:%E8%9D%89%E9%B8%A3.ogg",
+      "registryLicense": "CC0-1.0",
+      "licensePageClaimVerified": true,
+      "sourceDescription": "Uploader describes an own cicada recording made at Qingfengshan.",
+      "expectedSourceSha256": "1dad0233d8ef729a489386857c938fabd7645f5ffc0e33e58cca7d940b1ff73f",
+      "artifactProvenanceShaMatches": true,
+      "creativeRisk": "Specific locale/species signature may be recognizable; human biome-fit review remains required before tropical-island use."
+    },
+    {
+      "sourceKey": "thunder_far_tonitrus_pd",
+      "title": "Tonitrus.ogg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Tonitrus.ogg",
+      "registryLicense": "Public-Domain",
+      "licensePageClaimVerified": true,
+      "sourceDescription": "Uploader describes thunder recorded in Southern Finland on Minidisc.",
+      "expectedSourceSha256": "75c4d3911eedd1370db6aa30c90aee9e2eee3d18b429862eee6db221bcd0f421",
+      "artifactProvenanceShaMatches": true,
+      "creativeRisk": "Thunder is less geography-specific than fauna, but tail/noise/source-artifact and tropical-storm fit still require listening review."
+    }
+  ],
+  "rules": [
+    "A verified source-page license claim is provenance evidence, not legal advice or a guarantee that no non-copyright rights apply.",
+    "License/provenance correctness does not imply material, biome, perspective or loop suitability.",
+    "Every candidate remains candidate-headset-listen until the required human/Quest gates are completed.",
+    "PR #6 must synchronize current main and refresh any affected payload pin before authoritative physical evidence."
+  ]
+}
