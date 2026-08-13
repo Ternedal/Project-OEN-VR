@@ -9,6 +9,7 @@ on:
       - 'docs/38_SOURCE_ASSET_MANIFEST.md'
       - 'docs/39_AUDIO_CUE_MANIFEST.md'
       - 'tools/validate_non_unity_sources.py'
+      - 'tools/validate_neutral_profile_source.py'
       - 'tools/validate_planning_status_ui.py'
       - 'tools/validate_ember_carrier_source.py'
       - 'tools/test_validate_ember_carrier_source.py'
@@ -23,6 +24,7 @@ on:
       - 'docs/38_SOURCE_ASSET_MANIFEST.md'
       - 'docs/39_AUDIO_CUE_MANIFEST.md'
       - 'tools/validate_non_unity_sources.py'
+      - 'tools/validate_neutral_profile_source.py'
       - 'tools/validate_planning_status_ui.py'
       - 'tools/validate_ember_carrier_source.py'
       - 'tools/test_validate_ember_carrier_source.py'
@@ -46,6 +48,8 @@ jobs:
           python-version: '3.12'
       - name: Validate non-Unity source contracts
         run: python tools/validate_non_unity_sources.py
+      - name: Validate neutral personalization fallback
+        run: python tools/validate_neutral_profile_source.py
       - name: Validate planning/status UI links
         run: python tools/validate_planning_status_ui.py
       - name: Test ember carrier source
