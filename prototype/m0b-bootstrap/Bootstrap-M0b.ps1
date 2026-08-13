@@ -8,8 +8,9 @@
 
   Production-art-delen bygger world-prefabs, runtime art state catalogs, ground
   decals, Quest-venlige VFX, isoleret VFX review/audit, diegetiske VR UI-prefabs,
-  fysisk UI review/audit, Stormnatten art-showcase, lokal stormregn og Quest 2
-  art-budgetaudit. Review-scenerne er IKKE M0b's CoopGame performance/netvaerksgate.
+  fysisk UI review/audit, Stormnatten art-showcase, lokal stormregn, vaade overflader,
+  vind/regnsplash/fjernt lyn og Quest 2 art-budgetaudit. Review-scenerne er IKKE
+  M0b's CoopGame performance/netvaerksgate.
 
   Fusion/netvaerk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret.
 #>
@@ -81,6 +82,7 @@ foreach ($builder in @(
     "ProductionArtUiShowcaseAudit.cs",
     "ProductionArtShowcaseBuilder.cs",
     "ProductionArtStormAtmosphereBuilder.cs",
+    "ProductionArtStormFxBuilder.cs",
     "ProductionArtShowcaseAudit.cs"
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
@@ -163,9 +165,13 @@ $showcaseLog = Run-UnityStep "Bygger Stormnatten art showcase" `
     "ProjectOen.Art.Editor.ProductionArtShowcaseBuilder.BuildShowcase" `
     "production-art-showcase.log"
 
-$stormLog = Run-UnityStep "Tilfoejer stormatmosfaere" `
+$stormLog = Run-UnityStep "Tilfoejer stormatmosfaere og vaade overflader" `
     "ProjectOen.Art.Editor.ProductionArtStormAtmosphereBuilder.AddStormAtmosphere" `
     "production-art-storm.log"
+
+$stormMotionLog = Run-UnityStep "Tilfoejer vind, regnsplash og fjernt lyn" `
+    "ProjectOen.Art.Editor.ProductionArtStormFxBuilder.AddStormMotionFx" `
+    "production-art-storm-motion.log"
 
 $budgetLog = Run-UnityStep "Auditerer Stormnatten showcase mod Quest 2-budget" `
     "ProjectOen.Art.Editor.ProductionArtShowcaseAudit.AuditShowcase" `
@@ -176,6 +182,7 @@ Step "Resultat"
 if (Test-Path $log) { Select-String -Path $log -Pattern "\[M0B-SETUP\]" | ForEach-Object { Note $_.Line.Trim() } }
 Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
 Write-Host "World meshes/prefabs, runtime state catalogs, ground decals, production VFX og diegetic UI-prefabs er bygget." -ForegroundColor Green
+Write-Host "Stormnatten review har regn, vaade overflader, vindblaest debris, campsplash og animeret fjernt lyn." -ForegroundColor Green
 Write-Host "State catalogs: Assets\ProjectOEN\ProductionArt\StateSets" -ForegroundColor Green
 Write-Host "VFX audit: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
 Write-Host "UI audit: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
