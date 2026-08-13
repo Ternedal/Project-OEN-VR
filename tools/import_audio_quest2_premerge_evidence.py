@@ -147,9 +147,9 @@ def validate_evidence(evidence: dict, pin: dict) -> None:
             "Quest evidence: performance_soak.max_simultaneous_audio_voices must be a measured positive integer"
         )
     exception = performance.get("voice_budget_exception")
-    if voices > 24 and (not isinstance(exception, str) or not exception.strip()):
+    if voices >= 24 and (not isinstance(exception, str) or not exception.strip()):
         raise SystemExit(
-            "Quest evidence: audio voices exceeded the documented <24 target; voice_budget_exception is required"
+            "Quest evidence: audio voices reached/exceeded the documented <24 target; voice_budget_exception is required"
         )
     require_nonempty(performance, "metrics_reference", "performance_soak")
 
@@ -264,9 +264,9 @@ def run_self_test(pin: dict, template: dict, registry: Path) -> None:
     short_soak["performance_soak"]["duration_minutes"] = 19
     expect_rejected(short_soak, pin, "short-soak")
 
-    over_voice_budget = copy.deepcopy(evidence)
-    over_voice_budget["performance_soak"]["max_simultaneous_audio_voices"] = 25
-    expect_rejected(over_voice_budget, pin, "voice-budget-without-exception")
+    voice_target_boundary = copy.deepcopy(evidence)
+    voice_target_boundary["performance_soak"]["max_simultaneous_audio_voices"] = 24
+    expect_rejected(voice_target_boundary, pin, "voice-target-boundary-without-exception")
 
     incomplete_mix = copy.deepcopy(evidence)
     incomplete_mix["mix_listening"]["shore_wash"] = False
@@ -287,7 +287,7 @@ def run_self_test(pin: dict, template: dict, registry: Path) -> None:
 
     print(
         "Quest 2 premerge evidence importer self-test OK: pinned complete evidence accepted; stale/short/"
-        "over-budget/incomplete evidence rejected; Quest gates promoted only in temp registry; Unity gates untouched."
+        "voice-target-boundary/incomplete evidence rejected; Quest gates promoted only in temp registry; Unity gates untouched."
     )
 
 
