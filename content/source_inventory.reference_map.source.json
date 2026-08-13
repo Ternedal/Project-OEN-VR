@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "status": "canonical-source-reference-map",
+  "owner": "ChatGPT",
+  "mappings": {
+    "A4_CAMP": {
+      "ENV_BEACH_CAMP_001": "CAMP_LAYOUT_REFERENCE_001.svg",
+      "ENV_WRECKAGE_001": "WRECK_HERO_REFERENCE_001.svg",
+      "ENV_CAMP_GROUND_001": "CAMP_GROUND_MATERIAL_REFERENCE_001.svg",
+      "ENV_STORM_CAMP_001": "CAMP_STATE_REFERENCE_001.svg",
+      "PRP_RADIO_001": "RADIO_SOURCE_REFERENCE_001.svg",
+      "PRP_SIGNAL_FRAME_001": "SIGNAL_FRAME_REFERENCE_001.svg"
+    }
+  },
+  "rule": "Mappings are only for canonical IDs represented by shared/reference source sheets. Individual masters must still resolve by exact source-file stem."
+}
