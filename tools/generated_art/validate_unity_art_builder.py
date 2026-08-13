@@ -3,8 +3,9 @@
 
 Dedicated validators own detailed VFX/UI/world quality. This gate protects the
 shared integration order, core material/decal/storm contracts, event-driven wet
-surface response, bounded layered Stormnatten motion FX, renderer-culled wind
-response and strict separation from the minimal M0b CoopGame Android gate.
+surface response, canonical storm-pressure prefab states, bounded layered
+Stormnatten motion FX, renderer-culled wind response and strict separation from
+the minimal M0b CoopGame Android gate.
 """
 from __future__ import annotations
 import sys
@@ -31,6 +32,10 @@ WETTABLE=("Wood","Rope","Tarp","Metal","Stone","Leaf","Cloth","Mud","Char")
 WIND_TARGETS=(
     "Loose Storm Cloth","Rain Catcher Cloth","Signal Cloth","Signal Spare Ropes",
     "Palm Mature A","Palm Mature B","Palm Frond Clutter A","Palm Frond Clutter B","Vines",
+)
+STORM_STATE_OBJECTS=(
+    "Storm-Damaged Shelter","Campfire Nearly Out Wet","Wet Tarp","Wet Camp Groundsheet",
+    "Signal Beacon Storm Damaged","Signal Cloth",
 )
 
 
@@ -85,12 +90,20 @@ def main():
     s=need(SHOWCASE,"Stormnatten showcase",(
         'StormnattenArtShowcase.unity','RenderSettings.ambientMode = AmbientMode.Trilight','RenderSettings.fog = true',
         'QualitySettings.shadowDistance = 24f','key.shadows = LightShadows.Soft','fill.shadows = LightShadows.None',
-        '"cs-003_"','"cs-008_"','"cs-013_"','"pr-005_"','"en-001_"','"en-007_"','MarkEnvironmentStatic',
+        'Place("cs-004_"','Place("cs-010_"','Place("pr-001_", "wet"','Place("en-016_", "wet"',
+        'Place("cs-015_"','Place("pr-014_", "storm_damaged"','"pr-005_"','"en-001_"','"en-007_"','MarkEnvironmentStatic',
     ),errors)
+    for state_name in STORM_STATE_OBJECTS:
+        if s and f'"{state_name}"' not in s: errors.append(f"Stormnatten showcase missing canonical storm-state object: {state_name}")
     if s:
         shadows=s.count("LightShadows.Soft")+s.count("LightShadows.Hard")
         if shadows!=1: errors.append(f"Stormnatten showcase must define exactly one shadow caster, found {shadows}")
         if "BuildPipeline.BuildPlayer" in s or "EditorBuildSettings.scenes" in s: errors.append("Stormnatten showcase must not alter build settings")
+        for old in (
+            'Place("cs-003_"','Place("cs-008_"','Place("cs-013_"',
+            'Place("en-016_", "worn"','Place("pr-014_", "worn"',
+        ):
+            if old in s: errors.append(f"Stormnatten showcase regressed to pre-storm state: {old}")
 
     a=need(ATMOS,"storm atmosphere",(
         'StormnattenArtShowcase.unity','Storm Rain Volume','Storm Surface Wetness',
@@ -143,11 +156,15 @@ def main():
         'TriangleHardLimit = 750000','DrawCallProxyHardLimit = 130','ShadowCasterHardLimit = 1',
         'ParticleSystemHardLimit = 10','AnimationComponentHardLimit = 12','mesh.triangles.LongLength / 3L',
         'Quest 2 showcase budget hard gate failed','WindResponseTargets','AnimationCullingType.BasedOnRenderers',
+        'StormStateExpectations','MatchesStormState','PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot',
+        'Path.GetFileNameWithoutExtension','stormStates=','canonical storm-state object missing',
         'Windblown Storm Debris','Camp Rain Splashes','Distant Storm Lightning','FarLightningName','NearLightningName',
         'windDebris.main.maxParticles > 24','rainSplashes.main.maxParticles > 12','lightningLight.shadows != LightShadows.None',
         'lightningSprites.Length != 2','lightningColliders.Length != 0','AnimationCullingType.AlwaysAnimate','HasPulseCurve',
         'Far Lightning alpha pulse curve missing/too weak','Near Lightning alpha pulse curve missing/too weak',
     ),errors)
+    for state_name in STORM_STATE_OBJECTS:
+        if audit and f'"{state_name}"' not in audit: errors.append(f"Stormnatten budget audit missing canonical state: {state_name}")
     for target in WIND_TARGETS:
         if audit and f'"{target}"' not in audit: errors.append(f"Stormnatten budget audit missing wind target: {target}")
     if audit and "EditorApplication.Exit(0)" in audit: errors.append("Budget audit must not force success")
@@ -195,12 +212,14 @@ def main():
     if coop and any(x in coop for x in (
         "StormnattenArtShowcase","DiegeticUiArtShowcase","ProductionVfxShowcase","Storm Rain Volume","Storm Surface Wetness",
         "Windblown Storm Debris","Camp Rain Splashes","Distant Storm Lightning","Far Lightning","Near Lightning",
+        "Storm-Damaged Shelter","Campfire Nearly Out Wet","Wet Tarp","Signal Beacon Storm Damaged",
         "ProductionArtWindResponseBuilder")):
         errors.append("Visual-review content leaked into minimal CoopGame M0b gate")
 
     print("Project ØEN global Unity art integration QA")
     print(f"  world materials : {len(MATERIALS)}")
     print(f"  wettable mats   : {len(WETTABLE)} (event-driven MaterialPropertyBlock)")
+    print(f"  storm states    : {len(STORM_STATE_OBJECTS)} canonical damaged/wet showcase states")
     print("  storm motion FX : 2 bounded particle systems + layered near/far no-shadow lightning")
     print(f"  wind response   : {len(WIND_TARGETS)} renderer-culled legacy Animation clips")
     print("  review scenes   : VFX + physical UI + Stormnatten")
