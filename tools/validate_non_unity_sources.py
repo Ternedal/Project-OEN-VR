@@ -7,6 +7,7 @@ This validator deliberately checks contracts owned outside Unity:
 - Source SVG files are well-formed XML and use a viewBox.
 - Action icon IDs resolve to A1 SVG source or the source-asset manifest.
 - Audio cue IDs referenced by events are declared in the audio manifest.
+- Natural-audio acquisition/listening contracts remain safe and reproducible.
 - proposal-not-canonical data stays under content/proposals/.
 - obvious private-content folders/files are not committed.
 
@@ -15,8 +16,10 @@ It does NOT validate gameplay balance or Unity runtime behavior.
 
 from __future__ import annotations
 
+import io
 import json
 import sys
+import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -225,6 +228,22 @@ def validate_neutral_profile(loaded: dict[Path, object]) -> None:
         fail("Neutral source profile should not depend on private audio assets")
 
 
+def validate_audio_acquisition_contract() -> None:
+    """Run the offline natural-audio contract test suite inside the existing CI guard."""
+    try:
+        from test_audio_acquisition_contract import AudioAcquisitionContractTests
+    except Exception as exc:  # noqa: BLE001
+        fail(f"Audio acquisition contract tests could not be imported: {exc}")
+        return
+
+    stream = io.StringIO()
+    suite = unittest.defaultTestLoader.loadTestsFromTestCase(AudioAcquisitionContractTests)
+    result = unittest.TextTestRunner(stream=stream, verbosity=1).run(suite)
+    if not result.wasSuccessful():
+        details = " ".join(line.strip() for line in stream.getvalue().splitlines() if line.strip())
+        fail(f"Audio acquisition contract QA failed: {details}")
+
+
 def main() -> int:
     loaded = validate_all_json()
     keys = localization_keys(loaded)
@@ -233,6 +252,7 @@ def main() -> int:
     validate_neutral_profile(loaded)
     validate_svgs()
     validate_private_content_absence()
+    validate_audio_acquisition_contract()
 
     for warning in WARNINGS:
         print(f"WARNING: {warning}")
@@ -244,7 +264,7 @@ def main() -> int:
 
     print(f"Non-Unity source validation OK: {len(loaded)} JSON source file(s), "
           f"{len(list((ROOT / 'source_art').rglob('*.svg')))} SVG source file(s), "
-          f"{len(WARNINGS)} warning(s).")
+          f"{len(WARNINGS)} warning(s); audio acquisition contract valid.")
     return 0
 
 
