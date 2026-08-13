@@ -24,6 +24,7 @@ on:
       - 'tools/validate_audio_unity_editor_contract.py'
       - 'tools/validate_audio_premerge_tooling.py'
       - 'tools/import_audio_unity_premerge_evidence.py'
+      - 'tools/import_audio_quest2_premerge_evidence.py'
       - 'tools/verify_first_playable_artifact_pin.py'
       - 'tools/report_audio_first_playable_readiness.py'
       - 'tools/report_audio_merge_readiness.py'
@@ -63,6 +64,7 @@ on:
       - 'tools/validate_audio_unity_editor_contract.py'
       - 'tools/validate_audio_premerge_tooling.py'
       - 'tools/import_audio_unity_premerge_evidence.py'
+      - 'tools/import_audio_quest2_premerge_evidence.py'
       - 'tools/verify_first_playable_artifact_pin.py'
       - 'tools/report_audio_first_playable_readiness.py'
       - 'tools/report_audio_merge_readiness.py'
@@ -113,6 +115,8 @@ jobs:
         run: python tools/validate_audio_premerge_tooling.py
       - name: Self-test Unity premerge evidence importer
         run: python tools/import_audio_unity_premerge_evidence.py --self-test
+      - name: Self-test Quest 2 premerge evidence importer
+        run: python tools/import_audio_quest2_premerge_evidence.py --self-test
       - name: Report first-playable audio readiness
         run: |
           python tools/report_audio_first_playable_readiness.py \
