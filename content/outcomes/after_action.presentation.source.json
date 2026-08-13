@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "status": "source-ready-qualitative",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "purpose": "Turn authoritative after-action journal/report data into a cooperative player-facing report without exposing internal formulas or assigning blame.",
+  "inputContract": {
+    "causalLinkFields": ["Cause", "CauseDay", "Tag", "Effect", "EffectDay", "HasKnownCause"],
+    "stormComplicationFields": ["ComplicationId", "Reason"],
+    "scenarioOutcome": "ScenarioConcluded verdict/reasons",
+    "sourceOfTruth": "ProjectOen.Core.Telemetry.AfterActionReport and authoritative scenario journal"
+  },
+  "presentationOrder": ["outcome", "causalHighlights", "teamStory", "optionalIndividualTitles", "nextAction"],
+  "outcomes": {
+    "strongWin": {"titleKey":"outcome.strong_win.title","tone":"earned-confidence","maxCausalHighlights":4},
+    "pressedWin": {"titleKey":"outcome.pressed_win.title","tone":"messy-success","maxCausalHighlights":4},
+    "loss": {"titleKey":"outcome.loss.title","tone":"explanatory-not-punitive","maxCausalHighlights":3}
+  },
+  "causalSelection": {
+    "minHighlights": 2,
+    "maxHighlights": 4,
+    "priority": [
+      "earlier choice that materially changed the storm",
+      "delayed consequence physically experienced by players",
+      "preparation that concretely helped",
+      "unresolved condition that concretely cost something"
+    ],
+    "exclude": [
+      "minor resource deltas without visible consequence",
+      "hidden RNG rolls",
+      "raw internal tags as player-facing text",
+      "technical state names",
+      "duplicate causal chains"
+    ],
+    "unknownCausePolicy": "May display the effect, but do not invent a cause or expose an internal tag as explanation."
+  },
+  "teamStory": {
+    "maxDisplayed": 2,
+    "tags": {
+      "TEAM_PREPARED":"I var godt forberedt.",
+      "TEAM_IMPROVISED":"I improviserede jer gennem problemerne.",
+      "TEAM_RISKY":"I tog chancer for at komme fremad.",
+      "TEAM_RECOVERED":"I fandt tilbage efter modgang.",
+      "TEAM_PROTECTED_CAMP":"I holdt lejren samlet under pres.",
+      "TEAM_SIGNAL_FOCUSED":"I satsede hårdt på signalet."
+    },
+    "rule":"Tags are narrative summaries, never competitive scores."
+  },
+  "individualTitles": {
+    "enabledByDefault": false,
+    "evidenceGate": "OQ-010",
+    "requirementsIfEnabled": ["non-hierarchical", "meaningful for both players", "no numeric leaderboard required", "no blame assignment", "must not change cooperative incentives"]
+  },
+  "blameRules": {
+    "playerFacingSubject":"team/we framing",
+    "forbiddenPatterns":["per-player loss blame", "negative per-player leaderboard", "hidden technical attribution presented as blame"]
+  },
+  "nextActions": {
+    "retryStorm":{"key":"outcome.retry","availability":"only when checkpoint contract permits it"},
+    "replayScenario":{"key":"outcome.replay","availability":"after completed run"},
+    "exit":{"key":"outcome.leave","availability":"always"}
+  },
+  "retryRules": {
+    "showKnownCampCondition": true,
+    "showCheckpointUsed": true,
+    "allowRetroactivePastChoiceEditing": false,
+    "revealHiddenFutureEvents": false
+  },
+  "personalization": {
+    "ordering":"neutral rescue and optional personal message before detailed after-action report",
+    "worksWithoutPrivateContent": true,
+    "privateContentInLogs": false
+  },
+  "accessibility": {"playerPaced":true,"timeLimit":false,"audioRequired":false,"colorOnlyMeaning":false,"supportsLargeText":true},
+  "humanAcceptance": [
+    "players can explain at least one major cause before seeing the report",
+    "report matches the causal story players thought they experienced",
+    "loss gives a useful hypothesis for a different plan",
+    "report does not feel like blame or a competitive scoreboard",
+    "replay intent is not reduced by the report"
+  ],
+  "handoff":"Claude owns runtime view/layout, data binding, transition timing and headset readability. Product selection/framing rules remain ChatGPT-owned."
+}
