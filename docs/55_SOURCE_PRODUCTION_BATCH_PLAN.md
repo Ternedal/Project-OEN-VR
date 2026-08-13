@@ -19,7 +19,7 @@ Dette dokument er den aktuelle eksekveringsrækkefølge for non-Unity source-pro
 |---|---|---|
 | A1 UI/readability | **Produceret + source-QA** | Claude import/readability/device QA |
 | Neutral fallback | **Produceret + source-QA** | runtime fallback + M8 E2E |
-| A2 core props | **10 individual masters produceret** | `PRP_FIREPIT_001` har kun brief; konkret visual source mangler |
+| A2 core props | **10 individual masters + firepit source mesh produceret** | Claude import/representation; PO-044 manual fire-start er stadig owner-gated |
 | A3 storm VFX | **Produceret source-reference** | Claude runtime VFX/performance tuning |
 | A4 camp | **Source references produceret** | final world/material polish venter stabil geometry/evidence |
 | B1 environment | **Source references produceret** | Claude world implementation |
@@ -27,7 +27,7 @@ Dette dokument er den aktuelle eksekveringsrækkefølge for non-Unity source-pro
 | B2 event presentation | **7 masters produceret + mapped** | Claude binding til event contract |
 | Materials | **3 families produceret** | Claude Unity material/shader implementation |
 | Character readability | **P1/P2 hands produceret** | torso source reference er stadig åben |
-| A5 utility/release source | **Expanded source set produceret** | Unity import/binding/device QA |
+| A5 utility/release source | **Expanded source set + ending crate produceret** | Unity import/binding/device QA |
 | AU-1 feedback | **Generator ready + CI validated** | Claude runtime mix/binding |
 | AU-2 natural Foley | **Recording plan ready; ikke optaget** | real recording/edit/master |
 | World ambience | **3 originals acquired; ikke listening-approved** | human listening + mere acquisition |
@@ -38,9 +38,9 @@ Dette dokument er den aktuelle eksekveringsrækkefølge for non-Unity source-pro
 
 ---
 
-# 2. A2 — core interaction source
+# 2. A2 / firepit source
 
-Producerede individual masters:
+Producerede A2 individual masters:
 
 - `ITM_FIRESTEEL_001`
 - `ITM_TINDER_001`
@@ -53,9 +53,11 @@ Producerede individual masters:
 - `PRP_SHELTER_FRAME_001`
 - `PRP_SIGNAL_FRAME_001`
 
-`PRP_FIREPIT_001` har en source brief, men endnu ingen konkret visual source master/reference.
+`PRP_FIREPIT_001` har nu også en project-original low-complexity OBJ source mesh under `source_art/props/a5/`.
 
-Det ændrer ikke issue #8: manual fire-start er fortsat owner-gated. En firepit-source til world/fire-state er ikke i sig selv en scopebeslutning.
+Firepit-meshen er en world/fire-state reference med lav stenring og centralt fuel-referenceområde. Den indeholder ingen særskilt strike-zone eller manuel tændingsmekanik.
+
+Det ændrer **ikke** issue #8: PO-044 manual fire-start er fortsat owner-gated og uden for accepted gift scope, indtil Anders træffer en eksplicit disposition.
 
 ---
 
@@ -81,7 +83,7 @@ Final VFX polish venter Claude/runtime/Quest 2 evidence.
 
 Camp, wreckage, storm-camp, radio og signal source references findes.
 
-Epilog-produktkontrakten er nu klar i:
+Epilog-produktkontrakten er klar i:
 
 - `docs/45_GIFT_EXPERIENCE_AND_RELEASE_FLOW.md`
 - `docs/41_PERSONALIZATION_PACKAGE_SPEC.md`
@@ -89,10 +91,11 @@ Epilog-produktkontrakten er nu klar i:
 
 `ENV_EPILOGUE_001` er canonical som **eksisterende camp efter stormen**, ikke en ny gameplayzone.
 
-Fortsat åbent hvis det senere reducerer implementation ambiguity:
+`PRP_WATERPROOF_ENDING_CRATE_001` har nu en project-original OBJ source mesh med separate body/lid/gasket/latches/handles og neutrale hook-slot references. Den indeholder ingen private thumbnails, navne eller gaveindhold; sealed/available/open runtime states og hook-binding er Claude-lane.
+
+Fortsat åbent som senere C-polish, hvis det reducerer implementation ambiguity:
 
 - dedicated post-storm mood/dressing reference
-- concrete `PRP_WATERPROOF_ENDING_CRATE_001` visual reference
 
 Neutral ending-content er allerede produceret.
 
@@ -176,9 +179,9 @@ PR #6 must re-sync current `main` and regenerate/re-pin physical evidence before
 ### Can still progress without M0b/M-Pre
 
 1. natural audio acquisition/recording/listening coordination
-2. firepit visual source reference when the image/source pipeline permits it
-3. ending-crate/epilogue visual references only where they reduce ambiguity
-4. torso source reference as later avatar polish
+2. dedicated epilogue mood/dressing reference only if it reduces implementation ambiguity
+3. torso source reference as later avatar polish
+4. utility/fiber tool visual source if still useful and accepted by the asset pipeline
 5. keep machine-readable source inventory synchronized with actual files
 
 ### Human-gated
