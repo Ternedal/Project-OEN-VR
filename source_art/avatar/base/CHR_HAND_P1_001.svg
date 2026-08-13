@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700">
+<rect width="900" height="700" fill="#282C2D"/>
+<text x="42" y="55" fill="#E8E0CF" font-size="31" font-family="sans-serif">CHR_HAND_P1_001 — player A handwear reference</text>
+<text x="42" y="88" fill="#C8B58D" font-size="17" font-family="sans-serif">neutral stylized glove/forearm · identity by wrist shape + symbol, not skin tone</text>
+<g transform="translate(88 140)" font-family="sans-serif">
+<rect width="724" height="430" rx="30" fill="#343A3C" stroke="#D59A52" stroke-width="8"/>
+<path d="M180 315c-28-74-6-128 37-139 20-5 36 7 45 25 4-51 18-87 52-87 31 0 44 31 44 74 9-52 27-79 58-75 29 4 37 35 29 80 17-43 40-61 67-49 28 13 24 51 6 92 25-26 53-31 72-11 26 29 0 73-34 111-46 53-108 83-196 82-77-1-148-30-180-103z" fill="#6C716C" stroke="#E8E0CF" stroke-width="9" stroke-linejoin="round"/>
+<path d="M205 330c68 25 128 32 190 12" fill="none" stroke="#7D827D" stroke-width="13" stroke-linecap="round"/>
+<path d="M194 347h183v74H216z" fill="#4C5553" stroke="#E8E0CF" stroke-width="8"/>
+<circle cx="286" cy="384" r="30" fill="#D59A52" stroke="#E8E0CF" stroke-width="6"/>
+<text x="275" y="394" fill="#282C2D" font-size="28">A</text>
+<text x="450" y="385" fill="#C8B58D" font-size="18">round wrist badge = Player A</text>
+</g>
+<text x="82" y="625" fill="#AFA488" font-size="17" font-family="sans-serif">Source intent: simple readable hand/forearm silhouette, no jewelry, no realistic identity cues, no Meta Avatar dependency.</text>
+<text x="82" y="655" fill="#AFA488" font-size="17" font-family="sans-serif">Claude owns final rig/mesh/material, hand tracking/controller pose integration and Quest device QA.</text>
+</svg>
