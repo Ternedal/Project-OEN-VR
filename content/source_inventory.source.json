@@ -17,7 +17,7 @@
     {"id":"MATERIAL_FAMILIES","status":"produced-source-reference","path":"source_art/materials/base","format":"SVG","producedIds":["MAT_WOOD_ROPE_CLOTH_REFERENCE_001","MAT_ROCK_SAND_REFERENCE_001","MAT_FOLIAGE_UTILITY_REFERENCE_001"],"next":"Claude maps source intent to Quest-appropriate Unity material/shader implementations and device QA"},
     {"id":"CHARACTER_HANDWEAR","status":"produced-source-reference","path":"source_art/avatar/base","format":"SVG","producedIds":["CHR_HAND_P1_001","CHR_HAND_P2_001"],"next":"Claude implements the final Unity representation and device QA; torso source remains open"},
     {"id":"A5_PROP_MESHES","status":"partial-source-meshes-produced","path":"source_art/props/a5","format":"OBJ","producedIds":["PRP_WIND_SHIELD_001","PRP_DRY_FUEL_CACHE_001","PRP_SIGNAL_FUEL_001"],"next":"Unity import remains Claude; source mesh QA/provenance exists"},
-    {"id":"A5_ITEMS","status":"produced-source-set","path":"source_art/items/a5","format":"SVG","producedIds":["ITM_CLOTH_001","ITM_MAP_FRAGMENT_001","ITM_RADIO_BATTERY_001"],"next":"Claude Unity import/socket/readability QA"},
+    {"id":"A5_ITEMS","status":"produced-source-set-expanded","path":"source_art/items/a5","format":"SVG+OBJ+MTL","producedIds":["ITM_CLOTH_001","ITM_MAP_FRAGMENT_001","ITM_RADIO_BATTERY_001","ITM_EMBER_CARRIER_001","ITM_HAMMER_001"],"next":"Claude Unity import/grip/state/contact/readability/device QA"},
     {"id":"A5_RELEASE_UI","status":"produced-source-set","path":"source_art/ui/a5","format":"SVG","producedIds":["UI_RECONNECT_PANEL_001","UI_JOIN_CODE_PANEL_001","UI_FIRST_LAUNCH_SETUP_001","UI_PAUSE_PANEL_001","UI_CONNECTED_READY_001","UI_SUBTITLE_BAND_001"],"next":"Claude Unity layout/binding/headset-distance/accessibility QA"},
     {"id":"AU1_SYNTH_FEEDBACK","status":"generator-ready-ci-validated","path":"source_audio/au1","format":"Python->WAV","next":"Claude runtime mix/binding"},
     {"id":"AU2_FOLEY","status":"recording-queue-ready","path":"content/audio/foley_recording_queue.source.json","format":"48kHz-24bit-mono-WAV-target","next":"record/edit/master natural Foley sources"},
@@ -37,8 +37,15 @@
     {"id":"AUDIO_ACQUISITION_CANDIDATES","status":"license-verified-candidates-not-acquired","path":"content/audio/acquisition_candidates.source.json"},
     {"id":"AUDIO_LISTENING_QA","status":"source-ready","path":"content/audio/listening_qa.source.json"},
     {"id":"NEUTRAL_PERSONALIZATION","status":"source-ready","path":"content/personalization/neutral_profile.source.json"},
-    {"id":"ONBOARDING_PROPOSAL","status":"proposal-not-canonical","path":"content/proposals/onboarding_sequence.source.json"},
-    {"id":"DAY3_PLANNING_PROPOSAL","status":"proposal-not-canonical","path":"content/proposals/day3_planning.source.json"}
+    {"id":"ONBOARDING","status":"canonical-source-ready-fire-start-owner-gated","path":"content/onboarding/stormnatten.onboarding.source.json"},
+    {"id":"DAY3_PLANNING","status":"canonical-source-ready","path":"content/phases/stormnatten.day3_planning.source.json"},
+    {"id":"ISSUE8_RECONCILIATION","status":"canonical-partial-owner-gate-open","path":"content/contracts/issue8.reconciliation.source.json"},
+    {"id":"ONBOARDING_PROPOSAL","status":"proposal-not-canonical-historical","path":"content/proposals/onboarding_sequence.source.json"},
+    {"id":"DAY3_PLANNING_PROPOSAL","status":"proposal-not-canonical-historical","path":"content/proposals/day3_planning.source.json"},
+    {"id":"EMBER_CARRIER","status":"source-ready-unity-pending","path":"content/items/itm_ember_carrier.source.json"},
+    {"id":"REPAIR_MALLET","status":"source-ready-unity-pending","path":"content/items/itm_repair_mallet.source.json"},
+    {"id":"STORM_FINALE","status":"source-ready-qualitative-phase3-gated","path":"content/finale/storm_finale.source.json"}
   ],
+  "ownerGated": ["Issue #8 fire-start scope disposition"],
   "evidenceGated": ["M-Pre human evidence","OQ-008 randomness/fairness","OQ-009 role policy","OQ-010 after-action competition","M3/M4 numeric balance","M0b cross-device evidence"]
 }

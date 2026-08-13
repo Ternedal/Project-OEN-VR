@@ -1,0 +1,18 @@
+{
+  "id": "ITM_HAMMER_001",
+  "status": "source-master-ready-unity-pending",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "purpose": "Repair/build utility mallet with broad contact face for shelter/storm interactions.",
+  "sourceFiles": ["source_art/items/a5/ITM_HAMMER_001.obj","source_art/items/a5/ITM_HAMMER_001.mtl","source_art/items/a5/ITM_HAMMER_001.svg"],
+  "units":"metres",
+  "sourceAxes":{"up":"+Z","forward":"+Y"},
+  "approxBoundsMetres":{"widthX":0.174,"depthY":0.086,"heightZ":0.339},
+  "pivotIntent":"bottom-center of handle",
+  "gripZones":[{"id":"PRIMARY_HANDLE_GRIP","required":true,"centerMetres":[0,0,0.065],"sizeMetres":[0.048,0.048,0.12],"purpose":"main one-hand grip; either hand"}],
+  "contactZones":[{"id":"HEAD_FACE_LEFT","normalIntent":"-X","purpose":"repair impact face"},{"id":"HEAD_FACE_RIGHT","normalIntent":"+X","purpose":"repair impact face"}],
+  "readability":["Broad squat head and short handle must read as repair tool, not combat weapon.","No claw, spike, blade or pointed peen.","Repair contact surfaces remain visually distinct by form/edge treatment, not color alone."],
+  "interactionIntent":{"useMode":"short one-hand repair strikes; exact gesture/velocity thresholds are Unity-owned","offHand":"optional stabilization not required by source contract","impactAuthority":"replicate logical repair result/state, not raw impact physics"},
+  "runtimeConstraints":["Primitive/convex colliders preferred.","No physics-heavy loose head parts.","Keep impact VFX small and readable on Quest 2.","Haptics/runtime hit tuning belongs to Claude and requires device QA."],
+  "acceptanceForSource":["OBJ parses and retains broad-head/short-handle metre-scale bounds.","Named grip and two contact-face object groups exist.","SVG explicitly communicates repair-only silhouette.","Machine contract keeps runtime/device decisions with Claude."]
+}

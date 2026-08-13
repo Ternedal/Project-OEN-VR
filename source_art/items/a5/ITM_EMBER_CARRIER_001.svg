@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<rect width="512" height="512" fill="#272825"/>
+<text x="24" y="42" fill="#EEE5D4" font-size="23" font-family="sans-serif">ITM_EMBER_CARRIER_001</text>
+<text x="24" y="68" fill="#BFB39C" font-size="14" font-family="sans-serif">signal-finale · grabbable ember carrier · shape + state reference</text>
+<g transform="translate(55,84)">
+  <path d="M55 82 L310 82 L286 210 L78 210 Z" fill="#5B4A3B" stroke="#E2D4BC" stroke-width="7"/>
+  <path d="M78 80 L78 28 L102 28 L112 80 M286 80 L286 28 L310 28 L310 82" fill="#3C342D" stroke="#BFA98A" stroke-width="7"/>
+  <path d="M102 30 L286 30" stroke="#BFA98A" stroke-width="20" stroke-linecap="round"/>
+  <rect x="115" y="112" width="140" height="58" rx="12" fill="#47261B" stroke="#C9955C" stroke-width="5"/>
+  <path d="M135 150 l18 -28 18 28 18 -32 20 32 18 -22 18 22" fill="none" stroke="#E0A15B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M142 219 v38 M252 219 v38 M142 251 h110" stroke="#D4A35F" stroke-width="14" stroke-linecap="round"/>
+  <text x="130" y="282" fill="#C8B98E" font-size="15" font-family="sans-serif">PRIMARY GRIP</text>
+</g>
+<g transform="translate(25,390)" font-family="sans-serif">
+  <g>
+    <rect x="0" y="0" width="140" height="84" rx="10" fill="#31322F" stroke="#6E7069" stroke-width="3"/>
+    <path d="M28 53 h82 l-9 15 H37 z" fill="#544A40"/>
+    <text x="12" y="21" fill="#EEE5D4" font-size="14">COLD</text>
+    <text x="12" y="67" fill="#AFA99F" font-size="10">flat bed</text><text x="12" y="79" fill="#AFA99F" font-size="10">no spark cue</text>
+  </g>
+  <g transform="translate(161,0)">
+    <rect x="0" y="0" width="140" height="84" rx="10" fill="#31322F" stroke="#A37542" stroke-width="3"/>
+    <path d="M28 53 h82 l-9 15 H37 z" fill="#654331"/>
+    <path d="M52 51 l9-16 9 16 M76 51 l9-22 9 22" fill="none" stroke="#E0A15B" stroke-width="5"/>
+    <text x="12" y="21" fill="#EEE5D4" font-size="14">EMBER</text>
+    <text x="12" y="67" fill="#C9B18E" font-size="10">raised forms</text><text x="12" y="79" fill="#C9B18E" font-size="10">+ sparks</text>
+  </g>
+  <g transform="translate(322,0)">
+    <rect x="0" y="0" width="140" height="84" rx="10" fill="#31322F" stroke="#D2B06C" stroke-width="3"/>
+    <path d="M28 53 h82 l-9 15 H37 z" fill="#654331"/>
+    <path d="M66 56 C45 39 61 27 72 18 C70 33 87 34 82 55 Z" fill="#E7B55E" stroke="#F1D5A0" stroke-width="3"/>
+    <path d="M41 35 l-9 -9 M101 35 l9 -9" stroke="#F1D5A0" stroke-width="4" stroke-linecap="round"/>
+    <text x="12" y="21" fill="#EEE5D4" font-size="14">LIT</text>
+    <text x="12" y="67" fill="#D8C49E" font-size="10">flame shape</text><text x="12" y="79" fill="#D8C49E" font-size="10">+ shield cue</text>
+  </g>
+</g>
+</svg>

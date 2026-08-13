@@ -1,0 +1,26 @@
+{
+  "id": "ITM_EMBER_CARRIER_001",
+  "status": "source-master-ready-unity-pending",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "purpose": "Carry protected embers/fire source from camp to signal frame during the finale.",
+  "sourceFiles": [
+    "source_art/items/a5/ITM_EMBER_CARRIER_001.obj",
+    "source_art/items/a5/ITM_EMBER_CARRIER_001.mtl",
+    "source_art/items/a5/ITM_EMBER_CARRIER_001.svg"
+  ],
+  "units": "metres",
+  "sourceAxes": {"up": "+Z", "forward": "+Y"},
+  "approxBoundsMetres": {"widthX": 0.34, "depthY": 0.33, "heightZ": 0.158},
+  "pivotIntent": "bottom-center of tray footprint",
+  "gripZones": [{"id":"PRIMARY_FRONT_HANDLE","required":true,"purpose":"main carry grip; usable by either hand","centerMetres":[0.0,-0.185,0.095],"sizeMetres":[0.145,0.03,0.032]}],
+  "logicalStates": [
+    {"id":"cold","shapeCue":"flat dark bed; no raised spark/flame cue","runtimeCueIntent":"no emission, no ember VFX"},
+    {"id":"ember","shapeCue":"raised ember forms plus sparse spark cue","runtimeCueIntent":"low emission + sparse ember VFX"},
+    {"id":"lit","shapeCue":"small protected flame shape plus shield cue","runtimeCueIntent":"small flame/smoke VFX; do not obscure handle"}
+  ],
+  "interactionIntent": {"carryMode":"single primary grip; optional second-hand stabilization may be added without changing logical state","dropBehavior":"fail-forward/recoverable product intent; exact runtime recovery belongs to Claude","stateAuthority":"replicate/save logical state enum; do not network raw particles"},
+  "readability": ["State must be readable by shape/VFX as well as color/emission.","Primary handle must remain visible and unobstructed in all states.","Silhouette should read as protected ember carrier at 2-3 m on Quest 2."],
+  "runtimeConstraints": ["Use simple primitive/convex colliders; source mesh is not a collider prescription.","No dynamic cloth or simulated loose fuel required.","Keep flame/ember VFX bounded inside guard silhouette.","Unity material/shader/emission tuning is Claude-owned and must be device-tested."],
+  "acceptanceForSource": ["OBJ parses with non-degenerate faces and metre-scale bounds.","Primary grip geometry exists as named object group.","SVG documents cold/ember/lit states with non-color-only cues.","Contract names source files, grip, state semantics and runtime ownership."]
+}

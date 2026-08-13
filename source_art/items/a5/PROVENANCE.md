@@ -12,6 +12,8 @@ Current files:
 - `ITM_CLOTH_001.svg` — folded grabbable textile source
 - `ITM_MAP_FRAGMENT_001.svg` — fictional narrative chart/map fragment
 - `ITM_RADIO_BATTERY_001.svg` — fictional removable radio power pack with keyed silhouette
+- `ITM_EMBER_CARRIER_001.obj/.mtl/.svg` — original low-poly protected ember carrier + cold/ember/lit readability reference
+- `ITM_HAMMER_001.obj/.mtl/.svg` — original short broad-head repair mallet; utility silhouette, no weapon features
 
 No third-party logos, real maps, branded battery standards, game screenshots or traced artwork are included.
 

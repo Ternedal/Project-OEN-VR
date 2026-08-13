@@ -16,12 +16,10 @@
     {"id":"SFX_CONFIRM_001","sourceClass":"OWN_SYNTH","productionStatus":"generator_ready","source":"source_audio/au1/generate_au1.py"},
     {"id":"SFX_WARNING_001","sourceClass":"OWN_SYNTH","productionStatus":"generator_ready","source":"source_audio/au1/generate_au1.py"},
     {"id":"SFX_ERROR_SOFT_001","sourceClass":"OWN_SYNTH","productionStatus":"generator_ready","source":"source_audio/au1/generate_au1.py"},
-
     {"id":"SFX_GRAB_HEAVY_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_HEAVY_MOVE_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_HEAVY_PLACE_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_CRATE_OPEN_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
-
     {"id":"SFX_ROPE_TENSION_LOW_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_ROPE_TENSION_GOOD_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_ROPE_TENSION_HIGH_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
@@ -31,7 +29,7 @@
     {"id":"SFX_SHELTER_ROPE_FLAP_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_BEAM_SHIFT_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_SHELTER_SNAP_SUCCESS_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
-
+    {"id":"SFX_SHELTER_COLLAPSE_PARTIAL_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_FIRESTEEL_STRIKE_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_FIRE_IGNITION_001","sourceClass":"NATURAL_TBD","productionStatus":"needs_source"},
     {"id":"SFX_FIRE_EMBERS_001","sourceClass":"NATURAL_TBD","productionStatus":"needs_source"},
@@ -39,7 +37,6 @@
     {"id":"SFX_FIRE_STRONG_001","sourceClass":"NATURAL_TBD","productionStatus":"needs_source"},
     {"id":"SFX_FIRE_FUEL_ADD_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_FIRE_WET_HISS_001","sourceClass":"NATURAL_TBD","productionStatus":"needs_source"},
-
     {"id":"SFX_WIND_L0_001","sourceClass":"AMBIENCE_TBD","productionStatus":"needs_source"},
     {"id":"SFX_WIND_L1_001","sourceClass":"AMBIENCE_TBD","productionStatus":"needs_source"},
     {"id":"SFX_WIND_L2_001","sourceClass":"AMBIENCE_TBD","productionStatus":"needs_source"},
@@ -50,12 +47,10 @@
     {"id":"SFX_AMB_JUNGLE_001","sourceClass":"AMBIENCE_TBD","productionStatus":"needs_source"},
     {"id":"SFX_AMB_RAVINE_001","sourceClass":"AMBIENCE_TBD","productionStatus":"needs_source"},
     {"id":"SFX_AMB_CAMP_NIGHT_001","sourceClass":"AMBIENCE_TBD","productionStatus":"needs_source"},
-
     {"id":"SFX_ANIMAL_DISTANT_001","sourceClass":"AMBIENCE_OR_FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_ANIMAL_CAMP_APPROACH_001","sourceClass":"AMBIENCE_OR_FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_ANIMAL_RETREAT_001","sourceClass":"AMBIENCE_OR_FOLEY_TBD","productionStatus":"needs_source"},
     {"id":"SFX_FOOD_DISTURBED_001","sourceClass":"FOLEY_TBD","productionStatus":"needs_source"},
-
     {"id":"VO_RADIO_NIGHT1_01","sourceClass":"VOICE_TBD","productionStatus":"script_ready","script":"docs/59_RADIO_VO_SOURCE_SCRIPT.md"},
     {"id":"VO_RADIO_NIGHT1_02","sourceClass":"VOICE_TBD","productionStatus":"script_ready","script":"docs/59_RADIO_VO_SOURCE_SCRIPT.md"},
     {"id":"VO_RADIO_NIGHT1_03","sourceClass":"VOICE_TBD","productionStatus":"script_ready","script":"docs/59_RADIO_VO_SOURCE_SCRIPT.md"},
@@ -65,7 +60,6 @@
     {"id":"VO_RADIO_END_NEUTRAL_01","sourceClass":"VOICE_TBD","productionStatus":"script_ready","script":"docs/59_RADIO_VO_SOURCE_SCRIPT.md"},
     {"id":"VO_RADIO_END_NEUTRAL_02","sourceClass":"VOICE_TBD","productionStatus":"script_ready","script":"docs/59_RADIO_VO_SOURCE_SCRIPT.md"},
     {"id":"VO_RADIO_END_NEUTRAL_03","sourceClass":"VOICE_TBD","productionStatus":"script_ready","script":"docs/59_RADIO_VO_SOURCE_SCRIPT.md"},
-
     {"id":"MUS_CAMP_BASE_001","sourceClass":"MUSIC_TBD","productionStatus":"direction_ready","direction":"docs/60_MUSIC_DIRECTION_AND_CUE_SHEET.md"},
     {"id":"MUS_STORM_BASE_001","sourceClass":"MUSIC_TBD","productionStatus":"direction_ready","direction":"docs/60_MUSIC_DIRECTION_AND_CUE_SHEET.md"},
     {"id":"MUS_STORM_PRESSURE_001","sourceClass":"MUSIC_TBD","productionStatus":"direction_ready","direction":"docs/60_MUSIC_DIRECTION_AND_CUE_SHEET.md"},

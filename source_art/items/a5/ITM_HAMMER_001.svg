@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<rect width="512" height="512" fill="#272825"/>
+<text x="24" y="42" fill="#EEE5D4" font-size="24" font-family="sans-serif">ITM_HAMMER_001</text>
+<text x="24" y="68" fill="#BFB39C" font-size="14" font-family="sans-serif">short repair mallet · broad contact face · utility, not weapon silhouette</text>
+<g transform="translate(80,92)">
+  <rect x="151" y="88" width="48" height="245" rx="20" fill="#6C4B32" stroke="#D0B28C" stroke-width="7"/>
+  <rect x="141" y="222" width="68" height="118" rx="25" fill="#40372F" stroke="#A89274" stroke-width="6"/>
+  <rect x="122" y="62" width="106" height="64" rx="14" fill="#57564F" stroke="#D7CFBC" stroke-width="7"/>
+  <rect x="82" y="70" width="44" height="48" rx="8" fill="#353632" stroke="#E2B467" stroke-width="6"/>
+  <rect x="224" y="70" width="44" height="48" rx="8" fill="#353632" stroke="#E2B467" stroke-width="6"/>
+  <text x="4" y="46" fill="#D8C49E" font-size="14" font-family="sans-serif">BROAD CONTACT</text>
+  <path d="M175 250 v62" stroke="#E2B467" stroke-width="10" stroke-linecap="round"/>
+  <text x="215" y="290" fill="#D8C49E" font-size="14" font-family="sans-serif">PRIMARY GRIP</text>
+</g>
+<g transform="translate(35,407)" font-family="sans-serif">
+ <rect x="0" y="0" width="442" height="67" rx="12" fill="#31322F" stroke="#6E7069" stroke-width="3"/>
+ <text x="16" y="22" fill="#EEE5D4" font-size="14">READABILITY / SAFETY</text>
+ <text x="16" y="41" fill="#C8B98E" font-size="11">short handle · rounded head · no claw/spike</text>
+ <text x="16" y="55" fill="#C8B98E" font-size="11">broad repair faces · no combat affordance</text>
+ <text x="260" y="55" fill="#AFA99F" font-size="10">impact feedback: shape + haptics</text>
+</g>
+</svg>

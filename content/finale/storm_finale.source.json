@@ -1,0 +1,41 @@
+{
+  "id": "STORM_FINALE_001",
+  "version": 1,
+  "status": "source-ready-qualitative-phase3-randomness-gated",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "milestone": "M5",
+  "releaseRole": "Release 1 payoff",
+  "sourceBrief": "design/interactions/STORM_FINALE.md",
+  "productRules": [
+    "Every phase has two materially active roles.",
+    "Earlier camp/player state changes visible aspects of the storm.",
+    "Failure is mostly fail-forward and does not erase all progress.",
+    "Interaction grammar reuses already learned interactions.",
+    "Partner speech remains higher priority than storm audio/music."
+  ],
+  "gates": {
+    "phase3Randomness": {
+      "status": "evidence-gated",
+      "gate": "OQ-008",
+      "weights": null,
+      "rule": "Prefer earned consequence over arbitrary random complication; no final numeric probability before human fairness evidence."
+    },
+    "sharedHeavyObject": {
+      "status": "device-evidence-gated",
+      "gate": "M0b",
+      "rule": "Phase 4 depends on the shared-object proof; contract does not claim runtime viability."
+    }
+  },
+  "preStormRead": {"visibleState":["shelter","fire","injury_or_condition","signal_readiness","earned_consequence_tags"],"hiddenNumericFormula":false},
+  "phases": [
+    {"id":"STORM_PHASE_1_WIND_SHELTER","ordinal":1,"titleKey":"storm.phase1.title","objectiveKey":"storm.phase1.objective","purpose":"Cash out shelter preparation immediately.","roles":[{"id":"STABILIZER","intent":"Hold beam/tarp structure in a broad safe zone and react to gust/structure movement."},{"id":"BINDER_REPAIRER","intent":"Secure rope points and repair a visible loose/damaged node."}],"assetIds":["PRP_SHELTER_FRAME_001","PRP_SHELTER_TARP_001","PRP_SHELTER_BEAM_001","PRP_SHELTER_ROPE_001","TEX_REPAIR_NODE_001","VFX_ROPE_STRAIN_001"],"audioCueIds":["SFX_WIND_L2_001","SFX_WIND_L3_001","SFX_SHELTER_CREAK_LOW_001","SFX_SHELTER_CREAK_HIGH_001","SFX_ROPE_TENSION_LOW_001","SFX_ROPE_TENSION_GOOD_001","SFX_ROPE_TENSION_HIGH_001","SFX_BEAM_SHIFT_001","SFX_SHELTER_SNAP_SUCCESS_001"],"musicCueIds":["MUS_STORM_BASE_001"],"branchInputs":["shelter_state"],"failForward":"Missed binds can worsen shelter/time/fatigue, but phase advances after functional minimum."},
+    {"id":"STORM_PHASE_2_RAIN_FIRE","ordinal":2,"titleKey":"storm.phase2.title","objectiveKey":"storm.phase2.objective","purpose":"Split attention between protecting recoverable fire and adding dry fuel.","roles":[{"id":"FIRE_PROTECTOR","intent":"Shield recoverable flame/embers from wind and rain."},{"id":"FUEL_HANDLER","intent":"Retrieve one bounded dry-fuel load and add it when partner signals readiness."}],"assetIds":["PRP_FIREPIT_001","PRP_WIND_SHIELD_001","ITM_EMBER_CARRIER_001","PRP_DRY_FUEL_CACHE_001"],"audioCueIds":["SFX_RAIN_L2_001","SFX_FIRE_WET_HISS_001","SFX_FIRE_EMBERS_001","SFX_FIRE_SMALL_001","SFX_FIRE_STRONG_001","SFX_FIRE_FUEL_ADD_001"],"musicCueIds":["MUS_STORM_BASE_001"],"branchInputs":["fire_state","wet_camp_state"],"failForward":"Weak fire adds recovery work but stays recoverable; no unrelated new interaction grammar."},
+    {"id":"STORM_PHASE_3_EARNED_CONSEQUENCE","ordinal":3,"titleKey":"storm.phase3.title","objectiveKey":"storm.phase3.objective","purpose":"Return an earlier choice in a causally legible way.","roles":[{"id":"CONSEQUENCE_ROLE_A","intent":"Branch-specific active role; must materially affect recovery."},{"id":"CONSEQUENCE_ROLE_B","intent":"Second materially active branch-specific role; no passive waiting role."}],"assetIds":[],"audioCueIds":[],"musicCueIds":["MUS_STORM_PRESSURE_001"],"candidateBranches":[{"id":"ANIMAL_SCENT","earnedCondition":"SCENT_HIGH","selectionStatus":"qualitative-only"},{"id":"INJURY_COMPLICATION","earnedCondition":"untreated injury/condition","selectionStatus":"qualitative-only"},{"id":"SHELTER_COMPLICATION","earnedCondition":"unresolved shelter damage","selectionStatus":"qualitative-only"}],"randomness":{"gate":"OQ-008","weights":null,"finalProbabilityLocked":false},"failForward":"Consequence may consume time/worsen state; no surprise scenario loss from one hidden roll."},
+    {"id":"STORM_PHASE_4_PARTIAL_COLLAPSE","ordinal":4,"titleKey":"storm.phase4.title","objectiveKey":"storm.phase4.objective","purpose":"Peak physical cooperation by reusing the heavy-object grammar.","roles":[{"id":"LIFTER_A","intent":"Take one side/target of the critical beam/structure."},{"id":"LIFTER_B","intent":"Take the second side/target; stabilization requires both players."}],"assetIds":["PRP_SHELTER_BEAM_001","TEX_REPAIR_NODE_001"],"audioCueIds":["SFX_SHELTER_COLLAPSE_PARTIAL_001","SFX_GRAB_HEAVY_001","SFX_HEAVY_MOVE_001","SFX_HEAVY_PLACE_001","SFX_SHELTER_SNAP_SUCCESS_001"],"musicCueIds":["MUS_STORM_PRESSURE_001"],"technicalGate":"M0b","failForward":"Grip mistakes do not cause a long reset; functional repair locks once minimum shared stabilization succeeds."},
+    {"id":"STORM_PHASE_5_SIGNAL_DAWN","ordinal":5,"titleKey":"storm.phase5.title","objectiveKey":"storm.phase5.objective","purpose":"Turn survival into joint rescue and pay off prior signal preparation.","roles":[{"id":"FLAME_CARRIER","intent":"Carry/protect viable ember/fire source through final placement."},{"id":"SIGNAL_OPERATOR","intent":"Prepare signal point and receive/place fuel or activate final structure."}],"assetIds":["ITM_EMBER_CARRIER_001","PRP_SIGNAL_FRAME_001","PRP_SIGNAL_FUEL_001"],"audioCueIds":["SFX_FIRE_IGNITION_001"],"musicCueIds":["MUS_SIGNAL_FINAL_001"],"branchInputs":["signal_readiness","fire_state"],"failForward":"Weak preparation increases setup/pressure but does not remove the right to attempt rescue."}
+  ],
+  "successSequence": {"musicCueId":"MUS_RESCUE_RELEASE_001","radioVoCueFamily":["VO_RADIO_END_NEUTRAL_01","VO_RADIO_END_NEUTRAL_02","VO_RADIO_END_NEUTRAL_03"],"steps":["world acknowledges signal immediately","storm pressure falls","rescue acknowledgement arrives","players get a short shared look-at-camp/partner beat","epilogue/personalization opens without instant menu cut"]},
+  "loss": {"causalSummaryRequired":true,"retryIntent":"pre-storm checkpoint or later approved checkpoint; never whole-scenario mandatory replay"},
+  "numericTuningStatus": "evidence-gated-not-locked"
+}

@@ -10,6 +10,11 @@ on:
       - 'docs/39_AUDIO_CUE_MANIFEST.md'
       - 'tools/validate_non_unity_sources.py'
       - 'tools/validate_planning_status_ui.py'
+      - 'tools/validate_ember_carrier_source.py'
+      - 'tools/test_validate_ember_carrier_source.py'
+      - 'tools/validate_repair_mallet_source.py'
+      - 'tools/test_validate_repair_mallet_source.py'
+      - 'tools/validate_storm_finale_contract.py'
       - '.github/workflows/non-unity-source-validation.yml'
   pull_request:
     paths:
@@ -19,6 +24,11 @@ on:
       - 'docs/39_AUDIO_CUE_MANIFEST.md'
       - 'tools/validate_non_unity_sources.py'
       - 'tools/validate_planning_status_ui.py'
+      - 'tools/validate_ember_carrier_source.py'
+      - 'tools/test_validate_ember_carrier_source.py'
+      - 'tools/validate_repair_mallet_source.py'
+      - 'tools/test_validate_repair_mallet_source.py'
+      - 'tools/validate_storm_finale_contract.py'
       - '.github/workflows/non-unity-source-validation.yml'
 
 permissions:
@@ -38,3 +48,13 @@ jobs:
         run: python tools/validate_non_unity_sources.py
       - name: Validate planning/status UI links
         run: python tools/validate_planning_status_ui.py
+      - name: Test ember carrier source
+        run: python tools/test_validate_ember_carrier_source.py
+      - name: Validate ember carrier source
+        run: python tools/validate_ember_carrier_source.py
+      - name: Test repair mallet source
+        run: python tools/test_validate_repair_mallet_source.py
+      - name: Validate repair mallet source
+        run: python tools/validate_repair_mallet_source.py
+      - name: Validate Storm finale contract
+        run: python tools/validate_storm_finale_contract.py
