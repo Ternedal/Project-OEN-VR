@@ -118,7 +118,7 @@ def main() -> int:
     ), "builder", errors)
 
     require(audit, (
-        SCENE,
+        "private const string ScenePath = ProductionArtStateTransitionShowcaseBuilder.ScenePath;",
         "private const int ExpectedLabelCount = 27;",
         "private const int TriangleHardLimit = 300000;",
         "VerifyStaticMatrix(scene, errors);",
