@@ -43,17 +43,23 @@ Dette er Claude/Unity-sporet.
 
 M-Pre (ADR-022 / PO-110) er **klar, men endnu ikke kørt med mennesker**.
 
-Ready-to-run-pakken ligger under `prototype/m-pre/`:
-
-- `README.md`
-- `FACILITATOR_SCRIPT.md`
-- `TASK_CARDS.md`
-- `SESSION_SHEET.md`
-- `RESULT_TEMPLATE.md`
+Ready-to-run-pakken ligger under `prototype/m-pre/`, inklusive tester-rekrutteringsmateriale.
 
 Gaten kræver mindst tre gyldige sessioner med mindst to forskellige testerpar. Gavemodtageren må ikke være tester.
 
-Dette er ChatGPT/produkt-sporet sammen med Anders.
+Tracker: GitHub issue #7.
+
+### Content contract
+
+GitHub issue #8 sporer tre reelle source-of-truth-gaps, fundet under content coverage-audit:
+
+1. intro interactions i biblen vs. tom `INTRO.actions` i scenario JSON
+2. Day 3 preparation i biblen vs. manglende tydelig Day 3 planning phase i scenario-data
+3. fire-start som core onboarding-beat vs. `PO-044` deferred
+
+Claude skal ikke vælge disse svar stiltiende gennem implementation.
+
+---
 
 ## Core
 
@@ -69,41 +75,115 @@ Unity/Fusion-laget under `src/unity/` ejes af Claude.
 
 Den gamle repo-status “Fusion-binding ukompileret” er ikke længere gældende: compile/build og flere on-device-inkrementer er dokumenteret. Cross-device-gaten er stadig åben.
 
-## ChatGPT-sporet
+---
 
-Aktuel plan: `docs/36_CHATGPT_WORKSTREAM.md`.
+# ChatGPT / non-Unity-sporet
 
-Færdigt 2026-08-13:
+Aktuel kø: `docs/36_CHATGPT_WORKSTREAM.md`.
 
-- M-Pre ready-to-run-pakke
-- status-/roadmapoprydning
-- root/master/handoff-guidance-oprydning
-- OQ-008 randomness-testprotokol
-- OQ-009 rolletestprotokol
-- OQ-010 efterspils-konkurrenceprotokol
+Den tidligere “stoplinje indtil M-Pre” er **ophævet som for bred**.
 
-Root-dokumenterne (`00_READ_ME_FIRST.md`, `README.md`, `CLAUDE.md`, master handoff, implementeringsrækkefølge og Claude execution plan) er nu rettet til den aktuelle M0b/M-Pre-tilstand. Review v1.0-materiale er markeret som historik, hvor relevant.
+Korrekt regel:
 
-## Aktuel stoplinje
+- M-Pre + M0b blokerer **M1 implementation**.
+- Human evidence blokerer **evidensafhængige produktbeslutninger og balance**.
+- De blokerer **ikke** specifikation, content authoring, source manifests, copy, QA-design, personalization contracts eller produktionsberedskab.
 
-Der er ingen vigtig ikke-Unity-produktbeslutning, som bør afgøres uden menneskedata.
+## Nye non-Unity leverancer 2026-08-13
 
-Det næste evidensskabende arbejde er:
+### Gap/audit
 
-1. **Claude/Anders:** luk M0b cross-device.
-2. **Anders/testere:** kør M-Pre.
-3. **ChatGPT:** behandl M-Pre-data, når de findes.
-4. **Mennesketest:** OQ-008/OQ-009/OQ-010, når deres forudsætninger er til stede.
+- `docs/37_NON_UNITY_GAP_AUDIT.md`
+
+### Art / source assets
+
+- `docs/38_SOURCE_ASSET_MANIFEST.md`
+- `docs/47_VISUAL_STYLE_BIBLE.md`
+
+### Audio
+
+- `docs/39_AUDIO_CUE_MANIFEST.md`
+
+### UX / copy / localization
+
+- `docs/40_UX_COPY_AND_LOCALIZATION_CATALOG.md`
+- `content/localization/da.source.json`
+- `docs/48_UI_INFORMATION_ARCHITECTURE.md`
+
+### Personalization / gift
+
+- `docs/41_PERSONALIZATION_PACKAGE_SPEC.md`
+- `docs/45_GIFT_EXPERIENCE_AND_RELEASE_FLOW.md`
+
+### QA / metrics
+
+- `docs/42_HUMAN_QA_PLAYTEST_PACK.md`
+- `docs/50_PRODUCT_TELEMETRY_AND_METRICS.md`
+
+### IP / provenance
+
+- `docs/43_IP_AND_ASSET_PROVENANCE.md`
+
+### Content / narrative
+
+- `docs/44_CONTENT_COVERAGE_MATRIX.md`
+- `docs/46_STORMNATTEN_EVENT_CATALOG.md`
+- `docs/49_AFTER_ACTION_AND_REPLAY_SPEC.md`
+
+### Interaction handoffs
+
+`design/interactions/` indeholder briefs for:
+
+- planning table
+- shelter reinforcement
+- fire start
+- ravine rescue
+- storm finale
+
+Disse beskriver player experience, begge roller, fail-forward, assets/audio/copy og acceptance criteria — **ikke Unity-arkitektur**.
+
+---
+
+# Hvad der fortsat mangler på ChatGPT-siden
+
+Der er stadig væsentligt arbejde uden for Unity.
+
+Næste ublokerede bølge omfatter bl.a.:
+
+1. backlog ownership/status overlay
+2. scope-bevidste løsningsforslag til issue #8
+3. machine-readable content expansion uden balance-lock
+4. source-production batches
+5. narrative continuity pass
+6. neutral fallback source package
+7. content authoring templates
+8. selektiv faktisk source art/audio-produktion, hvor rework-risikoen er acceptabel
+
+Derudover afventer:
+
+- M-Pre human data
+- OQ-008/OQ-009/OQ-010 human data
+- senere M3-M9 human playtests
+
+## Gategrænse
 
 **M1 åbner først efter grøn M0b + M-Pre.**
 
-Derefter åbner ChatGPT C-020 (M1 player-experience/UX-handoff) og senere de relevante source asset/audio manifests.
+Det betyder ikke, at ChatGPT-sporet stopper. Det betyder, at produktionsberedskabet fortsætter uden at foregive evidens eller låse balancen.
+
+---
 
 ## Hvad Anders konkret skal gøre
 
-- Få Claude til at følge `CLAUDE.md` + `AI_COLLABORATION_AGREEMENT.md` og afslutte M0b's to-headset-gate.
-- Når det passer, skaf to testere ad gangen til M-Pre; materialet kræver ellers kun fire ens markører og en d6.
-- Send M-Pre-rådata tilbage til ChatGPT, så gate, OQ-006/OQ-007, backlog og næste handoff kan dispositioneres.
+Parallelt med ChatGPTs fortsatte non-Unity-arbejde:
+
+- få Claude til at afslutte M0b issue #3
+- når det passer, skaf testerpar til M-Pre issue #7
+- beslut kun issue #8-punkter, hvis det konkrete forslag ændrer valgt scope eller kræver produktejerens præference
+
+Resten af den ublokerede non-Unity-kø fortsætter hos ChatGPT.
+
+---
 
 ## Vigtige filer
 
@@ -111,7 +191,11 @@ Derefter åbner ChatGPT C-020 (M1 player-experience/UX-handoff) og senere de rel
 - Samarbejde: `AI_COLLABORATION_AGREEMENT.md`
 - Claude: `CLAUDE.md`, `docs/32_OPUS_EXECUTION_PLAN.md`
 - ChatGPT: `docs/36_CHATGPT_WORKSTREAM.md`
+- Gap audit: `docs/37_NON_UNITY_GAP_AUDIT.md`
 - Næste handling: `docs/29_NEXT_ACTION.md`
-- M0b: GitHub issue #3, `src/unity/RUNBOOK_FUSION.md`, `config/COMPATIBILITY_MATRIX.md`
-- M-Pre: `docs/35_M_PRE_GREYBOX_GATE.md`, `prototype/m-pre/`
-- Design-tests: `prototype/design-tests/`
+- M0b: issue #3, `src/unity/RUNBOOK_FUSION.md`, `config/COMPATIBILITY_MATRIX.md`
+- M-Pre: issue #7, `docs/35_M_PRE_GREYBOX_GATE.md`, `prototype/m-pre/`
+- Content reconciliation: issue #8
+- Content coverage: `docs/44_CONTENT_COVERAGE_MATRIX.md`
+- Source assets/audio: `docs/38_SOURCE_ASSET_MANIFEST.md`, `docs/39_AUDIO_CUE_MANIFEST.md`
+- UX/localization: `docs/40_UX_COPY_AND_LOCALIZATION_CATALOG.md`, `content/localization/`
