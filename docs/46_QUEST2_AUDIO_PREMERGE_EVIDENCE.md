@@ -101,9 +101,9 @@ The thresholds come from `docs/08_PLATFORM_BUILD_PERFORMANCE.md`:
 - no sustained audio-induced frame regression;
 - no material audio-related memory growth;
 - simultaneous audio voices are measured;
-- project target is **<24 simultaneous voices**.
+- project target is **<24 simultaneous voices** — i.e. 23 or fewer is inside the target.
 
-If measured peak voices exceed 24, the importer does not silently reject an otherwise deliberately accepted measurement, but `voice_budget_exception` becomes mandatory. That field must explain why the measured exception is acceptable and should point to measured/profiling evidence. A blank exception above 24 is rejected.
+If measured peak voices are **24 or higher**, `voice_budget_exception` becomes mandatory. That field must explain why the measured exception is acceptable and should point to measured/profiling evidence. A blank exception at the 24-voice boundary or above is rejected.
 
 `metrics_reference` is always required for a passing soak so the result is traceable to OVR Metrics/Meta tooling/Unity Profiler or equivalent device evidence.
 
@@ -124,10 +124,10 @@ If measured peak voices exceed 24, the importer does not silently reject an othe
 - sustained audio-induced frame regression;
 - material audio-related memory growth;
 - missing measured voice count;
-- >24 voices without an explicit budget exception;
+- 24+ voices without an explicit budget exception;
 - missing metrics reference.
 
-Audio Validation runs the importer in `--self-test` mode against a temporary QA registry. The self-test proves that valid synthetic structure is accepted, stale/short/over-budget-without-exception/incomplete evidence is rejected, only the three Quest gates can be promoted, and the three Unity rows remain untouched.
+Audio Validation runs the importer in `--self-test` mode against a temporary QA registry. The self-test proves that valid synthetic structure is accepted, stale/short/24-voice-boundary-without-exception/incomplete evidence is rejected, only the three Quest gates can be promoted, and the three Unity rows remain untouched.
 
 The synthetic self-test is **not physical evidence** and never mutates `content/audio/audio_premerge_qa.csv`.
 
@@ -138,5 +138,7 @@ After the three Unity gates and three Quest gates have real accepted evidence:
 ```bash
 python tools/report_audio_merge_readiness.py --strict
 ```
+
+Strict mode independently refuses a manually edited `passed` row unless its evidence marker comes from the correct category importer and is bound to the current pinned manifest/173/47 payload.
 
 Only when strict mode succeeds, the current PR checks are green, and there are no unresolved review blockers should PR #6 be moved out of draft and merged.
