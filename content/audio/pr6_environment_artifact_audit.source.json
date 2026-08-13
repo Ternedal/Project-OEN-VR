@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "status": "external-pr-artifact-audited-candidate-headset-listen",
+  "owner": "ChatGPT",
+  "sourcePr": 6,
+  "sourceBranch": "agent/audio-foundation-v1",
+  "sourceHeadAtAudit": "6b3d22f4b7a3e100fa7d237331b66225e55d0f4f",
+  "artifact": {
+    "id": 9171323145,
+    "name": "environmental candidate pack",
+    "downloadWrapperSha256": "e3029dc5e25fc38bdee64f71aed5d2c7f9381e65cb57524dfb2d3340ac1258aa",
+    "innerZipSha256": "56ad41f78f5776992a854980bb500f358f98a72c5a6a8acb1aba9de0f98b9a52",
+    "provenanceFile": "PROVENANCE.csv"
+  },
+  "objectiveAudit": {
+    "wavFiles": 28,
+    "provenanceRows": 28,
+    "missingFiles": 0,
+    "outputHashMismatches": 0,
+    "uniqueOutputHashes": 28,
+    "totalAudioSeconds": 526.099,
+    "formats": [
+      {"sampleRateHz": 48000, "bitDepth": 24, "channels": 1},
+      {"sampleRateHz": 48000, "bitDepth": 24, "channels": 2}
+    ],
+    "qaStatusForAll": "candidate-headset-listen"
+  },
+  "eventCoverage": [
+    {"eventId": "SFX_AMB_Beach_OceanNear", "variations": 2, "sourceKeys": ["waves_pd"]},
+    {"eventId": "SFX_AMB_Beach_OceanFar", "variations": 2, "sourceKeys": ["waves_pd"]},
+    {"eventId": "SFX_AMB_Shore_Wash", "variations": 10, "sourceKeys": ["waves_pd"]},
+    {"eventId": "SFX_WTH_Rain_Light", "variations": 1, "sourceKeys": ["rain_light_pd"]},
+    {"eventId": "SFX_WTH_Rain_Heavy", "variations": 1, "sourceKeys": ["rain_heavy_pd"]},
+    {"eventId": "SFX_WTH_Storm_Wind", "variations": 2, "sourceKeys": ["wind_cc0"]},
+    {"eventId": "SFX_ENV_Fire_Idle", "variations": 1, "sourceKeys": ["fire_pd"]},
+    {"eventId": "SFX_ENV_Fire_Low", "variations": 1, "sourceKeys": ["fire_pd"]},
+    {"eventId": "SFX_AMB_Jungle_DayBed", "variations": 1, "sourceKeys": ["rainforest_guadeloupe_pd"]},
+    {"eventId": "SFX_NAT_Insect_CicadaCluster", "variations": 4, "sourceKeys": ["cicada_qingfeng_cc0"]},
+    {"eventId": "SFX_WTH_Thunder_Far", "variations": 3, "sourceKeys": ["thunder_far_tonitrus_pd"]}
+  ],
+  "sourceReuseRisks": [
+    "OceanNear, OceanFar and all 10 ShoreWash derivatives come from one pinned Waves.ogg source; output hashes are unique but human review must confirm sufficient audible variation and perspective differentiation.",
+    "Both storm-wind derivatives come from one Howling wind source.",
+    "Both fire derivatives come from one public-domain fire source.",
+    "Cicada and thunder variations each reuse one source recording; variation quality remains a listening question."
+  ],
+  "rules": [
+    "This audit proves artifact integrity and technical format only.",
+    "The artifact belongs to an unmerged draft PR and is not canonical main runtime content.",
+    "No candidate is source-approved, Unity-approved or release-approved by this audit.",
+    "PR #6 must sync current main and rerun/re-pin its payload before authoritative physical QA.",
+    "Any promotion of these candidates still requires human headset/listening QA and the PR #6 physical acceptance gates."
+  ]
+}
