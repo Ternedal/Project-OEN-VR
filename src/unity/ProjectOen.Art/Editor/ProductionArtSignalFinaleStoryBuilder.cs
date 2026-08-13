@@ -17,8 +17,9 @@ namespace ProjectOen.Art.Editor
     /// simulation layer.
     ///
     /// The story adds no particles, lights, colliders, rigidbodies, Animator/Animation
-    /// components or runtime update loops. Story renderers are also authored shadowless
-    /// and probe-free so decorative finale debris cannot inherit realtime renderer cost.
+    /// components or runtime update loops. Story renderers are also authored shadowless,
+    /// probe-free and restricted to shared production material assets so decorative
+    /// finale debris cannot inherit realtime or material-instance cost.
     /// </summary>
     public static class ProductionArtSignalFinaleStoryBuilder
     {
@@ -27,6 +28,7 @@ namespace ProjectOen.Art.Editor
         public const int ExpectedStoryObjectCount = 8;
 
         private const string PrefabRoot = "Assets/ProjectOEN/ProductionArt/Prefabs";
+        private const string ProductionMaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials/";
         private const int TriangleHardLimit = 50000;
         private const int MaterialSlotHardLimit = 32;
         private const float MaxStoryRadius = 2.45f;
@@ -98,7 +100,7 @@ namespace ProjectOen.Art.Editor
 
             Debug.Log("[ProjectOEN.Art.SignalFinale] Built " + ExpectedStoryObjectCount +
                       " deterministic signal-finale consequence props in " + ScenePath +
-                      " with no particles/lights/colliders/physics/animation and no realtime renderer shadows/probes.");
+                      " with no particles/lights/colliders/physics/animation, no realtime renderer shadows/probes and shared production materials only.");
         }
 
         private static void PlaceStoryPrefab(Transform parent, StorySpec spec)
@@ -204,6 +206,8 @@ namespace ProjectOen.Art.Editor
                 renderer.shadowCastingMode != ShadowCastingMode.Off || renderer.receiveShadows);
             int lightProbeRenderers = renderers.Count(renderer => renderer.lightProbeUsage != LightProbeUsage.Off);
             int reflectionProbeRenderers = renderers.Count(renderer => renderer.reflectionProbeUsage != ReflectionProbeUsage.Off);
+            ValidateSharedProductionMaterials(renderers);
+
             if (triangles > TriangleHardLimit)
                 throw new InvalidOperationException("Signal finale story triangle proxy " + triangles +
                                                     " exceeds " + TriangleHardLimit + ".");
@@ -231,6 +235,30 @@ namespace ProjectOen.Art.Editor
                 string expectedToken = spec.token.ToLowerInvariant().Replace('-', '_');
                 if (!stem.StartsWith(expectedPrefix, StringComparison.Ordinal) || !stem.Contains(expectedToken))
                     throw new InvalidOperationException("Wrong canonical signal finale state on " + spec.name + ": " + stem);
+            }
+        }
+
+        private static void ValidateSharedProductionMaterials(Renderer[] renderers)
+        {
+            foreach (Renderer renderer in renderers)
+            {
+                Material[] materials = renderer.sharedMaterials;
+                for (int i = 0; i < materials.Length; i++)
+                {
+                    Material material = materials[i];
+                    if (material == null)
+                        throw new InvalidOperationException("Signal finale story contains a null material slot on " + renderer.name + ".");
+                    if (material.name.EndsWith(" (Instance)", StringComparison.Ordinal))
+                        throw new InvalidOperationException("Signal finale story contains an instanced material: " + material.name + ".");
+
+                    string materialPath = AssetDatabase.GetAssetPath(material).Replace('\\', '/');
+                    if (string.IsNullOrEmpty(materialPath) ||
+                        !materialPath.StartsWith(ProductionMaterialRoot, StringComparison.Ordinal))
+                    {
+                        throw new InvalidOperationException("Signal finale story material is outside the production UnityMaterials root: " +
+                                                            material.name + " -> " + materialPath);
+                    }
+                }
             }
         }
 

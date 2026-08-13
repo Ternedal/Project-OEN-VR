@@ -19,8 +19,9 @@ namespace ProjectOen.Art.Editor
     ///
     /// This layer is intentionally cheap and static. It adds no particles, lights,
     /// colliders, physics, Animator/Animation components or runtime update loops.
-    /// Story renderers are authored shadowless and probe-free so decorative aftermath
-    /// cannot silently inherit realtime renderer cost from canonical source prefabs.
+    /// Story renderers are authored shadowless and probe-free and must keep shared
+    /// production material assets so decorative aftermath cannot silently inherit
+    /// realtime renderer cost or material-instance draw-call/memory overhead.
     /// </summary>
     public static class ProductionArtStormCampStoryBuilder
     {
@@ -29,6 +30,7 @@ namespace ProjectOen.Art.Editor
         public const int ExpectedStoryObjectCount = 9;
 
         private const string PrefabRoot = "Assets/ProjectOEN/ProductionArt/Prefabs";
+        private const string ProductionMaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials/";
         private const int TriangleHardLimit = 60000;
         private const int MaterialSlotHardLimit = 36;
 
@@ -57,22 +59,14 @@ namespace ProjectOen.Art.Editor
 
         private static readonly StorySpec[] Specs =
         {
-            // Shelter pressure: two separated broken-part clusters make the damaged
-            // shelter read as an event rather than merely another construction state.
             new StorySpec("Collapsed Shelter Crossbrace", "en-023_", "broken_shelter_parts",
                 new Vector3(-2.42f, 0.055f, 1.62f), new Vector3(7f, 28f, 18f), 0.78f, true),
             new StorySpec("Storm-Torn Shelter Debris", "en-023_", "broken_shelter_parts",
                 new Vector3(-0.48f, 0.035f, 2.22f), new Vector3(-5f, -42f, -12f), 0.62f, true),
-
-            // Rope tells two different mechanical stories: one guy-line is still
-            // carrying load, while another has failed and dropped into the mud.
             new StorySpec("Shelter Guy Rope Under Load", "en-024_", "taut",
                 new Vector3(-1.58f, 0.030f, 0.96f), new Vector3(0f, 18f, 0f), 1.12f, true),
             new StorySpec("Shelter Rope Failure", "en-024_", "slack",
                 new Vector3(-2.72f, 0.022f, 0.48f), new Vector3(0f, 56f, 0f), 0.78f, true),
-
-            // Damaged build stock and displaced camp gear communicate that the
-            // storm has affected both shelter integrity and day-to-day camp use.
             new StorySpec("Snapped Wood Bundle", "pr-003_", "damaged",
                 new Vector3(-0.08f, 0.090f, 2.02f), new Vector3(10f, 74f, 12f), 0.70f, true),
             new StorySpec("Overturned Storage Crate", "en-018_", "crate",
@@ -81,9 +75,6 @@ namespace ProjectOen.Art.Editor
                 new Vector3(0.93f, 0.025f, -0.42f), new Vector3(0f, 34f, 0f), 0.68f, true),
             new StorySpec("Camp Rope Washout", "en-004_", "small",
                 new Vector3(-0.92f, 0.025f, -1.18f), new Vector3(0f, -12f, 0f), 0.66f, true),
-
-            // A close puddle anchors the wetness around the damaged shelter instead
-            // of leaving all visible water accents at the edge of the composition.
             new StorySpec("Shelter Foot Puddle", "en-011_", "small",
                 new Vector3(-1.88f, 0.003f, -0.02f), new Vector3(0f, 14f, 0f), 0.90f, false),
         };
@@ -111,7 +102,7 @@ namespace ProjectOen.Art.Editor
 
             Debug.Log("[ProjectOEN.Art.StormStory] Built " + ExpectedStoryObjectCount +
                       " deterministic camp-consequence props in " + ScenePath +
-                      " with no particles/lights/colliders/physics/animation and no realtime renderer shadows/probes.");
+                      " with no particles/lights/colliders/physics/animation, no realtime renderer shadows/probes and shared production materials only.");
         }
 
         private static void PlaceStoryPrefab(Transform parent, StorySpec spec)
@@ -218,6 +209,8 @@ namespace ProjectOen.Art.Editor
                 renderer.shadowCastingMode != ShadowCastingMode.Off || renderer.receiveShadows);
             int lightProbeRenderers = renderers.Count(renderer => renderer.lightProbeUsage != LightProbeUsage.Off);
             int reflectionProbeRenderers = renderers.Count(renderer => renderer.reflectionProbeUsage != ReflectionProbeUsage.Off);
+            ValidateSharedProductionMaterials(renderers);
+
             if (triangles > TriangleHardLimit)
                 throw new InvalidOperationException("Storm camp story triangle proxy " + triangles +
                                                     " exceeds " + TriangleHardLimit + ".");
@@ -245,6 +238,30 @@ namespace ProjectOen.Art.Editor
                 string expectedToken = spec.token.ToLowerInvariant().Replace('-', '_');
                 if (!stem.StartsWith(expectedPrefix, StringComparison.Ordinal) || !stem.Contains(expectedToken))
                     throw new InvalidOperationException("Wrong canonical story state on " + spec.name + ": " + stem);
+            }
+        }
+
+        private static void ValidateSharedProductionMaterials(Renderer[] renderers)
+        {
+            foreach (Renderer renderer in renderers)
+            {
+                Material[] materials = renderer.sharedMaterials;
+                for (int i = 0; i < materials.Length; i++)
+                {
+                    Material material = materials[i];
+                    if (material == null)
+                        throw new InvalidOperationException("Storm camp story contains a null material slot on " + renderer.name + ".");
+                    if (material.name.EndsWith(" (Instance)", StringComparison.Ordinal))
+                        throw new InvalidOperationException("Storm camp story contains an instanced material: " + material.name + ".");
+
+                    string materialPath = AssetDatabase.GetAssetPath(material).Replace('\\', '/');
+                    if (string.IsNullOrEmpty(materialPath) ||
+                        !materialPath.StartsWith(ProductionMaterialRoot, StringComparison.Ordinal))
+                    {
+                        throw new InvalidOperationException("Storm camp story material is outside the production UnityMaterials root: " +
+                                                            material.name + " -> " + materialPath);
+                    }
+                }
             }
         }
 

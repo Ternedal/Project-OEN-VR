@@ -5,7 +5,9 @@ The builder-specific gates prove authored source intent. This gate makes sure th
 main Unity showcase audit independently re-checks the saved/imported scene:
 exact roots/children, canonical prefab variants, bounded placement, zero runtime
 cost components, shadow/probe-free renderer policy and per-story triangle/material
-budgets.
+budgets. It also requires both story builders to retain shared production material
+assets only, and verifies that state-local appearance stays on MaterialPropertyBlock
+rather than cloning renderer materials.
 """
 from __future__ import annotations
 
@@ -17,9 +19,11 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 EDITOR = ROOT / "src" / "unity" / "ProjectOen.Art" / "Editor"
+RUNTIME = ROOT / "src" / "unity" / "ProjectOen.Art" / "Runtime"
 AUDIT = EDITOR / "ProductionArtShowcaseAudit.cs"
 CAMP = EDITOR / "ProductionArtStormCampStoryBuilder.cs"
 SIGNAL = EDITOR / "ProductionArtSignalFinaleStoryBuilder.cs"
+STATE_APPEARANCE = RUNTIME / "ProductionArtStateAppearance.cs"
 WORKFLOW = ROOT / ".github" / "workflows" / "generate-project-oen-art.yml"
 
 SPEC_RE = re.compile(
@@ -77,6 +81,7 @@ AUDIT_REQUIRED = (
 
 BUILDER_RENDERER_REQUIRED = (
     'using UnityEngine.Rendering;',
+    'ProductionMaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials/"',
     'foreach (Renderer renderer in root.GetComponentsInChildren<Renderer>(true))',
     'renderer.shadowCastingMode = ShadowCastingMode.Off;',
     'renderer.receiveShadows = false;',
@@ -85,9 +90,24 @@ BUILDER_RENDERER_REQUIRED = (
     'renderer.shadowCastingMode != ShadowCastingMode.Off || renderer.receiveShadows',
     'renderer.lightProbeUsage != LightProbeUsage.Off',
     'renderer.reflectionProbeUsage != ReflectionProbeUsage.Off',
+    'ValidateSharedProductionMaterials(renderers);',
+    'Material[] materials = renderer.sharedMaterials;',
+    'material.name.EndsWith(" (Instance)", StringComparison.Ordinal)',
+    'AssetDatabase.GetAssetPath(material)',
+    '!materialPath.StartsWith(ProductionMaterialRoot, StringComparison.Ordinal)',
+    'contains a null material slot',
+    'contains an instanced material',
+    'material is outside the production UnityMaterials root',
     'renderers must not cast or receive realtime shadows',
     'renderers must not use light probes',
     'renderers must not use reflection probes',
+)
+
+STATE_APPEARANCE_REQUIRED = (
+    'new MaterialPropertyBlock()',
+    'Material[] materials = renderer.sharedMaterials;',
+    'renderer.GetPropertyBlock(propertyBlock, materialIndex);',
+    'renderer.SetPropertyBlock(propertyBlock, materialIndex);',
 )
 
 WORKFLOW_REQUIRED = (
@@ -136,6 +156,7 @@ def main() -> int:
     audit = load(AUDIT, "Stormnatten showcase audit", errors)
     camp = load(CAMP, "camp story builder", errors)
     signal = load(SIGNAL, "signal finale story builder", errors)
+    state_appearance = load(STATE_APPEARANCE, "state appearance runtime", errors)
     workflow = load(WORKFLOW, "art workflow", errors)
 
     for token in AUDIT_REQUIRED:
@@ -144,7 +165,10 @@ def main() -> int:
     for label, builder in (("camp", camp), ("signal", signal)):
         for token in BUILDER_RENDERER_REQUIRED:
             if builder and token not in builder:
-                errors.append(f"{label} story builder missing renderer-cost contract: {token}")
+                errors.append(f"{label} story builder missing renderer/material contract: {token}")
+    for token in STATE_APPEARANCE_REQUIRED:
+        if state_appearance and token not in state_appearance:
+            errors.append(f"state appearance missing shared-material/MPB contract: {token}")
     for token in WORKFLOW_REQUIRED:
         if workflow and token not in workflow:
             errors.append(f"art workflow missing imported-story audit gate: {token}")
@@ -158,6 +182,10 @@ def main() -> int:
     ):
         if audit and forbidden in audit:
             errors.append(f"showcase audit must stay read-only; forbidden token: {forbidden}")
+
+    for forbidden in ('renderer.material', 'renderer.materials', 'new Material('):
+        if state_appearance and forbidden in state_appearance:
+            errors.append(f"state appearance must not clone/instance materials; forbidden token: {forbidden}")
 
     camp_specs = parse_builder_specs(camp)
     signal_specs = parse_builder_specs(signal)
@@ -191,6 +219,8 @@ def main() -> int:
     print("  signal finale   : 8 exact canonical children / <=50k triangles / <=32 material slots / <=2.45m")
     print("  runtime cost    : 0 colliders / rigidbodies / particles / lights / Animation / Animator")
     print("  renderer cost   : shadow casting/receiving OFF / light probes OFF / reflection probes OFF")
+    print("  materials       : non-null shared assets under ProductionArt/UnityMaterials only; no (Instance) materials")
+    print("  state appearance: MaterialPropertyBlock + sharedMaterials only; no material cloning")
     print("  imported scene  : main Unity showcase audit re-checks saved prefab sources, positions and renderer policy")
 
     if errors:
@@ -199,7 +229,7 @@ def main() -> int:
             print(" - " + error)
         return 1
 
-    print("\nPASS: imported Stormnatten story layers are read-only audited with canonical, bounded and Quest-conscious renderer policy.")
+    print("\nPASS: Stormnatten story layers are canonical, bounded, shadow/probe-free and restricted to shared production materials.")
     return 0
 
 
