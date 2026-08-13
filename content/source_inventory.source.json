@@ -31,6 +31,7 @@
     {"id":"EVENT_PRESENTATION","status":"source-ready-ci-validated","path":"content/events/stormnatten.presentation.source.json"},
     {"id":"AFTER_ACTION_PRESENTATION","status":"source-ready-qualitative","path":"content/outcomes/after_action.presentation.source.json"},
     {"id":"MATERIAL_FAMILIES","status":"source-reference-ready","path":"content/materials/material_families.source.json"},
+    {"id":"RELEASE_UI_SURFACES","status":"source-ready","path":"content/ui/release_ui_surfaces.source.json"},
     {"id":"NEUTRAL_PERSONALIZATION","status":"source-ready","path":"content/personalization/neutral_profile.source.json"},
     {"id":"ONBOARDING_PROPOSAL","status":"proposal-not-canonical","path":"content/proposals/onboarding_sequence.source.json"},
     {"id":"DAY3_PLANNING_PROPOSAL","status":"proposal-not-canonical","path":"content/proposals/day3_planning.source.json"}
