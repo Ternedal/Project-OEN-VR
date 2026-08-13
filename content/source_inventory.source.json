@@ -12,6 +12,7 @@
     {"id":"A4_CAMP","status":"produced-source-reference-expanded","path":"source_art/environment/a4","format":"SVG","producedIds":["ENV_BEACH_CAMP_001","ENV_WRECKAGE_001","ENV_CAMP_GROUND_001","ENV_STORM_CAMP_001","PRP_RADIO_001","PRP_SIGNAL_FRAME_001"],"next":"Claude Unity implementation; final environment art/material polish waits stable geometry and Quest 2 evidence"},
     {"id":"B1_ENVIRONMENT","status":"produced-source-reference","path":"source_art/environment/b1","format":"SVG","next":"Claude world implementation; richer art after spatial evidence"},
     {"id":"B1_WORLD_ITEMS","status":"partial-produced","path":"source_art/items/b1","format":"SVG","producedIds":["ITM_WOOD_BUNDLE_001","ITM_FIBER_BUNDLE_001","ITM_HERB_BUNDLE_001","ITM_FOOD_PARCEL_001","ITM_GENERAL_SUPPLIES_001"],"next":"remaining scenario items and runtime handoff"},
+    {"id":"B1_WORLD_PROPS","status":"partial-produced","path":"source_art/props/b1","format":"SVG","producedIds":["PRP_SUPPLY_CRATE_001"],"next":"continue stable utility/world props as needed; Claude owns Unity mesh/interaction/device QA"},
     {"id":"B2_EVENT_PRESENTATION","status":"produced-and-mapped","path":"source_art/events/b2","format":"SVG","next":"Claude binds machine-readable event presentation contract"},
     {"id":"A5_PROP_MESHES","status":"partial-source-meshes-produced","path":"source_art/props/a5","format":"OBJ","producedIds":["PRP_WIND_SHIELD_001","PRP_DRY_FUEL_CACHE_001","PRP_SIGNAL_FUEL_001"],"next":"Unity import remains Claude; source mesh QA/provenance exists"},
     {"id":"A5_ITEMS","status":"produced-source-set","path":"source_art/items/a5","format":"SVG","producedIds":["ITM_CLOTH_001","ITM_MAP_FRAGMENT_001","ITM_RADIO_BATTERY_001"],"next":"Claude Unity import/socket/readability QA"},
@@ -31,8 +32,5 @@
     {"id":"ONBOARDING_PROPOSAL","status":"proposal-not-canonical","path":"content/proposals/onboarding_sequence.source.json"},
     {"id":"DAY3_PLANNING_PROPOSAL","status":"proposal-not-canonical","path":"content/proposals/day3_planning.source.json"}
   ],
-  "evidenceGated": ["M-Pre human evidence","OQ-008 randomness/fairness","OQ-009 role policy","OQ-010 after-action competition","M3/M4 numeric balance","M0b cross-device evidence"],
-  "knownRepoHygiene": [
-    {"id":"HYGIENE_TRACKED_BIN","status":"cleanup-needed","detail":"src/**/bin is ignored by .gitignore but tracked build outputs remain; repository hygiene follow-up pending"}
-  ]
+  "evidenceGated": ["M-Pre human evidence","OQ-008 randomness/fairness","OQ-009 role policy","OQ-010 after-action competition","M3/M4 numeric balance","M0b cross-device evidence"]
 }
