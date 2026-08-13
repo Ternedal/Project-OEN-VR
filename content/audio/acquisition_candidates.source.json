@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "status": "license-verified-candidates-not-acquired",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "policy": {
+    "preferredLicense": "CC0",
+    "sourceFilesRequiredBeforeProducedStatus": true,
+    "preserveOriginalDownload": true,
+    "preserveSourcePageAndLicenseEvidence": true,
+    "derivedMasterTarget": "48 kHz / 24-bit WAV where source quality permits",
+    "rule": "candidate approval is not source acquisition and not release approval"
+  },
+  "candidates": [
+    {
+      "target": "AMB_WIND_WORLD",
+      "provider": "OpenGameArt",
+      "title": "Park ambiences - park_ambience_wind.wav",
+      "sourcePage": "https://opengameart.org/content/park-ambiences",
+      "license": "CC0",
+      "sourceFormat": "WAV 48 kHz / 24-bit",
+      "recording": "open field ambience with stronger wind; field-recorded in Adelaide",
+      "priority": "A",
+      "use": ["wind base", "ridge", "storm low layer"],
+      "caveat": "listen for birds/local wildlife before using as exposed-island wind bed"
+    },
+    {
+      "target": "AMB_RAIN_WORLD",
+      "provider": "Freesound",
+      "title": "PNW rain perfect loop 114.wav",
+      "sourcePage": "https://freesound.org/people/deadrobotmusic/sounds/549909/",
+      "license": "CC0",
+      "sourceFormat": "WAV 44.1 kHz / 32-bit stereo",
+      "duration": "134.736 s",
+      "priority": "A",
+      "use": ["rain loop", "storm bed"],
+      "caveat": "processed phone/car recording; listening QA required for enclosure coloration before selection"
+    },
+    {
+      "target": "AMB_RAIN_ALT",
+      "provider": "OpenGameArt",
+      "title": "AMB Rain Loop 2",
+      "sourcePage": "https://opengameart.org/content/amb-rain-loop-2",
+      "license": "CC0",
+      "sourceFormat": "FLAC source available",
+      "recording": "GoPro Hero 12 raw-audio recording",
+      "priority": "B",
+      "use": ["alternate rain bed", "source comparison"],
+      "caveat": "verify downloaded file sample rate/bit depth before derivation"
+    },
+    {
+      "target": "AMB_OCEAN_SHORE",
+      "provider": "Freesound",
+      "title": "Ocean Waves.wav",
+      "sourcePage": "https://freesound.org/people/Noted451/sounds/531015/",
+      "license": "CC0",
+      "sourceFormat": "WAV 44.1 kHz / 16-bit stereo",
+      "duration": "70.884 s",
+      "priority": "B",
+      "use": ["beach/camp shoreline"],
+      "caveat": "16-bit source; acceptable candidate for ambience but compare against higher-resolution alternatives before final selection"
+    },
+    {
+      "target": "SFX_FIRE_BASE",
+      "provider": "Freesound",
+      "title": "Fireplace burning",
+      "sourcePage": "https://freesound.org/s/414482/",
+      "license": "CC0",
+      "sourceFormat": "WAV 48 kHz / 32-bit stereo",
+      "duration": "72.460 s",
+      "priority": "A",
+      "use": ["fire base loop", "ember/small/strong derived states"],
+      "caveat": "indoor fireplace recording; EQ/editing must remove obvious room identity if used outdoors"
+    },
+    {
+      "target": "SFX_ROPE_STRAIN",
+      "provider": "Freesound",
+      "title": "rope leathery creaking.wav",
+      "sourcePage": "https://freesound.org/s/664929/",
+      "license": "CC0",
+      "sourceFormat": "WAV 44.1 kHz / 24-bit mono",
+      "duration": "5.442 s",
+      "recording": "Zoom H2N; edited in Audacity",
+      "priority": "A",
+      "use": ["rope tension variants", "ravine", "shelter strain"],
+      "caveat": "contains leathery/twine character; verify it matches the project's thicker rope material"
+    },
+    {
+      "target": "SFX_WOOD_STRESS",
+      "provider": "Freesound",
+      "title": "Objects_WoodCreak_1.wav",
+      "sourcePage": "https://freesound.org/people/SilentStrikeZ/sounds/389645/",
+      "license": "CC0",
+      "sourceFormat": "WAV 48 kHz / 24-bit mono",
+      "duration": "9.613 s",
+      "recording": "creaked wooden plank",
+      "priority": "A",
+      "use": ["shelter creak low/high", "beam stress"],
+      "caveat": "derive multiple non-repeating slices only after transient/noise-floor listening QA"
+    },
+    {
+      "target": "SFX_CLOTH_FLAP",
+      "provider": "Freesound",
+      "title": "flapping cloth.wav",
+      "sourcePage": "https://freesound.org/people/memuse/sounds/280205/",
+      "license": "CC0",
+      "sourceFormat": "WAV 48 kHz / 24-bit stereo",
+      "duration": "9.685 s",
+      "recording": "H4n clothing flap recording",
+      "priority": "A",
+      "use": ["tarp flap", "storm shelter state"],
+      "caveat": "recorded as clothing/wing Foley; select/edit only portions that read as tarp rather than fabric gesture"
+    }
+  ],
+  "rejectedExamples": [
+    {
+      "title": "Sailing Boat in Thunderstorm",
+      "reason": "composite uses CC BY-NC source components; not suitable for this clean CC0 acquisition lane"
+    }
+  ],
+  "next": [
+    "download original source files from the recorded source pages",
+    "capture immutable provenance record for each selected source",
+    "listen for contamination, room identity, voices, birds and artifacts",
+    "derive/edit/resample candidate masters without overwriting originals",
+    "perform listening QA before changing any cue status to produced",
+    "Claude performs final Unity mix/spatial/runtime/device QA"
+  ]
+}
