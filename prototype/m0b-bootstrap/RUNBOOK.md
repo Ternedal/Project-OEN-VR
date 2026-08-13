@@ -10,50 +10,55 @@ den kræver din konto. Fase 1 er Photon-uafhængig og kan køres nu.
 
 ## Fase 1 — projekt + pakker + Core + XR + production art
 
-Én kommando (samme mønster som M0a, bygget på det der virkede):
+Én kommando:
 
 ```powershell
 cd C:\Users\admin\Desktop\Project-OEN-VR\prototype\m0b-bootstrap
 .\Bootstrap-M0b.ps1 -UnityPath "C:\Program Files\Unity\Hub\Editor\6000.4.10f1\Editor\Unity.exe"
 ```
 
-Den opretter `ProjektOenApp` ved siden af repoet, skriver pakke-manifestet (ASCII, ingen
-BOM), kopierer **hele Core-laget** ind som `Assets/ProjectOen/Core` med en asmdef og
-konfigurerer OpenXR + Meta Quest + Oculus Touch via `M0bConfigure.cs`.
+Den opretter `ProjektOenApp` ved siden af repoet, skriver pakke-manifestet, kopierer
+**hele Core-laget** ind som `Assets/ProjectOen/Core` med asmdef og konfigurerer OpenXR +
+Meta Quest + Oculus Touch via `M0bConfigure.cs`.
 
-Production-art-passet installerer desuden `Assets/ProjectOEN/ProductionArt`, bygger de
-genererede OBJ-filer til Unity-prefabs med de raffinerede materialer, genererer den separate
-`StormnattenArtShowcase.unity`, tilføjer den begrænsede lokale stormregn og kører den
-Unity-side Quest 2-budgetaudit.
+Production-art-passet installerer `Assets/ProjectOEN/ProductionArt`, bygger OBJ-filer til
+Unity-prefabs med de raffinerede materialer, genererer `StormnattenArtShowcase.unity`,
+tilføjer den begrænsede lokale stormregn og kører Unity-side Quest 2-budgetaudit.
 
 **Vigtigt:** showcase-scenen er kun visual review. Den føjes ikke til Android build settings.
 `CoopGame.unity` forbliver den minimale 72 Hz/netværksgate.
 
-**Accept efter Fase 1:** Unity åbner projektet uden compile-fejl, `[M0B-SETUP]`-loggen viser
-`Configure: færdig`, `ProjectOen.Core` kompilerer som Unity-assembly, production-art-prefabs
-kan bygges, og `[ProjectOEN.Art.Budget] PASS` står i `production-art-budget.log`.
-
-Den sidste linje betyder kun, at den importerede showcase holder sig under repoets hårde
-scene-budgetter. Den erstatter ikke profiling i Quest 2-headsettet.
-
 ---
 
-## Anbefalet on-machine art-verifikation — én Unity-proces
+## Autoritativ on-machine art-verifikation
 
-Når Fase 1 allerede er kørt én gang, er `-OneShot` den anbefalede vej til at lukke de
-Unity-gates, som GitHub CI ikke kan bevise:
+Når Fase 1 allerede er kørt, bruges den source-stemplede wrapper:
 
 ```powershell
 cd C:\Users\admin\Desktop\Project-OEN-VR\prototype\m0b-bootstrap
-.\Review-ProductionArt.ps1 `
+.\Verify-ProductionArt.ps1 `
   -UnityPath "C:\Program Files\Unity\Hub\Editor\6000.4.10f1\Editor\Unity.exe" `
-  -OneShot `
   -OpenEditor
 ```
 
-`-OneShot` synkroniserer production art + runtime/editor-scripts og starter derefter **én**
-Unity batchmode-proces. `ProductionArtBatchVerification.RunAll` kører den fulde 23-trins
-build/audit-kæde i rækkefølge:
+`Verify-ProductionArt.ps1` gør først rapportens kilde entydig:
+
+- kræver `git`;
+- kræver en navngivet branch, ikke detached HEAD;
+- læser den aktuelle 40-tegns commit-SHA;
+- kræver clean worktree for production art, `src/unity/ProjectOen.Art` og review/verify-scripts;
+- kører derefter `Review-ProductionArt.ps1 -OneShot`;
+- source-stempler kun en Unity-rapport med `PASS` og `failed = 0`;
+- skriver `sourceBranch`, `sourceSha`, `sourceWorktreeClean`, UTC-stempel og stamp-tool i JSON;
+- læser JSON tilbage og verificerer branch/SHA/clean-flag før den accepteres.
+
+Dermed kan en senere grøn rapport bindes til præcis den committed art-kilde, der blev kopieret
+ind i Unity. Lokale verification-logs og den source-stemplede repo-rapport er `.gitignore`'et.
+
+### One-shot Unity-kæden
+
+`Review-ProductionArt.ps1 -OneShot` synkroniserer art + runtime/editor-scripts og starter
+**én** Unity batchmode-proces. `ProductionArtBatchVerification.RunAll` kører 23 ordnede trin:
 
 1. world prefabs;
 2. state appearance + audit;
@@ -68,28 +73,25 @@ build/audit-kæde i rækkefølge:
 11. camp + signal-finale stormatmosfære;
 12. storm motion FX + wind response;
 13. imported Stormnatten Quest-2 audit;
-14. slutkontrol af at alle seks review-scener findes og fortsat er ude af enabled build settings.
+14. slutkontrol af at alle seks review-scener findes og er ude af enabled build settings.
 
 Unity kan kun nå `RunAll`, hvis de synkroniserede C#-filer er importeret og kompileret i den
-installerede Unity-version. Efter hvert trin køres en synkron `AssetDatabase.Refresh`, så
-ét-process-flowet ikke skjuler import-afhængigheder mellem builderne.
+installerede Unity-version. Efter hvert trin køres en synkron `AssetDatabase.Refresh`.
 
-Ved succes gemmes den maskinlæsbare rapport som:
+Rapporter:
 
 - Unity-projekt: `ProjektOenApp\ProjectOEN-ArtVerification.json`;
-- repo-handoff: `prototype\m0b-bootstrap\review-art-verification.json`.
+- source-stemplet repo-handoff: `prototype\m0b-bootstrap\review-art-verification.json`;
+- samlet Unity-log: `prototype\m0b-bootstrap\review-art-one-shot.log`.
 
-Rapporten indeholder Unity-version, projektsti, PASS/FAIL, antal beståede/fejlede trin og
-tid pr. trin. Den samlede Unity-log ligger i `review-art-one-shot.log`.
-
-Hvis Unity returnerer non-zero, rapporten mangler, eller rapporten ikke siger `PASS`, stopper
-PowerShell-scriptet og åbner **ikke** editoren som en falsk grøn levering.
+Hvis Unity returnerer non-zero, rapporten mangler eller ikke siger `PASS`, stopper flowet.
+Editor åbnes først efter en grøn, source-stemplet rapport.
 
 ---
 
 ## Debug fallback — én Unity-proces pr. trin
 
-Hvis et konkret builder/audit-trin skal isoleres, køres samme script uden `-OneShot`:
+Hvis et konkret builder/audit-trin skal isoleres, bruges den etablerede debug fallback:
 
 ```powershell
 cd C:\Users\admin\Desktop\Project-OEN-VR\prototype\m0b-bootstrap
@@ -98,8 +100,8 @@ cd C:\Users\admin\Desktop\Project-OEN-VR\prototype\m0b-bootstrap
   -OpenEditor
 ```
 
-Den etablerede fallback starter Unity separat for hvert build/audit-trin og skriver de
-individuelle `review-art-*.log` filer. Den er langsommere, men god til fejlisolering.
+Fallbacken starter Unity separat for hvert build/audit-trin og skriver individuelle
+`review-art-*.log` filer. Den er langsommere, men god til fejlisolering.
 
 Begge review-modes rører **ikke** `Packages/`, XR-konfiguration, Photon/Fusion,
 `CoopGame.unity` eller M0b APK-buildet.
