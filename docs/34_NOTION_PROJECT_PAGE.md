@@ -1,8 +1,8 @@
-# Notion-side: Projekt Øen VR — klar til indsættelse
+# Notion-side: Projekt Øen VR — aktuel kildetekst
 
-Skrivningen til Notion blev afvist to gange med **"No approval received"**. Læsning virker (jeg hentede databasens skema uden problemer), så det er skriveadgangen, der mangler godkendelse — sandsynligvis en connector-prompt, der skal accepteres i appen.
+> **Opdateret 2026-08-13.** Notion-projektsiden blev oprettet 2026-08-08. Denne fil er nu kildetekst til fremtidig ajourføring — ikke en instruktion om at oprette siden igen.
 
-Nedenfor er alt, klar til copy/paste. Opret siden i **ProjectRig HQ → Projekter**.
+Repoet er source of truth. Ved konflikt gælder `00_READ_ME_FIRST.md`, `repo_status.md` og de relevante source-of-truth-dokumenter før denne Notion-tekst.
 
 ---
 
@@ -10,108 +10,218 @@ Nedenfor er alt, klar til copy/paste. Opret siden i **ProjectRig HQ → Projekte
 
 | Felt | Værdi |
 |---|---|
-| **Projekt** (titel) | `Projekt Øen VR / Strandet Sammen` |
+| **Projekt** | `Projekt Øen VR / Strandet Sammen` |
 | **Status** | `Udvikling` |
 | **Prioritet** | `P2 Normal` |
 | **Type** | `VR` |
-| **Tech stack** | `Unity`, `Claude` |
-| **Version** | `2.1 (review behandlet) · Core 146 tests grønne` |
+| **Tech stack** | `Unity 6 LTS`, `OpenXR`, `Photon Fusion`, `Claude`, `ChatGPT` |
+| **Version** | `Baseline v2.1 · Core 146 tests grønne · M0a lukket · M0b i gang` |
 | **Repo** | `https://github.com/Ternedal/Project-OEN-VR` |
-| **Projekt ID** | *rør ikke — auto_increment* |
-| **Handoff ZIP** | *tom — ingen zip leveret endnu* |
 
 ### Næste handling
 
-```
-M0b: Unity-projektet er oprettet, Fusion-sessionen kører on-device, og co-op-kassen spawner.
-Naeste gate er privat session mellem to klienter med head/hands-replikation og 10x loeftetest
-uden permanent desync (Q2<->Q3). M0a er afgjort: DROP_Q1_RUNTIME. P1-scope er valgt
-(gaveversion = 1.012 t). Udestaar: M0-issuet skal oprettes manuelt fra docs/30
-(tokenet mangler issues-scope).
+```text
+To parallelle gates:
+
+1. Claude/Unity-sporet lukker M0b cross-device:
+   head/hands-replikering, handshake mismatch, delt coop-kasse, 10x Q2↔Q3-løft,
+   72 Hz-måling og standby/reconnect-evidens.
+
+2. ChatGPT/produkt-sporet har gjort M-Pre klar under prototype/m-pre/.
+   M-Pre skal køres som 3 menneskelige testsessioner med mindst 2 forskellige par.
+
+M1 starter først, når både M0b og M-Pre er grønne.
 ```
 
 ---
 
-## Sideindhold
-
 # Kort beskrivelse
 
-To-spiller kooperativt VR-overlevelsesspil til Meta Quest. Original IP, tænkt som en personlig gaveoplevelse: to spillere fordeler fire indsatsmarkører ved daggry, udfører opgaverne fysisk i VR, og opdager under en afsluttende storm om prioriteringerne holdt. Første scenario er **Stormnatten** — tre døgn, 30-45 minutter.
+**PROJECT ØEN — STRANDET SAMMEN** er et originalt, to-spiller kooperativt VR-overlevelsesspil til Meta Quest.
 
-Quest 2 er performancegulv, Quest 3/3S enhanced parity. Quest 1-lanen er droppet 2026-08-08 (`DROP_Q1_RUNTIME`) — Q1 er højst en frossen sideload-demo.
+Spillerne har for få ressourcer og for lidt tid. De fordeler fire indsatsmarkører, udfører korte fysiske samarbejdsopgaver og oplever senere konsekvenserne af deres prioriteringer. Første scenario er **Stormnatten**.
+
+Produktretning:
+
+- Quest 2 = performance- og kvalitetsgulv.
+- Quest 3/3S = enhanced parity med samme gameplay.
+- Quest 1 = udgået runtime/testlane (`DROP_Q1_RUNTIME`).
+- MVP/gaveversion = præcis to spillere.
+- Release 1 = M5 storm vertical slice (ADR-023).
+
+---
 
 # Aktuel status
 
-**Baseline v2.1.** Design-, arkitektur- og produktionsgrundlaget er komplet (33 dokumenter, JSON-skemaer, backlog med 107 aktive items (3 droppet med `DROP_Q1_RUNTIME`)).
+## Produkt og plan
 
-Kritisk review gennemført 2026-08-06: verdict `PROCEED_WITH_BLOCKERS`, 2 BLOCKER, 5 HIGH, 3 MEDIUM, 6 dokumentkonflikter. Ændringspakken er merget til `main`. Alle 10 fund er lukket (CR-002 lukket af M0a 2026-08-08, CR-005 af P1-scopevalget samme dag).
+- Kritisk Claude-review er gennemført og behandlet.
+- Alle 10 oprindelige reviewfund er lukket.
+- Baseline er v2.1.
+- P1-scope er valgt.
+- Gaveversionens aktive scope er **1.012 timer** over 77 items.
+- M-Pre er accepteret som særskilt produktgate via ADR-022.
+- ChatGPT/Claude-arbejdsdelingen er dokumenteret i `AI_COLLABORATION_AGREEMENT.md`.
 
-**Unity-projektet er oprettet** (`ProjektOenApp`, Unity 6000.4.10f1 + OpenXR + Fusion 2.0.12), og M0b-bindingen kompilerer og kører on-device. Derudover findes hele det lag, der kan verificeres uden headset: `src/ProjectOen.Core` er ren C# (netstandard2.1, ingen UnityEngine-referencer) med **146 tests grønne**, som kører i CI på hvert push.
+## Core
 
-Alt netværks- og Unity-specifikt ligger i `src/unity/` som **ukompilerede** kildefiler med `UNVERIFIED-IN-SANDBOX`-header og konkrete API-antagelser pr. fil.
+`src/ProjectOen.Core` er ren C# uden UnityEngine-afhængighed og har **146 grønne tests**, som køres i CI.
 
-# Reviewets to blockers
+Det dokumenterede Core-fundament omfatter blandt andet:
 
-- **CR-001 (lukket):** M0's gate krævede netværksbevis, men alle Photon-opgaver lå i M2. Seks items flyttet til M0, der nu er 176 t / 19 items. Stop/go flyttet fra et 250-timers loft til M0's afslutning.
-- **CR-002 (lukket 2026-08-08):** Quest 1-lanen var reelt et andet XR-backend. M0a afgjorde det på hardware: Unitys OpenXR-provider crasher (SIGABRT) på Q1's v50-runtime. Lanen er droppet — ADR-004 superseded, ADR-019 accepted.
+- typed IDs
+- scenario contract/loader
+- command/event-model og fasemaskine
+- save/checksum/atomic write/snapshot
+- delayed consequences
+- udfaldsmodel
+- coop-solver
+- compatibility handshake
+- join codes
+- participation measurement
+- after-action causal report
 
-# Verificerede platformfakta
+## M0a — afsluttet 2026-08-08
 
-- Unity 2022.3 LTS er uden patchsupport på Personal/Pro — Unity giver to år, tredje år er Enterprise/Industry. Editorvalget er derfor gjort M0-afhængigt med Unity 6 LTS som foretrukken kandidat.
-- Quest 2: udgik af salg ultimo 2024, feature-opdateringer til dec. 2026, kritiske til dec. 2027. Bevaret som performancegulv; Quest 3S er antaget baseline efter v1.0.
-- Quest 1: sidste OS-udgivelse v50 (feb. 2023), sikkerhedsopdateringer sluttede aug. 2024, butikken lukket. Sideload er ikke blokeret.
-- Photon Fusion: 100 CCU gratis dækker udvikling og kommerciel brug for én app. Omkostning for to spillere: 0 kr.
+Hardwaretesten af OpenXR-lanen er gennemført.
 
-# To målinger der modsagde dokumenterne
+- Quest 2: immersiv OpenXR, Vulkan, head tracking, ca. 72 Hz i smoketest.
+- Quest 1: deterministisk crash under OpenXR-init.
 
-Begge fejl var usynlige ved gennemlæsning og åbenlyse ved måling. Det er argumentet for, at Core-laget er testbart uden headset. Skrevet op i `docs/33`.
+Beslutning: **`DROP_Q1_RUNTIME`**.
 
-- **Udfaldsformlen:** reviewet anbefalede at skære fra otte til fire led. Målingen (20 runs × 12 handlinger) viste, at fire led klumpede *marginalt værre* — 70,0 % mod 68,8 % i én kategori. Årsagen var ikke antallet af led, men at modstand blev trukket fra med fuld vægt fra en score, hvis positive led summerer til 1,0. Rettet med begrænset modstandsvægt og en gulv-regel: modstand kan højst trække udfaldet ét trin ned fra det, præstationen fortjente. Største enkelt-tier nu 47,5 %.
-- **Coop-solveren:** testen der skulle bekræfte, at den tunge kasse er langsommere med én hånd end med to, fejlede. Hastighedsloftet var identisk i begge tilstande, så ud over få centimeter klippede det begge til samme skridt. Hele coop-præmissen ville kun kunne mærkes tæt på målet.
+Quest 1 er højst en frossen sideload-demo og må ikke påvirke hovedprojektets arkitektur eller gates.
+
+## M0b — per-klient bevist, cross-device mangler
+
+Dokumenteret on-device:
+
+- Unity `6000.4.10f1`
+- OpenXR
+- Photon Fusion `2.0.12`
+- Photon Shared-session forbinder
+- NetworkPlayerRig spawner med authority
+- levende head pose via `InputDevices`
+- coop solver/greb→kasse-kæde kører på device
+
+Resterende gate kræver to headset:
+
+1. remote head/hands replication
+2. handshake mismatch-afvisning
+3. delt coop-object i to-spiller-state
+4. 10× Q2↔Q3-løft uden permanent desync
+5. 72 Hz i minimal netværksscene
+6. standby/reconnect-måling
+7. opdateret compatibility matrix med faktiske resultater
+
+Dette er Claude/Unity-sporet.
+
+## M-Pre — klar til mennesketest
+
+M-Pre tester projektets vigtigste designhypotese før M1:
+
+> Skaber fordelingen af fire indsatsmarkører reel diskussion og prioritering mellem to spillere — eller bare administration?
+
+Ready-to-run-materialet ligger i `prototype/m-pre/` og indeholder:
+
+- runbook
+- facilitator-script
+- task cards
+- session sheet
+- result template
+
+Gaten kræver mindst tre sessions med mindst to forskellige par. Gavemodtageren må ikke bruges som tester.
+
+Dette er ChatGPT/produkt-sporet sammen med Anders.
+
+---
+
+# Åbne designspørgsmål
+
+Tre ikke-blokerende spørgsmål har nu konkrete protokoller under `prototype/design-tests/`:
+
+- **OQ-008:** hvor meget randomness føles fair?
+- **OQ-009:** skal spillerroller vælges eller rotere automatisk?
+- **OQ-010:** hjælper individuel efterspils-feedback oplevelsen eller skaber den uønsket konkurrence?
+
+De må ikke lukkes på AI-vurdering alene; de afventer menneskedata.
+
+---
 
 # Estimat
 
-Det tidligere tal på 500-810 timer var top-down og kunne ikke spores til backloggen (M3 stod til 55-85 t mod 260 t i de faktiske items). Det er trukket tilbage.
-
 | Model | Sum |
-|---|---|
-| Aktiv backlog (108 items) | 1.451 t |
-| Gaveversion (77 items: P0 631 + P1 381) | **1.012 t** |
-| Udskudt til efter v1.0 (31 items) | 439 t |
-| Droppet med `DROP_Q1_RUNTIME` | 28 t (PO-004, PO-007, PO-098) |
+|---|---:|
+| Aktiv backlog | 1.451 t |
+| Gaveversion — 77 items | **1.012 t** |
+| Udskudt til efter v1.0 | 439 t |
+| Droppet med `DROP_Q1_RUNTIME` | 28 t |
 
-Gaveestimatet er 1.012 t. Ved 15 t/uge lander det omkring årsskiftet 2027/28.
+Ved ca. 15 timer/uge svarer 1.012 timer groft til 15-16 måneders arbejde. Det er et backlog-estimat, ikke et kalenderløfte.
 
-# Roadmap
+---
 
-## Afsluttet — M0a (2026-08-08)
+# Roadmap — gate-baseret
 
-OpenXR-smoketest kørt on-device. Quest 2 grøn (71,8 fps, Vulkan, head-tracking valid); Quest 1 native SIGABRT i `libopenxr_loader.so`. Resultat: `DROP_Q1_RUNTIME` med logcat- og tombstone-evidens i `prototype/m0a-openxr-smoke/RESULTAT.md`.
+1. **M0** — platform + netværksfeasibility
+2. **M-Pre** — kernehypotese uden VR
+3. **M1** — interaction foundation
+4. **M2** — multiplayer hardening
+5. **M3** — one-day prototype
+6. **M4** — delayed consequences
+7. **M5** — storm vertical slice / **Release 1**
+8. **M6** — fuld Stormnatten
+9. **M7** — art/audio pass
+10. **M8** — personalisering/gaveleverance
+11. **M9** — release candidate/QA
 
-## Leveret parallelt (uden hardware)
+M1 må først begynde efter grøn **M0b + M-Pre**.
 
-Core-laget: typed IDs, kanonisk JSON, save-checksum, atomisk skrivning, scenario-kontrakt, fasemaskine med idempotens, delayed events, udfaldsformel, coop-solver, compatibility handshake, join code, deltagelsesmåling, efterspilsrapport, fuld save round-trip og data-drevet win/lose. 146 tests, CI-kørt.
+---
 
-## Næste — M0b
+# Arbejdsdeling
 
-Unity-projekt oprettes, editor og pakker låses, Photon-session, handshake, head/hands-replication, CoopObjectController, 10× cross-device løftetest. Accept: Q2↔Q3 uden permanent desync, 72 Hz i minimal scene.
+## Claude
 
-## Senere — M1 til M9
+- Unity
+- C#/runtime/editor-kode
+- XR/OpenXR/Fusion
+- scenes/prefabs
+- Unity asset/audio integration
+- builds
+- profiling/performance
+- Unity-side QA
 
-Interaktionsfundament, multiplayer-hardening, én-dags greybox, konsekvenskæder, storm vertical slice, fuldt Stormnatten-content, art pass, personalisering, release candidate.
+## ChatGPT
 
-## Ikke nu
+- produkt og gameplay-design
+- specs og roadmap
+- source-assets og art direction
+- audio-design/source-materiale
+- playtestprotokoller
+- ekstern arkitektur
+- produkt-QA
+- handoff til Claude
 
-Open world, procedural ø, permanent base, håndtracking, mixed reality, offentlig matchmaking, mere end to spillere.
+Anders har sidste ord.
 
-# Risici
+---
 
-- **Scope er nu valgt, men ikke bevist.** Gaveversionen er sat til 1.012 t; ved 15 t/uge er det 15-16 måneder. Estimatet er kun så godt som backloggens itemvurderinger.
+# Risici lige nu
 
-**Lukkede risici:** Quest 1-lanen (lukket 2026-08-08). Risikoen indtraf: Q1 kan ikke køre OpenXR. Exit-planen var skrevet på forhånd, så beslutningen kostede ét eksperiment i stedet for en fork af interaktionslaget.
-- **Content før core er sjov** (R-004, sandsynlighed høj). Videre gameplay-mekanik ud over det byggede ville være spekulativt før M0 og M3.
-- **Fusion-koden er ukompileret.** Alt i `src/unity/` er påstand indtil den kører på Windows.
+- **M0b cross-device er endnu ikke bevist.** Per-client success er ikke det samme som stabil to-player networking.
+- **M-Pre er endnu ikke kørt.** Kerneloopets samarbejdspræmis er derfor stadig en hypotese.
+- **Scope er stort.** 1.012 t kræver disciplineret scope ladder og gate-baseret udvikling.
+- **Content/art før bevis** er fortsat en høj risiko; dyr masseproduktion skal vente til de relevante gates.
 
-# Næste handling
+---
 
-Kør M0a efter `prototype/m0a-openxr-smoke/RUNBOOK.md` og meld resultatet. Vælg derefter P1-scope.
+# Næste statusopdatering
+
+Opdatér denne fil/Notion, når mindst ét af følgende sker:
+
+- M0b bliver `GO` eller `REDESIGN`
+- M-Pre bliver `GRØNT` eller `RØDT`
+- gave-scope ændres
+- en ny milestone åbnes/lukkes
+- en større produktbeslutning accepteres i decision log
