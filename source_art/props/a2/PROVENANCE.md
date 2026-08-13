@@ -11,6 +11,8 @@ No third-party models, stock artwork, external game screenshots or traced artwor
 
 ## Individual source masters currently committed in this production pass
 
+Current count: **3 individual SVG source masters**.
+
 - `ITM_FIRESTEEL_001.svg`
 - `ITM_TINDER_001.svg`
 - `ITM_ROPE_COIL_001.svg`
