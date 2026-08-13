@@ -3,7 +3,8 @@
 
 Dedicated validators own detailed VFX/UI/world quality. This gate protects the
 shared integration order, core material/decal/storm contracts, event-driven wet
-surface response and strict separation from the minimal M0b CoopGame Android gate.
+surface response, bounded Stormnatten motion FX and strict separation from the
+minimal M0b CoopGame Android gate.
 """
 from __future__ import annotations
 import sys
@@ -17,6 +18,7 @@ BUILDER=EDITOR/"ProductionArtPrefabBuilder.cs"
 DECAL=EDITOR/"ProductionArtDecalBuilder.cs"
 SHOWCASE=EDITOR/"ProductionArtShowcaseBuilder.cs"
 ATMOS=EDITOR/"ProductionArtStormAtmosphereBuilder.cs"
+STORMFX=EDITOR/"ProductionArtStormFxBuilder.cs"
 WETNESS=RUNTIME/"ProductionArtWetnessDriver.cs"
 AUDIT=EDITOR/"ProductionArtShowcaseAudit.cs"
 MENU=EDITOR/"ProductionArtReviewMenu.cs"
@@ -97,9 +99,24 @@ def main():
     if a and a.count("AddComponent<ProductionArtWetnessDriver>") != 1:
         errors.append("Storm atmosphere must create exactly one scene-wide wetness driver")
 
+    fx=need(STORMFX,"Stormnatten motion FX",(
+        'Windblown Storm Debris','Camp Rain Splashes','Distant Storm Lightning',
+        'fx_003_single_ash','fx_004_medium_rain_splash','fx_006_far_lightning',
+        'main.maxParticles = 24','main.maxParticles = 12','emission.rateOverTime = 5.0f','emission.rateOverTime = 8.0f',
+        'ParticleSystemShapeType.Box','AnimationClip','WrapMode.Loop','"m_Color.a"','"m_Intensity"',
+        'flash.shadows = LightShadows.None','renderer.shadowCastingMode = ShadowCastingMode.Off','renderer.receiveShadows = false',
+    ),errors)
+    if fx:
+        for forbidden in ('void Update(', 'void LateUpdate(', 'AddComponent<ParticleSystem>', '.collision', 'ParticleSystemCollision', 'LightShadows.Soft', 'LightShadows.Hard'):
+            if forbidden in fx: errors.append(f"Storm motion FX violates bounded Quest 2 contract: {forbidden}")
+        if fx.count('main.maxParticles = 24') != 1 or fx.count('main.maxParticles = 12') != 1:
+            errors.append("Storm motion FX must keep exactly one 24-particle wind system and one 12-particle splash system")
+
     audit=need(AUDIT,"Stormnatten budget audit",(
         'TriangleHardLimit = 750000','DrawCallProxyHardLimit = 130','ShadowCasterHardLimit = 1',
         'ParticleSystemHardLimit = 10','mesh.triangles.LongLength / 3L','Quest 2 showcase budget hard gate failed',
+        'Windblown Storm Debris','Camp Rain Splashes','Distant Storm Lightning',
+        'windDebris.main.maxParticles > 24','rainSplashes.main.maxParticles > 12','lightningLight.shadows != LightShadows.None',
     ),errors)
     if audit and "EditorApplication.Exit(0)" in audit: errors.append("Budget audit must not force success")
 
@@ -113,14 +130,16 @@ def main():
         'ProductionArtPrefabBuilder.BuildAll','ProductionArtDecalBuilder.BuildAll','ProductionArtVfxBuilder.BuildAll',
         'ProductionArtVfxShowcaseBuilder.BuildShowcase','ProductionArtVfxShowcaseAudit.AuditShowcase',
         'ProductionArtDiegeticUiBuilder.BuildAll','ProductionArtUiShowcaseBuilder.BuildShowcase','ProductionArtUiShowcaseAudit.AuditShowcase',
-        'ProductionArtShowcaseBuilder.BuildShowcase','ProductionArtStormAtmosphereBuilder.AddStormAtmosphere','ProductionArtShowcaseAudit.AuditShowcase',
+        'ProductionArtShowcaseBuilder.BuildShowcase','ProductionArtStormAtmosphereBuilder.AddStormAtmosphere',
+        'ProductionArtStormFxBuilder.AddStormMotionFx','ProductionArtShowcaseAudit.AuditShowcase',
         'ProductionArtReviewMenu.OpenShowcase','M0b CoopGame/build settings er ikke aendret',
     ),errors)
     sequence=(
         'ProductionArtPrefabBuilder.BuildAll','ProductionArtDecalBuilder.BuildAll','ProductionArtVfxBuilder.BuildAll',
         'ProductionArtVfxShowcaseBuilder.BuildShowcase','ProductionArtVfxShowcaseAudit.AuditShowcase',
         'ProductionArtDiegeticUiBuilder.BuildAll','ProductionArtUiShowcaseBuilder.BuildShowcase','ProductionArtUiShowcaseAudit.AuditShowcase',
-        'ProductionArtShowcaseBuilder.BuildShowcase','ProductionArtStormAtmosphereBuilder.AddStormAtmosphere','ProductionArtShowcaseAudit.AuditShowcase',
+        'ProductionArtShowcaseBuilder.BuildShowcase','ProductionArtStormAtmosphereBuilder.AddStormAtmosphere',
+        'ProductionArtStormFxBuilder.AddStormMotionFx','ProductionArtShowcaseAudit.AuditShowcase',
         'ProductionArtReviewMenu.OpenShowcase',
     )
     if review:
@@ -132,21 +151,25 @@ def main():
         'ProductionArtPrefabBuilder.BuildAll','ProductionArtDecalBuilder.BuildAll','ProductionArtVfxBuilder.BuildAll',
         'ProductionArtVfxShowcaseBuilder.BuildShowcase','ProductionArtVfxShowcaseAudit.AuditShowcase',
         'ProductionArtDiegeticUiBuilder.BuildAll','ProductionArtUiShowcaseBuilder.BuildShowcase','ProductionArtUiShowcaseAudit.AuditShowcase',
-        'ProductionArtShowcaseBuilder.BuildShowcase','ProductionArtStormAtmosphereBuilder.AddStormAtmosphere','ProductionArtShowcaseAudit.AuditShowcase',
+        'ProductionArtShowcaseBuilder.BuildShowcase','ProductionArtStormAtmosphereBuilder.AddStormAtmosphere',
+        'ProductionArtStormFxBuilder.AddStormMotionFx','ProductionArtShowcaseAudit.AuditShowcase',
         'Alle tre review-scener er visual review',
     ),errors)
     boot_sequence=sequence[:-1]
     if boot and not ordered(boot,boot_sequence): errors.append("M0b bootstrap art sequence is out of order")
 
     coop=need(COOP,"CoopGame setup",('const string ScenePath = SceneDir + "/CoopGame.unity"','BuildPipeline.BuildPlayer','scenes = new[] { ScenePath }'),errors)
-    if coop and any(x in coop for x in ("StormnattenArtShowcase","DiegeticUiArtShowcase","ProductionVfxShowcase","Storm Rain Volume","Storm Surface Wetness")):
+    if coop and any(x in coop for x in (
+        "StormnattenArtShowcase","DiegeticUiArtShowcase","ProductionVfxShowcase","Storm Rain Volume","Storm Surface Wetness",
+        "Windblown Storm Debris","Camp Rain Splashes","Distant Storm Lightning")):
         errors.append("Visual-review content leaked into minimal CoopGame M0b gate")
 
     print("Project ØEN global Unity art integration QA")
     print(f"  world materials : {len(MATERIALS)}")
     print(f"  wettable mats   : {len(WETTABLE)} (event-driven MaterialPropertyBlock)")
+    print("  storm motion FX : 2 bounded particle systems + animated no-shadow lightning")
     print("  review scenes   : VFX + physical UI + Stormnatten")
-    print("  review order    : world -> decals -> VFX/audit -> UI/audit -> Stormnatten/audit")
+    print("  review order    : world -> decals -> VFX/audit -> UI/audit -> Stormnatten atmosphere/motion -> audit")
     print("  M0b separation  : CoopGame-only Android build")
     if errors:
         print(f"\nFAILED with {len(errors)} issue(s):")
