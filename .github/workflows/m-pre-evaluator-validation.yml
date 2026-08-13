@@ -1,0 +1,26 @@
+name: Validate M-Pre evaluator
+
+on:
+  push:
+    paths:
+      - 'tools/evaluate_mpre.py'
+      - 'tools/test_evaluate_mpre.py'
+      - 'prototype/m-pre/**'
+      - '.github/workflows/m-pre-evaluator-validation.yml'
+  pull_request:
+    paths:
+      - 'tools/evaluate_mpre.py'
+      - 'tools/test_evaluate_mpre.py'
+      - 'prototype/m-pre/**'
+      - '.github/workflows/m-pre-evaluator-validation.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run evaluator code QA
+        run: python -m unittest tools/test_evaluate_mpre.py -v
