@@ -15,7 +15,7 @@ Machine-readable produktionsstatus: `content/source_inventory.source.json`.
 
 # Aktuelle gates
 
-- **M0b / issue #3 — Claude/Unity:** cross-device/device evidence mangler.
+- **M0b / issue #3 — Claude/Unity:** cross-device/device evidence mangler. Issue #3 har nu en operationel evidence-capture-kommentar med build/device-identitet, remote head/hands, handshake, shared box, 10× lift, 72 Hz og reconnect-målinger.
 - **M-Pre / issue #7 — produkt:** ready-to-run; tre menneskelige sessioner med mindst to forskellige par mangler.
 - **Content contract / issue #8:** onboarding + Day 3 proposals findes; minimal fire-start source/reference findes, men scope er ikke canonical uden Anders' disposition.
 
@@ -67,7 +67,7 @@ Aktuelle contracts omfatter:
 
 `tools/evaluate_mpre.py` evaluerer kun anonymt, faktisk human-session CSV-input mod den accepterede gate i `docs/35`.
 
-`prototype/m-pre/facilitator_runner.html` er nu en offline browser-runner til de faktiske menneskesessioner:
+`prototype/m-pre/facilitator_runner.html` er en offline browser-runner til de faktiske menneskesessioner:
 
 - anonym `session_id` + `pair_id`
 - tre dages forhandlingstimere
@@ -79,14 +79,27 @@ Aktuelle contracts omfatter:
 - separat notes-JSON
 - ingen backend/netværksafhængighed
 
+`prototype/m-pre/print_pack.html` er nu en selvstændig A4-printpakke med:
+
+- facilitatorens korte reference
+- alle seks klippekort med costs/effects
+- sessionsark
+- storm-reveal
+- debrief + sessionsgate
+- eksplicit markering af at kun faktiske menneskelige sessioner tæller som evidens
+
+`prototype/m-pre/README.md` linker nu direkte til både papir- og browservejen.
+
 Kode-/kontrakt-QA:
 
 - `tools/test_evaluate_mpre.py` bruger kun midlertidige syntetiske data og producerer aldrig playtest-evidens.
-- `tools/test_mpre_facilitator_runner.py` kontrollerer offline-only, anonym fields, seks task cards, CSV-schema parity, lokal batch/download og at runneren ikke selv afgør projektgaten.
-- M-Pre CI på commit `46331542` er **grøn med 10/10 tests**: 4 evaluator-tests + 6 runner-contract-tests.
+- `tools/test_mpre_facilitator_runner.py` kontrollerer runner + printpakke: offline-only, anonymous fields, seks task cards, CSV-schema parity, lokal batch/download, A4-printformat, card costs, storm/gate thresholds og human-evidence-reglen.
+- `.github/workflows/m-pre-evaluator-validation.yml` trigger nu også på runner/print-testfilen og bruger discovery.
+- discovery-run `086c0ea5` er grøn. Loggen viser alle printpakke-tests som `ok`.
+- runnet rapporterer 20 tests, fordi den gamle manuelle import i `test_evaluate_mpre.py` stadig duplikerer runner-suiten under discovery; unik funktionel dækning er 14 tests. Forsøg på dedup-rewrite blev filtreret og tælles ikke som leveret.
 - dækkede evaluator-cases: 2/3 grøn → GREEN; 1/3 grøn → gyldig RED; ét testerpar → invalid; non-human/gavemodtager → invalid.
 
-M-Pre er stadig **ikke kørt**. Runner, evaluator og syntetisk kode-QA må aldrig tælles som menneskelig evidens.
+M-Pre er stadig **ikke kørt**. Runner, printpakke, evaluator og syntetisk kode-QA må aldrig tælles som menneskelig evidens.
 
 ---
 
@@ -126,7 +139,7 @@ Aktive guards omfatter:
   - planning/status cross-file links
   - natural audio acquisition/listening contract
 - Validate source inventory
-- Validate M-Pre evaluator/runner
+- Validate M-Pre evaluator/runner/printpakke
 - action placeholder-cost mirror
 - AU-1 regeneration/validation
 - event presentation validation
@@ -134,7 +147,7 @@ Aktive guards omfatter:
 Aktuel verificeret status:
 
 - planning/status validator: grøn via non-Unity CI på `556cb153`
-- M-Pre evaluator + runner QA: grøn 10/10 på `46331542`
+- M-Pre evaluator + runner + printpakke: grøn på discovery-run `086c0ea5`; printpakke-cases er verificeret i Actions-loggen
 - natural audio acquisition contract: grøn via non-Unity CI på `1af4b0ba`
 
 ---
@@ -159,14 +172,15 @@ PR #12 fjernede 89 tracked genererede `src/**/bin/` build/test-filer. Gælden er
 
 # Næste aktive ChatGPT-bølge
 
-1. **M-Pre human sessions**: næste reelle produktgate; offline runner, evaluator og facilitatorpakke er klar.
-2. **Actual audio acquisition + listening QA** på en internetforbundet workstation; ingen fake WAV-status.
-3. **Derived audio masters/Foley/ambience** først når originals faktisk er acquired og godkendt.
-4. **Radio VO recording** efter samme provenance/listening pipeline.
-5. Fortsæt kun B1/source-art hvor en konkret manglende master reducerer Unity-gætteri; undgå grafikproduktion for grafikkens egen skyld.
-6. Richer environment/polish og torso først når geometry/device evidence reducerer rework-risiko.
-7. Private personalization source uden for public repo senere.
-8. M1 implementation handoff når både M0b + M-Pre er grønne.
+1. **M-Pre human sessions**: næste reelle produktgate; offline runner, printpakke, evaluator og facilitatorpakke er klar.
+2. **M0b evidence intake/support:** capture-checkliste ligger på issue #3; faktiske headset-resultater ejes fortsat af Claude/Anders.
+3. **Actual audio acquisition + listening QA** på en internetforbundet workstation; ingen fake WAV-status.
+4. **Derived audio masters/Foley/ambience** først når originals faktisk er acquired og godkendt.
+5. **Radio VO recording** efter samme provenance/listening pipeline.
+6. Fortsæt kun B1/source-art hvor en konkret manglende master reducerer Unity-gætteri; undgå grafikproduktion for grafikkens egen skyld.
+7. Richer environment/polish og torso først når geometry/device evidence reducerer rework-risiko.
+8. Private personalization source uden for public repo senere.
+9. M1 implementation handoff når både M0b + M-Pre er grønne.
 
 ## Kendte ikke-leverede artifacts / gæld
 
@@ -175,6 +189,8 @@ PR #12 fjernede 89 tracked genererede `src/**/bin/` build/test-filer. Gælden er
 - fuld gameplay interaction-feedback JSON-binding blev filtreret; planning/status-delen blev i stedet leveret som separat contract
 - `docs/38_SOURCE_ASSET_MANIFEST.md` har stadig stale statuslinjer for rope-strain og player hands; inventory + denne workstream er korrekte, og manifest-rewrite blev filtreret
 - den ønskede in-place robusthedsrewrite af `facilitator_runner.html` blev filtreret; den committed runner er statisk kontrakttestet og må fortsat browser-smoke-testes ved første faktiske testafvikling
+- M-Pre CI har i øjeblikket duplicate runner-tests under discovery pga. den gamle importkobling; testresultatet er grønt, men dedup-rewrite blev filtreret
+- `repo_status.md` er bagud på de seneste runner/print/audio guardrails; rewrite blev filtreret, mens denne workstream er den levende ChatGPT-status
 
 Der omgås ikke sikkerhedsfiltre, og ucommittede artifacts tælles aldrig som produktion.
 
