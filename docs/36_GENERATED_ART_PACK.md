@@ -10,12 +10,12 @@ The pipeline covers the canonical **148-row asset master** and currently produce
 - **192** dedicated refined non-VFX sprite states;
 - **14** dedicated refined VFX texture states;
 - **134** separate refined world-space OBJ meshes;
-- **172,802 vertices / 76,868 faces** across the final refined world-mesh set;
+- **184,036 vertices / 82,296 faces** across the final refined world-mesh set;
 - **5** separate 1024×1024 transparent RGBA ground decals — 3 puddle states + 2 shoreline-foam states;
 - **11** shared Quest-friendly surface materials;
 - **33** surface maps: 11 × (1024px albedo + 512px normal + 512px metallic/smoothness).
 
-Every listed state/variant is an individual asset, not a collage or cropped mockup board.
+Every listed state/variant is an individual Unity-importable asset, not a collage or cropped mockup board.
 
 ## Complete 3D refinement coverage
 
@@ -27,6 +27,30 @@ The broad generator owns deterministic master-list coverage and stable paths/GUI
 - **42 remaining set-dressing/world meshes** — CS-016 radio-repair station plus barrel/rope debris, cliff/cave dressing, groundsheet, cooking/storage/signal/rain-catcher clusters, torch/path markers, storm debris, camp boundary rope and puddle/foam holder planes.
 
 `refine_hero_joinery.py` adds readable rope lashings to shelter and beacon construction so the handmade wood/rope/tarp language survives VR viewing distance.
+
+### VR-readable interaction geometry
+
+`refine_interaction_readability.py` post-processes **16 interaction-critical states across six prop families** without introducing new materials or paths:
+
+- PR-004 supply crate — larger latch, hinges and end grips;
+- PR-005 portable radio — larger controls, frequency scale, carry handle and state-readable indicators;
+- PR-017 mallet — grip zone, stop rings and pommel;
+- PR-018 knife — guard, pommel, lanyard eye and grip detail;
+- PR-019 anchor peg — stop collar, rope loop and active anchoring cue;
+- PR-020 shared-carry heavy box — stronger primary and lower two-person grip zones.
+
+The pass adds **8,064 vertices** across those 16 states while retaining the existing shared-material contract and bounded physical dimensions. `validate_interaction_readability.py` compares the generated meshes against their canonical baselines and rejects state collapse, missing detail or runaway bounds.
+
+### Stormnatten damage-story geometry
+
+`refine_storm_story_geometry.py` runs after the general set-dressing refinement and upgrades the four canonical EN-023/EN-024 states used by the Stormnatten camp micro-story:
+
+- **EN-023 broken shelter parts** — snapped poles, split/splinter wedges, surviving lash points and torn rope tails;
+- **EN-023 loose cloth** — asymmetric torn fringe, surviving corner lashings and failed long rope tails;
+- **EN-024 slack boundary rope** — post lashings, failed centre tail, mud-level collapsed coil and slipped bracing;
+- **EN-024 taut boundary rope** — post lashings, bracing stakes and a secondary loaded strand that makes tension readable at VR distance.
+
+The resulting face deltas over the canonical set-dressing baselines are **+404 / +344 / +400 / +344 faces** respectively. `validate_storm_story_geometry.py` requires real extra geometry, shared canonical materials only, distinct state meshes and at most **0.60 m per-axis span growth** over the baseline. The QA gate is intentionally stricter than merely checking that the files changed.
 
 ## Ground decals
 
@@ -104,25 +128,55 @@ This is a structural/scale art gate, not a substitute for headset legibility/usa
 
 Albedo maps are 1024px. Normal and metallic/smoothness maps are 512px. Unity `.meta` files are deterministic and normal maps are imported as normal textures.
 
-## Unity integration
+`refine_surface_weathering.py` adds deterministic material-specific wear and wet-environment variation without changing material paths or GUIDs. Runtime storm wetness remains event-driven through `ProductionArtWetnessDriver` and `MaterialPropertyBlock`; Fire and Water are intentionally excluded from global wet tint.
+
+`MaterialCalibrationShowcase.unity` provides isolated dry / mid / storm columns for all 11 shared material families. The repo-side gate verifies the calibration contract; the Unity-side audit remains authoritative for actual imported material behaviour.
+
+## Unity integration and review flow
 
 `ProductionArtPrefabBuilder.cs` creates URP/Lit materials with Standard fallback, wires the generated maps, builds category-preserving world prefabs, applies simple Quest-friendly bounds colliders and adds lightweight fire accents where appropriate.
 
+`ProductionArtStateAppearanceBuilder.cs` attaches explicit bounded appearance profiles to canonical damaged/wet/repaired states. `ProductionArtPrefabStateController.SetState()` preserves these profiles during state changes.
+
 `ProductionArtDecalBuilder.cs` wires the five puddle/shoreline decal prefabs.
 
-`Bootstrap-M0b.ps1` and `Review-ProductionArt.ps1` now run the art sequence as:
+`Bootstrap-M0b.ps1` and `Review-ProductionArt.ps1` now exercise the production-art sequence broadly as:
 
-**world prefabs → decals → production VFX → diegetic UI prefabs → physical UI showcase → physical UI audit → Stormnatten showcase → storm atmosphere → Quest 2 world-art audit**.
+**world prefabs/materials → state appearance/catalogs → decals/VFX/UI specialist reviews → material calibration → state-transition and hero-readability reviews → Stormnatten showcase → camp micro-story + atmosphere/motion/wind → Quest 2 world-art audit**.
+
+Specialist review scenes remain separate from `CoopGame.unity`; the M0b Android build stays the minimal feasibility/performance path.
 
 ### Stormnatten visual-review scene
 
-`ProductionArtShowcaseBuilder.cs` builds a separate `StormnattenArtShowcase.unity` scene from the actual generated prefabs. It deliberately does **not** alter M0b's `CoopGame.unity` Android build.
+`ProductionArtShowcaseBuilder.cs` builds `StormnattenArtShowcase.unity` from actual generated prefabs. The canonical pressure-state composition uses:
 
-The enriched showcase exercises usable shelter, campfire, radio/crates, radio-repair station, camp dressing, signal hill, wreckage, vegetation, puddles and storm shoreline foam. `ProductionArtStormAtmosphereBuilder.cs` adds one local Quest-friendly rain volume: max 180 particles, stretched unlit alpha-blended streaks, no collision and no particle shadows.
+- storm-damaged shelter;
+- nearly-out / wet campfire;
+- wet tarp;
+- wet camp groundsheet;
+- storm-damaged signal beacon;
+- storm-damaged signal cloth.
 
-`ProductionArtShowcaseAudit.cs` checks imported-scene proxies against repository Quest 2 limits: triangles hard fail >750k, renderer material-slot proxy hard fail >130, shadow-casting realtime lights >1 and active particle systems >10.
+`ProductionArtStormCampStoryBuilder.cs` adds a deterministic **nine-prop physical consequence layer** around the camp: two broken-shelter clusters, a loaded guy rope, a failed/slack rope, damaged wood stock, overturned storage, scattered utensils, rope washout and a shelter-foot puddle. The story layer is rebuilt idempotently and adds **no lights, particles, colliders, rigidbodies or Animation/Animator components**. Its own Unity-side authoring gate limits the layer to **60,000 triangles and 36 renderer material slots**.
 
-Neither `StormnattenArtShowcase.unity` nor `DiegeticUiArtShowcase.unity` is the M0b 72 Hz/network feasibility scene. `CoopGame.unity` remains the minimal Android gate.
+`ProductionArtStormAtmosphereBuilder.cs` adds one bounded local rain volume plus the scene-wide event-driven storm wetness driver. `ProductionArtStormFxBuilder.cs` adds bounded wind debris, camp splashes and the two-billboard near/far lightning rig with one shared non-shadowing flash light. `ProductionArtWindResponseBuilder.cs` adds nine renderer-culled legacy animation clips for cloth, rope and vegetation motion.
+
+`ProductionArtShowcaseAudit.cs` checks the actually imported scene against repository Quest 2 limits: triangles hard fail >750k, renderer material-slot proxy >130, shadow-casting realtime lights >1, active particle systems >10, Animation components >12, exactly one storm wetness driver, canonical damaged/wet states and the bounded storm motion/wind contracts.
+
+The repo-side Python gates validate source/wiring contracts only. Actual Unity scene generation, C# compilation, imported-scene audits, visual overlap/readability and Quest 2 frame timing still require the Unity/Quest machine.
+
+## Review scenes
+
+The production-art review package includes isolated scenes for:
+
+- `ProductionVfxShowcase.unity` — particle/billboard/VFX texture inspection;
+- `DiegeticUiArtShowcase.unity` — physical metre-scale diegetic UI inspection;
+- `MaterialCalibrationShowcase.unity` — 11 material families at dry/mid/storm wetness;
+- `StateTransitionShowcase.unity` — 6 rows × 3 canonical state transitions;
+- `HeroReadabilityShowcase.unity` — 12 canonical hand/heavy/world-anchor samples at 1:1 scale;
+- `StormnattenArtShowcase.unity` — integrated production-art/storm composition.
+
+These are review scenes, not gameplay build scenes.
 
 ## CI gates
 
@@ -132,23 +186,35 @@ Neither `StormnattenArtShowcase.unity` nor `DiegeticUiArtShowcase.unity` is the 
 - canonical 148-ID master completeness;
 - 206 production sprites and dedicated 192-state non-VFX refinement;
 - all **14 dedicated VFX states** and smoke flipbook structure;
-- Quest-conscious Unity VFX builder constraints;
+- Quest-conscious Unity VFX builder/showcase constraints;
 - sprite alpha/import/state-uniqueness/canonical constraints;
-- four diegetic UI prefab contracts;
-- physical-scale UI showcase/audit wiring;
+- four diegetic UI prefab contracts and physical-scale UI review wiring;
 - PNG/OBJ validity and deterministic Unity metadata;
-- 11-material / 33-map surface completeness/import contracts;
+- 11-material / 33-map surface completeness plus weathering contracts;
+- isolated dry/mid/storm material-calibration contract;
+- state-specific storm appearance profiles and composition with global wetness;
+- state-transition review/controller contract;
+- 12-sample hero physical-scale readability contract;
+- 16-state VR interaction-readability mesh delta/material/bounds contract;
 - hero, environment, survival/tool and remaining set-dressing refinement floors;
+- **Stormnatten EN-023/EN-024 damage-story geometry deltas, canonical materials, state uniqueness and ≤0.60m per-axis growth**;
 - five decal size/alpha/distinctness/import contracts;
-- enriched Stormnatten showcase content;
-- Unity material/prefab/decal/bootstrap wiring;
-- storm atmosphere limits and Unity-side Quest 2 audit presence;
+- enriched Stormnatten showcase + nine-prop camp micro-story coverage;
+- global Unity material/prefab/decal/VFX/UI/review wiring;
 - strict separation from `CoopGame.unity` / the M0b Android build;
 - generated documentation derived from actual final files.
 
 Art CI is serialized per branch and rebases its deterministic generated commit on the latest branch head before push, preventing concurrent runs from rejecting otherwise-green output.
 
-Actual Unity Editor import, VFX material/prefab build, physical-scale UI audit, world-art budget audit and headset profiling still require the machine with Unity/Quest; CI does not claim those runtime gates have passed.
+## Runtime-verification boundary
+
+Repository CI proves deterministic generation and static contracts. It does **not** run a licensed Unity Editor or a Quest headset. The following remain physical on-machine gates:
+
+- Unity C# import/compile;
+- generation/save of the review `.unity` scenes;
+- Unity-side material/state/showcase audits;
+- HMD-scale readability and visual overlap;
+- authoritative draw calls/frame timing on Quest 2.
 
 ## Canonical constraints retained
 
