@@ -7,7 +7,7 @@
   "packages": [
     {"id":"A1_UI","status":"produced-source-qa","path":"source_art/ui/a1","format":"SVG","next":"Claude Unity import/readability QA"},
     {"id":"NEUTRAL_FALLBACK","status":"produced-source-qa","path":"source_art/neutral","format":"SVG","next":"Claude neutral fallback integration"},
-    {"id":"A2_CORE_PROPS","status":"reference-plus-individual-masters","path":"source_art/props/a2","format":"Markdown+SVG","individualMasterIds":["ITM_FIRESTEEL_001","ITM_TINDER_001","ITM_ROPE_COIL_001","PRP_PLAN_TABLE_001"],"next":"continue remaining source masters where useful; Claude integrates accepted scope and tunes runtime scale"},
+    {"id":"A2_CORE_PROPS","status":"reference-plus-individual-masters","path":"source_art/props/a2","format":"Markdown+SVG","individualMasterIds":["ITM_FIRESTEEL_001","ITM_TINDER_001","ITM_ROPE_COIL_001","PRP_PLAN_TABLE_001","PRP_HEAVY_CRATE_001"],"next":"continue remaining source masters where useful; Claude integrates accepted scope and tunes runtime scale"},
     {"id":"A3_STORM_VFX","status":"produced-source-reference","path":"source_art/vfx/a3","format":"SVG","next":"Claude runtime VFX implementation/device tuning"},
     {"id":"A4_CAMP","status":"produced-source-reference-expanded","path":"source_art/environment/a4","format":"SVG","producedIds":["ENV_BEACH_CAMP_001","ENV_WRECKAGE_001","ENV_CAMP_GROUND_001","ENV_STORM_CAMP_001","PRP_RADIO_001","PRP_SIGNAL_FRAME_001"],"next":"Claude Unity implementation; final environment art/material polish waits stable geometry and Quest 2 evidence"},
     {"id":"B1_ENVIRONMENT","status":"produced-source-reference","path":"source_art/environment/b1","format":"SVG","next":"Claude world implementation; richer art after spatial evidence"},
