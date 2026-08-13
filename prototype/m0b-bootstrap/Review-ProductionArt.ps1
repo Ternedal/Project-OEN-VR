@@ -5,10 +5,10 @@
   Unity project, touch Packages/, configure XR, import Fusion, or build the M0b APK.
   It syncs production art + lightweight runtime state controllers, rebuilds world
   prefabs, canonical damaged/wet state appearance, dry/mid/storm material calibration,
-  state catalogs, the 6x3 state-transition matrix, decals, VFX and UI, runs isolated
-  state/material/VFX/physical-UI audits, then the Stormnatten showcase with rain,
-  wetness, bounded motion FX, renderer-culled wind-responsive dressing and the
-  Quest 2 art audit.
+  state catalogs, the 6x3 state-transition matrix, 1:1 hero-prop readability scene,
+  decals, VFX and UI, runs isolated state/material/hero/VFX/physical-UI audits, then
+  the Stormnatten showcase with rain, wetness, bounded motion FX, renderer-culled
+  wind-responsive dressing and the Quest 2 art audit.
 #>
 
 param(
@@ -56,6 +56,8 @@ foreach ($builder in @(
     "ProductionArtStateCatalogBuilder.cs",
     "ProductionArtStateTransitionShowcaseBuilder.cs",
     "ProductionArtStateTransitionShowcaseAudit.cs",
+    "ProductionArtHeroReadabilityShowcaseBuilder.cs",
+    "ProductionArtHeroReadabilityShowcaseAudit.cs",
     "ProductionArtDecalBuilder.cs",
     "ProductionArtVfxBuilder.cs",
     "ProductionArtVfxShowcaseBuilder.cs",
@@ -72,7 +74,7 @@ foreach ($builder in @(
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
 }
-Note "Art + runtime state controllers + state appearance + state-transition/material/world/state/decal/VFX/UI/showcase builders er synkroniseret til $ProjectPath"
+Note "Art + runtime state controllers + state appearance + state-transition/hero/material/world/state/decal/VFX/UI/showcase builders er synkroniseret til $ProjectPath"
 
 function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
     Step $Label
@@ -127,6 +129,14 @@ Run-UnityArtStep "Auditerer runtime state-skift og appearance-profiler" `
     "ProjectOen.Art.Editor.ProductionArtStateTransitionShowcaseAudit.AuditShowcase" `
     "review-art-state-transition-audit.log"
 
+Run-UnityArtStep "Bygger 1:1 hero-prop readability review" `
+    "ProjectOen.Art.Editor.ProductionArtHeroReadabilityShowcaseBuilder.BuildShowcase" `
+    "review-art-hero-readability.log"
+
+Run-UnityArtStep "Auditerer hero props og world anchors i fysisk VR-skala" `
+    "ProjectOen.Art.Editor.ProductionArtHeroReadabilityShowcaseAudit.AuditShowcase" `
+    "review-art-hero-readability-audit.log"
+
 Run-UnityArtStep "Bygger puddle/shoreline ground decals" `
     "ProjectOen.Art.Editor.ProductionArtDecalBuilder.BuildAll" `
     "review-art-decals.log"
@@ -176,9 +186,10 @@ Run-UnityArtStep "Auditerer showcase mod Quest 2-budget" `
     "review-art-budget.log"
 
 Step "Resultat"
-Write-Host "Production-art review er bygget; canonical damaged/wet states har state-specifik appearance; 6x3 transition-matrix og runtime SetState-audit bestod; material/world assets, runtime state catalogs, decals, VFX og UI er wired; material/VFX/UI/Stormnatten audits bestod; Stormnatten har regn, vaadhed, vind/splash/lyn og vindrespons paa dug/reb/vegetation." -ForegroundColor Green
+Write-Host "Production-art review er bygget; canonical damaged/wet states har state-specifik appearance; 6x3 transition-matrix og runtime SetState-audit bestod; hero props/world anchors er samlet i 1:1 physical-scale review; material/world assets, runtime state catalogs, decals, VFX og UI er wired; material/hero/VFX/UI/Stormnatten audits bestod; Stormnatten har regn, vaadhed, vind/splash/lyn og vindrespons paa dug/reb/vegetation." -ForegroundColor Green
 Write-Host "State catalogs: Assets\ProjectOEN\ProductionArt\StateSets" -ForegroundColor Green
 Write-Host "State transition scene: Assets\ProjectOEN\ProductionArt\Scenes\StateTransitionShowcase.unity" -ForegroundColor Green
+Write-Host "Hero readability scene: Assets\ProjectOEN\ProductionArt\Scenes\HeroReadabilityShowcase.unity" -ForegroundColor Green
 Write-Host "Material scene: Assets\ProjectOEN\ProductionArt\Scenes\MaterialCalibrationShowcase.unity" -ForegroundColor Green
 Write-Host "VFX scene: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
 Write-Host "UI scene: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
