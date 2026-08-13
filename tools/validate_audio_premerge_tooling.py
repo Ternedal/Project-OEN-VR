@@ -12,6 +12,8 @@ PIN = ROOT / "content/audio/first_playable_artifact_pin.json"
 QA = ROOT / "content/audio/audio_premerge_qa.csv"
 BATCH = ROOT / "src/unity/ProjectOen.Audio.Editor/ProjectOenAudioPremergeBatch.cs"
 IMPORTER = ROOT / "tools/import_audio_unity_premerge_evidence.py"
+PIN_VERIFIER = ROOT / "tools/verify_first_playable_artifact_pin.py"
+WORKFLOW = ROOT / ".github/workflows/audio-validation.yml"
 UNITY_GATES = {
     "unity_import_compile",
     "unity_first_playable_audit",
@@ -93,18 +95,53 @@ def main() -> int:
         'pin["clip_count"]',
         'pin["event_count"]',
         'evidence.get("missingScriptCount") != 0',
-        'evidence.get("errorCount") != 0',
+        'evidence.get("errorCount") != len(errors)',
+        'evidence.get("warningCount") != len(warnings)',
+        'if errors:',
         "set(gates) != UNITY_GATES",
         'row["status"] = "passed"',
         "quest_rows",
+        "expect_rejected(stale_manifest",
+        "expect_rejected(errored",
+        "expect_rejected(missing_gate",
         "--self-test",
         "--apply",
     ):
         require(importer, token, "Unity premerge evidence importer")
 
+    verifier = PIN_VERIFIER.read_text(encoding="utf-8")
+    for token in (
+        'DEFAULT_ZIP = ROOT / "build/oen-unity-first-playable-audio-v1.zip"',
+        'expected_zip_sha = pin.get("inner_zip_sha256")',
+        'expected_manifest_sha = pin.get("manifest_sha256")',
+        'clip_count != pin.get("clip_count")',
+        'event_count != pin.get("event_count")',
+        "Re-verify the new payload physically before updating the pin",
+    ):
+        require(verifier, token, "first-playable artifact pin verifier")
+
+    workflow = WORKFLOW.read_text(encoding="utf-8")
+    for token in (
+        "python tools/validate_audio_premerge_tooling.py",
+        "python tools/import_audio_unity_premerge_evidence.py --self-test",
+        "python tools/verify_first_playable_artifact_pin.py",
+        "Stage Unity first-playable audio pack",
+        "Verify staged Unity pack against committed QA pin",
+        "Upload Unity first-playable audio pack",
+    ):
+        require(workflow, token, "Audio Validation premerge enforcement")
+    if workflow.index("Stage Unity first-playable audio pack") > workflow.index(
+        "Verify staged Unity pack against committed QA pin"
+    ):
+        raise SystemExit("Audio Validation must stage the Unity pack before verifying its pin")
+    if workflow.index("Verify staged Unity pack against committed QA pin") > workflow.index(
+        "Upload Unity first-playable audio pack"
+    ):
+        raise SystemExit("Audio Validation must verify the pin before uploading the Unity artifact")
+
     print(
         "Audio premerge tooling OK: pinned 173/47 payload, six-gate registry, Unity batch evidence runner, "
-        "manifest-bound importer and Quest-gate isolation"
+        "hardened manifest-bound importer, Quest-gate isolation and post-staging pin enforcement"
     )
     return 0
 
