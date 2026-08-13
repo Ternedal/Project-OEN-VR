@@ -10,7 +10,9 @@ namespace ProjectOen.Art.Runtime
     /// explicitly told that wetness changed. There is deliberately no Update loop.
     ///
     /// Storm/gameplay systems can call SetWetness(0..1). The generated
-    /// Stormnatten showcase uses one driver for the whole scene.
+    /// Stormnatten showcase uses one driver for the whole scene. If a renderer is
+    /// inside a ProductionArtStateAppearance prefab, the state-local tint/normal
+    /// profile is multiplied with this global wetness response rather than lost.
     /// </summary>
     [ExecuteAlways]
     [DisallowMultipleComponent]
@@ -57,6 +59,9 @@ namespace ProjectOen.Art.Runtime
 
                 Material[] materials = renderer.sharedMaterials;
                 bool affected = false;
+                ProductionArtStateAppearance stateAppearance = renderer.GetComponentInParent<ProductionArtStateAppearance>();
+                Color stateTint = stateAppearance != null ? stateAppearance.TintMultiplier : Color.white;
+                float stateBumpScale = stateAppearance != null ? stateAppearance.NormalScaleMultiplier : 1f;
 
                 for (int materialIndex = 0; materialIndex < materials.Length; materialIndex++)
                 {
@@ -70,13 +75,17 @@ namespace ProjectOen.Art.Runtime
 
                     renderer.GetPropertyBlock(propertyBlock, materialIndex);
 
-                    Color tint = Color.Lerp(Color.white, profile.wetTint, wetness);
+                    Color wetTint = Color.Lerp(Color.white, profile.wetTint, wetness);
+                    Color tint = Multiply(stateTint, wetTint);
                     if (material.HasProperty(BaseColorId))
                         propertyBlock.SetColor(BaseColorId, tint);
                     if (material.HasProperty(ColorId))
                         propertyBlock.SetColor(ColorId, tint);
                     if (material.HasProperty(BumpScaleId))
-                        propertyBlock.SetFloat(BumpScaleId, Mathf.Lerp(1f, profile.wetBumpScale, wetness));
+                    {
+                        float wetBumpScale = Mathf.Lerp(1f, profile.wetBumpScale, wetness);
+                        propertyBlock.SetFloat(BumpScaleId, stateBumpScale * wetBumpScale);
+                    }
 
                     renderer.SetPropertyBlock(propertyBlock, materialIndex);
                     affected = true;
@@ -117,6 +126,11 @@ namespace ProjectOen.Art.Runtime
                 result.AddRange(root.GetComponentsInChildren<Renderer>(includeInactive));
             }
             return result;
+        }
+
+        private static Color Multiply(Color a, Color b)
+        {
+            return new Color(a.r * b.r, a.g * b.g, a.b * b.b, a.a * b.a);
         }
 
         private static string CanonicalMaterialName(string materialName)
