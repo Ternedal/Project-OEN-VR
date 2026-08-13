@@ -10,9 +10,9 @@ namespace ProjectOen.Audio.Editor
     /// <summary>
     /// Safe one-click bootstrap for the first playable.
     ///
-    /// It builds clip definitions/catalog first, creates only missing generated profiles,
-    /// and creates the runtime prefab only when it does not already exist. Existing profile
-    /// tuning and prefab composition are therefore never overwritten by a rerun.
+    /// It verifies the staged manifest before mutation, rebuilds clip definitions/catalog from
+    /// that verified payload, synchronizes generated profile membership while preserving gain
+    /// tuning for still-valid layers, and creates the runtime prefab only when it does not exist.
     /// </summary>
     public static class ProjectOenAudioOneClickFirstPlayableBuilder
     {
@@ -39,22 +39,44 @@ namespace ProjectOen.Audio.Editor
             public float Gain { get; }
         }
 
+        private readonly struct ProfileSpec
+        {
+            public ProfileSpec(string name, params LayerSpec[] layers)
+            {
+                Name = name;
+                Layers = layers ?? Array.Empty<LayerSpec>();
+            }
+
+            public string Name { get; }
+            public LayerSpec[] Layers { get; }
+        }
+
         [MenuItem("Project Oen/Audio/Build First Playable (One Click)", priority = 0)]
         public static void BuildOneClick()
         {
-            var coverage = MeasureCanonicalClipCoverage();
+            var manifest = ProjectOenAudioFirstPlayableManifestAudit.Audit();
+            if (!manifest.Ok)
+            {
+                Debug.LogError(
+                    "Project Oen audio one-click build stopped: first-playable manifest/import audit failed. " +
+                    manifest.Error);
+                return;
+            }
+
+            var coverage = (clipCount: manifest.ClipCount, eventCount: manifest.EventCount);
             if (coverage.clipCount < ExpectedFirstPlayableClipCount ||
                 coverage.eventCount < ExpectedFirstPlayableEventCount)
             {
                 Debug.LogError(
                     "Project Oen audio one-click build stopped: incomplete first-playable audio import. " +
-                    $"Found {coverage.clipCount}/{ExpectedFirstPlayableClipCount} canonical clips across " +
+                    $"Found {coverage.clipCount}/{ExpectedFirstPlayableClipCount} manifest-verified canonical clips across " +
                     $"{coverage.eventCount}/{ExpectedFirstPlayableEventCount} events below '{AudioRoot}'. " +
                     "Extract the current oen-unity-first-playable-audio-v1 artifact at the Unity project root first.");
                 return;
             }
 
-            ProjectOenAudioFirstPlayableBuilder.BuildFirstPlayable();
+            if (!ProjectOenAudioFirstPlayableBuilder.TryBuildFirstPlayable())
+                return;
 
             var catalog = AssetDatabase.LoadAssetAtPath<AudioCatalog>(CatalogPath);
             if (catalog == null)
@@ -65,67 +87,31 @@ namespace ProjectOen.Audio.Editor
                 return;
             }
 
+            if (catalog.Events.Count != manifest.EventCount)
+            {
+                Debug.LogError(
+                    "Project Oen audio one-click build stopped: catalog/manifest event-count mismatch after rebuild. " +
+                    $"Catalog={catalog.Events.Count}, manifest={manifest.EventCount}.");
+                return;
+            }
+
             EnsureFolder(ProfilesRoot);
             EnsureFolder(RuntimeRoot);
 
             var definitions = FindDefinitions();
+            var profiles = SyncGeneratedProfiles(definitions);
 
-            // This empty profile is an intentional fail-closed target for states whose real
-            // beds have not been produced yet. It prevents a previous biome from continuing
-            // to play when entering an unavailable Night/Ridge/Camp/Shelter state.
-            var biomeSilence = CreateProfileIfMissing(
-                "FP_Biome_Silence",
-                definitions);
-
-            var beachDay = CreateProfileIfMissing(
-                "FP_Biome_Beach_Day",
-                definitions,
-                new LayerSpec(AudioEventId.SFX_AMB_Beach_OceanNear, 1.00f));
-
-            var jungleDay = CreateProfileIfMissing(
-                "FP_Biome_Jungle_Day",
-                definitions,
-                new LayerSpec(AudioEventId.SFX_AMB_Jungle_DayBed, 0.90f));
-
-            var weatherCalm = CreateProfileIfMissing(
-                "FP_Weather_Calm",
-                definitions);
-
-            var weatherWind = CreateProfileIfMissing(
-                "FP_Weather_Wind",
-                definitions,
-                new LayerSpec(AudioEventId.SFX_WTH_Storm_Wind, 0.65f));
-
-            var weatherRainFire = CreateProfileIfMissing(
-                "FP_Weather_RainFire",
-                definitions,
-                new LayerSpec(AudioEventId.SFX_WTH_Storm_Wind, 0.65f),
-                new LayerSpec(AudioEventId.SFX_WTH_Rain_Heavy, 0.80f));
-
-            var weatherSignal = CreateProfileIfMissing(
-                "FP_Weather_Signal",
-                definitions,
-                new LayerSpec(AudioEventId.SFX_WTH_Storm_Wind, 0.80f),
-                new LayerSpec(AudioEventId.SFX_WTH_Rain_Heavy, 1.00f));
-
-            var musicCalm = CreateProfileIfMissing(
-                "FP_Music_Calm",
-                definitions);
-
-            var musicWind = CreateProfileIfMissing(
-                "FP_Music_Wind",
-                definitions,
-                new LayerSpec(AudioEventId.MUS_Storm_Phase1, 0.45f));
-
-            var musicRainFire = CreateProfileIfMissing(
-                "FP_Music_RainFire",
-                definitions,
-                new LayerSpec(AudioEventId.MUS_Storm_Phase2, 0.50f));
-
-            var musicSignal = CreateProfileIfMissing(
-                "FP_Music_Signal",
-                definitions,
-                new LayerSpec(AudioEventId.MUS_Storm_Phase3, 0.55f));
+            var biomeSilence = profiles["FP_Biome_Silence"];
+            var beachDay = profiles["FP_Biome_Beach_Day"];
+            var jungleDay = profiles["FP_Biome_Jungle_Day"];
+            var weatherCalm = profiles["FP_Weather_Calm"];
+            var weatherWind = profiles["FP_Weather_Wind"];
+            var weatherRainFire = profiles["FP_Weather_RainFire"];
+            var weatherSignal = profiles["FP_Weather_Signal"];
+            var musicCalm = profiles["FP_Music_Calm"];
+            var musicWind = profiles["FP_Music_Wind"];
+            var musicRainFire = profiles["FP_Music_RainFire"];
+            var musicSignal = profiles["FP_Music_Signal"];
 
             var runtimePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(RuntimePrefabPath);
             if (runtimePrefab == null)
@@ -148,7 +134,7 @@ namespace ProjectOen.Audio.Editor
             {
                 Debug.Log(
                     $"Project Oen audio: preserving existing runtime prefab '{RuntimePrefabPath}'. " +
-                    "Delete it explicitly if you want the generated baseline recreated.",
+                    "Generated profile membership has been synchronized; delete the prefab explicitly only if you want its baseline composition recreated.",
                     runtimePrefab);
             }
 
@@ -161,41 +147,53 @@ namespace ProjectOen.Audio.Editor
             AuditOneClick();
             Debug.Log(
                 "Project Oen audio one-click build complete. " +
-                "Definitions/catalog, generated first-playable profiles and runtime prefab are ready. " +
+                "Manifest/import integrity, definitions/catalog, synchronized generated profiles and runtime prefab are ready. " +
                 "Physical Unity/Quest listening and performance QA is still required.");
         }
 
         [MenuItem("Project Oen/Audio/Audit First Playable (One Click)")]
         public static void AuditOneClick()
         {
+            var manifest = ProjectOenAudioFirstPlayableManifestAudit.Audit();
             var catalog = AssetDatabase.LoadAssetAtPath<AudioCatalog>(CatalogPath);
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(RuntimePrefabPath);
             var profileGuids = AssetDatabase.IsValidFolder(ProfilesRoot)
                 ? AssetDatabase.FindAssets("t:AudioAmbienceProfile", new[] { ProfilesRoot })
                 : Array.Empty<string>();
-            var coverage = MeasureCanonicalClipCoverage();
+            var coverage = manifest.Ok
+                ? (clipCount: manifest.ClipCount, eventCount: manifest.EventCount)
+                : (clipCount: 0, eventCount: 0);
 
             var definitionCount = catalog?.Events.Count ?? 0;
+            var catalogOk = manifest.Ok && catalog != null && definitionCount == manifest.EventCount;
             var profileCount = profileGuids.Length;
+            var profilesOk = catalogOk && AuditGeneratedProfiles(FindDefinitions());
             var prefabOk = prefab != null &&
                            prefab.GetComponent<AudioService>() != null &&
                            prefab.GetComponent<AudioWorldStateRouter>() != null &&
                            prefab.GetComponentsInChildren<AudioAmbienceController>(true).Length >= 3;
-            var coverageOk = coverage.clipCount >= ExpectedFirstPlayableClipCount &&
+            var coverageOk = manifest.Ok &&
+                             coverage.clipCount >= ExpectedFirstPlayableClipCount &&
                              coverage.eventCount >= ExpectedFirstPlayableEventCount;
 
+            if (!manifest.Ok)
+                Debug.LogError("First-playable audit: manifest/import integrity failed: " + manifest.Error);
             if (!coverageOk)
             {
                 Debug.LogError(
-                    $"First-playable audit: incomplete canonical clip coverage: " +
+                    $"First-playable audit: incomplete manifest-verified canonical clip coverage: " +
                     $"{coverage.clipCount}/{ExpectedFirstPlayableClipCount} clips across " +
                     $"{coverage.eventCount}/{ExpectedFirstPlayableEventCount} events.");
             }
-            if (catalog == null)
-                Debug.LogError($"First-playable audit: missing catalog '{CatalogPath}'.");
+            if (!catalogOk)
+            {
+                Debug.LogError(
+                    $"First-playable audit: catalog mismatch; catalog definitions={definitionCount}, " +
+                    $"manifest events={(manifest.Ok ? manifest.EventCount : 0)}.");
+            }
             if (profileCount < ExpectedGeneratedProfileCount)
             {
-                Debug.LogWarning(
+                Debug.LogError(
                     $"First-playable audit: expected at least {ExpectedGeneratedProfileCount} generated profiles, " +
                     $"found {profileCount}.");
             }
@@ -207,65 +205,24 @@ namespace ProjectOen.Audio.Editor
             }
 
             Debug.Log(
-                $"Project Oen first-playable audit: clipCoverage={(coverageOk ? "OK" : "INCOMPLETE")}, " +
-                $"catalog={(catalog != null ? "OK" : "MISSING")}, definitions={definitionCount}, " +
-                $"generatedProfiles={profileCount}, runtimePrefab={(prefabOk ? "OK" : "MISSING/INVALID")}.");
+                $"Project Oen first-playable audit: manifest={(manifest.Ok ? "OK" : "FAILED")}, " +
+                $"clipCoverage={(coverageOk ? "OK" : "INCOMPLETE")}, catalog={(catalogOk ? "OK" : "MISMATCH")}, " +
+                $"definitions={definitionCount}, generatedProfiles={profileCount}/{(profilesOk ? "SYNCED" : "CHECK")}, " +
+                $"runtimePrefab={(prefabOk ? "OK" : "MISSING/INVALID")}.");
         }
 
         private static (int clipCount, int eventCount) MeasureCanonicalClipCoverage()
         {
-            if (!AssetDatabase.IsValidFolder(AudioRoot))
-                return (0, 0);
-
-            var clips = 0;
-            var events = new HashSet<AudioEventId>();
-            foreach (var guid in AssetDatabase.FindAssets("t:AudioClip", new[] { AudioRoot }))
-            {
-                var path = AssetDatabase.GUIDToAssetPath(guid);
-                var clip = AssetDatabase.LoadAssetAtPath<AudioClip>(path);
-                if (clip == null || !TryResolveCanonicalClipEvent(clip.name, out var id))
-                    continue;
-
-                clips++;
-                events.Add(id);
-            }
-
-            return (clips, events.Count);
-        }
-
-        private static bool TryResolveCanonicalClipEvent(string clipName, out AudioEventId id)
-        {
-            id = AudioEventId.None;
-
-            var names = Enum.GetNames(typeof(AudioEventId))
-                .Where(name =>
-                    name != nameof(AudioEventId.None) &&
-                    name != "SFX_STS_Hunger_Warn" &&
-                    name != "SFX_STS_Thirst_Warn")
-                .OrderByDescending(name => name.Length);
-
-            foreach (var name in names)
-            {
-                var prefix = name + "_";
-                if (!clipName.StartsWith(prefix, StringComparison.Ordinal))
-                    continue;
-
-                var suffix = clipName.Substring(prefix.Length);
-                if (!int.TryParse(suffix, out var variation) || variation <= 0)
-                    return false;
-
-                if (!Enum.TryParse(name, out id) || id == AudioEventId.None)
-                    return false;
-
-                return true;
-            }
-
-            return false;
+            var manifest = ProjectOenAudioFirstPlayableManifestAudit.Audit();
+            return manifest.Ok
+                ? (manifest.ClipCount, manifest.EventCount)
+                : (0, 0);
         }
 
         private static Dictionary<AudioEventId, AudioEventDefinition> FindDefinitions()
         {
             var result = new Dictionary<AudioEventId, AudioEventDefinition>();
+            var seen = new Dictionary<AudioEventId, string>();
             if (!AssetDatabase.IsValidFolder(DefinitionsRoot))
                 return result;
 
@@ -275,45 +232,118 @@ namespace ProjectOen.Audio.Editor
                 var definition = AssetDatabase.LoadAssetAtPath<AudioEventDefinition>(path);
                 if (definition == null || definition.Id == AudioEventId.None)
                     continue;
-                if (!result.ContainsKey(definition.Id))
+
+                if (seen.TryGetValue(definition.Id, out var existingPath))
+                {
+                    throw new InvalidOperationException(
+                        $"duplicate AudioEventDefinition for '{definition.Id}': '{existingPath}' and '{path}'.");
+                }
+                seen.Add(definition.Id, path);
+
+                // Stale definitions are deliberately left as tuning/history assets by the catalog
+                // builder, but their clip arrays are cleared and they must not enter generated profiles.
+                if (definition.ClipCount > 0)
                     result.Add(definition.Id, definition);
             }
 
             return result;
         }
 
-        private static AudioAmbienceProfile CreateProfileIfMissing(
-            string assetName,
-            IReadOnlyDictionary<AudioEventId, AudioEventDefinition> definitions,
-            params LayerSpec[] requestedLayers)
+        private static ProfileSpec[] GeneratedProfileSpecs()
         {
-            var path = $"{ProfilesRoot}/{assetName}.asset";
-            var existing = AssetDatabase.LoadAssetAtPath<AudioAmbienceProfile>(path);
-            if (existing != null)
-                return existing;
+            return new[]
+            {
+                new ProfileSpec("FP_Biome_Silence"),
+                new ProfileSpec(
+                    "FP_Biome_Beach_Day",
+                    new LayerSpec(AudioEventId.SFX_AMB_Beach_OceanNear, 1.00f)),
+                new ProfileSpec(
+                    "FP_Biome_Jungle_Day",
+                    new LayerSpec(AudioEventId.SFX_AMB_Jungle_DayBed, 0.90f)),
+                new ProfileSpec("FP_Weather_Calm"),
+                new ProfileSpec(
+                    "FP_Weather_Wind",
+                    new LayerSpec(AudioEventId.SFX_WTH_Storm_Wind, 0.65f)),
+                new ProfileSpec(
+                    "FP_Weather_RainFire",
+                    new LayerSpec(AudioEventId.SFX_WTH_Storm_Wind, 0.65f),
+                    new LayerSpec(AudioEventId.SFX_WTH_Rain_Heavy, 0.80f)),
+                new ProfileSpec(
+                    "FP_Weather_Signal",
+                    new LayerSpec(AudioEventId.SFX_WTH_Storm_Wind, 0.80f),
+                    new LayerSpec(AudioEventId.SFX_WTH_Rain_Heavy, 1.00f)),
+                new ProfileSpec("FP_Music_Calm"),
+                new ProfileSpec(
+                    "FP_Music_Wind",
+                    new LayerSpec(AudioEventId.MUS_Storm_Phase1, 0.45f)),
+                new ProfileSpec(
+                    "FP_Music_RainFire",
+                    new LayerSpec(AudioEventId.MUS_Storm_Phase2, 0.50f)),
+                new ProfileSpec(
+                    "FP_Music_Signal",
+                    new LayerSpec(AudioEventId.MUS_Storm_Phase3, 0.55f)),
+            };
+        }
 
-            var profile = ScriptableObject.CreateInstance<AudioAmbienceProfile>();
-            AssetDatabase.CreateAsset(profile, path);
+        private static Dictionary<string, AudioAmbienceProfile> SyncGeneratedProfiles(
+            IReadOnlyDictionary<AudioEventId, AudioEventDefinition> definitions)
+        {
+            var result = new Dictionary<string, AudioAmbienceProfile>(StringComparer.Ordinal);
+            foreach (var spec in GeneratedProfileSpecs())
+                result.Add(spec.Name, SyncGeneratedProfile(spec, definitions));
+            return result;
+        }
+
+        private static AudioAmbienceProfile SyncGeneratedProfile(
+            ProfileSpec spec,
+            IReadOnlyDictionary<AudioEventId, AudioEventDefinition> definitions)
+        {
+            var path = $"{ProfilesRoot}/{spec.Name}.asset";
+            var profile = AssetDatabase.LoadAssetAtPath<AudioAmbienceProfile>(path);
+            var created = false;
+            if (profile == null)
+            {
+                profile = ScriptableObject.CreateInstance<AudioAmbienceProfile>();
+                AssetDatabase.CreateAsset(profile, path);
+                created = true;
+            }
+
+            var preservedGain = new Dictionary<AudioEventId, float>();
+            var existingLayers = profile.Layers;
+            if (existingLayers != null)
+            {
+                for (var index = 0; index < existingLayers.Count; index++)
+                {
+                    var layer = existingLayers[index];
+                    var definition = layer?.Definition;
+                    if (definition == null || preservedGain.ContainsKey(definition.Id))
+                        continue;
+                    preservedGain.Add(definition.Id, Mathf.Clamp01(layer.Gain));
+                }
+            }
 
             var validLayers = new List<(AudioEventDefinition definition, float gain)>();
-            foreach (var layer in requestedLayers)
+            foreach (var layer in spec.Layers)
             {
                 if (!definitions.TryGetValue(layer.Id, out var definition) || definition == null)
                 {
                     Debug.LogWarning(
-                        $"Project Oen audio: generated profile '{assetName}' omits unavailable event '{layer.Id}'.");
+                        $"Project Oen audio: generated profile '{spec.Name}' omits unavailable event '{layer.Id}'.");
                     continue;
                 }
 
                 if (!definition.Loop)
                 {
                     Debug.LogWarning(
-                        $"Project Oen audio: generated profile '{assetName}' omits non-loop event '{layer.Id}'.",
+                        $"Project Oen audio: generated profile '{spec.Name}' omits non-loop event '{layer.Id}'.",
                         definition);
                     continue;
                 }
 
-                validLayers.Add((definition, Mathf.Clamp01(layer.Gain)));
+                var gain = preservedGain.TryGetValue(layer.Id, out var tunedGain)
+                    ? tunedGain
+                    : Mathf.Clamp01(layer.Gain);
+                validLayers.Add((definition, gain));
             }
 
             var serialized = new SerializedObject(profile);
@@ -329,7 +359,51 @@ namespace ProjectOen.Audio.Editor
 
             serialized.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(profile);
+            Debug.Log(
+                $"Project Oen audio: {(created ? "created" : "synchronized")} generated profile '{spec.Name}' " +
+                $"with {validLayers.Count} active layer(s).",
+                profile);
             return profile;
+        }
+
+        private static bool AuditGeneratedProfiles(
+            IReadOnlyDictionary<AudioEventId, AudioEventDefinition> definitions)
+        {
+            var ok = true;
+            foreach (var spec in GeneratedProfileSpecs())
+            {
+                var path = $"{ProfilesRoot}/{spec.Name}.asset";
+                var profile = AssetDatabase.LoadAssetAtPath<AudioAmbienceProfile>(path);
+                if (profile == null)
+                {
+                    Debug.LogError($"First-playable audit: missing generated profile '{path}'.");
+                    ok = false;
+                    continue;
+                }
+
+                var expected = spec.Layers
+                    .Where(layer =>
+                        definitions.TryGetValue(layer.Id, out var definition) &&
+                        definition != null &&
+                        definition.Loop)
+                    .Select(layer => layer.Id)
+                    .ToArray();
+                var actual = profile.Layers
+                    .Where(layer => layer?.Definition != null)
+                    .Select(layer => layer.Definition.Id)
+                    .ToArray();
+
+                if (!actual.SequenceEqual(expected))
+                {
+                    Debug.LogError(
+                        $"First-playable audit: generated profile '{spec.Name}' layer membership drift. " +
+                        $"Expected [{string.Join(", ", expected)}], got [{string.Join(", ", actual)}].",
+                        profile);
+                    ok = false;
+                }
+            }
+
+            return ok;
         }
 
         private static GameObject CreateRuntimePrefab(
