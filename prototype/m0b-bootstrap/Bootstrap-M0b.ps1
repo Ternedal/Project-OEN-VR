@@ -11,8 +11,9 @@
   state-transition matrix med runtime SetState-audit, en 1:1 hero-prop/world-anchor
   readability scene med physical-scale audit, ground decals, Quest-venlige VFX,
   isoleret VFX review/audit, diegetiske VR UI-prefabs, fysisk UI review/audit,
-  Stormnatten art-showcase, lokal stormregn, vaade overflader, vind/regnsplash/fjernt lyn,
-  renderer-culled vindrespons paa dug/reb/vegetation og Quest 2 art-budgetaudit.
+  Stormnatten art-showcase, camp + signal-finale consequence stories, lokal stormregn,
+  vaade overflader, vind/regnsplash/fjernt lyn, renderer-culled vindrespons paa
+  dug/reb/vegetation og Quest 2 art-budgetaudit.
   Review-scenerne er IKKE M0b's CoopGame performance/netvaerksgate.
 
   Fusion/netvaerk (src/unity) kommer i Fase 2 EFTER Photon-SDK'en er importeret.
@@ -92,6 +93,8 @@ foreach ($builder in @(
     "ProductionArtUiShowcaseBuilder.cs",
     "ProductionArtUiShowcaseAudit.cs",
     "ProductionArtShowcaseBuilder.cs",
+    "ProductionArtStormCampStoryBuilder.cs",
+    "ProductionArtSignalFinaleStoryBuilder.cs",
     "ProductionArtStormAtmosphereBuilder.cs",
     "ProductionArtStormFxBuilder.cs",
     "ProductionArtWindResponseBuilder.cs",
@@ -99,7 +102,7 @@ foreach ($builder in @(
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
 }
-Note "ProductionArt + runtime state controllers + state appearance + state-transition/hero/material/world/state/decal/VFX/UI/showcase builders -> ProjektOenApp"
+Note "ProductionArt + runtime state controllers + state appearance + camp/finale stories + state-transition/hero/material/world/state/decal/VFX/UI/showcase builders -> ProjektOenApp"
 
 Step "Kopierer XR-config editor"
 $editorDst = Join-Path $ProjectPath "Assets\Editor"
@@ -209,7 +212,7 @@ $showcaseLog = Run-UnityStep "Bygger Stormnatten art showcase" `
     "ProjectOen.Art.Editor.ProductionArtShowcaseBuilder.BuildShowcase" `
     "production-art-showcase.log"
 
-$stormLog = Run-UnityStep "Tilfoejer stormatmosfaere og vaade overflader" `
+$stormLog = Run-UnityStep "Tilfoejer camp/finale historier, stormatmosfaere og vaade overflader" `
     "ProjectOen.Art.Editor.ProductionArtStormAtmosphereBuilder.AddStormAtmosphere" `
     "production-art-storm.log"
 
@@ -232,7 +235,7 @@ Write-Host "`nFase 1 faerdig. Projekt: $ProjectPath" -ForegroundColor Green
 Write-Host "World meshes/prefabs, canonical damaged/wet state appearance, dry/mid/storm materialekalibrering, runtime state catalogs, 6x3 state-transition review, 1:1 hero-readability review, ground decals, production VFX og diegetic UI-prefabs er bygget." -ForegroundColor Green
 Write-Host "State-transition auditten kalder runtime SetState gennem shelter, campfire, beacon, tarp, groundsheet og signal cloth og validerer de forventede appearance-profiler." -ForegroundColor Green
 Write-Host "Hero-readability auditten maaler canonical hand props, heavy/co-op props og world anchors i meter-space uden root scaling." -ForegroundColor Green
-Write-Host "Stormnatten review har state-specifik damage/wetness, regn, vaade overflader, vindblaest debris, campsplash, animeret fjernt lyn og renderer-culled vindrespons paa dug/reb/vegetation." -ForegroundColor Green
+Write-Host "Stormnatten review har state-specifik damage/wetness, camp + signal-finale consequence stories, regn, vaade overflader, vindblaest debris, campsplash, animeret fjernt lyn og renderer-culled vindrespons paa dug/reb/vegetation." -ForegroundColor Green
 Write-Host "State catalogs: Assets\ProjectOEN\ProductionArt\StateSets" -ForegroundColor Green
 Write-Host "State transition audit: Assets\ProjectOEN\ProductionArt\Scenes\StateTransitionShowcase.unity" -ForegroundColor Green
 Write-Host "Hero readability audit: Assets\ProjectOEN\ProductionArt\Scenes\HeroReadabilityShowcase.unity" -ForegroundColor Green
@@ -240,5 +243,5 @@ Write-Host "Material audit: Assets\ProjectOEN\ProductionArt\Scenes\MaterialCalib
 Write-Host "VFX audit: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
 Write-Host "UI audit: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
 Write-Host "Stormnatten art audit: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
-Write-Host "Alle tre review-scener er visual review: VFX, diegetic UI og Stormnatten; materialekalibrering, state-transition og hero-readability er tre yderligere isolerede visual-reviewscener. Ingen af de seks er M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
+Write-Host "VFX, diegetic UI, materialekalibrering, state-transition, hero-readability og Stormnatten er seks visual-reviewscener; ingen af dem er M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
 Write-Host "Naeste: importer Photon Fusion 2 (App ID), koer saa Fase 2 i RUNBOOK.md." -ForegroundColor Green
