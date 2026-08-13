@@ -134,7 +134,7 @@ jobs:
       - name: Validate enriched Stormnatten showcase coverage
         run: python tools/generated_art/validate_showcase_content.py
       - name: Validate Unity production-art wiring
-        run: python tools/generated_art/validate_unity_art_builder.py
+        run: python tools/generated_art/validate_unity_art_builder_compat.py
       - name: Commit generated and production assets
         shell: bash
         run: |
