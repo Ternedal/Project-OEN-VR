@@ -1,0 +1,32 @@
+name: Validate action source
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'examples/stormnatten.scenario.json'
+      - 'content/actions/**'
+      - 'tools/validate_action_cost_mirror.py'
+      - '.github/workflows/action-source-validation.yml'
+  pull_request:
+    paths:
+      - 'examples/stormnatten.scenario.json'
+      - 'content/actions/**'
+      - 'tools/validate_action_cost_mirror.py'
+      - '.github/workflows/action-source-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate placeholder cost mirror
+        run: python tools/validate_action_cost_mirror.py
