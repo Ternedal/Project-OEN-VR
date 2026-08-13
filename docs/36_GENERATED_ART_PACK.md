@@ -10,7 +10,7 @@ The pipeline covers the canonical **148-row asset master** and currently produce
 - **192** dedicated refined non-VFX sprite states;
 - **14** dedicated refined VFX texture states;
 - **134** separate refined world-space OBJ meshes;
-- **184,036 vertices / 82,296 faces** across the final refined world-mesh set;
+- **185,716 vertices / 83,074 faces** across the final refined world-mesh set;
 - **5** separate 1024×1024 transparent RGBA ground decals — 3 puddle states + 2 shoreline-foam states;
 - **11** shared Quest-friendly surface materials;
 - **33** surface maps: 11 × (1024px albedo + 512px normal + 512px metallic/smoothness).
@@ -41,7 +41,7 @@ The broad generator owns deterministic master-list coverage and stable paths/GUI
 
 The pass adds **8,064 vertices** across those 16 states while retaining the existing shared-material contract and bounded physical dimensions. `validate_interaction_readability.py` compares the generated meshes against their canonical baselines and rejects state collapse, missing detail or runaway bounds.
 
-### Stormnatten damage-story geometry
+### Stormnatten camp damage-story geometry
 
 `refine_storm_story_geometry.py` runs after the general set-dressing refinement and upgrades the four canonical EN-023/EN-024 states used by the Stormnatten camp micro-story:
 
@@ -51,6 +51,18 @@ The pass adds **8,064 vertices** across those 16 states while retaining the exis
 - **EN-024 taut boundary rope** — post lashings, bracing stakes and a secondary loaded strand that makes tension readable at VR distance.
 
 The resulting face deltas over the canonical set-dressing baselines are **+404 / +344 / +400 / +344 faces** respectively. `validate_storm_story_geometry.py` requires real extra geometry, shared canonical materials only, distinct state meshes and at most **0.60 m per-axis span growth** over the baseline. The QA gate is intentionally stricter than merely checking that the files changed.
+
+### Signal-finale failure/load geometry
+
+`refine_signal_finale_geometry.py` adds a second bounded structural-damage pass to the canonical signal-finale assets, again without introducing new material families, textures or paths:
+
+- **PR-014 storm-damaged signal cloth** — ragged cloth fingers, surviving lashings and failed rope tails: **+300 faces**;
+- **CS-015 storm-damaged signal beacon** — failed braces, split timber/splinters, surviving lash points and loaded rope tails: **+464 faces**;
+- **EN-019 logs** — slipped/split signal fuel plus surviving bundle lashings: **+272 faces**;
+- **EN-019 ropes** — partial coil, failed ground stake and compact used-under-load spill tails: **+184 faces**;
+- **EN-019 stones** — displaced anchor/ballast stones tied together by visible rope load cues: **+262 faces**.
+
+`validate_signal_finale_geometry.py` compares all five meshes with their canonical source-generator baselines. It requires exact target coverage, meaningful face/vertex deltas, shared production materials only, state-distinct output, exact generated OBJ agreement and no more than **0.65 m per-axis span growth**. The EN-019 rope refinement was physically pulled inward to satisfy this bound rather than weakening the gate.
 
 ## Ground decals
 
@@ -142,7 +154,9 @@ Albedo maps are 1024px. Normal and metallic/smoothness maps are 512px. Unity `.m
 
 `Bootstrap-M0b.ps1` and `Review-ProductionArt.ps1` now exercise the production-art sequence broadly as:
 
-**world prefabs/materials → state appearance/catalogs → decals/VFX/UI specialist reviews → material calibration → state-transition and hero-readability reviews → Stormnatten showcase → camp micro-story + atmosphere/motion/wind → Quest 2 world-art audit**.
+**world prefabs/materials → state appearance/catalogs → decals/VFX/UI specialist reviews → material calibration → state-transition and hero-readability reviews → Stormnatten showcase → camp micro-story → signal-finale micro-story → atmosphere/motion/wind → Quest 2 world-art audit**.
+
+Both handoff scripts explicitly copy **both** `ProductionArtStormCampStoryBuilder.cs` and `ProductionArtSignalFinaleStoryBuilder.cs` into the Unity project. This closes a real handoff gap where the atmosphere builder referenced the camp story type without the fast-review/bootstrap copy list guaranteeing that the source file was present.
 
 Specialist review scenes remain separate from `CoopGame.unity`; the M0b Android build stays the minimal feasibility/performance path.
 
@@ -159,7 +173,9 @@ Specialist review scenes remain separate from `CoopGame.unity`; the M0b Android 
 
 `ProductionArtStormCampStoryBuilder.cs` adds a deterministic **nine-prop physical consequence layer** around the camp: two broken-shelter clusters, a loaded guy rope, a failed/slack rope, damaged wood stock, overturned storage, scattered utensils, rope washout and a shelter-foot puddle. The story layer is rebuilt idempotently and adds **no lights, particles, colliders, rigidbodies or Animation/Animator components**. Its own Unity-side authoring gate limits the layer to **60,000 triangles and 36 renderer material slots**.
 
-`ProductionArtStormAtmosphereBuilder.cs` adds one bounded local rain volume plus the scene-wide event-driven storm wetness driver. `ProductionArtStormFxBuilder.cs` adds bounded wind debris, camp splashes and the two-billboard near/far lightning rig with one shared non-shadowing flash light. `ProductionArtWindResponseBuilder.cs` adds nine renderer-culled legacy animation clips for cloth, rope and vegetation motion.
+`ProductionArtSignalFinaleStoryBuilder.cs` adds a separate deterministic **eight-prop failure field** around the storm-damaged beacon: collapsed crossbrace, loaded guy rope, failed guy rope, scattered signal fuel, washed-out signal rope, loose anchor stones, torn signal-cloth debris and a signal-hill puddle. It resolves canonical prefab variants strictly, keeps every prop within **2.45 m** of the finale centre, strips colliders/rigidbodies/particles/lights/Animation/Animator components, and enforces **50,000 triangles / 32 renderer material slots** for the layer.
+
+`ProductionArtStormAtmosphereBuilder.cs` rebuilds the camp story first, then the signal-finale story, then reopens the showcase and adds one bounded local rain volume plus the scene-wide event-driven storm wetness driver. `ProductionArtStormFxBuilder.cs` adds bounded wind debris, camp splashes and the two-billboard near/far lightning rig with one shared non-shadowing flash light. `ProductionArtWindResponseBuilder.cs` adds nine renderer-culled legacy animation clips for cloth, rope and vegetation motion.
 
 `ProductionArtShowcaseAudit.cs` checks the actually imported scene against repository Quest 2 limits: triangles hard fail >750k, renderer material-slot proxy >130, shadow-casting realtime lights >1, active particle systems >10, Animation components >12, exactly one storm wetness driver, canonical damaged/wet states and the bounded storm motion/wind contracts.
 
@@ -197,10 +213,13 @@ These are review scenes, not gameplay build scenes.
 - 12-sample hero physical-scale readability contract;
 - 16-state VR interaction-readability mesh delta/material/bounds contract;
 - hero, environment, survival/tool and remaining set-dressing refinement floors;
-- **Stormnatten EN-023/EN-024 damage-story geometry deltas, canonical materials, state uniqueness and ≤0.60m per-axis growth**;
+- **Stormnatten EN-023/EN-024 camp damage-story geometry deltas, canonical materials, state uniqueness and ≤0.60 m per-axis growth**;
+- **five signal-finale mesh deltas/material/state/bounds checks with ≤0.65 m per-axis growth**;
+- **eight-prop signal-finale story contract with 2.45 m radius, 50k triangles, 32 material slots and no runtime-cost components**;
 - five decal size/alpha/distinctness/import contracts;
 - enriched Stormnatten showcase + nine-prop camp micro-story coverage;
-- global Unity material/prefab/decal/VFX/UI/review wiring;
+- six specialist review-scene/global Unity wiring contract;
+- explicit CoopGame leak checks for both storm story layers;
 - strict separation from `CoopGame.unity` / the M0b Android build;
 - generated documentation derived from actual final files.
 
