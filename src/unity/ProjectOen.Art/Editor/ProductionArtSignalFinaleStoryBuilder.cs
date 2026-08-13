@@ -1,0 +1,224 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+namespace ProjectOen.Art.Editor
+{
+    /// <summary>
+    /// Adds a deterministic, static failure field around the Stormnatten signal
+    /// beacon finale. It reuses canonical production prefabs only and strips runtime
+    /// cost so the area reads as an urgent repair objective without creating a second
+    /// simulation layer.
+    ///
+    /// The story adds no particles, lights, colliders, rigidbodies, Animator/Animation
+    /// components or runtime update loops.
+    /// </summary>
+    public static class ProductionArtSignalFinaleStoryBuilder
+    {
+        public const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StormnattenArtShowcase.unity";
+        public const string StoryRootName = "Signal Finale Micro Story";
+        public const int ExpectedStoryObjectCount = 8;
+
+        private const string PrefabRoot = "Assets/ProjectOEN/ProductionArt/Prefabs";
+        private const int TriangleHardLimit = 50000;
+        private const int MaterialSlotHardLimit = 32;
+        private const float MaxStoryRadius = 2.45f;
+        private static readonly Vector2 FinaleCenter = new Vector2(5.4f, 5.8f);
+
+        private readonly struct StorySpec
+        {
+            public readonly string name;
+            public readonly string prefix;
+            public readonly string token;
+            public readonly Vector3 position;
+            public readonly Vector3 euler;
+            public readonly float scale;
+            public readonly bool batchingStatic;
+
+            public StorySpec(string objectName, string prefabPrefix, string variantToken,
+                Vector3 worldPosition, Vector3 worldEuler, float uniformScale, bool isBatchingStatic)
+            {
+                name = objectName;
+                prefix = prefabPrefix;
+                token = variantToken;
+                position = worldPosition;
+                euler = worldEuler;
+                scale = uniformScale;
+                batchingStatic = isBatchingStatic;
+            }
+        }
+
+        private static readonly StorySpec[] Specs =
+        {
+            new StorySpec("Collapsed Beacon Crossbrace", "pr-003_", "damaged",
+                new Vector3(5.02f, 0.075f, 6.02f), new Vector3(8f, 34f, 16f), 0.72f, true),
+            new StorySpec("Loaded Beacon Guy Rope", "en-024_", "taut",
+                new Vector3(5.45f, 0.030f, 5.66f), new Vector3(0f, -24f, 0f), 0.88f, true),
+            new StorySpec("Failed Beacon Guy Rope", "en-024_", "slack",
+                new Vector3(6.18f, 0.022f, 5.18f), new Vector3(0f, 42f, 0f), 0.68f, true),
+            new StorySpec("Scattered Signal Fuel", "en-019_", "logs",
+                new Vector3(4.32f, 0.050f, 6.72f), new Vector3(7f, 30f, 10f), 0.68f, true),
+            new StorySpec("Washed-Out Signal Rope", "en-004_", "small",
+                new Vector3(6.52f, 0.025f, 4.82f), new Vector3(0f, -34f, 0f), 0.64f, true),
+            new StorySpec("Loose Beacon Anchor Stones", "pr-010_", "small",
+                new Vector3(6.52f, 0.015f, 6.66f), new Vector3(0f, 18f, 0f), 0.72f, true),
+            new StorySpec("Storm-Torn Signal Cloth Debris", "en-023_", "loose_cloth",
+                new Vector3(4.24f, 0.025f, 4.92f), new Vector3(4f, 56f, -7f), 0.50f, true),
+            new StorySpec("Signal Hill Puddle", "en-011_", "small",
+                new Vector3(5.16f, 0.003f, 4.44f), new Vector3(0f, -12f, 0f), 0.72f, false),
+        };
+
+        [MenuItem("Project OEN/Art/Add Signal Finale Micro Story")]
+        public static void BuildIntoShowcase()
+        {
+            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(ScenePath) == null)
+                throw new InvalidOperationException("Showcase scene missing: " + ScenePath);
+            if (!AssetDatabase.IsValidFolder(PrefabRoot))
+                throw new InvalidOperationException("Production prefab root missing: " + PrefabRoot);
+
+            Scene scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            RemoveExistingStory();
+
+            var root = new GameObject(StoryRootName);
+            foreach (StorySpec spec in Specs)
+                PlaceStoryPrefab(root.transform, spec);
+
+            ValidateCurrentStory(root);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene, ScenePath);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            Debug.Log("[ProjectOEN.Art.SignalFinale] Built " + ExpectedStoryObjectCount +
+                      " deterministic signal-finale consequence props in " + ScenePath +
+                      " with no particles/lights/colliders/physics/animation.");
+        }
+
+        private static void PlaceStoryPrefab(Transform parent, StorySpec spec)
+        {
+            float radius = Vector2.Distance(new Vector2(spec.position.x, spec.position.z), FinaleCenter);
+            if (radius > MaxStoryRadius)
+                throw new InvalidOperationException("Signal finale story object escaped bounded finale radius: " + spec.name);
+
+            GameObject prefab = FindPrefabStrict(spec.prefix, spec.token);
+            var instance = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+            if (instance == null)
+                throw new InvalidOperationException("Could not instantiate signal finale prefab: " + spec.prefix + " / " + spec.token);
+
+            instance.name = spec.name;
+            instance.transform.SetParent(parent, true);
+            instance.transform.position = spec.position;
+            instance.transform.rotation = Quaternion.Euler(spec.euler);
+            instance.transform.localScale = Vector3.one * spec.scale;
+
+            StripRuntimeOnlyCost(instance);
+            if (spec.batchingStatic)
+            {
+                foreach (Transform t in instance.GetComponentsInChildren<Transform>(true))
+                    GameObjectUtility.SetStaticEditorFlags(t.gameObject, StaticEditorFlags.BatchingStatic);
+            }
+        }
+
+        private static GameObject FindPrefabStrict(string prefix, string token)
+        {
+            string p = prefix.ToLowerInvariant();
+            string normalizedToken = (token ?? string.Empty).ToLowerInvariant().Replace('-', '_');
+            string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { PrefabRoot });
+
+            List<string> candidates = guids
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Where(path => Path.GetFileNameWithoutExtension(path).ToLowerInvariant().StartsWith(p))
+                .OrderBy(path => path, StringComparer.Ordinal)
+                .ToList();
+
+            string chosen = candidates.FirstOrDefault(path =>
+                Path.GetFileNameWithoutExtension(path).ToLowerInvariant().Replace('-', '_').Contains(normalizedToken));
+            if (string.IsNullOrEmpty(chosen))
+                throw new InvalidOperationException("Canonical signal finale prefab missing: " + prefix + " / " + token);
+
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(chosen);
+            if (prefab == null)
+                throw new InvalidOperationException("Canonical signal finale prefab could not be loaded: " + chosen);
+            return prefab;
+        }
+
+        private static void StripRuntimeOnlyCost(GameObject root)
+        {
+            foreach (Collider component in root.GetComponentsInChildren<Collider>(true))
+                UnityEngine.Object.DestroyImmediate(component);
+            foreach (Rigidbody component in root.GetComponentsInChildren<Rigidbody>(true))
+                UnityEngine.Object.DestroyImmediate(component);
+            foreach (ParticleSystem component in root.GetComponentsInChildren<ParticleSystem>(true))
+                UnityEngine.Object.DestroyImmediate(component.gameObject);
+            foreach (Light component in root.GetComponentsInChildren<Light>(true))
+                UnityEngine.Object.DestroyImmediate(component);
+            foreach (Animation component in root.GetComponentsInChildren<Animation>(true))
+                UnityEngine.Object.DestroyImmediate(component);
+            foreach (Animator component in root.GetComponentsInChildren<Animator>(true))
+                UnityEngine.Object.DestroyImmediate(component);
+        }
+
+        private static void ValidateCurrentStory(GameObject root)
+        {
+            if (root.transform.childCount != ExpectedStoryObjectCount)
+                throw new InvalidOperationException("Signal finale story expected " + ExpectedStoryObjectCount +
+                                                    " direct props, found " + root.transform.childCount + ".");
+            if (root.GetComponentsInChildren<Collider>(true).Length != 0)
+                throw new InvalidOperationException("Signal finale story must remain collider-free.");
+            if (root.GetComponentsInChildren<Rigidbody>(true).Length != 0)
+                throw new InvalidOperationException("Signal finale story must remain physics-free.");
+            if (root.GetComponentsInChildren<ParticleSystem>(true).Length != 0)
+                throw new InvalidOperationException("Signal finale story must add no particle systems.");
+            if (root.GetComponentsInChildren<Light>(true).Length != 0)
+                throw new InvalidOperationException("Signal finale story must add no lights.");
+            if (root.GetComponentsInChildren<Animation>(true).Length != 0 ||
+                root.GetComponentsInChildren<Animator>(true).Length != 0)
+                throw new InvalidOperationException("Signal finale story must add no animation components.");
+
+            long triangles = 0;
+            foreach (MeshFilter filter in root.GetComponentsInChildren<MeshFilter>(true))
+            {
+                if (filter.sharedMesh != null)
+                    triangles += filter.sharedMesh.triangles.LongLength / 3L;
+            }
+
+            Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+            int materialSlots = renderers.Sum(renderer =>
+                renderer.sharedMaterials == null ? 0 : renderer.sharedMaterials.Length);
+            if (triangles > TriangleHardLimit)
+                throw new InvalidOperationException("Signal finale story triangle proxy " + triangles +
+                                                    " exceeds " + TriangleHardLimit + ".");
+            if (materialSlots > MaterialSlotHardLimit)
+                throw new InvalidOperationException("Signal finale story material-slot proxy " + materialSlots +
+                                                    " exceeds " + MaterialSlotHardLimit + ".");
+
+            foreach (StorySpec spec in Specs)
+            {
+                Transform child = root.transform.Find(spec.name);
+                if (child == null)
+                    throw new InvalidOperationException("Signal finale story object missing: " + spec.name);
+
+                string prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(child.gameObject);
+                string stem = string.IsNullOrEmpty(prefabPath)
+                    ? string.Empty
+                    : Path.GetFileNameWithoutExtension(prefabPath).ToLowerInvariant().Replace('-', '_');
+                string expectedPrefix = spec.prefix.ToLowerInvariant();
+                string expectedToken = spec.token.ToLowerInvariant().Replace('-', '_');
+                if (!stem.StartsWith(expectedPrefix, StringComparison.Ordinal) || !stem.Contains(expectedToken))
+                    throw new InvalidOperationException("Wrong canonical signal finale state on " + spec.name + ": " + stem);
+            }
+        }
+
+        private static void RemoveExistingStory()
+        {
+            GameObject existing = GameObject.Find(StoryRootName);
+            if (existing != null)
+                UnityEngine.Object.DestroyImmediate(existing);
+        }
+    }
+}

@@ -8,10 +8,10 @@ using UnityEngine.Rendering;
 namespace ProjectOen.Art.Editor
 {
     /// <summary>
-    /// Adds the deterministic camp-consequence micro-story, a cheap local rain volume
-    /// and one event-driven wet-surface driver to the generated Stormnatten art showcase.
-    /// Rain has no collision or shadows; wetness uses MaterialPropertyBlocks and no
-    /// per-frame Update loop.
+    /// Adds the deterministic camp-consequence and signal-finale micro-stories, a cheap
+    /// local rain volume and one event-driven wet-surface driver to the generated
+    /// Stormnatten art showcase. Rain has no collision or shadows; wetness uses
+    /// MaterialPropertyBlocks and no per-frame Update loop.
     /// </summary>
     public static class ProductionArtStormAtmosphereBuilder
     {
@@ -28,10 +28,11 @@ namespace ProjectOen.Art.Editor
             if (AssetDatabase.LoadAssetAtPath<SceneAsset>(ScenePath) == null)
                 throw new InvalidOperationException("Showcase scene missing: " + ScenePath);
 
-            // The camp consequence layer is part of the canonical Stormnatten visual
-            // pass. It rebuilds itself idempotently before rain/wetness are authored,
-            // so every existing bootstrap/review entrypoint receives the story layer.
+            // Both consequence layers are canonical parts of the Stormnatten visual
+            // pass. They rebuild idempotently before rain/wetness are authored so every
+            // bootstrap/review entrypoint receives the camp and finale failure fields.
             ProductionArtStormCampStoryBuilder.BuildIntoShowcase();
+            ProductionArtSignalFinaleStoryBuilder.BuildIntoShowcase();
 
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
             RemoveExistingAtmosphere();
@@ -86,7 +87,7 @@ namespace ProjectOen.Art.Editor
             AssetDatabase.Refresh();
 
             Debug.Log("[ProjectOEN.Art] Added Quest-friendly storm atmosphere to " + ScenePath +
-                      " (camp micro-story + 1 rain particle system, max 180 particles, no collision/shadows; " +
+                      " (camp micro-story + signal finale micro-story + 1 rain particle system, max 180 particles, no collision/shadows; " +
                       "event-driven surface wetness=" + ShowcaseWetness.ToString("0.00") + ").");
         }
 
