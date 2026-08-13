@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PROJECT ØEN — M-Pre printpakke</title>
+  <style>
+    :root { font-family: Arial, Helvetica, sans-serif; color: #111; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #eee; }
+    main { width: 210mm; margin: 0 auto; background: #fff; }
+    .page { min-height: 297mm; padding: 12mm; page-break-after: always; break-after: page; }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+    h1,h2,h3 { margin: 0 0 6mm; }
+    h1 { font-size: 22pt; }
+    h2 { font-size: 16pt; }
+    h3 { font-size: 12pt; }
+    p, li, td, th { font-size: 10.5pt; line-height: 1.35; }
+    .muted { color: #555; }
+    .notice { border: 1.2mm solid #111; padding: 5mm; margin: 6mm 0; font-weight: 700; }
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 7mm; }
+    .task { border: .6mm solid #111; padding: 6mm; min-height: 78mm; break-inside: avoid; }
+    .task .cost { font-size: 20pt; float: right; font-weight: 800; }
+    .rule { border-top: .4mm solid #444; padding-top: 3mm; margin-top: 5mm; }
+    table { width: 100%; border-collapse: collapse; margin: 4mm 0 7mm; }
+    th, td { border: .35mm solid #444; padding: 2.5mm; vertical-align: top; }
+    .blank { height: 12mm; }
+    .notes { height: 28mm; }
+    .checks { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 8mm; }
+    .small { font-size: 9pt; }
+    @page { size: A4; margin: 0; }
+    @media print { body { background: #fff; } main { width: auto; margin: 0; } }
+  </style>
+</head>
+<body>
+<main>
+  <section class="page">
+    <h1>PROJECT ØEN — M-Pre</h1>
+    <h2>Printpakke til human greybox-test</h2>
+    <div class="notice">Denne pakke bruges kun til faktiske menneskelige tests. AI, simulation eller designerens egen vurdering kan ikke bestå M-Pre-gaten.</div>
+    <p><strong>Hypotese:</strong> Skaber fordelingen af fire indsatsmarkører på for få opgaver reel diskussion mellem to spillere?</p>
+    <p><strong>Du skal bruge:</strong> to testere, fire ens markører, én d6, de seks opgavekort på de næste sider og ét sessionsark pr. session.</p>
+    <p><strong>Krav til samlet gate:</strong> præcis tre gyldige sessioner, mindst to forskellige testerpar og ingen brug af gavemodtageren.</p>
+    <h2>Facilitator — kort reference</h2>
+    <ol>
+      <li>Læs introen ordret fra <code>FACILITATOR_SCRIPT.md</code>. Forklar ikke strategi.</li>
+      <li>Start tidtagning når diskussionen om dagens fordeling begynder.</li>
+      <li>Spillerne har fire markører pr. dag og skal blive enige.</li>
+      <li>Stop tiden når begge bekræfter, at fordelingen er endelig.</li>
+      <li>Slå d6 for igangsatte opgaver og anvend kortets udfald.</li>
+      <li>Opdatér Mad, Ly, Helbred og Signal. Alle starter på 2.</li>
+      <li>Gentag i tre dage. Afslør først stormkravene efter dag 3.</li>
+      <li>Stil debriefspørgsmålene i den angivne rækkefølge.</li>
+    </ol>
+    <h3>Tilladte regelsvar</h3>
+    <ul>
+      <li>Om opgaver: “Brug teksten på kortet.”</li>
+      <li>Om stormen: “Alle spor betyder noget, men I kender ikke tærsklerne.”</li>
+      <li>Om strategi: “Det skal I beslutte sammen.”</li>
+      <li>Én ekstra markør over kravet forbedrer succes fra 3–6 til 2–6. Mere giver ingen ekstra bonus.</li>
+    </ul>
+    <h3>Stop sessionen som ugyldig hvis</h3>
+    <ul>
+      <li>reglerne er misforstået så meget, at samme mekanik ikke længere måles,</li>
+      <li>en spiller ikke ønsker at fortsætte, eller</li>
+      <li>stormtærsklerne afsløres før dag 3.</li>
+    </ul>
+    <p class="muted small">Source of truth: docs/35_M_PRE_GREYBOX_GATE.md, FACILITATOR_SCRIPT.md og TASK_CARDS.md.</p>
+  </section>
+
+  <section class="page">
+    <h1>Opgavekort — ark 1</h1>
+    <div class="cards">
+      <article class="task"><span class="cost">1</span><h2>SKAF MAD</h2><p><strong>Succes:</strong> Mad +2</p><p><strong>Fiasko:</strong> Mad +0, Helbred −1</p><p class="rule"><strong>Normal:</strong> 1–2 fiasko · 3–6 succes<br><strong>Én ekstra markør:</strong> 1 fiasko · 2–6 succes</p></article>
+      <article class="task"><span class="cost">2</span><h2>FORSTÆRK LY</h2><p><strong>Succes:</strong> Ly +3</p><p><strong>Fiasko:</strong> Ly +1</p><p class="rule"><strong>Normal:</strong> 1–2 fiasko · 3–6 succes<br><strong>Én ekstra markør:</strong> 1 fiasko · 2–6 succes</p></article>
+      <article class="task"><span class="cost">1</span><h2>HOLD BÅL</h2><p><strong>Succes:</strong> Helbred +1, Signal +1</p><p><strong>Fiasko:</strong> Helbred −1</p><p class="rule"><strong>Normal:</strong> 1–2 fiasko · 3–6 succes<br><strong>Én ekstra markør:</strong> 1 fiasko · 2–6 succes</p></article>
+      <article class="task"><span class="cost">3</span><h2>BYG SIGNALBÅL</h2><p><strong>Succes:</strong> Signal +4</p><p><strong>Fiasko:</strong> Signal +1</p><p class="rule"><strong>Normal:</strong> 1–2 fiasko · 3–6 succes<br><strong>Én ekstra markør:</strong> 1 fiasko · 2–6 succes</p></article>
+    </div>
+    <p class="notice">Bordregel: Der findes kun fire indsatsmarkører pr. dag. Markørerne nulstilles mellem dagene.</p>
+  </section>
+
+  <section class="page">
+    <h1>Opgavekort — ark 2</h1>
+    <div class="cards">
+      <article class="task"><span class="cost">1</span><h2>BEHANDL SKADE</h2><p><strong>Succes:</strong> Helbred +2</p><p><strong>Fiasko:</strong> Helbred +0</p><p class="rule"><strong>Normal:</strong> 1–2 fiasko · 3–6 succes<br><strong>Én ekstra markør:</strong> 1 fiasko · 2–6 succes</p></article>
+      <article class="task"><span class="cost">2</span><h2>UDFORSK KYSTEN</h2><p><strong>Succes:</strong> Vælg selv +2 på ét statusspor</p><p><strong>Fiasko:</strong> Helbred −2</p><p class="rule"><strong>Normal:</strong> 1–2 fiasko · 3–6 succes<br><strong>Én ekstra markør:</strong> 1 fiasko · 2–6 succes</p></article>
+    </div>
+    <div class="notice">Klip kortene ud. Brug kun kortenes tekst til regelspørgsmål under testen.</div>
+  </section>
+
+  <section class="page">
+    <h1>M-Pre sessionsark</h1>
+    <p>Session-ID: ____________________ &nbsp;&nbsp; Par-ID: ____________________ &nbsp;&nbsp; Dato: ____________________</p>
+    <p>Faktisk menneskelig session: ☐ Ja &nbsp;&nbsp; Gavemodtager brugt: ☐ Nej</p>
+    <table><tr><th>Spor</th><th>Start</th><th>Efter dag 1</th><th>Efter dag 2</th><th>Efter dag 3</th></tr><tr><td>Mad</td><td>2</td><td></td><td></td><td></td></tr><tr><td>Ly</td><td>2</td><td></td><td></td><td></td></tr><tr><td>Helbred</td><td>2</td><td></td><td></td><td></td></tr><tr><td>Signal</td><td>2</td><td></td><td></td><td></td></tr></table>
+    <table><tr><th>Dag</th><th>Forhandlingstid</th><th>Uenighed?</th><th>Meningsskift</th><th>Første forslag A/B</th></tr><tr><td>1</td><td></td><td>Ja / Nej</td><td></td><td></td></tr><tr><td>2</td><td></td><td>Ja / Nej</td><td></td><td></td></tr><tr><td>3</td><td></td><td>Ja / Nej</td><td></td><td></td></tr></table>
+    <h3>Observationer — adfærd/argumenter, ikke fortolkning</h3><table><tr><td class="notes"></td></tr><tr><td class="notes"></td></tr></table>
+    <h3>Efter dag 3 — storm</h3>
+    <p>Afslør først nu: <strong>Ly ≥ 6 · Helbred ≥ 4 · Signal ≥ 5</strong>. Alle tre skal være opfyldt.</p>
+    <table><tr><th>Krav</th><th>Faktisk</th><th>Bestået?</th></tr><tr><td>Ly ≥ 6</td><td></td><td>Ja / Nej</td></tr><tr><td>Helbred ≥ 4</td><td></td><td>Ja / Nej</td></tr><tr><td>Signal ≥ 5</td><td></td><td>Ja / Nej</td></tr></table>
+  </section>
+
+  <section class="page">
+    <h1>Debrief og sessionsgate</h1>
+    <ol>
+      <li>Hvilket valg var sværest at blive enige om?<div class="blank"></div></li>
+      <li>Var der et tidspunkt, hvor den anden spiller fik dig til at ændre mening? Hvad var argumentet?<div class="blank"></div></li>
+      <li>Hvilken beslutning ville I ændre, hvis I spillede igen?<div class="blank"></div></li>
+      <li>Følte I mest, at I diskuterede hvad I skulle prioritere — eller fordelte I bare opgaver mellem jer?<div class="blank"></div></li>
+      <li>Var der et tidspunkt, hvor én af jer ikke vidste hvad vedkommende skulle bidrage med?<div class="blank"></div></li>
+      <li>Var terningeudfaldene irriterende på en god måde, ligegyldige eller urimelige? Hvorfor?<div class="blank"></div></li>
+      <li>Ville I have lyst til at spille én runde mere med andre opgaver? Hvorfor/hvorfor ikke?<div class="blank"></div></li>
+    </ol>
+    <h2>Sessionsgate</h2>
+    <table><tr><th>Kriterium</th><th>Tærskel</th><th>Resultat</th></tr><tr><td>Median forhandlingstid</td><td>≥ 45 sek./dag</td><td>Grøn / Rød</td></tr><tr><td>Uenighed</td><td>≥ 1 dag</td><td>Grøn / Rød</td></tr><tr><td>Administration</td><td>Nej</td><td>Grøn / Rød</td></tr></table>
+    <p><strong>Sessionen samlet:</strong> GRØN / RØD / UGYLDIG</p>
+    <p><strong>Vigtigste overraskelse:</strong></p><div class="notes"></div>
+    <p class="muted small">Den samlede projektgate afgøres først efter tre gyldige menneskelige sessioner. Brug tools/evaluate_mpre.py til den deterministiske beregning.</p>
+  </section>
+</main>
+</body>
+</html>
