@@ -28,9 +28,17 @@ namespace ProjectOen.Audio
             BuildBanks();
         }
 
+        private void OnEnable()
+        {
+            // On the first enable Start() owns initial-profile setup. On later enables the
+            // controller must restore the last settled profile because OnDisable() stops both banks.
+            if (_banks != null && _currentProfile != null)
+                ApplyImmediate(_currentProfile);
+        }
+
         private void Start()
         {
-            if (_initialProfile != null)
+            if (_initialProfile != null && _currentProfile == null)
                 ApplyImmediate(_initialProfile);
         }
 
@@ -66,7 +74,7 @@ namespace ProjectOen.Audio
 
         public void ApplyImmediate(AudioAmbienceProfile profile)
         {
-            if (profile == null)
+            if (profile == null || _banks == null)
                 return;
 
             if (_transitionRoutine != null)
