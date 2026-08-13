@@ -1,20 +1,15 @@
 <#
   Fast visual-review loop for Project OEN production art.
 
-  This is deliberately separate from Bootstrap-M0b.ps1. It does not recreate the
-  Unity project, touch Packages/, configure XR, import Fusion, or build the M0b APK.
-  It syncs production art + lightweight runtime state controllers, rebuilds world
-  prefabs, canonical damaged/wet state appearance, dry/mid/storm material calibration,
-  state catalogs, the 6x3 state-transition matrix, 1:1 hero-prop readability scene,
-  decals, VFX and UI, runs isolated state/material/hero/VFX/physical-UI audits, then
-  the Stormnatten showcase with camp + signal-finale consequence stories, rain,
-  wetness, bounded motion FX, renderer-culled wind-responsive dressing and the
-  Quest 2 art audit.
+  Default mode keeps the established one-Unity-process-per-step flow for debugging.
+  -OneShot runs the same build/audit chain through ProductionArtBatchVerification
+  inside one real Unity Editor process and writes a machine-readable JSON report.
 #>
 
 param(
     [Parameter(Mandatory = $true)][string]$UnityPath,
     [string]$ProjectPath = "$PSScriptRoot\..\..\..\ProjektOenApp",
+    [switch]$OneShot,
     [switch]$OpenEditor
 )
 
@@ -73,6 +68,7 @@ foreach ($builder in @(
     "ProductionArtStormFxBuilder.cs",
     "ProductionArtWindResponseBuilder.cs",
     "ProductionArtShowcaseAudit.cs",
+    "ProductionArtBatchVerification.cs",
     "ProductionArtReviewMenu.cs"
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
@@ -98,6 +94,64 @@ function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
         exit 1
     }
     if (Test-Path $log) { Select-String -Path $log -Pattern "\[ProjectOEN.Art" | ForEach-Object { Note $_.Line.Trim() } }
+}
+
+function Open-ShowcaseEditor {
+    Step "Aabner Unity visual-review"
+    $args = @("-projectPath", $ProjectPath, "-executeMethod", "ProjectOen.Art.Editor.ProductionArtReviewMenu.OpenShowcase")
+    Start-Process -FilePath $UnityPath -ArgumentList $args | Out-Null
+    Note "Unity starter med Stormnatten-showcase som aktiv scene."
+}
+
+if ($OneShot) {
+    Step "Koerer samlet on-machine Unity art verification"
+    $batchLog = Join-Path $PSScriptRoot "review-art-one-shot.log"
+    $projectReport = Join-Path $ProjectPath "ProjectOEN-ArtVerification.json"
+    $reviewReport = Join-Path $PSScriptRoot "review-art-verification.json"
+    Remove-Item $projectReport -Force -ErrorAction SilentlyContinue
+    Remove-Item $reviewReport -Force -ErrorAction SilentlyContinue
+
+    & $UnityPath -batchmode -quit -nographics `
+        -projectPath $ProjectPath `
+        -buildTarget Android `
+        -executeMethod "ProjectOen.Art.Editor.ProductionArtBatchVerification.RunAll" `
+        -logFile $batchLog
+    $exit = $LASTEXITCODE
+
+    if (Test-Path $batchLog) {
+        Select-String -Path $batchLog -Pattern "\[ProjectOEN.Art.Batch\]|error CS|Exception:" | ForEach-Object {
+            if ($_.Line -match "FAIL|error CS|Exception:") { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red }
+            else { Note $_.Line.Trim() }
+        }
+    }
+
+    if ($exit -ne 0) {
+        Write-Host "`nSamlet Unity art verification fejlede (Unity exit $exit)." -ForegroundColor Red
+        exit 1
+    }
+    if (-not (Test-Path $projectReport)) {
+        throw "Unity afsluttede uden verification-rapport: $projectReport"
+    }
+
+    $report = Get-Content $projectReport -Raw | ConvertFrom-Json
+    if ($report.status -ne "PASS" -or [int]$report.failed -ne 0) {
+        Write-Host "Unity verification-rapport er ikke groen: status=$($report.status), failed=$($report.failed)" -ForegroundColor Red
+        $report.steps | Where-Object { $_.status -ne "PASS" } | ForEach-Object {
+            Write-Host "   FAIL $($_.name): $($_.error)" -ForegroundColor Red
+        }
+        exit 1
+    }
+
+    Copy-Item $projectReport $reviewReport -Force
+    Step "One-shot resultat"
+    Write-Host "PASS: $($report.passed) Unity build/audit-trin i Unity $($report.unityVersion)." -ForegroundColor Green
+    $report.steps | ForEach-Object { Note ("PASS {0} ({1} ms)" -f $_.name, $_.durationMs) }
+    Write-Host "Maskinrapport: $reviewReport" -ForegroundColor Green
+    Write-Host "Unity-log: $batchLog" -ForegroundColor Green
+    Write-Host "M0b CoopGame/build settings er ikke aendret; de seks review-scener forbliver build-isolerede." -ForegroundColor Green
+
+    if ($OpenEditor) { Open-ShowcaseEditor }
+    return
 }
 
 Run-UnityArtStep "Bygger production-art prefabs" `
@@ -201,9 +255,4 @@ Write-Host "VFX prefabs: Assets\ProjectOEN\ProductionArt\VfxPrefabs" -Foreground
 Write-Host "UI prefabs: Assets\ProjectOEN\ProductionArt\UiPrefabs" -ForegroundColor Green
 Write-Host "M0b CoopGame/build settings er ikke aendret." -ForegroundColor Green
 
-if ($OpenEditor) {
-    Step "Aabner Unity visual-review"
-    $args = @("-projectPath", $ProjectPath, "-executeMethod", "ProjectOen.Art.Editor.ProductionArtReviewMenu.OpenShowcase")
-    Start-Process -FilePath $UnityPath -ArgumentList $args | Out-Null
-    Note "Unity starter med Stormnatten-showcase som aktiv scene."
-}
+if ($OpenEditor) { Open-ShowcaseEditor }
