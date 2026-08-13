@@ -1,0 +1,101 @@
+{
+  "scenarioId": "SCN_STORMNATTEN_001",
+  "version": 1,
+  "status": "authoring-source-v0.1",
+  "balanceStatus": "qualitative-only-until-M3-M4",
+  "events": [
+    {
+      "id": "EVT_OPEN_FOOD_001",
+      "kind": "delayed_setup",
+      "triggerIntent": "food storage remains unsecured at dusk",
+      "addsTags": ["SCENT_HIGH"],
+      "schedules": ["EVT_ANIMAL_CAMP_001"],
+      "copyKeys": ["event.food_open.warning"],
+      "roles": ["secure_food", "support_seal"],
+      "failForward": "risk persists to later night; scenario continues"
+    },
+    {
+      "id": "EVT_ANIMAL_CAMP_001",
+      "kind": "delayed_consequence",
+      "triggerIntent": "SCENT_HIGH remains active at Night 2",
+      "requiresTags": ["SCENT_HIGH"],
+      "copyKeys": ["event.animal.approach"],
+      "audioCueIds": ["SFX_ANIMAL_DISTANT_001", "SFX_ANIMAL_CAMP_APPROACH_001", "SFX_ANIMAL_RETREAT_001", "SFX_FOOD_DISTURBED_001"],
+      "roles": ["maintain_deterrent_fire", "secure_food"],
+      "failForward": "food/camp threat may worsen; no combat hard fail"
+    },
+    {
+      "id": "EVT_SPLINTER_001",
+      "kind": "immediate_consequence",
+      "triggerIntent": "poor wood/tool execution with an injury opportunity",
+      "addsTags": ["MINOR_INJURY"],
+      "roles": ["continue_action", "support_recovery"],
+      "failForward": "current action retains partial progress; injury becomes later tradeoff"
+    },
+    {
+      "id": "EVT_UNTREATED_WOUND_001",
+      "kind": "delayed_consequence",
+      "triggerIntent": "known injury remains untreated into wet/cold or storm state",
+      "requiresTags": ["MINOR_INJURY"],
+      "addsTags": ["INFECTION_RISK"],
+      "copyKeys": ["event.injury.untreated"],
+      "roles": ["treat_or_stabilize", "support_material_light"],
+      "failForward": "later fatigue/penalty pressure; never hidden instant incapacitation"
+    },
+    {
+      "id": "EVT_ROOF_LEAK_001",
+      "kind": "camp_consequence",
+      "triggerIntent": "weak shelter enters rain/night/storm pressure",
+      "requiresTags": ["SHELTER_WEAK"],
+      "copyKeys": ["event.roof_leak.warning"],
+      "audioCueIds": ["SFX_RAIN_L2_001", "SFX_SHELTER_ROPE_FLAP_001", "SFX_SHELTER_CREAK_HIGH_001"],
+      "roles": ["stabilize_cover", "repair_fastening"],
+      "failForward": "leak can leave wet/cold state; scenario continues"
+    },
+    {
+      "id": "EVT_TOOL_BREAK_001",
+      "kind": "resource_consequence",
+      "scopeStatus": "authoring-only-while-tool-durability-deferred",
+      "triggerIntent": "tool quality/durability system creates a severe partial outcome",
+      "copyKeys": ["event.tool.broken"],
+      "roles": ["improvise_task", "prepare_alternative"],
+      "failForward": "required progress remains possible via extra supplies/time or alternative"
+    },
+    {
+      "id": "EVT_DRY_FUEL_FOUND_001",
+      "kind": "positive_opportunity",
+      "triggerIntent": "exploration/gathering creates an earned fire-prep opportunity",
+      "copyKeys": ["event.dry_fuel.found"],
+      "addsTags": ["DRY_FUEL_AVAILABLE"],
+      "roles": ["identify_cache", "recover_carry"],
+      "failForward": "optional opportunity; missing it does not block finale"
+    },
+    {
+      "id": "EVT_EXTRA_HERBS_001",
+      "kind": "positive_opportunity",
+      "triggerIntent": "good foraging/exploration reveals additional treatment capacity",
+      "copyKeys": ["event.herbs.extra"],
+      "addsTags": ["EXTRA_TREATMENT_AVAILABLE"],
+      "roles": ["identify", "gather_bundle"],
+      "failForward": "optional buffer; no required branch"
+    },
+    {
+      "id": "EVT_DISTANT_SMOKE_001",
+      "kind": "narrative_teaser",
+      "triggerIntent": "exploration reveals distant world activity",
+      "copyKeys": ["event.smoke.distant"],
+      "roles": ["spot", "confirm_direction"],
+      "failForward": "observation only; must not create a false current objective"
+    },
+    {
+      "id": "EVT_RADIO_FRAGMENT_001",
+      "kind": "narrative_progression",
+      "randomSelection": false,
+      "triggerIntent": "scenario progression at Night 1 and Day 3",
+      "copyKeys": ["vo.radio.night1.01", "vo.radio.night1.02", "vo.radio.night1.03", "vo.radio.day3.01", "vo.radio.day3.02", "vo.radio.day3.03"],
+      "audioCueIds": ["SFX_RADIO_STATIC_LOW_001", "SFX_RADIO_SIGNAL_FOUND_001"],
+      "roles": ["listen_read_subtitles", "inspect_world_plan"],
+      "failForward": "critical rescue objective cannot be randomly missed"
+    }
+  ]
+}

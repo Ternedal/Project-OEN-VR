@@ -1,0 +1,16 @@
+{
+  "status": "proposal-not-canonical",
+  "issue": 8,
+  "proposal": "explicit-onboarding-sequence",
+  "scenarioId": "SCN_STORMNATTEN_001",
+  "steps": [
+    {"id": "ONB_FIND_PARTNER", "purpose": "orient to partner", "hintKey": "hint.look_partner"},
+    {"id": "ONB_TELEPORT", "purpose": "learn safe locomotion", "hintKey": "hint.teleport"},
+    {"id": "ONB_GRAB", "purpose": "learn basic grab", "hintKey": "hint.grab_light"},
+    {"id": "ONB_HEAVY_CRATE", "purpose": "first mandatory cooperation", "hintKeys": ["hint.heavy_need_two", "hint.heavy_coordinate"]},
+    {"id": "ONB_OPEN_CRATE", "purpose": "reveal starter tools/context", "hintKey": "hint.open_crate"},
+    {"id": "ONB_FIRST_FIRE", "purpose": "teach dual-role physical execution", "scopeStatus": "owner-decision-pending", "brief": "design/interactions/FIRE_START.md"},
+    {"id": "ONB_FIRST_MARKER", "purpose": "bridge physical survival to planning table"}
+  ],
+  "rule": "sequence semantics are content-owned; runtime/schema shape requires accepted contract before implementation"
+}

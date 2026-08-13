@@ -1,0 +1,21 @@
+{
+  "status": "proposal-not-canonical",
+  "issue": 8,
+  "proposal": "explicit-day3-planning-phase",
+  "scenarioId": "SCN_STORMNATTEN_001",
+  "phase": {
+    "id": "DAY3_PLANNING",
+    "type": "planning",
+    "checkpoint": true,
+    "purpose": "last deliberate tradeoff before storm",
+    "candidateActions": [
+      "INT_REINFORCE_ROOF_006",
+      "INT_BUILD_SIGNAL_009",
+      "INT_TREAT_INJURY_011",
+      "INT_SECURE_SUPPLIES_005"
+    ],
+    "availabilityRule": "actual visible actions derive from current state/unlocks; candidate list is not final balance",
+    "copyKey": "phase.day3.dawn"
+  },
+  "balanceStatus": "action set and values require M3-M4 evidence"
+}
