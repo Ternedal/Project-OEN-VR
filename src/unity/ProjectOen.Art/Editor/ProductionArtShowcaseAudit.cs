@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using ProjectOen.Art.Runtime;
 using UnityEditor;
@@ -21,9 +22,10 @@ namespace ProjectOen.Art.Editor
     ///
     /// The Stormnatten art scene must also contain exactly one event-driven
     /// ProductionArtWetnessDriver at the authored storm wetness range plus the
-    /// bounded motion-FX layer, a two-billboard near/far lightning rig and nine
-    /// renderer-culled wind-responsive dressing objects. This keeps the scene
-    /// alive without per-object Update() scripts.
+    /// bounded motion-FX layer, a two-billboard near/far lightning rig, nine
+    /// renderer-culled wind-responsive dressing objects and the canonical damaged/
+    /// wet storm-pressure prefab states for camp and signal landmarks. This keeps
+    /// the scene alive and narratively specific without per-object Update() scripts.
     ///
     /// Renderer material-slot count is used as a conservative draw-call proxy in
     /// this editor audit. Device profiling remains authoritative for final draw calls.
@@ -54,6 +56,19 @@ namespace ProjectOen.Art.Editor
             "Palm Frond Clutter A",
             "Palm Frond Clutter B",
             "Vines",
+        };
+
+        // Scene object name, prefab filename prefix, required variant token.
+        // Construction-state rows encode their state in the asset ID/name and use
+        // the default variant, so they intentionally have no third-token requirement.
+        private static readonly string[][] StormStateExpectations =
+        {
+            new[] { "Storm-Damaged Shelter", "cs-004_", "" },
+            new[] { "Campfire Nearly Out Wet", "cs-010_", "" },
+            new[] { "Wet Tarp", "pr-001_", "wet" },
+            new[] { "Wet Camp Groundsheet", "en-016_", "wet" },
+            new[] { "Signal Beacon Storm Damaged", "cs-015_", "" },
+            new[] { "Signal Cloth", "pr-014_", "storm_damaged" },
         };
 
         [MenuItem("Project OEN/Art/Audit Stormnatten Showcase Budget")]
@@ -133,6 +148,7 @@ namespace ProjectOen.Art.Editor
                                            NearLightningName, typeof(SpriteRenderer), "m_Color.a", 0.90f);
             bool lightPulse = HasPulseCurve(lightningAnimation == null ? null : lightningAnimation.clip,
                                             string.Empty, typeof(Light), "m_Intensity", 0.60f);
+            int matchingStormStates = StormStateExpectations.Count(MatchesStormState);
 
             Debug.Log("[ProjectOEN.Art.Budget] Stormnatten showcase audit");
             Debug.Log("[ProjectOEN.Art.Budget] triangles=" + triangles +
@@ -147,6 +163,7 @@ namespace ProjectOen.Art.Editor
                       " hard<=" + AnimationComponentHardLimit + " windReady=" + readyWindAnimations + "/" + WindResponseTargets.Length);
             Debug.Log("[ProjectOEN.Art.Budget] wetnessDrivers=" + wetnessDrivers.Length +
                       (wetnessDrivers.Length == 1 ? " wetness=" + wetnessDrivers[0].Wetness.ToString("0.00") : string.Empty));
+            Debug.Log("[ProjectOEN.Art.Budget] stormStates=" + matchingStormStates + "/" + StormStateExpectations.Length);
             Debug.Log("[ProjectOEN.Art.Budget] stormMotionFx=" +
                       "wind:" + (windDebris != null ? windDebris.main.maxParticles.ToString() : "missing") +
                       " splash:" + (rainSplashes != null ? rainSplashes.main.maxParticles.ToString() : "missing") +
@@ -173,6 +190,25 @@ namespace ProjectOen.Art.Editor
             else if (wetnessDrivers[0].Wetness < StormWetnessMin || wetnessDrivers[0].Wetness > StormWetnessMax)
                 hardFailures.Add("storm wetness " + wetnessDrivers[0].Wetness.ToString("0.00") +
                                  " outside " + StormWetnessMin.ToString("0.00") + "-" + StormWetnessMax.ToString("0.00"));
+
+            foreach (string[] expectation in StormStateExpectations)
+            {
+                if (MatchesStormState(expectation))
+                    continue;
+
+                GameObject target = GameObject.Find(expectation[0]);
+                if (target == null)
+                {
+                    hardFailures.Add("canonical storm-state object missing: " + expectation[0]);
+                    continue;
+                }
+
+                string prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(target);
+                string stem = string.IsNullOrEmpty(prefabPath)
+                    ? "<not a prefab instance>"
+                    : Path.GetFileNameWithoutExtension(prefabPath).ToLowerInvariant();
+                hardFailures.Add("wrong canonical storm state on " + expectation[0] + ": " + stem);
+            }
 
             if (windDebris == null)
                 hardFailures.Add("Windblown Storm Debris particle system missing");
@@ -232,7 +268,25 @@ namespace ProjectOen.Art.Editor
             if (hardFailures.Count > 0)
                 throw new InvalidOperationException("Quest 2 showcase budget hard gate failed: " + string.Join("; ", hardFailures));
 
-            Debug.Log("[ProjectOEN.Art.Budget] PASS: showcase stays inside repository Quest 2 hard limits with centralized wet surfaces, bounded storm motion FX, layered near/far lightning and nine renderer-culled wind-responsive dressing objects. Device profiling still required for authoritative frame timing/draw calls.");
+            Debug.Log("[ProjectOEN.Art.Budget] PASS: showcase stays inside repository Quest 2 hard limits with canonical storm-damaged/wet camp and signal states, centralized wet surfaces, bounded storm motion FX, layered near/far lightning and nine renderer-culled wind-responsive dressing objects. Device profiling still required for authoritative frame timing/draw calls.");
+        }
+
+        private static bool MatchesStormState(string[] expectation)
+        {
+            GameObject target = GameObject.Find(expectation[0]);
+            if (target == null)
+                return false;
+
+            string prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(target);
+            if (string.IsNullOrEmpty(prefabPath))
+                return false;
+
+            string stem = Path.GetFileNameWithoutExtension(prefabPath).ToLowerInvariant();
+            if (!stem.StartsWith(expectation[1].ToLowerInvariant(), StringComparison.Ordinal))
+                return false;
+
+            string requiredToken = expectation[2].ToLowerInvariant();
+            return string.IsNullOrEmpty(requiredToken) || stem.Contains(requiredToken);
         }
 
         private static bool HasPulseCurve(AnimationClip clip, string path, Type type, string propertyName, float minimumPeak)
