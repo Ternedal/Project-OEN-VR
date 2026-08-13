@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "status": "source-reference-ready",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "principles": [
+    "silhouette and large value groups before micro-detail",
+    "gameplay-critical state never depends on color alone",
+    "avoid noisy photoreal detail that hides interactables on Quest 2",
+    "wet/damaged variants must preserve the base material identity",
+    "source references define look intent, not Unity shader implementation"
+  ],
+  "families": [
+    {
+      "id": "MAT_FAMILY_WOOD_001",
+      "uses": ["shelter", "wreck", "signal", "crates"],
+      "sourceReference": "source_art/materials/base/MAT_WOOD_ROPE_CLOTH_REFERENCE_001.svg",
+      "look": ["weathered", "broad grain", "low micro-noise", "warm-neutral dry value"],
+      "states": ["dry", "wet", "damaged"],
+      "wetRule": "darker/lower-value with restrained sheen; do not turn into glossy plastic",
+      "damageRule": "silhouette/splits/edge wear before tiny normal-map scratches"
+    },
+    {
+      "id": "MAT_FAMILY_ROPE_001",
+      "uses": ["shelter binding", "ravine", "repair"],
+      "sourceReference": "source_art/materials/base/MAT_WOOD_ROPE_CLOTH_REFERENCE_001.svg",
+      "look": ["chunky fiber", "bundled twist", "large readable strand rhythm"],
+      "states": ["loose", "good tension", "high strain", "wet"],
+      "stateRule": "curve/twist/attachment language carries state before color"
+    },
+    {
+      "id": "MAT_FAMILY_CLOTH_001",
+      "uses": ["tarp", "packs", "cloth items"],
+      "sourceReference": "source_art/materials/base/MAT_WOOD_ROPE_CLOTH_REFERENCE_001.svg",
+      "look": ["patched utility fabric", "broad folds", "minimal weave noise"],
+      "states": ["dry", "wet", "torn"],
+      "stateRule": "sag, edge shape and fold response differentiate states"
+    },
+    {
+      "id": "MAT_FAMILY_ROCK_001",
+      "uses": ["ravine", "ridge", "path landmarks"],
+      "sourceReference": "source_art/materials/base/MAT_ROCK_SAND_REFERENCE_001.svg",
+      "look": ["stylized planar breakup", "large value faces", "limited small cracks"],
+      "states": ["dry", "wet"],
+      "readabilityRule": "route/guide silhouettes remain cleaner than decorative rock fields"
+    },
+    {
+      "id": "MAT_FAMILY_SAND_001",
+      "uses": ["beach", "camp ground"],
+      "sourceReference": "source_art/materials/base/MAT_ROCK_SAND_REFERENCE_001.svg",
+      "look": ["broad pale value field", "sparse pebble/debris accents", "calm interaction zones"],
+      "states": ["dry", "wet"],
+      "readabilityRule": "do not use dense footprint/decal noise as navigation-critical information"
+    },
+    {
+      "id": "MAT_FAMILY_FOLIAGE_001",
+      "uses": ["jungle", "camp edge", "ridge transition"],
+      "sourceReference": "source_art/materials/base/MAT_FOLIAGE_METAL_REFERENCE_001.svg",
+      "look": ["grouped masses", "few recognizable leaf silhouettes", "muted green family"],
+      "states": ["calm", "wind affected", "wet"],
+      "readabilityRule": "never form a dense alpha-noise wall around resources or route markers"
+    },
+    {
+      "id": "MAT_FAMILY_METAL_001",
+      "uses": ["radio", "tools", "crate fittings"],
+      "sourceReference": "source_art/materials/base/MAT_FOLIAGE_METAL_REFERENCE_001.svg",
+      "look": ["worn utility metal", "matte/rough", "limited edge wear", "no sci-fi chrome"],
+      "states": ["dry", "wet", "worn"],
+      "readabilityRule": "metal accents support object function; they do not become the main visual noise"
+    }
+  ],
+  "handoff": {
+    "chatgptOwns": ["source look", "state/readability intent", "reference masters", "provenance"],
+    "claudeOwns": ["Unity materials", "shader graph/runtime shader", "texture packing", "tiling", "normal/roughness implementation", "performance", "Quest device QA"]
+  }
+}
