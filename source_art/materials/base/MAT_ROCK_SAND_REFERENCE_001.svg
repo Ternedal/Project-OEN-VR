@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+<rect width="1200" height="760" fill="#282C2D"/>
+<text x="48" y="58" fill="#E8E0CF" font-size="34" font-family="sans-serif">ROCK · SAND — source look/readability reference</text>
+<text x="48" y="94" fill="#C8B58D" font-size="18" font-family="sans-serif">large planar/value structure · navigation/readability before surface noise</text>
+<g font-family="sans-serif">
+<g transform="translate(55 145)">
+<rect width="515" height="500" rx="28" fill="#343A3C" stroke="#55717A" stroke-width="8"/>
+<text x="28" y="44" fill="#E8E0CF" font-size="24">ROCK</text>
+<path d="M74 330 128 142l123-69 138 58 62 174-92 108H160z" fill="#596167" stroke="#E8E0CF" stroke-width="8"/>
+<path d="m128 142 123 76 138-87M251 218l18 150M389 131l-54 207M160 413l109-45 90 45" fill="none" stroke="#6D777B" stroke-width="9"/>
+<text x="32" y="448" fill="#C8B58D" font-size="18">DRY — 4–6 broad value faces</text>
+<text x="32" y="478" fill="#AFA488" font-size="16">limit tiny cracks; keep route/guide surfaces calmer</text>
+</g>
+<g transform="translate(630 145)">
+<rect width="515" height="500" rx="28" fill="#343A3C" stroke="#C8B58D" stroke-width="8"/>
+<text x="28" y="44" fill="#E8E0CF" font-size="24">SAND / CAMP GROUND</text>
+<rect x="45" y="92" width="425" height="230" rx="24" fill="#C8B58D" stroke="#E8E0CF" stroke-width="6"/>
+<path d="M60 142c100-35 192 29 290-3 48-16 86-13 106-3M60 220c82-25 166 22 245 0 68-19 110-12 150 8" fill="none" stroke="#A99874" stroke-width="8" opacity=".8"/>
+<circle cx="138" cy="275" r="13" fill="#81765E"/><circle cx="312" cy="255" r="18" fill="#81765E"/><circle cx="390" cy="284" r="9" fill="#81765E"/>
+<rect x="75" y="340" width="365" height="82" rx="28" fill="#AFA07F" stroke="#D59A52" stroke-width="6"/>
+<text x="112" y="390" fill="#282C2D" font-size="19">CALM INTERACTION ZONE</text>
+<text x="30" y="458" fill="#C8B58D" font-size="18">WET — larger dark patches, not glitter noise</text>
+<text x="30" y="488" fill="#AFA488" font-size="16">footprints/debris optional; never navigation-critical</text>
+</g>
+</g>
+<text x="55" y="700" fill="#AFA488" font-size="17" font-family="sans-serif">Quest rule: texture detail must not compete with route markers, resource silhouettes or repair targets at 1–5 m.</text>
+</svg>
