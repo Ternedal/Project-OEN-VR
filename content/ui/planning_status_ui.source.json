@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "status": "source-ready",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "localeSource": "content/localization/da.source.json",
+  "actionSource": "content/actions/stormnatten.actions.source.json",
+  "planning": {
+    "cardBase": "source_art/ui/a1/UI_ACTION_CARD_BASE_001.svg",
+    "actionBindings": {
+      "title": "actions[].nameKey",
+      "description": "actions[].shortKey",
+      "icon": "actions[].iconId",
+      "cost": "actions[].effortCost",
+      "category": "actions[].category"
+    },
+    "copyKeys": [
+      "planning.title",
+      "planning.effort_available",
+      "planning.cost",
+      "planning.risk",
+      "planning.expected_gain",
+      "planning.commit",
+      "planning.change",
+      "planning.wait_partner",
+      "planning.ready",
+      "planning.locked",
+      "planning.invalid",
+      "planning.revision_changed"
+    ],
+    "markers": [
+      {"player":"A","source":"source_art/ui/a1/UI_EFFORT_MARKER_P1_001.svg","identity":"source_art/ui/a1/UI_PLAYER_SYMBOL_A_001.svg"},
+      {"player":"B","source":"source_art/ui/a1/UI_EFFORT_MARKER_P2_001.svg","identity":"source_art/ui/a1/UI_PLAYER_SYMBOL_B_001.svg"}
+    ],
+    "rule": "render the existing authored action fields; do not create a second title, cost or icon mapping in Unity"
+  },
+  "wristStatus": {
+    "frame": "source_art/ui/a1/UI_WRIST_STATUS_FRAME_001.svg",
+    "fields": [
+      {"id":"health","icon":"source_art/ui/a1/UI_STATUS_HEALTH_001.svg","copyKeys":["status.player.health"]},
+      {"id":"fatigue","icon":"source_art/ui/a1/UI_STATUS_FATIGUE_001.svg","copyKeys":["status.player.fatigue"]},
+      {"id":"injury","icon":"source_art/ui/a1/UI_STATUS_INJURY_001.svg","copyKeys":["status.player.injury"]},
+      {"id":"wetCold","icon":"source_art/ui/a1/UI_STATUS_WET_COLD_001.svg","copyKeys":["status.player.wet","status.player.cold"]}
+    ],
+    "stateCopyKeys": ["state.good","state.stable","state.weak","state.critical","state.unknown"],
+    "rule": "keep status glanceable and subordinate to the world"
+  },
+  "acceptance": [
+    "all referenced source paths exist",
+    "all referenced localization keys exist",
+    "every action iconId resolves to an A1 source asset",
+    "player identity remains readable without relying on color alone",
+    "Unity does not duplicate authored action content"
+  ],
+  "handoff": {
+    "chatgptOwns": ["source mapping","copy mapping","information hierarchy","acceptance criteria"],
+    "claudeOwns": ["Unity layout","state binding","input","animation","font rendering","headset-distance QA","performance"]
+  }
+}
