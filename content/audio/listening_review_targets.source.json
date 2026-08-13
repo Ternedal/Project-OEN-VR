@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "status": "review-navigation-only-not-listening-approved",
+  "owner": "ChatGPT",
+  "sourceReceipt": "content/audio/acquisition_receipt.source.json",
+  "sourceTechnicalQa": "content/audio/acquisition_technical_qa.source.json",
+  "listeningContract": "content/audio/listening_qa.source.json",
+  "method": "Objective fixed-window level analysis. Quiet/typical/loud windows are selected from RMS distribution; peak timestamps come from exact decoded sample maxima. No semantic listening judgment is implied.",
+  "records": [
+    {
+      "target": "AMB_WIND_WORLD",
+      "filename": "park_ambience_wind.wav",
+      "sha256": "5c381856745b4706e7eba55eb9271a61a530e90c05df8126adb2db89ecfa6c5a",
+      "reviewWindows": [
+        {"label": "quiet", "startSeconds": 50, "endSeconds": 60, "rmsDbfs": -47.554, "peakDbfs": -31.664},
+        {"label": "typical", "startSeconds": 80, "endSeconds": 90, "rmsDbfs": -43.511, "peakDbfs": -23.877},
+        {"label": "loud", "startSeconds": 30, "endSeconds": 40, "rmsDbfs": -36.067, "peakDbfs": -18.059}
+      ],
+      "peakInspection": {"timeSeconds": 115.156, "channel": 2, "samplePeakDbfs": -11.785},
+      "humanChecks": ["birds-or-local-wildlife", "exposed-island-fit", "gust-editability", "speech-space", "loop-or-slice-value"]
+    },
+    {
+      "target": "AMB_RAIN_ALT",
+      "filename": "amb_rain2.flac",
+      "sha256": "c33d833842c88e9559882b35f6f149c3a96bbf236eb34491e36ea4cae8879985",
+      "reviewWindows": [
+        {"label": "quiet", "startSeconds": 470, "endSeconds": 480, "rmsDbfs": -27.556, "peakDbfs": -12.235},
+        {"label": "typical", "startSeconds": 430, "endSeconds": 440, "rmsDbfs": -26.801, "peakDbfs": -10.042},
+        {"label": "loud", "startSeconds": 330, "endSeconds": 340, "rmsDbfs": -25.722, "peakDbfs": -1.986}
+      ],
+      "peakInspection": {"timeSeconds": 202.877, "channel": 1, "samplePeakDbfs": -0.000265, "measuredTruePeakDbfs": 0.1},
+      "requiredTechnicalAttention": ["inspect-peak-region", "attenuate-before-derived-processing", "do-not-normalize-up"],
+      "humanChecks": ["enclosure-coloration", "handling-noise", "speech-masking", "loop-seam", "rain-intensity-fit"]
+    },
+    {
+      "target": "SFX_FIRE_ALT",
+      "filename": "fire.wav",
+      "sha256": "85ca0cc60d0c037fff8b185e31ad1fcdbda6ce45eee17c3ee1318d1b8f59e330",
+      "reviewWindows": [
+        {"label": "quiet", "startSeconds": 5, "endSeconds": 10, "rmsDbfs": -42.254, "peakDbfs": -19.964},
+        {"label": "typical", "startSeconds": 10, "endSeconds": 15, "rmsDbfs": -41.412, "peakDbfs": -15.986},
+        {"label": "loud", "startSeconds": 15, "endSeconds": 20, "rmsDbfs": -41.310, "peakDbfs": -20.209}
+      ],
+      "peakInspection": {"timeSeconds": 11.635, "channel": 1, "samplePeakDbfs": -15.986},
+      "requiredTechnicalAttention": ["if-human-approved-resample-derived-master-to-48-kHz"],
+      "humanChecks": ["indoor-room-identity", "fire-size-fit", "transient-variety", "loop-seam", "speech-space"]
+    }
+  ],
+  "rules": [
+    "These timestamps are navigation aids only and never constitute listening approval.",
+    "Reviewer must still apply all applicable checks in content/audio/listening_qa.source.json.",
+    "No original may be edited or overwritten during review.",
+    "Any source-approved decision must preserve the original SHA-256 and human notes.",
+    "Derived masters require a second listening QA pass."
+  ]
+}
