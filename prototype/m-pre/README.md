@@ -10,13 +10,22 @@ Test én og kun én hypotese:
 
 Testen er **ikke** en vurdering af art, VR, historie, balance eller samlet sjov.
 
+## Hurtigste afvikling
+
+Der er to praktiske måder at køre præcis den samme accepterede M-Pre-protokol på:
+
+1. **Papir:** åbn `print_pack.html` i en browser og print den på A4. Den indeholder seks klippekort, facilitator-reference, sessionsark og debrief/gate-side.
+2. **Offline browser-runner:** åbn `facilitator_runner.html` lokalt. Den hjælper med timere, anonyme observationer og evaluator-kompatibel CSV. Ingen backend eller upload er nødvendig.
+
+Begge er convenience-lag. `FACILITATOR_SCRIPT.md`, `TASK_CARDS.md` og `docs/35_M_PRE_GREYBOX_GATE.md` er fortsat source of truth. Hverken printpakken eller browser-runneren kan erstatte menneskelig evidens eller afgøre projektgaten alene.
+
 ## Du skal bruge
 
 - 2 testere i samme rum
 - 4 ens markører (mønter, klodser eller lignende)
 - 1 almindelig d6
-- de seks kort fra `TASK_CARDS.md`
-- ét eksemplar af `SESSION_SHEET.md` pr. session
+- de seks kort fra `TASK_CARDS.md` eller `print_pack.html`
+- ét eksemplar af `SESSION_SHEET.md` pr. session eller den tilsvarende side i `print_pack.html`
 - facilitatorens manuskript fra `FACILITATOR_SCRIPT.md`
 
 Test **ikke** med gavemodtageren.
