@@ -193,7 +193,13 @@ def main():
         'ProductionArtShowcaseAudit.AuditShowcase','ProductionArtReviewMenu.OpenShowcase',
     )
     if review:
-        if not ordered(review,sequence): errors.append("Fast review art sequence is out of order")
+        fallback_marker='Run-UnityArtStep "Bygger production-art prefabs"'
+        fallback_start=review.find(fallback_marker)
+        if fallback_start < 0:
+            errors.append("Fast review sequential fallback marker is missing")
+        else:
+            fallback=review[fallback_start:]
+            if not ordered(fallback,sequence): errors.append("Fast review sequential fallback art sequence is out of order")
         for bad in ("M0bConfigure.Configure","BuildPipeline.BuildPlayer","Packages\\manifest.json"):
             if bad in review: errors.append(f"Fast review must not mutate M0b platform path: {bad}")
 
@@ -224,7 +230,7 @@ def main():
     print("  storm motion FX : 2 bounded particle systems + layered near/far no-shadow lightning")
     print(f"  wind response   : {len(WIND_TARGETS)} renderer-culled legacy Animation clips")
     print("  review scenes   : VFX + physical UI + material calibration + state transitions + hero readability + Stormnatten")
-    print("  review order    : world/state/material -> decals -> VFX/audit -> UI/audit -> Stormnatten stories/atmosphere/motion/wind -> audit")
+    print("  review order    : one-shot 23-step contract + preserved sequential debug fallback")
     print("  M0b separation  : CoopGame-only Android build")
     if errors:
         print(f"\nFAILED with {len(errors)} issue(s):")
