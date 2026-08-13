@@ -299,7 +299,19 @@ Do not silently count all 16h of current PO-044 as included.
 
 ---
 
-# 5. What ChatGPT can do before approval
+# 5. Default handling until fire-start is decided
+
+ChatGPT fortsætter øvrigt non-Unity-arbejde med disse midlertidige grænser:
+
+- intro behandles konceptuelt som en eksplicit onboarding-sequence, ikke undocumented Unity-speciallogik
+- Day 3 beholder et selvstændigt planning-beat
+- fire-start source/interaction-materiale holdes production-ready, men **regnes ikke som accepteret gift-scope**
+
+Ingen accepterede backlogtimer eller `Gaveversion`-status ændres af dette forslag.
+
+---
+
+# 6. What ChatGPT can do before approval
 
 Without changing accepted scope, ChatGPT may:
 
@@ -318,7 +330,7 @@ until Anders accepts the scope change.
 
 ---
 
-# 6. Definition of done for issue #8
+# 7. Definition of done for issue #8
 
 1. intro contract accepted and reflected in data/schema/spec
 2. Day 3 planning represented consistently
