@@ -11,7 +11,7 @@ No third-party models, stock artwork, external game screenshots or traced artwor
 
 ## Individual source masters currently committed in this production pass
 
-Current count: **9 individual SVG source masters**.
+Current count: **10 individual SVG source masters**.
 
 - `ITM_FIRESTEEL_001.svg`
 - `ITM_TINDER_001.svg`
@@ -22,6 +22,7 @@ Current count: **9 individual SVG source masters**.
 - `PRP_SHELTER_ROPE_001.svg`
 - `PRP_SHELTER_TARP_001.svg`
 - `PRP_SHELTER_FRAME_001.svg`
+- `PRP_SIGNAL_FRAME_001.svg`
 
 The plan-table master preserves six large card bays, four physical effort markers, two-sided reach intent and distinct editable / ready / locked shapes without relying on color alone.
 
@@ -34,6 +35,8 @@ The shelter-rope master preserves chunky visible fiber, oversized attachment loo
 The shelter-tarp master preserves four large shelter states: dry/taut, wet/heavy sag, loose/flapping and torn/weak. Wetness changes drape, loose state breaks the stable plane, and torn state removes a substantial silhouette edge; tie points stay oversized and discoverable.
 
 The shelter-frame master preserves a stage 0-3 physical silhouette progression from materials to a recognizable frame, stabilized ridge/binding and cross-braced finished structure, with broad nodes and no progress-bar grammar.
+
+The signal-frame master preserves a stage 0-3 landmark progression from materials to frame, stabilized structure and a clearly prepared final state with signal cloth, fuel and a reachable low activation zone. The ready state is intentionally not shown as already ignited.
 
 The corresponding Markdown files remain product/handoff contracts.
 
