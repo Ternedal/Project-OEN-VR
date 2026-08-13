@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "updated": "2026-08-13",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "rule": "source-ready is not the same as Unity-integrated or release-approved",
+  "packages": [
+    {"id":"A1_UI","status":"produced-source-qa","path":"source_art/ui/a1","format":"SVG","next":"Claude Unity import/readability QA"},
+    {"id":"NEUTRAL_FALLBACK","status":"produced-source-qa","path":"source_art/neutral","format":"SVG","next":"Claude neutral fallback integration"},
+    {"id":"A2_CORE_PROPS","status":"reference-produced-final-3d-open","path":"source_art/props/a2","format":"Markdown+SVG","next":"produce final external meshes only where runtime greybox proves necessary"},
+    {"id":"A3_STORM_VFX","status":"produced-source-reference","path":"source_art/vfx/a3","format":"SVG","next":"Claude runtime VFX implementation/device tuning"},
+    {"id":"A4_CAMP","status":"produced-source-reference","path":"source_art/environment/a4","format":"SVG","next":"final environment art waits stable geometry"},
+    {"id":"B1_ENVIRONMENT","status":"produced-source-reference","path":"source_art/environment/b1","format":"SVG","next":"Claude world implementation; richer art after spatial evidence"},
+    {"id":"B1_WORLD_ITEMS","status":"partial-produced","path":"source_art/items/b1","format":"SVG","producedIds":["ITM_WOOD_BUNDLE_001","ITM_FIBER_BUNDLE_001","ITM_HERB_BUNDLE_001","ITM_FOOD_PARCEL_001","ITM_GENERAL_SUPPLIES_001"],"next":"remaining scenario items and runtime handoff"},
+    {"id":"B2_EVENT_PRESENTATION","status":"produced-and-mapped","path":"source_art/events/b2","format":"SVG","next":"Claude binds machine-readable event presentation contract"},
+    {"id":"A5_PROP_MESHES","status":"partial-source-meshes-produced","path":"source_art/props/a5","format":"OBJ","producedIds":["PRP_WIND_SHIELD_001","PRP_DRY_FUEL_CACHE_001","PRP_SIGNAL_FUEL_001"],"next":"Unity import remains Claude; source mesh QA/provenance exists"},
+    {"id":"A5_ITEMS","status":"partial-produced","path":"source_art/items/a5","format":"SVG","producedIds":["ITM_CLOTH_001","ITM_MAP_FRAGMENT_001"],"next":"radio battery and other unproduced items"},
+    {"id":"A5_RELEASE_UI","status":"partial-produced","path":"source_art/ui/a5","format":"SVG","producedIds":["UI_RECONNECT_PANEL_001","UI_JOIN_CODE_PANEL_001"],"next":"Unity layout/binding/device QA"},
+    {"id":"AU1_SYNTH_FEEDBACK","status":"generator-ready-ci-validated","path":"source_audio/au1","format":"Python->WAV","next":"Claude runtime mix/binding"},
+    {"id":"AU2_FOLEY","status":"recording-queue-ready","path":"content/audio/foley_recording_queue.source.json","format":"48kHz-24bit-mono-WAV-target","next":"record/edit/master natural Foley sources"},
+    {"id":"AU_WORLD_AMBIENCE","status":"acquisition-queue-ready","path":"content/audio/ambience_acquisition_queue.source.json","format":"48kHz-24bit-stereo-WAV-target","next":"capture/source and provenance-check natural ambience"},
+    {"id":"RADIO_VO","status":"script-ready-not-recorded","path":"docs/59_RADIO_VO_SOURCE_SCRIPT.md","next":"record neutral radio source and preserve clean masters"},
+    {"id":"MUSIC","status":"direction-ready-not-produced","path":"docs/60_MUSIC_DIRECTION_AND_CUE_SHEET.md","next":"compose/produce minimal cue sources after timing evidence"}
+  ],
+  "contentContracts": [
+    {"id":"LOCALIZATION_DA","status":"source-ready","path":"content/localization/da.source.json"},
+    {"id":"ACTIONS","status":"source-ready-costs-placeholder","path":"content/actions/stormnatten.actions.source.json"},
+    {"id":"EVENTS","status":"source-ready-qualitative","path":"content/events/stormnatten.events.source.json"},
+    {"id":"EVENT_PRESENTATION","status":"source-ready-ci-validated","path":"content/events/stormnatten.presentation.source.json"},
+    {"id":"NEUTRAL_PERSONALIZATION","status":"source-ready","path":"content/personalization/neutral_profile.source.json"},
+    {"id":"ONBOARDING_PROPOSAL","status":"proposal-not-canonical","path":"content/proposals/onboarding_sequence.source.json"},
+    {"id":"DAY3_PLANNING_PROPOSAL","status":"proposal-not-canonical","path":"content/proposals/day3_planning.source.json"}
+  ],
+  "evidenceGated": ["M-Pre human evidence","OQ-008 randomness/fairness","OQ-009 role policy","OQ-010 after-action competition","M3/M4 numeric balance","M0b cross-device evidence"],
+  "knownRepoHygiene": [
+    {"id":"HYGIENE_TRACKED_BIN","status":"confirmed-cleanup-needed","detail":"src/**/bin is ignored by .gitignore but tracked build outputs are present; safe bulk deletion was connector-blocked"}
+  ]
+}
