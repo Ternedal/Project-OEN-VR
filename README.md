@@ -1,60 +1,109 @@
-# PROJECT ØEN - STRANDET SAMMEN
+# PROJECT ØEN — STRANDET SAMMEN
 
 Et originalt, scenariebaseret VR-overlevelsesspil for præcis to spillere.
 
-Projektet udvikles med **Meta Quest 2 som autoritativ baseline** og fuld brugbarhed på **Quest 3/Quest 3S** med valgfrie visuelle forbedringer. Quest 1 er udgået som runtime (`DROP_Q1_RUNTIME`, 2026-08-08).
+Projektet udvikles med **Meta Quest 2 som autoritativ performancebaseline** og fuld brugbarhed på **Quest 3/Quest 3S** med additive forbedringer. Quest 1 er udgået som runtime/testlane (`DROP_Q1_RUNTIME`, 2026-08-08).
 
-> Status: Design-, arkitektur- og produktionsbaseline. Der findes endnu ikke et Unity-projekt i repositoryet.
+> **Status 2026-08-13:** Aktiv udvikling. Review og baseline er behandlet, Core har 146 grønne tests, M0a er lukket, M0b er bevist per klient og mangler cross-device-gaten. M-Pre er klar til mennesketest.
 
 ## Start her
 
-1. Læs [`00_READ_ME_FIRST.md`](00_READ_ME_FIRST.md).
-2. Ved Claude-review: brug [`01_PROMPT_FOR_CLAUDE.md`](01_PROMPT_FOR_CLAUDE.md).
-3. Læs [`docs/01_EXECUTIVE_HANDOFF.md`](docs/01_EXECUTIVE_HANDOFF.md), efterfulgt af gameplay-, scenario-, arkitektur- og platformkapitlerne i `docs/`.
-4. Start ikke egentlig produktion før Claude-reviewet er behandlet og rækkefølgen i [`docs/20_IMPLEMENTATION_START_ORDER.md`](docs/20_IMPLEMENTATION_START_ORDER.md) er godkendt.
+1. [`00_READ_ME_FIRST.md`](00_READ_ME_FIRST.md) — aktuel source-of-truth-indgang.
+2. [`AI_COLLABORATION_AGREEMENT.md`](AI_COLLABORATION_AGREEMENT.md) — Claude/ChatGPT-arbejdsdeling.
+3. [`repo_status.md`](repo_status.md) — kort aktuel status.
+4. Claude/Unity: [`CLAUDE.md`](CLAUDE.md) + [`docs/32_OPUS_EXECUTION_PLAN.md`](docs/32_OPUS_EXECUTION_PLAN.md).
+5. ChatGPT/produkt: [`docs/36_CHATGPT_WORKSTREAM.md`](docs/36_CHATGPT_WORKSTREAM.md).
+
+`01_PROMPT_FOR_CLAUDE.md` er arkiveret review v1.0-materiale og er ikke den aktuelle arbejdsordre.
 
 ## Produktmål
 
-Første leverance er scenariet **Stormnatten**:
+Første fulde scenario er **Stormnatten**:
 
 - to spillere og fælles sejr/nederlag
-- tre døgn og cirka 30-45 minutters spilletid
+- cirka 30-45 minutters spilletid
 - fælles planlægning, fysisk VR-arbejde og forsinkede konsekvenser
-- aktiv rolle til begge spillere gennem hele forløbet
+- aktiv rolle til begge spillere gennem forløbet
 - stiliseret standalone-VR, ikke open world
-- original IP; ingen direkte digital kopi af et eksisterende brætspil
+- original IP
+
+## Aktuelle gates
+
+### M0b — platform/netværk
+
+Per-client M0b er bevist. Der mangler cross-device-evidens for:
+
+- head/hands-replikering
+- compatibility mismatch-afvisning
+- delt coop-kasse
+- 10× Q2↔Q3-løft uden permanent desync
+- 72 Hz i minimal netværksscene
+- standby/reconnect-måling
+
+Dette er **Claude/Unity-sporet**.
+
+### M-Pre — kernehypotesen
+
+M-Pre tester uden VR, om fire indsatsmarkører skaber reel forhandling og prioritering mellem to spillere frem for administration.
+
+Ready-to-run-pakken ligger under [`prototype/m-pre/`](prototype/m-pre/).
+
+Gaten kræver mindst tre menneskelige sessions med mindst to forskellige par. Dette er **ChatGPT/produkt-sporet** sammen med Anders.
+
+**M1 starter først, når både M0b og M-Pre er grønne.**
+
+## Samarbejdsmodel
+
+- **Claude = Unity:** Unity-projekt, C#/runtime/editor, XR/OpenXR/Fusion, scenes/prefabs, integration, builds, profiling og Unity-side QA.
+- **ChatGPT = alt andet:** produkt/design, specs, source-assets, audio-materiale, roadmap, design-tests og produkt-QA.
+- Anders er produktejer og har sidste ord.
+
+Se [`AI_COLLABORATION_AGREEMENT.md`](AI_COLLABORATION_AGREEMENT.md) for detaljerne.
 
 ## Centrale dokumenter
 
 | Dokument | Formål |
 |---|---|
 | [`docs/04_GAME_DESIGN_DEEP_DIVE.md`](docs/04_GAME_DESIGN_DEEP_DIVE.md) | Kerne-loop, handlinger, ressourcer og fail-forward |
-| [`docs/05_STORMNATTEN_CONTENT_BIBLE.md`](docs/05_STORMNATTEN_CONTENT_BIBLE.md) | Det første komplette scenario |
-| [`docs/06_TECHNICAL_ARCHITECTURE.md`](docs/06_TECHNICAL_ARCHITECTURE.md) | Unity-, state-, persistence- og modularkitektur |
+| [`docs/05_STORMNATTEN_CONTENT_BIBLE.md`](docs/05_STORMNATTEN_CONTENT_BIBLE.md) | Første scenario og contentretning |
+| [`docs/06_TECHNICAL_ARCHITECTURE.md`](docs/06_TECHNICAL_ARCHITECTURE.md) | State-, persistence- og modularkitektur |
 | [`docs/07_MULTIPLAYER_NETWORKING.md`](docs/07_MULTIPLAYER_NETWORKING.md) | Photon Fusion, authority og reconnect |
 | [`docs/08_PLATFORM_BUILD_PERFORMANCE.md`](docs/08_PLATFORM_BUILD_PERFORMANCE.md) | Quest 2/3-strategi og performancebudget |
-| [`docs/12_PRODUCTION_ROADMAP.md`](docs/12_PRODUCTION_ROADMAP.md) | Milepæle M0-M9 og stop/go-gates |
+| [`docs/11_ART_AUDIO_UI_DIRECTION.md`](docs/11_ART_AUDIO_UI_DIRECTION.md) | Visuel, audio- og UI-retning |
+| [`docs/12_PRODUCTION_ROADMAP.md`](docs/12_PRODUCTION_ROADMAP.md) | Milepæle og stop/go-gates |
 | [`docs/13_TEST_QA_ACCEPTANCE.md`](docs/13_TEST_QA_ACCEPTANCE.md) | Testmatrix og releasekriterier |
-| [`review/CLAUDE_REVIEW_TEMPLATE.md`](review/CLAUDE_REVIEW_TEMPLATE.md) | Formatet for Claudes review |
+| [`docs/18_DECISION_LOG.md`](docs/18_DECISION_LOG.md) | Accepterede beslutninger/ADR'er |
+| [`docs/35_M_PRE_GREYBOX_GATE.md`](docs/35_M_PRE_GREYBOX_GATE.md) | Kernehypotesens menneskelige gate |
+| [`docs/36_CHATGPT_WORKSTREAM.md`](docs/36_CHATGPT_WORKSTREAM.md) | Ikke-Unity workstream og næste produktarbejde |
 
 ## Repositorystruktur
 
 | Sti | Formål |
 |---|---|
 | `docs/` | Produktkrav, GDD, arkitektur, platform, roadmap og QA |
-| `schemas/` | JSON Schema for scenarioer, events, recipes, saves og personalisering |
+| `src/ProjectOen.Core/` | Testbar runtime/core-logik uden UnityEngine-afhængighed |
+| `src/unity/` | Unity/Fusion-kilde og runbooks |
+| `prototype/` | M0- og design-/playtestprototyper |
+| `config/` | Compatibility og runtimekontrakter |
+| `schemas/` | JSON Schema |
 | `examples/` | Valide dataeksempler |
-| `review/` | Claude-reviewskabelon og svarmatrix |
+| `review/` | Historisk review og response matrix |
 | `.github/` | PR-, issue- og CI-konfiguration |
 | `tools/` | Valideringsværktøjer |
 
-## Centrale gates
+## Roadmap i korte træk
 
-- **M0:** Samme minimale code/content lane starter og kan forbindes på Quest 2 og Quest 3.
-- **M2:** Stabil private-session, authority, kompatibilitetshåndtryk og fælles tohåndsobjekt.
-- **M3:** Én komplet dag kan spilles uden udviklerforklaring.
-- **M5:** Stormens vertical slice holder performance og netværksstabilitet.
-- **M9:** P0/P1-fejl er lukket, og fuld enhedsmatrix er dokumenteret.
+- **M0:** platform- og netværksfeasibility
+- **M-Pre:** kernehypotese uden VR
+- **M1:** interaction foundation
+- **M2:** multiplayer hardening
+- **M3:** one-day prototype
+- **M4:** delayed consequences
+- **M5:** storm vertical slice / **Release 1**
+- **M6:** fuld Stormnatten
+- **M7:** art/audio pass
+- **M8:** personalisering/gaveleverance
+- **M9:** release candidate/QA
 
 ## Validering
 
@@ -63,16 +112,22 @@ python -m pip install -r tools/requirements-validation.txt
 python tools/validate_handoff.py
 ```
 
-Scriptet validerer de centrale dokumenter, JSON Schema og alle JSON-eksempler.
+Core-tests:
+
+```bash
+dotnet test src/ProjectOen.Core.Tests/ProjectOen.Core.Tests.csproj
+```
 
 ## Arbejdsprincip
 
-Dokumenterne er source of truth, men ikke urørlige. Ændringer skal være sporbare:
+Dokumenterne er source of truth, men ændringer skal være sporbare:
 
 1. dokumentér fund eller prototypebevis
-2. opdatér relevant ADR i `docs/18_DECISION_LOG.md`
-3. opdatér berørte specs og backlog
-4. kør validering før merge
+2. opdatér relevant ADR i `docs/18_DECISION_LOG.md`, hvis en accepteret beslutning ændres
+3. opdatér berørte specs/backlog/status
+4. kør relevante tests/validatorer
+
+> **Bevis før polish. Måling slår antagelse.**
 
 ## Rettigheder
 
