@@ -3,7 +3,7 @@
 
 Reads content/audio/acquisition_candidates.source.json and downloads only candidates
 with an explicit directDownload URL. Originals and the acquisition manifest are stored
-under AudioSourceIncoming/, which is gitignored.
+under PrivateContent/AudioSourceIncoming/, which is already ignored by repository policy.
 """
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CANDIDATES = ROOT / "content" / "audio" / "acquisition_candidates.source.json"
-DEFAULT_OUTPUT = ROOT / "AudioSourceIncoming"
+DEFAULT_OUTPUT = ROOT / "PrivateContent" / "AudioSourceIncoming"
 USER_AGENT = "Project-OEN-VR-source-acquisition/1.0"
 
 
@@ -81,7 +81,7 @@ def download(candidate: dict, originals: Path, timeout: int) -> dict:
             output.write(block)
     part_path.replace(final_path)
 
-    record = {
+    return {
         "target": target,
         "filename": filename,
         "provider": candidate.get("provider"),
@@ -96,7 +96,6 @@ def download(candidate: dict, originals: Path, timeout: int) -> dict:
         "technicalProbe": ffprobe(final_path),
         "status": "acquired-original-not-listening-approved",
     }
-    return record
 
 
 def main() -> int:
