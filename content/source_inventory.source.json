@@ -28,6 +28,7 @@
     {"id":"ACTIONS","status":"source-ready-costs-placeholder","path":"content/actions/stormnatten.actions.source.json"},
     {"id":"EVENTS","status":"source-ready-qualitative","path":"content/events/stormnatten.events.source.json"},
     {"id":"EVENT_PRESENTATION","status":"source-ready-ci-validated","path":"content/events/stormnatten.presentation.source.json"},
+    {"id":"AFTER_ACTION_PRESENTATION","status":"source-ready-qualitative","path":"content/outcomes/after_action.presentation.source.json"},
     {"id":"NEUTRAL_PERSONALIZATION","status":"source-ready","path":"content/personalization/neutral_profile.source.json"},
     {"id":"ONBOARDING_PROPOSAL","status":"proposal-not-canonical","path":"content/proposals/onboarding_sequence.source.json"},
     {"id":"DAY3_PLANNING_PROPOSAL","status":"proposal-not-canonical","path":"content/proposals/day3_planning.source.json"}
