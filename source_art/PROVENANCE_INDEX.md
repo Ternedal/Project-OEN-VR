@@ -15,6 +15,7 @@ Dette index peger på de autoritative per-pack provenance records. `docs/43_IP_A
 | B1 resource items | item/bundle SVG source | `OWN` | Resource source set produced | `source_art/items/b1/PROVENANCE.md` |
 | B1 utility props | SVG source master | `OWN` | Supply-container source produced + visually QA'ed | `source_art/props/b1/PROVENANCE.md` |
 | B2 event presentation | event/state SVG source | `OWN` | Produced + mapped to all 10 events | `source_art/events/b2/PROVENANCE.md` |
+| Base material references | 3 SVG reference boards + source contract | `OWN` | Seven material families covered at source-reference level | `source_art/materials/base/PROVENANCE.md` |
 | A5 external prop meshes | OBJ source meshes | `OWN` | Three external source meshes produced | `source_art/props/a5/PROVENANCE.md` |
 | A5 source items | SVG source masters | `OWN` | Three source items produced | `source_art/items/a5/PROVENANCE.md` |
 | A5 release UI | SVG source masters | `OWN` | Six release UI source surfaces produced | `source_art/ui/a5/PROVENANCE.md` |
