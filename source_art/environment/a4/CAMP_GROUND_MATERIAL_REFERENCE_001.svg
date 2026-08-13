@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="#282C2D"/>
+<text x="42" y="58" fill="#E8E0CF" font-size="32" font-family="sans-serif">ENV_CAMP_GROUND_001 — material/readability reference</text>
+<text x="42" y="92" fill="#C8B58D" font-size="18" font-family="sans-serif">source-art targets only · Unity material/shader implementation belongs to Claude</text>
+<g transform="translate(48 145)" font-family="sans-serif">
+<rect width="335" height="430" rx="26" fill="#C8B58D" stroke="#E8E0CF" stroke-width="8"/>
+<path d="M20 85 C90 60 155 105 225 78 S315 70 330 115" fill="none" stroke="#A99874" stroke-width="9" opacity=".9"/>
+<path d="M25 155 C105 128 170 172 245 145 S305 145 326 170" fill="none" stroke="#B5A17B" stroke-width="7" opacity=".8"/>
+<circle cx="92" cy="270" r="22" fill="#81765E"/><circle cx="145" cy="303" r="13" fill="#81765E"/><circle cx="230" cy="256" r="17" fill="#81765E"/>
+<text x="24" y="375" fill="#282C2D" font-size="23">DRY / BASE</text>
+<text x="24" y="406" fill="#4A4B46" font-size="17">broad value groups · sparse pebbles</text>
+</g>
+<g transform="translate(432 145)" font-family="sans-serif">
+<rect width="335" height="430" rx="26" fill="#887B62" stroke="#55717A" stroke-width="8"/>
+<path d="M18 95 C92 70 164 116 235 82 S312 86 328 120" fill="none" stroke="#65747A" stroke-width="12" opacity=".7"/>
+<path d="M20 170 C105 142 175 186 255 154 S313 156 330 184" fill="none" stroke="#65747A" stroke-width="10" opacity=".65"/>
+<ellipse cx="116" cy="275" rx="52" ry="18" fill="#5B6466" opacity=".75"/>
+<ellipse cx="245" cy="310" rx="44" ry="15" fill="#5B6466" opacity=".68"/>
+<text x="24" y="375" fill="#E8E0CF" font-size="23">WET / STORM</text>
+<text x="24" y="406" fill="#E8E0CF" font-size="17">darker value + larger wet patches</text>
+</g>
+<g transform="translate(816 145)" font-family="sans-serif">
+<rect width="335" height="430" rx="26" fill="#3E443F" stroke="#66745C" stroke-width="8"/>
+<path d="M30 340 Q95 250 170 300 T310 225" fill="none" stroke="#C8B58D" stroke-width="34" stroke-linecap="round" opacity=".9"/>
+<circle cx="95" cy="250" r="26" fill="#D59A52" stroke="#E8E0CF" stroke-width="7"/>
+<rect x="215" y="144" width="55" height="85" rx="9" fill="#6B513D" stroke="#E8E0CF" stroke-width="7"/>
+<text x="24" y="375" fill="#E8E0CF" font-size="23">READABILITY RULE</text>
+<text x="24" y="406" fill="#C8B58D" font-size="17">interaction zones stay calmer than edges</text>
+</g>
+<text x="48" y="640" fill="#AFA488" font-size="17" font-family="sans-serif">Avoid noisy photoreal grains, dense decals and tiny debris. Footprints/marks are optional derived detail, never navigation-critical.</text>
+</svg>

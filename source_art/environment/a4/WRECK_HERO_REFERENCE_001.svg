@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="#282C2D"/>
+<text x="42" y="58" fill="#E8E0CF" font-size="32" font-family="sans-serif">ENV_WRECKAGE_001 — hero silhouette</text>
+<text x="42" y="92" fill="#C8B58D" font-size="18" font-family="sans-serif">project-original fictional wreck · landmark first · no real vessel identity</text>
+<g transform="translate(55 145)">
+<rect width="650" height="450" rx="28" fill="#343A3C" stroke="#55717A" stroke-width="8"/>
+<path d="M65 290 Q190 360 420 330 Q520 315 582 255 L540 382 Q345 430 150 388 Q95 377 65 345 Z" fill="#6B513D" stroke="#E8E0CF" stroke-width="9"/>
+<path d="M302 78 L310 320" stroke="#8C7558" stroke-width="22" stroke-linecap="round"/>
+<path d="M306 130 L455 205" stroke="#8C7558" stroke-width="15" stroke-linecap="round"/>
+<path d="M302 130 L190 220" stroke="#8C7558" stroke-width="14" stroke-linecap="round"/>
+<path d="M136 337 L180 270 L209 350" fill="#3F5360" stroke="#E8E0CF" stroke-width="7"/>
+<path d="M454 326 L500 245 L535 310" fill="#3F5360" stroke="#E8E0CF" stroke-width="7"/>
+<text x="30" y="420" fill="#C8B58D" font-size="18" font-family="sans-serif">broken hull crescent + tilted mast + 2–3 readable ribs</text>
+</g>
+<g transform="translate(750 145)" font-family="sans-serif">
+<text x="0" y="20" fill="#E8E0CF" font-size="24">DESIGN CONTRACT</text>
+<text x="0" y="72" fill="#E8E0CF" font-size="19">• visible above shelter from camp</text>
+<text x="0" y="112" fill="#E8E0CF" font-size="19">• weathered wood, sparse worn metal</text>
+<text x="0" y="152" fill="#E8E0CF" font-size="19">• strong asymmetry; no micro-clutter</text>
+<text x="0" y="192" fill="#E8E0CF" font-size="19">• wet/storm state changes value, not identity</text>
+<text x="0" y="232" fill="#E8E0CF" font-size="19">• fire + wreck form camp orientation pair</text>
+<text x="0" y="272" fill="#E8E0CF" font-size="19">• no implied climb route from decorative detail</text>
+<text x="0" y="340" fill="#C8B58D" font-size="17">Claude: final Unity mesh/material/collider/LOD.</text>
+</g>
+</svg>
