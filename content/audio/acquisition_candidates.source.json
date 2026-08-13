@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "status": "license-verified-candidates-not-acquired",
   "owner": "ChatGPT",
   "runtimeOwner": "Claude",
@@ -15,8 +15,10 @@
     {
       "target": "AMB_WIND_WORLD",
       "provider": "OpenGameArt",
-      "title": "Park ambiences - park_ambience_wind.wav",
+      "title": "park_ambience_wind.wav",
       "sourcePage": "https://opengameart.org/content/park-ambiences",
+      "directDownload": "https://opengameart.org/sites/default/files/park_ambience_wind.wav",
+      "filename": "park_ambience_wind.wav",
       "license": "CC0",
       "sourceFormat": "WAV 48 kHz / 24-bit",
       "recording": "open field ambience with stronger wind; field-recorded in Adelaide",
@@ -39,8 +41,10 @@
     {
       "target": "AMB_RAIN_ALT",
       "provider": "OpenGameArt",
-      "title": "AMB Rain Loop 2",
+      "title": "amb_rain2.flac",
       "sourcePage": "https://opengameart.org/content/amb-rain-loop-2",
+      "directDownload": "https://opengameart.org/sites/default/files/amb_rain2.flac",
+      "filename": "amb_rain2.flac",
       "license": "CC0",
       "sourceFormat": "FLAC source available",
       "recording": "GoPro Hero 12 raw-audio recording",
@@ -58,7 +62,7 @@
       "duration": "70.884 s",
       "priority": "B",
       "use": ["beach/camp shoreline"],
-      "caveat": "16-bit source; acceptable candidate for ambience but compare against higher-resolution alternatives before final selection"
+      "caveat": "16-bit source; compare against higher-resolution alternatives before final selection"
     },
     {
       "target": "SFX_FIRE_BASE",
@@ -70,7 +74,20 @@
       "duration": "72.460 s",
       "priority": "A",
       "use": ["fire base loop", "ember/small/strong derived states"],
-      "caveat": "indoor fireplace recording; EQ/editing must remove obvious room identity if used outdoors"
+      "caveat": "indoor fireplace recording; listening/editing QA required for outdoor use"
+    },
+    {
+      "target": "SFX_FIRE_ALT",
+      "provider": "OpenGameArt",
+      "title": "fire.wav",
+      "sourcePage": "https://opengameart.org/content/fireplace-sound-loop",
+      "directDownload": "https://opengameart.org/sites/default/files/fire.wav",
+      "filename": "fire.wav",
+      "license": "CC0",
+      "sourceFormat": "WAV; inspect metadata after acquisition",
+      "priority": "B",
+      "use": ["alternate fire loop", "source comparison"],
+      "caveat": "fireplace source; listening QA required for room identity"
     },
     {
       "target": "SFX_ROPE_STRAIN",
@@ -83,7 +100,7 @@
       "recording": "Zoom H2N; edited in Audacity",
       "priority": "A",
       "use": ["rope tension variants", "ravine", "shelter strain"],
-      "caveat": "contains leathery/twine character; verify it matches the project's thicker rope material"
+      "caveat": "verify character against the project's thicker rope material"
     },
     {
       "target": "SFX_WOOD_STRESS",
@@ -96,7 +113,7 @@
       "recording": "creaked wooden plank",
       "priority": "A",
       "use": ["shelter creak low/high", "beam stress"],
-      "caveat": "derive multiple non-repeating slices only after transient/noise-floor listening QA"
+      "caveat": "derive variants only after transient/noise-floor listening QA"
     },
     {
       "target": "SFX_CLOTH_FLAP",
@@ -109,20 +126,17 @@
       "recording": "H4n clothing flap recording",
       "priority": "A",
       "use": ["tarp flap", "storm shelter state"],
-      "caveat": "recorded as clothing/wing Foley; select/edit only portions that read as tarp rather than fabric gesture"
+      "caveat": "select only portions that read as tarp rather than small clothing gesture"
     }
   ],
   "rejectedExamples": [
-    {
-      "title": "Sailing Boat in Thunderstorm",
-      "reason": "composite uses CC BY-NC source components; not suitable for this clean CC0 acquisition lane"
-    }
+    {"title": "Sailing Boat in Thunderstorm", "reason": "composite includes non-commercial source components; excluded from clean CC0 lane"}
   ],
   "next": [
-    "download original source files from the recorded source pages",
-    "capture immutable provenance record for each selected source",
-    "listen for contamination, room identity, voices, birds and artifacts",
-    "derive/edit/resample candidate masters without overwriting originals",
+    "run tools/acquire_audio_sources.py on an internet-connected workstation",
+    "preserve original files and acquisition manifest",
+    "listen for contamination, room identity, voices, wildlife and artifacts",
+    "derive/edit/resample without overwriting originals",
     "perform listening QA before changing any cue status to produced",
     "Claude performs final Unity mix/spatial/runtime/device QA"
   ]
