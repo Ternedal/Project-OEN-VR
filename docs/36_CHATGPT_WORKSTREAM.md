@@ -21,20 +21,24 @@ Den må ikke bruges til at overstyre produkt- eller tekniske beslutninger i `00_
 - Baseline er v2.1.
 - Quest 1-runtime er droppet (`DROP_Q1_RUNTIME`).
 - Quest 2 er performancegulv; Quest 3/3S er enhanced parity.
-- P1-scope til gaveversionen er valgt.
+- P1-scope til gaveversionen er valgt: 1.012 t.
 - M-Pre er accepteret som gate via ADR-022.
 - Release 1 er fastlagt til M5 via ADR-023.
 - Art/audio/UI-retningen findes i `docs/11_ART_AUDIO_UI_DIRECTION.md`.
 - Stormnatten og kerne-gameplay er beskrevet i eksisterende design- og contentdokumenter.
 - M0b er de-risket per klient; de resterende M0b-beviser kræver to headset og tilhører Claude/Anders-sporet.
+- M-Pre ready-to-run-pakken er oprettet under `prototype/m-pre/`.
+- De centrale statusdokumenter er ajourført til det aktuelle M0/M-Pre-flow.
+- GitHub issue #3 er ajourført fra gammel Q1/2/3-scope til den aktuelle Q2/Q3-M0b-gate.
+- OQ-008 har nu en konkret fairness/randomness-testprotokol i `prototype/design-tests/OQ-008_RANDOMNESS_FAIRNESS.md`.
 
 ### Det vigtigste, der mangler nu
 
 1. **M-Pre er ikke kørt.** Kernehypotesen om fire indsatsmarkører er derfor stadig ikke bevist med mennesker.
-2. **M-Pre-materialet er ikke pakket som en konkret testpakke.** `docs/35` beskriver testen, men facilitatoren skal stadig omsætte den til kort, ark og standardiseret instruktion.
-3. **Statusdokumenter er delvist forældede.** `docs/29_NEXT_ACTION.md` peger stadig på det gamle Claude-reviewflow, og `repo_status.md` indeholder en ældre “ukompileret Fusion-binding”-linje, der ikke længere matcher de dokumenterede M0b-resultater.
-4. **Roadmappets estimatafsnit er delvist gammelt.** P1-scope er valgt til 1.012 timer i gaveversionen, mens et ældre afsnit stadig beskriver P1 som `TBD`.
-5. **OQ-008, OQ-009 og OQ-010 mangler testdesign/resultat.** De blokerer ikke M0-M2, men skal behandles systematisk senere.
+2. **M0b er ikke lukket cross-device.** Det er Claude/Anders-sporet og kræver to headset.
+3. **OQ-008 mangler menneskedata.** Testdesignet er klart, men spørgsmålet må ikke lukkes på AI-vurdering.
+4. **OQ-009 og OQ-010 mangler stadig testdesign/resultat.**
+5. **OQ-007 kan kun delvist besvares af M-Pre.** M-Pre kan vise naturlig arbejdsdeling, men tester ikke eksplicitte asymmetriske roller; det skal derfor ikke lukkes for aggressivt uden rolledata.
 6. **Endelige art/audio/source-assets skal ikke masseproduceres endnu.** Projektets egne gates forbyder dyr art/content før kerne- og greyboxbeviser er grønne.
 7. **Senere produktejerinput er stadig åbent:** same-room vs remote-first, finalens tone, neutral/personlig karakterisering, standardsværhedsgrad og launch-sprog.
 
@@ -44,56 +48,53 @@ Den må ikke bruges til at overstyre produkt- eller tekniske beslutninger i `00_
 
 ## P0 — nu
 
-### C-001 — Gør M-Pre kørbar
+### C-001 — Gør M-Pre kørbar — FÆRDIG
 
-**Mål:** Anders skal kunne gennemføre testen uden at designe forsøget på ny.
+Ready-to-run-pakken ligger under `prototype/m-pre/`:
 
-Leverancer under `prototype/m-pre/`:
+- `README.md`
+- `FACILITATOR_SCRIPT.md`
+- `TASK_CARDS.md`
+- `SESSION_SHEET.md`
+- `RESULT_TEMPLATE.md`
 
-- `README.md` — komplet runbook
-- `FACILITATOR_SCRIPT.md` — standardiseret intro og regler
-- `TASK_CARDS.md` — seks print-/kopiklar opgavekort
-- `SESSION_SHEET.md` — status, dagslog og målinger
-- `RESULT_TEMPLATE.md` — rå resultatopsamling og gateberegning
+Materialet kan bruges direkte med fire ens markører og én d6.
 
-**Færdig når:** materialet kan bruges direkte sammen med fire ens markører og én d6.
+### C-002 — Ryd statusdokumenter op — FÆRDIG
 
-### C-002 — Ryd statusdokumenter op
-
-Opdatér:
+Opdateret:
 
 - `docs/29_NEXT_ACTION.md`
 - `repo_status.md`
-- den forældede estimat/statussektion i `docs/12_PRODUCTION_ROADMAP.md`
+- `docs/12_PRODUCTION_ROADMAP.md`
+- GitHub issue #3
 
-Ingen Unity-status må opfindes; kun dokumenterede resultater må skrives ind.
+Kun dokumenterede Unity-resultater er skrevet ind.
 
-### C-003 — Afvent selve M-Pre-playtesten
+### C-003 — Kør selve M-Pre-playtesten — AFVENTER MENNESKER
 
-Selve gaten kræver mindst tre menneskelige sessioner med mindst to forskellige par og kan derfor ikke “simuleres grøn” af en AI.
+Selve gaten kræver mindst tre menneskelige sessioner med mindst to forskellige par og kan ikke “simuleres grøn” af en AI.
 
 Når rådata kommer tilbage:
 
 - udfyld §10 i `docs/35_M_PRE_GREYBOX_GATE.md`
 - afgør gaten efter de eksisterende tærskler
-- luk eller behold OQ-006/OQ-007
+- behandl OQ-006/OQ-007 med den faktiske evidens
 - opdatér roadmap/backlog med faktisk resultat
 
 ---
 
 ## P1 — mens M-Pre afventer testere
 
-### C-010 — Design test for randomness (OQ-008)
+### C-010 — Design test for randomness (OQ-008) — FÆRDIG
 
-Lav en lille A/B-test, der måler om randomness opleves som fair uden at balancere Stormnatten endeligt.
+Protokol: `prototype/design-tests/OQ-008_RANDOMNESS_FAIRNESS.md`.
 
-Krav:
+Testen sammenligner 1/6 og 1/3 komplikationsrisiko med samme fremdrift/omkostning og måler fairness, agency, spænding, frustration og forståelse.
 
-- samme beslutning under mindst to udfaldsmodeller
-- registrér oplevet agency, fairness og forståelse
-- ingen permanente contenttal før M3/M4-gates
+**Resultat:** afventer mennesketest.
 
-### C-011 — Rolletest (OQ-009)
+### C-011 — Rolletest (OQ-009) — NÆSTE
 
 Forbered to testvarianter:
 
@@ -101,6 +102,8 @@ Forbered to testvarianter:
 - roller fordeles/skifter automatisk
 
 Mål om valget skaber strategi eller bare præference/administration.
+
+Testen skal være eksplicit markeret som prototype og må ikke gøre midlertidige rolleeffekter til canon.
 
 ### C-012 — Efterspils-konkurrence (OQ-010)
 
@@ -176,11 +179,11 @@ Når Anders beder ChatGPT “køre videre” på Øen:
 
 | ID | Opgave | Status | Blokering |
 |---|---|---|---|
-| C-001 | M-Pre ready-to-run-pakke | **I gang** | Ingen |
-| C-002 | Status-/roadmapoprydning | **I gang** | Ingen |
+| C-001 | M-Pre ready-to-run-pakke | **Færdig** | — |
+| C-002 | Status-/roadmapoprydning | **Færdig** | — |
 | C-003 | Kør M-Pre med mennesker | Afventer | 3 testsessioner |
-| C-010 | OQ-008 randomness-testdesign | Næste | Ingen |
-| C-011 | OQ-009 rolletestdesign | Planlagt | M-Pre-data hjælper |
+| C-010 | OQ-008 randomness-testdesign | **Færdig** | Resultat afventer mennesker |
+| C-011 | OQ-009 rolletestdesign | **Næste** | Ingen |
 | C-012 | OQ-010 after-action competition test | Planlagt | Målbrugere senere |
 | C-020 | M1 produkt/UX-handoff | Planlagt | Grøn M-Pre |
 | C-021 | Source asset manifest | Planlagt | Grøn relevant gate |
