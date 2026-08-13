@@ -23,118 +23,70 @@ Proposal-data under `content/proposals/` forbliver `proposal-not-canonical`.
 
 ---
 
-# Leveret non-Unity foundation
+# Verificeret source-art på main
 
-Produkt/design/QA-laget omfatter bl.a.:
+- **A1 UI:** action/status-symboler, player identity, effort markers, action card, wrist frame og interaction-feedback masters.
+- **A2 core props:** briefs/concepts + `ITM_FIRESTEEL_001`, `ITM_TINDER_001`, `ITM_ROPE_COIL_001`. Firesteel er reference-only indtil issue #8 er afgjort.
+- **A3 storm/VFX:** rain, debris, embers, smoke, impact, wetness, storm phases samt `VFX_ROPE_STRAIN_001`.
+- **A4 camp:** camp layout/state, wreck, ground/readability, radio og signal progression.
+- **B1:** jungle/ravine/ridge references, ravine anchor/guide markers, resource items og `PRP_SUPPLY_CRATE_001`.
+- **B2:** presentation source + mapping for alle 10 events.
+- **A5:** wind shield, dry-fuel cache, signal fuel; cloth, map fragment, radio battery; release UI for join/reconnect/setup/pause/ready/subtitles.
+- **Materialfamilier:** wood/rope/cloth, rock/sand og foliage/utility source references + machine-readable contract.
+- **Character handwear:** `CHR_HAND_P1_001` + `CHR_HAND_P2_001`; torso er stadig åben C-polish.
+- **Neutral fallback:** fictional chart, compass, route card og signal tag.
 
-- source asset/audio manifests
-- dansk UX/copy/localization
-- personalization/privacy + neutral fallback
-- human QA M1-M9
-- IP/provenance
-- Stormnatten content coverage + 10-event catalog
-- visual style/UI IA
-- gift/release-flow
-- telemetry/metrics
-- backlog ownership overlay
-- narrative continuity
-- content-contract proposals
-- interaction handoffs for planning, shelter, fire, ravine og stormfinale
+Source-ready er ikke det samme som Unity-integrated eller release-approved. Claude ejer runtime import/implementation/device QA.
 
 ---
 
-# Source-art på main
+# Machine-readable content / UX
 
-## A1
+Aktuelle contracts omfatter:
 
-Gameplay-readable UI/source kit: action/status-symboler, effort markers, action-card base og interaction feedback.
+- dansk localization
+- Stormnatten actions
+- 10-event authoring + event presentation
+- neutral personalization
+- onboarding/Day 3 proposals
+- after-action presentation
+- material families
+- release UI surface→copy mapping
+- planning/status UI→action/localization/source mapping
+- audio recording/acquisition queues
+- audio acquisition candidates + listening QA
+- samlet source inventory
 
-## Neutral fallback
-
-Fictional chart, compass, route card og signal tag. Neutral source er komplet bortset fra faktisk radiooptagelse.
-
-## A2
-
-Core prop briefs/concepts + individuelle masters:
-
-- `ITM_FIRESTEEL_001.svg` — reference only; issue #8 er stadig gate
-- `ITM_TINDER_001.svg`
-- `ITM_ROPE_COIL_001.svg`
-
-## A3
-
-Storm source/reference for rain, debris, embers, smoke, impact, wetness og phase intensity.
-
-## A4
-
-Camp layout/state + wreck, ground/readability, radio og signal progression references.
-
-## B1
-
-- jungle/ravine/ridge references
-- ravine anchor/guide markers
-- wood/fiber/herbs/food/general supplies
-- `PRP_SUPPLY_CRATE_001.svg` — visuelt QA'et og rettet før merge
-
-## B2
-
-Event presentation source + machine-readable mapping for alle 10 events.
-
-## A5
-
-- OBJ source: wind shield, dry-fuel cache, signal fuel
-- source items: cloth, map fragment, radio battery
-- release UI: join, reconnect, first-launch setup, pause, connected/ready, subtitle band
-
-## Base material references — produceret
-
-`source_art/materials/base/`:
-
-- `MAT_WOOD_ROPE_CLOTH_REFERENCE_001.svg`
-- `MAT_ROCK_SAND_REFERENCE_001.svg`
-- `MAT_FOLIAGE_UTILITY_REFERENCE_001.svg`
-- `PROVENANCE.md`
-
-Machine-readable kontrakt: `content/materials/material_families.source.json`.
-
-Dækker alle syv manifestfamilier på source-reference niveau: wood, rope, cloth, rock, sand, foliage og utility metal. Claude ejer Unity material/shader implementation og device QA.
+`content/ui/planning_status_ui.source.json` binder planning card/effort markers/wrist status direkte til eksisterende action- og localization-data; Unity skal ikke oprette en parallel action/copy mapping.
 
 ---
 
 # Audio/source-status
 
-- **AU-1:** deterministisk generator til 12 korte UI/system cues; CI-valideret.
-- **Foley:** recording queue klar; faktiske naturalistiske masters mangler.
-- **Ambience:** acquisition queue klar; faktiske masters mangler.
-- **Radio VO:** 9 cues × 3 takes specificeret; faktisk recording mangler.
-- **Musik:** direction/cue-sheet klar; composition/source mangler.
+## AU-1
 
-Naturalistisk lyd markeres aldrig som produceret før reel source + provenance findes.
+Deterministisk generator til 12 korte UI/system cues; CI-valideret.
 
----
+## Naturalistisk source
 
-# Machine-readable content
+- Foley recording queue findes.
+- Ambience acquisition queue findes.
+- `content/audio/acquisition_candidates.source.json` indeholder licensverificerede CC0-kandidater for bl.a. wind, rain, fire, rope, wood og cloth.
+- `tools/acquire_audio_sources.py` downloader direct-download candidates, bevarer originals, beregner SHA-256, prøver `ffprobe` og skriver acquisition-manifest under den allerede ignorerede `PrivateContent/AudioSourceIncoming/`.
+- `content/audio/listening_qa.source.json` kræver listening/technical QA før en acquired original kan blive source-approved eller derived-master-approved.
 
-Source contracts omfatter nu:
+**Vigtigt:** WAV/FLAC-originalerne er ikke acquired i denne ChatGPT-runtime, fordi binary download til arbejdscontaineren er blokeret. De må derfor ikke markeres som producerede masters.
 
-- dansk localization
-- Stormnatten actions + placeholder-cost mirror
-- 10-event authoring
-- event→presentation mapping
-- neutral personalization
-- onboarding/Day 3 proposals
-- Foley/ambience/radio recording queues
-- after-action presentation
-- material families
-- samlet source inventory
+## Radio / musik
 
-After-action-contracten binder Core's authoritative causal data til outcome, causal highlights, team story, retry/replay og accessibility. Individuelle titler er `off` indtil OQ-010 støtter dem.
+- Radio VO: 9 cues × 3 takes specificeret; faktisk recording mangler.
+- Musik: direction/cue-sheet klar; composition/source mangler.
 
 ---
 
 # CI / kvalitet
 
-Aktive guards:
+Aktive guards omfatter:
 
 - Core tests
 - Validate handoff
@@ -144,15 +96,15 @@ Aktive guards:
 - AU-1 regeneration/validation
 - event presentation validation
 
-`Validate source inventory` er nu **implementeret og grøn**. Den kontrollerer package/content paths, dublet-ID'er, `producedIds`-coverage og A2 `individualMasterIds`.
+Seneste planning/status inventory-commit `36a38dd` er grøn på Core, handoff, non-Unity og source-inventory.
 
-Source-art får visuel/layout QA, når relevant. Supply-crate overflow blev fx fundet og rettet før merge.
+Forsøg på at udvide `validate_source_inventory.py` med dybere planning/status cross-file checks blev filtreret og tælles **ikke** som leveret. Den eksisterende pipeline er fortsat grøn.
 
 ---
 
 # Repo hygiene
 
-PR #12 fjernede 89 tracked genererede `src/**/bin/` build/test-filer. `.gitignore` dækkede allerede mapperne, og Core tests var grønne efter cleanup. Gælden er lukket.
+PR #12 fjernede 89 tracked genererede `src/**/bin/` build/test-filer. Gælden er lukket.
 
 ---
 
@@ -170,18 +122,20 @@ PR #12 fjernede 89 tracked genererede `src/**/bin/` build/test-filer. `.gitignor
 
 # Næste aktive ChatGPT-bølge
 
-1. fortsæt stabile B1/world source assets uden at duplikere eksisterende source
-2. bind producerede release-UI source surfaces til copy/localization som machine-readable handoff
-3. actual audio source production/acquisition: Foley → ambience → radio VO; ingen fake WAV-status
-4. yderligere machine-readable presentation/content contracts, kun hvor de reducerer Unity-gætteri
-5. richer environment/polish først når geometry/device evidence reducerer rework-risiko
-6. private personalization source uden for public repo senere
-7. M1 implementation handoff når både M0b + M-Pre er grønne
+1. fortsæt stabile B1/world source assets, men kun hvor et manglende source master reducerer reel Unity-gætteri
+2. actual audio acquisition + listening QA på en internetforbundet workstation; ingen fake WAV-status
+3. derefter derived audio masters/Foley/ambience, når source originals faktisk er acquired og godkendt
+4. radio VO recording efter samme provenance/listening pipeline
+5. yderligere machine-readable contracts kun hvor de erstatter manuel mapping — ikke for dokumentationens egen skyld
+6. richer environment/polish og torso først når geometry/device evidence reducerer rework-risiko
+7. private personalization source uden for public repo senere
+8. M1 implementation handoff når både M0b + M-Pre er grønne
 
 ## Kendte ikke-leverede artifacts
 
 - ember-carrier source blev genereret som blob, men commit blev filtreret; tælles **ikke** som produceret
 - repair-mallet source blev genereret som blob, men er ikke committed; tælles **ikke** som produceret
+- fuld gameplay interaction-feedback JSON-binding blev filtreret; planning/status-delen blev i stedet leveret som separat contract
 
 Der omgås ikke sikkerhedsfiltre, og ucommittede artifacts tælles aldrig som produktion.
 
