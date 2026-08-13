@@ -38,9 +38,58 @@ scene-budgetter. Den erstatter ikke profiling i Quest 2-headsettet.
 
 ---
 
-## Hurtig art-iteration — uden at køre hele M0b igen
+## Anbefalet on-machine art-verifikation — én Unity-proces
 
-Når Fase 1 allerede er kørt én gang, bruges denne til resten af art-arbejdet:
+Når Fase 1 allerede er kørt én gang, er `-OneShot` den anbefalede vej til at lukke de
+Unity-gates, som GitHub CI ikke kan bevise:
+
+```powershell
+cd C:\Users\admin\Desktop\Project-OEN-VR\prototype\m0b-bootstrap
+.\Review-ProductionArt.ps1 `
+  -UnityPath "C:\Program Files\Unity\Hub\Editor\6000.4.10f1\Editor\Unity.exe" `
+  -OneShot `
+  -OpenEditor
+```
+
+`-OneShot` synkroniserer production art + runtime/editor-scripts og starter derefter **én**
+Unity batchmode-proces. `ProductionArtBatchVerification.RunAll` kører den fulde 23-trins
+build/audit-kæde i rækkefølge:
+
+1. world prefabs;
+2. state appearance + audit;
+3. material calibration + audit;
+4. state catalogs;
+5. state-transition scene + reel `SetState`-audit;
+6. hero-readability scene + audit;
+7. decals;
+8. VFX + VFX-scene/audit;
+9. diegetic UI + UI-scene/audit;
+10. Stormnatten showcase;
+11. camp + signal-finale stormatmosfære;
+12. storm motion FX + wind response;
+13. imported Stormnatten Quest-2 audit;
+14. slutkontrol af at alle seks review-scener findes og fortsat er ude af enabled build settings.
+
+Unity kan kun nå `RunAll`, hvis de synkroniserede C#-filer er importeret og kompileret i den
+installerede Unity-version. Efter hvert trin køres en synkron `AssetDatabase.Refresh`, så
+ét-process-flowet ikke skjuler import-afhængigheder mellem builderne.
+
+Ved succes gemmes den maskinlæsbare rapport som:
+
+- Unity-projekt: `ProjektOenApp\ProjectOEN-ArtVerification.json`;
+- repo-handoff: `prototype\m0b-bootstrap\review-art-verification.json`.
+
+Rapporten indeholder Unity-version, projektsti, PASS/FAIL, antal beståede/fejlede trin og
+tid pr. trin. Den samlede Unity-log ligger i `review-art-one-shot.log`.
+
+Hvis Unity returnerer non-zero, rapporten mangler, eller rapporten ikke siger `PASS`, stopper
+PowerShell-scriptet og åbner **ikke** editoren som en falsk grøn levering.
+
+---
+
+## Debug fallback — én Unity-proces pr. trin
+
+Hvis et konkret builder/audit-trin skal isoleres, køres samme script uden `-OneShot`:
 
 ```powershell
 cd C:\Users\admin\Desktop\Project-OEN-VR\prototype\m0b-bootstrap
@@ -49,17 +98,11 @@ cd C:\Users\admin\Desktop\Project-OEN-VR\prototype\m0b-bootstrap
   -OpenEditor
 ```
 
-`Review-ProductionArt.ps1` gør kun dette:
+Den etablerede fallback starter Unity separat for hvert build/audit-trin og skriver de
+individuelle `review-art-*.log` filer. Den er langsommere, men god til fejlisolering.
 
-1. synkroniserer den aktuelle `ProductionArt`-pakke og art-editor-scripts til `ProjektOenApp`;
-2. genbygger production-art-prefabs;
-3. genbygger `StormnattenArtShowcase.unity`;
-4. tilføjer den lokale stormregn;
-5. kører Quest 2-budgetauditen;
-6. åbner Unity direkte på showcase-scenen, når `-OpenEditor` er angivet.
-
-Den rører **ikke** `Packages/`, XR-konfiguration, Photon/Fusion, `CoopGame.unity` eller M0b APK-buildet.
-Hvis budgetauditen fejler, åbnes editor-reviewet ikke som en falsk grøn levering.
+Begge review-modes rører **ikke** `Packages/`, XR-konfiguration, Photon/Fusion,
+`CoopGame.unity` eller M0b APK-buildet.
 
 Budgetauditen bruger følgende hårde scenegrænser:
 
