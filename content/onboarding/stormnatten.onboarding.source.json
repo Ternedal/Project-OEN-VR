@@ -1,0 +1,75 @@
+{
+  "id": "ONBOARDING_STORMNATTEN_001",
+  "scenarioId": "SCN_STORMNATTEN_001",
+  "version": 1,
+  "status": "canonical-content-contract",
+  "minTotalSeconds": 240,
+  "targetActiveSecondsPerPlayer": 60,
+  "sequence": [
+    {
+      "id": "ONB_ORIENT",
+      "purpose": "Find partner, establish shared space and make the first deliberate move together.",
+      "targetSeconds": {"min": 30, "max": 45},
+      "interactionRefs": ["partner_presence", "teleport", "basic_grab"],
+      "scopeState": "accepted-current-scope",
+      "implementationAllowed": true,
+      "requiredForAcceptedGiftScope": true,
+      "completion": "Both players have located each other and each completed one comfortable move/grab."
+    },
+    {
+      "id": "ONB_HEAVY_CRATE",
+      "purpose": "Teach the first unmistakable two-person physical cooperation beat.",
+      "targetSeconds": {"min": 45, "max": 60},
+      "interactionRefs": ["PRP_HEAVY_CRATE_001", "two_person_lift", "open_crate"],
+      "scopeState": "accepted-current-scope",
+      "implementationAllowed": true,
+      "requiredForAcceptedGiftScope": true,
+      "completion": "Both players contribute to moving the crate and the crate is opened."
+    },
+    {
+      "id": "ONB_STARTER_ITEMS",
+      "purpose": "Move from tutorial object handling into shared camp purpose.",
+      "targetSeconds": {"min": 30, "max": 45},
+      "interactionRefs": ["starter_items", "camp_orientation"],
+      "scopeState": "accepted-current-scope",
+      "implementationAllowed": true,
+      "requiredForAcceptedGiftScope": true,
+      "completion": "Starter items are visible/understood and both players can identify the camp's immediate needs."
+    },
+    {
+      "id": "ONB_FIRST_FIRE",
+      "purpose": "Optional owner-gated first-fire cooperation beat; kept explicit so it cannot become hidden Unity product logic.",
+      "targetSeconds": {"min": 10, "max": 20},
+      "interactionRefs": ["design/interactions/FIRE_START.md", "ITM_FIRESTEEL_001", "ITM_TINDER_001"],
+      "scopeState": "owner-decision-required",
+      "implementationAllowed": false,
+      "requiredForAcceptedGiftScope": false,
+      "completion": "No canonical completion is active until issue #8 receives Anders' scope disposition.",
+      "notes": [
+        "Do not count this beat in the accepted 1,012 h gift scope before owner disposition.",
+        "Do not silently substitute a full PO-044 fire-start system.",
+        "Source/reference material may remain production-ready while implementation is gated."
+      ]
+    },
+    {
+      "id": "ONB_FIRST_PLANNING",
+      "purpose": "Hand off from tutorial progression to the normal shared planning loop.",
+      "targetSeconds": {"min": 60, "max": 90},
+      "interactionRefs": ["PRP_PLAN_TABLE_001", "UI_ACTION_CARD_FRAME_001", "UI_EFFORT_MARKER_001"],
+      "scopeState": "accepted-current-scope",
+      "implementationAllowed": true,
+      "requiredForAcceptedGiftScope": true,
+      "completion": "The planning table is unlocked and both players complete the first shared allocation decision."
+    }
+  ],
+  "completion": {
+    "rule": "Complete all accepted-current-scope onboarding steps. Owner-gated steps never block the current accepted build while their implementationAllowed flag is false.",
+    "nextPhase": "DAY1_PLANNING"
+  },
+  "guardrails": [
+    "Onboarding is content-owned and must not become undocumented Unity special-case product logic.",
+    "Fire-start remains outside accepted gift scope until issue #8 receives owner disposition.",
+    "Onboarding steps are not daily effort actions and do not consume normal planning effort unless explicitly stated.",
+    "No private personalization content is required by this contract."
+  ]
+}
