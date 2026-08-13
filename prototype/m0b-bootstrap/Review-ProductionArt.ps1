@@ -5,7 +5,8 @@
   Unity project, touch Packages/, configure XR, import Fusion, or build the M0b APK.
   It syncs production art + lightweight runtime state controllers, rebuilds world
   prefabs/state catalogs/decals/VFX/UI assets, runs isolated VFX and physical-scale
-  UI audits, then the Stormnatten showcase and Quest 2 art audit.
+  UI audits, then the Stormnatten showcase with rain, wetness, bounded motion FX
+  and the Quest 2 art audit.
 #>
 
 param(
@@ -56,6 +57,7 @@ foreach ($builder in @(
     "ProductionArtUiShowcaseAudit.cs",
     "ProductionArtShowcaseBuilder.cs",
     "ProductionArtStormAtmosphereBuilder.cs",
+    "ProductionArtStormFxBuilder.cs",
     "ProductionArtShowcaseAudit.cs",
     "ProductionArtReviewMenu.cs"
 )) {
@@ -124,16 +126,20 @@ Run-UnityArtStep "Bygger Stormnatten showcase" `
     "ProjectOen.Art.Editor.ProductionArtShowcaseBuilder.BuildShowcase" `
     "review-art-showcase.log"
 
-Run-UnityArtStep "Tilfoejer lokal stormregn" `
+Run-UnityArtStep "Tilfoejer lokal stormregn og vaade overflader" `
     "ProjectOen.Art.Editor.ProductionArtStormAtmosphereBuilder.AddStormAtmosphere" `
     "review-art-storm.log"
+
+Run-UnityArtStep "Tilfoejer vind, regnsplash og fjernt lyn" `
+    "ProjectOen.Art.Editor.ProductionArtStormFxBuilder.AddStormMotionFx" `
+    "review-art-storm-motion.log"
 
 Run-UnityArtStep "Auditerer showcase mod Quest 2-budget" `
     "ProjectOen.Art.Editor.ProductionArtShowcaseAudit.AuditShowcase" `
     "review-art-budget.log"
 
 Step "Resultat"
-Write-Host "Production-art review er bygget; world assets, runtime state catalogs, decals, VFX og UI er wired; alle tre art-audits bestod." -ForegroundColor Green
+Write-Host "Production-art review er bygget; world assets, runtime state catalogs, decals, VFX og UI er wired; Stormnatten har regn, vaadhed, vind/splash/lyn; alle tre art-audits bestod." -ForegroundColor Green
 Write-Host "State catalogs: Assets\ProjectOEN\ProductionArt\StateSets" -ForegroundColor Green
 Write-Host "VFX scene: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
 Write-Host "UI scene: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
