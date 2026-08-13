@@ -1,0 +1,143 @@
+{
+  "scenarioId": "SCN_STORMNATTEN_001",
+  "version": 1,
+  "status": "authoring-source-v0.1",
+  "balanceStatus": "qualitative-only-until-M3",
+  "actions": [
+    {
+      "id": "INT_GATHER_WOOD_001",
+      "nameKey": "action.gather_wood.name",
+      "shortKey": "action.gather_wood.short",
+      "iconId": "UI_ACTION_ICON_WOOD_001",
+      "effortCost": 1,
+      "category": "camp",
+      "gainHint": "fire_building_material",
+      "riskHint": "fatigue",
+      "primaryRole": "carry",
+      "secondaryRole": "clear_path"
+    },
+    {
+      "id": "INT_FIND_FOOD_002",
+      "nameKey": "action.find_food.name",
+      "shortKey": "action.find_food.short",
+      "iconId": "UI_ACTION_ICON_FOOD_001",
+      "effortCost": 1,
+      "category": "resources",
+      "gainHint": "food_security",
+      "riskHint": "time_uncertainty",
+      "primaryRole": "forage",
+      "secondaryRole": "spot"
+    },
+    {
+      "id": "INT_BUILD_SHELTER_003",
+      "nameKey": "action.build_shelter.name",
+      "shortKey": "action.build_shelter.short",
+      "iconId": "UI_ACTION_ICON_SHELTER_001",
+      "effortCost": 1,
+      "category": "camp",
+      "gainHint": "shelter",
+      "riskHint": "materials_time",
+      "primaryRole": "place_beam",
+      "secondaryRole": "tie_rope"
+    },
+    {
+      "id": "INT_EXPLORE_CLIFF_004",
+      "nameKey": "action.explore_cliff.name",
+      "shortKey": "action.explore_cliff.short",
+      "iconId": "UI_ACTION_ICON_EXPLORE_001",
+      "effortCost": 1,
+      "category": "exploration",
+      "gainHint": "information_opportunity",
+      "riskHint": "fatigue_exposure",
+      "primaryRole": "traverse",
+      "secondaryRole": "belay_guide",
+      "comfortNote": "No real-world climbing requirement; bounded VR traversal only."
+    },
+    {
+      "id": "INT_SECURE_SUPPLIES_005",
+      "nameKey": "action.secure_supplies.name",
+      "shortKey": "action.secure_supplies.short",
+      "iconId": "UI_ACTION_ICON_SUPPLIES_001",
+      "effortCost": 1,
+      "category": "camp",
+      "gainHint": "protect_existing_resources",
+      "riskHint": "opportunity_cost",
+      "primaryRole": "stow",
+      "secondaryRole": "seal"
+    },
+    {
+      "id": "INT_REINFORCE_ROOF_006",
+      "nameKey": "action.reinforce_roof.name",
+      "shortKey": "action.reinforce_roof.short",
+      "iconId": "UI_ACTION_ICON_SHELTER_001",
+      "effortCost": 1,
+      "category": "storm_prep",
+      "gainHint": "storm_shelter",
+      "riskHint": "materials_time",
+      "primaryRole": "hold_beam",
+      "secondaryRole": "tie_rope"
+    },
+    {
+      "id": "INT_FIND_FIBER_007",
+      "nameKey": "action.find_fiber.name",
+      "shortKey": "action.find_fiber.short",
+      "iconId": "UI_ACTION_ICON_FIBER_001",
+      "effortCost": 1,
+      "category": "resources",
+      "gainHint": "rope_binding_material",
+      "riskHint": "time_uncertainty",
+      "primaryRole": "harvest",
+      "secondaryRole": "bundle"
+    },
+    {
+      "id": "INT_FIND_HERBS_008",
+      "nameKey": "action.find_herbs.name",
+      "shortKey": "action.find_herbs.short",
+      "iconId": "UI_ACTION_ICON_MEDICAL_001",
+      "effortCost": 1,
+      "category": "medical",
+      "gainHint": "treatment_resource",
+      "riskHint": "time_uncertainty",
+      "primaryRole": "identify",
+      "secondaryRole": "gather",
+      "availabilityHint": "injury_or_known_medical_need"
+    },
+    {
+      "id": "INT_BUILD_SIGNAL_009",
+      "nameKey": "action.build_signal.name",
+      "shortKey": "action.build_signal.short",
+      "iconId": "UI_ACTION_ICON_SIGNAL_001",
+      "effortCost": 1,
+      "category": "rescue",
+      "gainHint": "signal_readiness",
+      "riskHint": "camp_opportunity_cost",
+      "primaryRole": "raise_mast",
+      "secondaryRole": "stabilize"
+    },
+    {
+      "id": "INT_EXPLORE_RIDGE_010",
+      "nameKey": "action.explore_ridge.name",
+      "shortKey": "action.explore_ridge.short",
+      "iconId": "UI_ACTION_ICON_EXPLORE_001",
+      "effortCost": 1,
+      "category": "exploration",
+      "gainHint": "route_weather_information",
+      "riskHint": "fatigue_exposure",
+      "primaryRole": "scout",
+      "secondaryRole": "navigate"
+    },
+    {
+      "id": "INT_TREAT_INJURY_011",
+      "nameKey": "action.treat_injury.name",
+      "shortKey": "action.treat_injury.short",
+      "iconId": "UI_ACTION_ICON_MEDICAL_001",
+      "effortCost": 1,
+      "category": "medical",
+      "gainHint": "reduce_injury_risk",
+      "riskHint": "opportunity_cost",
+      "primaryRole": "treat",
+      "secondaryRole": "support_light",
+      "availabilityHint": "active_injury"
+    }
+  ]
+}
