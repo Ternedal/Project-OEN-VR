@@ -1,0 +1,34 @@
+{
+  "id": "DAY3_PLANNING",
+  "scenarioId": "SCN_STORMNATTEN_001",
+  "version": 1,
+  "status": "canonical-content-contract",
+  "type": "planning",
+  "checkpoint": true,
+  "insertAfter": "DAY2_PLANNING",
+  "insertBefore": "DAY3_STORM",
+  "actions": [
+    "INT_REINFORCE_ROOF_006",
+    "INT_BUILD_SIGNAL_009",
+    "INT_TREAT_INJURY_011",
+    "INT_SECURE_SUPPLIES_005"
+  ],
+  "decisionDimensions": [
+    "camp_shelter",
+    "rescue_signal",
+    "medical_risk",
+    "food_resource_security"
+  ],
+  "availabilityPolicy": "Reuse canonical action availability/unlock state; do not invent Day-3-only action IDs.",
+  "balancePolicy": "Reuse current placeholder effort costs; final numeric tuning remains M3/M4 evidence-gated.",
+  "completion": {
+    "rule": "Both players confirm the final shared allocation for the pre-storm planning beat.",
+    "nextPhase": "DAY3_STORM"
+  },
+  "guardrails": [
+    "This is the same planning mechanic, not a new gameplay system.",
+    "The four action IDs already exist in the canonical Stormnatten action catalog.",
+    "State/unlock rules remain authoritative; listing an action here does not force it available when its canonical unlock condition is false.",
+    "No fire-start scope is introduced by this phase contract."
+  ]
+}
