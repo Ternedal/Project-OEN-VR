@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "status": "candidate-target-mapping-not-source-approved-not-runtime-bound",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "sourceReceipt": "content/audio/acquisition_receipt.source.json",
+  "technicalQa": "content/audio/acquisition_technical_qa.source.json",
+  "listeningQa": "content/audio/listening_qa.source.json",
+  "pr6": {
+    "pr": 6,
+    "headAtMapping": "6b3d22f4b7a3e100fa7d237331b66225e55d0f4f",
+    "rule": "Revalidate event IDs and payload pin after PR #6 synchronizes current main."
+  },
+  "mappings": [
+    {
+      "sourceTarget": "AMB_WIND_WORLD",
+      "sha256": "5c381856745b4706e7eba55eb9271a61a530e90c05df8126adb2db89ecfa6c5a",
+      "candidateRuntimeFamilies": ["SFX_WTH_Storm_Wind"],
+      "relationship": "alternate-source-candidate",
+      "derivationIntent": "If human-approved, extract genuinely different temporal wind sections/levels as separate derivatives; preserve one immutable original.",
+      "guardrails": [
+        "Do not replace the PR #6 wind source merely because this original is acquired.",
+        "Compare contamination, island fit, variation value and Quest speech masking before source selection.",
+        "Different runtime variations must reflect different physical/time behaviour, not gain-only copies."
+      ]
+    },
+    {
+      "sourceTarget": "AMB_RAIN_ALT",
+      "sha256": "c33d833842c88e9559882b35f6f149c3a96bbf236eb34491e36ea4cae8879985",
+      "candidateRuntimeFamilies": ["SFX_WTH_Rain_Light", "SFX_WTH_Rain_Heavy"],
+      "relationship": "alternate-source-candidate",
+      "derivationIntent": "If human-approved, identify distinct intensity regions before deciding whether the source can legitimately feed one or both rain states.",
+      "guardrails": [
+        "Measured true peak reaches about +0.1 dBFS; attenuate before derived processing.",
+        "Do not derive Light and Heavy by level/EQ only if the underlying rain behaviour is not meaningfully different.",
+        "Inspect the 202.877 s peak region before source approval."
+      ]
+    },
+    {
+      "sourceTarget": "SFX_FIRE_ALT",
+      "sha256": "85ca0cc60d0c037fff8b185e31ad1fcdbda6ce45eee17c3ee1318d1b8f59e330",
+      "candidateRuntimeFamilies": ["SFX_ENV_Fire_Idle", "SFX_ENV_Fire_Low"],
+      "relationship": "alternate-source-candidate",
+      "derivationIntent": "If human-approved, use only if distinct fire-state material can be identified; otherwise target one fire state rather than manufacturing a second near-duplicate.",
+      "guardrails": [
+        "The existing PR #6 Idle/Low pair is already flagged for extreme objective similarity and needs A/B review.",
+        "Do not solve that issue by deriving two gain/EQ variants from this single 29.26 s source.",
+        "Source is 44.1 kHz; any accepted derivative must use quality 48 kHz resampling and receive another listening pass."
+      ]
+    }
+  ],
+  "notYetAcquiredExtensions": [
+    {
+      "sourceTarget": "AMB_OCEAN_ALT",
+      "candidateRuntimeFamilies": ["SFX_AMB_Beach_OceanNear", "SFX_AMB_Beach_OceanFar", "SFX_AMB_Shore_Wash"],
+      "rule": "Acquire and listen before any mapping is promoted beyond candidate intent."
+    },
+    {
+      "sourceTarget": "SFX_WOOD_PACK_ALT",
+      "candidateRuntimeFamilies": ["SFX_ENV_Wood_Pickup", "SFX_ENV_Wood_Drop", "SFX_ENV_Wood_Hit", "SFX_ENV_Wood_Break", "SFX_ENV_Wood_Chop", "SFX_CRF_Build_Place", "SFX_CRF_Build_Hammer"],
+      "rule": "Archive must be acquired and individual files inspected/licensed/listened before use."
+    },
+    {
+      "sourceTarget": "SFX_CLOTH_PACK_ALT",
+      "candidateRuntimeFamilies": ["SFX_PLY_Cloth_Move", "SFX_ENV_Tarp_Handle", "SFX_ENV_Tarp_Flap", "SFX_ENV_Tarp_Tension"],
+      "rule": "Archive must be acquired and individual files inspected/licensed/listened before use."
+    }
+  ],
+  "hardRules": [
+    "Candidate target mapping is not source approval.",
+    "No mapping changes the current PR #6 first-playable artifact pin.",
+    "A source-selected decision requires human listening evidence tied to the exact source SHA-256.",
+    "Derived files require new hashes and repeat listening QA.",
+    "Final Unity spatialization, mix and Quest acceptance remain Claude-owned physical gates."
+  ]
+}
