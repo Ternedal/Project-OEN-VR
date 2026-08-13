@@ -27,7 +27,7 @@ Dette dokument er den aktuelle eksekveringsrækkefølge for non-Unity source-pro
 | B2 event presentation | **7 masters produceret + mapped** | Claude binding til event contract |
 | Materials | **3 families produceret** | Claude Unity material/shader implementation |
 | Character readability | **P1/P2 hands produceret** | torso source reference er stadig åben |
-| A5 utility/release source | **Expanded source set produceret** | Unity import/binding/device QA |
+| A5 utility/release source | **Expanded source set + ending crate produceret** | Unity import/binding/device QA |
 | AU-1 feedback | **Generator ready + CI validated** | Claude runtime mix/binding |
 | AU-2 natural Foley | **Recording plan ready; ikke optaget** | real recording/edit/master |
 | World ambience | **3 originals acquired; ikke listening-approved** | human listening + mere acquisition |
@@ -91,10 +91,11 @@ Epilog-produktkontrakten er klar i:
 
 `ENV_EPILOGUE_001` er canonical som **eksisterende camp efter stormen**, ikke en ny gameplayzone.
 
-Fortsat åbent hvis det senere reducerer implementation ambiguity:
+`PRP_WATERPROOF_ENDING_CRATE_001` har nu en project-original OBJ source mesh med separate body/lid/gasket/latches/handles og neutrale hook-slot references. Den indeholder ingen private thumbnails, navne eller gaveindhold; sealed/available/open runtime states og hook-binding er Claude-lane.
+
+Fortsat åbent som senere C-polish, hvis det reducerer implementation ambiguity:
 
 - dedicated post-storm mood/dressing reference
-- concrete `PRP_WATERPROOF_ENDING_CRATE_001` visual reference
 
 Neutral ending-content er allerede produceret.
 
@@ -178,7 +179,7 @@ PR #6 must re-sync current `main` and regenerate/re-pin physical evidence before
 ### Can still progress without M0b/M-Pre
 
 1. natural audio acquisition/recording/listening coordination
-2. ending-crate/epilogue visual references only where they reduce ambiguity
+2. dedicated epilogue mood/dressing reference only if it reduces implementation ambiguity
 3. torso source reference as later avatar polish
 4. utility/fiber tool visual source if still useful and accepted by the asset pipeline
 5. keep machine-readable source inventory synchronized with actual files
