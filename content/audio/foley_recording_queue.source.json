@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "status": "recording-queue-ready",
+  "sourceOwner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "masterFormat": {"sampleRateHz": 48000, "bitDepth": 24, "defaultChannels": "mono"},
+  "sessions": [
+    {
+      "id": "FOLEY_HEAVY_OBJECTS_01",
+      "priority": "A",
+      "cues": [
+        {"id":"SFX_GRAB_HEAVY_001","variants":3,"targetLengthMs":[120,450],"filenamePattern":"SFX_GRAB_HEAVY_001_vNN.wav","captureIntent":"short hand-contact and weight-settle detail"},
+        {"id":"SFX_HEAVY_MOVE_001","variants":5,"targetLengthMs":[350,1200],"filenamePattern":"SFX_HEAVY_MOVE_001_vNN.wav","captureIntent":"wooden mass under controlled movement; no cinematic sub impact"},
+        {"id":"SFX_HEAVY_PLACE_001","variants":4,"targetLengthMs":[180,650],"filenamePattern":"SFX_HEAVY_PLACE_001_vNN.wav","captureIntent":"weighty placement with clear surface contact"},
+        {"id":"SFX_CRATE_OPEN_001","variants":3,"targetLengthMs":[450,1400],"filenamePattern":"SFX_CRATE_OPEN_001_vNN.wav","captureIntent":"wood lid movement plus restrained hardware detail"}
+      ]
+    },
+    {
+      "id": "FOLEY_ROPE_01",
+      "priority": "A",
+      "cues": [
+        {"id":"SFX_ROPE_TENSION_LOW_001","variants":4,"targetLengthMs":[250,900],"filenamePattern":"SFX_ROPE_TENSION_LOW_001_vNN.wav","captureIntent":"coarse rope movement with low perceived urgency"},
+        {"id":"SFX_ROPE_TENSION_GOOD_001","variants":4,"targetLengthMs":[180,700],"filenamePattern":"SFX_ROPE_TENSION_GOOD_001_vNN.wav","captureIntent":"controlled tension; tactile and stable"},
+        {"id":"SFX_ROPE_TENSION_HIGH_001","variants":4,"targetLengthMs":[250,900],"filenamePattern":"SFX_ROPE_TENSION_HIGH_001_vNN.wav","captureIntent":"fiber strain and friction; urgent but not metal-cable-like"},
+        {"id":"SFX_ROPE_TIE_001","variants":4,"targetLengthMs":[350,1100],"filenamePattern":"SFX_ROPE_TIE_001_vNN.wav","captureIntent":"wrap, pull and final cinch as one readable action"}
+      ]
+    },
+    {
+      "id": "FOLEY_SHELTER_01",
+      "priority": "A",
+      "cues": [
+        {"id":"SFX_SHELTER_CREAK_LOW_001","variants":5,"targetLengthMs":[450,1800],"filenamePattern":"SFX_SHELTER_CREAK_LOW_001_vNN.wav","captureIntent":"dry timber flex with low structural concern"},
+        {"id":"SFX_SHELTER_CREAK_HIGH_001","variants":5,"targetLengthMs":[450,1800],"filenamePattern":"SFX_SHELTER_CREAK_HIGH_001_vNN.wav","captureIntent":"more stressed timber texture without implying total collapse"},
+        {"id":"SFX_SHELTER_ROPE_FLAP_001","variants":4,"targetLengthMs":[300,1200],"filenamePattern":"SFX_SHELTER_ROPE_FLAP_001_vNN.wav","captureIntent":"heavy cloth/rope movement; avoid paper-like flutter"},
+        {"id":"SFX_BEAM_SHIFT_001","variants":4,"targetLengthMs":[250,1000],"filenamePattern":"SFX_BEAM_SHIFT_001_vNN.wav","captureIntent":"wood shift plus short scrape; strong positional cue"},
+        {"id":"SFX_SHELTER_SNAP_SUCCESS_001","variants":4,"targetLengthMs":[90,350],"filenamePattern":"SFX_SHELTER_SNAP_SUCCESS_001_vNN.wav","captureIntent":"short tactile physical success cue, distinct from UI tones"}
+      ]
+    }
+  ],
+  "qa": {
+    "required": ["no_clipping", "no_background_speech", "no_background_music", "clean_tail", "cue_id_matches_filename", "provenance_logged"],
+    "listeningContexts": ["headphones", "small_speaker", "under_weather_bed"]
+  }
+}
