@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -10,11 +9,13 @@ namespace ProjectOen.Audio.Editor
     /// <summary>
     /// Installs the generated first-playable audio runtime into the active saved scene without
     /// creating duplicate AudioService instances. Scene-specific listener references are wired
-    /// here because prefab assets cannot reference scene objects.
+    /// here because prefab assets cannot reference scene objects. The staged first-playable
+    /// manifest is verified before any scene mutation so direct install cannot bypass one-click integrity gates.
     /// </summary>
     public static class ProjectOenAudioSceneInstaller
     {
         private const string AudioRoot = "Assets/ProjectOen/Audio";
+        private const string CatalogPath = AudioRoot + "/Definitions/AudioCatalog.asset";
         private const string RuntimePrefabPath =
             "Assets/ProjectOen/Audio/GeneratedFirstPlayable/Runtime/AudioRuntime_FirstPlayable.prefab";
         private const string RuntimeName = "AudioRuntime_FirstPlayable";
@@ -70,14 +71,33 @@ namespace ProjectOen.Audio.Editor
                 return;
             }
 
-            var coverage = MeasureCanonicalClipCoverage();
+            var manifest = ProjectOenAudioFirstPlayableManifestAudit.Audit();
+            if (!manifest.Ok)
+            {
+                Debug.LogError(
+                    "Project Oen audio scene install stopped: first-playable manifest/import audit failed. " +
+                    manifest.Error);
+                return;
+            }
+
+            var coverage = (clipCount: manifest.ClipCount, eventCount: manifest.EventCount);
             if (coverage.clipCount < ExpectedFirstPlayableClipCount ||
                 coverage.eventCount < ExpectedFirstPlayableEventCount)
             {
                 Debug.LogError(
                     "Project Oen audio scene install stopped: incomplete first-playable audio import. " +
-                    $"Found {coverage.clipCount}/{ExpectedFirstPlayableClipCount} canonical clips across " +
+                    $"Found {coverage.clipCount}/{ExpectedFirstPlayableClipCount} manifest-verified canonical clips across " +
                     $"{coverage.eventCount}/{ExpectedFirstPlayableEventCount} events below '{AudioRoot}'.");
+                return;
+            }
+
+            var catalog = AssetDatabase.LoadAssetAtPath<AudioCatalog>(CatalogPath);
+            if (catalog == null || catalog.Events.Count != manifest.EventCount)
+            {
+                Debug.LogError(
+                    "Project Oen audio scene install stopped: generated catalog is missing or does not match the current staged manifest. " +
+                    $"Catalog events={(catalog == null ? 0 : catalog.Events.Count)}, manifest events={manifest.EventCount}. " +
+                    "Run Build First Playable (One Click) before installing the scene runtime.");
                 return;
             }
 
@@ -159,22 +179,52 @@ namespace ProjectOen.Audio.Editor
                 return;
             }
 
+            var manifest = ProjectOenAudioFirstPlayableManifestAudit.Audit();
             var services = FindInScene<AudioService>(scene);
             var routers = FindInScene<AudioWorldStateRouter>(scene);
             var followers = FindInScene<AudioWorldAnchorFollower>(scene);
             var emitterRouters = FindInScene<AudioWorldStateEmitterRouter>(scene);
             var randomEmitters = FindInScene<AudioRandomEmitter>(scene);
             var listeners = FindActiveListeners(scene);
-            var coverage = MeasureCanonicalClipCoverage();
+            var coverage = manifest.Ok
+                ? (clipCount: manifest.ClipCount, eventCount: manifest.EventCount)
+                : (clipCount: 0, eventCount: 0);
+            var catalog = AssetDatabase.LoadAssetAtPath<AudioCatalog>(CatalogPath);
 
-            var coverageOk = coverage.clipCount >= ExpectedFirstPlayableClipCount &&
+            var coverageOk = manifest.Ok &&
+                             coverage.clipCount >= ExpectedFirstPlayableClipCount &&
                              coverage.eventCount >= ExpectedFirstPlayableEventCount;
+            var catalogOk = manifest.Ok && catalog != null && catalog.Events.Count == manifest.EventCount;
+            var generatedRuntimeOk = services.Count == 1 &&
+                                     ResolveExistingGeneratedRuntimeRoot(services[0]) != null;
+
+            var followerTargetCount = 0;
+            if (listeners.Count == 1)
+            {
+                for (var i = 0; i < followers.Count; i++)
+                {
+                    var follower = followers[i];
+                    if (follower != null &&
+                        follower.Target == listeners[0].transform &&
+                        follower.gameObject.activeInHierarchy)
+                    {
+                        followerTargetCount++;
+                    }
+                }
+            }
+
             var ok = coverageOk &&
-                     services.Count == 1 &&
+                     catalogOk &&
+                     generatedRuntimeOk &&
                      routers.Count == 1 &&
                      followers.Count >= 2 &&
                      emitterRouters.Count >= 2 &&
-                     randomEmitters.Count >= 2;
+                     randomEmitters.Count >= 2 &&
+                     listeners.Count == 1 &&
+                     followerTargetCount >= 2;
+
+            if (!manifest.Ok)
+                Debug.LogError("Project Oen active-scene audio audit: manifest/import integrity failed: " + manifest.Error);
 
             if (!coverageOk)
             {
@@ -184,85 +234,52 @@ namespace ProjectOen.Audio.Editor
                     $"{ExpectedFirstPlayableEventCount} events.");
             }
 
-            if (!ok)
+            if (!catalogOk)
             {
                 Debug.LogError(
-                    "Project Oen active-scene audio audit failed: expected complete first-playable coverage, one AudioService/router, " +
-                    "and listener-relative WorldFauna + WorldWeather follower/router/emitter sets.");
+                    $"Project Oen active-scene audio audit: catalog/manifest mismatch: " +
+                    $"catalog={(catalog == null ? 0 : catalog.Events.Count)}, manifest={(manifest.Ok ? manifest.EventCount : 0)}.");
+            }
+
+            if (!generatedRuntimeOk)
+            {
+                Debug.LogError(
+                    "Project Oen active-scene audio audit: expected exactly one AudioService owned by the generated first-playable prefab instance.");
             }
 
             if (listeners.Count != 1)
             {
-                Debug.LogWarning(
+                Debug.LogError(
                     $"Project Oen active-scene audio audit: expected exactly one active AudioListener, found {listeners.Count}. " +
-                    "Listener-relative world emitters must stay disabled until listener ownership is unambiguous.");
+                    "Listener-relative world emitters are intentionally disabled until ownership is unambiguous.");
+            }
+            else if (followerTargetCount < 2)
+            {
+                Debug.LogError(
+                    "Project Oen active-scene audio audit: both active WorldFauna and WorldWeather anchors must be bound to the active AudioListener.");
             }
 
-            var followerTargetCount = 0;
-            if (listeners.Count == 1)
+            if (!ok)
             {
-                for (var i = 0; i < followers.Count; i++)
-                {
-                    var follower = followers[i];
-                    if (follower != null && follower.Target == listeners[0].transform)
-                        followerTargetCount++;
-                }
-
-                if (followerTargetCount < 2)
-                {
-                    Debug.LogError(
-                        "Project Oen active-scene audio audit: both WorldFauna and WorldWeather anchors must be bound to the active AudioListener.");
-                }
+                Debug.LogError(
+                    "Project Oen active-scene audio audit failed: expected verified first-playable payload/catalog, one generated AudioService/router, " +
+                    "and active listener-bound WorldFauna + WorldWeather follower/router/emitter sets.");
             }
 
             Debug.Log(
-                $"Project Oen active-scene audio audit: coverage={coverage.clipCount}/{coverage.eventCount}, " +
-                $"services={services.Count}, routers={routers.Count}, worldAnchors={followers.Count}, " +
-                $"emitterRouters={emitterRouters.Count}, randomEmitters={randomEmitters.Count}, " +
-                $"listenerBoundAnchors={followerTargetCount}, activeListeners={listeners.Count}, " +
-                $"status={(ok && (listeners.Count != 1 || followerTargetCount >= 2) ? "OK" : "CHECK")}.");
+                $"Project Oen active-scene audio audit: manifest={(manifest.Ok ? "OK" : "FAILED")}, " +
+                $"coverage={coverage.clipCount}/{coverage.eventCount}, catalog={(catalogOk ? "OK" : "MISMATCH")}, " +
+                $"generatedRuntime={(generatedRuntimeOk ? "OK" : "INVALID")}, services={services.Count}, routers={routers.Count}, " +
+                $"worldAnchors={followers.Count}, emitterRouters={emitterRouters.Count}, randomEmitters={randomEmitters.Count}, " +
+                $"listenerBoundAnchors={followerTargetCount}, activeListeners={listeners.Count}, status={(ok ? "OK" : "FAILED")}.");
         }
 
         private static (int clipCount, int eventCount) MeasureCanonicalClipCoverage()
         {
-            if (!AssetDatabase.IsValidFolder(AudioRoot))
-                return (0, 0);
-
-            var clipCount = 0;
-            var events = new HashSet<AudioEventId>();
-            foreach (var guid in AssetDatabase.FindAssets("t:AudioClip", new[] { AudioRoot }))
-            {
-                var path = AssetDatabase.GUIDToAssetPath(guid);
-                var clip = AssetDatabase.LoadAssetAtPath<AudioClip>(path);
-                if (clip == null || !TryResolveCanonicalClipEvent(clip.name, out var id))
-                    continue;
-
-                clipCount++;
-                events.Add(id);
-            }
-
-            return (clipCount, events.Count);
-        }
-
-        private static bool TryResolveCanonicalClipEvent(string clipName, out AudioEventId id)
-        {
-            id = AudioEventId.None;
-            if (string.IsNullOrWhiteSpace(clipName))
-                return false;
-
-            var separator = clipName.LastIndexOf('_');
-            if (separator <= 0 || separator >= clipName.Length - 1)
-                return false;
-
-            var eventName = clipName.Substring(0, separator);
-            var variationText = clipName.Substring(separator + 1);
-            if (!int.TryParse(variationText, out var variation) || variation <= 0)
-                return false;
-
-            if (eventName == "SFX_STS_Hunger_Warn" || eventName == "SFX_STS_Thirst_Warn")
-                return false;
-
-            return Enum.TryParse(eventName, out id) && id != AudioEventId.None;
+            var manifest = ProjectOenAudioFirstPlayableManifestAudit.Audit();
+            return manifest.Ok
+                ? (manifest.ClipCount, manifest.EventCount)
+                : (0, 0);
         }
 
         private static GameObject ResolveExistingGeneratedRuntimeRoot(AudioService service)
