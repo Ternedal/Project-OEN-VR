@@ -9,19 +9,18 @@ All A2 briefs, reference sheets and source masters in this folder are project-or
 
 No third-party models, stock artwork, external game screenshots or traced artwork are included.
 
-## Individual source masters currently committed in this production pass
+## Individual source masters registered in the current production inventory
 
-Current count: **5 individual SVG source masters**.
+Current registered count: **4 individual SVG source masters**.
 
 - `ITM_FIRESTEEL_001.svg`
 - `ITM_TINDER_001.svg`
 - `ITM_ROPE_COIL_001.svg`
 - `PRP_PLAN_TABLE_001.svg`
-- `PRP_HEAVY_CRATE_001.svg`
 
 The plan-table master preserves six large card bays, four physical effort markers, two-sided reach intent and distinct editable / ready / locked shapes without relying on color alone.
 
-The heavy-crate master preserves broad opposed carry handles, a readable lid/latch silhouette and closed / placed / open presentation intent. Carry behaviour remains implementation-owned rather than encoded as a source mesh state.
+`PRP_HEAVY_CRATE_001.svg` may exist on a working branch, but it is not registered in `content/source_inventory.source.json` and is therefore not counted as a produced handoff asset.
 
 The corresponding Markdown files remain product/handoff contracts.
 
