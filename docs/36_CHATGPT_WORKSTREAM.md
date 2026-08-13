@@ -59,21 +59,34 @@ Aktuelle contracts omfatter:
 
 `content/ui/planning_status_ui.source.json` binder planning card/effort markers/wrist status direkte til eksisterende action- og localization-data; Unity skal ikke oprette en parallel action/copy mapping.
 
+`tools/validate_planning_status_ui.py` håndhæver nu cross-file-kæden: canonical action fields, localization keys, A1 icons, effort markers, player identity og wrist-status source paths. Den kører via den eksisterende non-Unity CI og er grøn på commit `556cb153`.
+
 ---
 
 # M-Pre testværktøj
 
 `tools/evaluate_mpre.py` evaluerer kun anonymt, faktisk human-session CSV-input mod den accepterede gate i `docs/35`.
 
-Kode-QA:
+`prototype/m-pre/facilitator_runner.html` er nu en offline browser-runner til de faktiske menneskesessioner:
+
+- anonym `session_id` + `pair_id`
+- tre dages forhandlingstimere
+- uenighed + meningsskift
+- lokale observationer/debrief
+- delayed storm reveal efter dag 3
+- lokal batch i browseren
+- evaluator-kompatibel CSV
+- separat notes-JSON
+- ingen backend/netværksafhængighed
+
+Kode-/kontrakt-QA:
 
 - `tools/test_evaluate_mpre.py` bruger kun midlertidige syntetiske data og producerer aldrig playtest-evidens.
-- `.github/workflows/m-pre-evaluator-validation.yml` kører testen automatisk.
-- første CI-run fangede en reel import-path-fejl i workflowet; den blev rettet uden ændring af gatekode.
-- anden CI-run `83371af` er **grøn**: 4/4 tests passerer.
-- dækkede cases: 2/3 grøn → GREEN; 1/3 grøn → gyldig RED; ét testerpar → invalid; non-human/gavemodtager → invalid.
+- `tools/test_mpre_facilitator_runner.py` kontrollerer offline-only, anonym fields, seks task cards, CSV-schema parity, lokal batch/download og at runneren ikke selv afgør projektgaten.
+- M-Pre CI på commit `46331542` er **grøn med 10/10 tests**: 4 evaluator-tests + 6 runner-contract-tests.
+- dækkede evaluator-cases: 2/3 grøn → GREEN; 1/3 grøn → gyldig RED; ét testerpar → invalid; non-human/gavemodtager → invalid.
 
-M-Pre er stadig **ikke kørt**. Testværktøj og syntetisk kode-QA må aldrig tælles som menneskelig evidens.
+M-Pre er stadig **ikke kørt**. Runner, evaluator og syntetisk kode-QA må aldrig tælles som menneskelig evidens.
 
 ---
 
@@ -90,8 +103,10 @@ Deterministisk generator til 12 korte UI/system cues; CI-valideret.
 - `content/audio/acquisition_candidates.source.json` indeholder licensverificerede CC0-kandidater for bl.a. wind, rain, fire, rope, wood og cloth.
 - `tools/acquire_audio_sources.py` downloader direct-download candidates, bevarer originals, beregner SHA-256, prøver `ffprobe` og skriver acquisition-manifest under den allerede ignorerede `PrivateContent/AudioSourceIncoming/`.
 - `content/audio/listening_qa.source.json` kræver listening/technical QA før en acquired original kan blive source-approved eller derived-master-approved.
+- `tools/test_audio_acquisition_contract.py` kontrollerer kandidat-ID/filnavne, CC0-policy, HTTPS source evidence, private output-isolation, SHA-256-helper og at listening-state-kæden ikke kan springes over.
+- audio acquisition-contract-testene køres nu inde fra `tools/validate_non_unity_sources.py`; non-Unity CI på commit `1af4b0ba` er grøn.
 
-**Vigtigt:** WAV/FLAC-originalerne er ikke acquired i denne ChatGPT-runtime, fordi binary download til arbejdscontaineren er blokeret. De må derfor ikke markeres som producerede masters.
+**Vigtigt:** WAV/FLAC-originalerne er stadig ikke acquired i denne ChatGPT-runtime. Både container-download og browser/web-binary retrieval er blokeret, så der markeres fortsat ingen naturalistiske masters som producerede.
 
 ## Radio / musik
 
@@ -107,17 +122,20 @@ Aktive guards omfatter:
 - Core tests
 - Validate handoff
 - Validate non-Unity sources
+  - generelle source contracts
+  - planning/status cross-file links
+  - natural audio acquisition/listening contract
 - Validate source inventory
-- Validate M-Pre evaluator
+- Validate M-Pre evaluator/runner
 - action placeholder-cost mirror
 - AU-1 regeneration/validation
 - event presentation validation
 
-Planning/status inventory-commit `36a38dd` er grøn på Core, handoff, non-Unity og source-inventory.
+Aktuel verificeret status:
 
-M-Pre evaluator-CI `83371af` er grøn med 4/4 tests.
-
-Forsøg på at udvide `validate_source_inventory.py` med dybere planning/status cross-file checks blev filtreret og tælles **ikke** som leveret. Den eksisterende pipeline er fortsat grøn.
+- planning/status validator: grøn via non-Unity CI på `556cb153`
+- M-Pre evaluator + runner QA: grøn 10/10 på `46331542`
+- natural audio acquisition contract: grøn via non-Unity CI på `1af4b0ba`
 
 ---
 
@@ -141,7 +159,7 @@ PR #12 fjernede 89 tracked genererede `src/**/bin/` build/test-filer. Gælden er
 
 # Næste aktive ChatGPT-bølge
 
-1. **M-Pre human sessions**: næste reelle produktgate; evaluator og facilitatorpakke er klar.
+1. **M-Pre human sessions**: næste reelle produktgate; offline runner, evaluator og facilitatorpakke er klar.
 2. **Actual audio acquisition + listening QA** på en internetforbundet workstation; ingen fake WAV-status.
 3. **Derived audio masters/Foley/ambience** først når originals faktisk er acquired og godkendt.
 4. **Radio VO recording** efter samme provenance/listening pipeline.
@@ -156,6 +174,7 @@ PR #12 fjernede 89 tracked genererede `src/**/bin/` build/test-filer. Gælden er
 - repair-mallet source blev genereret som blob, men er ikke committed; tælles **ikke** som produceret
 - fuld gameplay interaction-feedback JSON-binding blev filtreret; planning/status-delen blev i stedet leveret som separat contract
 - `docs/38_SOURCE_ASSET_MANIFEST.md` har stadig stale statuslinjer for rope-strain og player hands; inventory + denne workstream er korrekte, og manifest-rewrite blev filtreret
+- den ønskede in-place robusthedsrewrite af `facilitator_runner.html` blev filtreret; den committed runner er statisk kontrakttestet og må fortsat browser-smoke-testes ved første faktiske testafvikling
 
 Der omgås ikke sikkerhedsfiltre, og ucommittede artifacts tælles aldrig som produktion.
 
