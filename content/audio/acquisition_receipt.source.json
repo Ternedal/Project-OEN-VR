@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "status": "partial-acquisition-originals-not-listening-approved",
+  "owner": "ChatGPT",
+  "acquiredAtUtc": "2026-08-13T19:46:25Z",
+  "candidateSource": "content/audio/acquisition_candidates.source.json",
+  "workflow": {
+    "path": ".github/workflows/acquire-audio-originals.yml",
+    "runId": 31737461883,
+    "artifactId": 9195705543,
+    "artifactName": "oen-audio-originals",
+    "artifactSha256": "f6d6e83a269562bf0abd4998d7c62d46714b793e5e84cb50817d4b5d861ec009",
+    "retention": "14 days; workflow can reacquire from verified source URLs"
+  },
+  "records": [
+    {
+      "target": "AMB_WIND_WORLD",
+      "provider": "OpenGameArt",
+      "sourcePage": "https://opengameart.org/content/park-ambiences",
+      "license": "CC0",
+      "filename": "park_ambience_wind.wav",
+      "bytes": 73960096,
+      "sha256": "5c381856745b4706e7eba55eb9271a61a530e90c05df8126adb2db89ecfa6c5a",
+      "technical": {
+        "codec": "pcm_s24le",
+        "sampleRateHz": 48000,
+        "channels": 2,
+        "bitDepth": 24,
+        "durationSeconds": 256.803333,
+        "peakDbfs": -11.784787,
+        "rmsDbfs": -38.646176
+      },
+      "status": "acquired-original-not-listening-approved"
+    },
+    {
+      "target": "AMB_RAIN_ALT",
+      "provider": "OpenGameArt",
+      "sourcePage": "https://opengameart.org/content/amb-rain-loop-2",
+      "license": "CC0",
+      "filename": "amb_rain2.flac",
+      "bytes": 75502454,
+      "sha256": "c33d833842c88e9559882b35f6f149c3a96bbf236eb34491e36ea4cae8879985",
+      "technical": {
+        "codec": "flac",
+        "sampleRateHz": 48000,
+        "channels": 2,
+        "bitDepth": 16,
+        "durationSeconds": 733.034667,
+        "peakDbfs": 0.0,
+        "rmsDbfs": -26.286375,
+        "qaFlags": ["touches-0-dBFS-single-sample-check-listening-and-editing"]
+      },
+      "status": "acquired-original-not-listening-approved"
+    },
+    {
+      "target": "SFX_FIRE_ALT",
+      "provider": "OpenGameArt",
+      "sourcePage": "https://opengameart.org/content/fireplace-sound-loop",
+      "license": "CC0",
+      "filename": "fire.wav",
+      "bytes": 10324410,
+      "sha256": "85ca0cc60d0c037fff8b185e31ad1fcdbda6ce45eee17c3ee1318d1b8f59e330",
+      "technical": {
+        "codec": "pcm_s32le",
+        "sampleRateHz": 44100,
+        "channels": 2,
+        "bitDepth": 32,
+        "durationSeconds": 29.263537,
+        "peakDbfs": -15.986295,
+        "rmsDbfs": -41.64249,
+        "qaFlags": ["44.1-kHz-source-requires-derived-48-kHz-master-if-approved"]
+      },
+      "status": "acquired-original-not-listening-approved"
+    }
+  ],
+  "rules": [
+    "Acquisition is not listening approval.",
+    "Originals remain outside Git history.",
+    "Derived masters must never overwrite originals.",
+    "Listening QA is required before source-approved or derived-master-approved status.",
+    "Claude owns final Unity spatial/mix/runtime/device QA."
+  ]
+}
