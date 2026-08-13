@@ -30,7 +30,7 @@ VERIFY_REQUIRED = (
     'sourceStampedUtc',
     'sourceStampTool',
     'ConvertTo-Json -Depth 10',
-    'source-stemplet verification-rapport bestod ikke round-trip kontrol',
+    'Source-stemplet verification-rapport bestod ikke round-trip kontrol.',
 )
 
 RUNBOOK_REQUIRED = (
