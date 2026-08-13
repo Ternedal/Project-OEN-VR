@@ -1,0 +1,13 @@
+{
+  "profileId": "NEUTRAL_DEFAULT",
+  "version": 1,
+  "fallbackProfileId": "NEUTRAL_DEFAULT",
+  "displayNames": ["Spiller 1", "Spiller 2"],
+  "textOverrides": {
+    "ending.neutral.message": "I holdt længe nok. Signalet blev set."
+  },
+  "imageAssets": [],
+  "audioAssets": [],
+  "finalMessageKey": "ending.neutral.message",
+  "propHooks": []
+}
