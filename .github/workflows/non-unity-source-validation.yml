@@ -1,0 +1,36 @@
+name: Validate non-Unity sources
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/**'
+      - 'source_art/**'
+      - 'docs/38_SOURCE_ASSET_MANIFEST.md'
+      - 'docs/39_AUDIO_CUE_MANIFEST.md'
+      - 'tools/validate_non_unity_sources.py'
+      - '.github/workflows/non-unity-source-validation.yml'
+  pull_request:
+    paths:
+      - 'content/**'
+      - 'source_art/**'
+      - 'docs/38_SOURCE_ASSET_MANIFEST.md'
+      - 'docs/39_AUDIO_CUE_MANIFEST.md'
+      - 'tools/validate_non_unity_sources.py'
+      - '.github/workflows/non-unity-source-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate non-Unity source contracts
+        run: python tools/validate_non_unity_sources.py
