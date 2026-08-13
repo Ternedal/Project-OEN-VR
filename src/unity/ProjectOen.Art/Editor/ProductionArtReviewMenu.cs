@@ -6,7 +6,7 @@ using UnityEngine;
 namespace ProjectOen.Art.Editor
 {
     /// <summary>
-    /// Editor entrypoints for the four generated production-art review scenes.
+    /// Editor entrypoints for the six generated production-art review scenes.
     /// Review-ProductionArt.ps1 continues to call OpenShowcase for the default
     /// Stormnatten landing scene after all audits complete.
     /// </summary>
@@ -16,6 +16,8 @@ namespace ProjectOen.Art.Editor
         private const string UiScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/DiegeticUiArtShowcase.unity";
         private const string VfxScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/ProductionVfxShowcase.unity";
         private const string MaterialScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/MaterialCalibrationShowcase.unity";
+        private const string StateTransitionScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StateTransitionShowcase.unity";
+        private const string HeroReadabilityScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/HeroReadabilityShowcase.unity";
 
         [MenuItem("Project OEN/Art/Open Stormnatten Art Showcase")]
         public static void OpenShowcase()
@@ -39,6 +41,18 @@ namespace ProjectOen.Art.Editor
         public static void OpenMaterialCalibrationShowcase()
         {
             OpenReviewScene(MaterialScenePath, "Material Calibration");
+        }
+
+        [MenuItem("Project OEN/Art/Open State Transition Showcase")]
+        public static void OpenStateTransitionShowcase()
+        {
+            OpenReviewScene(StateTransitionScenePath, "State Transition");
+        }
+
+        [MenuItem("Project OEN/Art/Open Hero Readability Showcase")]
+        public static void OpenHeroReadabilityShowcase()
+        {
+            OpenReviewScene(HeroReadabilityScenePath, "Hero Readability");
         }
 
         private static void OpenReviewScene(string scenePath, string label)
