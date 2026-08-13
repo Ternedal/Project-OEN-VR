@@ -2,6 +2,7 @@
 """Static QA for source-stamped on-machine Unity art verification."""
 from __future__ import annotations
 
+import subprocess
 import sys
 from pathlib import Path
 
@@ -60,6 +61,28 @@ def require(text: str, tokens: tuple[str, ...], label: str, errors: list[str]) -
             errors.append(f"{label} missing contract token: {token}")
 
 
+def parse_powershell(path: Path, errors: list[str]) -> None:
+    escaped = str(path).replace("'", "''")
+    command = (
+        "$tokens=$null; $parseErrors=$null; "
+        f"[System.Management.Automation.Language.Parser]::ParseFile('{escaped}', [ref]$tokens, [ref]$parseErrors) | Out-Null; "
+        "if ($parseErrors.Count -gt 0) { $parseErrors | ForEach-Object { Write-Error $_.Message }; exit 1 }"
+    )
+    try:
+        result = subprocess.run(
+            ["pwsh", "-NoProfile", "-NonInteractive", "-Command", command],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+    except FileNotFoundError:
+        errors.append("pwsh missing: cannot syntax-parse Verify-ProductionArt.ps1")
+        return
+    if result.returncode != 0:
+        detail = (result.stderr or result.stdout).strip().replace("\n", " | ")
+        errors.append("Verify-ProductionArt.ps1 PowerShell parse failed: " + detail)
+
+
 def main() -> int:
     errors: list[str] = []
     verify = read(VERIFY, "source-stamped verification wrapper", errors)
@@ -69,6 +92,8 @@ def main() -> int:
     require(verify, VERIFY_REQUIRED, "verification wrapper", errors)
     require(runbook, RUNBOOK_REQUIRED, "runbook", errors)
     require(gitignore, GITIGNORE_REQUIRED, ".gitignore", errors)
+    if VERIFY.exists():
+        parse_powershell(VERIFY, errors)
 
     lower = verify.lower()
     for forbidden in (
@@ -98,6 +123,7 @@ def main() -> int:
     print("Project ØEN source-stamped Unity verification QA")
     print("  source identity : named branch + 40-char commit SHA")
     print("  worktree        : production-art scope must be clean")
+    print("  PowerShell      : wrapper AST parse required")
     print("  JSON stamp      : branch / SHA / clean / UTC / stamp tool")
     print("  round-trip      : stamped branch + SHA + clean flag re-read")
     print("  local output    : logs/report are gitignored")
