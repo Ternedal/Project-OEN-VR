@@ -11,6 +11,6 @@
 <text x="275" y="394" fill="#E8E0CF" font-size="28">B</text>
 <text x="450" y="385" fill="#C8B58D" font-size="18">square wrist badge = Player B</text>
 </g>
-<text x="82" y="625" fill="#AFA488" font-size="17" font-family="sans-serif">Source intent: same base silhouette family as A; identity stays readable when palette is desaturated.</text>
-<text x="82" y="655" fill="#AFA488" font-size="17" font-family="sans-serif">Claude owns final rig/mesh/material, hand tracking/controller pose integration and Quest device QA.</text>
+<text x="82" y="618" fill="#AFA488" font-size="16" font-family="sans-serif">Source intent: same base silhouette family as A; identity remains readable after desaturation.</text>
+<text x="82" y="646" fill="#AFA488" font-size="16" font-family="sans-serif">Claude owns final rig/material, pose integration, network presence and device QA.</text>
 </svg>
