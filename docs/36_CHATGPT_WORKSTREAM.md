@@ -7,79 +7,65 @@
 
 ## Arbejdsregel
 
-M0b + M-Pre blokerer **M1-implementation**, men ikke ChatGPTs non-Unity-produktionsspor.
+M0b + M-Pre blokerer **M1-implementation**, ikke det parallelle non-Unity-produktionsspor.
 
-Human/device evidence blokerer kun de beslutninger, balancevalg og acceptance gates, som faktisk kræver den evidens.
+Human/device evidence blokerer kun de valg, balanceparametre og acceptance gates, som faktisk kræver evidensen. ChatGPT fortsætter derfor med source-art, audio-source, content authoring, UX/copy, QA, provenance, narrative og handoff-forberedelse uden at ændre Unity-runtime.
 
-ChatGPT fortsætter derfor med:
+## Autoritativ produktionsstatus
 
-- content/source authoring
-- art/audio source production
-- UX/copy/localization
-- QA og metrics
-- personalization/fallback
-- provenance
-- interaction/product handoffs
-- narrative og release flow
+Den machine-readable status ligger i:
 
-uden at ændre Unity-runtime eller foregive, at human/device gates er grønne.
+`content/source_inventory.source.json`
+
+Den fil er fremover første reference for spørgsmålet: **hvad er faktisk produceret, hvad er kun spec/source-ready, og hvad mangler?**
+
+`source_art/PROVENANCE_INDEX.md` er autoritativ for source-art provenance.
 
 ---
 
 # Aktuelle gates
 
-## Claude / Unity — M0b
+## M0b — Claude / Unity
 
-Tracker: GitHub issue #3.
+Tracker: GitHub issue #3. Cross-device/device evidence mangler fortsat.
 
-Cross-device evidence mangler fortsat.
+## M-Pre — ChatGPT / produkt
 
-## ChatGPT / produkt — M-Pre
-
-Tracker: GitHub issue #7.
-
-Ready-to-run; afventer tre menneskelige sessioner med mindst to forskellige par.
+Tracker: GitHub issue #7. Testpakken er ready-to-run; der mangler tre menneskelige sessioner med mindst to forskellige par.
 
 ## Content contract
 
 Tracker: GitHub issue #8.
 
-Løsningspakke findes i `docs/52_CONTENT_CONTRACT_RESOLUTION_PROPOSAL.md` samt `content/proposals/`.
+- intro → eksplicit onboarding-sequence foreslået
+- Day 3 → eksplicit planning phase foreslået
+- minimal fire-start → source/spec klar, men gave-scope kræver Anders' disposition
 
-- intro → anbefalet eksplicit onboarding-sequence
-- Day 3 → anbefalet eksplicit planning phase
-- minimal fire-start → source/spec klar, men scopevalg afventer Anders
+Proposal-data under `content/proposals/` er fortsat `proposal-not-canonical`.
 
 ---
 
-# Leveret på ChatGPT-siden
+# Leveret foundation
 
-## Produkt/design/QA foundation
+Produkt/design/QA-pakken dækker bl.a.:
 
-- `docs/37_NON_UNITY_GAP_AUDIT.md`
-- `docs/38_SOURCE_ASSET_MANIFEST.md`
-- `docs/39_AUDIO_CUE_MANIFEST.md`
-- `docs/40_UX_COPY_AND_LOCALIZATION_CATALOG.md`
-- `docs/41_PERSONALIZATION_PACKAGE_SPEC.md`
-- `docs/42_HUMAN_QA_PLAYTEST_PACK.md`
-- `docs/43_IP_AND_ASSET_PROVENANCE.md`
-- `docs/44_CONTENT_COVERAGE_MATRIX.md`
-- `docs/45_GIFT_EXPERIENCE_AND_RELEASE_FLOW.md`
-- `docs/46_STORMNATTEN_EVENT_CATALOG.md`
-- `docs/47_VISUAL_STYLE_BIBLE.md`
-- `docs/48_UI_INFORMATION_ARCHITECTURE.md`
-- `docs/49_AFTER_ACTION_AND_REPLAY_SPEC.md`
-- `docs/50_PRODUCT_TELEMETRY_AND_METRICS.md`
-- `docs/51_BACKLOG_OWNERSHIP_AND_STATUS_OVERLAY.md`
-- `docs/52_CONTENT_CONTRACT_RESOLUTION_PROPOSAL.md`
-- `docs/53_NARRATIVE_CONTINUITY_PASS.md`
-- `docs/54_NEUTRAL_FALLBACK_PACKAGE.md`
-- `docs/55_SOURCE_PRODUCTION_BATCH_PLAN.md`
-- `docs/56_A2_CORE_PROP_SOURCE_SPECS.md`
+- non-Unity gap audit
+- source asset/audio manifests
+- dansk UX/copy/localization
+- personalization/privacy/fallback
+- human QA M1-M9
+- IP/provenance
+- Stormnatten content coverage og 10-event catalog
+- visual style/UI IA
+- gift/release-flow
+- after-action/replay
+- telemetry/metrics
+- backlog ownership overlay
+- narrative continuity
+- content-contract proposals
+- source production batch plan
 
-## Interaction handoffs
-
-`design/interactions/`:
+Interaction handoffs findes for:
 
 - planning table
 - shelter reinforcement
@@ -87,94 +73,125 @@ Løsningspakke findes i `docs/52_CONTENT_CONTRACT_RESOLUTION_PROPOSAL.md` samt `
 - ravine rescue
 - storm finale
 
-Hvert brief beskriver player experience, begge roller, fail-forward, source assets/audio/copy, comfort og acceptance — ikke Unity-arkitektur.
-
-## Machine-readable source content
-
-`content/`:
-
-- dansk localization source
-- Stormnatten action-card source
-- 10-event authoring source
-- neutral personalization profile
-- onboarding-sequence proposal
-- Day 3 planning proposal
-
-Proposal-filer er markeret `proposal-not-canonical` og må ikke forveksles med accepterede beslutninger.
-
-## Content authoring templates
-
-`templates/content/`:
-
-- event
-- interaction brief
-- action card
-- source asset handoff
-- audio cue handoff
-
 ---
 
 # Faktisk source-artproduktion
 
-## A1 gameplay-readable UI/source kit — produceret
+## Produceret
 
-`source_art/ui/a1/` indeholder separate SVG source masters for bl.a.:
+- **A1 UI/source kit** — gameplay/status/action symbols, effort markers, cards og interaction feedback
+- **Neutral fallback** — fictional chart, compass, route card og signal tag
+- **A2 core-prop references** — separate prop briefs + concept/reference SVGs
+- **A3 storm VFX source** — rain, debris, embers, smoke, impact, wetness og storm-phase refs
+- **A4 camp source-reference** — camp layout/state progression
+- **B1 environment source-reference** — jungle/ravine/ridge readability
+- **B1 world-items** — wood, fiber, herbs, food og general supplies
+- **B1 ravine props** — anchor + guide markers
+- **B2 event presentation** — source presentation for all ten authored events + machine-readable mapping
 
-- Player A/B identity
-- shelter/fire/food/signal/medical/explore icons
-- health/fatigue/injury/wet-cold status
-- warning/success/partial shapes
-- effort markers P1/P2
-- action-card base
-- wrist-status frame
-- snap/grip/tension/repair feedback
+## Ny A5-bølge — delvist produceret
 
-Pakken har egen `PROVENANCE.md` og er class `OWN`.
+### Unity-venlige external source meshes
 
-Første visuelle QA fandt to problemer og de blev rettet:
+`source_art/props/a5/`:
 
-- fatigue-ikonets første version læste for meget som en pose/weight
-- signal-ikonet havde for lille edge margin
+- `PRP_WIND_SHIELD_001.obj`
+- `PRP_DRY_FUEL_CACHE_001.obj`
+- `PRP_SIGNAL_FUEL_001.obj`
 
-SVG source masters er bevaret; Unity-import/raster/atlas tilhører Claude.
+De er meter/Y-up source meshes uden Unity-materialer, colliders, LOD eller runtimeopsætning. Unity-import og runtime-ejerskab forbliver Claude.
 
-## Neutral fallback source-art — produceret
+### Source items
 
-`source_art/neutral/`:
+`source_art/items/a5/`:
 
-- fictional rescue/chart card
-- compass memento
-- route card
-- signal tag
+- `ITM_CLOTH_001.svg`
+- `ITM_MAP_FRAGMENT_001.svg`
 
-Alle er project-originale, uden real-world brands/maps, med provenance.
+### Release UI
 
-Neutral machine-readable profile findes også under `content/personalization/`.
+`source_art/ui/a5/`:
+
+- `UI_RECONNECT_PANEL_001.svg`
+- `UI_JOIN_CODE_PANEL_001.svg`
+
+Nogle yderligere source-art write-kald er blevet sikkerhedsblokeret af connectoren. De blokeringer omgås ikke; arbejdet fortsætter på andre ublokerede leverancer.
 
 ---
 
-# Non-Unity CI
+# Audio/source-status
 
-Ny validator:
+## AU-1
 
-`tools/validate_non_unity_sources.py`
+Deterministisk generator til korte syntetiske UI/system-cues findes under `source_audio/au1/` og har CI-verifikation.
 
-Ny workflow:
+## Foley
 
-`.github/workflows/non-unity-source-validation.yml`
+`content/audio/foley_recording_queue.source.json` er nu recording-ready med:
 
-Den kontrollerer bl.a.:
+- cue-ID
+- variantantal
+- filnavnemønster
+- mållængde
+- recording intent
+- 48 kHz / 24-bit sourcekrav
+- QA-regler
 
-- JSON parse/source metadata
-- localization references
-- action icon references
-- event audio/copy references
-- SVG XML/viewBox
-- provenance på source-art packs
-- proposal isolation
-- oplagte private-content fejl
+## Ambience
 
-**Første CI-run: success.**
+`content/audio/ambience_acquisition_queue.source.json` definerer acquisition/production-kø for:
+
+- wind L0-L3
+- light/heavy rain
+- beach/camp
+- jungle
+- ravine
+- camp night
+
+Naturalistisk Foley/ambience er **ikke** fejlagtigt markeret som produceret WAV endnu.
+
+## VO og musik
+
+- neutral radio-VO: script/source-ready, recording mangler
+- musik: direction/cue-sheet ready, composition/source mangler
+
+---
+
+# Machine-readable content
+
+Aktuelle source contracts omfatter:
+
+- dansk localization
+- Stormnatten actions
+- placeholder cost mirror
+- ten-event authoring
+- event→presentation mapping
+- neutral personalization profile
+- onboarding/Day 3 proposals
+- Foley recording queue
+- ambience acquisition queue
+- samlet source inventory
+
+---
+
+# CI / kvalitet
+
+Aktive non-Unity guards omfatter bl.a.:
+
+- non-Unity source validation
+- action placeholder-cost mirror
+- AU-1 source audio regeneration/validation
+- event presentation validation
+
+Action-cost-valideringen fangede tidligere en forkert antagelse i ChatGPT-source og er efter rettelse grøn. Dette er den ønskede model: source contracts skal kunne afsløre vores egne fejl før Claude integrerer dem.
+
+---
+
+# Repo hygiene
+
+`.gitignore` ignorerer eksplicit `src/**/bin/` og `src/**/obj/`, men tracked `bin/` buildoutputs findes fortsat i repositoryet.
+
+Det er bekræftet repo-gæld. En atomisk bulk-cleanup via connectorens tree-operation blev sikkerhedsblokeret, så den er **ikke** forsøgt omgået. Ingen filer er slettet på et usikkert grundlag.
 
 ---
 
@@ -184,7 +201,7 @@ Den kontrollerer bl.a.:
 - OQ-008 fairness/randomness
 - OQ-009 role assignment
 - OQ-010 after-action competition
-- M3/M4 balance/tuning
+- M3/M4 numeric balance/tuning
 - M3-M9 human gates
 - M0b/device gates
 
@@ -192,87 +209,26 @@ Den kontrollerer bl.a.:
 
 # Næste aktive ChatGPT-bølge
 
-## N-026 — A2 prop source handoff packages
+Prioritet i denne rækkefølge, medmindre repo/evidence ændrer den:
 
-Brug `docs/56_A2_CORE_PROP_SOURCE_SPECS.md` til at gøre hver core prop klar som separat source-handoff:
-
-- heavy crate
-- firepit
-- firesteel
-- tinder
-- wind shield
-- shelter beam
-- rope/coil
-- tarp
-- planning table
-- signal frame
-
-## N-027 — A3 storm source references
-
-Source-side reference packs for:
-
-- rain
-- wind debris
-- ember/smoke
-- wetness
-- collapse/impact
-- storm phase intensity
-
-Runtime VFX remains Claude.
-
-## N-028 — Audio production source plan → files
-
-Start med AU-1:
-
-- planning feedback
-- rope tension
-- shelter stress
-- fire-state feedback
-- reconnect/system feedback
-
-Actual final Unity mix waits Claude/device evidence.
-
-## N-029 — Complete neutral source package
-
-Remaining non-Unity item:
-
-- neutral radio VO source/strategy
-
-Runtime binding remains Claude.
-
-## N-030 — Content contract follow-up
-
-Issue #8:
-
-- canonicalize intro/Day3 only after data-contract review
-- fire-start scope remains Anders decision
-
-## N-031 — Source provenance register expansion
-
-Register actual produced A1/neutral source packs in central provenance summary, while per-pack records remain authoritative.
-
-## N-032 — Continue machine-readable authoring
-
-Add authoring source where it reduces later Unity guesswork, without locking numeric balance.
-
----
-
-# M1 handoff
-
-Når **M0b + M-Pre begge er grønne**, samles det allerede producerede materiale til en kompakt M1 implementation handoff til Claude.
-
-Det betyder, at M1 ikke starter med designarbejde fra nul.
+1. resterende A-priority world/source items og release-UI, hvor connectoren tillader sikre writes
+2. audio natural-source production: Foley → ambience → radio VO → minimal music
+3. source inventory/provenance reconciliation efter hver reel produktionsbatch
+4. yderligere machine-readable contracts hvor de reducerer Unity-gætteri
+5. richer camp/environment art først når geometry/device evidence gør rework-risiko acceptabel
+6. private personalization source uden for public repo senere
+7. M1 implementation handoff når både M0b + M-Pre er grønne
 
 ---
 
 # Arbejdsregel ved “kør videre”
 
 1. kontrollér seneste repo/issues/CI
-2. tag højeste ublokerede non-Unity-opgave
-3. ændr ikke Unity-filer
-4. producer konkrete artifacts/source, ikke kun planer
-5. QA egne leverancer
-6. brug human/device evidence hvor det faktisk kræves
-7. opdatér workstream ved reelle statusskift
+2. brug `content/source_inventory.source.json` som produktionsstatus
+3. tag højeste ublokerede non-Unity-opgave
+4. ændr ikke Unity-filer
+5. producer konkrete artifacts/source frem for kun planer
+6. QA egne leverancer og registrér provenance
+7. opfind aldrig human/device-evidens
 
-> **Der er fortsat væsentligt arbejde på ChatGPT-siden. Gates bestemmer hvad der må låses — ikke om arbejdet må fortsætte.**
+> **Gates bestemmer hvad der må låses. De betyder ikke, at ChatGPTs produktionsspor skal stå stille.**
