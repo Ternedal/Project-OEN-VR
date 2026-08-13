@@ -14,6 +14,7 @@
     {"id":"B1_WORLD_ITEMS","status":"partial-produced","path":"source_art/items/b1","format":"SVG","producedIds":["ITM_WOOD_BUNDLE_001","ITM_FIBER_BUNDLE_001","ITM_HERB_BUNDLE_001","ITM_FOOD_PARCEL_001","ITM_GENERAL_SUPPLIES_001"],"next":"remaining scenario items and runtime handoff"},
     {"id":"B1_WORLD_PROPS","status":"partial-produced","path":"source_art/props/b1","format":"SVG","producedIds":["PRP_SUPPLY_CRATE_001"],"next":"continue stable utility/world props as needed; Claude owns Unity mesh/interaction/device QA"},
     {"id":"B2_EVENT_PRESENTATION","status":"produced-and-mapped","path":"source_art/events/b2","format":"SVG","next":"Claude binds machine-readable event presentation contract"},
+    {"id":"MATERIAL_FAMILIES","status":"produced-source-reference","path":"source_art/materials/base","format":"SVG","producedIds":["MAT_WOOD_ROPE_CLOTH_REFERENCE_001","MAT_ROCK_SAND_REFERENCE_001","MAT_FOLIAGE_UTILITY_REFERENCE_001"],"next":"Claude maps source intent to Quest-appropriate Unity material/shader implementations and device QA"},
     {"id":"A5_PROP_MESHES","status":"partial-source-meshes-produced","path":"source_art/props/a5","format":"OBJ","producedIds":["PRP_WIND_SHIELD_001","PRP_DRY_FUEL_CACHE_001","PRP_SIGNAL_FUEL_001"],"next":"Unity import remains Claude; source mesh QA/provenance exists"},
     {"id":"A5_ITEMS","status":"produced-source-set","path":"source_art/items/a5","format":"SVG","producedIds":["ITM_CLOTH_001","ITM_MAP_FRAGMENT_001","ITM_RADIO_BATTERY_001"],"next":"Claude Unity import/socket/readability QA"},
     {"id":"A5_RELEASE_UI","status":"produced-source-set","path":"source_art/ui/a5","format":"SVG","producedIds":["UI_RECONNECT_PANEL_001","UI_JOIN_CODE_PANEL_001","UI_FIRST_LAUNCH_SETUP_001","UI_PAUSE_PANEL_001","UI_CONNECTED_READY_001","UI_SUBTITLE_BAND_001"],"next":"Claude Unity layout/binding/headset-distance/accessibility QA"},
@@ -29,6 +30,7 @@
     {"id":"EVENTS","status":"source-ready-qualitative","path":"content/events/stormnatten.events.source.json"},
     {"id":"EVENT_PRESENTATION","status":"source-ready-ci-validated","path":"content/events/stormnatten.presentation.source.json"},
     {"id":"AFTER_ACTION_PRESENTATION","status":"source-ready-qualitative","path":"content/outcomes/after_action.presentation.source.json"},
+    {"id":"MATERIAL_FAMILIES","status":"source-reference-ready","path":"content/materials/material_families.source.json"},
     {"id":"NEUTRAL_PERSONALIZATION","status":"source-ready","path":"content/personalization/neutral_profile.source.json"},
     {"id":"ONBOARDING_PROPOSAL","status":"proposal-not-canonical","path":"content/proposals/onboarding_sequence.source.json"},
     {"id":"DAY3_PLANNING_PROPOSAL","status":"proposal-not-canonical","path":"content/proposals/day3_planning.source.json"}
