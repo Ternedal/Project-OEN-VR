@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "status": "source-ready",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "localeSource": "content/localization/da.source.json",
+  "principles": [
+    "world first, overlay second",
+    "critical state uses shape/text and never color alone",
+    "system surfaces stay concise and avoid networking/runtime jargon",
+    "critical speech has subtitle parity",
+    "runtime layout and input implementation remain Unity-owned"
+  ],
+  "surfaces": [
+    {
+      "id": "UI_JOIN_CODE_PANEL_001",
+      "source": "source_art/ui/a5/UI_JOIN_CODE_PANEL_001.svg",
+      "state": "lobby-host-or-join",
+      "copyKeys": [
+        "lobby.title",
+        "lobby.join_code.label",
+        "lobby.join_code.share",
+        "lobby.join_code.enter",
+        "lobby.invalid_code",
+        "lobby.session_full",
+        "lobby.connection_error",
+        "lobby.content_mismatch.title",
+        "lobby.content_mismatch.body"
+      ],
+      "primaryRule": "join code or code-entry is the most readable element in its active state",
+      "mustNotShow": ["gameplay strategy", "raw version hashes in primary view", "network transport terminology"]
+    },
+    {
+      "id": "UI_CONNECTED_READY_001",
+      "source": "source_art/ui/a5/UI_CONNECTED_READY_001.svg",
+      "state": "lobby-connected",
+      "copyKeys": [
+        "lobby.ready",
+        "lobby.not_ready",
+        "lobby.partner_ready",
+        "lobby.waiting_partner",
+        "lobby.start_when_ready"
+      ],
+      "primaryRule": "both player identities and ready states are readable by shape plus text",
+      "mustNotShow": ["diagnostic noise by default", "competitive score"]
+    },
+    {
+      "id": "UI_FIRST_LAUNCH_SETUP_001",
+      "source": "source_art/ui/a5/UI_FIRST_LAUNCH_SETUP_001.svg",
+      "state": "first-launch-setup",
+      "copyKeys": [
+        "setup.title",
+        "setup.standing",
+        "setup.seated",
+        "setup.dominant_left",
+        "setup.dominant_right",
+        "setup.reset_position",
+        "setup.floor_check",
+        "setup.reach_check",
+        "setup.reach_ok"
+      ],
+      "primaryRule": "first launch asks only high-value setup choices; full settings remain available later",
+      "mustNotShow": ["every comfort option at once", "long tutorial prose"]
+    },
+    {
+      "id": "UI_PAUSE_PANEL_001",
+      "source": "source_art/ui/a5/UI_PAUSE_PANEL_001.svg",
+      "state": "safe-pause",
+      "copyKeys": [
+        "pause.title",
+        "pause.resume",
+        "pause.settings",
+        "pause.return_object",
+        "pause.requested",
+        "pause.countdown",
+        "settings.comfort",
+        "settings.locomotion",
+        "settings.subtitles",
+        "settings.haptics"
+      ],
+      "primaryRule": "resume is primary; recovery/settings are secondary; safe-pause state stays understandable to both players",
+      "mustNotShow": ["release-inappropriate dev controls", "raw save/network diagnostics"]
+    },
+    {
+      "id": "UI_RECONNECT_PANEL_001",
+      "source": "source_art/ui/a5/UI_RECONNECT_PANEL_001.svg",
+      "state": "connection-recovery",
+      "copyKeys": [
+        "reconnect.lost",
+        "reconnect.waiting",
+        "reconnect.returned",
+        "reconnect.checkpoint_offer",
+        "reconnect.resume_checkpoint",
+        "reconnect.leave"
+      ],
+      "primaryRule": "tell players what is happening and what safe recovery action exists without exposing implementation details",
+      "mustNotShow": ["transport/provider names", "session IDs", "retry loop jargon"]
+    },
+    {
+      "id": "UI_SUBTITLE_BAND_001",
+      "source": "source_art/ui/a5/UI_SUBTITLE_BAND_001.svg",
+      "state": "speech-active",
+      "copyKeys": [
+        "speaker.radio",
+        "speaker.partner",
+        "vo.radio.night1.01",
+        "vo.radio.night1.02",
+        "vo.radio.night1.03",
+        "vo.radio.day3.01",
+        "vo.radio.day3.02",
+        "vo.radio.day3.03",
+        "vo.radio.ending.neutral.01",
+        "vo.radio.ending.neutral.02",
+        "vo.radio.ending.neutral.03"
+      ],
+      "primaryRule": "speaker label plus one or two concise lines; semantic content matches source speech exactly",
+      "mustNotShow": ["critical speech only in audio", "large dialogue history during active gameplay"]
+    }
+  ],
+  "globalAcceptance": [
+    "all referenced localization keys exist",
+    "no critical state relies on color alone",
+    "source surface can scale without requiring tiny text",
+    "personal/private content is not hardcoded into public release UI",
+    "Claude can bind runtime state without inventing product copy or hierarchy"
+  ],
+  "handoff": {
+    "chatgptOwns": ["surface purpose", "copy mapping", "information hierarchy", "source reference", "acceptance criteria"],
+    "claudeOwns": ["Unity layout", "input", "animation", "state binding", "safe areas", "font rendering", "headset-distance QA", "performance"]
+  }
+}
