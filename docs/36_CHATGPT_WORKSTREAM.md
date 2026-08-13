@@ -7,217 +7,152 @@
 
 ## Arbejdsregel
 
-M0b + M-Pre blokerer **M1-implementation**, ikke det parallelle non-Unity-produktionsspor.
+M0b + M-Pre blokerer **M1-implementation**, ikke det parallelle non-Unity-produktionsspor. Human/device evidence blokerer kun de valg, balanceparametre og acceptance gates, som faktisk kræver evidensen.
 
-Human/device evidence blokerer kun de valg, balanceparametre og acceptance gates, som faktisk kræver evidensen. ChatGPT fortsætter derfor med source-art, audio-source, content authoring, UX/copy, QA, provenance, narrative og handoff-forberedelse uden at ændre Unity-runtime.
-
-Den machine-readable produktionsstatus er:
-
-`content/source_inventory.source.json`
+Machine-readable produktionsstatus: `content/source_inventory.source.json`.
 
 ---
 
 # Aktuelle gates
 
-## M0b — Claude / Unity
+- **M0b / issue #3 — Claude/Unity:** cross-device/device evidence mangler.
+- **M-Pre / issue #7 — produkt:** ready-to-run; tre menneskelige sessioner med mindst to forskellige par mangler.
+- **Content contract / issue #8:** onboarding + Day 3 proposals findes; minimal fire-start source/reference findes, men scope er ikke canonical uden Anders' disposition.
 
-Tracker: GitHub issue #3. Cross-device/device evidence mangler fortsat.
-
-## M-Pre — ChatGPT / produkt
-
-Tracker: GitHub issue #7. Testpakken er ready-to-run; der mangler tre menneskelige sessioner med mindst to forskellige par.
-
-## Content contract
-
-Tracker: GitHub issue #8.
-
-- intro → eksplicit onboarding-sequence foreslået
-- Day 3 → eksplicit planning phase foreslået
-- minimal fire-start → source/spec/reference klar, men gave-scope kræver Anders' disposition
-
-Proposal-data under `content/proposals/` er fortsat `proposal-not-canonical`.
+Proposal-data under `content/proposals/` forbliver `proposal-not-canonical`.
 
 ---
 
 # Leveret non-Unity foundation
 
-Produkt/design/QA-pakken dækker bl.a.:
+Produkt/design/QA-laget omfatter bl.a.:
 
 - source asset/audio manifests
 - dansk UX/copy/localization
-- personalization/privacy/neutral fallback
+- personalization/privacy + neutral fallback
 - human QA M1-M9
 - IP/provenance
-- Stormnatten content coverage og 10-event catalog
+- Stormnatten content coverage + 10-event catalog
 - visual style/UI IA
 - gift/release-flow
 - telemetry/metrics
 - backlog ownership overlay
 - narrative continuity
 - content-contract proposals
-- source production batch plan
-
-Interaction handoffs findes for planning, shelter, fire, ravine og stormfinale.
+- interaction handoffs for planning, shelter, fire, ravine og stormfinale
 
 ---
 
-# Faktisk source-art på main
+# Source-art på main
 
 ## A1
 
-Gameplay-readable UI/source kit med action/status-symboler, effort markers, action-card base og interaction feedback.
+Gameplay-readable UI/source kit: action/status-symboler, effort markers, action-card base og interaction feedback.
 
 ## Neutral fallback
 
-Fictional chart, compass, route card og signal tag. Neutral baseline er source-komplet bortset fra faktisk radiooptagelse; runtime fallback ejes af Claude.
+Fictional chart, compass, route card og signal tag. Neutral source er komplet bortset fra faktisk radiooptagelse.
 
-## A2 core interaction source
+## A2
 
-- briefs + concept sheets for core props
-- individuelle source masters:
-  - `ITM_FIRESTEEL_001.svg`
-  - `ITM_TINDER_001.svg`
-  - `ITM_ROPE_COIL_001.svg`
+Core prop briefs/concepts + individuelle masters:
 
-Firesteel-reference gør **ikke** issue #8 canonical.
+- `ITM_FIRESTEEL_001.svg` — reference only; issue #8 er stadig gate
+- `ITM_TINDER_001.svg`
+- `ITM_ROPE_COIL_001.svg`
 
-## A3 storm
+## A3
 
-Rain/debris/embers/smoke/impact/wetness/storm-phase source references.
+Storm source/reference for rain, debris, embers, smoke, impact, wetness og phase intensity.
 
-## A4 camp
+## A4
 
-Camp layout/state plus separate source references for:
-
-- wreck landmark
-- camp ground/material readability
-- radio states
-- signal frame progression
+Camp layout/state + wreck, ground/readability, radio og signal progression references.
 
 ## B1
 
-Environment/readability source for jungle/ravine/ridge, ravine anchor/guide markers samt resource items:
-
-- wood
-- fiber
-- herbs
-- food
-- general supplies
-
-Ny world-prop source:
-
-- `PRP_SUPPLY_CRATE_001.svg` — sealed/open shared-resource container; visuelt QA'et og rettet før merge
+- jungle/ravine/ridge references
+- ravine anchor/guide markers
+- wood/fiber/herbs/food/general supplies
+- `PRP_SUPPLY_CRATE_001.svg` — visuelt QA'et og rettet før merge
 
 ## B2
 
-Event-presentation source for alle ti events plus machine-readable event→presentation mapping.
+Event presentation source + machine-readable mapping for alle 10 events.
 
 ## A5
 
-### External source meshes
+- OBJ source: wind shield, dry-fuel cache, signal fuel
+- source items: cloth, map fragment, radio battery
+- release UI: join, reconnect, first-launch setup, pause, connected/ready, subtitle band
 
-`source_art/props/a5/`:
+## Base material references — produceret
 
-- `PRP_WIND_SHIELD_001.obj`
-- `PRP_DRY_FUEL_CACHE_001.obj`
-- `PRP_SIGNAL_FUEL_001.obj`
+`source_art/materials/base/`:
 
-### Source items
+- `MAT_WOOD_ROPE_CLOTH_REFERENCE_001.svg`
+- `MAT_ROCK_SAND_REFERENCE_001.svg`
+- `MAT_FOLIAGE_UTILITY_REFERENCE_001.svg`
+- `PROVENANCE.md`
 
-`source_art/items/a5/`:
+Machine-readable kontrakt: `content/materials/material_families.source.json`.
 
-- `ITM_CLOTH_001.svg`
-- `ITM_MAP_FRAGMENT_001.svg`
-- `ITM_RADIO_BATTERY_001.svg`
-
-### Release UI source set
-
-`source_art/ui/a5/`:
-
-- join-code
-- reconnect
-- first-launch setup
-- pause
-- connected/ready
-- subtitle band
-
-Unity layout/input/accessibility binding og headset-distance QA forbliver Claude.
+Dækker alle syv manifestfamilier på source-reference niveau: wood, rope, cloth, rock, sand, foliage og utility metal. Claude ejer Unity material/shader implementation og device QA.
 
 ---
 
 # Audio/source-status
 
-## AU-1
+- **AU-1:** deterministisk generator til 12 korte UI/system cues; CI-valideret.
+- **Foley:** recording queue klar; faktiske naturalistiske masters mangler.
+- **Ambience:** acquisition queue klar; faktiske masters mangler.
+- **Radio VO:** 9 cues × 3 takes specificeret; faktisk recording mangler.
+- **Musik:** direction/cue-sheet klar; composition/source mangler.
 
-Deterministisk generator til 12 korte UI/system feedback cues med CI-verifikation.
-
-## Foley
-
-`content/audio/foley_recording_queue.source.json` er recording-ready med cue-ID, variantantal, filnavne, target length og 48 kHz / 24-bit krav.
-
-## Ambience
-
-`content/audio/ambience_acquisition_queue.source.json` dækker wind L0-L3, rain, beach/camp, jungle, ravine og camp night.
-
-Naturalistisk Foley/ambience er ikke markeret som produceret WAV før reel recording/source acquisition og provenance findes.
-
-## Radio VO
-
-`content/audio/radio_vo_recording_queue.source.json` er recording-ready:
-
-- 9 cues
-- 3 takes per cue
-- dry 48 kHz / 24-bit mono masters
-- delivery/length/localization/provenance QA
-
-## Musik
-
-Direction/cue-sheet er klar; faktisk composition/source er fortsat åben og bør ikke foregives færdig før timing/evidence gør cue-længder meningsfulde.
+Naturalistisk lyd markeres aldrig som produceret før reel source + provenance findes.
 
 ---
 
 # Machine-readable content
 
-Aktuelle source contracts omfatter:
+Source contracts omfatter nu:
 
 - dansk localization
-- Stormnatten actions + placeholder cost mirror
-- ten-event authoring
+- Stormnatten actions + placeholder-cost mirror
+- 10-event authoring
 - event→presentation mapping
 - neutral personalization
 - onboarding/Day 3 proposals
 - Foley/ambience/radio recording queues
-- after-action presentation contract
+- after-action presentation
+- material families
 - samlet source inventory
 
-`content/outcomes/after_action.presentation.source.json` binder Core's authoritative causal data til produktregler for outcome, causal highlights, team story, retry/replay og accessibility. Individuelle titler er `off` indtil OQ-010 støtter dem.
+After-action-contracten binder Core's authoritative causal data til outcome, causal highlights, team story, retry/replay og accessibility. Individuelle titler er `off` indtil OQ-010 støtter dem.
 
 ---
 
 # CI / kvalitet
 
-Aktive guards omfatter bl.a.:
+Aktive guards:
 
-- non-Unity source validation
-- handoff validation
 - Core tests
+- Validate handoff
+- Validate non-Unity sources
+- Validate source inventory
 - action placeholder-cost mirror
-- AU-1 source regeneration/validation
+- AU-1 regeneration/validation
 - event presentation validation
 
-Source-art bliver visuelt QA'et før merge, når layout/readability kræver det. Senest fangede QA tekst-overflow i supply-crate source, som blev rettet før merge.
+`Validate source inventory` er nu **implementeret og grøn**. Den kontrollerer package/content paths, dublet-ID'er, `producedIds`-coverage og A2 `individualMasterIds`.
+
+Source-art får visuel/layout QA, når relevant. Supply-crate overflow blev fx fundet og rettet før merge.
 
 ---
 
 # Repo hygiene
 
-Tidligere tracked `src/**/bin/` build/test outputs er ryddet fra repoet via PR #12.
-
-- 89 genererede filer fjernet
-- `.gitignore` dækkede allerede `src/**/bin/`
-- Core tests var grønne efter cleanup
-
-Denne gæld er lukket.
+PR #12 fjernede 89 tracked genererede `src/**/bin/` build/test-filer. `.gitignore` dækkede allerede mapperne, og Core tests var grønne efter cleanup. Gælden er lukket.
 
 ---
 
@@ -235,21 +170,18 @@ Denne gæld er lukket.
 
 # Næste aktive ChatGPT-bølge
 
-Prioritet, medmindre repo/evidence ændrer den:
+1. fortsæt stabile B1/world source assets uden at duplikere eksisterende source
+2. bind producerede release-UI source surfaces til copy/localization som machine-readable handoff
+3. actual audio source production/acquisition: Foley → ambience → radio VO; ingen fake WAV-status
+4. yderligere machine-readable presentation/content contracts, kun hvor de reducerer Unity-gætteri
+5. richer environment/polish først når geometry/device evidence reducerer rework-risiko
+6. private personalization source uden for public repo senere
+7. M1 implementation handoff når både M0b + M-Pre er grønne
 
-1. fortsæt stabile B1/world source assets uden at duplikere eksisterende environment/ravine source
-2. reconcile source inventory/provenance efter hver produceret batch
-3. få source-inventory path/produced-status automatisk valideret i CI, når connectoren tillader validator-scriptet
-4. actual audio source production/acquisition: Foley → ambience → radio VO; ingen fake WAV-status
-5. yderligere machine-readable presentation/content contracts, hvor de reducerer Unity-gætteri
-6. richer environment/polish først når geometry/device evidence reducerer rework-risiko
-7. private personalization source uden for public repo senere
-8. M1 implementation handoff når både M0b + M-Pre er grønne
+## Kendte ikke-leverede artifacts
 
-## Kendte connector-blokeringer
-
-- `ITM_EMBER_CARRIER_001` source blev genereret som blob, men commit blev konsekvent filtreret; den tælles derfor **ikke** som leveret.
-- repair-mallet source blev genereret som blob, men er ikke committed; den tælles derfor **ikke** som leveret.
+- ember-carrier source blev genereret som blob, men commit blev filtreret; tælles **ikke** som produceret
+- repair-mallet source blev genereret som blob, men er ikke committed; tælles **ikke** som produceret
 
 Der omgås ikke sikkerhedsfiltre, og ucommittede artifacts tælles aldrig som produktion.
 
