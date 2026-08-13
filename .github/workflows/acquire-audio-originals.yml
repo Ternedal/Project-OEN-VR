@@ -5,6 +5,9 @@ on:
   push:
     paths:
       - '.github/workflows/acquire-audio-originals.yml'
+      - 'tools/acquire_audio_sources.py'
+      - 'content/audio/acquisition_candidates.source.json'
+      - 'content/audio/acquisition_candidates.direct_extension.source.json'
 
 permissions:
   contents: read
@@ -12,7 +15,7 @@ permissions:
 jobs:
   acquire:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,17 +25,40 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Acquire direct CC0 originals
-        run: python tools/acquire_audio_sources.py --all-direct --timeout 120
+      - name: Install technical audio probe
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          ffprobe -version | head -n 1
 
-      - name: Show acquisition manifest
-        run: cat PrivateContent/AudioSourceIncoming/acquisition_manifest.json
+      - name: Acquire canonical direct originals
+        run: >-
+          python tools/acquire_audio_sources.py
+          --candidate-source content/audio/acquisition_candidates.source.json
+          --all-direct --timeout 120
+          --output PrivateContent/AudioSourceIncoming
 
-      - name: Upload acquired originals and manifest
+      - name: Acquire verified direct extension sources
+        run: >-
+          python tools/acquire_audio_sources.py
+          --candidate-source content/audio/acquisition_candidates.direct_extension.source.json
+          --all-direct --timeout 120
+          --output PrivateContent/AudioSourceExtension
+
+      - name: Show acquisition manifests
+        run: |
+          echo '--- canonical ---'
+          cat PrivateContent/AudioSourceIncoming/acquisition_manifest.json
+          echo '--- direct extension ---'
+          cat PrivateContent/AudioSourceExtension/acquisition_manifest.json
+
+      - name: Upload acquired originals and manifests
         uses: actions/upload-artifact@v4
         with:
-          name: oen-audio-originals
-          path: PrivateContent/AudioSourceIncoming/
+          name: oen-audio-direct-acquisition
+          path: |
+            PrivateContent/AudioSourceIncoming/
+            PrivateContent/AudioSourceExtension/
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
