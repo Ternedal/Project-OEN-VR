@@ -3,7 +3,8 @@
 
 The input packs stay independent production artifacts. This tool combines their WAVs into
 one deterministic first-playable ZIP whose folder tokens drive the Unity AudioImporter
-postprocessor and whose filenames can be mapped directly to AudioEventId.
+postprocessor and whose FIRST_PLAYABLE_MANIFEST.csv becomes the fail-closed source of truth
+for the Unity Editor rebuild/install pipeline.
 """
 from __future__ import annotations
 
@@ -43,7 +44,10 @@ def parse_clip(path: Path) -> tuple[str, int]:
     match = CLIP_RE.match(path.name)
     if not match:
         raise SystemExit(f"non-canonical WAV filename: {path}")
-    return match.group("event"), int(match.group("variation"))
+    variation = int(match.group("variation"))
+    if variation <= 0:
+        raise SystemExit(f"non-positive WAV variation number: {path}")
+    return match.group("event"), variation
 
 
 def authored_landing(event_id: str) -> Path:
@@ -97,6 +101,7 @@ def copy_pack(
     environment: bool,
     rows: list[dict[str, str]],
     destinations: set[str],
+    event_variations: set[tuple[str, int]],
 ) -> None:
     if not source_root.is_dir():
         raise SystemExit(f"missing input pack directory: {source_root}")
@@ -107,6 +112,13 @@ def copy_pack(
 
     for source in wavs:
         event_id, variation = parse_clip(source)
+        identity = (event_id, variation)
+        if identity in event_variations:
+            raise SystemExit(
+                f"duplicate staged event/variation across input packs: {event_id}_{variation:02d}"
+            )
+        event_variations.add(identity)
+
         relative = source.relative_to(source_root)
         landing_dir = environment_landing(relative, event_id) if environment else authored_landing(event_id)
         destination_rel = landing_dir / source.name
@@ -150,10 +162,43 @@ def main() -> int:
 
     rows: list[dict[str, str]] = []
     destinations: set[str] = set()
-    copy_pack(args.ui_status, args.output, "oen-authored-ui-status-v1", False, rows, destinations)
-    copy_pack(args.gameplay_stingers, args.output, "oen-authored-gameplay-stingers-v1", False, rows, destinations)
-    copy_pack(args.adaptive_music, args.output, "oen-authored-adaptive-music-v1", False, rows, destinations)
-    copy_pack(args.environment, args.output, "oen-public-domain-environment-v0", True, rows, destinations)
+    event_variations: set[tuple[str, int]] = set()
+    copy_pack(
+        args.ui_status,
+        args.output,
+        "oen-authored-ui-status-v1",
+        False,
+        rows,
+        destinations,
+        event_variations,
+    )
+    copy_pack(
+        args.gameplay_stingers,
+        args.output,
+        "oen-authored-gameplay-stingers-v1",
+        False,
+        rows,
+        destinations,
+        event_variations,
+    )
+    copy_pack(
+        args.adaptive_music,
+        args.output,
+        "oen-authored-adaptive-music-v1",
+        False,
+        rows,
+        destinations,
+        event_variations,
+    )
+    copy_pack(
+        args.environment,
+        args.output,
+        "oen-public-domain-environment-v0",
+        True,
+        rows,
+        destinations,
+        event_variations,
+    )
 
     rows.sort(key=lambda row: (row["event_id"], int(row["variation"]), row["unity_path"]))
     events = {row["event_id"] for row in rows}
@@ -162,6 +207,8 @@ def main() -> int:
         raise SystemExit(f"expected {args.expect_files} staged WAVs, got {len(rows)}")
     if len(events) != args.expect_events:
         raise SystemExit(f"expected {args.expect_events} populated events, got {len(events)}")
+    if len(event_variations) != len(rows):
+        raise SystemExit("event/variation identity count drift after Unity audio staging")
 
     manifest = args.output / "FIRST_PLAYABLE_MANIFEST.csv"
     with manifest.open("w", newline="", encoding="utf-8") as handle:
@@ -174,16 +221,17 @@ def main() -> int:
 
     (args.output / "README.txt").write_text(
         "Project OEN Unity first-playable audio pack v1\n\n"
-        "Extract this ZIP at the Unity project root so the included Assets/ProjectOen/Audio tree lands in Assets.\n"
-        "Save/open the target gameplay scene, then run: Project Oen > Audio > Build + Install First Playable (One Click).\n"
+        "Extract this ZIP at the Unity project root so FIRST_PLAYABLE_MANIFEST.csv stays at the project root and the included Assets/ProjectOen/Audio tree lands in Assets.\n"
+        "Save/open the target gameplay scene, let Unity finish importing, then run: Project Oen > Audio > Build + Install First Playable (One Click).\n"
         "This current pack contains 173 canonical clips across 47 events. The one-click Unity installer enforces the stable minimum first-playable baseline of 160 clips / 45 events before mutating generated runtime assets.\n"
-        "Scene installation refuses Prefab Mode, Play Mode, unsaved scenes, duplicate AudioService ownership and stale/incomplete audio imports.\n"
-        "WorldFauna and WorldWeather bind only when there is exactly one active AudioListener; otherwise listener-relative emitters stay disabled.\n"
+        "Before any generated catalog or scene mutation, Unity verifies every manifested WAV by byte count and SHA-256 and rejects stale/unmanaged canonical WAVs left from an older extraction.\n"
+        "Scene installation refuses Prefab Mode, Play Mode, unsaved scenes, duplicate/manual AudioService ownership, manifest/catalog mismatch and stale/incomplete audio imports.\n"
+        "WorldFauna and WorldWeather bind only when there is exactly one active AudioListener; otherwise listener-relative emitters stay disabled and the active-scene audit fails closed.\n"
         "Current world-transient lanes include Jungle Day cicadas, RainFire distant thunder, and ten shoreline-wash candidates available for scene placement.\n"
-        "The scene is marked dirty but never auto-saved. Existing designer tuning and generated runtime/profile assets are preserved on reruns.\n"
+        "The scene is marked dirty but never auto-saved. Existing AudioEventDefinition playback tuning is preserved for active events; generated profile membership is synchronized to current available loop events while existing gains for still-valid layers are preserved. The generated runtime prefab is preserved on reruns.\n"
         "Unavailable Night/Ridge/Camp/Shelter ambience resolves to an explicit empty fallback rather than stale or unrelated audio.\n"
-        "Environmental candidates remain candidate-headset-listen until physical listening QA.\n"
-        "Lower-level build/install/audit commands remain available for manual production integration.\n",
+        "Environmental and adaptive-music candidates remain candidate-headset-listen until physical listening QA.\n"
+        "Lower-level build/install/audit commands remain available, but they enforce the same first-playable manifest integrity contract.\n",
         encoding="utf-8",
     )
 
@@ -191,7 +239,7 @@ def main() -> int:
         deterministic_zip(args.output, args.zip_path)
 
     print(
-        f"Unity first-playable audio staging OK: {len(rows)} WAV files across "
+        f"Unity first-playable audio staging OK: {len(rows)} unique event/variation WAV files across "
         f"{len(events)} events under {AUDIO_ROOT.as_posix()}"
     )
     return 0
