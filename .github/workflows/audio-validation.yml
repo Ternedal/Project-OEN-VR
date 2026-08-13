@@ -12,12 +12,14 @@ on:
       - 'docs/41_UNITY_FIRST_PLAYABLE_AUDIO_ASSEMBLY.md'
       - 'docs/42_AUDIO_ONE_CLICK_FIRST_PLAYABLE.md'
       - 'docs/43_AUDIO_SCENE_INSTALL_AND_WORLD_FAUNA.md'
+      - 'docs/44_FIELD_SOURCE_ACQUISITION_GATE.md'
       - 'src/unity/ProjectOen.Audio/**'
       - 'src/unity/ProjectOen.Audio.Editor/**'
       - 'tools/validate_audio_manifest.py'
       - 'tools/validate_foley_recording_plan.py'
       - 'tools/validate_supplemental_foley_recording_plan.py'
       - 'tools/validate_public_domain_candidate_audit.py'
+      - 'tools/validate_field_source_acquisition_plan.py'
       - 'tools/validate_audio_unity_editor_contract.py'
       - 'tools/report_audio_first_playable_readiness.py'
       - 'tools/generate_authored_audio_pack.py'
@@ -44,12 +46,14 @@ on:
       - 'docs/41_UNITY_FIRST_PLAYABLE_AUDIO_ASSEMBLY.md'
       - 'docs/42_AUDIO_ONE_CLICK_FIRST_PLAYABLE.md'
       - 'docs/43_AUDIO_SCENE_INSTALL_AND_WORLD_FAUNA.md'
+      - 'docs/44_FIELD_SOURCE_ACQUISITION_GATE.md'
       - 'src/unity/ProjectOen.Audio/**'
       - 'src/unity/ProjectOen.Audio.Editor/**'
       - 'tools/validate_audio_manifest.py'
       - 'tools/validate_foley_recording_plan.py'
       - 'tools/validate_supplemental_foley_recording_plan.py'
       - 'tools/validate_public_domain_candidate_audit.py'
+      - 'tools/validate_field_source_acquisition_plan.py'
       - 'tools/validate_audio_unity_editor_contract.py'
       - 'tools/report_audio_first_playable_readiness.py'
       - 'tools/generate_authored_audio_pack.py'
@@ -91,6 +95,8 @@ jobs:
         run: python tools/validate_supplemental_foley_recording_plan.py
       - name: Validate public-domain candidate audit
         run: python tools/validate_public_domain_candidate_audit.py
+      - name: Validate field-source acquisition plan
+        run: python tools/validate_field_source_acquisition_plan.py
       - name: Validate Unity Editor serialized-field contract
         run: python tools/validate_audio_unity_editor_contract.py
       - name: Report first-playable audio readiness
