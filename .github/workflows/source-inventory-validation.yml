@@ -5,16 +5,20 @@ on:
     branches: [main]
     paths:
       - 'content/source_inventory.source.json'
+      - 'content/source_inventory.reference_map.source.json'
       - 'source_art/**'
       - 'content/**'
       - 'tools/validate_source_inventory.py'
+      - 'tools/validate_source_inventory_backing.py'
       - '.github/workflows/source-inventory-validation.yml'
   pull_request:
     paths:
       - 'content/source_inventory.source.json'
+      - 'content/source_inventory.reference_map.source.json'
       - 'source_art/**'
       - 'content/**'
       - 'tools/validate_source_inventory.py'
+      - 'tools/validate_source_inventory_backing.py'
       - '.github/workflows/source-inventory-validation.yml'
 
 permissions:
@@ -32,3 +36,5 @@ jobs:
           python-version: '3.12'
       - name: Validate source inventory
         run: python tools/validate_source_inventory.py
+      - name: Validate produced source backing files
+        run: python tools/validate_source_inventory_backing.py
