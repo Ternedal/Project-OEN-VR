@@ -29,8 +29,8 @@ Dette dokument er den aktuelle eksekveringsrækkefølge for non-Unity source-pro
 | Character readability | **P1/P2 hands produceret** | torso source reference er stadig åben |
 | A5 utility/release source | **Expanded source set + ending crate produceret** | Unity import/binding/device QA |
 | AU-1 feedback | **Generator ready + CI validated** | Claude runtime mix/binding |
-| AU-2 natural Foley | **Recording plan ready; ikke optaget** | real recording/edit/master |
-| World ambience | **3 originals acquired; ikke listening-approved** | human listening + mere acquisition |
+| AU-2 natural Foley | **Recording plan ready + wood/cloth packs acquired; ikke approved** | human audition; record where pack fit is insufficient |
+| World ambience | **4 direct originals + 2 source packs acquired; ikke listening-approved** | human listening/selection + derived masters only after approval |
 | PR #6 env candidates | **28 WAV artifact audited; ikke approved** | PR re-sync + headset/listening QA |
 | Radio VO | **Script/queue ready; ikke optaget** | dry source recording |
 | Music | **Direction ready; ikke produceret** | composition efter timing evidence |
@@ -53,7 +53,7 @@ Producerede A2 individual masters:
 - `PRP_SHELTER_FRAME_001`
 - `PRP_SIGNAL_FRAME_001`
 
-`PRP_FIREPIT_001` har nu også en project-original low-complexity OBJ source mesh under `source_art/props/a5/`.
+`PRP_FIREPIT_001` har en project-original low-complexity OBJ source mesh under `source_art/props/a5/`.
 
 Firepit-meshen er en world/fire-state reference med lav stenring og centralt fuel-referenceområde. Den indeholder ingen særskilt strike-zone eller manuel tændingsmekanik.
 
@@ -91,7 +91,7 @@ Epilog-produktkontrakten er klar i:
 
 `ENV_EPILOGUE_001` er canonical som **eksisterende camp efter stormen**, ikke en ny gameplayzone.
 
-`PRP_WATERPROOF_ENDING_CRATE_001` har nu en project-original OBJ source mesh med separate body/lid/gasket/latches/handles og neutrale hook-slot references. Den indeholder ingen private thumbnails, navne eller gaveindhold; sealed/available/open runtime states og hook-binding er Claude-lane.
+`PRP_WATERPROOF_ENDING_CRATE_001` har en project-original OBJ source mesh med separate body/lid/gasket/latches/handles og neutrale hook-slot references. Den indeholder ingen private thumbnails, navne eller gaveindhold; sealed/available/open runtime states og hook-binding er Claude-lane.
 
 Fortsat åbent som senere C-polish, hvis det reducerer implementation ambiguity:
 
@@ -142,13 +142,15 @@ No larger creature-system commitment is implied by the presentation source.
 
 Use `content/audio/foley_session_reconciliation.source.json`.
 
-Three source sessions:
+Three source sessions remain the recording fallback:
 
 1. heavy/crate
 2. rope/tarp
 3. shelter/timber
 
-## Acquired ambience originals
+The direct extension acquisition now adds audition material for wood/cloth before recording everything from scratch.
+
+## Canonical acquired originals
 
 - `AMB_WIND_WORLD`
 - `AMB_RAIN_ALT`
@@ -156,9 +158,31 @@ Three source sessions:
 
 Receipt: `content/audio/acquisition_receipt.source.json`.
 
-They are acquired and technically QA'ed, **not listening-approved**.
+## Extension acquisition — now actually acquired
 
-Additional direct CC0 candidates for ocean/wood/cloth are verified but not acquired through the canonical pipeline yet.
+- `AMB_OCEAN_ALT` — 4.0 s CC0 FLAC building block
+- `SFX_WOOD_PACK_ALT` — CC0 archive with 27 WAVs
+- `SFX_CLOTH_PACK_ALT` — Kenney CC0 archive with cloth/creak members
+
+Receipt:
+
+`content/audio/acquisition_extension_receipt.source.json`
+
+Technical member shortlist:
+
+`content/audio/acquisition_extension_member_shortlist.source.json`
+
+Shortlisted internal members include five wood creaks and nine cloth/creak files. Their hashes, codec/sample-rate and duration are pinned.
+
+**Acquired is not approved.**
+
+- ocean still needs creative/loop-fit listening and a derived 48 kHz master if selected
+- wood floor/door identity may be wrong for shelter timber
+- Kenney cloth/creaks may read too small/game-like for tarp
+- archive acquisition does not promote every member to project cue status
+- lossy OGG members should not be repeatedly transcoded
+
+The acquisition workflow is reproducible and now probes technical metadata with ffprobe. Raw originals/archives remain outside Git history.
 
 ## PR #6 audition pack
 
@@ -178,10 +202,10 @@ PR #6 must re-sync current `main` and regenerate/re-pin physical evidence before
 
 ### Can still progress without M0b/M-Pre
 
-1. natural audio acquisition/recording/listening coordination
-2. dedicated epilogue mood/dressing reference only if it reduces implementation ambiguity
-3. torso source reference as later avatar polish
-4. utility/fiber tool visual source if still useful and accepted by the asset pipeline
+1. human audition/selection of acquired natural audio sources
+2. real Foley recording only where acquired packs do not meet material/space quality
+3. dedicated epilogue mood/dressing reference only if it reduces implementation ambiguity
+4. torso source reference as later avatar polish
 5. keep machine-readable source inventory synchronized with actual files
 
 ### Human-gated
