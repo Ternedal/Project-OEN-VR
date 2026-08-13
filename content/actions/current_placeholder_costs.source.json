@@ -1,0 +1,20 @@
+{
+  "scenarioId": "SCN_STORMNATTEN_001",
+  "status": "current-example-placeholder-costs-not-final-balance",
+  "sourceOfTruth": "examples/stormnatten.scenario.json",
+  "balanceGate": "M3",
+  "costs": {
+    "INT_GATHER_WOOD_001": 1,
+    "INT_FIND_FOOD_002": 1,
+    "INT_BUILD_SHELTER_003": 2,
+    "INT_EXPLORE_CLIFF_004": 1,
+    "INT_SECURE_SUPPLIES_005": 1,
+    "INT_REINFORCE_ROOF_006": 2,
+    "INT_FIND_FIBER_007": 1,
+    "INT_FIND_HERBS_008": 1,
+    "INT_BUILD_SIGNAL_009": 2,
+    "INT_EXPLORE_RIDGE_010": 1,
+    "INT_TREAT_INJURY_011": 1
+  },
+  "rule": "These values mirror the current scenario example only. They are placeholders and must not be treated as final balance before M3 evidence."
+}
