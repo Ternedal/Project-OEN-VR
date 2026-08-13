@@ -1,96 +1,220 @@
-# PROJECT ØEN - Claude-handoff v2.0
+# PROJECT ØEN — STRANDET SAMMEN
 
-**Dato:** 2026-08-05  
-**Status:** Design- og planlægningsbaseline til kritisk review  
-**Arbejdstitel:** PROJECT ØEN - STRANDET SAMMEN  
+**Opdateret:** 2026-08-13  
+**Status:** Aktiv udvikling · M0b cross-device i gang · M-Pre klar til mennesketest  
 **Format:** To-spiller kooperativt VR-overlevelsesspil  
 **Primær platform:** Meta Quest 2  
-**Udgået runtime:** Meta Quest 1 (`DROP_Q1_RUNTIME`, 2026-08-08)  
-**Forbedret platform:** Meta Quest 3 / Quest 3S
+**Forbedrede platforme:** Meta Quest 3 / Quest 3S  
+**Udgået runtime/testlane:** Meta Quest 1 (`DROP_Q1_RUNTIME`, 2026-08-08)
+
+---
 
 ## Formål
 
-Denne pakke skal give Claude tilstrækkelig produkt-, design- og teknisk kontekst til at lave et seriøst review af projektet uden at gætte sig til de centrale krav. Claude skal **ikke implementere spillet endnu**. Første opgave er at finde svagheder, modsigelser, urealistiske antagelser, manglende beslutninger og unødvendig kompleksitet.
+Dette er projektets indgangsdokument og øverste dokumenthierarki.
 
-## Hårde krav
+Projektet er **ikke længere i pre-review-fasen**. Det kritiske review er gennemført og behandlet, baseline v2.1 er på `main`, Core-laget er testet, Unity-projektet er etableret, M0a er afsluttet, og arbejdet står nu ved to gates:
 
-1. Spillet udvikles og profileres primært til Quest 2.
-2. ~~En reduceret legacy-build skal kunne testes fysisk på Quest 1.~~ Ophævet 2026-08-08: Quest 1 kan ikke køre OpenXR-runtimen (`DROP_Q1_RUNTIME`).
-3. Spillet skal være fuldt brugbart på Quest 3 og Quest 3S og må gerne få visuelle forbedringer dér.
-4. Der er præcis to spillere i MVP/gaveversionen.
-5. Begge spillere skal være aktive; ingen må fungere som passiv tilskuer i længere sekvenser.
-6. Første leverance er et 30-45 minutters, gennemspilleligt scenario - ikke et open-world survival-spil.
-7. Projektet er original IP. Det må være inspireret af scenariebaserede survival-brætspil, men må ikke kopiere navn, tekst, illustrationer eller præcise regler fra *Robinson Crusoe: Adventures on the Cursed Island*.
-8. Quest 1 er ikke en testlane. Den er højst en frossen sideload-demo uden for hovedprojektet og må aldrig begrunde beslutninger i Quest 2/3-produktet.
+1. **M0b:** cross-device platform/netværksbevis i Claude/Unity-sporet.
+2. **M-Pre:** menneskelig greybox-test af kernehypotesen i ChatGPT/produkt-sporet.
 
-## Source of truth
+M1 må først begynde, når begge gates er grønne.
 
-Ved konflikter gælder denne rækkefølge:
+---
 
-1. `00_READ_ME_FIRST.md` - faste rammer og dokumenthierarki.
-2. `docs/01_EXECUTIVE_HANDOFF.md` - gældende produktbeslutninger.
-3. `docs/06_TECHNICAL_ARCHITECTURE.md` og `docs/08_PLATFORM_BUILD_PERFORMANCE.md` - tekniske beslutninger.
-4. `docs/03_CURRENT_MASTER_SPEC_v1.1.md` - eksisterende samlede baseline.
-5. Backlog, eksempler og skemaer - implementeringsdetaljer.
+# Hårde krav
 
-`AI_COLLABORATION_AGREEMENT.md` er særskilt autoritativ for **rolle-, ansvar- og handoff-grænser mellem ChatGPT og Claude**, men ændrer ikke ovenstående hierarki for produkt- og tekniske beslutninger.
+1. Quest 2 er projektets performance- og kvalitetsgulv.
+2. Quest 3/3S skal have samme gameplay og må kun få additive forbedringer.
+3. Quest 1 er ikke en runtime-, build- eller testlane. Den er højst en frossen sideload-demo uden for hovedprojektet.
+4. Gaveversionen/MVP'en har præcis to spillere.
+5. Begge spillere skal være aktive; ingen må være passiv tilskuer gennem længere gameplaysekvenser.
+6. Første fulde scenario er cirka 30-45 minutter og er ikke et open-world survival-spil.
+7. Projektet er original IP og må ikke være en uautoriseret digital kopi af *Robinson Crusoe: Adventures on the Cursed Island*.
+8. Produktgates må ikke erklæres grønne uden den evidens, deres protokol kræver.
+9. Device-gates må ikke erklæres grønne ud fra compile eller kildekode alene.
+10. Dyr art/contentproduktion skal vente til de relevante greybox-/produktgates tillader det.
 
-Hvis Claude finder en reel konflikt, skal den markeres som `CONFLICT-xxx` i reviewet frem for at blive løst stiltiende.
+---
 
-## Samarbejdsmodel
+# Source of truth
 
-Fra 2026-08-13 gælder den permanente arbejdsdeling i `AI_COLLABORATION_AGREEMENT.md`:
+Ved konflikt gælder denne rækkefølge:
 
-- **Claude = Unity**: Unity-projekt, C#, XR, runtime-integration, builds, profiling og Unity-side QA.
-- **ChatGPT = alt andet**: produkt, design, specs, source assets, lydmateriale, ekstern arkitektur, roadmap og tværgående produkt-QA.
-- Anders er produktejer og har altid sidste ord.
+1. `00_READ_ME_FIRST.md` — faste rammer og dokumenthierarki.
+2. `docs/01_EXECUTIVE_HANDOFF.md` — gældende produktbeslutninger.
+3. `docs/18_DECISION_LOG.md` — accepterede beslutninger/ADR'er.
+4. `docs/06_TECHNICAL_ARCHITECTURE.md` og `docs/08_PLATFORM_BUILD_PERFORMANCE.md` — tekniske beslutninger.
+5. `docs/03_CURRENT_MASTER_SPEC_v1.1.md` — samlet baseline.
+6. `docs/12_PRODUCTION_ROADMAP.md`, `docs/17_BACKLOG_AND_MILESTONES.md` — plan og scope.
+7. Backlogdetaljer, eksempler, skemaer og runbooks — implementerings-/testdetaljer.
 
-Ved tværgående arbejde leverer ChatGPT krav/assets/input, hvorefter Claude implementerer Unity-delen.
+`repo_status.md` er den hurtige status-snapshot og skal afspejle ovenstående, men overstyrer ikke accepted ADR'er.
 
-## Anbefalet læserækkefølge for Claude
+`AI_COLLABORATION_AGREEMENT.md` er særskilt autoritativ for **rolle-, ansvar- og handoff-grænser mellem ChatGPT og Claude**.
+
+Reelle konflikter må ikke løses stiltiende. Dokumentér dem og opdatér de berørte source-of-truth-filer/ADR'er.
+
+---
+
+# Samarbejdsmodel
+
+Fra 2026-08-13 gælder:
+
+## Claude = Unity
+
+Claude ejer:
+
+- Unity-projekt og Unity-runtime/editor
+- C# der indgår i Unity-runtime
+- XR/OpenXR/Fusion
+- scenes, prefabs og components
+- Unity asset/audio integration
+- builds og signing-relateret Unity-konfiguration
+- profiling/performance
+- Unity-side QA
+
+## ChatGPT = alt andet
+
+ChatGPT ejer:
+
+- produkt- og gameplay-design
+- specs og roadmap
+- source-assets og art direction
+- lyd-design/source-materiale
+- design-/playtestprotokoller
+- ekstern arkitektur
+- produkt-QA
+- handoff til Claude
+
+Anders er produktejer og har altid sidste ord.
+
+Se `AI_COLLABORATION_AGREEMENT.md` for fuld aftale.
+
+---
+
+# Aktuel verificeret status
+
+## Review og baseline
+
+- Kritisk review v1.0 er gennemført, dispositioneret og merget.
+- Alle 10 reviewfund er lukket.
+- Baseline er v2.1.
+- `01_PROMPT_FOR_CLAUDE.md` er arkiveret reviewmateriale og er **ikke** den aktuelle Claude-opgave.
+
+## Core
+
+- `src/ProjectOen.Core` er ren C# uden UnityEngine-afhængighed.
+- **146 tests er grønne** og køres i CI.
+- Core omfatter bl.a. scenario loading/contracts, save/checksum/snapshot, command/event-state, delayed consequences, outcome model, coop solver, compatibility handshake, join codes og telemetry/after-action.
+
+## M0a — lukket 2026-08-08
+
+- Quest 2: OpenXR starter immersivt; Vulkan og head tracking bevist.
+- Quest 1: deterministisk crash under OpenXR-init.
+- Beslutning: `DROP_Q1_RUNTIME`.
+
+## M0b — per-client bevist, cross-device mangler
+
+Dokumenteret on-device:
+
+- Unity `6000.4.10f1`
+- OpenXR
+- Photon Fusion `2.0.12`
+- Shared-session forbinder
+- NetworkPlayerRig spawner med authority
+- head pose er non-zero via `InputDevices`
+- coop solver/greb→kasse-kæde kører on-device
+
+Resterende M0b-gate:
+
+1. remote head/hands mellem to klienter
+2. handshake mismatch-afvisning
+3. delt kasse i to-spiller-state
+4. 10× Q2↔Q3-løft uden permanent desync
+5. 72 Hz i minimal netværksscene
+6. standby/reconnect-måling
+7. faktiske resultater i `config/COMPATIBILITY_MATRIX.md`
+
+Dette er Claude/Unity-sporet.
+
+## M-Pre — klar, men ikke kørt
+
+M-Pre tester om fordelingen af fire indsatsmarkører skaber reel diskussion frem for administration.
+
+Ready-to-run-pakken ligger i `prototype/m-pre/`.
+
+Gaten kræver mindst tre menneskelige sessions med mindst to forskellige par. Resultatet må ikke simuleres eller afgøres af AI alene.
+
+Dette er ChatGPT/produkt-sporet sammen med Anders.
+
+---
+
+# Læserækkefølge — Claude
 
 1. `AI_COLLABORATION_AGREEMENT.md`
-2. `01_PROMPT_FOR_CLAUDE.md`
-3. `docs/01_EXECUTIVE_HANDOFF.md`
-4. `docs/03_CURRENT_MASTER_SPEC_v1.1.md`
-5. `docs/04_GAME_DESIGN_DEEP_DIVE.md`
-6. `docs/05_STORMNATTEN_CONTENT_BIBLE.md`
+2. `repo_status.md`
+3. `CLAUDE.md`
+4. `docs/32_OPUS_EXECUTION_PLAN.md`
+5. `config/COMPATIBILITY_MATRIX.md`
+6. `src/unity/RUNBOOK_FUSION.md`
 7. `docs/06_TECHNICAL_ARCHITECTURE.md`
 8. `docs/07_MULTIPLAYER_NETWORKING.md`
 9. `docs/08_PLATFORM_BUILD_PERFORMANCE.md`
-10. `docs/12_PRODUCTION_ROADMAP.md`
-11. `docs/13_TEST_QA_ACCEPTANCE.md`
-12. `docs/14_RISK_SCOPE_BUDGET.md`
-13. `review/CLAUDE_REVIEW_TEMPLATE.md`
+10. `docs/13_TEST_QA_ACCEPTANCE.md`
+11. `docs/35_M_PRE_GREYBOX_GATE.md` — gate der skal være grøn før M1
 
-## Centrale leverancer i pakken
+Reviewfilerne under `review/` og `01_PROMPT_FOR_CLAUDE.md` er historik/evidens, ikke næste arbejdsordre.
 
-- Komplet GDD og gameplay-specifikation.
-- Teknisk arkitektur og netværksmodel.
-- Quest 2/3-build- og performanceplan.
-- Detaljeret scenario-bibel for **Stormnatten**.
-- Roadmap, milepæle, stop/go-kriterier og produktionsestimater.
-- QA-plan, acceptkriterier og enhedsmatrix.
-- Data- og JSON-skemaer med konkrete eksempler.
-- Repo-, kode- og CI-standarder.
-- Backlog-workbook med epics, stories, tests, risici og reviewlog.
-- Prompt og skabelon til Claude-review.
+---
 
-## Hvad der endnu ikke findes
+# Læserækkefølge — ChatGPT
 
-- Ingen Unity-kode eller færdige assets.
-- Ingen fysisk kompatibilitetstest er gennemført endnu.
-- Ingen licensaftale til Robinson Crusoe-IP; projektet planlægges derfor som original IP.
-- Pinning af Unity- og XR-pakker sker efter M0b; M0a har låst retningen til Unity 6 LTS + OpenXR på Quest 2/3.
+1. `repo_status.md`
+2. `docs/36_CHATGPT_WORKSTREAM.md`
+3. `docs/01_EXECUTIVE_HANDOFF.md`
+4. `docs/04_GAME_DESIGN_DEEP_DIVE.md`
+5. `docs/05_STORMNATTEN_CONTENT_BIBLE.md`
+6. `docs/11_ART_AUDIO_UI_DIRECTION.md`
+7. `docs/12_PRODUCTION_ROADMAP.md`
+8. `docs/19_OPEN_QUESTIONS.md`
+9. `docs/35_M_PRE_GREYBOX_GATE.md`
 
-## Reviewflow efter Claude
+ChatGPT ændrer ikke Unity-filer, medmindre Anders eksplicit ændrer arbejdsdelingen.
 
-Claude afleverer kommentarer med stabile ID'er (`CR-001`, `CR-002` ...). De behandles i `review/RESPONSE_MATRIX.md` med én af følgende dispositioner:
+---
 
-- **ACCEPT** - indarbejdes direkte.
-- **ACCEPT_WITH_MODIFICATION** - problemet accepteres, men løsningen ændres.
-- **REJECT** - afvises med konkret begrundelse.
-- **DEFER** - relevant, men uden for nuværende milepæl.
-- **NEEDS_EVIDENCE** - kræver prototype, måling eller officiel dokumentation.
+# Aktuelle næste handlinger
 
-Ingen større beslutning ændres uden opdatering af `docs/18_DECISION_LOG.md`.
+## Claude / Unity
+
+Luk M0b cross-device efter GitHub issue #3 og `src/unity/RUNBOOK_FUSION.md`.
+
+## ChatGPT / produkt
+
+- M-Pre-materialet er færdigt.
+- OQ-008/OQ-009/OQ-010 har testprotokoller.
+- Afvent menneskedata til de gates, der kræver dem.
+- Når M-Pre er grøn: forbered M1 player-experience/UX-handoff og derefter relevante source asset/audio manifests.
+
+## Anders
+
+- leverer den fysiske to-headset-testkontekst til M0b
+- arrangerer M-Pre med eksterne testere
+- træffer produktejerbeslutninger, når evidensen kræver et valg
+
+---
+
+# Ændringsdisciplin
+
+Større beslutninger skal være sporbare:
+
+1. registrér fund/evidens
+2. opdatér decision log/ADR ved beslutningsændring
+3. opdatér berørte specs/backlog
+4. opdatér `repo_status.md`
+5. kør relevante validatorer/tests
+
+Hovedprincip:
+
+> **Bevis før polish. Måling slår antagelse.**
