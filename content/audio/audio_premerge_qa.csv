@@ -1,0 +1,7 @@
+gate_id,category,required_for_merge,status,evidence,acceptance
+unity_import_compile,unity,yes,pending-physical,,"Unity 6000.4.10f1 opens/imports the current staged artifact and ProjectOen.Audio + ProjectOen.Audio.Editor compile with zero errors or Missing Script references"
+unity_first_playable_audit,unity,yes,pending-physical,,"Build First Playable (One Click) completes; manifest/SHA audit passes; AudioCatalog event count equals manifest; generated profile audit is clean"
+unity_active_scene_audit,unity,yes,pending-physical,,"Build + Install succeeds in the saved target gameplay scene; Audit Active Scene Audio Runtime reports status=OK with exactly one generated runtime, one active listener and two active listener-bound world anchors"
+quest2_functional_smoke,quest2,yes,pending-physical,,"On Quest 2, Beach/Jungle and Calm->Wind->RainFire->Signal plus shelter transitions work without stale beds, duplicate emitters, broken localization, missing cues or audible streaming stalls"
+quest2_mix_listening,quest2,yes,pending-physical,,"Current 173-WAV/47-event first-playable artifact is listened to in headset; Shore_Wash, distant thunder, environmental beds and adaptive-music candidates have no unacceptable seams, contamination, masking, clipping or spatial/perspective errors"
+quest2_performance_soak,quest2,yes,pending-physical,,"Quest 2 Q2_BASE holds the project 72 Hz performance gate through the audio-heavy storm path/soak; audio voice usage and streaming remain within the documented device budget with no sustained audio-induced frame or memory regression"
