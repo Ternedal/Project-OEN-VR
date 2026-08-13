@@ -2,8 +2,8 @@
 """Global static contract for Project ØEN Unity production-art integration.
 
 Dedicated validators own detailed VFX/UI/world quality. This gate protects the
-shared integration order, core material/decal/storm contracts and strict separation
-from the minimal M0b CoopGame Android gate.
+shared integration order, core material/decal/storm contracts, event-driven wet
+surface response and strict separation from the minimal M0b CoopGame Android gate.
 """
 from __future__ import annotations
 import sys
@@ -12,16 +12,19 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 EDITOR=ROOT/"src"/"unity"/"ProjectOen.Art"/"Editor"
+RUNTIME=ROOT/"src"/"unity"/"ProjectOen.Art"/"Runtime"
 BUILDER=EDITOR/"ProductionArtPrefabBuilder.cs"
 DECAL=EDITOR/"ProductionArtDecalBuilder.cs"
 SHOWCASE=EDITOR/"ProductionArtShowcaseBuilder.cs"
 ATMOS=EDITOR/"ProductionArtStormAtmosphereBuilder.cs"
+WETNESS=RUNTIME/"ProductionArtWetnessDriver.cs"
 AUDIT=EDITOR/"ProductionArtShowcaseAudit.cs"
 MENU=EDITOR/"ProductionArtReviewMenu.cs"
 BOOT=ROOT/"prototype"/"m0b-bootstrap"/"Bootstrap-M0b.ps1"
 REVIEW=ROOT/"prototype"/"m0b-bootstrap"/"Review-ProductionArt.ps1"
 COOP=ROOT/"src"/"unity"/"App"/"CoopGameSetup.cs"
 MATERIALS=("Wood","Rope","Tarp","Metal","Stone","Leaf","Cloth","Mud","Fire","Char","Water")
+WETTABLE=("Wood","Rope","Tarp","Metal","Stone","Leaf","Cloth","Mud","Char")
 
 
 def need(path,label,tokens,errors):
@@ -48,6 +51,21 @@ def main():
     for m in MATERIALS:
         if b and f'"{m}"' not in b: errors.append(f"World material catalog missing: {m}")
 
+    wet=need(WETNESS,"runtime wetness driver",(
+        '[ExecuteAlways]','[DisallowMultipleComponent]','MaterialPropertyBlock',
+        'SetWetness(float value)','ApplyWetness()','GetPropertyBlock','SetPropertyBlock',
+        'GetRootGameObjects','"_BaseColor"','"_Color"','"_BumpScale"',
+        'Color.Lerp(Color.white, profile.wetTint, wetness)',
+        'Mathf.Lerp(1f, profile.wetBumpScale, wetness)',
+    ),errors)
+    for m in WETTABLE:
+        if wet and f'case "{m}":' not in wet: errors.append(f"Wetness profile missing: {m}")
+    if wet:
+        for forbidden in ('void Update(', 'void LateUpdate(', 'renderer.material', '.sharedMaterials ='):
+            if forbidden in wet: errors.append(f"Wetness driver violates event-driven/shared-material contract: {forbidden}")
+        if 'case "Fire":' in wet or 'case "Water":' in wet:
+            errors.append("Wetness driver must not override Fire or Water material response")
+
     d=need(DECAL,"ground decal builder",(
         'Assets/ProjectOEN/ProductionArt/Decals/environment_set_dressing',
         'Universal Render Pipeline/Unlit','Unlit/Transparent','StartsWith("en-011_"','StartsWith("en-025_"',
@@ -68,12 +86,16 @@ def main():
         if "BuildPipeline.BuildPlayer" in s or "EditorBuildSettings.scenes" in s: errors.append("Stormnatten showcase must not alter build settings")
 
     a=need(ATMOS,"storm atmosphere",(
-        'StormnattenArtShowcase.unity','Storm Rain Volume','Universal Render Pipeline/Particles/Unlit',
-        'main.maxParticles = 180','emission.rateOverTime = 135f','ParticleSystemShapeType.Box',
-        'ParticleSystemRenderMode.Stretch','ShadowCastingMode.Off','BlendMode.SrcAlpha','BlendMode.OneMinusSrcAlpha',
+        'StormnattenArtShowcase.unity','Storm Rain Volume','Storm Surface Wetness',
+        'Universal Render Pipeline/Particles/Unlit','main.maxParticles = 180','emission.rateOverTime = 135f',
+        'ParticleSystemShapeType.Box','ParticleSystemRenderMode.Stretch','ShadowCastingMode.Off',
+        'BlendMode.SrcAlpha','BlendMode.OneMinusSrcAlpha',
+        'AddComponent<ProductionArtWetnessDriver>','ShowcaseWetness = 0.78f','SetWetness(ShowcaseWetness)',
     ),errors)
     if a and (a.count("AddComponent<ParticleSystem>")!=1 or ".collision" in a or "ParticleSystemCollision" in a):
         errors.append("Storm atmosphere must remain one no-collision particle system")
+    if a and a.count("AddComponent<ProductionArtWetnessDriver>") != 1:
+        errors.append("Storm atmosphere must create exactly one scene-wide wetness driver")
 
     audit=need(AUDIT,"Stormnatten budget audit",(
         'TriangleHardLimit = 750000','DrawCallProxyHardLimit = 130','ShadowCasterHardLimit = 1',
@@ -117,11 +139,12 @@ def main():
     if boot and not ordered(boot,boot_sequence): errors.append("M0b bootstrap art sequence is out of order")
 
     coop=need(COOP,"CoopGame setup",('const string ScenePath = SceneDir + "/CoopGame.unity"','BuildPipeline.BuildPlayer','scenes = new[] { ScenePath }'),errors)
-    if coop and any(x in coop for x in ("StormnattenArtShowcase","DiegeticUiArtShowcase","ProductionVfxShowcase","Storm Rain Volume")):
+    if coop and any(x in coop for x in ("StormnattenArtShowcase","DiegeticUiArtShowcase","ProductionVfxShowcase","Storm Rain Volume","Storm Surface Wetness")):
         errors.append("Visual-review content leaked into minimal CoopGame M0b gate")
 
     print("Project ØEN global Unity art integration QA")
     print(f"  world materials : {len(MATERIALS)}")
+    print(f"  wettable mats   : {len(WETTABLE)} (event-driven MaterialPropertyBlock)")
     print("  review scenes   : VFX + physical UI + Stormnatten")
     print("  review order    : world -> decals -> VFX/audit -> UI/audit -> Stormnatten/audit")
     print("  M0b separation  : CoopGame-only Android build")
