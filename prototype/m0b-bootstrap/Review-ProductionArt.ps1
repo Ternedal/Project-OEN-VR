@@ -7,8 +7,9 @@
   prefabs, canonical damaged/wet state appearance, dry/mid/storm material calibration,
   state catalogs, the 6x3 state-transition matrix, 1:1 hero-prop readability scene,
   decals, VFX and UI, runs isolated state/material/hero/VFX/physical-UI audits, then
-  the Stormnatten showcase with rain, wetness, bounded motion FX, renderer-culled
-  wind-responsive dressing and the Quest 2 art audit.
+  the Stormnatten showcase with camp + signal-finale consequence stories, rain,
+  wetness, bounded motion FX, renderer-culled wind-responsive dressing and the
+  Quest 2 art audit.
 #>
 
 param(
@@ -66,6 +67,8 @@ foreach ($builder in @(
     "ProductionArtUiShowcaseBuilder.cs",
     "ProductionArtUiShowcaseAudit.cs",
     "ProductionArtShowcaseBuilder.cs",
+    "ProductionArtStormCampStoryBuilder.cs",
+    "ProductionArtSignalFinaleStoryBuilder.cs",
     "ProductionArtStormAtmosphereBuilder.cs",
     "ProductionArtStormFxBuilder.cs",
     "ProductionArtWindResponseBuilder.cs",
@@ -74,7 +77,7 @@ foreach ($builder in @(
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
 }
-Note "Art + runtime state controllers + state appearance + state-transition/hero/material/world/state/decal/VFX/UI/showcase builders er synkroniseret til $ProjectPath"
+Note "Art + runtime state controllers + state appearance + camp/finale stories + state-transition/hero/material/world/state/decal/VFX/UI/showcase builders er synkroniseret til $ProjectPath"
 
 function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
     Step $Label
@@ -169,7 +172,7 @@ Run-UnityArtStep "Bygger Stormnatten showcase" `
     "ProjectOen.Art.Editor.ProductionArtShowcaseBuilder.BuildShowcase" `
     "review-art-showcase.log"
 
-Run-UnityArtStep "Tilfoejer lokal stormregn og vaade overflader" `
+Run-UnityArtStep "Tilfoejer camp/finale historier, lokal stormregn og vaade overflader" `
     "ProjectOen.Art.Editor.ProductionArtStormAtmosphereBuilder.AddStormAtmosphere" `
     "review-art-storm.log"
 
@@ -186,7 +189,7 @@ Run-UnityArtStep "Auditerer showcase mod Quest 2-budget" `
     "review-art-budget.log"
 
 Step "Resultat"
-Write-Host "Production-art review er bygget; canonical damaged/wet states har state-specifik appearance; 6x3 transition-matrix og runtime SetState-audit bestod; hero props/world anchors er samlet i 1:1 physical-scale review; material/world assets, runtime state catalogs, decals, VFX og UI er wired; material/hero/VFX/UI/Stormnatten audits bestod; Stormnatten har regn, vaadhed, vind/splash/lyn og vindrespons paa dug/reb/vegetation." -ForegroundColor Green
+Write-Host "Production-art review er bygget; canonical damaged/wet states har state-specifik appearance; 6x3 transition-matrix og runtime SetState-audit bestod; hero props/world anchors er samlet i 1:1 physical-scale review; material/world assets, runtime state catalogs, decals, VFX og UI er wired; Stormnatten har camp + signal-finale consequence stories, regn, vaadhed, vind/splash/lyn og vindrespons." -ForegroundColor Green
 Write-Host "State catalogs: Assets\ProjectOEN\ProductionArt\StateSets" -ForegroundColor Green
 Write-Host "State transition scene: Assets\ProjectOEN\ProductionArt\Scenes\StateTransitionShowcase.unity" -ForegroundColor Green
 Write-Host "Hero readability scene: Assets\ProjectOEN\ProductionArt\Scenes\HeroReadabilityShowcase.unity" -ForegroundColor Green
