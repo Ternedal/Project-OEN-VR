@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using ProjectOen.Art.Runtime;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -17,6 +18,10 @@ namespace ProjectOen.Art.Editor
     /// - realtime shadow lights: max 1;
     /// - active particle systems/effects: max 10.
     ///
+    /// The Stormnatten art scene must also contain exactly one event-driven
+    /// ProductionArtWetnessDriver at the authored storm wetness range. This keeps
+    /// dynamic material response centralized rather than adding per-prefab updates.
+    ///
     /// Renderer material-slot count is used as a conservative draw-call proxy in
     /// this editor audit. Device profiling remains authoritative for final draw calls.
     /// </summary>
@@ -29,6 +34,8 @@ namespace ProjectOen.Art.Editor
         private const int DrawCallProxyHardLimit = 130;
         private const int ShadowCasterHardLimit = 1;
         private const int ParticleSystemHardLimit = 10;
+        private const float StormWetnessMin = 0.74f;
+        private const float StormWetnessMax = 0.82f;
 
         [MenuItem("Project OEN/Art/Audit Stormnatten Showcase Budget")]
         public static void AuditShowcase()
@@ -44,6 +51,7 @@ namespace ProjectOen.Art.Editor
             Light[] lights = UnityEngine.Object.FindObjectsOfType<Light>(true);
             ParticleSystem[] particleSystems = UnityEngine.Object.FindObjectsOfType<ParticleSystem>(true);
             Collider[] colliders = UnityEngine.Object.FindObjectsOfType<Collider>(true);
+            ProductionArtWetnessDriver[] wetnessDrivers = UnityEngine.Object.FindObjectsOfType<ProductionArtWetnessDriver>(true);
 
             long triangles = 0;
             foreach (MeshFilter filter in meshFilters)
@@ -76,6 +84,8 @@ namespace ProjectOen.Art.Editor
                       " shadowCasters=" + shadowCasters + " hard<=" + ShadowCasterHardLimit);
             Debug.Log("[ProjectOEN.Art.Budget] particleSystems=" + activeParticles +
                       " hard<=" + ParticleSystemHardLimit + " colliders=" + colliders.Length);
+            Debug.Log("[ProjectOEN.Art.Budget] wetnessDrivers=" + wetnessDrivers.Length +
+                      (wetnessDrivers.Length == 1 ? " wetness=" + wetnessDrivers[0].Wetness.ToString("0.00") : string.Empty));
 
             if (triangles > TriangleTarget)
                 Debug.LogWarning("[ProjectOEN.Art.Budget] Triangle target exceeded; device profile before adding more geometry.");
@@ -91,11 +101,16 @@ namespace ProjectOen.Art.Editor
                 hardFailures.Add("shadow-casting realtime lights " + shadowCasters + " > " + ShadowCasterHardLimit);
             if (activeParticles > ParticleSystemHardLimit)
                 hardFailures.Add("active particle systems " + activeParticles + " > " + ParticleSystemHardLimit);
+            if (wetnessDrivers.Length != 1)
+                hardFailures.Add("wetness drivers " + wetnessDrivers.Length + " != 1");
+            else if (wetnessDrivers[0].Wetness < StormWetnessMin || wetnessDrivers[0].Wetness > StormWetnessMax)
+                hardFailures.Add("storm wetness " + wetnessDrivers[0].Wetness.ToString("0.00") +
+                                 " outside " + StormWetnessMin.ToString("0.00") + "-" + StormWetnessMax.ToString("0.00"));
 
             if (hardFailures.Count > 0)
                 throw new InvalidOperationException("Quest 2 showcase budget hard gate failed: " + string.Join("; ", hardFailures));
 
-            Debug.Log("[ProjectOEN.Art.Budget] PASS: showcase stays inside repository Quest 2 hard limits. Device profiling still required for authoritative frame timing/draw calls.");
+            Debug.Log("[ProjectOEN.Art.Budget] PASS: showcase stays inside repository Quest 2 hard limits with one centralized wet-surface driver. Device profiling still required for authoritative frame timing/draw calls.");
         }
     }
 }
