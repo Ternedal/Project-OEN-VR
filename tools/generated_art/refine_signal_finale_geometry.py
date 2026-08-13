@@ -123,12 +123,13 @@ def enhance_signal_logs(mesh: Mesh) -> None:
 
 def enhance_signal_ropes(mesh: Mesh) -> None:
     # Partial coil plus a failed ground stake give the rope cluster a clear
-    # "used under load" story rather than four pristine storage rings.
-    add_torus(mesh, (0.42, 0.035, 0.20), 0.155, 0.010, "Rope", 12, 4, (90, 14, 0))
-    add_cylinder(mesh, (-0.46, 0.19, -0.18), 0.026, 0.52, "Wood", 7, (5, 18, 18))
-    add_rope_between(mesh, (-0.34, 0.08, -0.08), (-0.70, 0.025, -0.34), 0.010, "Rope", 5)
-    add_rope_between(mesh, ( 0.22, 0.06,  0.08), ( 0.73, 0.025,  0.31), 0.010, "Rope", 5)
-    add_rope_between(mesh, ( 0.42, 0.04,  0.18), ( 0.16, 0.025,  0.48), 0.009, "Rope", 5)
+    # "used under load" story rather than four pristine storage rings. Keep the
+    # spill tails physically compact so the state remains a bounded dressing asset.
+    add_torus(mesh, (0.42, 0.035, 0.14), 0.145, 0.010, "Rope", 12, 4, (90, 14, 0))
+    add_cylinder(mesh, (-0.46, 0.19, -0.16), 0.026, 0.52, "Wood", 7, (5, 18, 18))
+    add_rope_between(mesh, (-0.34, 0.08, -0.08), (-0.68, 0.025, -0.26), 0.010, "Rope", 5)
+    add_rope_between(mesh, ( 0.22, 0.06,  0.08), ( 0.70, 0.025,  0.24), 0.010, "Rope", 5)
+    add_rope_between(mesh, ( 0.40, 0.04,  0.14), ( 0.17, 0.025,  0.38), 0.009, "Rope", 5)
 
 
 def enhance_signal_stones(mesh: Mesh) -> None:
