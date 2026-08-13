@@ -7,17 +7,19 @@ Missing full-production Foley/field-source events are reported separately: they 
 post-first-playable production work rather than being silently confused with software readiness.
 
 Use --strict after recording physical evidence. It returns non-zero until every required merge
-gate is passed and has evidence.
+gate is passed with structured evidence bound to the current pinned first-playable payload.
 """
 from __future__ import annotations
 
 import argparse
 import csv
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 AUDIO = ROOT / "content/audio"
 QA = AUDIO / "audio_premerge_qa.csv"
+PIN = AUDIO / "first_playable_artifact_pin.json"
 BACKLOG = AUDIO / "audio_production_backlog.csv"
 FOLEY = AUDIO / "foley_recording_plan.csv"
 SUPPLEMENTAL = AUDIO / "supplemental_foley_recording_plan.csv"
@@ -51,6 +53,21 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         return list(reader)
 
 
+def read_pin() -> dict:
+    if not PIN.is_file():
+        raise SystemExit(f"missing required merge-readiness input: {PIN.relative_to(ROOT)}")
+    try:
+        value = json.loads(PIN.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"{PIN.relative_to(ROOT)}: invalid JSON: {exc}") from exc
+    if not isinstance(value, dict):
+        raise SystemExit(f"{PIN.relative_to(ROOT)}: expected JSON object")
+    for key in ("manifest_sha256", "clip_count", "event_count", "unity_version"):
+        if key not in value:
+            raise SystemExit(f"{PIN.relative_to(ROOT)}: missing {key}")
+    return value
+
+
 def int_field(row: dict[str, str], key: str, label: str) -> int:
     try:
         value = int(row.get(key, ""))
@@ -61,7 +78,44 @@ def int_field(row: dict[str, str], key: str, label: str) -> int:
     return value
 
 
-def validate_qa(rows: list[dict[str, str]]) -> list[dict[str, str]]:
+def require_passed_evidence(gate_id: str, category: str, evidence: str, pin: dict) -> None:
+    manifest_token = f"manifest_sha256={pin['manifest_sha256']}"
+    clip_token = f"clips={pin['clip_count']}"
+    event_token = f"events={pin['event_count']}"
+
+    if category == "unity":
+        required = (
+            "unity-batch;",
+            f"unity={pin['unity_version']}",
+            manifest_token,
+            clip_token,
+            event_token,
+            "utc=",
+            "scene=Assets/",
+        )
+    elif category == "quest2":
+        required = (
+            "quest2-structured;",
+            "build=",
+            manifest_token,
+            clip_token,
+            event_token,
+            "utc=",
+            "tester=",
+            "evidence=",
+        )
+    else:
+        raise SystemExit(f"{gate_id}: unsupported evidence category {category!r}")
+
+    missing = [token for token in required if token not in evidence]
+    if missing:
+        raise SystemExit(
+            f"{gate_id}: passed evidence is not structured/current-payload evidence; "
+            f"missing markers={missing}. Use the category evidence importer instead of editing the CSV pass manually."
+        )
+
+
+def validate_qa(rows: list[dict[str, str]], pin: dict) -> list[dict[str, str]]:
     if not rows:
         raise SystemExit("audio pre-merge QA registry must not be empty")
     missing_columns = REQUIRED_COLUMNS.difference(rows[0])
@@ -87,8 +141,11 @@ def validate_qa(rows: list[dict[str, str]]) -> list[dict[str, str]]:
         status = row.get("status", "").strip()
         if status not in ALLOWED_STATUSES:
             raise SystemExit(f"{gate_id}: unsupported status {status!r}")
-        if status in {"passed", "failed"} and not row.get("evidence", "").strip():
+        evidence = row.get("evidence", "").strip()
+        if status in {"passed", "failed"} and not evidence:
             raise SystemExit(f"{gate_id}: status={status} requires concrete evidence")
+        if status == "passed":
+            require_passed_evidence(gate_id, category, evidence, pin)
         if not row.get("acceptance", "").strip():
             raise SystemExit(f"{gate_id}: acceptance criteria must not be blank")
 
@@ -174,7 +231,8 @@ def write_markdown(
         f"**State: `{state}`**",
         "",
         "This report is generated after the automated audio validators in the Audio Validation workflow. "
-        "The rows below are the deliberately non-automatable physical gates for this first-playable audio PR.",
+        "The rows below are the deliberately physical gates for this first-playable audio PR. A passed row "
+        "must contain structured evidence bound to the current pinned first-playable payload.",
         "",
         f"- Required physical gates: **{len(rows)}**",
         f"- Passed with evidence: **{len(passed)}**",
@@ -190,13 +248,7 @@ def write_markdown(
             f"| `{row['gate_id']}` | `{row['category']}` | `{row['status']}` | {evidence} |"
         )
 
-    lines.extend(
-        [
-            "",
-            "## Acceptance criteria",
-            "",
-        ]
-    )
+    lines.extend(["", "## Acceptance criteria", ""])
     for row in rows:
         lines.append(f"- `{row['gate_id']}` — {row['acceptance']}")
 
@@ -212,8 +264,8 @@ def write_markdown(
             "Those production lanes remain explicit in readiness/backlog registries. They do not masquerade as completed assets. "
             "This first-playable PR is merge-blocked by the six physical Unity/Quest gates above, not by pretending the later full-production recording backlog is already complete.",
             "",
-            "Run `python tools/report_audio_merge_readiness.py --strict` only after recording evidence for every physical gate. "
-            "Strict mode exits non-zero until all six rows are `passed` with evidence.",
+            "Run `python tools/report_audio_merge_readiness.py --strict` only after importing structured evidence for every physical gate. "
+            "Strict mode exits non-zero until all six rows are `passed` with current-payload evidence.",
         ]
     )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -226,7 +278,8 @@ def main() -> int:
     parser.add_argument("--strict", action="store_true")
     args = parser.parse_args()
 
-    rows = validate_qa(read_csv(QA))
+    pin = read_pin()
+    rows = validate_qa(read_csv(QA), pin)
     field_source_events, foley_events, foley_variations, supplemental_events, supplemental_variations = (
         production_backlog_summary()
     )
