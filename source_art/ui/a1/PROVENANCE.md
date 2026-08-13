@@ -17,6 +17,8 @@ No third-party icon pack, logo, illustration or traced source was used in the SV
 
 ## Files
 
+### Identity/action/status
+
 - `UI_PLAYER_SYMBOL_A_001.svg`
 - `UI_PLAYER_SYMBOL_B_001.svg`
 - `UI_ACTION_ICON_SHELTER_001.svg`
@@ -33,19 +35,33 @@ No third-party icon pack, logo, illustration or traced source was used in the SV
 - `TEX_SUCCESS_SHAPE_001.svg`
 - `TEX_PARTIAL_SHAPE_001.svg`
 
+### Planning/interaction UI
+
+- `UI_EFFORT_MARKER_P1_001.svg`
+- `UI_EFFORT_MARKER_P2_001.svg`
+- `UI_ACTION_CARD_BASE_001.svg`
+- `UI_WRIST_STATUS_FRAME_001.svg`
+- `TEX_SNAP_PREVIEW_001.svg`
+- `TEX_GRIP_INVITE_001.svg`
+- `TEX_TENSION_GUIDE_001.svg`
+- `TEX_REPAIR_NODE_001.svg`
+
 ## QA performed
 
-- XML parse check on all SVG sources
-- raster render check at 256×256
+- XML parse check on initial icon sources
+- raster render check at source-scale
 - combined visual contact-sheet review on dark background
 - fatigue symbol revised after first review because its first silhouette read too much like a bag/weight item
 - signal symbol revised to restore safe edge margin
-- transparent background preserved
+- transparent background preserved where intended
+- planning/feedback additions follow the same palette/shape language and require a second device/readability QA after Unity-derived raster/import exists
 
 ## Accessibility intent
 
 - Player A/B: different outer shapes + different inner glyph + color
 - success/warning/partial: circle/check, triangle/exclamation, split circle — not color only
+- effort markers: different inner geometry + color
+- tension guide: central safe zone + geometry/arrows, not only green/red
 - status/action icons use materially different silhouettes
 
 ## Claude handoff boundary
