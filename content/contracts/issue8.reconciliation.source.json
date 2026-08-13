@@ -1,0 +1,40 @@
+{
+  "id": "CONTENT_RECONCILIATION_ISSUE8_001",
+  "scenarioId": "SCN_STORMNATTEN_001",
+  "version": 1,
+  "status": "canonical-partial-owner-gate-open",
+  "canonicalContracts": {
+    "onboarding": "content/onboarding/stormnatten.onboarding.source.json",
+    "day3Planning": "content/phases/stormnatten.day3_planning.source.json"
+  },
+  "resolved": [
+    {
+      "topic": "onboarding",
+      "disposition": "explicit-content-contract",
+      "runtimeRule": "Do not hide product sequence semantics in Unity special-case logic."
+    },
+    {
+      "topic": "day3-planning",
+      "disposition": "explicit-planning-beat",
+      "runtimeRule": "Reuse existing planning mechanic and canonical action IDs."
+    }
+  ],
+  "ownerGate": {
+    "topic": "fire-start",
+    "issue": 8,
+    "status": "owner-decision-required",
+    "acceptedGiftScope": false,
+    "implementationAllowed": false,
+    "acceptedHoursChanged": false
+  },
+  "supersededProposalDetails": [
+    "INT_REPAIR_SHELTER_008",
+    "INT_COLLECT_DRY_FUEL_014"
+  ],
+  "rules": [
+    "Proposal files under content/proposals remain historical proposal inputs and are not canonical runtime data.",
+    "The accepted Day 3 action set is INT_REINFORCE_ROOF_006, INT_BUILD_SIGNAL_009, INT_TREAT_INJURY_011 and INT_SECURE_SUPPLIES_005.",
+    "No fire-start implementation or accepted backlog hours may be inferred from canonical onboarding until Anders records a scope disposition.",
+    "M1 runtime implementation remains gated by M0b plus M-Pre."
+  ]
+}
