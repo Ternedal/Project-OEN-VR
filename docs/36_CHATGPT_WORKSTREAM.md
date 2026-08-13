@@ -30,17 +30,17 @@ Den må ikke bruges til at overstyre produkt- eller tekniske beslutninger i `00_
 - M-Pre ready-to-run-pakken er oprettet under `prototype/m-pre/`.
 - De centrale statusdokumenter er ajourført til det aktuelle M0/M-Pre-flow.
 - GitHub issue #3 er ajourført fra gammel Q1/2/3-scope til den aktuelle Q2/Q3-M0b-gate.
-- OQ-008 har nu en konkret fairness/randomness-testprotokol i `prototype/design-tests/OQ-008_RANDOMNESS_FAIRNESS.md`.
+- OQ-008, OQ-009 og OQ-010 har nu konkrete testprotokoller under `prototype/design-tests/`.
+- `docs/19_OPEN_QUESTIONS.md` peger nu på de konkrete protokoller uden at foregive, at spørgsmålene er besvaret.
 
 ### Det vigtigste, der mangler nu
 
 1. **M-Pre er ikke kørt.** Kernehypotesen om fire indsatsmarkører er derfor stadig ikke bevist med mennesker.
 2. **M0b er ikke lukket cross-device.** Det er Claude/Anders-sporet og kræver to headset.
-3. **OQ-008 mangler menneskedata.** Testdesignet er klart, men spørgsmålet må ikke lukkes på AI-vurdering.
-4. **OQ-009 og OQ-010 mangler stadig testdesign/resultat.**
-5. **OQ-007 kan kun delvist besvares af M-Pre.** M-Pre kan vise naturlig arbejdsdeling, men tester ikke eksplicitte asymmetriske roller; det skal derfor ikke lukkes for aggressivt uden rolledata.
-6. **Endelige art/audio/source-assets skal ikke masseproduceres endnu.** Projektets egne gates forbyder dyr art/content før kerne- og greyboxbeviser er grønne.
-7. **Senere produktejerinput er stadig åbent:** same-room vs remote-first, finalens tone, neutral/personlig karakterisering, standardsværhedsgrad og launch-sprog.
+3. **OQ-008, OQ-009 og OQ-010 mangler menneskedata.** Testdesignene er klare; resultater må ikke erstattes af AI-vurdering.
+4. **OQ-007 kan kun delvist besvares af M-Pre.** M-Pre kan vise naturlig arbejdsdeling, men tester ikke eksplicitte asymmetriske roller; OQ-009-data skal indgå.
+5. **Endelige art/audio/source-assets skal ikke masseproduceres endnu.** Projektets egne gates forbyder dyr art/content før kerne- og greyboxbeviser er grønne.
+6. **Senere produktejerinput er stadig åbent:** same-room vs remote-first, finalens tone, neutral/personlig karakterisering, standardsværhedsgrad og launch-sprog.
 
 ---
 
@@ -84,30 +84,25 @@ Når rådata kommer tilbage:
 
 ---
 
-## P1 — mens M-Pre afventer testere
+## P1 — designforsøg klar, afventer mennesker
 
-### C-010 — Design test for randomness (OQ-008) — FÆRDIG
+### C-010 — Randomness (OQ-008) — PROTOKOL FÆRDIG
 
-Protokol: `prototype/design-tests/OQ-008_RANDOMNESS_FAIRNESS.md`.
+`prototype/design-tests/OQ-008_RANDOMNESS_FAIRNESS.md`
 
-Testen sammenligner 1/6 og 1/3 komplikationsrisiko med samme fremdrift/omkostning og måler fairness, agency, spænding, frustration og forståelse.
+Sammenligner 1/6 og 1/3 komplikationsrisiko med samme fremdrift/omkostning og måler fairness, agency, spænding, frustration og forståelse.
 
-**Resultat:** afventer mennesketest.
+### C-011 — Rolletest (OQ-009) — PROTOKOL FÆRDIG
 
-### C-011 — Rolletest (OQ-009) — NÆSTE
+`prototype/design-tests/OQ-009_ROLE_ASSIGNMENT.md`
 
-Forbered to testvarianter:
+Sammenligner selvvalgte/faste roller med automatisk rotation. Midlertidige rolleeffekter er eksplicit prototype-data, ikke canon.
 
-- spillerne vælger roller
-- roller fordeles/skifter automatisk
+### C-012 — Efterspils-konkurrence (OQ-010) — PROTOKOL FÆRDIG
 
-Mål om valget skaber strategi eller bare præference/administration.
+`prototype/design-tests/OQ-010_AFTER_ACTION_COMPETITION.md`
 
-Testen skal være eksplicit markeret som prototype og må ikke gøre midlertidige rolleeffekter til canon.
-
-### C-012 — Efterspils-konkurrence (OQ-010)
-
-Design neutral testvariant med og uden individuel score/ambition. Ingen beslutning træffes, før målbrugerne kan testes uden at afsløre gaveoplevelsen.
+Sammenligner rent fælles efterspil med fælles efterspil plus ikke-hierarkiske individuelle titler. Testen måler især fællesskab, replaylyst og sammenligningspres.
 
 ---
 
@@ -181,13 +176,25 @@ Når Anders beder ChatGPT “køre videre” på Øen:
 |---|---|---|---|
 | C-001 | M-Pre ready-to-run-pakke | **Færdig** | — |
 | C-002 | Status-/roadmapoprydning | **Færdig** | — |
-| C-003 | Kør M-Pre med mennesker | Afventer | 3 testsessioner |
+| C-003 | Kør M-Pre med mennesker | **Afventer** | 3 testsessioner |
 | C-010 | OQ-008 randomness-testdesign | **Færdig** | Resultat afventer mennesker |
-| C-011 | OQ-009 rolletestdesign | **Næste** | Ingen |
-| C-012 | OQ-010 after-action competition test | Planlagt | Målbrugere senere |
+| C-011 | OQ-009 rolletestdesign | **Færdig** | Resultat afventer M-Pre/roller + mennesker |
+| C-012 | OQ-010 after-action competition test | **Færdig** | Resultat afventer målbrugere |
 | C-020 | M1 produkt/UX-handoff | Planlagt | Grøn M-Pre |
 | C-021 | Source asset manifest | Planlagt | Grøn relevant gate |
 | C-022 | Audio cue manifest | Planlagt | Grøn relevant gate |
+
+## Nuværende stoplinje
+
+Der er nu ingen højprioriteret ikke-Unity-designbeslutning, som bør “løses på skrift” uden menneskedata.
+
+Det rigtige næste skridt er derfor ikke mere spekulativ contentproduktion. Det er:
+
+- Claude afslutter M0b's cross-device-bevis i Unity-sporet.
+- M-Pre køres med mennesker i produktsporet.
+- OQ-008/OQ-009/OQ-010 køres, når deres testforudsætninger er til stede.
+
+Når M-Pre er grøn, åbner C-020 og derefter de relevante source asset/audio-manifests.
 
 ## Hovedprincip
 
