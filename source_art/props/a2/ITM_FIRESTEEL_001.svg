@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="#282C2D"/>
+<text x="44" y="56" fill="#E8E0CF" font-size="32" font-family="sans-serif">ITM_FIRESTEEL_001 — source master</text>
+<text x="44" y="90" fill="#C8B58D" font-size="18" font-family="sans-serif">Priority A reference · minimal fire-start remains dependent on issue #8</text>
+<g font-family="sans-serif">
+<rect x="52" y="130" width="520" height="470" rx="28" fill="#343A3C" stroke="#55717A" stroke-width="7"/>
+<text x="82" y="176" fill="#E8E0CF" font-size="23">PRIMARY SILHOUETTE / SCALE</text>
+<rect x="112" y="285" width="220" height="96" rx="32" fill="#6B513D" stroke="#E8E0CF" stroke-width="8"/>
+<rect x="300" y="312" width="190" height="42" rx="18" fill="#A5A39A" stroke="#E8E0CF" stroke-width="7"/>
+<rect x="455" y="304" width="48" height="58" rx="10" fill="#D59A52" stroke="#E8E0CF" stroke-width="6"/>
+<path d="M128 335h175" stroke="#D59A52" stroke-width="8" stroke-linecap="round"/>
+<text x="92" y="438" fill="#C8B58D" font-size="18">grip ~10–14 cm</text>
+<text x="318" y="438" fill="#C8B58D" font-size="18">rod ~18–24 cm</text>
+<text x="84" y="490" fill="#E8E0CF" font-size="18">• chunky utility grip</text>
+<text x="84" y="522" fill="#E8E0CF" font-size="18">• strike edge larger than real precision target</text>
+<text x="84" y="554" fill="#E8E0CF" font-size="18">• tool silhouette — not weapon language</text>
+</g>
+<g transform="translate(620 130)" font-family="sans-serif">
+<rect width="528" height="470" rx="28" fill="#343A3C" stroke="#66745C" stroke-width="7"/>
+<text x="30" y="46" fill="#E8E0CF" font-size="23">INTERACTION / STATE CONTRACT</text>
+<rect x="48" y="100" width="430" height="92" rx="20" fill="#3E4544" stroke="#C8B58D" stroke-width="5"/>
+<text x="76" y="136" fill="#D59A52" font-size="18">STRIKE SURFACE</text>
+<text x="76" y="166" fill="#E8E0CF" font-size="17">bright/value edge + broad contact zone; no tiny notch</text>
+<rect x="48" y="222" width="200" height="126" rx="20" fill="#3A4140" stroke="#55717A" stroke-width="5"/>
+<text x="74" y="258" fill="#E8E0CF" font-size="18">CLEAN</text>
+<path d="M82 302h116" stroke="#B8B6AA" stroke-width="20" stroke-linecap="round"/>
+<rect x="278" y="222" width="200" height="126" rx="20" fill="#3A4140" stroke="#55717A" stroke-width="5"/>
+<text x="304" y="258" fill="#E8E0CF" font-size="18">SOOTY</text>
+<path d="M312 302h116" stroke="#77766F" stroke-width="20" stroke-linecap="round"/>
+<text x="48" y="392" fill="#C8B58D" font-size="17">No durability gameplay state in minimal proposal.</text>
+<text x="48" y="424" fill="#C8B58D" font-size="17">Claude owns collider, strike detection and final XR scale.</text>
+</g>
+<text x="52" y="654" fill="#AFA488" font-size="16" font-family="sans-serif">Source intent only. If issue #8 rejects minimal fire-start, retain as unused/archive source; do not silently force it into runtime scope.</text>
+</svg>
