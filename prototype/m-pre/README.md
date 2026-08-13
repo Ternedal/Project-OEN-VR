@@ -103,6 +103,32 @@ Den samlede gate er grøn når mindst **2 af 3 sessioner** er grønne.
 4. Ved grønt: OQ-006/OQ-007 kan behandles/lukkes og projektet kan gå videre til M1.
 5. Ved rødt: stop før M1 og redesign kerneloopet efter prioriteringen i `docs/35`.
 
+## Deterministisk gate-evaluering
+
+`tools/evaluate_mpre.py` kan bruges efter de tre menneskelige sessioner til at kontrollere gateberegningen uden fortolkning.
+
+Lav en anonym CSV med præcis tre rækker og disse kolonner:
+
+`session_id,pair_id,day1_seconds,day2_seconds,day3_seconds,disagreement_days,administration_observed,changed_mind_count,regret_after_storm,human_session,gift_recipient_used`
+
+Kør:
+
+```bash
+python tools/evaluate_mpre.py path/to/results.csv
+```
+
+Regler:
+
+- `pair_id` er anonymt; evaluator behøver ikke testernes navne.
+- `human_session` skal være `true` for alle tre sessioner.
+- `gift_recipient_used` skal være `false` for alle tre sessioner.
+- mindst to forskellige `pair_id` skal være repræsenteret.
+- evaluatoren bruger kun de tre gatekriterier fra `docs/35` til GRØN/RØD.
+- meningsskift og fortrydelse rapporteres, men ændrer ikke gateberegningen.
+- ugyldig eller ufuldstændig input giver ingen gatekonklusion.
+
+En legitim RØD gate er et gyldigt testresultat og må ikke behandles som en teknisk fejl.
+
 ## Ingen snyde-grøn
 
 AI, designerens egen vurdering eller en “simuleret spiller” kan ikke bestå denne gate. Den kræver observeret menneskelig adfærd.
