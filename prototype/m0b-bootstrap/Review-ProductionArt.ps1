@@ -5,8 +5,8 @@
   Unity project, touch Packages/, configure XR, import Fusion, or build the M0b APK.
   It syncs production art + lightweight runtime state controllers, rebuilds world
   prefabs/state catalogs/decals/VFX/UI assets, runs isolated VFX and physical-scale
-  UI audits, then the Stormnatten showcase with rain, wetness, bounded motion FX
-  and the Quest 2 art audit.
+  UI audits, then the Stormnatten showcase with rain, wetness, bounded motion FX,
+  renderer-culled wind-responsive dressing and the Quest 2 art audit.
 #>
 
 param(
@@ -34,7 +34,7 @@ Step "Synkroniserer production art"
 New-Item -ItemType Directory -Force -Path $artDst | Out-Null
 foreach ($folder in @("Sprites", "Meshes", "Materials", "Decals", "Docs")) {
     $srcFolder = Join-Path $artSrc $folder
-    $dstFolder = Join-Path $artDst $folder
+    $dstFolder = Join-Path $ProjectPath "Assets\ProjectOEN\ProductionArt\$folder"
     if (-not (Test-Path $srcFolder)) { throw "Production-art mappe mangler: $srcFolder" }
     if (Test-Path $dstFolder) { Remove-Item $dstFolder -Recurse -Force }
     Copy-Item $srcFolder $dstFolder -Recurse -Force
@@ -58,6 +58,7 @@ foreach ($builder in @(
     "ProductionArtShowcaseBuilder.cs",
     "ProductionArtStormAtmosphereBuilder.cs",
     "ProductionArtStormFxBuilder.cs",
+    "ProductionArtWindResponseBuilder.cs",
     "ProductionArtShowcaseAudit.cs",
     "ProductionArtReviewMenu.cs"
 )) {
@@ -134,12 +135,16 @@ Run-UnityArtStep "Tilfoejer vind, regnsplash og fjernt lyn" `
     "ProjectOen.Art.Editor.ProductionArtStormFxBuilder.AddStormMotionFx" `
     "review-art-storm-motion.log"
 
+Run-UnityArtStep "Tilfoejer vindrespons til dug, reb og vegetation" `
+    "ProjectOen.Art.Editor.ProductionArtWindResponseBuilder.AddWindResponse" `
+    "review-art-wind-response.log"
+
 Run-UnityArtStep "Auditerer showcase mod Quest 2-budget" `
     "ProjectOen.Art.Editor.ProductionArtShowcaseAudit.AuditShowcase" `
     "review-art-budget.log"
 
 Step "Resultat"
-Write-Host "Production-art review er bygget; world assets, runtime state catalogs, decals, VFX og UI er wired; Stormnatten har regn, vaadhed, vind/splash/lyn; alle tre art-audits bestod." -ForegroundColor Green
+Write-Host "Production-art review er bygget; world assets, runtime state catalogs, decals, VFX og UI er wired; Stormnatten har regn, vaadhed, vind/splash/lyn og vindrespons paa dug/reb/vegetation; alle tre art-audits bestod." -ForegroundColor Green
 Write-Host "State catalogs: Assets\ProjectOEN\ProductionArt\StateSets" -ForegroundColor Green
 Write-Host "VFX scene: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
 Write-Host "UI scene: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
