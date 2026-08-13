@@ -14,7 +14,7 @@ REQUIRED=(
     '"en-011_", "medium"',
     '"en-025_", "storm"',
     '"cs-016_", "mid_repair"',
-    '"en-016_", "worn"',
+    '"en-016_", "wet"',
     '"en-017_", "pot"',
     '"en-018_", "sack"',
     '"en-020_", "frame"',
@@ -26,11 +26,26 @@ REQUIRED=(
     '"en-019_", "stones"',
     '"en-004_", "medium"',
     '"en-013_", "dense"',
-    '"cs-013_"',
+    '"cs-004_"',
+    '"cs-010_"',
+    '"pr-001_", "wet"',
+    '"cs-015_"',
+    '"pr-014_", "storm_damaged"',
     '"en-001_", "large"',
+    '"Storm-Damaged Shelter"',
+    '"Campfire Nearly Out Wet"',
+    '"Wet Tarp"',
+    '"Wet Camp Groundsheet"',
+    '"Signal Beacon Storm Damaged"',
+    '"Signal Cloth"',
 )
 FORBIDDEN=(
+    '"cs-003_"',
+    '"cs-008_"',
+    '"cs-013_"',
     '"cs-014_"',
+    '"en-016_", "worn"',
+    '"pr-014_", "worn"',
     'lighthouse',
     'Hunger',
     'Thirst',
@@ -55,14 +70,15 @@ def main()->int:
 
     print("Project ØEN enriched Stormnatten showcase QA")
     print("  ground decals : puddle large + medium + storm shoreline")
-    print("  camp dressing : radio repair + groundsheet + cooking + storage + rain catcher")
-    print("  signal hill   : complete/unlit beacon + logs + ropes + stones")
+    print("  camp pressure : damaged shelter + nearly-out wet fire + wet tarp/groundsheet")
+    print("  camp dressing : radio repair + cooking + storage + rain catcher")
+    print("  signal hill   : storm-damaged beacon/cloth + logs + ropes + stones")
     print("  beach/jungle  : wreck + rope debris + cliff grass + vegetation")
     if errors:
         print(f"\nFAILED with {len(errors)} issue(s):")
         for e in errors: print(" - "+e)
         return 1
-    print("\nPASS: showcase visibly exercises the newly refined production-art families without leaking into M0b build settings.")
+    print("\nPASS: showcase exercises canonical storm-pressure production states and refined dressing without leaking into M0b build settings.")
     return 0
 
 if __name__=="__main__": sys.exit(main())
