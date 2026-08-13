@@ -11,6 +11,6 @@
 <text x="275" y="394" fill="#282C2D" font-size="28">A</text>
 <text x="450" y="385" fill="#C8B58D" font-size="18">round wrist badge = Player A</text>
 </g>
-<text x="82" y="625" fill="#AFA488" font-size="17" font-family="sans-serif">Source intent: simple readable hand/forearm silhouette, no jewelry, no realistic identity cues, no Meta Avatar dependency.</text>
-<text x="82" y="655" fill="#AFA488" font-size="17" font-family="sans-serif">Claude owns final rig/mesh/material, hand tracking/controller pose integration and Quest device QA.</text>
+<text x="82" y="618" fill="#AFA488" font-size="16" font-family="sans-serif">Source intent: simple readable silhouette; no jewelry or realistic identity cues.</text>
+<text x="82" y="646" fill="#AFA488" font-size="16" font-family="sans-serif">No Meta Avatar dependency. Claude owns final rig/material, pose integration and device QA.</text>
 </svg>
