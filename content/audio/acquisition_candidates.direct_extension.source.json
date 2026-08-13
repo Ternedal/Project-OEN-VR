@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "status": "license-verified-direct-candidates-not-acquired",
+  "owner": "ChatGPT",
+  "candidates": [
+    {
+      "target": "AMB_OCEAN_ALT",
+      "provider": "OpenGameArt",
+      "title": "Beach Ocean Waves — wave 01",
+      "sourcePage": "https://opengameart.org/content/beach-ocean-waves",
+      "directDownload": "https://opengameart.org/sites/default/files/wave_01_cc0-18363__jasinski__alkaibeach.flac",
+      "filename": "wave_01_cc0-18363__jasinski__alkaibeach.flac",
+      "license": "CC0",
+      "sourceFormat": "FLAC; inspect after acquisition",
+      "priority": "B",
+      "use": ["beach/camp shoreline comparison"],
+      "caveat": "short wave source; likely building block rather than complete ambience loop"
+    },
+    {
+      "target": "SFX_WOOD_PACK_ALT",
+      "provider": "OpenGameArt",
+      "title": "Various Sound Effects",
+      "sourcePage": "https://opengameart.org/content/various-sound-effects",
+      "directDownload": "https://opengameart.org/sites/default/files/sounds_8.zip",
+      "filename": "sounds_8.zip",
+      "license": "CC0",
+      "sourceFormat": "ZIP containing WAV files",
+      "priority": "B",
+      "use": ["wood/creak source inspection"],
+      "caveat": "archive candidate; inspect individual files before promoting any sound"
+    },
+    {
+      "target": "SFX_CLOTH_PACK_ALT",
+      "provider": "OpenGameArt",
+      "title": "50 RPG sound effects",
+      "sourcePage": "https://opengameart.org/content/50-rpg-sound-effects",
+      "directDownload": "https://opengameart.org/sites/default/files/RPGsounds_Kenney.zip",
+      "filename": "RPGsounds_Kenney.zip",
+      "license": "CC0",
+      "sourceFormat": "ZIP containing OGG files",
+      "priority": "B",
+      "use": ["cloth/creak source inspection"],
+      "caveat": "archive candidate; inspect individual files before promoting any sound"
+    }
+  ],
+  "rule": "Extension candidates are license-verified direct sources; acquisition and listening approval remain separate gates."
+}
