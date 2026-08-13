@@ -6,6 +6,7 @@ using ProjectOen.Art.Runtime;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 namespace ProjectOen.Art.Editor
@@ -27,8 +28,9 @@ namespace ProjectOen.Art.Editor
     /// bounded motion-FX layer, a two-billboard near/far lightning rig, nine
     /// renderer-culled wind-responsive dressing objects, both deterministic
     /// Stormnatten micro-story layers and the canonical damaged/wet storm-pressure
-    /// prefab states for camp and signal landmarks. This keeps the scene alive and
-    /// narratively specific without per-object Update() scripts.
+    /// prefab states for camp and signal landmarks. Story renderers must be
+    /// shadowless and opt out of light/reflection probes so consequence dressing
+    /// cannot silently add realtime renderer cost on Quest 2.
     ///
     /// Renderer material-slot count is used as a conservative draw-call proxy in
     /// this editor audit. Device profiling remains authoritative for final draw calls.
@@ -346,7 +348,7 @@ namespace ProjectOen.Art.Editor
             if (hardFailures.Count > 0)
                 throw new InvalidOperationException("Quest 2 showcase budget hard gate failed: " + string.Join("; ", hardFailures));
 
-            Debug.Log("[ProjectOEN.Art.Budget] PASS: showcase stays inside repository Quest 2 hard limits with canonical storm-damaged/wet camp and signal states, imported camp/signal story layers, centralized wet surfaces, bounded storm motion FX, layered near/far lightning and nine renderer-culled wind-responsive dressing objects. Device profiling still required for authoritative frame timing/draw calls.");
+            Debug.Log("[ProjectOEN.Art.Budget] PASS: showcase stays inside repository Quest 2 hard limits with canonical storm-damaged/wet camp and signal states, imported camp/signal story layers, shadowless/probe-free story renderers, centralized wet surfaces, bounded storm motion FX, layered near/far lightning and nine renderer-culled wind-responsive dressing objects. Device profiling still required for authoritative frame timing/draw calls.");
         }
 
         private static void AuditStoryLayer(
@@ -410,11 +412,21 @@ namespace ProjectOen.Art.Editor
             Renderer[] storyRenderers = root.GetComponentsInChildren<Renderer>(true);
             int storyMaterialSlots = storyRenderers.Sum(renderer =>
                 renderer.sharedMaterials == null ? 0 : renderer.sharedMaterials.Length);
+            int storyShadowRenderers = storyRenderers.Count(renderer =>
+                renderer.shadowCastingMode != ShadowCastingMode.Off || renderer.receiveShadows);
+            int storyLightProbeRenderers = storyRenderers.Count(renderer => renderer.lightProbeUsage != LightProbeUsage.Off);
+            int storyReflectionProbeRenderers = storyRenderers.Count(renderer => renderer.reflectionProbeUsage != ReflectionProbeUsage.Off);
 
             if (storyTriangles > triangleHardLimit)
                 hardFailures.Add(label + " triangles " + storyTriangles + " > " + triangleHardLimit);
             if (storyMaterialSlots > materialSlotHardLimit)
                 hardFailures.Add(label + " material slots " + storyMaterialSlots + " > " + materialSlotHardLimit);
+            if (storyShadowRenderers != 0)
+                hardFailures.Add(label + " shadow-enabled renderers " + storyShadowRenderers + " != 0");
+            if (storyLightProbeRenderers != 0)
+                hardFailures.Add(label + " light-probed renderers " + storyLightProbeRenderers + " != 0");
+            if (storyReflectionProbeRenderers != 0)
+                hardFailures.Add(label + " reflection-probed renderers " + storyReflectionProbeRenderers + " != 0");
 
             foreach (StoryAuditSpec expectation in expectations)
             {
@@ -448,7 +460,10 @@ namespace ProjectOen.Art.Editor
                       " triangles=" + storyTriangles + "/" + triangleHardLimit +
                       " materialSlots=" + storyMaterialSlots + "/" + materialSlotHardLimit +
                       " radius<=" + maxRadius.ToString("0.00") + "m" +
-                      " runtimeCost=" + (storyColliders + storyRigidbodies + storyParticles + storyLights + storyAnimations + storyAnimators));
+                      " runtimeCost=" + (storyColliders + storyRigidbodies + storyParticles + storyLights + storyAnimations + storyAnimators) +
+                      " rendererCost=shadows:" + storyShadowRenderers +
+                      " lightProbes:" + storyLightProbeRenderers +
+                      " reflectionProbes:" + storyReflectionProbeRenderers);
         }
 
         private static bool MatchesStormState(string[] expectation)

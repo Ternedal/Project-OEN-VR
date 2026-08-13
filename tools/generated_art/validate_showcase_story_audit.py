@@ -4,7 +4,8 @@
 The builder-specific gates prove authored source intent. This gate makes sure the
 main Unity showcase audit independently re-checks the saved/imported scene:
 exact roots/children, canonical prefab variants, bounded placement, zero runtime
-cost components and per-story triangle/material budgets.
+cost components, shadow/probe-free renderer policy and per-story triangle/material
+budgets.
 """
 from __future__ import annotations
 
@@ -36,6 +37,7 @@ SIGNAL_CENTER = (5.40, 5.80)
 SIGNAL_RADIUS = 2.45
 
 AUDIT_REQUIRED = (
+    'using UnityEngine.Rendering;',
     'using UnityEngine.SceneManagement;',
     'CampStoryRootName = "Storm Camp Micro Story"',
     'CampStoryExpectedCount = 9',
@@ -60,10 +62,32 @@ AUDIT_REQUIRED = (
     'filter.sharedMesh.triangles.LongLength / 3L',
     'skin.sharedMesh.triangles.LongLength / 3L',
     'renderer.sharedMaterials == null ? 0 : renderer.sharedMaterials.Length',
+    'renderer.shadowCastingMode != ShadowCastingMode.Off || renderer.receiveShadows',
+    'renderer.lightProbeUsage != LightProbeUsage.Off',
+    'renderer.reflectionProbeUsage != ReflectionProbeUsage.Off',
+    'shadow-enabled renderers',
+    'light-probed renderers',
+    'reflection-probed renderers',
+    'rendererCost=shadows:',
     'Vector2.Distance(',
     'PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(child.gameObject)',
     'wrong canonical prefab on',
     'runtimeCost=',
+)
+
+BUILDER_RENDERER_REQUIRED = (
+    'using UnityEngine.Rendering;',
+    'foreach (Renderer renderer in root.GetComponentsInChildren<Renderer>(true))',
+    'renderer.shadowCastingMode = ShadowCastingMode.Off;',
+    'renderer.receiveShadows = false;',
+    'renderer.lightProbeUsage = LightProbeUsage.Off;',
+    'renderer.reflectionProbeUsage = ReflectionProbeUsage.Off;',
+    'renderer.shadowCastingMode != ShadowCastingMode.Off || renderer.receiveShadows',
+    'renderer.lightProbeUsage != LightProbeUsage.Off',
+    'renderer.reflectionProbeUsage != ReflectionProbeUsage.Off',
+    'renderers must not cast or receive realtime shadows',
+    'renderers must not use light probes',
+    'renderers must not use reflection probes',
 )
 
 WORKFLOW_REQUIRED = (
@@ -117,6 +141,10 @@ def main() -> int:
     for token in AUDIT_REQUIRED:
         if audit and token not in audit:
             errors.append(f"showcase audit missing imported-story contract: {token}")
+    for label, builder in (("camp", camp), ("signal", signal)):
+        for token in BUILDER_RENDERER_REQUIRED:
+            if builder and token not in builder:
+                errors.append(f"{label} story builder missing renderer-cost contract: {token}")
     for token in WORKFLOW_REQUIRED:
         if workflow and token not in workflow:
             errors.append(f"art workflow missing imported-story audit gate: {token}")
@@ -162,7 +190,8 @@ def main() -> int:
     print("  camp story      : 9 exact canonical children / <=60k triangles / <=36 material slots / <=3.10m")
     print("  signal finale   : 8 exact canonical children / <=50k triangles / <=32 material slots / <=2.45m")
     print("  runtime cost    : 0 colliders / rigidbodies / particles / lights / Animation / Animator")
-    print("  imported scene  : main Unity showcase audit re-checks saved prefab sources and positions")
+    print("  renderer cost   : shadow casting/receiving OFF / light probes OFF / reflection probes OFF")
+    print("  imported scene  : main Unity showcase audit re-checks saved prefab sources, positions and renderer policy")
 
     if errors:
         print(f"\nFAILED with {len(errors)} issue(s):")
@@ -170,7 +199,7 @@ def main() -> int:
             print(" - " + error)
         return 1
 
-    print("\nPASS: imported Stormnatten story layers are explicitly covered by the read-only Unity showcase audit.")
+    print("\nPASS: imported Stormnatten story layers are read-only audited with canonical, bounded and Quest-conscious renderer policy.")
     return 0
 
 

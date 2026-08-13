@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 namespace ProjectOen.Art.Editor
@@ -16,7 +17,8 @@ namespace ProjectOen.Art.Editor
     /// simulation layer.
     ///
     /// The story adds no particles, lights, colliders, rigidbodies, Animator/Animation
-    /// components or runtime update loops.
+    /// components or runtime update loops. Story renderers are also authored shadowless
+    /// and probe-free so decorative finale debris cannot inherit realtime renderer cost.
     /// </summary>
     public static class ProductionArtSignalFinaleStoryBuilder
     {
@@ -96,7 +98,7 @@ namespace ProjectOen.Art.Editor
 
             Debug.Log("[ProjectOEN.Art.SignalFinale] Built " + ExpectedStoryObjectCount +
                       " deterministic signal-finale consequence props in " + ScenePath +
-                      " with no particles/lights/colliders/physics/animation.");
+                      " with no particles/lights/colliders/physics/animation and no realtime renderer shadows/probes.");
         }
 
         private static void PlaceStoryPrefab(Transform parent, StorySpec spec)
@@ -161,6 +163,14 @@ namespace ProjectOen.Art.Editor
                 UnityEngine.Object.DestroyImmediate(component);
             foreach (Animator component in root.GetComponentsInChildren<Animator>(true))
                 UnityEngine.Object.DestroyImmediate(component);
+
+            foreach (Renderer renderer in root.GetComponentsInChildren<Renderer>(true))
+            {
+                renderer.shadowCastingMode = ShadowCastingMode.Off;
+                renderer.receiveShadows = false;
+                renderer.lightProbeUsage = LightProbeUsage.Off;
+                renderer.reflectionProbeUsage = ReflectionProbeUsage.Off;
+            }
         }
 
         private static void ValidateCurrentStory(GameObject root)
@@ -190,12 +200,22 @@ namespace ProjectOen.Art.Editor
             Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
             int materialSlots = renderers.Sum(renderer =>
                 renderer.sharedMaterials == null ? 0 : renderer.sharedMaterials.Length);
+            int shadowRenderers = renderers.Count(renderer =>
+                renderer.shadowCastingMode != ShadowCastingMode.Off || renderer.receiveShadows);
+            int lightProbeRenderers = renderers.Count(renderer => renderer.lightProbeUsage != LightProbeUsage.Off);
+            int reflectionProbeRenderers = renderers.Count(renderer => renderer.reflectionProbeUsage != ReflectionProbeUsage.Off);
             if (triangles > TriangleHardLimit)
                 throw new InvalidOperationException("Signal finale story triangle proxy " + triangles +
                                                     " exceeds " + TriangleHardLimit + ".");
             if (materialSlots > MaterialSlotHardLimit)
                 throw new InvalidOperationException("Signal finale story material-slot proxy " + materialSlots +
                                                     " exceeds " + MaterialSlotHardLimit + ".");
+            if (shadowRenderers != 0)
+                throw new InvalidOperationException("Signal finale story renderers must not cast or receive realtime shadows.");
+            if (lightProbeRenderers != 0)
+                throw new InvalidOperationException("Signal finale story renderers must not use light probes.");
+            if (reflectionProbeRenderers != 0)
+                throw new InvalidOperationException("Signal finale story renderers must not use reflection probes.");
 
             foreach (StorySpec spec in Specs)
             {
