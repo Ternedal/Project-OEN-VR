@@ -15,6 +15,7 @@ BATCH = ROOT / "src/unity/ProjectOen.Audio.Editor/ProjectOenAudioPremergeBatch.c
 UNITY_IMPORTER = ROOT / "tools/import_audio_unity_premerge_evidence.py"
 QUEST_IMPORTER = ROOT / "tools/import_audio_quest2_premerge_evidence.py"
 PIN_VERIFIER = ROOT / "tools/verify_first_playable_artifact_pin.py"
+MERGE_REPORTER = ROOT / "tools/report_audio_merge_readiness.py"
 WORKFLOW = ROOT / ".github/workflows/audio-validation.yml"
 UNITY_GATES = {
     "unity_import_compile",
@@ -186,12 +187,12 @@ def main() -> int:
         'performance.get("audio_streaming_stalls")',
         'performance.get("audio_induced_sustained_frame_regression") is not False',
         'performance.get("material_audio_memory_growth") is not False',
-        'if voices > 24',
+        'if voices >= 24',
         'row["status"] = "passed"',
         "unity_rows",
         'expect_rejected(stale, pin, "stale-manifest")',
         'expect_rejected(short_soak, pin, "short-soak")',
-        'expect_rejected(over_voice_budget, pin, "voice-budget-without-exception")',
+        'expect_rejected(voice_target_boundary, pin, "voice-target-boundary-without-exception")',
         'expect_rejected(incomplete_mix, pin, "incomplete-mix")',
         "--self-test",
         "--apply",
@@ -208,6 +209,19 @@ def main() -> int:
         "Re-verify the new payload physically before updating the pin",
     ):
         require(verifier, token, "first-playable artifact pin verifier")
+
+    reporter = MERGE_REPORTER.read_text(encoding="utf-8")
+    for token in (
+        "require_passed_evidence",
+        '"unity-batch;"',
+        '"quest2-structured;"',
+        'manifest_token = f"manifest_sha256={pin[\'manifest_sha256\']}"',
+        'clip_token = f"clips={pin[\'clip_count\']}"',
+        'event_token = f"events={pin[\'event_count\']}"',
+        'if status == "passed"',
+        "Use the category evidence importer instead of editing the CSV pass manually",
+    ):
+        require(reporter, token, "strict merge-readiness evidence binding")
 
     workflow = WORKFLOW.read_text(encoding="utf-8")
     for token in (
@@ -231,8 +245,8 @@ def main() -> int:
 
     print(
         "Audio premerge tooling OK: pinned 173/47 payload, six-gate registry, Unity batch evidence runner, "
-        "hardened Unity + Quest evidence importers, physical-template defaults, cross-gate isolation and "
-        "post-staging pin enforcement"
+        "hardened Unity + Quest evidence importers, physical-template defaults, cross-gate isolation, "
+        "strict structured-evidence merge binding and post-staging pin enforcement"
     )
     return 0
 
