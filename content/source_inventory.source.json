@@ -15,11 +15,11 @@
     {"id":"B2_EVENT_PRESENTATION","status":"produced-and-mapped","path":"source_art/events/b2","format":"SVG","next":"Claude binds machine-readable event presentation contract"},
     {"id":"A5_PROP_MESHES","status":"partial-source-meshes-produced","path":"source_art/props/a5","format":"OBJ","producedIds":["PRP_WIND_SHIELD_001","PRP_DRY_FUEL_CACHE_001","PRP_SIGNAL_FUEL_001"],"next":"Unity import remains Claude; source mesh QA/provenance exists"},
     {"id":"A5_ITEMS","status":"produced-source-set","path":"source_art/items/a5","format":"SVG","producedIds":["ITM_CLOTH_001","ITM_MAP_FRAGMENT_001","ITM_RADIO_BATTERY_001"],"next":"Claude Unity import/socket/readability QA"},
-    {"id":"A5_RELEASE_UI","status":"partial-produced","path":"source_art/ui/a5","format":"SVG","producedIds":["UI_RECONNECT_PANEL_001","UI_JOIN_CODE_PANEL_001"],"next":"Unity layout/binding/device QA"},
+    {"id":"A5_RELEASE_UI","status":"produced-source-set","path":"source_art/ui/a5","format":"SVG","producedIds":["UI_RECONNECT_PANEL_001","UI_JOIN_CODE_PANEL_001","UI_FIRST_LAUNCH_SETUP_001","UI_PAUSE_PANEL_001","UI_CONNECTED_READY_001","UI_SUBTITLE_BAND_001"],"next":"Claude Unity layout/binding/headset-distance/accessibility QA"},
     {"id":"AU1_SYNTH_FEEDBACK","status":"generator-ready-ci-validated","path":"source_audio/au1","format":"Python->WAV","next":"Claude runtime mix/binding"},
     {"id":"AU2_FOLEY","status":"recording-queue-ready","path":"content/audio/foley_recording_queue.source.json","format":"48kHz-24bit-mono-WAV-target","next":"record/edit/master natural Foley sources"},
     {"id":"AU_WORLD_AMBIENCE","status":"acquisition-queue-ready","path":"content/audio/ambience_acquisition_queue.source.json","format":"48kHz-24bit-stereo-WAV-target","next":"capture/source and provenance-check natural ambience"},
-    {"id":"RADIO_VO","status":"script-ready-not-recorded","path":"docs/59_RADIO_VO_SOURCE_SCRIPT.md","next":"record neutral radio source and preserve clean masters"},
+    {"id":"RADIO_VO","status":"recording-queue-ready","path":"content/audio/radio_vo_recording_queue.source.json","script":"docs/59_RADIO_VO_SOURCE_SCRIPT.md","format":"48kHz-24bit-mono-WAV-target","next":"record 3 clean takes for each of 9 cues; preserve dry masters and provenance"},
     {"id":"MUSIC","status":"direction-ready-not-produced","path":"docs/60_MUSIC_DIRECTION_AND_CUE_SHEET.md","next":"compose/produce minimal cue sources after timing evidence"}
   ],
   "contentContracts": [
@@ -33,6 +33,6 @@
   ],
   "evidenceGated": ["M-Pre human evidence","OQ-008 randomness/fairness","OQ-009 role policy","OQ-010 after-action competition","M3/M4 numeric balance","M0b cross-device evidence"],
   "knownRepoHygiene": [
-    {"id":"HYGIENE_TRACKED_BIN","status":"confirmed-cleanup-needed","detail":"src/**/bin is ignored by .gitignore but tracked build outputs are present; safe bulk deletion was connector-blocked"}
+    {"id":"HYGIENE_TRACKED_BIN","status":"cleanup-needed","detail":"src/**/bin is ignored by .gitignore but tracked build outputs remain; repository hygiene follow-up pending"}
   ]
 }

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="#282C2D"/>
+<rect x="120" y="92" width="960" height="536" rx="34" fill="#343A3C" stroke="#55717A" stroke-width="8"/>
+<text x="170" y="160" fill="#E8E0CF" font-size="34" font-family="sans-serif">Gør plads til at overleve</text>
+<text x="170" y="206" fill="#C8B58D" font-size="18" font-family="sans-serif">Første opsætning — kun de valg der påvirker komfort med det samme</text>
+<g font-family="sans-serif" font-size="22">
+<rect x="170" y="258" width="360" height="82" rx="18" fill="#4A514F" stroke="#D59A52" stroke-width="6"/><text x="205" y="309" fill="#E8E0CF">Jeg spiller stående</text>
+<rect x="570" y="258" width="360" height="82" rx="18" fill="#3E4544" stroke="#66745C" stroke-width="6"/><text x="605" y="309" fill="#E8E0CF">Jeg spiller siddende</text>
+<text x="170" y="400" fill="#C8B58D">Dominant hånd</text>
+<rect x="170" y="425" width="270" height="72" rx="16" fill="#3E4544" stroke="#66745C" stroke-width="5"/><text x="215" y="471" fill="#E8E0CF">Venstre hånd</text>
+<rect x="470" y="425" width="270" height="72" rx="16" fill="#4A514F" stroke="#D59A52" stroke-width="5"/><text x="515" y="471" fill="#E8E0CF">Højre hånd</text>
+<rect x="780" y="425" width="210" height="72" rx="16" fill="#2E3536" stroke="#C8B58D" stroke-width="4"/><text x="825" y="471" fill="#E8E0CF">Nulstil position</text>
+</g>
+<text x="170" y="563" fill="#AFA488" font-size="17" font-family="sans-serif">Fuld komfortmenu forbliver tilgængelig fra Pause; first launch må ikke blive en formular.</text>
+</svg>
