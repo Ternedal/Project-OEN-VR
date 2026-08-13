@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Static contract tests for the offline M-Pre facilitator runner.
+"""Static contract tests for the offline M-Pre facilitator tools.
 
 These tests do not simulate a playtest and do not create evidence. They only ensure
-that the browser helper remains offline, anonymous and compatible with evaluate_mpre.py.
+that the browser helper and print pack remain offline, anonymous and compatible with
+the accepted M-Pre protocol and evaluate_mpre.py.
 """
 from __future__ import annotations
 
@@ -16,6 +17,7 @@ from evaluate_mpre import REQUIRED_COLUMNS
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNNER = ROOT / "prototype" / "m-pre" / "facilitator_runner.html"
+PRINT_PACK = ROOT / "prototype" / "m-pre" / "print_pack.html"
 
 
 class IdCollector(HTMLParser):
@@ -87,6 +89,45 @@ class MPreFacilitatorRunnerTests(unittest.TestCase):
         self.assertIn("new Blob", self.text)
         self.assertIn("URL.createObjectURL", self.text)
         self.assertIn("mpre_sessions.csv", self.text)
+
+
+class MPrePrintPackTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.text = PRINT_PACK.read_text(encoding="utf-8")
+        cls.parser = IdCollector()
+        cls.parser.feed(cls.text)
+
+    def test_print_pack_is_a4_and_offline(self) -> None:
+        self.assertIn("@page { size: A4", self.text)
+        self.assertEqual([], self.parser.remote_refs)
+        self.assertNotIn("<script", self.text.lower())
+
+    def test_print_pack_has_six_task_cards_and_costs(self) -> None:
+        expected = {
+            "SKAF MAD": "1",
+            "FORSTÆRK LY": "2",
+            "HOLD BÅL": "1",
+            "BYG SIGNALBÅL": "3",
+            "BEHANDL SKADE": "1",
+            "UDFORSK KYSTEN": "2",
+        }
+        cards = re.findall(
+            r'<article class="task"><span class="cost">(\d+)</span><h2>([^<]+)</h2>',
+            self.text,
+        )
+        self.assertEqual(expected, {name: cost for cost, name in cards})
+
+    def test_print_pack_has_authoritative_storm_and_gate_thresholds(self) -> None:
+        self.assertIn("Ly ≥ 6 · Helbred ≥ 4 · Signal ≥ 5", self.text)
+        self.assertIn("≥ 45 sek./dag", self.text)
+        self.assertIn("≥ 1 dag", self.text)
+        self.assertIn("Administration", self.text)
+
+    def test_print_pack_requires_human_evidence(self) -> None:
+        self.assertIn("faktiske menneskelige tests", self.text)
+        self.assertIn("AI, simulation eller designerens egen vurdering kan ikke bestå M-Pre-gaten", self.text)
+        self.assertIn("tre gyldige menneskelige sessioner", self.text)
 
 
 if __name__ == "__main__":
