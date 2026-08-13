@@ -189,6 +189,53 @@ Hvis private content mangler:
 
 Source-copy: `docs/40_UX_COPY_AND_LOCALIZATION_CATALOG.md`.
 
+## `PRP_WATERPROOF_ENDING_CRATE_001` — product/source contract
+
+Finalekassen er et **epilog- og personalization-prop**, ikke en lootkasse og ikke en ny gameplaymekanik.
+
+### States
+
+**SEALED / pre-unlock**
+
+- kassen kan godt være synlig i lejren, men skal læse som almindeligt vejrbeskyttet udstyr
+- ingen foto-thumbnail, personnavn, privat label eller gave-spoiler må være synlig
+- den må ikke åbne eller fremhæve private hooks før epilog-unlock
+
+**AVAILABLE / epilogue unlock**
+
+- efter rescue acknowledgement må den blive tydeligt interagerbar
+- affordance skal være rolig og fysisk, ikke en blinkende quest-marker
+- spilleren vælger selv at åbne/reveale indholdet
+
+**OPEN / reveal**
+
+- ét primært foto/kortfelt
+- op til tre memento-slots
+- layoutet skal fungere med hele neutralpakken uden tomme “private” huller
+- private overlay-assets må kun erstatte godkendte hooks; de må ikke ændre geometri på en måde der kræver særkode pr. gave
+
+### Readability / comfort
+
+- åbning og primære indholdsflader skal kunne nås siddende og stående
+- centrale flader skal kunne læses uden at spilleren læner sig over kassen eller går tæt på en fysisk kant
+- vigtigt indhold må ikke kræve små labels; identitet bæres af billede/form/større grafiske elementer
+- begge spillere skal kunne stå/se omkring kassen uden at én krop naturligt blokerer hele revealet
+
+### Spoiler/privacy rules
+
+- ingen private source-filenames i runtime UI
+- ingen private thumbnail-cache må være synlig før deliberate reveal
+- neutral og privat build skal se ens ud før unlock, bortset fra bevidst ikke-spoilende kosmetik
+- manglende/ugyldigt privat hook binder neutral asset i samme slot og fortsætter
+
+### Gameplay boundary
+
+Kassen giver **ingen** ressourcer, stats, achievements, hidden endings eller gameplayfordele. Den åbner kun epilogindhold, efter at scenario-outcome allerede er bestemt.
+
+### Claude handoff
+
+ChatGPT ejer state-/slot-/spoiler-/fallback-kontrakten. Claude ejer final mesh, hinge/lid interaction, colliders, grab/reach tuning, materialer, runtime hook-binding og Quest readability/device QA.
+
 ---
 
 # 9. Private content validation

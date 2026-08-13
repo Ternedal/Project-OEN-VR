@@ -319,30 +319,76 @@ Minimum 2 eksterne par før release; ikke kun udvikleren/gavemodtageren.
 
 # 10. M8 — personalization/fallback test
 
-## To builds/content states
+## Formål
 
-### A. Neutral
+Bevis at epilogen er en komplet fælles afslutning **før** personalisering vurderes, og at privat content kan skiftes ind uden spoiler-læk, reach-problemer eller ændring af gameplay-outcome.
 
-Ingen private assets til stede.
+Kør mindst neutral state og dummy-personal state mod samme scenario-outcome. Test både seated og standing på mindst én af M8-kørslerne.
+
+## A. Neutral — ingen private assets
+
+Pre-unlock:
+
+- finalekassen er sealed/ikke-spoilende
+- ingen privat thumbnail, label, filnavn eller “personal message”-UI er synlig
+- signal-success går først gennem rescue acknowledgement
+- ingen score/after-action afbryder den korte shared-breath-beat
+
+Epilogue/reveal:
+
+- stormtrykket falder, men relevante skader/reparationer i lejren er stadig synlige
+- signalet læses stadig som årsagen til rescue
+- begge spillere kan se hinanden i den rolige overgang
+- radio/finalekasse kan findes uden quest-marker-spam
+- finalekassen kræver deliberate interaction; den auto-åbner ikke
+- alle neutral-slots er intentionelt komponerede; ingen tomme private placeholders
+- neutral message føles som en rigtig afslutning
+- ingen “missing private asset” vises som dev-fejl
+- radio/finalekasse kan nås seated og standing uden knælen eller edge-lean
+- ingen hard camera lock under message/reveal
+
+## B. Dummy personal package
+
+Brug dummy privat indhold, ikke den faktiske gaveoverraskelse.
 
 Test:
 
-- hele finale-flowet virker
-- ingen placeholder paths/labels
-- ingen “missing private asset” synlig som dev-fejl
-- neutral message føles som rigtig afslutning
-
-### B. Personal
-
-Privat package er til stede.
-
-Test:
-
-- hooks binder korrekt
+- pre-unlock look/behavior er samme spoiler-sikre baseline som neutral
+- hooks binder korrekt **først efter deliberate reveal**
+- foto/mementos erstatter kun godkendte slots
 - content vises/afspilles kun i epilogen
-- ingen private data i logs
-- private content ændrer ikke outcome
+- ingen private data, tekst-overrides eller absolutte paths i logs
+- private content ændrer ikke outcome, stats eller replaymuligheder
 - samlet personlig sekvens ≤90 sek.
+- after-action kommer efter message-beatet og overtager ikke scenen for tidligt
+
+## C. Partial/corrupt private package
+
+Fejlinjicér mindst ét hook ad gangen:
+
+- missing photo
+- corrupt/unsupported photo
+- missing final audio
+- missing memento
+- invalid text override
+
+Expected:
+
+- kun det berørte hook falder tilbage til neutral
+- samme slot/layout forbliver sammenhængende
+- ingen modal dev-fejl for normal gift-player
+- ingen stale private thumbnail/cache fra tidligere run
+- scenario/epilogue fortsætter til after-action
+
+## Grøn M8-human side
+
+- neutral build opleves som komplet finale uden kendskab til personalization-systemet
+- ingen privat spoiler er synlig før deliberate reveal
+- seated og standing kan gennemføre reveal komfortabelt
+- rescue acknowledgement forstås før message/personalisering
+- ingen score/after-action afbryder shared-breath/message-beatet
+- private/dummy content giver følelsesmæssig variation, men nul gameplayforskel
+- partial/corrupt package falder lokalt tilbage uden at bryde finale-flowet
 
 Gavemodtageren bør ikke bruges til almindelig pre-release personalization-QA, hvis overraskelsen skal bevares. Brug neutral eller dummy private content til teknisk test.
 

@@ -201,6 +201,61 @@ Show the most important causal story:
 
 Individual titles only if OQ-010 evidence supports them.
 
+## Epilogue environment/source contract — `ENV_EPILOGUE_001`
+
+`ENV_EPILOGUE_001` is **not a new gameplay zone**. It is the existing camp after the storm, recomposed as a calm, readable ending state.
+
+Product intent:
+
+- preserve visible consequences from the storm rather than resetting to a clean camp
+- let the successful signal remain visibly connected to rescue
+- give both players an unobstructed line of sight to each other during the shared-breath beat
+- keep radio and ending-crate interaction points inside the same safe seated/standing reach logic as the rest of the camp
+- shift atmosphere from pressure to release through weather/light/audio state, not through forced camera movement
+
+Required environmental reads:
+
+1. **Storm release** — rain/wind pressure visibly and audibly falls.
+2. **Camp history remains** — wetness, damage and repaired states that matter to the ending remain visible.
+3. **Signal causality remains** — the signal frame/fuel state still reads as the reason rescue found them.
+4. **Dawn direction** — sunrise/horizon light gives a clear visual release without requiring edge approach or a new overlook.
+5. **Epilogue focus** — radio and ending crate are visually discoverable but do not flash, teleport or auto-open.
+
+Reuse-first source set:
+
+- `ENV_BEACH_CAMP_001`
+- `ENV_STORM_CAMP_001`
+- `PRP_SIGNAL_FRAME_001`
+- `PRP_RADIO_001`
+- neutral fallback assets under `source_art/neutral/`
+
+The ending must **not** require:
+
+- a new traversal mechanic or separate island zone
+- hard camera lock
+- forced move toward an edge
+- a scoreboard before the message beat
+- visible private thumbnails/labels before deliberate reveal
+- a different gameplay outcome when private content is absent
+
+### Timing and player agency
+
+The shared-breath beat should normally last roughly **8–15 seconds before epilogue affordances demand attention**. This is presentation guidance, not a forced freeze: players retain normal looking/movement control and may naturally approach the radio/crate.
+
+Rescue acknowledgement should resolve the scenario **before** private personalization is needed. Neutral radio keys remain:
+
+- `vo.radio.ending.neutral.01`
+- `vo.radio.ending.neutral.02`
+- `vo.radio.ending.neutral.03`
+
+The neutral/private message then requires a deliberate interaction. Missing/invalid private content binds the neutral package and continues without exposing an error state to normal gift players.
+
+### Handoff boundary
+
+ChatGPT owns the ending composition, sequence semantics, fallback behavior and source/content intent above.
+
+Claude owns final Unity scene/state representation, lighting implementation, spatial audio/mix, interactable binding, comfort behavior and Quest performance/device QA.
+
 ---
 
 # 9. Gameplay ending — loss
@@ -328,6 +383,7 @@ From user perspective:
 - neutral fallback is complete
 - disconnect/retry does not require technical knowledge
 - success ending leaves room for reaction
+- epilogue preserves storm consequences and signal causality without a new gameplay zone
 - replay choice is clear
 
 Technical clean-install/build/signing acceptance remains with Claude + `docs/13`/`docs/15`.
