@@ -24,6 +24,7 @@ on:
       - 'tools/validate_audio_unity_editor_contract.py'
       - 'tools/validate_audio_premerge_tooling.py'
       - 'tools/import_audio_unity_premerge_evidence.py'
+      - 'tools/verify_first_playable_artifact_pin.py'
       - 'tools/report_audio_first_playable_readiness.py'
       - 'tools/report_audio_merge_readiness.py'
       - 'tools/generate_authored_audio_pack.py'
@@ -62,6 +63,7 @@ on:
       - 'tools/validate_audio_unity_editor_contract.py'
       - 'tools/validate_audio_premerge_tooling.py'
       - 'tools/import_audio_unity_premerge_evidence.py'
+      - 'tools/verify_first_playable_artifact_pin.py'
       - 'tools/report_audio_first_playable_readiness.py'
       - 'tools/report_audio_merge_readiness.py'
       - 'tools/generate_authored_audio_pack.py'
@@ -209,6 +211,8 @@ jobs:
           --zip build/oen-unity-first-playable-audio-v1.zip
           --expect-files 173
           --expect-events 47
+      - name: Verify staged Unity pack against committed QA pin
+        run: python tools/verify_first_playable_artifact_pin.py
       - name: Upload Unity first-playable audio pack
         uses: actions/upload-artifact@v4
         with:
