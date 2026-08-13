@@ -17,6 +17,7 @@ import json
 import re
 import shutil
 import tempfile
+from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -71,6 +72,29 @@ def validate_pin(pin: dict) -> None:
         raise SystemExit("artifact pin: payload falls below the stable Unity first-playable floor")
 
 
+def validate_iso_utc(value: object) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise SystemExit("Unity evidence: generatedUtc is required")
+    text = value.strip()
+    normalized = text[:-1] + "+00:00" if text.endswith("Z") else text
+    try:
+        parsed = datetime.fromisoformat(normalized)
+    except ValueError as exc:
+        raise SystemExit(f"Unity evidence: generatedUtc is not valid ISO-8601: {text!r}") from exc
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        raise SystemExit("Unity evidence: generatedUtc must include a UTC offset/Z")
+    if parsed.utcoffset().total_seconds() != 0:
+        raise SystemExit("Unity evidence: generatedUtc must be UTC")
+    return text
+
+
+def validate_string_array(evidence: dict, key: str) -> list[str]:
+    value = evidence.get(key)
+    if not isinstance(value, list) or any(not isinstance(item, str) for item in value):
+        raise SystemExit(f"Unity evidence: {key} must be an array of strings")
+    return value
+
+
 def validate_evidence(evidence: dict, pin: dict) -> dict[str, dict]:
     if evidence.get("schemaVersion") != 1:
         raise SystemExit("Unity evidence: schemaVersion must be 1")
@@ -87,15 +111,24 @@ def validate_evidence(evidence: dict, pin: dict) -> dict[str, dict]:
         raise SystemExit("Unity evidence: manifest event count does not match artifact pin")
     if evidence.get("missingScriptCount") != 0:
         raise SystemExit("Unity evidence: generated runtime contains Missing Script references")
-    if evidence.get("errorCount") != 0:
+
+    errors = validate_string_array(evidence, "errors")
+    warnings = validate_string_array(evidence, "warnings")
+    if evidence.get("errorCount") != len(errors):
+        raise SystemExit("Unity evidence: errorCount does not match errors array")
+    if evidence.get("warningCount") != len(warnings):
+        raise SystemExit("Unity evidence: warningCount does not match warnings array")
+    if errors:
         raise SystemExit("Unity evidence: Unity batch run emitted error logs")
 
     scene = evidence.get("scenePath")
-    if not isinstance(scene, str) or not scene.startswith("Assets/") or not scene.endswith(".unity"):
+    if (
+        not isinstance(scene, str)
+        or not scene.startswith("Assets/")
+        or not scene.lower().endswith(".unity")
+    ):
         raise SystemExit("Unity evidence: scenePath must be an Assets/.../*.unity path")
-    generated_utc = evidence.get("generatedUtc")
-    if not isinstance(generated_utc, str) or not generated_utc.strip():
-        raise SystemExit("Unity evidence: generatedUtc is required")
+    validate_iso_utc(evidence.get("generatedUtc"))
 
     gate_rows = evidence.get("gates")
     if not isinstance(gate_rows, list):
@@ -180,7 +213,7 @@ def apply_to_registry(
 def synthetic_evidence(pin: dict) -> dict:
     return {
         "schemaVersion": 1,
-        "generatedUtc": "2099-01-01T00:00:00.0000000Z",
+        "generatedUtc": "2099-01-01T00:00:00Z",
         "unityVersion": pin["unity_version"],
         "scenePath": "Assets/Scenes/SyntheticAudioPremerge.unity",
         "manifestSha256": pin["manifest_sha256"],
@@ -198,9 +231,31 @@ def synthetic_evidence(pin: dict) -> dict:
     }
 
 
+def expect_rejected(evidence: dict, pin: dict, label: str) -> None:
+    try:
+        validate_evidence(evidence, pin)
+    except SystemExit:
+        return
+    raise SystemExit(f"self-test failed: {label} evidence was unexpectedly accepted")
+
+
 def run_self_test(pin: dict, registry: Path) -> None:
     evidence = synthetic_evidence(pin)
     validate_evidence(evidence, pin)
+
+    stale_manifest = synthetic_evidence(pin)
+    stale_manifest["manifestSha256"] = "0" * 64
+    expect_rejected(stale_manifest, pin, "stale-manifest")
+
+    errored = synthetic_evidence(pin)
+    errored["errorCount"] = 1
+    errored["errors"] = ["synthetic Unity error"]
+    expect_rejected(errored, pin, "error-log")
+
+    missing_gate = synthetic_evidence(pin)
+    missing_gate["gates"] = missing_gate["gates"][:-1]
+    expect_rejected(missing_gate, pin, "missing-gate")
+
     with tempfile.TemporaryDirectory(prefix="oen-audio-unity-evidence-") as temp:
         target = Path(temp) / "qa.csv"
         shutil.copyfile(registry, target)
@@ -213,7 +268,10 @@ def run_self_test(pin: dict, registry: Path) -> None:
         quest_rows = [row for row in rows if row["category"] == "quest2"]
         if not quest_rows or any(row["status"] == "passed" for row in quest_rows):
             raise SystemExit("self-test failed: Quest rows were unexpectedly promoted")
-    print("Unity premerge evidence importer self-test OK: 3 Unity gates promoted in temp registry; Quest gates untouched.")
+    print(
+        "Unity premerge evidence importer self-test OK: valid pinned evidence accepted; stale/error/incomplete "
+        "evidence rejected; 3 Unity gates promoted in temp registry; Quest gates untouched."
+    )
 
 
 def main() -> int:
