@@ -8,10 +8,11 @@ The full Unity project is maintained outside this repository. Mirror runtime/edi
 
 - `AudioEventId` — stable typed runtime IDs; never renumber existing values.
 - `AudioEventDefinition` — clips, mixer route, spatial/playback settings and variation behavior.
-- `AudioCatalog` — runtime event-definition collection.
+- `AudioCatalog` — current runtime event-definition collection.
 - `AudioService` — scene-owned pooled one-shot service; intentionally **not** a singleton.
 - `AudioLoopEmitter` — persistent physical emitters such as fire and rain-on-tarp.
-- `AudioAmbienceProfile` / `AudioAmbienceController` — layered loop profiles and crossfades.
+- `AudioAmbienceProfile` / `AudioAmbienceController` — layered loop profiles and crossfades; settled ambience is restored after runtime disable/re-enable.
+- `AudioAmbienceZone` — occupancy-aware ambience trigger; multiple XR/player colliders do not cause premature exit transitions.
 - `AudioWorldStateRouter` — biome/day, shelter, storm and adaptive-music routing.
 - `AudioRandomEmitter` — intermittent spatial one-shots.
 - `AudioWorldStateEmitterRouter` — state-aware lifecycle for random world emitters.
@@ -24,35 +25,35 @@ Gameplay code depends on `IAudioService`, not clip paths.
 
 ## Preferred first-playable workflow
 
-CI builds `oen-unity-first-playable-audio-v1`. The **current pack contains 163 WAV files across 46 populated runtime events**.
+CI builds `oen-unity-first-playable-audio-v1`. The **current pack contains 173 WAV files across 47 populated runtime events**.
 
-Extract the pack at the Unity project root, save/open the target gameplay scene, then run:
+Extract the pack at the Unity project root so `FIRST_PLAYABLE_MANIFEST.csv` remains at project root, save/open the target gameplay scene, allow Unity import to finish, then run:
 
 `Project Oen > Audio > Build + Install First Playable (One Click)`
 
-The high-level command:
+The high-level path:
 
-1. enforces the stable minimum import baseline of **160 canonical clips / 45 events** before mutating generated runtime content;
-2. creates/updates canonical `AudioEventDefinition` assets and `AudioCatalog.asset`;
-3. creates 11 missing generated first-playable profiles, including `FP_Biome_Silence`;
-4. creates/reuses `AudioRuntime_FirstPlayable.prefab`;
-5. installs exactly one generated runtime instance into the active saved scene;
-6. refuses Prefab Mode, Play Mode, unsaved scenes, incomplete imports, duplicate `AudioService` ownership, and an existing manual runtime it does not own;
-7. marks the scene dirty but never auto-saves it;
-8. preserves generated profile/prefab tuning on rerun.
+1. verifies `FIRST_PLAYABLE_MANIFEST.csv` before mutating generated assets;
+2. checks every manifested WAV by byte count, SHA-256 and imported `AudioClip` identity;
+3. rejects duplicate event/variation identities and stale/unmanaged canonical WAVs from older extractions;
+4. enforces the stable minimum baseline of **160 canonical clips / 45 events** while accepting additive current coverage;
+5. creates/updates canonical `AudioEventDefinition` assets and builds `AudioCatalog.asset` from only current manifested events;
+6. clears clips from stale definitions that are no longer in the current manifest while preserving their tuning/history assets;
+7. synchronizes 11 generated first-playable profile memberships and preserves gains for still-valid layers;
+8. creates/reuses `AudioRuntime_FirstPlayable.prefab`;
+9. installs exactly one generated runtime instance into the active saved scene;
+10. refuses Prefab Mode, Play Mode, unsaved scenes, manifest/catalog mismatch, incomplete/stale imports, duplicate `AudioService` ownership and an existing manual runtime it does not own;
+11. marks the scene dirty but never auto-saves it;
+12. requires unambiguous listener ownership for listener-relative world emitters.
 
-The current pack can grow beyond 160/45 without forcing the stable Editor safety floor to change every time another candidate is added.
+Lower-level build/install/audit commands remain available, but they enforce the same manifest integrity boundary rather than acting as bypasses.
 
-Lower-level commands remain available for manual production integration:
+See:
 
-- `Project Oen > Audio > Build First Playable (One Click)` — assets/prefab only, no scene install.
-- `Project Oen > Audio > Build First-Playable Definitions + Catalog`.
-- `Project Oen > Audio > Rebuild Selected Audio Catalog`.
-- `Project Oen > Audio > Audit Audio Event Definitions`.
-- `Project Oen > Audio > Audit First Playable (One Click)`.
-- `Project Oen > Audio > Audit Active Scene Audio Runtime`.
-
-See `docs/41_UNITY_FIRST_PLAYABLE_AUDIO_ASSEMBLY.md`, `docs/42_AUDIO_ONE_CLICK_FIRST_PLAYABLE.md`, and `docs/43_AUDIO_SCENE_INSTALL_AND_WORLD_FAUNA.md`.
+- `docs/41_UNITY_FIRST_PLAYABLE_AUDIO_ASSEMBLY.md`
+- `docs/42_AUDIO_ONE_CLICK_FIRST_PLAYABLE.md`
+- `docs/43_AUDIO_SCENE_INSTALL_AND_WORLD_FAUNA.md`
+- `docs/45_AUDIO_PREMERGE_ACCEPTANCE.md`
 
 ## Generated runtime composition
 
@@ -63,9 +64,9 @@ The generated first-playable prefab contains:
 - `WeatherAmbience` controller;
 - `MusicAmbience` controller;
 - `AudioWorldStateRouter`;
-- `WorldFauna` composition root.
+- a `WorldFauna` composition child.
 
-Scene installation additionally creates/refreshes listener-relative world roots that require exactly one active `AudioListener`:
+Scene installation creates/refreshes two listener-relative roots that require exactly one active `AudioListener`:
 
 ### WorldFauna / JungleDay_Cicadas
 
@@ -89,7 +90,7 @@ Scene installation additionally creates/refreshes listener-relative world roots 
 - horizontal radius: 32 m;
 - vertical jitter: 10 m.
 
-If the active scene has zero or multiple active listeners, both listener-relative roots remain disabled instead of guessing a target. `AudioWorldStateEmitterRouter` starts/stops emitters only in Play Mode and reacts to `AudioWorldStateRouter.StateChanged` rather than polling simulation state.
+If the active scene has zero or multiple active listeners, both listener-relative roots are disabled rather than guessing a target, and the active-scene audit reports failure. `AudioWorldStateEmitterRouter` starts/stops emitters only in Play Mode and reacts to `AudioWorldStateRouter.StateChanged` rather than polling simulation state.
 
 ## World-state routing
 
@@ -110,7 +111,7 @@ Generated first-playable mappings use only audio that actually exists:
 - RainFire -> stronger wind/rain + `MUS_Storm_Phase2` plus listener-relative distant-thunder transients outdoors.
 - Signal -> strongest first-pass storm bed + `MUS_Storm_Phase3`.
 
-Explicit silence fallbacks prevent stale ambience from leaking across state changes.
+Generated profile membership is synchronized on rerun. Existing gains for requested layers that are still valid are retained; unavailable/removed layers disappear. This avoids stale profiles when the staged first-playable artifact grows or shrinks.
 
 Expected optional production mixer snapshots remain:
 
@@ -155,59 +156,48 @@ Physical recording is intentionally split into two validated contracts:
 - **main Foley:** `content/audio/foley_recording_plan.csv` — **40 events / 388 selected variations**;
 - **supplemental Foley:** `content/audio/supplemental_foley_recording_plan.csv` — **13 events / 90 selected variations**.
 
-Combined physical recording target: **53 events / 478 selected variations**. These recordings have **not** been physically captured yet.
+Combined physical recording target: **53 events / 478 selected variations**. These recordings have not been physically captured yet and remain explicit later production work rather than fake-completed assets.
 
-The supplemental plan covers shelter beds, wing flaps, threat rustles/snaps/scrapes, fire interactions, generic pickup/drop and build placement/hammer actions. It stays separate so the established 40/388 main-Foley contract does not drift.
+## Current first-playable readiness
 
-## First-playable readiness
+`tools/report_audio_first_playable_readiness.py` owns the 115-event inventory.
 
-`tools/report_audio_first_playable_readiness.py` makes the 115-event inventory fail closed. Audio Validation publishes `oen-audio-first-playable-readiness-v1` as CSV + Markdown.
-
-Current readiness contract:
+Current contract:
 
 - canonical runtime events: **115**;
-- produced candidate events: **46**;
-- produced candidate WAVs represented by registries: **163**;
-- still without produced WAVs: **69**;
-- missing events without an explicit production lane: **0**.
+- produced candidate events: **47**;
+- produced candidate WAVs represented by registries: **173**;
+- still without produced WAVs: **68**;
+- missing events without an explicit production lane: **0**;
+- main Foley: **40 events / 388 variations**;
+- supplemental Foley: **13 events / 90 variations**;
+- remaining field-source backlog: **11 events**, all covered by a source-page-verified acquisition plan but not yet source-ready;
+- reviewed-field lane retains tarp/Amazon source upgrades/jobs that require original download, listening and SHA pinning.
 
-Missing-event lanes:
+`SFX_NAT_Insect_CicadaCluster` and `SFX_WTH_Thunder_Far` already have produced candidates while retaining higher-quality reviewed-source upgrade paths.
 
-- main physical Foley: **40 events**;
-- supplemental physical Foley: **13 events**;
-- reviewed field-source originals: **4 events**;
-- new field-source discovery: **8 events**;
-- pinned/public-domain candidate audit: **4 events**.
-
-`SFX_NAT_Insect_CicadaCluster` and `SFX_WTH_Thunder_Far` already have produced candidates but also retain reviewed-source upgrade paths.
-
-The readiness reporter canonicalizes the two historical manifest labels `SFX_STS_Hunger_Warn` / `SFX_STS_Thirst_Warn` to runtime `SFX_STS_Injury_Warn` / `SFX_STS_ColdWet_Warn` without rewriting the compatibility manifest.
+The readiness reporter canonicalizes the historical manifest labels `SFX_STS_Hunger_Warn` / `SFX_STS_Thirst_Warn` to runtime `SFX_STS_Injury_Warn` / `SFX_STS_ColdWet_Warn` without rewriting compatibility data.
 
 ## Produced artifacts
 
-Audio Validation currently targets **six artifacts**:
+Audio Validation publishes six artifact groups:
 
-1. `oen-audio-first-playable-readiness-v1` — readiness CSV/Markdown.
+1. `oen-audio-first-playable-readiness-v1` — first-playable readiness plus merge-readiness CSV/Markdown reports.
 2. `oen-authored-ui-status-v1` — 65 original authored UI/status WAVs.
 3. `oen-authored-gameplay-stingers-v1` — 66 original authored gameplay/stinger WAVs.
 4. `oen-authored-adaptive-music-v1` — 14 stereo adaptive-music candidates across all six `MUS_*` events.
-5. `oen-public-domain-environment-v0` — **18** technically normalized Public Domain/CC0 environmental candidates.
-6. `oen-unity-first-playable-audio-v1` — combined Unity-root pack with **163 WAV / 46 events**.
+5. `oen-public-domain-environment-v0` — **28** technically normalized Public Domain/CC0 environmental candidates with provenance.
+6. `oen-unity-first-playable-audio-v1` — combined Unity-root pack with **173 WAV / 47 events** plus `FIRST_PLAYABLE_MANIFEST.csv`.
 
-Authored UI/status and gameplay/stinger packs contain no third-party samples. Adaptive music is procedurally authored and remains candidate material pending listening.
+Authored UI/status and gameplay/stinger packs contain no third-party samples. Adaptive music is procedurally authored and remains candidate material pending headset listening.
 
-The environmental source registry pins upstream SHA-256 values and the build emits provenance. It now includes the Public Domain `Tonitrus.ogg` source with three `SFX_WTH_Thunder_Far` candidate cuts. These thunder cuts are technically built candidates, not headset-approved masters.
-
-The combined Unity pack carries `FIRST_PLAYABLE_MANIFEST.csv` with SHA-256 for every staged WAV.
+The environmental source registry pins upstream SHA-256 values and derivative provenance. The environment pack includes ocean, rain, wind, fire, Jungle Day, cicada, distant-thunder and shoreline-wash candidate material. Technical build success is not headset/mastering approval.
 
 ## Source-production backlog
 
-Every currently missing runtime event has a lane. `content/audio/audio_production_backlog.csv` tracks the remaining 12 non-recording source tasks:
+Every currently missing runtime event has a lane. `content/audio/audio_production_backlog.csv` now contains **11 field-source events**, all represented in `content/audio/field_source_acquisition_plan.csv` by at least one primary page-verified redistributable candidate.
 
-- **8 field-source** events requiring new authentic source discovery/capture;
-- **4 public-domain-candidate audits** using already pinned `waves_pd`, `wind_cc0`, or `fire_pd` material where feasible.
-
-The readiness validator rejects unknown events, lane overlaps, variation-count drift, or an unassigned missing event.
+The sources still require canonical-original acquisition, listening, SHA-256 pinning and exact segment review before those runtime events become produced. CI intentionally does not download previews or pretend page metadata is production audio.
 
 ## Quest profile
 
@@ -231,24 +221,27 @@ New runtime/gameplay code uses only:
 - Injury
 - Cold/Wet
 
-`SFX_STS_Injury_Warn` and `SFX_STS_ColdWet_Warn` retain stable numeric values 1100/1101. Hunger/Thirst names remain obsolete compatibility aliases only.
+`SFX_STS_Injury_Warn` and `SFX_STS_ColdWet_Warn` retain stable numeric values 1100/1101. Hunger/Thirst names remain obsolete compatibility aliases only and are rejected from current first-playable filenames/manifests.
 
-## Acceptance boundaries
+## Pre-merge boundary
 
-Repo/CI work can validate manifests, deterministic authored generation, source hashes, encoding, readiness ownership, Editor serialized-field contracts and Unity pack staging. It does **not** replace physical Unity/Quest verification.
+`content/audio/audio_premerge_qa.csv` contains the six deliberately physical merge gates. `tools/report_audio_merge_readiness.py` publishes their state in CI and supports a final strict mode.
 
-Remaining physical/production gates include:
+The first-playable audio foundation remains merge-blocked until there is evidence for:
 
-- import + compile in Unity 6000.4.10f1;
-- instantiate/inspect the generated scene runtime;
-- confirm no Missing Script references;
-- exercise Beach/Jungle and Calm -> Wind -> RainFire -> Signal transitions;
-- verify cicada/thunder state gating and listener-relative placement;
-- headset listening/mix approval for adaptive/environmental/thunder candidates;
-- imported-scene seamless-loop QA;
-- physically record/select/edit main 388 + supplemental 90 Foley variations;
-- acquire/SHA-pin reviewed tarp/Amazon originals;
-- source/approve remaining backlog material;
-- Quest 2 performance and final mix pass.
+1. Unity 6000.4.10f1 import + compile;
+2. first-playable manifest/catalog/profile audit;
+3. active gameplay-scene audit;
+4. Quest 2 functional audio smoke test;
+5. Quest 2 headset mix/listening approval of the current 173-WAV artifact;
+6. Quest 2 audio-heavy performance soak against the project 72 Hz gate.
+
+Run after evidence has been recorded:
+
+```bash
+python tools/report_audio_merge_readiness.py --strict
+```
+
+Full-production field-source/Foley recording remains explicit post-first-playable work. It is not re-labelled as complete merely to make this foundation PR mergeable.
 
 Do not promote candidate audio to mastered/production status based on CI alone.
