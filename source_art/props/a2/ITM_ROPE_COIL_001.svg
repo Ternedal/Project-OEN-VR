@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="#282C2D"/>
+<text x="44" y="56" fill="#E8E0CF" font-size="32" font-family="sans-serif">ITM_ROPE_COIL_001 — source master</text>
+<text x="44" y="90" fill="#C8B58D" font-size="18" font-family="sans-serif">~30–40 cm coil · chunky fiber · readable loose end · shared shelter/ravine grammar</text>
+<g font-family="sans-serif">
+<rect x="55" y="135" width="520" height="455" rx="28" fill="#343A3C" stroke="#66745C" stroke-width="7"/>
+<text x="85" y="178" fill="#E8E0CF" font-size="22">COIL / CARRY SOURCE</text>
+<g transform="translate(145 210)" fill="none" stroke-linecap="round">
+<ellipse cx="150" cy="130" rx="120" ry="92" stroke="#B99467" stroke-width="34"/>
+<ellipse cx="150" cy="130" rx="78" ry="56" stroke="#8A6B4D" stroke-width="24"/>
+<path d="M242 168c54 22 82 70 92 123 7 36 28 58 62 62" stroke="#B99467" stroke-width="24"/>
+<path d="M386 352l36 8-25 27" stroke="#E8E0CF" stroke-width="8"/>
+</g>
+<text x="92" y="505" fill="#C8B58D" font-size="17">Loose end must be visually obvious before interaction.</text>
+<text x="92" y="538" fill="#C8B58D" font-size="17">Avoid hair-thin runtime expectations or dense real rope geometry.</text>
+</g>
+<g transform="translate(625 135)" font-family="sans-serif">
+<rect width="520" height="455" rx="28" fill="#343A3C" stroke="#55717A" stroke-width="7"/>
+<text x="28" y="43" fill="#E8E0CF" font-size="22">TENSION LANGUAGE REFERENCE</text>
+<text x="34" y="104" fill="#E8E0CF" font-size="18">LOOSE</text><path d="M140 98c80 74 155 74 235 0" fill="none" stroke="#B99467" stroke-width="20" stroke-linecap="round"/>
+<text x="34" y="204" fill="#E8E0CF" font-size="18">GOOD</text><path d="M140 198c80 18 155 18 235 0" fill="none" stroke="#B99467" stroke-width="20" stroke-linecap="round"/>
+<text x="34" y="304" fill="#E8E0CF" font-size="18">HIGH / STRAINED</text><path d="M140 298h235" fill="none" stroke="#D5BA8C" stroke-width="16" stroke-linecap="round"/><path d="M154 278l-16 40M202 278l-16 40M330 278l16 40M378 278l16 40" stroke="#A85E48" stroke-width="6"/>
+<text x="34" y="376" fill="#C8B58D" font-size="17">State changes curve + attachment stress, not color only.</text>
+<text x="34" y="410" fill="#C8B58D" font-size="17">Claude owns runtime rope technique and performance.</text>
+</g>
+</svg>
