@@ -2,11 +2,11 @@
 
 ## Arbejdsmodel
 
-Roadmappet er baseret på gennemførte gates, ikke kalenderløfter. En fase lukkes først, når dens acceptance criteria er demonstreret på fysiske headset.
+Roadmappet er baseret på gennemførte gates, ikke kalenderløfter. En fase lukkes først, når dens acceptance criteria er demonstreret på fysiske headset, når gaten kræver device-evidens, eller med observerede menneskedata når det er en produktgate som M-Pre.
 
 ## M0 - Platform- og netværksfeasibility
 
-**Estimat:** 160-200 timer (backlogsum: 176 t over 19 items)  
+**Aktuelt estimat efter DROP_Q1_RUNTIME:** 142-180 timer (backlogsum: 158 t over 17 aktive items)  
 **Mål:** Bevis én kodebase/buildlane **og** en fungerende to-klient-session på Quest 2 og 3.
 
 M0 optager de session- og replikationsopgaver, der tidligere lå i M2 (PO-017, PO-018, PO-019, PO-020, PO-022, PO-025). Begrundelse: M0's gate kunne ikke bevises af M0's egne opgaver, hvilket flyttede stop/go på projektets største risiko til efter ca. 250 timer.
@@ -21,7 +21,7 @@ hovedprojektet bygges på Unity 6 LTS. Vulkan/GLES3-spiket (OQ-003) er droppet s
 
 ### M0b - Deliverables
 
-- Unity project + pinned package candidates (editor låses her, ikke før).
+- Unity project + pinned package candidates.
 - Q2/Q3 build profiles.
 - XR tracking/grab.
 - Photon create/join med privat join code.
@@ -29,6 +29,8 @@ hovedprojektet bygges på Unity 6 LTS. Vulkan/GLES3-spiket (OQ-003) er droppet s
 - Head/hands replication.
 - Heavy shared box proof (`CoopObjectController`).
 - Compatibility matrix.
+
+Per-klient M0b-feasibility er dokumenteret on-device. M0b er først lukket, når de resterende cross-device-krav i `src/unity/RUNBOOK_FUSION.md` og `config/COMPATIBILITY_MATRIX.md` er bevist.
 
 Gate:
 
@@ -47,7 +49,8 @@ indsatsmarkører **diskussion** mellem to spillere, eller føles den som **admin
 
 - Papir eller fladskærm. Ingen VR, intet netværk, ingen art.
 - To eksterne testere, ikke gavemodtageren.
-- Protokol, materialer og målepunkter: `docs/35_M_PRE_GREYBOX_GATE.md`.
+- Protokol og målepunkter: `docs/35_M_PRE_GREYBOX_GATE.md`.
+- Ready-to-run-materiale: `prototype/m-pre/`.
 
 **Gate:** mindst to af tre sessioner viser reel forhandling om markørerne (målt som defineret i `docs/35`).
 Rødt gate udløser redesign af kerneloopet, før M1 påbegyndes — potentiel besparelse er hele M1-M3.
@@ -166,23 +169,22 @@ Gate: clean install på begge brugeres headset og gennemførsel uden dev tools.
 
 ## Samlet interval og estimatmodel
 
-**Revideret 2026-08-06 (CR-005).** De to estimatmodeller var tidligere parallelle og uden afbildning mellem sig: roadmappet lovede 500-810 timer, mens backloggens milepælssummer var op til tre gange højere for samme milepæl (fx M3: 55-85 t mod 260 t). Roadmapintervallerne er nu bundet til backloggens faktiske itemsummer, og backloggen har fået kolonnen `Gaveversion`.
+**Revideret 2026-08-13.** Estimatmodellen er bundet til backloggens faktiske itemsummer. P1-scope blev valgt af ejeren 2026-08-08 (Q-004 / CR-005 lukket), og `TBD`-fasen er derfor afsluttet.
 
-Aktuel tilstand efter reviewet:
+Aktuel tilstand:
 
 | Model | Sum | Status |
 |---|---:|---|
-| Aktiv backlog (108 items) | 1.451 t | Fuld engineering-plan, maksimal hardening. 3 Q1-items (28 t) droppet |
-| `Gaveversion = In` (45 P0-items) | 634 t | Kritisk sti — låst, releasekritisk pr. `docs/12`s egen P0-definition |
-| `Gaveversion = TBD` (56 P1-items) | 712 t | **Skal vælges af ejeren.** Indtil da findes der ikke et forsvarligt gaveestimat |
-| `Gaveversion = Defer` (9 P2-items) | 127 t | Efter v1.0 |
+| Aktiv backlog (108 items) | 1.451 t | Fuld engineering-plan, maksimal hardening |
+| `Gaveversion = In` (77 items) | **1.012 t** | Valgt scope: P0 631 t + udvalgte P1 381 t, inkl. M-Pre/PO-110 |
+| `Gaveversion = Defer` (31 items) | **439 t** | Efter v1.0: 312 t P1 + 127 t P2 |
 
-Det tidligere tal på 500-810 timer var top-down og kunne hverken forsvares eller spores. Det genindsættes først, når P1-udvælgelsen er foretaget — som `634 t + summen af de valgte P1-items`.
+Ved 15 timer/uge svarer 1.012 timer til ca. 67,5 arbejdsuger før buffer og uforudsete iterationer. Derfor bruges gates og scope ladder aktivt frem for en fast releasedato.
 
 Planlægningsregel:
 
 - **P0:** releasekritisk eller blocker.
-- **P1:** forventet kvalitet til gaveversionen, men skal prioriteres aktivt.
+- **P1:** forventet kvalitet til gaveversionen og aktivt valgt `In` eller `Defer`.
 - **P2:** optional polish eller reduktionskandidat.
 - En milepæl er ikke “færdig”, fordi alle dens P1/P2-opgaver er lukket; den er færdig, når dens gate er bevist.
 
