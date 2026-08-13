@@ -1,0 +1,50 @@
+name: Validate source audio
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'source_audio/**'
+      - '.github/workflows/audio-source-validation.yml'
+  pull_request:
+    paths:
+      - 'source_audio/**'
+      - '.github/workflows/audio-source-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-au1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate AU-1 cues
+        run: python source_audio/au1/generate_au1.py --output /tmp/oen-au1
+      - name: Validate generated WAV set
+        run: |
+          python - <<'PY'
+          import json, wave
+          from pathlib import Path
+
+          root = Path('/tmp/oen-au1')
+          manifest = json.loads((root / 'manifest.json').read_text())
+          cues = manifest['cues']
+          assert len(cues) == 12, f'Expected 12 cues, got {len(cues)}'
+          for cue in cues:
+              path = root / cue['file']
+              assert path.exists(), path
+              with wave.open(str(path), 'rb') as wav:
+                  assert wav.getframerate() == 48000
+                  assert wav.getnchannels() == 1
+                  assert wav.getsampwidth() == 2
+                  duration = wav.getnframes() / wav.getframerate()
+                  assert 0.15 <= duration <= 0.6, (path, duration)
+              assert cue['peakLinearBeforeQuantize'] < 0.99, cue
+          print('AU-1 source audio validation OK')
+          PY
