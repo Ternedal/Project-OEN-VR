@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "updated": "2026-08-13",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "status": "recording-ready-not-recorded",
+  "sourceSpec": {
+    "sampleRateHz": 48000,
+    "bitDepth": 24,
+    "channels": 1,
+    "format": "WAV",
+    "preserveDryMaster": true,
+    "headTailSilenceSec": [0.25, 0.60]
+  },
+  "voiceProfile": {
+    "language": "da-DK",
+    "style": "calm professional maritime/operations voice",
+    "urgency": "restrained",
+    "avoid": ["theatrical delivery", "game-master tone", "recognizable-person imitation", "heavy processing in source master"]
+  },
+  "takesPerCue": 3,
+  "cues": [
+    {"id":"VO_RADIO_NIGHT1_01","localizationKey":"vo.radio.night1.01","phase":"night1","targetDurationSec":[1.6,2.8],"delivery":"mid-broadcast fragment; neutral; low urgency","criticalSemantic":"broadcast already in progress","dryFilename":"VO_RADIO_NIGHT1_01.wav"},
+    {"id":"VO_RADIO_NIGHT1_02","localizationKey":"vo.radio.night1.02","phase":"night1","targetDurationSec":[3.0,4.8],"delivery":"clearest Night 1 line; operational and calm","criticalSemantic":"route resumes in roughly two days","dryFilename":"VO_RADIO_NIGHT1_02.wav"},
+    {"id":"VO_RADIO_NIGHT1_03","localizationKey":"vo.radio.night1.03","phase":"night1","targetDurationSec":[1.4,2.5],"delivery":"short fragment; naturally trails away","criticalSemantic":"keep channel clear","dryFilename":"VO_RADIO_NIGHT1_03.wav"},
+    {"id":"VO_RADIO_DAY3_01","localizationKey":"vo.radio.day3.01","phase":"day3","targetDurationSec":[2.4,3.8],"delivery":"clear; slightly increased operational urgency","criticalSemantic":"passage at dawn","dryFilename":"VO_RADIO_DAY3_01.wav"},
+    {"id":"VO_RADIO_DAY3_02","localizationKey":"vo.radio.day3.02","phase":"day3","targetDurationSec":[2.4,3.8],"delivery":"matter-of-fact weather consequence","criticalSemantic":"visibility worsens under front","dryFilename":"VO_RADIO_DAY3_02.wav"},
+    {"id":"VO_RADIO_DAY3_03","localizationKey":"vo.radio.day3.03","phase":"day3","targetDurationSec":[1.8,3.0],"delivery":"clearest final Day 3 fragment","criticalSemantic":"visual signal recommended","dryFilename":"VO_RADIO_DAY3_03.wav"},
+    {"id":"VO_RADIO_END_NEUTRAL_01","localizationKey":"vo.radio.ending.neutral.01","phase":"ending","targetDurationSec":[1.1,2.0],"delivery":"immediate unmistakable confirmation","criticalSemantic":"signal observed","dryFilename":"VO_RADIO_END_NEUTRAL_01.wav"},
+    {"id":"VO_RADIO_END_NEUTRAL_02","localizationKey":"vo.radio.ending.neutral.02","phase":"ending","targetDurationSec":[2.4,4.0],"delivery":"calm reassurance; professional","criticalSemantic":"stay by coast; position known","dryFilename":"VO_RADIO_END_NEUTRAL_02.wav"},
+    {"id":"VO_RADIO_END_NEUTRAL_03","localizationKey":"vo.radio.ending.neutral.03","phase":"ending","targetDurationSec":[1.4,2.6],"delivery":"slight warmth acceptable; restrained","criticalSemantic":"hold on a little longer","dryFilename":"VO_RADIO_END_NEUTRAL_03.wav"}
+  ],
+  "recordingQa": [
+    "all 9 cue IDs have 3 clean takes",
+    "Danish pronunciation reviewed",
+    "localization semantic parity preserved",
+    "no critical information added ad-lib",
+    "clean dry masters retained before radio processing",
+    "selected source and permission/license recorded",
+    "no identifiable public-person voice imitation"
+  ],
+  "handoff": "Claude owns radio EQ/static/dropouts, spatialization, ducking, runtime binding and subtitle timing in Unity."
+}

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="#282C2D"/>
+<rect x="115" y="88" width="970" height="545" rx="34" fill="#343A3C" stroke="#55717A" stroke-width="8"/>
+<text x="165" y="152" fill="#E8E0CF" font-size="34" font-family="sans-serif">Strandet Sammen</text>
+<text x="165" y="198" fill="#C8B58D" font-size="18" font-family="sans-serif">Forbundet — identitet og klar-status læses med både form og tekst</text>
+<g font-family="sans-serif">
+<rect x="165" y="250" width="395" height="190" rx="26" fill="#3D4644" stroke="#D59A52" stroke-width="7"/>
+<circle cx="235" cy="320" r="38" fill="#D59A52" stroke="#E8E0CF" stroke-width="6"/>
+<text x="222" y="331" fill="#282C2D" font-size="30">A</text>
+<text x="300" y="310" fill="#E8E0CF" font-size="26">Spiller A</text>
+<text x="300" y="355" fill="#E8E0CF" font-size="22">Klar</text>
+<path d="M302 385h155" stroke="#E8E0CF" stroke-width="8" stroke-linecap="round"/>
+<rect x="640" y="250" width="395" height="190" rx="26" fill="#394146" stroke="#66745C" stroke-width="7"/>
+<rect x="686" y="284" width="74" height="74" rx="14" fill="#66745C" stroke="#E8E0CF" stroke-width="6"/>
+<text x="707" y="334" fill="#E8E0CF" font-size="30">B</text>
+<text x="785" y="310" fill="#E8E0CF" font-size="26">Spiller B</text>
+<text x="785" y="355" fill="#C8B58D" font-size="22">Ikke klar</text>
+<path d="M787 385h110" stroke="#AFA488" stroke-width="8" stroke-linecap="round" stroke-dasharray="14 12"/>
+<rect x="330" y="490" width="540" height="74" rx="18" fill="#2F3637" stroke="#C8B58D" stroke-width="5"/>
+<text x="440" y="537" fill="#E8E0CF" font-size="23">Begge skal være klar</text>
+</g>
+</svg>
