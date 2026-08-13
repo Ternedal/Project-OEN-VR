@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Acquire license-verified external audio originals without committing binaries.
-
-Reads content/audio/acquisition_candidates.source.json and downloads only candidates
-with an explicit directDownload URL. Originals and the acquisition manifest are stored
-under PrivateContent/AudioSourceIncoming/, which is already ignored by repository policy.
-"""
+"""Acquire license-verified external audio originals without committing binaries."""
 from __future__ import annotations
 
 import argparse
@@ -18,9 +13,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CANDIDATES = ROOT / "content" / "audio" / "acquisition_candidates.source.json"
+DEFAULT_CANDIDATES = ROOT / "content" / "audio" / "acquisition_candidates.source.json"
 DEFAULT_OUTPUT = ROOT / "PrivateContent" / "AudioSourceIncoming"
-USER_AGENT = "Project-OEN-VR-source-acquisition/1.0"
+USER_AGENT = "Project-OEN-VR-source-acquisition/1.1"
 
 
 def sha256_file(path: Path) -> str:
@@ -53,8 +48,20 @@ def ffprobe(path: Path) -> dict | None:
     return json.loads(result.stdout)
 
 
-def load_candidates() -> list[dict]:
-    data = json.loads(CANDIDATES.read_text(encoding="utf-8"))
+def resolve_candidate_source(value: Path) -> Path:
+    path = value if value.is_absolute() else ROOT / value
+    path = path.resolve()
+    try:
+        path.relative_to(ROOT)
+    except ValueError as exc:
+        raise RuntimeError("candidate source must stay inside the repository") from exc
+    if not path.is_file():
+        raise RuntimeError(f"candidate source does not exist: {path}")
+    return path
+
+
+def load_candidates(path: Path) -> list[dict]:
+    data = json.loads(path.read_text(encoding="utf-8"))
     candidates = data.get("candidates")
     if not isinstance(candidates, list):
         raise RuntimeError("candidate source must contain a candidates list")
@@ -91,7 +98,7 @@ def download(candidate: dict, originals: Path, timeout: int) -> dict:
         "bytes": final_path.stat().st_size,
         "sha256": sha256_file(final_path),
         "acquiredAtUtc": datetime.now(timezone.utc).isoformat(),
-        "relativePath": str(final_path.relative_to(ROOT)).replace("\\", "/"),
+        "relativePath": str(final_path.relative_to(ROOT)).replace("\\", "/") if final_path.is_relative_to(ROOT) else str(final_path),
         "sourceFormatClaim": candidate.get("sourceFormat"),
         "technicalProbe": ffprobe(final_path),
         "status": "acquired-original-not-listening-approved",
@@ -100,13 +107,16 @@ def download(candidate: dict, originals: Path, timeout: int) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--candidate-source", type=Path, default=DEFAULT_CANDIDATES,
+                        help="Repository-local candidate JSON. Defaults to canonical acquisition_candidates.source.json.")
     parser.add_argument("--target", action="append", default=[], help="Acquire one target; repeat as needed.")
     parser.add_argument("--all-direct", action="store_true", help="Acquire every candidate with directDownload metadata.")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--timeout", type=int, default=90)
     args = parser.parse_args()
 
-    candidates = load_candidates()
+    candidate_source = resolve_candidate_source(args.candidate_source)
+    candidates = load_candidates(candidate_source)
     direct = [item for item in candidates if item.get("directDownload")]
     requested = set(args.target)
     selected = direct if args.all_direct else [item for item in direct if item.get("target") in requested]
@@ -118,7 +128,8 @@ def main() -> int:
         print("Use --target TARGET or --all-direct.")
         return 2
 
-    output_root = args.output.resolve()
+    output_root = args.output if args.output.is_absolute() else ROOT / args.output
+    output_root = output_root.resolve()
     originals = output_root / "originals"
     manifest_path = output_root / "acquisition_manifest.json"
     output_root.mkdir(parents=True, exist_ok=True)
@@ -146,7 +157,7 @@ def main() -> int:
     manifest = {
         "version": 1,
         "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
-        "candidateSource": str(CANDIDATES.relative_to(ROOT)).replace("\\", "/"),
+        "candidateSource": str(candidate_source.relative_to(ROOT)).replace("\\", "/"),
         "records": sorted(records, key=lambda item: str(item.get("target"))),
         "rule": "acquired-original is not listening-approved, derived-master-approved, Unity-integrated or release-approved",
     }
