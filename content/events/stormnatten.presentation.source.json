@@ -1,0 +1,73 @@
+{
+  "scenarioId": "SCN_STORMNATTEN_001",
+  "version": 1,
+  "status": "authoring-source-v0.1",
+  "runtimeOwner": "Claude",
+  "sourceOwner": "ChatGPT",
+  "events": {
+    "EVT_OPEN_FOOD_001": {
+      "telegraph": "food storage remains visibly unsecured before dusk",
+      "sourceAssetIds": ["UI_ACTION_ICON_FOOD_001"],
+      "presentationMode": "reuse-existing-world-state",
+      "persistence": "unsecured storage remains readable until secured or consequence resolves"
+    },
+    "EVT_ANIMAL_CAMP_001": {
+      "telegraph": "tracks/noise/disturbed storage build before direct camp pressure",
+      "sourceAssetIds": ["B2_ANIMAL_THREAT_CUES_001"],
+      "presentationMode": "abstract-world-cues",
+      "persistence": "disturbed storage/tracks remain long enough to understand consequence",
+      "scopeGuardrail": "no combat or full animal AI promise"
+    },
+    "EVT_SPLINTER_001": {
+      "telegraph": "local wood/tool execution communicates risk",
+      "sourceAssetIds": ["UI_STATUS_INJURY_001"],
+      "presentationMode": "reuse-status-plus-local-feedback",
+      "persistence": "injury status persists into later decisions"
+    },
+    "EVT_UNTREATED_WOUND_001": {
+      "telegraph": "known injury remains visible before delayed worsening",
+      "sourceAssetIds": ["UI_STATUS_INJURY_001", "UI_ACTION_ICON_MEDICAL_001"],
+      "presentationMode": "reuse-status-and-copy",
+      "persistence": "risk remains visible until treated/resolved"
+    },
+    "EVT_ROOF_LEAK_001": {
+      "telegraph": "weak shelter fastening/cover precedes leak pressure",
+      "sourceAssetIds": ["B2_ROOF_LEAK_STATE_001", "TEX_WARNING_SHAPE_001"],
+      "presentationMode": "world-state-plus-storm-source",
+      "persistence": "leak origin and wet consequence remain readable during repair"
+    },
+    "EVT_TOOL_BREAK_001": {
+      "telegraph": "tool quality/durability state would precede break if system is enabled",
+      "sourceAssetIds": ["B2_TOOL_BREAK_STATE_001"],
+      "presentationMode": "optional-authoring-only",
+      "persistence": "broken state persists if event is in scope",
+      "scopeGuardrail": "must remain unused while tool durability is deferred"
+    },
+    "EVT_DRY_FUEL_FOUND_001": {
+      "telegraph": "covered bundled fuel is visible before pickup",
+      "sourceAssetIds": ["B2_DRY_FUEL_CACHE_001", "UI_ACTION_ICON_FIRE_001"],
+      "presentationMode": "positive-world-opportunity",
+      "persistence": "cache remains until recovered or opportunity expires deliberately"
+    },
+    "EVT_EXTRA_HERBS_001": {
+      "telegraph": "distinct clustered herb silhouette is visible from route",
+      "sourceAssetIds": ["B2_EXTRA_HERBS_001", "UI_ACTION_ICON_MEDICAL_001"],
+      "presentationMode": "positive-world-opportunity",
+      "persistence": "cluster remains until gathered or deliberately left"
+    },
+    "EVT_DISTANT_SMOKE_001": {
+      "telegraph": "distant plume becomes visible from exploration/scouting position",
+      "sourceAssetIds": ["B2_DISTANT_SMOKE_001"],
+      "presentationMode": "narrative-observation",
+      "persistence": "visible long enough for both players to notice/discuss",
+      "scopeGuardrail": "never present as current quest marker"
+    },
+    "EVT_RADIO_FRAGMENT_001": {
+      "telegraph": "radio moves from static to signal-found before voice/subtitle",
+      "sourceAssetIds": ["B2_RADIO_FRAGMENT_PRESENTATION_001"],
+      "presentationMode": "critical-narrative-progression",
+      "persistence": "critical objective information remains recoverable after voice line",
+      "scopeGuardrail": "critical rescue information cannot be randomly missed"
+    }
+  }
+}
