@@ -8,8 +8,10 @@ using UnityEngine.Audio;
 namespace ProjectOen.Audio.Editor
 {
     /// <summary>
-    /// Converts imported Project OEN WAV variations into AudioEventDefinition assets and a catalog.
-    /// Existing designer tuning is preserved; only ID/clip membership and missing mixer routing are refreshed.
+    /// Converts the manifest-verified Project OEN first-playable WAV payload into
+    /// AudioEventDefinition assets and a catalog. Existing designer tuning is preserved for
+    /// active definitions, while definitions no longer present in the current staged manifest
+    /// are cleared so stale clips can never remain reachable through generated profiles.
     /// </summary>
     public static class ProjectOenAudioFirstPlayableBuilder
     {
@@ -28,18 +30,40 @@ namespace ProjectOen.Audio.Editor
         [MenuItem("Project Oen/Audio/Build First-Playable Definitions + Catalog")]
         public static void BuildFirstPlayable()
         {
+            TryBuildFirstPlayable();
+        }
+
+        internal static bool TryBuildFirstPlayable()
+        {
+            try
+            {
+                BuildFirstPlayableInternal();
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError(
+                    "Project Oen audio first-playable build stopped before catalog completion: " +
+                    exception.Message);
+                return false;
+            }
+        }
+
+        private static void BuildFirstPlayableInternal()
+        {
             EnsureFolder(DefinitionsRoot);
 
             var bindings = FindBindings();
             if (bindings.Count == 0)
             {
-                Debug.LogError(
-                    $"Project Oen audio: no canonical audio clips found below '{AudioRoot}'. " +
-                    "Import/extract the first-playable audio pack into the Unity project first.");
-                return;
+                throw new InvalidOperationException(
+                    $"no manifest-verified canonical audio clips found below '{AudioRoot}'. " +
+                    "Extract the current oen-unity-first-playable-audio-v1 artifact at the Unity project root first.");
             }
 
             var existing = FindExistingDefinitions();
+            var importedIds = new HashSet<AudioEventId>(bindings.Select(binding => binding.Id));
+            var staleCleared = ClearStaleDefinitionClips(existing, importedIds);
             var created = 0;
             var updated = 0;
 
@@ -92,10 +116,12 @@ namespace ProjectOen.Audio.Editor
                 AssetDatabase.CreateAsset(catalog, CatalogPath);
             }
 
-            var orderedDefinitions = existing
-                .Where(x => x.Key != AudioEventId.None && x.Value != null && HasClips(x.Value))
-                .OrderBy(x => (ushort)x.Key)
-                .Select(x => x.Value)
+            // The current staged manifest is authoritative. Old definition assets may remain on disk
+            // to preserve tuning/history, but they cannot remain in the runtime catalog.
+            var orderedDefinitions = importedIds
+                .OrderBy(id => (ushort)id)
+                .Select(id => existing[id])
+                .Where(definition => definition != null && HasClips(definition))
                 .ToArray();
 
             var catalogObject = new SerializedObject(catalog);
@@ -117,15 +143,23 @@ namespace ProjectOen.Audio.Editor
                 .Count();
 
             Debug.Log(
-                $"Project Oen audio first-playable build complete: {bindings.Count} clips, " +
+                $"Project Oen audio first-playable build complete: {bindings.Count} manifest-verified clips, " +
                 $"{orderedDefinitions.Length}/{runtimeCount} runtime events populated, " +
-                $"{created} definitions created, {updated} updated. Catalog: {CatalogPath}",
+                $"{created} definitions created, {updated} updated, {staleCleared} stale definitions cleared. " +
+                $"Catalog: {CatalogPath}",
                 catalog);
         }
 
         [MenuItem("Project Oen/Audio/Audit First-Playable Clip Coverage")]
         public static void AuditCoverage()
         {
+            var manifest = ProjectOenAudioFirstPlayableManifestAudit.Audit();
+            if (!manifest.Ok)
+            {
+                Debug.LogError("Project Oen audio coverage audit failed: " + manifest.Error);
+                return;
+            }
+
             var bindings = FindBindings();
             var byId = bindings.GroupBy(x => x.Id).ToDictionary(x => x.Key, x => x.Count());
             var ids = Enum.GetValues(typeof(AudioEventId))
@@ -146,37 +180,31 @@ namespace ProjectOen.Audio.Editor
             }
 
             Debug.Log(
-                $"Project Oen audio coverage: {bindings.Count} clips across {populated}/{ids.Length} runtime events. " +
-                "Missing events remain production work; they are not synthesized or silently aliased.");
+                $"Project Oen audio coverage: {bindings.Count} manifest-verified clips across " +
+                $"{populated}/{ids.Length} runtime events. Missing events remain production work; " +
+                "stale/unmanaged canonical WAVs are rejected rather than silently entering the catalog.");
         }
 
         private static List<ClipBinding> FindBindings()
         {
-            if (!AssetDatabase.IsValidFolder(AudioRoot))
-                return new List<ClipBinding>();
+            var entries = ProjectOenAudioFirstPlayableManifestAudit.RequireVerifiedEntries();
+            var result = new List<ClipBinding>(entries.Count);
 
-            var result = new List<ClipBinding>();
-            foreach (var guid in AssetDatabase.FindAssets("t:AudioClip", new[] { AudioRoot }))
+            foreach (var entry in entries)
             {
-                var path = AssetDatabase.GUIDToAssetPath(guid);
-                var clip = AssetDatabase.LoadAssetAtPath<AudioClip>(path);
+                var clip = AssetDatabase.LoadAssetAtPath<AudioClip>(entry.UnityPath);
                 if (clip == null)
-                    continue;
-
-                if (!TryParseCanonicalClipName(clip.name, out var id, out var variation))
                 {
-                    Debug.LogWarning(
-                        $"Project Oen audio: ignoring clip with non-canonical name '{clip.name}' at '{path}'.",
-                        clip);
-                    continue;
+                    throw new InvalidOperationException(
+                        $"manifested WAV has not imported as AudioClip: '{entry.UnityPath}'.");
                 }
 
                 result.Add(new ClipBinding
                 {
-                    Id = id,
-                    Variation = variation,
+                    Id = entry.EventId,
+                    Variation = entry.Variation,
                     Clip = clip,
-                    AssetPath = path,
+                    AssetPath = entry.UnityPath,
                 });
             }
 
@@ -193,12 +221,12 @@ namespace ProjectOen.Audio.Editor
                 if (definition == null || definition.Id == AudioEventId.None)
                     continue;
 
-                if (result.ContainsKey(definition.Id))
+                if (result.TryGetValue(definition.Id, out var duplicate))
                 {
-                    Debug.LogError(
-                        $"Project Oen audio: duplicate existing definition for '{definition.Id}' at '{path}'.",
-                        definition);
-                    continue;
+                    var duplicatePath = AssetDatabase.GetAssetPath(duplicate);
+                    throw new InvalidOperationException(
+                        $"duplicate existing definition for '{definition.Id}': '{duplicatePath}' and '{path}'. " +
+                        "Resolve the duplicate before rebuilding the catalog.");
                 }
 
                 result.Add(definition.Id, definition);
@@ -207,41 +235,31 @@ namespace ProjectOen.Audio.Editor
             return result;
         }
 
-        private static bool TryParseCanonicalClipName(
-            string clipName,
-            out AudioEventId id,
-            out int variation)
+        private static int ClearStaleDefinitionClips(
+            IReadOnlyDictionary<AudioEventId, AudioEventDefinition> existing,
+            ISet<AudioEventId> importedIds)
         {
-            id = AudioEventId.None;
-            variation = 0;
-
-            foreach (var name in CanonicalNames())
+            var cleared = 0;
+            foreach (var pair in existing)
             {
-                var prefix = name + "_";
-                if (!clipName.StartsWith(prefix, StringComparison.Ordinal))
+                if (importedIds.Contains(pair.Key) || pair.Value == null)
                     continue;
 
-                var suffix = clipName.Substring(prefix.Length);
-                if (!int.TryParse(suffix, out variation) || variation <= 0)
-                    return false;
+                var serialized = new SerializedObject(pair.Value);
+                var clips = serialized.FindProperty("_clips");
+                if (clips == null || clips.arraySize == 0)
+                    continue;
 
-                if (!Enum.TryParse(name, out id) || id == AudioEventId.None)
-                    return false;
-
-                return true;
+                clips.arraySize = 0;
+                serialized.ApplyModifiedPropertiesWithoutUndo();
+                EditorUtility.SetDirty(pair.Value);
+                cleared++;
+                Debug.LogWarning(
+                    $"Project Oen audio: cleared stale clips from definition '{pair.Key}' because it is not present in the current first-playable manifest.",
+                    pair.Value);
             }
 
-            return false;
-        }
-
-        private static IEnumerable<string> CanonicalNames()
-        {
-            return Enum.GetNames(typeof(AudioEventId))
-                .Where(name =>
-                    name != nameof(AudioEventId.None) &&
-                    name != "SFX_STS_Hunger_Warn" &&
-                    name != "SFX_STS_Thirst_Warn")
-                .OrderByDescending(name => name.Length);
+            return cleared;
         }
 
         private static string CanonicalName(AudioEventId id)
