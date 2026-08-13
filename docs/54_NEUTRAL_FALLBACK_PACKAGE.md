@@ -21,7 +21,11 @@ Private personalization må erstatte enkelte hooks, men hvis hele private pakken
 
 # 2. Neutral profile contract
 
-Recommended internal profile:
+Machine-readable source profile findes i:
+
+`content/personalization/neutral_profile.source.json`
+
+Conceptual content:
 
 ```json
 {
@@ -29,7 +33,9 @@ Recommended internal profile:
   "version": 1,
   "fallbackProfileId": "NEUTRAL_DEFAULT",
   "displayNames": ["Spiller 1", "Spiller 2"],
-  "textOverrides": {},
+  "textOverrides": {
+    "ending.neutral.message": "I holdt længe nok. Signalet blev set."
+  },
   "imageAssets": [],
   "audioAssets": [],
   "finalMessageKey": "ending.neutral.message",
@@ -57,25 +63,28 @@ These lines resolve the game before any private overlay.
 
 Neutral crate contains a small set of coherent island/rescue objects rather than empty slots.
 
-Suggested neutral contents:
+Produced source assets:
 
-1. weathered maritime chart/card
-2. simple compass or rescue marker
-3. generic crew/rescue note
+1. `NEU_ENDING_CHART_001` — fictional island/rescue route card
+2. `NEU_MEMENTO_COMPASS_001` — generic compass memento
+3. `NEU_MEMENTO_ROUTE_CARD_001` — fictional route/weather card
+4. `NEU_MEMENTO_SIGNAL_TAG_001` — generic signal/rescue tag
 
-No real-world brand/logo required.
+Source masters: `source_art/neutral/`.
+
+No real-world brand/logo/map is required.
 
 ---
 
 # 4. Neutral source assets
 
-| Hook | Neutral asset ID | Product intent |
-|---|---|---|
-| `ENDING_CRATE_PHOTO` | `NEU_ENDING_CHART_001` | stylized chart/rescue-route card |
-| `CAMP_MEMENTO_1` | `NEU_MEMENTO_COMPASS_001` | generic compass token/prop |
-| `CAMP_MEMENTO_2` | `NEU_MEMENTO_ROUTE_CARD_001` | generic route/weather card |
-| `CAMP_MEMENTO_3` | `NEU_MEMENTO_SIGNAL_TAG_001` | generic rescued/signal marker |
-| `RADIO_FINAL_MESSAGE` | neutral VO keys | radio rescue acknowledgement |
+| Hook | Neutral asset ID | Product intent | Source status |
+|---|---|---|---|
+| `ENDING_CRATE_PHOTO` | `NEU_ENDING_CHART_001` | stylized chart/rescue-route card | **SVG produced** |
+| `CAMP_MEMENTO_1` | `NEU_MEMENTO_COMPASS_001` | generic compass token/prop | **SVG produced** |
+| `CAMP_MEMENTO_2` | `NEU_MEMENTO_ROUTE_CARD_001` | generic route/weather card | **SVG produced** |
+| `CAMP_MEMENTO_3` | `NEU_MEMENTO_SIGNAL_TAG_001` | generic rescued/signal marker | **SVG produced** |
+| `RADIO_FINAL_MESSAGE` | neutral VO keys | radio rescue acknowledgement | source copy ready; recording/source audio pending |
 
 These IDs are source-side identifiers. Claude decides actual Unity asset references.
 
@@ -97,11 +106,11 @@ The neutral ending should feel like a genuine small epilogue even if the player 
 
 # 6. Neutral final message key
 
-Add/use canonical conceptual key:
+Canonical conceptual key:
 
 `ending.neutral.message`
 
-Suggested Danish source:
+Danish source:
 
 > I holdt længe nok. Signalet blev set.
 
@@ -151,35 +160,31 @@ Normal gift release should prefer graceful fallback.
 
 # 10. Provenance
 
-Neutral source assets follow `docs/43_IP_AND_ASSET_PROVENANCE.md`.
+Neutral source assets are class `OWN` and documented in:
 
-Preferred neutral sources:
+`source_art/neutral/PROVENANCE.md`
 
-- project-original/generated and documented
-- no real shipping company logo
-- no third-party map scan
-- no copyrighted photo used merely because it looks nautical
+They were rendered/reviewed as a coherent set after production.
 
 ---
 
 # 11. Production status
 
-## Spec-ready now
+## Done on ChatGPT source-side
 
 - hook mapping
 - radio copy
 - visual direction
 - QA behavior
+- neutral profile source
+- four neutral SVG source assets
+- provenance record
 
-## Source production still needed
+## Still needed
 
-- `NEU_ENDING_CHART_001`
-- `NEU_MEMENTO_COMPASS_001`
-- `NEU_MEMENTO_ROUTE_CARD_001`
-- `NEU_MEMENTO_SIGNAL_TAG_001`
-- neutral radio VO recording/source, unless synthetic/other voice strategy selected later
-
-Actual runtime binding remains Claude work.
+- neutral radio VO recording/source, unless a later voice strategy changes this
+- Claude runtime binding/fallback
+- M8 E2E neutral build test
 
 ---
 
