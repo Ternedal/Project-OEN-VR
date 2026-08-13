@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#282C2D"/>
+  <text x="44" y="56" fill="#E8E0CF" font-size="32" font-family="sans-serif">PRP_SHELTER_BEAM_001 — individual source master</text>
+  <text x="44" y="90" fill="#C8B58D" font-size="18" font-family="sans-serif">A-priority shelter stabilizer · broad two-person hold regions · intact / stressed silhouette contract</text>
+
+  <g font-family="sans-serif">
+    <rect x="50" y="130" width="690" height="480" rx="28" fill="#343A3C" stroke="#55717A" stroke-width="7"/>
+    <text x="82" y="178" fill="#E8E0CF" font-size="23">PRIMARY / INTACT</text>
+    <g transform="translate(105 245)">
+      <path d="M0 95 L520 34 L548 125 L28 187 Z" fill="#8C7157" stroke="#E8E0CF" stroke-width="9" stroke-linejoin="round"/>
+      <path d="M30 105 L510 48" stroke="#6B513D" stroke-width="8" opacity=".7"/>
+      <path d="M62 149 L92 111 M435 102 L465 64" stroke="#C8B58D" stroke-width="15" stroke-linecap="round"/>
+      <path d="M70 132 L102 128 M443 85 L475 81" stroke="#55717A" stroke-width="8" stroke-linecap="round"/>
+      <path d="M145 128 L190 122 M360 103 L405 98" stroke="#6B513D" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    <text x="100" y="480" fill="#C8B58D" font-size="16">Two broad hold regions are indicated by rope-wear bands, not tiny handles.</text>
+    <text x="100" y="510" fill="#C8B58D" font-size="16">Approx source length: 1.4–1.8 m; cross-section intentionally oversized for VR readability.</text>
+    <path d="M110 548H680" stroke="#D59A52" stroke-width="6"/>
+    <path d="M110 536v24M680 536v24" stroke="#D59A52" stroke-width="6"/>
+    <text x="325" y="582" fill="#D59A52" font-size="16">~1.4–1.8 m source target</text>
+  </g>
+
+  <g transform="translate(770 130)" font-family="sans-serif">
+    <rect width="380" height="480" rx="28" fill="#343A3C" stroke="#66745C" stroke-width="7"/>
+    <text x="26" y="46" fill="#E8E0CF" font-size="22">STRESSED / DAMAGED</text>
+    <g transform="translate(36 92)">
+      <path d="M0 88 L140 70 L178 110 L314 62 L332 132 L196 164 L158 134 L18 158 Z" fill="#8C7157" stroke="#E8E0CF" stroke-width="8" stroke-linejoin="round"/>
+      <path d="M139 72 L164 128 L184 111 L198 162" fill="none" stroke="#A85E48" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M51 137 L72 105 M258 111 L279 82" stroke="#C8B58D" stroke-width="14" stroke-linecap="round"/>
+      <path d="M59 121 L83 118 M266 95 L290 92" stroke="#55717A" stroke-width="7" stroke-linecap="round"/>
+    </g>
+    <text x="28" y="300" fill="#C8B58D" font-size="14">Damage changes silhouette and load line:</text>
+    <text x="28" y="326" fill="#E8E0CF" font-size="14">visible bend + opened split + offset centre.</text>
+    <text x="28" y="352" fill="#C8B58D" font-size="14">Hold zones remain broad and readable.</text>
+    <text x="28" y="390" fill="#AFA488" font-size="13">No sharp hazard language;</text>
+    <text x="28" y="411" fill="#AFA488" font-size="13">storm damage stays stylised/structural.</text>
+  </g>
+
+  <text x="52" y="650" fill="#AFA488" font-size="16" font-family="sans-serif">Material intent: weathered wood with rope-wear marks. State difference must survive low saturation and room-scale viewing.</text>
+  <text x="52" y="678" fill="#AFA488" font-size="16" font-family="sans-serif">Source/reference master only. Claude owns final Unity mesh, colliders, grab/network behaviour, scale tuning and Quest device QA.</text>
+</svg>

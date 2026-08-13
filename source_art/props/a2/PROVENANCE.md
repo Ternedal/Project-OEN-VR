@@ -11,17 +11,20 @@ No third-party models, stock artwork, external game screenshots or traced artwor
 
 ## Individual source masters currently committed in this production pass
 
-Current count: **5 individual SVG source masters**.
+Current count: **6 individual SVG source masters**.
 
 - `ITM_FIRESTEEL_001.svg`
 - `ITM_TINDER_001.svg`
 - `ITM_ROPE_COIL_001.svg`
 - `PRP_PLAN_TABLE_001.svg`
 - `PRP_HEAVY_CRATE_001.svg`
+- `PRP_SHELTER_BEAM_001.svg`
 
 The plan-table master preserves six large card bays, four physical effort markers, two-sided reach intent and distinct editable / ready / locked shapes without relying on color alone.
 
 The heavy-crate master preserves a broad two-person silhouette, opposed carry handles and distinct closed / placed / open readability without defining runtime carry behaviour.
+
+The shelter-beam master preserves two broad hold regions and makes the stressed/damaged state alter the actual silhouette and load line rather than relying on a surface crack alone.
 
 The corresponding Markdown files remain product/handoff contracts.
 
