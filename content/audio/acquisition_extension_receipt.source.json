@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "status": "extension-originals-acquired-individual-selection-pending",
+  "owner": "ChatGPT",
+  "acquiredAtUtc": "2026-08-13T22:07:06Z",
+  "candidateSource": "content/audio/acquisition_candidates.direct_extension.source.json",
+  "workflow": {
+    "path": ".github/workflows/acquire-audio-originals.yml",
+    "runId": 31748539131,
+    "artifactId": 9200004421,
+    "artifactName": "oen-audio-direct-acquisition",
+    "artifactSha256": "234909632882702c75324184eeeb0c5b201437094b87daff722c5635da81ca0b",
+    "retention": "14 days; workflow can reacquire from verified source URLs"
+  },
+  "records": [
+    {
+      "target": "AMB_OCEAN_ALT",
+      "provider": "OpenGameArt",
+      "sourcePage": "https://opengameart.org/content/beach-ocean-waves",
+      "license": "CC0",
+      "filename": "wave_01_cc0-18363__jasinski__alkaibeach.flac",
+      "bytes": 626248,
+      "sha256": "fcfca178eca2eac536e8c2a4ed5cf8096e44c921acd587047b3d9f1d7845435c",
+      "technical": {
+        "codec": "flac",
+        "sampleRateHz": 44100,
+        "channels": 2,
+        "bitDepth": 24,
+        "durationSeconds": 4.0
+      },
+      "status": "acquired-original-not-listening-approved",
+      "qaFlags": [
+        "short-building-block-not-complete-ambience-loop",
+        "requires-derived-48-kHz-master-if-selected"
+      ]
+    },
+    {
+      "target": "SFX_WOOD_PACK_ALT",
+      "provider": "OpenGameArt",
+      "sourcePage": "https://opengameart.org/content/various-sound-effects",
+      "license": "CC0",
+      "filename": "sounds_8.zip",
+      "bytes": 2537204,
+      "sha256": "82c945e5f3c97e4d38dbf18fa27bcea78dbed73b4078c5bbafc04ad89b4096db",
+      "archive": {
+        "files": 27,
+        "format": "WAV pack",
+        "relevantMembers": [
+          "floor_creak1.wav",
+          "floor_creak2.wav",
+          "floor_creak3.wav",
+          "door_creak_open.wav",
+          "door_creak_close.wav"
+        ]
+      },
+      "status": "acquired-source-pack-individual-selection-pending",
+      "qaFlags": [
+        "archive-itself-is-not-an-audio-stream",
+        "source-page-license-evidence-required",
+        "indoor-door-floor-character-may-not-fit-shelter-timber"
+      ]
+    },
+    {
+      "target": "SFX_CLOTH_PACK_ALT",
+      "provider": "OpenGameArt",
+      "sourcePage": "https://opengameart.org/content/50-rpg-sound-effects",
+      "license": "CC0",
+      "filename": "RPGsounds_Kenney.zip",
+      "bytes": 690952,
+      "sha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "archive": {
+        "format": "OGG pack",
+        "embeddedLicense": "license.txt declares CC0",
+        "relevantMembers": [
+          "OGG/cloth1.ogg",
+          "OGG/cloth2.ogg",
+          "OGG/cloth3.ogg",
+          "OGG/cloth4.ogg",
+          "OGG/clothBelt.ogg",
+          "OGG/clothBelt2.ogg",
+          "OGG/creak1.ogg",
+          "OGG/creak2.ogg",
+          "OGG/creak3.ogg"
+        ]
+      },
+      "status": "acquired-source-pack-individual-selection-pending",
+      "qaFlags": [
+        "archive-itself-is-not-an-audio-stream",
+        "short-game-sfx-pack-requires-naturalism-fit-listening",
+        "individual-files-are-lossy-vorbis"
+      ]
+    }
+  ],
+  "rules": [
+    "Acquisition is not listening approval.",
+    "Archive acquisition does not promote every member to a project source cue.",
+    "Individual wood/cloth members require human listening and cue-fit selection before derived masters are authored.",
+    "Original archives and extracted source audio remain outside Git history.",
+    "Claude owns final Unity mix/spatial/runtime/device QA."
+  ]
+}
