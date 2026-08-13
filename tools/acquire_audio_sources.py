@@ -62,7 +62,7 @@ def resolve_candidate_source(value: Path) -> Path:
     return path
 
 
-def load_candidates(path: Path) -> list[dict]:
+def load_candidates(path: Path = CANDIDATES) -> list[dict]:
     data = json.loads(path.read_text(encoding="utf-8"))
     candidates = data.get("candidates")
     if not isinstance(candidates, list):
