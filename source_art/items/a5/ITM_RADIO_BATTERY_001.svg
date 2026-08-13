@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<rect width="512" height="512" fill="#282C2D"/>
+<text x="28" y="46" fill="#E8E0CF" font-size="25" font-family="sans-serif">ITM_RADIO_BATTERY_001</text>
+<g transform="translate(112 104)">
+<rect x="58" y="30" width="176" height="248" rx="22" fill="#59605D" stroke="#E8E0CF" stroke-width="9"/>
+<rect x="92" y="4" width="38" height="34" rx="7" fill="#B99858" stroke="#E8E0CF" stroke-width="7"/>
+<rect x="162" y="4" width="38" height="34" rx="7" fill="#B99858" stroke="#E8E0CF" stroke-width="7"/>
+<path d="M116 82h60l-22 55h36l-78 102 28-73h-42z" fill="#D59A52" stroke="#E8E0CF" stroke-width="6" stroke-linejoin="round"/>
+<path d="M58 236h176" stroke="#343A3C" stroke-width="10"/>
+<path d="M82 278h128" stroke="#C8B58D" stroke-width="7" stroke-linecap="round"/>
+</g>
+<text x="49" y="430" fill="#C8B58D" font-size="18" font-family="sans-serif">oversized removable power pack · keyed socket silhouette</text>
+<text x="49" y="458" fill="#AFA488" font-size="16" font-family="sans-serif">fictional format · no real brand or battery standard</text>
+</svg>
