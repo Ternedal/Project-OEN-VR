@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "status": "technical-shortlist-not-listening-approved",
+  "owner": "ChatGPT",
+  "receipt": "content/audio/acquisition_extension_receipt.source.json",
+  "members": [
+    {"archiveTarget":"SFX_WOOD_PACK_ALT","path":"floor_creak1.wav","sha256":"8b0ec4c1e4b91096e859c6030330b8663b6f893c294161466c94d9234c8f96d1","codec":"pcm_s16le","sampleRateHz":48000,"channels":1,"durationSeconds":1.786625,"candidateUse":["wood stress","shelter creak"]},
+    {"archiveTarget":"SFX_WOOD_PACK_ALT","path":"floor_creak2.wav","sha256":"2bc23c58294516521cca1eab608ba794e55822c8eb2ddbf61f3743fcb1ce5c6c","codec":"pcm_s16le","sampleRateHz":48000,"channels":1,"durationSeconds":1.985146,"candidateUse":["wood stress","shelter creak"]},
+    {"archiveTarget":"SFX_WOOD_PACK_ALT","path":"floor_creak3.wav","sha256":"fb83e33147cc536095c0d25937eb1195bf1ba66c819ea313b03b0a4f92198e79","codec":"pcm_s16le","sampleRateHz":48000,"channels":1,"durationSeconds":2.61125,"candidateUse":["wood stress","shelter creak"]},
+    {"archiveTarget":"SFX_WOOD_PACK_ALT","path":"door_creak_open.wav","sha256":"67ec6952f3de32852ea5a188e6118546107e4d2ca15b3fd4cab64d8993877227","codec":"pcm_s16le","sampleRateHz":48000,"channels":1,"durationSeconds":1.545188,"candidateUse":["alternate timber creak"],"qaFlags":["door-character-risk"]},
+    {"archiveTarget":"SFX_WOOD_PACK_ALT","path":"door_creak_close.wav","sha256":"36126c2da6294c0d18e0a3b20893e0803cbaa182b33eff9224ee6a60faaaf867","codec":"pcm_s16le","sampleRateHz":48000,"channels":1,"durationSeconds":1.566063,"candidateUse":["alternate timber creak"],"qaFlags":["door-character-risk"]},
+    {"archiveTarget":"SFX_CLOTH_PACK_ALT","path":"OGG/cloth1.ogg","sha256":"ddb93a3671233f95da0e0b10367f082f7eb42fa6caaddcf776410aa8833c747d","codec":"vorbis","sampleRateHz":48000,"channels":2,"durationSeconds":0.661042,"candidateUse":["cloth handling","tarp micro-gesture"]},
+    {"archiveTarget":"SFX_CLOTH_PACK_ALT","path":"OGG/cloth2.ogg","sha256":"8a7451193c38bc05483aec25dd193e163a15d44cf7fff04ac7912573231b0201","codec":"vorbis","sampleRateHz":48000,"channels":2,"durationSeconds":0.415063,"candidateUse":["cloth handling","tarp micro-gesture"]},
+    {"archiveTarget":"SFX_CLOTH_PACK_ALT","path":"OGG/cloth3.ogg","sha256":"a48632d17a4f1416541d261a32a31612e01267144c407fa3ecab3ff410f0085b","codec":"vorbis","sampleRateHz":48000,"channels":2,"durationSeconds":0.476563,"candidateUse":["cloth handling","tarp micro-gesture"]},
+    {"archiveTarget":"SFX_CLOTH_PACK_ALT","path":"OGG/cloth4.ogg","sha256":"e7ab9a6c4466dea874196c61f59bf1da05cfe58748f42fadd695d441a154a99b","codec":"vorbis","sampleRateHz":48000,"channels":2,"durationSeconds":0.384333,"candidateUse":["cloth handling","tarp micro-gesture"]},
+    {"archiveTarget":"SFX_CLOTH_PACK_ALT","path":"OGG/clothBelt.ogg","sha256":"f29560a2aea95bbfeb643e1e8f56ec2b6f7e32f32ce4e140645a36db81de3253","codec":"vorbis","sampleRateHz":48000,"channels":2,"durationSeconds":0.722521,"candidateUse":["cloth tension","strap handling"]},
+    {"archiveTarget":"SFX_CLOTH_PACK_ALT","path":"OGG/clothBelt2.ogg","sha256":"d545b1d9f20e6188140aaf551a96f1e82fe0d15f7ca066fac8b065e1231e0038","codec":"vorbis","sampleRateHz":48000,"channels":2,"durationSeconds":0.753292,"candidateUse":["cloth tension","strap handling"]},
+    {"archiveTarget":"SFX_CLOTH_PACK_ALT","path":"OGG/creak1.ogg","sha256":"8a346186fd297254248cab8e8117060a52a5cf2a84f603153a762108550ea95e","codec":"vorbis","sampleRateHz":48000,"channels":2,"durationSeconds":0.661042,"candidateUse":["secondary creak comparison"]},
+    {"archiveTarget":"SFX_CLOTH_PACK_ALT","path":"OGG/creak2.ogg","sha256":"8a990afdc03aebb91d528f5385e2f95582dbfa8e2c12c71098ab01be9142294a","codec":"vorbis","sampleRateHz":48000,"channels":2,"durationSeconds":0.830146,"candidateUse":["secondary creak comparison"]},
+    {"archiveTarget":"SFX_CLOTH_PACK_ALT","path":"OGG/creak3.ogg","sha256":"f9638787f95004b9d2d06f8eff8e99d4e594c21b51947daf562856fbcec905d1","codec":"vorbis","sampleRateHz":48000,"channels":2,"durationSeconds":0.338208,"candidateUse":["secondary creak comparison"]}
+  ],
+  "selectionRules": [
+    "Technical shortlist does not equal creative approval.",
+    "Prefer naturalistic source fit over filename semantics.",
+    "Reject obvious door/floor identity when it reads incorrectly for shelter timber.",
+    "Reject short game-SFX cloth if it reads synthetic or too small for tarp material.",
+    "Do not transcode lossy Vorbis members repeatedly; preserve extracted originals and make at most one derived PCM master if selected.",
+    "Final source selection requires human listening before cue production status changes."
+  ]
+}
