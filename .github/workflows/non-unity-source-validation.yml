@@ -9,6 +9,7 @@ on:
       - 'docs/38_SOURCE_ASSET_MANIFEST.md'
       - 'docs/39_AUDIO_CUE_MANIFEST.md'
       - 'tools/validate_non_unity_sources.py'
+      - 'tools/validate_planning_status_ui.py'
       - '.github/workflows/non-unity-source-validation.yml'
   pull_request:
     paths:
@@ -17,6 +18,7 @@ on:
       - 'docs/38_SOURCE_ASSET_MANIFEST.md'
       - 'docs/39_AUDIO_CUE_MANIFEST.md'
       - 'tools/validate_non_unity_sources.py'
+      - 'tools/validate_planning_status_ui.py'
       - '.github/workflows/non-unity-source-validation.yml'
 
 permissions:
@@ -34,3 +36,5 @@ jobs:
           python-version: '3.12'
       - name: Validate non-Unity source contracts
         run: python tools/validate_non_unity_sources.py
+      - name: Validate planning/status UI links
+        run: python tools/validate_planning_status_ui.py

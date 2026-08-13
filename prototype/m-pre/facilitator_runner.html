@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PROJECT ØEN — M-Pre facilitator</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; }
+    body { margin: 0; background: #171a1b; color: #eee8da; }
+    main { max-width: 1120px; margin: 0 auto; padding: 24px; }
+    h1,h2,h3 { margin-top: 0; }
+    h2 { margin-top: 28px; border-top: 1px solid #3a4143; padding-top: 22px; }
+    .notice { border: 1px solid #b68b4e; background: #2b251c; padding: 14px; border-radius: 10px; }
+    .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); }
+    .card { background: #232829; border: 1px solid #3a4143; border-radius: 12px; padding: 16px; }
+    label { display: block; margin: 10px 0 4px; color: #c9bea9; }
+    input, textarea, select, button { font: inherit; }
+    input, textarea, select { width: 100%; box-sizing: border-box; background: #151819; color: #f2ebdc; border: 1px solid #596164; border-radius: 7px; padding: 9px; }
+    input[type=checkbox] { width: auto; }
+    textarea { min-height: 84px; resize: vertical; }
+    button { border: 0; border-radius: 8px; padding: 10px 14px; background: #d0ad73; color: #171a1b; font-weight: 700; cursor: pointer; }
+    button.secondary { background: #424a4d; color: #f2ebdc; }
+    button.danger { background: #a7594d; color: white; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .timer { font-variant-numeric: tabular-nums; font-size: 30px; font-weight: 800; margin: 8px 0 12px; }
+    .task strong { display:block; font-size:18px; margin-bottom:6px; }
+    .muted { color:#a9a190; }
+    .ok { color:#9fca91; }
+    .bad { color:#e28c7e; }
+    .hidden { display:none; }
+    pre { white-space: pre-wrap; background:#111415; padding:12px; border-radius:8px; overflow:auto; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>M-Pre facilitator — PROJECT ØEN</h1>
+  <div class="notice">
+    <strong>Dette værktøj skaber ikke evidens.</strong> Det hjælper kun med at registrere en faktisk menneskelig session efter den accepterede M-Pre-protokol. Ingen data uploades; alt kører lokalt i browseren.
+  </div>
+
+  <h2>Session</h2>
+  <div class="grid">
+    <div class="card">
+      <label for="sessionId">Anonymt session-ID</label>
+      <input id="sessionId" placeholder="fx S01">
+      <label for="pairId">Anonymt par-ID</label>
+      <input id="pairId" placeholder="fx P01">
+      <label><input id="humanSession" type="checkbox" checked> Faktisk menneskelig session</label>
+      <label><input id="giftRecipient" type="checkbox"> Gavemodtageren blev brugt</label>
+    </div>
+    <div class="card">
+      <h3>Intro — læs højt</h3>
+      <p>I er strandet på en ø og har tre dage til at forberede jer på en storm. I har fire indsatsmarkører hver dag, men seks mulige opgaver.</p>
+      <p>Alle fire statusspor betyder noget. I får ikke at vide præcis hvordan stormen afgøres på forhånd. Der er ikke én spiller, der bestemmer; I skal blive enige hver dag.</p>
+      <p class="muted">Brug FACILITATOR_SCRIPT.md som ordret source of truth ved tvivl.</p>
+    </div>
+  </div>
+
+  <h2>Opgavekort</h2>
+  <div class="grid">
+    <div class="card task"><strong>Skaf mad · 1</strong>Succes: Mad +2<br>Fiasko: Helbred −1</div>
+    <div class="card task"><strong>Forstærk ly · 2</strong>Succes: Ly +3<br>Fiasko: Ly +1</div>
+    <div class="card task"><strong>Hold bål · 1</strong>Succes: Helbred +1, Signal +1<br>Fiasko: Helbred −1</div>
+    <div class="card task"><strong>Byg signalbål · 3</strong>Succes: Signal +4<br>Fiasko: Signal +1</div>
+    <div class="card task"><strong>Behandl skade · 1</strong>Succes: Helbred +2<br>Fiasko: +0</div>
+    <div class="card task"><strong>Udforsk kysten · 2</strong>Succes: valgfrit spor +2<br>Fiasko: Helbred −2</div>
+  </div>
+  <p class="muted">Normal: 1–2 fiasko, 3–6 succes. Én ekstra markør: 1 fiasko, 2–6 succes. Kun fire markører pr. dag.</p>
+
+  <h2>Tre dage</h2>
+  <div id="days" class="grid"></div>
+
+  <h2>Status efter dag 3</h2>
+  <div class="grid">
+    <div class="card"><label>Mad</label><input id="food" type="number" value="2"></div>
+    <div class="card"><label>Ly</label><input id="shelter" type="number" value="2"></div>
+    <div class="card"><label>Helbred</label><input id="health" type="number" value="2"></div>
+    <div class="card"><label>Signal</label><input id="signal" type="number" value="2"></div>
+  </div>
+  <div class="row" style="margin-top:12px">
+    <button id="revealStorm" class="secondary">Afslør stormkrav efter dag 3</button>
+  </div>
+  <div id="stormBox" class="card hidden" style="margin-top:12px">
+    <strong>Stormkrav:</strong> Ly ≥ 6 · Helbred ≥ 4 · Signal ≥ 5. Alle tre skal være opfyldt.
+    <div id="stormResult" style="margin-top:8px"></div>
+  </div>
+
+  <h2>Debrief og gate-observation</h2>
+  <div class="grid">
+    <div class="card">
+      <label for="regret">Nævnte spillerne et valg, de ville ændre?</label>
+      <select id="regret"><option value="false">Nej</option><option value="true">Ja</option></select>
+      <label for="administration">Observeret administration?</label>
+      <select id="administration"><option value="false">Nej</option><option value="true">Ja</option></select>
+      <p class="muted">Administration = primært “hvad skal jeg gøre?” / arbejdsfordeling uden reel fælles prioritering.</p>
+    </div>
+    <div class="card">
+      <label for="debrief">Kvalitative noter</label>
+      <textarea id="debrief" placeholder="Argumenter, overraskelser, fairness/rolleobservationer. Undgå personnavne."></textarea>
+    </div>
+  </div>
+
+  <h2>Eksport</h2>
+  <div class="card">
+    <div id="quality"></div>
+    <div class="row" style="margin-top:12px">
+      <button id="saveSession">Gem session i lokal batch</button>
+      <button id="exportCsv" class="secondary">Eksportér batch CSV</button>
+      <button id="exportNotes" class="secondary">Eksportér noter JSON</button>
+      <button id="clearBatch" class="danger">Ryd lokal batch</button>
+    </div>
+    <p class="muted">CSV’en er kompatibel med <code>python tools/evaluate_mpre.py &lt;fil.csv&gt;</code>. Den autoritative evaluator — ikke denne side — afgør den samlede M-Pre-gate.</p>
+    <pre id="batchStatus"></pre>
+  </div>
+</main>
+<script>
+const FIELDS = ['session_id','pair_id','day1_seconds','day2_seconds','day3_seconds','disagreement_days','administration_observed','changed_mind_count','regret_after_storm','human_session','gift_recipient_used'];
+const timers = [];
+const days = document.getElementById('days');
+
+function makeDay(day) {
+  const el = document.createElement('section'); el.className = 'card';
+  el.innerHTML = `<h3>Dag ${day}</h3>
+    <div class="timer" id="timer${day}">00:00</div>
+    <div class="row"><button id="start${day}">Start</button><button id="stop${day}" class="secondary">Stop</button></div>
+    <label>Forhandlingstid, sekunder</label><input id="seconds${day}" type="number" min="0" value="0">
+    <label><input id="disagree${day}" type="checkbox"> Uenige om fordelingen</label>
+    <label>Meningsskift efter argument</label><input id="changed${day}" type="number" min="0" value="0">
+    <label>Første forslag A</label><input id="proposalA${day}">
+    <label>Første forslag B</label><input id="proposalB${day}">
+    <label>Observationer</label><textarea id="notes${day}" placeholder="Notér adfærd/argumenter, ikke fortolkning."></textarea>`;
+  days.appendChild(el);
+  let started = null, interval = null;
+  const render = () => {
+    const sec = started ? Math.max(0, Math.round((Date.now() - started)/1000)) : Number(document.getElementById(`seconds${day}`).value || 0);
+    document.getElementById(`timer${day}`).textContent = `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;
+    if (started) document.getElementById(`seconds${day}`).value = sec;
+  };
+  document.getElementById(`start${day}`).onclick = () => { if (!started) { started = Date.now() - Number(document.getElementById(`seconds${day}`).value || 0)*1000; interval = setInterval(render,250); render(); }};
+  document.getElementById(`stop${day}`).onclick = () => { if (started) { render(); started = null; clearInterval(interval); interval = null; }};
+  timers.push(() => { if (started) document.getElementById(`stop${day}`).click(); });
+}
+[1,2,3].forEach(makeDay);
+
+function median(values) { const a=[...values].sort((x,y)=>x-y); return a[1]; }
+function currentSession() {
+  const seconds=[1,2,3].map(d=>Number(document.getElementById(`seconds${d}`).value || 0));
+  const disagreement=[1,2,3].filter(d=>document.getElementById(`disagree${d}`).checked).length;
+  const changed=[1,2,3].reduce((sum,d)=>sum+Number(document.getElementById(`changed${d}`).value || 0),0);
+  return {
+    session_id: document.getElementById('sessionId').value.trim(),
+    pair_id: document.getElementById('pairId').value.trim(),
+    day1_seconds: seconds[0], day2_seconds: seconds[1], day3_seconds: seconds[2],
+    disagreement_days: disagreement,
+    administration_observed: document.getElementById('administration').value,
+    changed_mind_count: changed,
+    regret_after_storm: document.getElementById('regret').value,
+    human_session: String(document.getElementById('humanSession').checked),
+    gift_recipient_used: String(document.getElementById('giftRecipient').checked),
+    median_seconds: median(seconds)
+  };
+}
+function notesObject() {
+  const session=currentSession();
+  return {session_id:session.session_id,pair_id:session.pair_id,days:[1,2,3].map(d=>({day:d,proposal_a:document.getElementById(`proposalA${d}`).value,proposal_b:document.getElementById(`proposalB${d}`).value,observations:document.getElementById(`notes${d}`).value})),debrief:document.getElementById('debrief').value,status_after_day3:{food:Number(food.value),shelter:Number(shelter.value),health:Number(health.value),signal:Number(signal.value)}};
+}
+function validateSession(s) {
+  const errors=[];
+  if(!s.session_id) errors.push('session-ID mangler');
+  if(!s.pair_id) errors.push('par-ID mangler');
+  if(s.human_session!=='true') errors.push('sessionen er ikke markeret som menneskelig');
+  if(s.gift_recipient_used==='true') errors.push('gavemodtageren må ikke bruges');
+  if([s.day1_seconds,s.day2_seconds,s.day3_seconds].some(v=>!Number.isFinite(v)||v<0)) errors.push('ugyldig forhandlingstid');
+  return errors;
+}
+function readBatch(){ try{return JSON.parse(localStorage.getItem('mpreBatch')||'[]')}catch{return []} }
+function writeBatch(batch){ localStorage.setItem('mpreBatch',JSON.stringify(batch)); renderBatch(); }
+function renderBatch(){ const batch=readBatch(); batchStatus.textContent = batch.length ? batch.map(s=>`${s.session_id} · ${s.pair_id} · median ${s.median_seconds}s · uenige dage ${s.disagreement_days}`).join('\n') : 'Lokal batch er tom.'; }
+function download(name,text,type){ const blob=new Blob([text],{type}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); }
+function csvEscape(value){ const s=String(value??''); return /[",\n]/.test(s)?`"${s.replaceAll('"','""')}"`:s; }
+
+saveSession.onclick=()=>{ timers.forEach(stop=>stop()); const s=currentSession(); const errors=validateSession(s); quality.innerHTML=errors.length?`<span class="bad">Kan ikke gemme: ${errors.join(' · ')}</span>`:`<span class="ok">Sessiondata ser strukturelt gyldige ud. Median: ${s.median_seconds}s.</span>`; if(errors.length)return; const batch=readBatch().filter(x=>x.session_id!==s.session_id); batch.push(s); writeBatch(batch); };
+exportCsv.onclick=()=>{ const batch=readBatch(); if(!batch.length)return; const rows=[FIELDS.join(','),...batch.map(s=>FIELDS.map(k=>csvEscape(s[k])).join(','))]; download('mpre_sessions.csv',rows.join('\n')+'\n','text/csv;charset=utf-8'); };
+exportNotes.onclick=()=>download(`mpre_notes_${currentSession().session_id||'session'}.json`,JSON.stringify(notesObject(),null,2)+'\n','application/json');
+clearBatch.onclick=()=>{ if(confirm('Ryd den lokale M-Pre batch i denne browser?')) writeBatch([]); };
+revealStorm.onclick=()=>{ stormBox.classList.remove('hidden'); const ok=Number(shelter.value)>=6 && Number(health.value)>=4 && Number(signal.value)>=5; stormResult.textContent=ok?'Stormkrav opfyldt: reddet.':'Ikke alle stormkrav er opfyldt.'; stormResult.className=ok?'ok':'bad'; };
+renderBatch();
+</script>
+</body>
+</html>

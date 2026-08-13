@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 from evaluate_mpre import evaluate
+from test_mpre_facilitator_runner import MPreFacilitatorRunnerTests  # noqa: F401
 
 HEADER = "session_id,pair_id,day1_seconds,day2_seconds,day3_seconds,disagreement_days,administration_observed,changed_mind_count,regret_after_storm,human_session,gift_recipient_used\n"
 
