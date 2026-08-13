@@ -6,8 +6,11 @@ on:
     paths:
       - '.github/workflows/acquire-audio-originals.yml'
       - 'tools/acquire_audio_sources.py'
+      - 'tools/validate_audio_extension_acquisition.py'
       - 'content/audio/acquisition_candidates.source.json'
       - 'content/audio/acquisition_candidates.direct_extension.source.json'
+      - 'content/audio/acquisition_extension_receipt.source.json'
+      - 'content/audio/acquisition_extension_member_shortlist.source.json'
 
 permissions:
   contents: read
@@ -44,6 +47,11 @@ jobs:
           --candidate-source content/audio/acquisition_candidates.direct_extension.source.json
           --all-direct --timeout 120
           --output PrivateContent/AudioSourceExtension
+
+      - name: Verify pinned extension source integrity
+        run: >-
+          python tools/validate_audio_extension_acquisition.py
+          --root PrivateContent/AudioSourceExtension
 
       - name: Show acquisition manifests
         run: |
