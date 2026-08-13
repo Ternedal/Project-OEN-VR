@@ -22,6 +22,8 @@ on:
       - 'tools/validate_public_domain_candidate_audit.py'
       - 'tools/validate_field_source_acquisition_plan.py'
       - 'tools/validate_audio_unity_editor_contract.py'
+      - 'tools/validate_audio_premerge_tooling.py'
+      - 'tools/import_audio_unity_premerge_evidence.py'
       - 'tools/report_audio_first_playable_readiness.py'
       - 'tools/report_audio_merge_readiness.py'
       - 'tools/generate_authored_audio_pack.py'
@@ -58,6 +60,8 @@ on:
       - 'tools/validate_public_domain_candidate_audit.py'
       - 'tools/validate_field_source_acquisition_plan.py'
       - 'tools/validate_audio_unity_editor_contract.py'
+      - 'tools/validate_audio_premerge_tooling.py'
+      - 'tools/import_audio_unity_premerge_evidence.py'
       - 'tools/report_audio_first_playable_readiness.py'
       - 'tools/report_audio_merge_readiness.py'
       - 'tools/generate_authored_audio_pack.py'
@@ -103,6 +107,10 @@ jobs:
         run: python tools/validate_field_source_acquisition_plan.py
       - name: Validate Unity Editor serialized-field contract
         run: python tools/validate_audio_unity_editor_contract.py
+      - name: Validate audio premerge evidence tooling
+        run: python tools/validate_audio_premerge_tooling.py
+      - name: Self-test Unity premerge evidence importer
+        run: python tools/import_audio_unity_premerge_evidence.py --self-test
       - name: Report first-playable audio readiness
         run: |
           python tools/report_audio_first_playable_readiness.py \
