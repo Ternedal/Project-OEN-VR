@@ -14,7 +14,7 @@
     {"id":"B1_WORLD_ITEMS","status":"partial-produced","path":"source_art/items/b1","format":"SVG","producedIds":["ITM_WOOD_BUNDLE_001","ITM_FIBER_BUNDLE_001","ITM_HERB_BUNDLE_001","ITM_FOOD_PARCEL_001","ITM_GENERAL_SUPPLIES_001"],"next":"remaining scenario items and runtime handoff"},
     {"id":"B2_EVENT_PRESENTATION","status":"produced-and-mapped","path":"source_art/events/b2","format":"SVG","next":"Claude binds machine-readable event presentation contract"},
     {"id":"A5_PROP_MESHES","status":"partial-source-meshes-produced","path":"source_art/props/a5","format":"OBJ","producedIds":["PRP_WIND_SHIELD_001","PRP_DRY_FUEL_CACHE_001","PRP_SIGNAL_FUEL_001"],"next":"Unity import remains Claude; source mesh QA/provenance exists"},
-    {"id":"A5_ITEMS","status":"partial-produced","path":"source_art/items/a5","format":"SVG","producedIds":["ITM_CLOTH_001","ITM_MAP_FRAGMENT_001"],"next":"radio battery and other unproduced items"},
+    {"id":"A5_ITEMS","status":"produced-source-set","path":"source_art/items/a5","format":"SVG","producedIds":["ITM_CLOTH_001","ITM_MAP_FRAGMENT_001","ITM_RADIO_BATTERY_001"],"next":"Claude Unity import/socket/readability QA"},
     {"id":"A5_RELEASE_UI","status":"partial-produced","path":"source_art/ui/a5","format":"SVG","producedIds":["UI_RECONNECT_PANEL_001","UI_JOIN_CODE_PANEL_001"],"next":"Unity layout/binding/device QA"},
     {"id":"AU1_SYNTH_FEEDBACK","status":"generator-ready-ci-validated","path":"source_audio/au1","format":"Python->WAV","next":"Claude runtime mix/binding"},
     {"id":"AU2_FOLEY","status":"recording-queue-ready","path":"content/audio/foley_recording_queue.source.json","format":"48kHz-24bit-mono-WAV-target","next":"record/edit/master natural Foley sources"},
