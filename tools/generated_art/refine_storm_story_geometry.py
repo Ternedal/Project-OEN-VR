@@ -131,8 +131,9 @@ def enhance_slack_boundary(mesh: Mesh) -> None:
 def enhance_taut_boundary(mesh: Mesh) -> None:
     add_boundary_lashings(mesh)
     # Braces and a second loaded strand make the tension state read as deliberate reinforcement.
-    add_post_brace(mesh, (-0.98, 0.02, 0.24), (-0.70, 0.56, 0.0), 0.023)
-    add_post_brace(mesh, ( 0.98, 0.02, -0.24), (0.70, 0.56, 0.0), 0.023)
+    # Keep the brace feet inside the 0.60 m per-axis physical-growth QA envelope.
+    add_post_brace(mesh, (-0.94, 0.02, 0.24), (-0.70, 0.56, 0.0), 0.023)
+    add_post_brace(mesh, ( 0.94, 0.02, -0.24), (0.70, 0.56, 0.0), 0.023)
 
     points = [(-0.70, 0.585, 0.030), (-0.35, 0.580, 0.028), (0.0, 0.575, 0.030),
               (0.35, 0.580, 0.028), (0.70, 0.585, 0.030)]
