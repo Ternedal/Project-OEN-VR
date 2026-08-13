@@ -16,12 +16,13 @@ namespace ProjectOen.Art.Editor
     /// - triangles: warning > 500k, hard fail > 750k;
     /// - draw calls: target < 100, hard fail proxy > 130;
     /// - realtime shadow lights: max 1;
-    /// - active particle systems/effects: max 10.
+    /// - active particle systems/effects: max 10;
+    /// - legacy Animation components: max 12 (9 wind + distant lightning + headroom).
     ///
     /// The Stormnatten art scene must also contain exactly one event-driven
     /// ProductionArtWetnessDriver at the authored storm wetness range plus the
-    /// bounded motion-FX layer: one wind-debris system, one camp-splash system
-    /// and one animated non-shadowing distant-lightning object.
+    /// bounded motion-FX layer and nine renderer-culled wind-responsive dressing
+    /// objects. This keeps the scene alive without per-object Update() scripts.
     ///
     /// Renderer material-slot count is used as a conservative draw-call proxy in
     /// this editor audit. Device profiling remains authoritative for final draw calls.
@@ -35,8 +36,22 @@ namespace ProjectOen.Art.Editor
         private const int DrawCallProxyHardLimit = 130;
         private const int ShadowCasterHardLimit = 1;
         private const int ParticleSystemHardLimit = 10;
+        private const int AnimationComponentHardLimit = 12;
         private const float StormWetnessMin = 0.74f;
         private const float StormWetnessMax = 0.82f;
+
+        private static readonly string[] WindResponseTargets =
+        {
+            "Loose Storm Cloth",
+            "Rain Catcher Cloth",
+            "Signal Cloth",
+            "Signal Spare Ropes",
+            "Palm Mature A",
+            "Palm Mature B",
+            "Palm Frond Clutter A",
+            "Palm Frond Clutter B",
+            "Vines",
+        };
 
         [MenuItem("Project OEN/Art/Audit Stormnatten Showcase Budget")]
         public static void AuditShowcase()
@@ -51,6 +66,7 @@ namespace ProjectOen.Art.Editor
             Renderer[] renderers = UnityEngine.Object.FindObjectsOfType<Renderer>(true);
             Light[] lights = UnityEngine.Object.FindObjectsOfType<Light>(true);
             ParticleSystem[] particleSystems = UnityEngine.Object.FindObjectsOfType<ParticleSystem>(true);
+            Animation[] animations = UnityEngine.Object.FindObjectsOfType<Animation>(true);
             Collider[] colliders = UnityEngine.Object.FindObjectsOfType<Collider>(true);
             ProductionArtWetnessDriver[] wetnessDrivers = UnityEngine.Object.FindObjectsOfType<ProductionArtWetnessDriver>(true);
 
@@ -62,6 +78,20 @@ namespace ProjectOen.Art.Editor
             Animation lightningAnimation = lightningGo == null ? null : lightningGo.GetComponent<Animation>();
             Light lightningLight = lightningGo == null ? null : lightningGo.GetComponent<Light>();
             SpriteRenderer lightningSprite = lightningGo == null ? null : lightningGo.GetComponentInChildren<SpriteRenderer>(true);
+
+            var windResponse = WindResponseTargets
+                .Select(name => new
+                {
+                    Name = name,
+                    Target = GameObject.Find(name),
+                })
+                .Select(x => new
+                {
+                    x.Name,
+                    Animation = x.Target == null ? null : x.Target.GetComponent<Animation>(),
+                })
+                .ToArray();
+            int readyWindAnimations = windResponse.Count(x => x.Animation != null && x.Animation.clip != null);
 
             long triangles = 0;
             foreach (MeshFilter filter in meshFilters)
@@ -94,6 +124,8 @@ namespace ProjectOen.Art.Editor
                       " shadowCasters=" + shadowCasters + " hard<=" + ShadowCasterHardLimit);
             Debug.Log("[ProjectOEN.Art.Budget] particleSystems=" + activeParticles +
                       " hard<=" + ParticleSystemHardLimit + " colliders=" + colliders.Length);
+            Debug.Log("[ProjectOEN.Art.Budget] animations=" + animations.Length +
+                      " hard<=" + AnimationComponentHardLimit + " windReady=" + readyWindAnimations + "/" + WindResponseTargets.Length);
             Debug.Log("[ProjectOEN.Art.Budget] wetnessDrivers=" + wetnessDrivers.Length +
                       (wetnessDrivers.Length == 1 ? " wetness=" + wetnessDrivers[0].Wetness.ToString("0.00") : string.Empty));
             Debug.Log("[ProjectOEN.Art.Budget] stormMotionFx=" +
@@ -115,6 +147,8 @@ namespace ProjectOen.Art.Editor
                 hardFailures.Add("shadow-casting realtime lights " + shadowCasters + " > " + ShadowCasterHardLimit);
             if (activeParticles > ParticleSystemHardLimit)
                 hardFailures.Add("active particle systems " + activeParticles + " > " + ParticleSystemHardLimit);
+            if (animations.Length > AnimationComponentHardLimit)
+                hardFailures.Add("legacy Animation components " + animations.Length + " > " + AnimationComponentHardLimit);
             if (wetnessDrivers.Length != 1)
                 hardFailures.Add("wetness drivers " + wetnessDrivers.Length + " != 1");
             else if (wetnessDrivers[0].Wetness < StormWetnessMin || wetnessDrivers[0].Wetness > StormWetnessMax)
@@ -140,10 +174,25 @@ namespace ProjectOen.Art.Editor
             else if (lightningLight.shadows != LightShadows.None)
                 hardFailures.Add("Distant Storm Lightning must not cast shadows");
 
+            foreach (var response in windResponse)
+            {
+                if (response.Animation == null || response.Animation.clip == null)
+                {
+                    hardFailures.Add("wind response missing on " + response.Name);
+                    continue;
+                }
+                if (!response.Animation.clip.legacy)
+                    hardFailures.Add("wind clip must stay legacy on " + response.Name);
+                if (response.Animation.clip.wrapMode != WrapMode.Loop)
+                    hardFailures.Add("wind clip must loop on " + response.Name);
+                if (response.Animation.cullingType != AnimationCullingType.BasedOnRenderers)
+                    hardFailures.Add("wind animation must use renderer culling on " + response.Name);
+            }
+
             if (hardFailures.Count > 0)
                 throw new InvalidOperationException("Quest 2 showcase budget hard gate failed: " + string.Join("; ", hardFailures));
 
-            Debug.Log("[ProjectOEN.Art.Budget] PASS: showcase stays inside repository Quest 2 hard limits with centralized wet surfaces and bounded storm motion FX. Device profiling still required for authoritative frame timing/draw calls.");
+            Debug.Log("[ProjectOEN.Art.Budget] PASS: showcase stays inside repository Quest 2 hard limits with centralized wet surfaces, bounded storm motion FX and nine renderer-culled wind-responsive dressing objects. Device profiling still required for authoritative frame timing/draw calls.");
         }
     }
 }
