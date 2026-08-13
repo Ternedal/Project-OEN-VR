@@ -4,10 +4,10 @@
   This is deliberately separate from Bootstrap-M0b.ps1. It does not recreate the
   Unity project, touch Packages/, configure XR, import Fusion, or build the M0b APK.
   It syncs production art + lightweight runtime state controllers, rebuilds world
-  prefabs, dry/mid/storm material calibration, state catalogs, decals, VFX and UI,
-  runs isolated material/VFX/physical-UI audits, then the Stormnatten showcase with
-  rain, wetness, bounded motion FX, renderer-culled wind-responsive dressing and
-  the Quest 2 art audit.
+  prefabs, canonical damaged/wet state appearance, dry/mid/storm material calibration,
+  state catalogs, decals, VFX and UI, runs isolated material/VFX/physical-UI audits,
+  then the Stormnatten showcase with rain, wetness, bounded motion FX,
+  renderer-culled wind-responsive dressing and the Quest 2 art audit.
 #>
 
 param(
@@ -48,6 +48,8 @@ Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Runtime\*.cs") $artRuntimeD
 New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
 foreach ($builder in @(
     "ProductionArtPrefabBuilder.cs",
+    "ProductionArtStateAppearanceBuilder.cs",
+    "ProductionArtStateAppearanceAudit.cs",
     "ProductionArtMaterialCalibrationBuilder.cs",
     "ProductionArtMaterialCalibrationAudit.cs",
     "ProductionArtStateCatalogBuilder.cs",
@@ -67,7 +69,7 @@ foreach ($builder in @(
 )) {
     Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
 }
-Note "Art + runtime state controllers + material/world/state/decal/VFX/UI/showcase builders er synkroniseret til $ProjectPath"
+Note "Art + runtime state controllers + state appearance + material/world/state/decal/VFX/UI/showcase builders er synkroniseret til $ProjectPath"
 
 function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
     Step $Label
@@ -93,6 +95,14 @@ function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
 Run-UnityArtStep "Bygger production-art prefabs" `
     "ProjectOen.Art.Editor.ProductionArtPrefabBuilder.BuildAll" `
     "review-art-prefabs.log"
+
+Run-UnityArtStep "Profilerer canonical damaged/wet states" `
+    "ProjectOen.Art.Editor.ProductionArtStateAppearanceBuilder.BuildAll" `
+    "review-art-state-appearance.log"
+
+Run-UnityArtStep "Auditerer state-specifik storm appearance" `
+    "ProjectOen.Art.Editor.ProductionArtStateAppearanceAudit.AuditAll" `
+    "review-art-state-appearance-audit.log"
 
 Run-UnityArtStep "Bygger dry/mid/storm materialekalibrering" `
     "ProjectOen.Art.Editor.ProductionArtMaterialCalibrationBuilder.BuildShowcase" `
@@ -155,7 +165,7 @@ Run-UnityArtStep "Auditerer showcase mod Quest 2-budget" `
     "review-art-budget.log"
 
 Step "Resultat"
-Write-Host "Production-art review er bygget; material/world assets, runtime state catalogs, decals, VFX og UI er wired; dry/mid/storm materialekalibrering samt VFX/UI/Stormnatten audits bestod; Stormnatten har regn, vaadhed, vind/splash/lyn og vindrespons paa dug/reb/vegetation." -ForegroundColor Green
+Write-Host "Production-art review er bygget; canonical damaged/wet states har state-specifik appearance; material/world assets, runtime state catalogs, decals, VFX og UI er wired; dry/mid/storm materialekalibrering samt state/material/VFX/UI/Stormnatten audits bestod; Stormnatten har regn, vaadhed, vind/splash/lyn og vindrespons paa dug/reb/vegetation." -ForegroundColor Green
 Write-Host "State catalogs: Assets\ProjectOEN\ProductionArt\StateSets" -ForegroundColor Green
 Write-Host "Material scene: Assets\ProjectOEN\ProductionArt\Scenes\MaterialCalibrationShowcase.unity" -ForegroundColor Green
 Write-Host "VFX scene: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
