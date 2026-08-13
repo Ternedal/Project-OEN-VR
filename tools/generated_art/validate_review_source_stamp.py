@@ -38,7 +38,7 @@ RUNBOOK_REQUIRED = (
     'sourceSha',
     'sourceWorktreeClean',
     'review-art-verification.json',
-    'debug fallback',
+    'Debug fallback',
 )
 
 GITIGNORE_REQUIRED = (
