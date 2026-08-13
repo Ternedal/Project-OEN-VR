@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#282C2D"/>
+  <text x="44" y="56" fill="#E8E0CF" font-size="32" font-family="sans-serif">PRP_SHELTER_TARP_001 — individual source master</text>
+  <text x="44" y="90" fill="#C8B58D" font-size="18" font-family="sans-serif">A-priority shelter state surface · dry/taut · wet/heavy sag · loose/flapping · torn silhouette · oversized tie points</text>
+
+  <g font-family="sans-serif">
+    <rect x="46" y="126" width="1108" height="474" rx="28" fill="#343A3C" stroke="#55717A" stroke-width="7"/>
+
+    <g transform="translate(72 160)">
+      <text x="0" y="0" fill="#E8E0CF" font-size="20">DRY / TAUT</text>
+      <rect x="0" y="20" width="245" height="360" rx="18" fill="#303638" stroke="#66745C" stroke-width="5"/>
+      <path d="M26 84 L218 70 L205 248 L38 258 Z" fill="#8C8872" stroke="#E8E0CF" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M38 98L205 87M46 132L202 122M50 167L200 158" stroke="#C8B58D" stroke-width="3" opacity=".45"/>
+      <g fill="#3E4544" stroke="#D59A52" stroke-width="5"><circle cx="26" cy="84" r="12"/><circle cx="218" cy="70" r="12"/><circle cx="205" cy="248" r="12"/><circle cx="38" cy="258" r="12"/></g>
+      <text x="22" y="304" fill="#C8B58D" font-size="14">broad stable plane</text>
+      <text x="22" y="328" fill="#C8B58D" font-size="14">corners under control</text>
+    </g>
+
+    <g transform="translate(344 160)">
+      <text x="0" y="0" fill="#E8E0CF" font-size="20">WET / HEAVY SAG</text>
+      <rect x="0" y="20" width="245" height="360" rx="18" fill="#303638" stroke="#55717A" stroke-width="5"/>
+      <path d="M26 84 Q118 148 218 70 L206 248 Q124 302 38 258 Z" fill="#596A70" stroke="#E8E0CF" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M51 111Q124 160 196 99M55 150Q128 194 191 142" stroke="#9EB1B7" stroke-width="4" opacity=".55"/>
+      <g fill="#3E4544" stroke="#D59A52" stroke-width="5"><circle cx="26" cy="84" r="12"/><circle cx="218" cy="70" r="12"/><circle cx="206" cy="248" r="12"/><circle cx="38" cy="258" r="12"/></g>
+      <text x="22" y="304" fill="#C8B58D" font-size="14">lower centerline / heavier drape</text>
+      <text x="22" y="328" fill="#C8B58D" font-size="14">state readable by shape + value</text>
+    </g>
+
+    <g transform="translate(616 160)">
+      <text x="0" y="0" fill="#E8E0CF" font-size="20">LOOSE / FLAPPING</text>
+      <rect x="0" y="20" width="245" height="360" rx="18" fill="#303638" stroke="#D59A52" stroke-width="5"/>
+      <path d="M26 84 C78 50 142 122 218 70 L194 208 C164 175 132 272 70 231 L38 258 Z" fill="#8C8872" stroke="#E8E0CF" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M186 106q26 14 2 34M176 148q30 16 1 36" fill="none" stroke="#D59A52" stroke-width="6" stroke-linecap="round"/>
+      <g fill="#3E4544" stroke="#D59A52" stroke-width="5"><circle cx="26" cy="84" r="12"/><circle cx="218" cy="70" r="12"/><circle cx="38" cy="258" r="12"/></g>
+      <circle cx="194" cy="208" r="12" fill="#3E4544" stroke="#A85E48" stroke-width="5"/>
+      <text x="22" y="304" fill="#C8B58D" font-size="14">one corner uncontrolled</text>
+      <text x="22" y="328" fill="#C8B58D" font-size="14">silhouette breaks from stable plane</text>
+    </g>
+
+    <g transform="translate(888 160)">
+      <text x="0" y="0" fill="#E8E0CF" font-size="20">TORN / WEAK</text>
+      <rect x="0" y="20" width="245" height="360" rx="18" fill="#303638" stroke="#A85E48" stroke-width="5"/>
+      <path d="M26 84 L218 70 L207 142 L180 134 L163 171 L142 155 L119 194 L97 173 L73 216 L40 198 L38 258 Z" fill="#726E5D" stroke="#E8E0CF" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M207 142l-17 42-21-13-20 39-22-15-18 34" fill="none" stroke="#A85E48" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <g fill="#3E4544" stroke="#D59A52" stroke-width="5"><circle cx="26" cy="84" r="12"/><circle cx="218" cy="70" r="12"/><circle cx="38" cy="258" r="12"/></g>
+      <text x="22" y="304" fill="#C8B58D" font-size="14">large missing edge / tear</text>
+      <text x="22" y="328" fill="#C8B58D" font-size="14">damage visible across camp</text>
+    </g>
+  </g>
+
+  <g font-family="sans-serif">
+    <rect x="46" y="620" width="1108" height="66" rx="16" fill="#343A3C" stroke="#66745C" stroke-width="4"/>
+    <text x="70" y="646" fill="#E8E0CF" font-size="16">SOURCE CONTRACT</text>
+    <text x="70" y="669" fill="#C8B58D" font-size="13">Concept span ~2–3 m. Reinforced tie points stay oversized/discoverable. State changes geometry/silhouette; color is supplementary only.</text>
+  </g>
+</svg>
