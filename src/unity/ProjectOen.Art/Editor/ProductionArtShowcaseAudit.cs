@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ProjectOen.Art.Runtime;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ProjectOen.Art.Editor
 {
@@ -23,9 +25,10 @@ namespace ProjectOen.Art.Editor
     /// The Stormnatten art scene must also contain exactly one event-driven
     /// ProductionArtWetnessDriver at the authored storm wetness range plus the
     /// bounded motion-FX layer, a two-billboard near/far lightning rig, nine
-    /// renderer-culled wind-responsive dressing objects and the canonical damaged/
-    /// wet storm-pressure prefab states for camp and signal landmarks. This keeps
-    /// the scene alive and narratively specific without per-object Update() scripts.
+    /// renderer-culled wind-responsive dressing objects, both deterministic
+    /// Stormnatten micro-story layers and the canonical damaged/wet storm-pressure
+    /// prefab states for camp and signal landmarks. This keeps the scene alive and
+    /// narratively specific without per-object Update() scripts.
     ///
     /// Renderer material-slot count is used as a conservative draw-call proxy in
     /// this editor audit. Device profiling remains authoritative for final draw calls.
@@ -44,6 +47,59 @@ namespace ProjectOen.Art.Editor
         private const float StormWetnessMax = 0.82f;
         private const string FarLightningName = "Far Lightning";
         private const string NearLightningName = "Near Lightning";
+
+        private const string CampStoryRootName = "Storm Camp Micro Story";
+        private const int CampStoryExpectedCount = 9;
+        private const int CampStoryTriangleHardLimit = 60000;
+        private const int CampStoryMaterialSlotHardLimit = 36;
+        private const float CampStoryMaxRadius = 3.10f;
+        private static readonly Vector2 CampStoryCenter = new Vector2(-1.00f, 0.75f);
+
+        private const string SignalStoryRootName = "Signal Finale Micro Story";
+        private const int SignalStoryExpectedCount = 8;
+        private const int SignalStoryTriangleHardLimit = 50000;
+        private const int SignalStoryMaterialSlotHardLimit = 32;
+        private const float SignalStoryMaxRadius = 2.45f;
+        private static readonly Vector2 SignalStoryCenter = new Vector2(5.40f, 5.80f);
+
+        private readonly struct StoryAuditSpec
+        {
+            public readonly string Name;
+            public readonly string Prefix;
+            public readonly string Token;
+
+            public StoryAuditSpec(string name, string prefix, string token)
+            {
+                Name = name;
+                Prefix = prefix;
+                Token = token;
+            }
+        }
+
+        private static readonly StoryAuditSpec[] CampStoryExpectations =
+        {
+            new StoryAuditSpec("Collapsed Shelter Crossbrace", "en-023_", "broken_shelter_parts"),
+            new StoryAuditSpec("Storm-Torn Shelter Debris", "en-023_", "broken_shelter_parts"),
+            new StoryAuditSpec("Shelter Guy Rope Under Load", "en-024_", "taut"),
+            new StoryAuditSpec("Shelter Rope Failure", "en-024_", "slack"),
+            new StoryAuditSpec("Snapped Wood Bundle", "pr-003_", "damaged"),
+            new StoryAuditSpec("Overturned Storage Crate", "en-018_", "crate"),
+            new StoryAuditSpec("Scattered Cooking Utensils", "en-017_", "utensils"),
+            new StoryAuditSpec("Camp Rope Washout", "en-004_", "small"),
+            new StoryAuditSpec("Shelter Foot Puddle", "en-011_", "small"),
+        };
+
+        private static readonly StoryAuditSpec[] SignalStoryExpectations =
+        {
+            new StoryAuditSpec("Collapsed Beacon Crossbrace", "pr-003_", "damaged"),
+            new StoryAuditSpec("Loaded Beacon Guy Rope", "en-024_", "taut"),
+            new StoryAuditSpec("Failed Beacon Guy Rope", "en-024_", "slack"),
+            new StoryAuditSpec("Scattered Signal Fuel", "en-019_", "logs"),
+            new StoryAuditSpec("Washed-Out Signal Rope", "en-004_", "small"),
+            new StoryAuditSpec("Loose Beacon Anchor Stones", "pr-010_", "small"),
+            new StoryAuditSpec("Storm-Torn Signal Cloth Debris", "en-023_", "loose_cloth"),
+            new StoryAuditSpec("Signal Hill Puddle", "en-011_", "small"),
+        };
 
         private static readonly string[] WindResponseTargets =
         {
@@ -174,7 +230,7 @@ namespace ProjectOen.Art.Editor
             if (drawCallProxy > DrawCallProxyTarget)
                 Debug.LogWarning("[ProjectOEN.Art.Budget] Draw-call proxy target exceeded; inspect batching/material sharing.");
 
-            var hardFailures = new System.Collections.Generic.List<string>();
+            var hardFailures = new List<string>();
             if (triangles > TriangleHardLimit)
                 hardFailures.Add("triangles " + triangles + " > " + TriangleHardLimit);
             if (drawCallProxy > DrawCallProxyHardLimit)
@@ -190,6 +246,28 @@ namespace ProjectOen.Art.Editor
             else if (wetnessDrivers[0].Wetness < StormWetnessMin || wetnessDrivers[0].Wetness > StormWetnessMax)
                 hardFailures.Add("storm wetness " + wetnessDrivers[0].Wetness.ToString("0.00") +
                                  " outside " + StormWetnessMin.ToString("0.00") + "-" + StormWetnessMax.ToString("0.00"));
+
+            AuditStoryLayer(
+                "camp micro-story",
+                CampStoryRootName,
+                CampStoryExpectedCount,
+                CampStoryExpectations,
+                CampStoryCenter,
+                CampStoryMaxRadius,
+                CampStoryTriangleHardLimit,
+                CampStoryMaterialSlotHardLimit,
+                hardFailures);
+
+            AuditStoryLayer(
+                "signal finale micro-story",
+                SignalStoryRootName,
+                SignalStoryExpectedCount,
+                SignalStoryExpectations,
+                SignalStoryCenter,
+                SignalStoryMaxRadius,
+                SignalStoryTriangleHardLimit,
+                SignalStoryMaterialSlotHardLimit,
+                hardFailures);
 
             foreach (string[] expectation in StormStateExpectations)
             {
@@ -268,7 +346,109 @@ namespace ProjectOen.Art.Editor
             if (hardFailures.Count > 0)
                 throw new InvalidOperationException("Quest 2 showcase budget hard gate failed: " + string.Join("; ", hardFailures));
 
-            Debug.Log("[ProjectOEN.Art.Budget] PASS: showcase stays inside repository Quest 2 hard limits with canonical storm-damaged/wet camp and signal states, centralized wet surfaces, bounded storm motion FX, layered near/far lightning and nine renderer-culled wind-responsive dressing objects. Device profiling still required for authoritative frame timing/draw calls.");
+            Debug.Log("[ProjectOEN.Art.Budget] PASS: showcase stays inside repository Quest 2 hard limits with canonical storm-damaged/wet camp and signal states, imported camp/signal story layers, centralized wet surfaces, bounded storm motion FX, layered near/far lightning and nine renderer-culled wind-responsive dressing objects. Device profiling still required for authoritative frame timing/draw calls.");
+        }
+
+        private static void AuditStoryLayer(
+            string label,
+            string rootName,
+            int expectedCount,
+            StoryAuditSpec[] expectations,
+            Vector2 center,
+            float maxRadius,
+            int triangleHardLimit,
+            int materialSlotHardLimit,
+            List<string> hardFailures)
+        {
+            Scene activeScene = SceneManager.GetActiveScene();
+            GameObject[] roots = activeScene.GetRootGameObjects()
+                .Where(root => root != null && root.name == rootName)
+                .ToArray();
+
+            if (roots.Length != 1)
+            {
+                hardFailures.Add(label + " root count " + roots.Length + " != 1");
+                return;
+            }
+
+            GameObject root = roots[0];
+            if (expectations.Length != expectedCount)
+                hardFailures.Add(label + " audit expectation count " + expectations.Length + " != " + expectedCount);
+            if (root.transform.childCount != expectedCount)
+                hardFailures.Add(label + " direct child count " + root.transform.childCount + " != " + expectedCount);
+
+            int storyColliders = root.GetComponentsInChildren<Collider>(true).Length;
+            int storyRigidbodies = root.GetComponentsInChildren<Rigidbody>(true).Length;
+            int storyParticles = root.GetComponentsInChildren<ParticleSystem>(true).Length;
+            int storyLights = root.GetComponentsInChildren<Light>(true).Length;
+            int storyAnimations = root.GetComponentsInChildren<Animation>(true).Length;
+            int storyAnimators = root.GetComponentsInChildren<Animator>(true).Length;
+
+            if (storyColliders != 0)
+                hardFailures.Add(label + " colliders " + storyColliders + " != 0");
+            if (storyRigidbodies != 0)
+                hardFailures.Add(label + " rigidbodies " + storyRigidbodies + " != 0");
+            if (storyParticles != 0)
+                hardFailures.Add(label + " particle systems " + storyParticles + " != 0");
+            if (storyLights != 0)
+                hardFailures.Add(label + " lights " + storyLights + " != 0");
+            if (storyAnimations != 0 || storyAnimators != 0)
+                hardFailures.Add(label + " animation components " + (storyAnimations + storyAnimators) + " != 0");
+
+            long storyTriangles = 0;
+            foreach (MeshFilter filter in root.GetComponentsInChildren<MeshFilter>(true))
+            {
+                if (filter.sharedMesh != null)
+                    storyTriangles += filter.sharedMesh.triangles.LongLength / 3L;
+            }
+            foreach (SkinnedMeshRenderer skin in root.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+            {
+                if (skin.sharedMesh != null)
+                    storyTriangles += skin.sharedMesh.triangles.LongLength / 3L;
+            }
+
+            Renderer[] storyRenderers = root.GetComponentsInChildren<Renderer>(true);
+            int storyMaterialSlots = storyRenderers.Sum(renderer =>
+                renderer.sharedMaterials == null ? 0 : renderer.sharedMaterials.Length);
+
+            if (storyTriangles > triangleHardLimit)
+                hardFailures.Add(label + " triangles " + storyTriangles + " > " + triangleHardLimit);
+            if (storyMaterialSlots > materialSlotHardLimit)
+                hardFailures.Add(label + " material slots " + storyMaterialSlots + " > " + materialSlotHardLimit);
+
+            foreach (StoryAuditSpec expectation in expectations)
+            {
+                Transform child = root.transform.Find(expectation.Name);
+                if (child == null)
+                {
+                    hardFailures.Add(label + " object missing: " + expectation.Name);
+                    continue;
+                }
+
+                float radius = Vector2.Distance(
+                    new Vector2(child.position.x, child.position.z),
+                    center);
+                if (radius > maxRadius)
+                    hardFailures.Add(label + " object outside " + maxRadius.ToString("0.00") +
+                                     "m radius: " + expectation.Name + " at " + radius.ToString("0.00") + "m");
+
+                string prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(child.gameObject);
+                string stem = string.IsNullOrEmpty(prefabPath)
+                    ? string.Empty
+                    : Path.GetFileNameWithoutExtension(prefabPath).ToLowerInvariant().Replace('-', '_');
+                string expectedPrefix = expectation.Prefix.ToLowerInvariant().Replace('-', '_');
+                string expectedToken = expectation.Token.ToLowerInvariant().Replace('-', '_');
+                if (!stem.StartsWith(expectedPrefix, StringComparison.Ordinal) || !stem.Contains(expectedToken))
+                    hardFailures.Add(label + " wrong canonical prefab on " + expectation.Name + ": " +
+                                     (string.IsNullOrEmpty(stem) ? "<not a prefab instance>" : stem));
+            }
+
+            Debug.Log("[ProjectOEN.Art.Budget] " + label +
+                      " roots=1 children=" + root.transform.childCount + "/" + expectedCount +
+                      " triangles=" + storyTriangles + "/" + triangleHardLimit +
+                      " materialSlots=" + storyMaterialSlots + "/" + materialSlotHardLimit +
+                      " radius<=" + maxRadius.ToString("0.00") + "m" +
+                      " runtimeCost=" + (storyColliders + storyRigidbodies + storyParticles + storyLights + storyAnimations + storyAnimators));
         }
 
         private static bool MatchesStormState(string[] expectation)

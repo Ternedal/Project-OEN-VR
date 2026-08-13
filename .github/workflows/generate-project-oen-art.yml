@@ -127,6 +127,8 @@ jobs:
         run: python tools/generated_art/validate_signal_finale_geometry.py
       - name: Validate Stormnatten signal finale story
         run: python tools/generated_art/validate_signal_finale_story.py
+      - name: Validate imported Stormnatten story audit contract
+        run: python tools/generated_art/validate_showcase_story_audit.py
       - name: Validate enriched Stormnatten showcase coverage
         run: python tools/generated_art/validate_showcase_content.py
       - name: Validate Unity production-art wiring
