@@ -14,6 +14,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CANDIDATES = ROOT / "content" / "audio" / "acquisition_candidates.source.json"
+# Backward-compatible public constant retained for existing contract tests/importers.
+CANDIDATES = DEFAULT_CANDIDATES
 DEFAULT_OUTPUT = ROOT / "PrivateContent" / "AudioSourceIncoming"
 USER_AGENT = "Project-OEN-VR-source-acquisition/1.1"
 
