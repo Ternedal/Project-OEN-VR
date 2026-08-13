@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "status": "acquisition-queue-ready",
+  "sourceOwner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "masterFormat": "48kHz 24-bit stereo WAV",
+  "beds": [
+    {"id":"SFX_WIND_L0_001","priority":"A","loopSeconds":"35-90","intent":"light coastal air"},
+    {"id":"SFX_WIND_L1_001","priority":"A","loopSeconds":"35-90","intent":"coastal air with more gust activity"},
+    {"id":"SFX_WIND_L2_001","priority":"A","loopSeconds":"35-90","intent":"sustained storm pressure with speech space"},
+    {"id":"SFX_WIND_L3_001","priority":"A","loopSeconds":"35-90","intent":"peak gust pressure with dynamic variation"},
+    {"id":"SFX_RAIN_LIGHT_001","priority":"A","loopSeconds":"35-90","intent":"open-air light rain"},
+    {"id":"SFX_RAIN_L2_001","priority":"A","loopSeconds":"35-90","intent":"heavy exposed rain"},
+    {"id":"SFX_AMB_BEACH_CAMP_001","priority":"A","loopSeconds":"45-120","intent":"coastal camp bed"},
+    {"id":"SFX_AMB_JUNGLE_001","priority":"B","loopSeconds":"45-120","intent":"humid vegetation bed with restrained wildlife"},
+    {"id":"SFX_AMB_RAVINE_001","priority":"B","loopSeconds":"45-120","intent":"enclosed outdoor ravine bed"},
+    {"id":"SFX_AMB_CAMP_NIGHT_001","priority":"B","loopSeconds":"45-120","intent":"calm low-activity night bed"}
+  ],
+  "qa": ["release-compatible provenance","clean source master","no background speech or music","loop-safe","partner-speech-friendly"],
+  "handoff": "Claude owns runtime looping, spatial treatment, compression, ducking and device mix."
+}
