@@ -1,0 +1,30 @@
+name: Validate neutral ending
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/personalization/neutral_profile.source.json'
+      - 'content/localization/da.source.json'
+      - '.github/workflows/neutral-ending-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Resolve neutral final message
+        run: >-
+          python -c "import json,pathlib;
+          p=json.loads(pathlib.Path('content/personalization/neutral_profile.source.json').read_text());
+          l=json.loads(pathlib.Path('content/localization/da.source.json').read_text());
+          k=p.get('finalMessageKey');
+          assert isinstance(k,str) and k;
+          assert k in (p.get('textOverrides') or {}) or k in (l.get('strings') or {});
+          print('neutral ending key resolves:',k)"
