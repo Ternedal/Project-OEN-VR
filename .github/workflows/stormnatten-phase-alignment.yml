@@ -1,0 +1,27 @@
+name: Validate Stormnatten phase alignment
+on:
+  pull_request:
+    paths:
+      - 'examples/stormnatten.scenario.json'
+      - 'content/phases/stormnatten.day3_planning.source.json'
+      - 'tools/validate_stormnatten_phase_alignment.py'
+      - '.github/workflows/stormnatten-phase-alignment.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'examples/stormnatten.scenario.json'
+      - 'content/phases/stormnatten.day3_planning.source.json'
+      - 'tools/validate_stormnatten_phase_alignment.py'
+      - '.github/workflows/stormnatten-phase-alignment.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate canonical phase order and actions
+        run: python tools/validate_stormnatten_phase_alignment.py
