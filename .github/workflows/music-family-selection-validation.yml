@@ -1,0 +1,61 @@
+name: Validate music family selection tooling
+
+on:
+  pull_request:
+    paths:
+      - 'content/audio/music_candidate_audit.source.json'
+      - 'content/audio/music_candidate_reproducibility.source.json'
+      - 'content/audio/audio_cues.source.json'
+      - 'content/audio/music_family_selection_contract.source.json'
+      - 'content/audio/music_selected_source_contract.source.json'
+      - 'tools/prepare_music_candidate_review.py'
+      - 'tools/normalize_music_candidate_review.py'
+      - 'tools/music_family_selection_support.py'
+      - 'tools/prepare_music_family_selection.py'
+      - 'tools/normalize_music_family_selection.py'
+      - 'tools/materialize_music_selected_sources.py'
+      - 'tools/test_music_family_selection.py'
+      - 'tools/validate_music_family_selection_contract.py'
+      - 'tools/generate_authored_adaptive_music.py'
+      - 'tools/requirements-music-repro.txt'
+      - 'docs/70_MUSIC_FAMILY_SELECTION.md'
+      - '.github/workflows/music-family-selection-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/audio/music_candidate_audit.source.json'
+      - 'content/audio/music_candidate_reproducibility.source.json'
+      - 'content/audio/audio_cues.source.json'
+      - 'content/audio/music_family_selection_contract.source.json'
+      - 'content/audio/music_selected_source_contract.source.json'
+      - 'tools/prepare_music_candidate_review.py'
+      - 'tools/normalize_music_candidate_review.py'
+      - 'tools/music_family_selection_support.py'
+      - 'tools/prepare_music_family_selection.py'
+      - 'tools/normalize_music_family_selection.py'
+      - 'tools/materialize_music_selected_sources.py'
+      - 'tools/test_music_family_selection.py'
+      - 'tools/validate_music_family_selection_contract.py'
+      - 'tools/generate_authored_adaptive_music.py'
+      - 'tools/requirements-music-repro.txt'
+      - 'docs/70_MUSIC_FAMILY_SELECTION.md'
+      - '.github/workflows/music-family-selection-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile selection tooling
+        run: python -m py_compile tools/music_family_selection_support.py tools/prepare_music_family_selection.py tools/normalize_music_family_selection.py tools/materialize_music_selected_sources.py tools/test_music_family_selection.py tools/validate_music_family_selection_contract.py
+      - name: Validate live selection contracts
+        run: python tools/validate_music_family_selection_contract.py
+      - name: Test positive and negative selection/materialization
+        run: python tools/test_music_family_selection.py
