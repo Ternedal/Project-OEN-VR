@@ -96,6 +96,8 @@ jobs:
         run: python tools/generated_art/refine_mockup_fidelity_v4.py
       - name: Rebuild remaining hero silhouettes to approved atlas
         run: python tools/generated_art/refine_mockup_fidelity_v5.py
+      - name: Finish organic palm and campfire fidelity
+        run: python tools/generated_art/refine_mockup_fidelity_v6.py
       - name: Render actual OBJ mockup review sheet
         run: python tools/generated_art/render_mockup_review.py
       - name: Upload mockup-fidelity visual review
