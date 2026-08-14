@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Render deterministic art-direction thumbnails from actual Project ØEN OBJ assets.
 
-The review deliberately shows filled shaded surfaces rather than triangle outlines.
-The previous renderer exposed every triangulation edge, which made otherwise solid
-Unity geometry look like a wireframe and distorted art-direction judgement. This
-version uses supersampling, consistent ground contact and simple directional fill so
-silhouette/material breakup can be compared fairly against the approved mockups.
+This renderer is intentionally a *review* renderer, not a fake beauty shot. It shows
+the canonical generated geometry with filled surfaces, back-face handling appropriate
+for solid vs. thin materials, low-contrast cloth/leaf/fire shading and supersampling.
+That avoids the old painter/wireframe artefacts which made tarp grids, radio boxes and
+leaf cards look much more faceted than they will under Unity-calculated normals.
 """
 from __future__ import annotations
 
@@ -19,13 +19,14 @@ PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
 MANIFEST=PROD/"Docs"/"production_art_manifest.json"
 OUT=HERE/"review_renders"
 
-# Deliberately close to the approved muted jungle / earth / rock / water palette.
 PALETTE={
  "Wood":(122,90,58), "Rope":(151,132,94), "Tarp":(49,76,82),
  "Metal":(96,102,101), "Stone":(78,78,76), "Leaf":(38,64,40),
  "Cloth":(112,94,73), "Mud":(87,78,60), "Fire":(255,158,58),
  "Char":(43,43,40), "Water":(46,77,92),
 }
+THIN_MATERIALS={"Tarp","Cloth","Leaf","Fire","Water"}
+SOFT_SHADE={"Tarp","Cloth","Leaf","Fire","Water"}
 TARGETS=[
  ("PR-001","wet","WET TARP / PRESENNING"),
  ("PR-005","active","ACTIVE PORTABLE RADIO"),
@@ -71,12 +72,12 @@ def tint(rgb,k): return tuple(max(0,min(255,int(c*k))) for c in rgb)
 
 
 def render_obj(path:Path,size=(620,430)):
-    # 2x supersampling removes jagged primitive edges without inventing detail.
-    ss=2; w,h=size; rw,rh=w*ss,h*ss
+    ss=3; w,h=size; rw,rh=w*ss,h*ss
     verts,faces=parse_obj(path); rv=[rotate(v) for v in verts]
     xs=[p[0] for p in rv]; ys=[p[1] for p in rv]
     if not xs: return Image.new("RGB",size,(24,28,26))
-    minx,maxx,miny,maxy=min(xs),max(xs),min(ys),max(ys); spanx=max(maxx-minx,.01); spany=max(maxy-miny,.01)
+    minx,maxx,miny,maxy=min(xs),max(xs),min(ys),max(ys)
+    spanx=max(maxx-minx,.01); spany=max(maxy-miny,.01)
     scale=min((rw-100*ss)/spanx,(rh-90*ss)/spany); cx=(minx+maxx)/2
     floor_y=rh-48*ss
     def sp(p): return (rw/2+(p[0]-cx)*scale,floor_y-(p[1]-miny)*scale)
@@ -84,18 +85,31 @@ def render_obj(path:Path,size=(620,430)):
     im=Image.new("RGB",(rw,rh),(21,26,23)); d=ImageDraw.Draw(im)
     ground_y=floor_y+5*ss
     d.rectangle((0,ground_y,rw,rh),fill=(31,36,31))
-    d.line((0,ground_y,rw,ground_y),fill=(61,65,56),width=1*ss)
+    d.line((0,ground_y,rw,ground_y),fill=(61,65,56),width=ss)
     shadow_w=min(rw*.70,spanx*scale*.72); shadow_x=rw/2
-    d.ellipse((shadow_x-shadow_w/2,ground_y-8*ss,shadow_x+shadow_w/2,ground_y+12*ss),fill=(18,22,19))
+    d.ellipse((shadow_x-shadow_w/2,ground_y-7*ss,shadow_x+shadow_w/2,ground_y+10*ss),fill=(17,21,18))
 
     light=(.34,.86,-.38); packets=[]
     for ia,ib,ic,mat in faces:
         a,b,c=rv[ia],rv[ib],rv[ic]; n=normal(a,b,c)
+        # In this orthographic review camera, visible solid front faces point mostly
+        # toward negative view-Z. Cull the hidden faces of closed materials; thin
+        # materials stay two-sided because the production geometry is intentionally so.
+        if mat not in THIN_MATERIALS and n[2] > .015:
+            continue
         lam=max(0.0,min(1.0,n[0]*light[0]+n[1]*light[1]+n[2]*light[2]))
-        # Back faces are still visible (OBJ assets are used from arbitrary review angles), but darker.
-        shade=.56+.42*lam
+        if mat in SOFT_SHADE:
+            # Do not let this tiny software raster preview invent a checkerboard on
+            # cloth/foliage/flame. Unity gets calculated normals + real texture maps.
+            shade=.79 + .10*lam
+        else:
+            shade=.57 + .40*lam
+        if mat=="Fire": shade=.96 + .10*lam
         depth=(a[2]+b[2]+c[2])/3
         packets.append((depth,(sp(a),sp(b),sp(c)),tint(PALETTE.get(mat,(125,120,110)),shade)))
+
+    # Painter ordering is sufficient once hidden solid faces are removed; supersampling
+    # keeps silhouettes useful for art-direction comparison.
     for _,poly,col in sorted(packets,key=lambda q:q[0],reverse=True):
         d.polygon(poly,fill=col)
     return im.resize(size,Image.Resampling.LANCZOS)
@@ -124,7 +138,7 @@ def main():
     sd.text((18,42),"Compare silhouette, material breakup, weathering story and hand-built character against approved mockups.",fill=(153,164,148))
     for i,img in enumerate(cards): sheet.paste(img,((i%cols)*cw,68+(i//cols)*ch))
     sheet.save(OUT/"mockup_fidelity_contact_sheet.png",compress_level=6)
-    print(f"Rendered {len(cards)} filled/supersampled production OBJ review cards -> {OUT.relative_to(ROOT)}")
+    print(f"Rendered {len(cards)} material-aware production OBJ review cards -> {OUT.relative_to(ROOT)}")
     return 0
 
 if __name__=="__main__": raise SystemExit(main())
