@@ -28,6 +28,12 @@ class Tests(unittest.TestCase):
         self.assertTrue(out["coverage"]["complete"])
         self.assertEqual(SHA_A,[r for r in out["records"] if r["target"]=="AMB_WIND_WORLD"][0]["sourceSha256"])
 
+    def test_main_complete_gate_requires_check_results(self):
+        p=self.main_payload()
+        p["records"][0]["checks"]["CONTAMINATION"]["result"]=""
+        with self.assertRaises(mod.ReviewError):
+            mod.normalize_main(p,self.main_context(),set().union(*mod.MAIN_CHECKS.values()),require_complete=True)
+
     def test_main_stale_binding_rejected(self):
         p=self.main_payload(); p["bindings"]["AMB_WIND_WORLD"]="0"*64
         with self.assertRaises(mod.ReviewError):
