@@ -120,6 +120,8 @@ jobs:
         run: python tools/generated_art/render_material_review.py
       - name: Refine production UI and world-space sprites
         run: python tools/generated_art/refine_ui_sprite_art.py
+      - name: Rebuild diegetic UI toward approved mockup atlas
+        run: python tools/generated_art/refine_mockup_ui_v2.py
       - name: Refine dedicated production VFX textures
         run: python tools/generated_art/refine_vfx_art.py
       - name: Render full sprite VFX and decal review sheets
