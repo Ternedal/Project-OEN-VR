@@ -13,12 +13,12 @@ Human/device/listening evidence må aldrig opfindes eller erstattes af synthetic
 
 Autoritative statusflader:
 
-- source/content state: `content/source_inventory.source.json`
-- workflow/tooling state: `content/non_unity_capability_matrix.source.json`
-- reconciled gap closeout: `docs/37_NON_UNITY_GAP_AUDIT.md`
-- human repo summary: `repo_status.md`
+- `content/source_inventory.source.json`
+- `content/non_unity_capability_matrix.source.json`
+- `docs/37_NON_UNITY_GAP_AUDIT.md`
+- `repo_status.md`
 
-`source-ready`, `tooling-ready`, `candidate-ready` og `technical-intake-passed` betyder ikke human-approved, Unity-integrated, Quest-approved eller release-approved.
+`source-ready`, `tooling-ready`, `candidate-ready` og `technical-intake-passed` er ikke human-approved, Unity-integrated, Quest-approved eller release-approved.
 
 ---
 
@@ -26,144 +26,80 @@ Autoritative statusflader:
 
 ## M0b — issue #3
 
-Claude/device-lane. Rigtig Quest 2/Quest 3 cross-device evidence mangler fortsat:
-
-- remote head/hands
-- mismatch rejection
-- shared two-player state
-- 10× Q2↔Q3 uden permanent desync
-- 72 Hz minimal network scene
-- standby/reconnect
-- compatibility matrix med faktiske resultater
-
-Ingen synthetic/self-test lukker gaten.
+Quest 2/Quest 3 cross-device evidence mangler. **Ingen synthetic/self-test lukker gaten.**
 
 ## M-Pre — issue #7
 
-Tre faktiske menneskesessioner med mindst to testerpar mangler.
-
-Tooling er klar:
-
-- `prototype/m-pre/`
-- `tools/evaluate_mpre.py`
-- `content/mpre/evidence_bundle_contract.source.json`
-- `tools/package_mpre_evidence.py`
-- `tools/validate_mpre_evidence_bundle.py`
-
-Bundle-tooling validerer leveret human evidence; det skaber ikke sessionsdata og lukker ikke issue #7.
+**Tre faktiske menneskesessioner** med mindst to testerpar mangler. Evaluator/evidence-bundle tooling er klar, men skaber ikke evidence.
 
 ## Fire-start — issue #8
 
-Onboarding og Day 3 er canonical. Fire-start forbliver:
-
-- `implementationAllowed=false`
-- uden for accepted gift scope
-- 1.012 accepted timer / 439 deferred timer uændret
-
-Anders skal vælge remove/skip, minimal onboarding beat eller full PO-044 før scope/totals ændres.
-
-**M1 runtime implementation åbner først efter grøn M0b + M-Pre.**
+Fire-start forbliver `implementationAllowed=false`, uden for accepted gift scope og med **1.012 accepted timer / 439 deferred timer** uændret. Anders ejer dispositionen.
 
 ---
 
 # Automatable non-Unity foundation
 
-Den oprindelige N-002–N-010 gap-kø er leveret og CI-beskyttet i `docs/37_NON_UNITY_GAP_AUDIT.md`.
-
-Det omfatter bl.a.:
-
-- source asset manifest
-- audio cue manifest
-- dansk UX/copy/localization catalog
-- personalization package spec + neutral fallback
-- human QA/playtest pack
-- IP/provenance workflow/register
-- content coverage matrix
-- interaction briefs for planning/shelter/fire/ravine/storm finale
-- gift/first-launch/replay product flow
-- canonical onboarding + Day 3 planning
-- after-action/event/finale contracts
-- source-art inventory/provenance
-
-Producer kun yderligere art/content/source, hvis en konkret manglende master eller contract reducerer implementation ambiguity.
+N-002–N-010 er leveret og CI-beskyttet. Producer kun ny non-Unity source/tooling, når et konkret gap reduceres.
 
 ---
 
 # Audio — workflow-state
 
-Den fulde machine-readable status ligger i `content/non_unity_capability_matrix.source.json`.
+## Acquired source lane
 
-## Acquired ambience/Foley
+3 main + 15 extension + 9 field = reproducibel **27-source** audition boundary.
 
-Repoet har base, extension og **9 field originals** med provenance/technical QA samt en reproducibel **27-source audition pack**.
-
-De to nyeste field candidates er:
-
-- `SFX_AMB_JUNGLE_CANOPY_WIND_ALT_01` → `SFX_AMB_Jungle_CanopyWind`
-- `SFX_WTH_STORM_ROUGH_OCEAN_ALT_01` → `SFX_WTH_Storm_RoughOcean`
-
-De er exact-byte acquired og pinned i `content/audio/acquisition_field_backlog_final_receipt.source.json`, men begge kræver human semantic listening. Canopy-kilden er temperate forest og skal afvises/repurposes hvis biome-identiteten er forkert. Rough-ocean-kilden har én full-scale integer sample og kræver headroom-inspection før enhver derivative.
-
-**Kun `SFX_AMB_Beach_PalmCanopy` mangler stadig field source acquisition.** Exact-fit CC0 research findes, men originalfilen kræver authenticated download; preview audio og generisk temperate-tree substitution er ikke acceptable.
-
-Flow:
-
-1. build audition pack
-2. actual human shortlist
-3. typed human source approval
-4. exact-byte source-approved materialization
-5. hvis redigeret: explicit derived-master submission + technical QA
-6. repeated human listening på derived bytes
-7. explicit derived-master-approved materialization
-
-Vigtige entrypoints:
-
-- `docs/67_AUDIO_SOURCE_AUDITION_PACK.md`
 - `content/audio/source_approval_contract.source.json`
 - `content/audio/derived_master_contract.source.json`
-- `tools/build_audio_source_audition_pack.py`
-- `tools/normalize_audio_source_approval_review.py`
-- `tools/validate_audio_derived_master_submission.py`
-- `tools/normalize_audio_derived_master_review.py`
 
-Ingen faktisk human source/derived-master approval er påstået.
+Kun `SFX_AMB_Beach_PalmCanopy` mangler field acquisition. Human audition/source approval mangler for de eksisterende candidates.
+
+## Physical Foley — recording gate
+
+Heavy crate, rope/tarp og shelter timber er samlet i en fysisk lane:
+
+- `content/audio/foley_session_contract.source.json`
+- `docs/74_FOLEY_RECORDING_INTAKE.md`
+- `tools/prepare_foley_session.py`
+- `tools/validate_foley_session.py`
+
+Shape: **13 cues / 53 distinct physical take slots**. Technical intake kræver current session/provenance bindings, 48 kHz / 24-bit mono PCM, no full-scale samples og ingen duplicate raw bytes.
+
+Faktisk recording findes ikke endnu.
+
+## Physical Foley — human review/promotion gate
+
+Efter en reel 53/53 technical pass:
+
+- `content/audio/foley_human_review_contract.source.json`
+- `content/audio/foley_source_materialization_contract.source.json`
+- `docs/75_FOLEY_HUMAN_REVIEW_AND_SOURCE_APPROVAL.md`
+- `tools/prepare_foley_human_review.py`
+- `tools/normalize_foley_human_review.py`
+- `tools/materialize_foley_source_approved.py`
+
+Alle take SHA’er revalideres. Human reviewer vurderer alle 53 takes og alle 13 cue-familier med de 8 canonical listening checks + `UNDER_WEATHER_READABILITY`.
+
+Krav til positiv promotion omfatter bl.a. MATERIAL_MATCH >=3, VARIATION_VALUE >=3, weather readability pass, reviewer/timestamp, rights og 53/53 keep + 13/13 accept-current-set.
+
+Komplet `needs-rerecord` evidence er legitimt og normaliseres, men `readyForSourceMaterialization=false`.
+
+Faktisk human Foley review/source approval findes ikke endnu. Fire-start-specifik Foley er fortsat owner-gated via issue #8.
 
 ## Radio VO
 
-Canonical shape: 9 cues × 3 takes = 27.
+Canonical shape: **9 cues × 3 takes = 27**. Tooling dækker intake + human review + selected-dry materialization:
 
-Tooling på `main` dækker:
-
-- canonical Danish recording board/session prep
-- technical intake
-- human pronunciation/delivery/semantic/rights review
-- one-take-per-cue selection
-- byte-identical selected dry materialization
-
-Contracts:
-
-- `content/audio/radio_vo_session_contract.source.json`
 - `content/audio/radio_vo_human_review_contract.source.json`
 - `content/audio/radio_vo_selected_dry_contract.source.json`
 
-Faktisk authorized recording og human selection mangler.
+Authorized recording og human selection mangler.
 
-## Adaptive music
+## Music
 
-14 deterministic candidates; 5 canonical mapped families; `MUS_Warning_LowPulse` forbliver unmapped.
+**14 deterministic** candidates; 5 canonical mappings; Warning-familien unmapped.
 
-Tooling dækker:
-
-- human candidate audition
-- canonical-family selection
-- keep+pass eligibility
-- 5/5 positive selection gate
-- exact-byte canonical source materialization
-
-Contracts:
-
-- `content/audio/music_candidate_audit.source.json`
-- `content/audio/music_candidate_reproducibility.source.json`
 - `content/audio/music_family_selection_contract.source.json`
 - `content/audio/music_selected_source_contract.source.json`
 
@@ -171,28 +107,23 @@ Human audition/selection mangler.
 
 ---
 
-# Claude draft PRs
+# Claude drafts
 
-PR #5 og #6 er fortsat draft/fysisk-QA-blokerede.
-
-De må ikke merges på repo/CI-evidens alene. Autoritativ evidence skal være current-source-stamped og komme fra rigtig Unity/Quest execution.
+PR #5/#6 må ikke merges på synthetic/repo-evidence alene. Re-sync og rigtig Unity/Quest evidence kræves.
 
 ---
 
 # Next real work
 
-Prioritér nu:
-
-1. **M-Pre:** 3 reelle human sessions → evaluator → evidence bundle → gate-resultat.
-2. **M0b:** rigtig two-headset/Quest evidence fra Claude/Anders.
-3. **Issue #8:** Anders disponerer fire-start scope.
-4. **Ambience/Foley:** human audition af 27-source pack → typed source approval → evt. documented derived edit + ny human listening.
-5. **Field acquisition:** find direct original til `SFX_AMB_Beach_PalmCanopy` under CC0/Public-Domain-policy; det er eneste resterende field acquisition-gap.
-6. **Radio VO:** faktisk authorized recording af 27 takes → human review/selection.
-7. **Music:** human audition af 14 candidates → 5 canonical selections.
-8. **Claude #5/#6:** re-sync + fysisk QA før merge.
-9. Private personalization source produceres først når det konkret skal i gavebuildet; neutral fallback findes.
-10. M1 handoff assembly først når både M0b + M-Pre er grønne.
+1. M-Pre: 3 human sessions.
+2. M0b: fysisk Q2/Q3 cross-device evidence.
+3. Issue #8: Anders fire-start disposition.
+4. Physical Foley: 53 recordings → technical intake → 13-cue human review → evt. source promotion.
+5. 27-source ambience/Foley human audition + PalmCanopy acquisition.
+6. Radio VO: 27 actual takes → review/selection.
+7. Music: 14-candidate audition → 5 canonical selections.
+8. Claude #5/#6 physical QA.
+9. M1 handoff først når M0b + M-Pre er grønne.
 
 ---
 
@@ -200,10 +131,10 @@ Prioritér nu:
 
 1. check current `main`, issues, åbne PRs og CI
 2. læs `content/non_unity_capability_matrix.source.json`
-3. tag kun en autonom non-Unity-opgave hvis den reducerer en dokumenteret gap
+3. tag højeste ublokerede non-Unity-opgave som reducerer et dokumenteret gap
 4. editér ikke Unity/runtime code
 5. QA og bevar provenance/hash identity
 6. opfind aldrig human/device/listening evidence
-7. promover aldrig acquired/candidate audio uden den krævede human gate
+7. promover aldrig audio uden den krævede human gate
 8. vælg aldrig fire-start scope på Anders' vegne
 9. hvis kun human/device/owner gates står tilbage, stop pseudo-progress og hold handoff/tooling klar
