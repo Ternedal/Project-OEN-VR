@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "status": "materialization-tooling-ready-no-selected-music-source",
+  "owner": "ChatGPT",
+  "input": {
+    "reviewKind": "music-canonical-family-selection",
+    "normalizedStatus": "human-music-family-selection-evidence-unapproved",
+    "readyFlag": "readyForSourceMaterialization",
+    "readyFlagMustBe": true
+  },
+  "candidateBytes": {
+    "audit": "content/audio/music_candidate_audit.source.json",
+    "reproducibility": "content/audio/music_candidate_reproducibility.source.json",
+    "generator": "tools/generate_authored_adaptive_music.py",
+    "rule": "Candidate directory may come from the audited artifact or exact-byte regeneration, but every selected WAV must match the current audited SHA-256."
+  },
+  "output": {
+    "directory": "selected_music_source",
+    "filenamePattern": "{canonicalCueId}.wav",
+    "receiptFilename": "music_selected_source_receipt.json",
+    "receiptStatus": "selected-music-source-materialized-from-human-selection-not-derived-master"
+  },
+  "materialization": {
+    "copyOnly": true,
+    "preserveSourceBytes": true,
+    "sourceAndOutputShaMustMatch": true,
+    "expectedCanonicalCueCount": 5,
+    "overwriteRequiresExplicitReplace": true
+  },
+  "rules": [
+    "Materialization requires a complete positive human family selection.",
+    "MUS_Warning_LowPulse is never materialized because it has no canonical target.",
+    "The tool performs no trim, loop edit, EQ, gain, resample, compression, stem split or adaptive runtime treatment.",
+    "Materialization does not promote source-approved, derived-master-approved, Unity-integrated, Quest-approved or release-approved status.",
+    "Any later edit creates a new file identity and requires documented processing and listening review."
+  ],
+  "runtimeBoundary": "Claude owns adaptive runtime behavior, crossfades, ducking, mixer treatment and Quest/headset acceptance."
+}

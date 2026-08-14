@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "status": "family-selection-tooling-ready-not-selected",
+  "owner": "ChatGPT",
+  "input": {
+    "status": "human-music-audition-evidence-unapproved",
+    "audit": "content/audio/music_candidate_audit.source.json"
+  },
+  "selectionExport": {
+    "version": 1,
+    "status": "human-music-family-selection-unvalidated"
+  },
+  "normalizedStatus": "human-music-family-selection-evidence-unapproved",
+  "canonicalFamilyCount": 5,
+  "decisionValues": [
+    "select",
+    "needs-new-source",
+    "needs-more-listening"
+  ],
+  "candidateEligibility": [
+    "candidate is mapped to the same canonical target in the current audit",
+    "audition fit == keep",
+    "all exact applicable audition checks == pass"
+  ],
+  "readyForSourceMaterializationRequires": [
+    "selection evidence is complete and reviewerAlias is non-empty",
+    "all 5 canonical families have decision == select",
+    "every selected file is an eligible audited candidate for that exact canonical target",
+    "selected SHA-256 matches the current music candidate audit"
+  ],
+  "unmappedPolicy": "MUS_Warning_LowPulse is auditionable but cannot appear in canonical family selection unless a separate product decision first creates a canonical mapping.",
+  "rules": [
+    "A complete negative selection is valid evidence and must remain representable.",
+    "The selector never changes keep/maybe/reject audition evidence.",
+    "maybe/reject candidates and candidates with any non-pass applicable check are ineligible for select.",
+    "Selection evidence does not promote source-approved, derived-master-approved, runtime-bound, Unity-integrated or release-approved status."
+  ]
+}
