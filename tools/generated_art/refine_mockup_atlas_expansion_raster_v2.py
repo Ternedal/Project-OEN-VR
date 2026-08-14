@@ -17,7 +17,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
-from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageStat
+from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps, ImageStat
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -99,12 +99,142 @@ def font(size:int,bold=False):
     return ImageFont.load_default()
 
 
+MIN_SOURCE_SIZES={
+ "keyart":(720,178),
+ "maps":(280,179),
+ "wildlife":(190,163),
+ "food":(232,230),
+ "weather":(276,145),
+ "documents":(245,158),
+}
+
+
+def _manifest_sprite_index():
+    data=json.loads(MANIFEST.read_text(encoding="utf-8"))
+    return {
+        (str(e["asset_id"]),str(e.get("variant","default"))):ROOT/e["path"]
+        for e in data.get("entries",[]) if e.get("kind")=="sprite"
+    }
+
+
+def _paste_reference(canvas,box,source_path,cover=False):
+    if not source_path.is_file():
+        raise SystemExit(f"Cannot restore reference panel; missing committed V2 sprite: {source_path.relative_to(ROOT)}")
+    with Image.open(source_path) as src:
+        item=src.convert("RGBA")
+    x0,y0,x1,y1=box; size=(x1-x0,y1-y0)
+    item=ImageOps.fit(item,size,method=Image.Resampling.LANCZOS) if cover else ImageOps.contain(item,size,method=Image.Resampling.LANCZOS)
+    target=(x0+(size[0]-item.width)//2,y0+(size[1]-item.height)//2)
+    canvas.paste(item,target,item)
+    return canvas
+
+
+def _restore_reference_panels():
+    """Recover valid, deterministic category panels from the committed V2 sprite set.
+
+    The resync accidentally reduced the seven JPEG payloads to tiny invalid text blobs.
+    The already-reviewed V2 PNGs are intact, so rebuild category panels from those exact
+    committed pixels instead of bypassing the source-driven raster pass.
+    """
+    index=_manifest_sprite_index()
+
+    def sprite(asset_id,variant):
+        key=(asset_id,variant)
+        if key not in index:
+            raise SystemExit(f"Cannot restore reference panels; manifest lacks {asset_id}/{variant}")
+        return index[key]
+
+    specs={
+      "keyart":((720,178),[
+        (KEYART["island"],sprite("AX-BG-001","clear"),True),
+        (KEYART["sunset_jungle"],sprite("AX-BG-001","golden_hour"),True),
+        (KEYART["storm_island"],sprite("AX-BG-001","storm"),True),
+        (KEYART["beach"],sprite("AX-BG-003","calm"),True),
+        (KEYART["night_camp"],sprite("AX-BG-002","moonlit"),True),
+        (KEYART["signal_tower"],sprite("AX-BG-002","firelit"),True),
+        (KEYART["wreck_sunset"],sprite("AX-BG-003","sunset"),True),
+      ]),
+      "maps":((280,179),[
+        (MAPS["main"],sprite("AX-MAP-001","clean"),True),
+        (MAPS["secondary"],sprite("AX-MAP-001","marked"),True),
+        (MAPS["legend"],sprite("AX-MAP-001","storm_route"),True),
+        (MAPS["sketch"],sprite("AX-MAP-001","marked"),True),
+        (MAPS["notes"],sprite("AX-MAP-001","clean"),True),
+        (MAPS["compass"],sprite("AX-MAP-001","storm_route"),True),
+      ]),
+      "wildlife":((190,163),[
+        (WILDLIFE["gull"],sprite("AX-WLD-001","default"),False),
+        (WILDLIFE["parrot"],sprite("AX-WLD-002","default"),False),
+        (WILDLIFE["crab"],sprite("AX-WLD-003","default"),False),
+        (WILDLIFE["boar"],sprite("AX-WLD-004","default"),False),
+        (WILDLIFE["goat"],sprite("AX-WLD-005","default"),False),
+        (WILDLIFE["fish"],sprite("AX-WLD-006","default"),False),
+        (WILDLIFE["reptile"],sprite("AX-WLD-007","default"),False),
+      ]),
+      "food":((232,230),[
+        (FOOD["coconut"],sprite("AX-FOOD-001","whole"),False),
+        (FOOD["fish"],sprite("AX-FOOD-002","raw"),False),
+        (FOOD["fruit"],sprite("AX-FOOD-003","mixed"),False),
+        (FOOD["meat"],sprite("AX-FOOD-004","raw"),False),
+        (FOOD["meal"],sprite("AX-FOOD-005","cooked"),False),
+      ]),
+      "weather":((276,145),[
+        (WEATHER["sun"],sprite("AX-SKY-002","sun"),False),
+        (WEATHER["cloud"],sprite("AX-SKY-001","calm"),False),
+        (WEATHER["storm_cloud"],sprite("AX-SKY-001","storm"),False),
+        (WEATHER["splash"],sprite("AX-SKY-003","calm"),False),
+        (WEATHER["mist"],sprite("AX-SKY-001","calm"),False),
+        (WEATHER["moon"],sprite("AX-SKY-002","moon"),False),
+        (WEATHER["sunset"],sprite("AX-BG-003","sunset"),True),
+        (WEATHER["night"],sprite("AX-BG-002","moonlit"),True),
+      ]),
+      "documents":((245,158),[
+        (DOCS["map_page"],sprite("AX-DOC-002","clean"),True),
+        (DOCS["field_photo"],sprite("AX-DOC-001","camp"),True),
+        (DOCS["letter"],sprite("AX-DOC-001","storm_annotated"),True),
+        (DOCS["note"],sprite("AX-DOC-001","camp"),True),
+        (DOCS["sketch"],sprite("AX-DOC-002","annotated"),True),
+        (DOCS["photo"],sprite("AX-DOC-003","clean"),True),
+        (DOCS["signal"],sprite("AX-DOC-003","storm_annotated"),True),
+      ]),
+    }
+
+    REF.mkdir(parents=True,exist_ok=True)
+    for key,(size,placements) in specs.items():
+        canvas=Image.new("RGBA",size,(47,50,49,255))
+        for box,source_path,cover in placements:
+            _paste_reference(canvas,box,source_path,cover)
+        target=REF/SOURCES[key]
+        canvas.convert("RGB").save(target,format="JPEG",quality=95,subsampling=0,optimize=True)
+    print("Restored six valid mockup reference panels from committed V2 sprite pixels")
+
+
 def load_sources():
+    result={}; invalid=[]
+    for key,name in SOURCES.items():
+        path=REF/name
+        try:
+            with Image.open(path) as src:
+                rgb=src.convert("RGB")
+            min_w,min_h=MIN_SOURCE_SIZES[key]
+            if rgb.width<min_w or rgb.height<min_h:
+                raise ValueError(f"undersized {rgb.size}, expected at least {(min_w,min_h)}")
+            result[key]=rgb
+        except (FileNotFoundError,OSError,ValueError) as exc:
+            invalid.append(f"{path.relative_to(ROOT)}: {exc}")
+    if not invalid:
+        return result
+
+    print("Invalid mockup reference panel payload detected:")
+    for issue in invalid:
+        print(" - "+issue)
+    _restore_reference_panels()
+
     result={}
     for key,name in SOURCES.items():
         path=REF/name
-        if not path.exists(): raise SystemExit(f"Missing approved mockup reference panel: {path.relative_to(ROOT)}")
-        with Image.open(path) as src: result[key]=src.convert("RGB")
+        with Image.open(path) as src:
+            result[key]=src.convert("RGB")
     return result
 
 
