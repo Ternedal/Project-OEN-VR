@@ -78,10 +78,10 @@ jobs:
         run: python tools/generated_art/refine_set_dressing_art.py
       - name: Add Stormnatten damage-story mesh detail
         run: python tools/generated_art/refine_storm_story_geometry.py
-      - name: Add signal-finale failure/load mesh detail
-        run: python tools/generated_art/refine_signal_finale_geometry.py
       - name: Final mockup-fidelity pass for hero world art
         run: python tools/generated_art/refine_mockup_fidelity.py
+      - name: Add signal-finale failure/load mesh detail
+        run: python tools/generated_art/refine_signal_finale_geometry.py
       - name: Refine production UI and world-space sprites
         run: python tools/generated_art/refine_ui_sprite_art.py
       - name: Refine dedicated production VFX textures
