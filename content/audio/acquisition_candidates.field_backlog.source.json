@@ -8,6 +8,7 @@
     "branch": "agent/audio-foundation-v1",
     "path": "content/audio/field_source_acquisition_plan.csv",
     "events": [
+      "SFX_AMB_Beach_CoastalWind",
       "SFX_NAT_Insect_NightChirp",
       "SFX_WTH_Thunder_Near",
       "SFX_NAT_Bird_ShoreCall",
@@ -23,6 +24,22 @@
     "acquisitionIsNotApproval": true
   },
   "candidates": [
+    {
+      "target": "SFX_AMB_BEACH_SC_ALT_01",
+      "runtimeEventCandidate": "SFX_AMB_Beach_CoastalWind",
+      "provider": "Wikimedia Commons",
+      "creator": "Anthropic42",
+      "title": "Beach sounds South Carolina.ogg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Beach_sounds_South_Carolina.ogg",
+      "directDownload": "https://upload.wikimedia.org/wikipedia/commons/0/04/Beach_sounds_South_Carolina.ogg",
+      "filename": "Beach_sounds_South_Carolina.ogg",
+      "license": "Public Domain",
+      "sourceFormat": "Ogg Vorbis; Commons reports 1 min 2 s / 137 kbps; inspect exact stream after acquisition",
+      "priority": "B",
+      "use": ["coastal beach/wind source audition", "possible CoastalWind bed only if human listening proves useful wind character"],
+      "provenance": "Natural recording made at Litchfield Beach near Pawleys Island, South Carolina on 25 December 2003 using Sony MiniDisc and an AudioTechnica stereo microphone; released into the public domain by its author.",
+      "caveat": "Metadata proves a real beach recording and strong recording provenance, not that the wind component is dominant or suitable for SFX_AMB_Beach_CoastalWind. Human listening must separate surf/water character from usable coastal wind before any coverage/derivation decision."
+    },
     {
       "target": "SFX_NAT_NIGHT_CRICKET_ALT_01",
       "runtimeEventCandidate": "SFX_NAT_Insect_NightChirp",
