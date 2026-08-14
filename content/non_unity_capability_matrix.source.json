@@ -13,7 +13,7 @@
       "contract": "content/audio/listening_qa.source.json",
       "operatorDoc": "docs/67_AUDIO_SOURCE_AUDITION_PACK.md",
       "tool": "tools/build_audio_source_audition_pack.py",
-      "validator": "tools/validate_audio_audition_pack_contract.py",
+      "validator": "tools/validate_audio_source_audition_contract.py",
       "expectedSourceCount": 25,
       "humanEvidenceRequired": true,
       "gateSatisfied": false,
