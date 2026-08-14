@@ -17,10 +17,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CANDIDATES = ROOT / "content" / "audio" / "acquisition_candidates.source.json"
-# Backward-compatible public constant retained for existing contract tests/importers.
 CANDIDATES = DEFAULT_CANDIDATES
 DEFAULT_OUTPUT = ROOT / "PrivateContent" / "AudioSourceIncoming"
-USER_AGENT = "Project-OEN-VR-source-acquisition/1.2"
+USER_AGENT = "Project-OEN-VR-source-acquisition/1.3"
 DEFAULT_RETRIES = 4
 DEFAULT_INTER_DOWNLOAD_DELAY = 1.5
 
@@ -37,19 +36,11 @@ def ffprobe(path: Path) -> dict | None:
     executable = shutil.which("ffprobe")
     if not executable:
         return None
-    result = subprocess.run(
-        [
-            executable,
-            "-v", "error",
-            "-select_streams", "a:0",
-            "-show_entries", "stream=codec_name,sample_rate,channels,bits_per_raw_sample:format=duration",
-            "-of", "json",
-            str(path),
-        ],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
+    result = subprocess.run([
+        executable, "-v", "error", "-select_streams", "a:0",
+        "-show_entries", "stream=codec_name,sample_rate,channels,bits_per_raw_sample:format=duration,bit_rate",
+        "-of", "json", str(path),
+    ], capture_output=True, text=True, check=False)
     if result.returncode != 0:
         return {"error": result.stderr.strip() or "ffprobe failed"}
     return json.loads(result.stdout)
@@ -75,14 +66,25 @@ def load_candidates(path: Path = CANDIDATES) -> list[dict]:
     return [item for item in candidates if isinstance(item, dict)]
 
 
+def load_excluded_targets(path: Path | None) -> set[str]:
+    if path is None:
+        return set()
+    resolved = resolve_candidate_source(path)
+    data = json.loads(resolved.read_text(encoding="utf-8"))
+    records = data.get("records")
+    if not isinstance(records, list):
+        raise RuntimeError("exclude-targets source must contain a records list")
+    return {item.get("target") for item in records if isinstance(item, dict) and isinstance(item.get("target"), str)}
+
+
 def _retry_delay(exc: urllib.error.HTTPError, attempt: int) -> float:
     retry_after = exc.headers.get("Retry-After") if exc.headers else None
     if retry_after:
         try:
-            return min(60.0, max(1.0, float(retry_after)))
+            return min(90.0, max(2.0, float(retry_after)))
         except ValueError:
             pass
-    return min(60.0, (2.0 ** attempt) + random.uniform(0.25, 1.25))
+    return min(90.0, (3.0 ** attempt) + random.uniform(0.5, 2.0))
 
 
 def _download_bytes(url: str, part_path: Path, timeout: int, retries: int) -> None:
@@ -109,7 +111,7 @@ def _download_bytes(url: str, part_path: Path, timeout: int, retries: int) -> No
             last_error = exc
             if attempt >= retries:
                 raise
-            delay = min(60.0, (2.0 ** attempt) + random.uniform(0.25, 1.25))
+            delay = min(90.0, (3.0 ** attempt) + random.uniform(0.5, 2.0))
             part_path.unlink(missing_ok=True)
             print(f"RETRY transport error: attempt {attempt + 2}/{retries + 1} in {delay:.1f}s", file=sys.stderr)
             time.sleep(delay)
@@ -148,59 +150,7 @@ def download(candidate: dict, originals: Path, timeout: int, retries: int = DEFA
     }
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--candidate-source", type=Path, default=DEFAULT_CANDIDATES,
-                        help="Repository-local candidate JSON. Defaults to canonical acquisition_candidates.source.json.")
-    parser.add_argument("--target", action="append", default=[], help="Acquire one target; repeat as needed.")
-    parser.add_argument("--all-direct", action="store_true", help="Acquire every candidate with directDownload metadata.")
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
-    parser.add_argument("--timeout", type=int, default=90)
-    parser.add_argument("--retries", type=int, default=DEFAULT_RETRIES)
-    parser.add_argument("--inter-download-delay", type=float, default=DEFAULT_INTER_DOWNLOAD_DELAY)
-    args = parser.parse_args()
-
-    candidate_source = resolve_candidate_source(args.candidate_source)
-    candidates = load_candidates(candidate_source)
-    direct = [item for item in candidates if item.get("directDownload")]
-    requested = set(args.target)
-    selected = direct if args.all_direct else [item for item in direct if item.get("target") in requested]
-
-    if not selected:
-        available = ", ".join(str(item.get("target")) for item in direct)
-        print("No direct-download candidate selected.")
-        print(f"Available direct targets: {available}")
-        print("Use --target TARGET or --all-direct.")
-        return 2
-
-    output_root = args.output if args.output.is_absolute() else ROOT / args.output
-    output_root = output_root.resolve()
-    originals = output_root / "originals"
-    manifest_path = output_root / "acquisition_manifest.json"
-    output_root.mkdir(parents=True, exist_ok=True)
-
-    previous: dict = {"version": 1, "records": []}
-    if manifest_path.exists():
-        try:
-            previous = json.loads(manifest_path.read_text(encoding="utf-8"))
-        except Exception:
-            previous = {"version": 1, "records": []}
-    records = [item for item in previous.get("records", []) if isinstance(item, dict)]
-
-    failures = 0
-    for index, candidate in enumerate(selected):
-        target = candidate.get("target")
-        if index and args.inter_download_delay > 0:
-            time.sleep(args.inter_download_delay)
-        try:
-            record = download(candidate, originals, args.timeout, max(0, args.retries))
-            records = [item for item in records if item.get("target") != target]
-            records.append(record)
-            print(f"ACQUIRED {target}: {record['bytes']} bytes sha256={record['sha256']}")
-        except Exception as exc:  # noqa: BLE001
-            failures += 1
-            print(f"FAILED {target}: {exc}", file=sys.stderr)
-
+def write_manifest(manifest_path: Path, candidate_source: Path, records: list[dict]) -> None:
     manifest = {
         "version": 1,
         "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
@@ -209,6 +159,59 @@ def main() -> int:
         "rule": "acquired-original is not listening-approved, derived-master-approved, Unity-integrated or release-approved",
     }
     manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--candidate-source", type=Path, default=DEFAULT_CANDIDATES)
+    parser.add_argument("--target", action="append", default=[])
+    parser.add_argument("--all-direct", action="store_true")
+    parser.add_argument("--exclude-targets-from", type=Path, help="JSON receipt with records[].target values to skip.")
+    parser.add_argument("--allow-empty", action="store_true", help="Write an empty manifest and succeed when selection is empty.")
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--timeout", type=int, default=90)
+    parser.add_argument("--retries", type=int, default=DEFAULT_RETRIES)
+    parser.add_argument("--inter-download-delay", type=float, default=DEFAULT_INTER_DOWNLOAD_DELAY)
+    args = parser.parse_args()
+
+    candidate_source = resolve_candidate_source(args.candidate_source)
+    candidates = load_candidates(candidate_source)
+    excluded = load_excluded_targets(args.exclude_targets_from)
+    direct = [item for item in candidates if item.get("directDownload") and item.get("target") not in excluded]
+    requested = set(args.target)
+    selected = direct if args.all_direct else [item for item in direct if item.get("target") in requested]
+
+    output_root = args.output if args.output.is_absolute() else ROOT / args.output
+    output_root = output_root.resolve()
+    originals = output_root / "originals"
+    manifest_path = output_root / "acquisition_manifest.json"
+    output_root.mkdir(parents=True, exist_ok=True)
+
+    if not selected:
+        if args.allow_empty:
+            write_manifest(manifest_path, candidate_source, [])
+            print(f"No unexcluded direct targets selected; wrote empty manifest: {manifest_path}")
+            return 0
+        available = ", ".join(str(item.get("target")) for item in direct)
+        print("No direct-download candidate selected.")
+        print(f"Available direct targets: {available}")
+        return 2
+
+    records: list[dict] = []
+    failures = 0
+    for index, candidate in enumerate(selected):
+        target = candidate.get("target")
+        if index and args.inter_download_delay > 0:
+            time.sleep(args.inter_download_delay)
+        try:
+            record = download(candidate, originals, args.timeout, max(0, args.retries))
+            records.append(record)
+            print(f"ACQUIRED {target}: {record['bytes']} bytes sha256={record['sha256']}")
+        except Exception as exc:  # noqa: BLE001
+            failures += 1
+            print(f"FAILED {target}: {exc}", file=sys.stderr)
+
+    write_manifest(manifest_path, candidate_source, records)
     print(f"Manifest: {manifest_path}")
     return 1 if failures else 0
 
