@@ -116,7 +116,7 @@ def main() -> int:
         stale["bindings"]["takes"]["VO_RADIO_NIGHT1_01__T01.wav"] = "0" * 64
         try:
             normalizer.normalize(stale, session, ROOT)
-        except support.ReviewError as exc:
+        except normalizer.ReviewError as exc:
             assert "bindings are stale" in str(exc)
         else:
             raise AssertionError("stale review binding must be rejected")
