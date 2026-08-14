@@ -126,6 +126,8 @@ jobs:
         run: python tools/generated_art/fix_mockup_ui_ornaments.py
       - name: Refine dedicated production VFX textures
         run: python tools/generated_art/refine_vfx_art.py
+      - name: Raise Stormnatten VFX texture fidelity
+        run: python tools/generated_art/refine_mockup_vfx_v2.py
       - name: Render full sprite VFX and decal review sheets
         run: python tools/generated_art/render_sprite_vfx_review.py
       - name: Upload complete mockup-fidelity visual review
