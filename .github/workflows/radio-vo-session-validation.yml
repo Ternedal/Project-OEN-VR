@@ -5,9 +5,11 @@ on:
     paths:
       - 'content/audio/radio_vo_recording_queue.source.json'
       - 'content/audio/radio_vo_session_contract.source.json'
+      - 'content/localization/da.source.json'
       - 'tools/prepare_radio_vo_session.py'
       - 'tools/validate_radio_vo_session.py'
       - 'tools/validate_radio_vo_session_contract.py'
+      - 'tools/test_prepare_radio_vo_session.py'
       - 'tools/test_radio_vo_session_intake.py'
       - 'docs/66_RADIO_VO_RECORDING_INTAKE.md'
       - '.github/workflows/radio-vo-session-validation.yml'
@@ -15,9 +17,11 @@ on:
     paths:
       - 'content/audio/radio_vo_recording_queue.source.json'
       - 'content/audio/radio_vo_session_contract.source.json'
+      - 'content/localization/da.source.json'
       - 'tools/prepare_radio_vo_session.py'
       - 'tools/validate_radio_vo_session.py'
       - 'tools/validate_radio_vo_session_contract.py'
+      - 'tools/test_prepare_radio_vo_session.py'
       - 'tools/test_radio_vo_session_intake.py'
       - 'docs/66_RADIO_VO_RECORDING_INTAKE.md'
       - '.github/workflows/radio-vo-session-validation.yml'
@@ -31,5 +35,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - run: python -m py_compile tools/prepare_radio_vo_session.py tools/test_prepare_radio_vo_session.py
       - run: python tools/validate_radio_vo_session_contract.py
+      - run: python tools/test_prepare_radio_vo_session.py
       - run: python tools/test_radio_vo_session_intake.py
