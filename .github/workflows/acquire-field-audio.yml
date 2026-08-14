@@ -1,0 +1,58 @@
+name: Acquire field audio candidates
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/acquire-field-audio.yml'
+      - 'tools/acquire_audio_sources.py'
+      - 'tools/validate_audio_field_backlog_acquisition.py'
+      - 'content/audio/acquisition_candidates.field_backlog.source.json'
+      - 'content/audio/acquisition_field_backlog_receipt.source.json'
+
+permissions:
+  contents: read
+
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install technical audio probe
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          ffprobe -version | head -n 1
+
+      - name: Acquire field-backlog candidates
+        run: >-
+          python tools/acquire_audio_sources.py
+          --candidate-source content/audio/acquisition_candidates.field_backlog.source.json
+          --all-direct --timeout 120
+          --output PrivateContent/AudioFieldBacklog
+
+      - name: Verify pinned field sources and report new unpinned candidates
+        run: >-
+          python tools/validate_audio_field_backlog_acquisition.py
+          --root PrivateContent/AudioFieldBacklog
+          --allow-unpinned-new
+
+      - name: Show field acquisition manifest
+        run: cat PrivateContent/AudioFieldBacklog/acquisition_manifest.json
+
+      - name: Upload field originals and manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: oen-audio-field-backlog
+          path: PrivateContent/AudioFieldBacklog/
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
