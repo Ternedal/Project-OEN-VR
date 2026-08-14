@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "status": "derived-master-intake-review-tooling-ready-no-master-approved",
+  "owner": "ChatGPT",
+  "sourceApprovedReceipt": {
+    "requiredStatus": "source-approved-original-materialized-from-human-gate",
+    "requiredRecordFlag": "sourceApproved",
+    "requiredRecordFlagValue": true
+  },
+  "submission": {
+    "filename": "derived_master_submission.json",
+    "status": "derived-master-submission-unvalidated",
+    "requiredPerMaster": [
+      "masterId",
+      "sourceKey",
+      "sourceApprovedSha256",
+      "filename",
+      "intendedUse",
+      "editRecipe"
+    ],
+    "editRecipeRule": "At least one explicit operation is required. If no edit is needed, use the source-approved original directly instead of inventing a derived master."
+  },
+  "technicalIntake": {
+    "receiptFilename": "derived_master_technical_receipt.json",
+    "passStatus": "derived-master-technical-intake-passed-not-listening-approved",
+    "sampleRateHz": 48000,
+    "bitDepth": 24,
+    "channelsAllowed": [1, 2],
+    "codec": "integer PCM WAV",
+    "fullScaleSampleCountMax": 0,
+    "derivedShaMustDifferFromSourceSha": true
+  },
+  "humanReview": {
+    "exportStatus": "human-derived-master-review-unvalidated",
+    "normalizedStatus": "human-derived-master-review-evidence-evaluated-not-materialized",
+    "decisionValues": [
+      "approve-derived-master",
+      "reject-derived-master",
+      "needs-more-listening"
+    ],
+    "typedChecksSource": "content/audio/source_approval_contract.source.json",
+    "rule": "Repeat all eight typed listening checks on each derived WAV. Negative complete evidence is valid."
+  },
+  "derivedMasterApprovedEligibilityRequires": [
+    "clean technical intake receipt bound to current source-approved receipt and derived bytes",
+    "human decision == approve-derived-master",
+    "all eight repeated typed checks completed",
+    "CONTAMINATION == pass",
+    "MATERIAL_MATCH >= 3",
+    "LOOP_OR_SLICE is pass or not-applicable",
+    "NOISE_FLOOR == pass",
+    "TRANSIENT_QUALITY is pass or not-applicable",
+    "SPACE_IDENTITY == pass",
+    "VARIATION_VALUE is a completed 1-5 rating",
+    "SPEECH_SPACE is pass or not-applicable"
+  ],
+  "materialization": {
+    "directory": "derived_master_approved",
+    "receiptFilename": "derived_master_approved_receipt.json",
+    "receiptStatus": "derived-master-approved-materialized-from-human-gate",
+    "copyOnly": true,
+    "sourceAndOutputShaMustMatch": true,
+    "overwriteRequiresExplicitReplace": true
+  },
+  "rules": [
+    "Technical validation never implies listening approval.",
+    "A derived master always remains bound to the exact source-approved original SHA and explicit edit recipe.",
+    "Human review is repeated on the derived file rather than inherited from source approval.",
+    "Derived-master-approved does not imply Unity-integrated, Quest-approved or release-approved.",
+    "Claude owns final runtime import/mix/spatial/device QA."
+  ]
+}
