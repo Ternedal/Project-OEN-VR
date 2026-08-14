@@ -28,8 +28,12 @@
     },
     {
       "eventId": "SFX_AMB_Jungle_DeepBed",
-      "status": "source-acquisition-pending",
-      "next": "Acquire low-detail stable jungle bed; reject dominant close fauna or obvious non-island contamination."
+      "status": "acquired-candidate-human-listening-pending",
+      "sourceTarget": "SFX_AMB_JUNGLE_DEEP_GUADELOUPE_ALT_01",
+      "receipt": "content/audio/acquisition_field_backlog_receipt.source.json",
+      "sourceSha256": "24dd8245130186af92393968a8df037eaa70916fcc2d28381b992aaa9cfcf3c0",
+      "candidateFit": "Natural public-domain source recorded during a walk in the Guadeloupean rainforest. It is location/biome-relevant, but metadata explicitly tags birds/birdsong and the moving-recordist perspective may be too active for a stable deep bed.",
+      "next": "Human listening for footsteps/handling, close-bird dominance, noise and stable low-detail regions. Do not reuse this source as Jungle_CanopyWind without separate evidence."
     },
     {
       "eventId": "SFX_AMB_Ridge_WindBed",
@@ -102,8 +106,8 @@
   ],
   "summary": {
     "trackedRuntimeEvents": 11,
-    "acquiredSourceCandidatePendingHuman": 6,
-    "sourceAcquisitionPending": 5,
+    "acquiredSourceCandidatePendingHuman": 7,
+    "sourceAcquisitionPending": 4,
     "sourceApproved": 0,
     "runtimeProducedFromThisCoverage": 0
   }
