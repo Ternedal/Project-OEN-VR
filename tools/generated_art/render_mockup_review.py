@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
-"""Render deterministic review thumbnails from canonical Project ØEN OBJ assets.
+"""Render deterministic art-direction thumbnails from actual Project ØEN OBJ assets.
 
-This is an art-direction gate, not a geometry validator. It produces one contact
-sheet from the actual generated OBJ files so reviewers can compare the production
-assets with the approved gameplay/asset mockups instead of relying on vertex counts.
-No Blender/OpenGL dependency is required; Pillow is already present in the art CI.
+The review deliberately shows filled shaded surfaces rather than triangle outlines.
+The previous renderer exposed every triangulation edge, which made otherwise solid
+Unity geometry look like a wireframe and distorted art-direction judgement. This
+version uses supersampling, consistent ground contact and simple directional fill so
+silhouette/material breakup can be compared fairly against the approved mockups.
 """
 from __future__ import annotations
 
 import json, math
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -18,11 +19,12 @@ PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
 MANIFEST=PROD/"Docs"/"production_art_manifest.json"
 OUT=HERE/"review_renders"
 
+# Deliberately close to the approved muted jungle / earth / rock / water palette.
 PALETTE={
- "Wood":(116,83,53), "Rope":(151,132,94), "Tarp":(40,72,83),
- "Metal":(91,98,96), "Stone":(76,79,75), "Leaf":(43,72,43),
- "Cloth":(101,87,68), "Mud":(62,61,48), "Fire":(239,126,40),
- "Char":(39,40,36), "Water":(49,79,91),
+ "Wood":(122,90,58), "Rope":(151,132,94), "Tarp":(49,76,82),
+ "Metal":(96,102,101), "Stone":(78,78,76), "Leaf":(38,64,40),
+ "Cloth":(112,94,73), "Mud":(87,78,60), "Fire":(255,158,58),
+ "Char":(43,43,40), "Water":(46,77,92),
 }
 TARGETS=[
  ("PR-001","wet","WET TARP / PRESENNING"),
@@ -51,7 +53,7 @@ def parse_obj(path:Path):
     return verts,faces
 
 
-def rotate(p,yaw=-35,pitch=18):
+def rotate(p,yaw=-35,pitch=16):
     x,y,z=p; a=math.radians(yaw); ca,sa=math.cos(a),math.sin(a)
     x,z=x*ca+z*sa,-x*sa+z*ca
     b=math.radians(pitch); cb,sb=math.cos(b),math.sin(b)
@@ -69,23 +71,34 @@ def tint(rgb,k): return tuple(max(0,min(255,int(c*k))) for c in rgb)
 
 
 def render_obj(path:Path,size=(620,430)):
-    w,h=size; verts,faces=parse_obj(path); rv=[rotate(v) for v in verts]
+    # 2x supersampling removes jagged primitive edges without inventing detail.
+    ss=2; w,h=size; rw,rh=w*ss,h*ss
+    verts,faces=parse_obj(path); rv=[rotate(v) for v in verts]
     xs=[p[0] for p in rv]; ys=[p[1] for p in rv]
     if not xs: return Image.new("RGB",size,(24,28,26))
     minx,maxx,miny,maxy=min(xs),max(xs),min(ys),max(ys); spanx=max(maxx-minx,.01); spany=max(maxy-miny,.01)
-    scale=min((w-90)/spanx,(h-80)/spany); cx=(minx+maxx)/2; cy=(miny+maxy)/2
-    def sp(p): return (w/2+(p[0]-cx)*scale,h/2-(p[1]-cy)*scale+8)
-    im=Image.new("RGB",size,(22,27,25)); d=ImageDraw.Draw(im)
-    # soft ground plane / horizon anchors scale without pretending to be a game screenshot
-    d.rectangle((0,int(h*.76),w,h),fill=(31,35,31)); d.line((0,int(h*.76),w,int(h*.76)),fill=(66,67,58),width=1)
-    light=(.28,.82,-.49)
-    packets=[]
+    scale=min((rw-100*ss)/spanx,(rh-90*ss)/spany); cx=(minx+maxx)/2
+    floor_y=rh-48*ss
+    def sp(p): return (rw/2+(p[0]-cx)*scale,floor_y-(p[1]-miny)*scale)
+
+    im=Image.new("RGB",(rw,rh),(21,26,23)); d=ImageDraw.Draw(im)
+    ground_y=floor_y+5*ss
+    d.rectangle((0,ground_y,rw,rh),fill=(31,36,31))
+    d.line((0,ground_y,rw,ground_y),fill=(61,65,56),width=1*ss)
+    shadow_w=min(rw*.70,spanx*scale*.72); shadow_x=rw/2
+    d.ellipse((shadow_x-shadow_w/2,ground_y-8*ss,shadow_x+shadow_w/2,ground_y+12*ss),fill=(18,22,19))
+
+    light=(.34,.86,-.38); packets=[]
     for ia,ib,ic,mat in faces:
-        a,b,c=rv[ia],rv[ib],rv[ic]; n=normal(a,b,c); lam=max(-.25,min(1,n[0]*light[0]+n[1]*light[1]+n[2]*light[2])); shade=.68+.30*abs(lam)
-        depth=(a[2]+b[2]+c[2])/3; packets.append((depth,(sp(a),sp(b),sp(c)),tint(PALETTE.get(mat,(125,120,110)),shade)))
+        a,b,c=rv[ia],rv[ib],rv[ic]; n=normal(a,b,c)
+        lam=max(0.0,min(1.0,n[0]*light[0]+n[1]*light[1]+n[2]*light[2]))
+        # Back faces are still visible (OBJ assets are used from arbitrary review angles), but darker.
+        shade=.56+.42*lam
+        depth=(a[2]+b[2]+c[2])/3
+        packets.append((depth,(sp(a),sp(b),sp(c)),tint(PALETTE.get(mat,(125,120,110)),shade)))
     for _,poly,col in sorted(packets,key=lambda q:q[0],reverse=True):
-        d.polygon(poly,fill=col,outline=tint(col,.62))
-    return im
+        d.polygon(poly,fill=col)
+    return im.resize(size,Image.Resampling.LANCZOS)
 
 
 def pick(manifest,aid,variant):
@@ -102,7 +115,7 @@ def main():
     manifest=json.loads(MANIFEST.read_text(encoding="utf-8")); cards=[]
     for aid,var,label in TARGETS:
         path=pick(manifest,aid,var); img=render_obj(path)
-        d=ImageDraw.Draw(img); d.rectangle((0,0,img.width,38),fill=(15,18,17)); d.text((14,11),label,fill=(226,220,199))
+        d=ImageDraw.Draw(img); d.rectangle((0,0,img.width,38),fill=(14,18,16)); d.text((14,11),label,fill=(226,220,199))
         d.text((img.width-92,11),aid,fill=(151,165,137)); cards.append(img)
         img.save(OUT/f"{aid.lower()}_{(var or 'state').replace(' ','_')}.png",compress_level=6)
     cols=2; rows=math.ceil(len(cards)/cols); cw,ch=cards[0].size
@@ -111,7 +124,7 @@ def main():
     sd.text((18,42),"Compare silhouette, material breakup, weathering story and hand-built character against approved mockups.",fill=(153,164,148))
     for i,img in enumerate(cards): sheet.paste(img,((i%cols)*cw,68+(i//cols)*ch))
     sheet.save(OUT/"mockup_fidelity_contact_sheet.png",compress_level=6)
-    print(f"Rendered {len(cards)} actual production OBJ review cards -> {OUT.relative_to(ROOT)}")
+    print(f"Rendered {len(cards)} filled/supersampled production OBJ review cards -> {OUT.relative_to(ROOT)}")
     return 0
 
 if __name__=="__main__": raise SystemExit(main())
