@@ -36,8 +36,8 @@ namespace ProjectOen.Art.Editor
         {
             if (!AssetDatabase.IsValidFolder(MeshRoot))
             {
-                Debug.LogError("[ProjectOEN.Art] Missing generated mesh root: " + MeshRoot);
-                return;
+                throw new InvalidOperationException(
+                    "[ProjectOEN.Art] Missing generated mesh root: " + MeshRoot);
             }
 
             EnsureFolder(PrefabRoot);
@@ -75,8 +75,10 @@ namespace ProjectOen.Art.Editor
             }
             else
             {
-                Debug.LogError("[ProjectOEN.Art] Built " + built + " prefabs with " + failures.Count +
-                               " failure(s):\n" + string.Join("\n", failures));
+                string message = "[ProjectOEN.Art] Built " + built + " prefabs with " + failures.Count +
+                                 " failure(s):\n" + string.Join("\n", failures);
+                Debug.LogError(message);
+                throw new InvalidOperationException(message);
             }
         }
 
