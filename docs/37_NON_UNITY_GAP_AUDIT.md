@@ -2,279 +2,189 @@
 
 **Ejer:** ChatGPT  
 **Projektejer:** Anders  
-**Dato:** 2026-08-13  
+**Opdateret:** 2026-08-14  
 **Scope:** Alt uden for Unity jf. `AI_COLLABORATION_AGREEMENT.md`
 
 ## Konklusion
 
-PROJECT ØEN er **langt fra færdig uden for Unity**.
+Den oprindelige gap-audit fra 2026-08-13 var et arbejdsdokument. Dens N-002–N-010 leverancer er nu faktisk oprettet på `main` og må ikke længere behandles som manglende arbejde.
 
-Den tidligere arbejdsregel, hvor source asset/audio-manifests først blev åbnet efter grøn M-Pre, var for restriktiv. M-Pre skal blokere **irreversible eller dyre design-/produktionsbeslutninger**, ikke det forberedende arbejde der gør projektet eksekverbart.
+Det betyder **ikke**, at PROJECT ØEN er færdigt. Den korrekte status er nu:
 
-Den korrekte regel er derfor:
+> Den brede automatable non-Unity foundation er leveret. De primære resterende gates kræver faktisk menneskeevidens, fysisk Quest-evidens eller en eksplicit owner-beslutning.
 
-> **Specifikation, katalogisering, content coverage, copy, QA-design, personaliseringskontrakter og produktionsberedskab må laves før M-Pre.**
->
-> **Tuning, dyr masseproduktion og designvalg som M-Pre/OQ-tests faktisk skal afgøre, venter på evidens.**
+Tooling readiness, source readiness og CI er ikke det samme som human approval, Unity integration eller release approval.
 
-Dette dokument er ChatGPTs samlede mangelliste og prioriteringsgrundlag.
+Autoritative statusflader:
 
----
-
-# 1. Status pr. arbejdsområde
-
-| Område | Status | Må arbejdes nu? | Primær ejer |
-|---|---|---:|---|
-| Produktvision / core loop | God baseline, enkelte åbne designspørgsmål | Ja, men ikke lukke evidensspørgsmål | ChatGPT |
-| M-Pre | Materiale klar, menneskedata mangler | Testen kræver mennesker | ChatGPT/Anders |
-| Scenario/content | Bible + eksempeldata findes, men produktionsspec er ufuldstændig | **Ja** | ChatGPT |
-| Narrative/copy | Spredt i docs, intet samlet katalog | **Ja** | ChatGPT |
-| UX/information architecture | Principper findes, konkrete states/copy mangler | **Ja** | ChatGPT |
-| Source assets | Retning findes, autoritativ assetliste mangler | **Ja** | ChatGPT |
-| Audio | Retning findes, cue-/source-manifest mangler | **Ja** | ChatGPT |
-| VFX design | Retning findes, cue-/state-spec mangler | **Ja** | ChatGPT; Unity-implementation Claude |
-| Personalization | Schema/example findes, produktionspakke mangler | **Ja** | ChatGPT |
-| Localization | Krav/key-regel findes, source-string-katalog mangler | **Ja** som forberedelse |
-| Human QA | Releasekrav findes, milepælsvise testpakker mangler | **Ja** | ChatGPT |
-| Device/Unity QA | M0b + senere device-gates | Nej, Claude-spor | Claude/Anders |
-| Release/gaveoplevelse | Tekniske releasekrav findes, bruger-/gaveflow er tyndt | **Ja** | ChatGPT + Claude for build |
-| IP/licenser/provenance | Risiko dokumenteret, ingen operationel asset-registerproces | **Ja** | ChatGPT |
-| Telemetry/after-action product spec | Grundprincip findes, præsentationsspec mangler | **Ja** | ChatGPT |
-| Marketing/offentlig release | Ikke nødvendigt til gaveversionen | Senere | ChatGPT |
+- source/content state: `content/source_inventory.source.json`
+- non-Unity workflow/tooling state: `content/non_unity_capability_matrix.source.json`
+- asset/function IDs: `docs/38_SOURCE_ASSET_MANIFEST.md`
+- current repo summary: `repo_status.md`
 
 ---
 
-# 2. Verificerede non-Unity-huller
+# 1. Closeout af den oprindelige N-00x-kø
 
-## A. Source asset manifest mangler
+| ID | Oprindelig leverance | Aktuel source of truth | Status nu |
+|---|---|---|---|
+| N-001 | Non-Unity gap audit | `docs/37_NON_UNITY_GAP_AUDIT.md` | **Reconciled** |
+| N-002 | Source asset manifest | `docs/38_SOURCE_ASSET_MANIFEST.md` | **Leveret** |
+| N-003 | Audio cue manifest | `docs/39_AUDIO_CUE_MANIFEST.md` | **Leveret** |
+| N-004 | UX/copy/localization catalog | `docs/40_UX_COPY_AND_LOCALIZATION_CATALOG.md` + `content/localization/da.source.json` | **Leveret** |
+| N-005 | Personalization package spec | `docs/41_PERSONALIZATION_PACKAGE_SPEC.md` | **Leveret kontrakt; private assets produceres senere** |
+| N-006 | Human QA/playtest pack | `docs/42_HUMAN_QA_PLAYTEST_PACK.md` + `prototype/m-pre/` | **Leveret; real human execution mangler hvor gate kræver det** |
+| N-007 | IP/provenance register | `docs/43_IP_AND_ASSET_PROVENANCE.md` + `source_art/PROVENANCE_INDEX.md` | **Leveret workflow/register** |
+| N-008 | Content coverage matrix | `docs/44_CONTENT_COVERAGE_MATRIX.md` | **Leveret** |
+| N-009 | Releasekritiske interaction briefs | `design/interactions/` | **Leveret product/player-experience briefs; evidensafhængige valg står åbne** |
+| N-010 | Gift/release product flow | `docs/45_GIFT_EXPERIENCE_AND_RELEASE_FLOW.md` | **Leveret product flow** |
 
-`docs/11_ART_AUDIO_UI_DIRECTION.md` beskriver stil, men ikke **hvilke konkrete source assets der skal produceres**.
+## N-009 coverage
 
-Backloggen indeholder blandt andet:
+`design/interactions/` indeholder nu:
 
-- `PO-038` fysisk planlægningsbord
-- `PO-042` shelter greybox interaction
-- `PO-044` fire-start interaction
-- `PO-045` signal frame interaction
-- `PO-054` strand/camp
-- `PO-055` jungle
-- `PO-056` ravine rescue
-- `PO-080` shared material palette
-- `PO-081` camp art
-- `PO-082` jungle/ravine art
-- `PO-083` storm VFX
-- `PO-085` avatar polish
+- `PLANNING_TABLE.md`
+- `SHELTER_REINFORCEMENT.md`
+- `FIRE_START.md`
+- `RAVINE_RESCUE.md`
+- `STORM_FINALE.md`
 
-Der mangler en autoritativ liste med asset-ID, funktion, zone, milepæl, source-format, variation, status og Unity-handoff.
+`STORM_FINALE.md` dækker storm phase 1–5 inklusive final signal/signal-frame payoff. Det er derfor ikke korrekt længere at oprette separate briefs bare for at tilfredsstille den gamle auditliste.
 
-**Handling:** `docs/38_SOURCE_ASSET_MANIFEST.md`.
-
----
-
-## B. Audio cue/source manifest mangler
-
-Audio-retningen siger bl.a. zone ambience, vindlag, tagknirken, rebspænding, fire-state, dyr og adaptiv musik, men der findes ikke et cue-katalog.
-
-Backlog-item `PO-084` dækker implementeringen/produktionen senere, men source-design og katalogisering kan udføres nu.
-
-**Handling:** `docs/39_AUDIO_CUE_MANIFEST.md`.
+Fire-start-briefet er en specification/source reference. Det promoverer **ikke** owner-gated PO-044 eller onboarding-fire-start til accepted gift scope.
 
 ---
 
-## C. UX-copy og localization source catalog mangler
+# 2. Non-Unity foundation der siden er landet
 
-Repoet har:
+Ud over den oprindelige N-00x-kø findes nu machine-readable/product/source/tooling for blandt andet:
 
-- key-regel i `docs/10`
-- subtitle/accessibility-krav i `docs/09`
-- tutorialprincipper i `docs/05`
-- `PO-104` localization/subtitle content senere
+- canonical onboarding og Day 3 planning
+- issue #8 reconciliation med fire-start som owner-gated node
+- after-action presentation
+- event presentation og finale contract
+- neutral personalization fallback
+- expanded source-art inventory og provenance
+- actual acquired audio receipts/technical QA
+- reproducible 25-source human audition pack
+- typed human source-approval gate
+- derived-master technical intake + repeated human listening gate
+- radio VO 9 cues × 3 takes operator/intake/review/selection/materialization pipeline
+- 14 deterministic music candidates + exact-byte reproducibility
+- human canonical-family music selection + materialization
+- M-Pre evaluator + tamper-evident evidence bundle
+- validated non-Unity capability matrix
 
-Men der findes ikke ét sted med alle spillerrettede tekster, hints, errors, radio-linjer og neutral fallback-copy.
-
-Det gør UI- og content-handoffs unødvendigt uklare.
-
-**Handling:** `docs/40_UX_COPY_AND_LOCALIZATION_CATALOG.md`.
-
----
-
-## D. Personalization er kun en datakontrakt — ikke en produktionspakke
-
-Der findes schema og eksempelprofil, men der mangler konkrete regler for:
-
-- private filers source-format
-- safe-zone/crop for billeder
-- audio source master
-- memento-slots
-- neutral fallback-copy
-- hvordan romantisk/personligt indhold holdes adskilt fra canonical gameplay
-- QA før private assets gives til Claude
-- hvad der aldrig må ende i log/repo
-
-**Handling:** `docs/41_PERSONALIZATION_PACKAGE_SPEC.md`.
+Se `content/non_unity_capability_matrix.source.json` for den maskinlæsbare pipeline-status.
 
 ---
 
-## E. Human QA er beskrevet som gates, men ikke pakket som milepælstests
+# 3. Faktiske åbne gates
 
-`docs/13` definerer releasekrav, men en facilitator/tester har ikke en ready-to-run-pakke for:
+## A. M0b — issue #3 — fysisk device evidence
 
-- M1 reach/comfort
-- M3 one-day cooperation
-- M5 storm slice
-- M6 full scenario
-- M8 personalization/fallback
-- M9 release/comfort
+Claude/Anders-lane.
 
-**Handling:** `docs/42_HUMAN_QA_PLAYTEST_PACK.md`.
+Mangler fortsat faktisk Quest 2/Quest 3 cross-device evidence, herunder:
 
----
+- remote head/hands
+- compatibility mismatch rejection
+- shared two-player state
+- 10× Q2↔Q3 coop-object løft uden permanent desync
+- 72 Hz minimal network scene
+- standby/reconnect
+- faktisk compatibility matrix
 
-## F. IP/licens/provenance er en risiko, men ikke en arbejdsgang
+Synthetic repo-tests må ikke lukke gaten.
 
-R-009 er åben. Projektet siger original IP, men der mangler et konkret register for:
+## B. M-Pre — issue #7 — faktisk menneskeevidens
 
-- købte assets
-- genererede assets
-- egne assets
-- referencekilder
-- musik/SFX-licens
-- fonts
-- billeder i personalization
-- dokumentation for tilladt brug
+Tooling og ready-to-run material er klar. Gaten kræver stadig:
 
-**Handling:** `docs/43_IP_AND_ASSET_PROVENANCE.md`.
+- 3 reelle menneskesessioner
+- mindst 2 forskellige testerpar
+- ingen gavemodtager som tester
+- anonym raw evidence + evaluator + valid evidence bundle
 
----
+AI/simulation må ikke erstatte disse sessioner.
 
-## G. Content coverage er fragmenteret
+## C. Fire-start — issue #8 — owner decision
 
-Scenario-biblen beskriver beats, og `examples/stormnatten.scenario.json` beskriver logisk content, men der mangler en matrix der forbinder:
+Onboarding og Day 3 er canonical. Kun fire-start-disposition mangler.
 
-**beat → interaction → source asset → audio cue → UI/copy → event/tag → test → Unity-handoff**.
+Safe default forbliver:
 
-Det er den vigtigste koordinationsflade mellem ChatGPT og Claude efter samarbejdsaftalen.
+- `implementationAllowed=false`
+- ikke accepted gift scope
+- 1.012 accepted timer / 439 deferred timer uændret
 
-**Handling:** `docs/44_CONTENT_COVERAGE_MATRIX.md`.
+Anders skal eksplicit vælge remove/skip, minimal onboarding beat eller full PO-044 før scope/totals ændres.
 
----
+## D. Human audio evidence
 
-## H. Interaktionsdesign er for ofte kun én linje i backloggen
+Tooling er klar, men følgende kan ikke produceres syntetisk:
 
-Flere Unity-features har designintention, men ikke implementeringsklar player-experience-spec:
+- faktisk audition/selection af acquired ambience/Foley
+- typed human source approval
+- faktisk radio VO recording
+- human pronunciation/delivery/semantic/rights review
+- human music audition/family selection
+- human re-listening på eventuelle derived masters
 
-- shelter reinforcement
-- fire start
-- signal frame
-- ravine rescue
-- plan table
-- storm phase 1-5
-- final signal
+## E. Unity/Quest physical QA
 
-ChatGPT bør levere disse som **interaction briefs** uden Unity-arkitektur.
-
-**Handling:** opret `design/interactions/` og briefs for de releasekritiske sekvenser.
+Draft PR #5/#6 og øvrig Unity/runtime/device acceptance er Claude/device-lane og må ikke promoveres alene på CI.
 
 ---
 
-## I. Gave-/releaseoplevelsen er teknisk beskrevet, men ikke produktmæssigt
+# 4. Åbne produktspørgsmål der kræver evidens
 
-Der mangler blandt andet:
+Følgende må fortsat ikke lukkes på AI-vurdering alene:
 
-- first-launch flow
-- hvordan den anden spiller inviteres
-- hvad der vises før spillet uden at spoile gaven
-- neutral fallback hvis private content ikke er tilgængeligt
-- finale/epilog experience contract
-- post-game/replay flow
-
-**Handling:** senere `docs/45_GIFT_EXPERIENCE_AND_RELEASE_FLOW.md`.
-
----
-
-# 3. Arbejde der er blokeret af evidens
-
-Følgende må **ikke** lukkes på AI-vurdering:
-
-- OQ-006: om fire effort markers skaber diskussion
-- OQ-007/OQ-009: rolleasymmetri / rollevalg
+- OQ-006: skaber effort-marker planning reel diskussion?
+- OQ-007/OQ-009: rolleasymmetri / rollepolitik
 - OQ-008: randomness fairness
-- OQ-010: efterspils-konkurrence
-- M-Pre gate
-- endelig balance af scenario-tal
-- endelig sværhedsgrad
-- endelig 35-45 min content density
+- OQ-010: after-action competition
+- endelig scenario-balance og sværhedsgrad
+- endelig 35–45 min content density
 
-`docs/10` markerer eksplicit tallene i `examples/stormnatten.scenario.json` som **placeholdere til validering, ikke balancering**. De skal ikke gøres canonical før playtest.
+Placeholder-tal skal forblive testinput, ikke falsk final balance.
 
 ---
 
-# 4. Arbejde der er blokeret af Unity/device-evidens
+# 5. Hvad ChatGPT stadig må gøre autonomt
 
-Claude/Anders ejer:
+Fortsat tilladt uden at fabrikere evidens:
 
-- M0b cross-device
-- concrete locomotion implementation
-- XRI/Fusion binding
-- runtime materials/shaders
-- VFX implementation
-- audio implementation/mix in Unity
-- builds/signing
-- Quest profiling
-- device regressions
+1. rette dokumenteret contract/status drift
+2. forbedre fail-closed validators og deterministic handoff tooling ved konkrete gaps
+3. producere source/content kun når en konkret manglende master reducerer implementation ambiguity
+4. ingestere og validere faktisk menneske-/device-evidens når Anders/Claude leverer den
+5. opdatere roadmap/status atomisk efter faktisk gate-resultat
+6. forberede M1 handoff når både M0b og M-Pre er grønne
 
-ChatGPT kan stadig levere krav, assets, source audio, copy og testcases til ovenstående.
+Undgå:
 
----
-
-# 5. Korrigeret prioriteret ChatGPT-kø
-
-## Nu — ingen gateblokering
-
-| ID | Leverance | Resultat |
-|---|---|---|
-| N-001 | Non-Unity gap audit | Dette dokument |
-| N-002 | Source asset manifest | `docs/38_SOURCE_ASSET_MANIFEST.md` |
-| N-003 | Audio cue manifest | `docs/39_AUDIO_CUE_MANIFEST.md` |
-| N-004 | UX/copy/localization catalog | `docs/40_UX_COPY_AND_LOCALIZATION_CATALOG.md` |
-| N-005 | Personalization package spec | `docs/41_PERSONALIZATION_PACKAGE_SPEC.md` |
-| N-006 | Human QA/playtest pack | `docs/42_HUMAN_QA_PLAYTEST_PACK.md` |
-| N-007 | IP/provenance register | `docs/43_IP_AND_ASSET_PROVENANCE.md` |
-| N-008 | Content coverage matrix | `docs/44_CONTENT_COVERAGE_MATRIX.md` |
-| N-009 | Releasekritiske interaction briefs | `design/interactions/` |
-| N-010 | Gift/release product flow | `docs/45_GIFT_EXPERIENCE_AND_RELEASE_FLOW.md` |
-
-## Afventer mennesker
-
-- M-Pre / issue #7
-- OQ-008/OQ-009/OQ-010 testresultater
-- senere full-scenario playtests
-
-## Afventer grøn gate før dyr produktion
-
-- masseproduktion af environment art
-- final audio production pass
-- final VFX art
-- tuning af 10 events
-- endelig private personalization-production
-
-Men **specifikationerne for disse må og skal være klar før da**.
+- nye PRs kun for aktivitetens skyld
+- at genoprette allerede leverede N-00x docs
+- at kalde synthetic tests human/device evidence
+- at promovere acquired/candidate audio uden human gate
+- at vælge fire-start scope på Anders' vegne
 
 ---
 
-# 6. Definition of done for ChatGPT-sporet
+# 6. Definition of done for non-Unity gaveversion-sporet
 
-ChatGPTs non-Unity-side er først reelt “færdig” til gaveversionen, når mindst følgende findes og er QA'et:
+Non-Unity-sporet kan først kaldes færdigt, når:
 
-1. alle produktbeslutninger har evidens eller eksplicit owner decision
-2. hele Stormnatten har content coverage
-3. alle source assets har manifest + status + provenance
-4. alle audio cues har manifest + source-status
-5. alle spillerrettede strings har key + dansk source copy + fallback
-6. alle releasekritiske interactions har player-experience brief
-7. personalization-pakken har neutral fallback og privacy QA
-8. alle human gates har ready-to-run testpakker
-9. gave-/first-run-/replay-flowet er beskrevet
-10. alle handoffs til Claude har acceptance criteria og ingen skjulte produktbeslutninger
+1. M-Pre har faktisk GRØNT/RØDT resultat og konsekvenserne er behandlet
+2. owner-gated fire-start er disponeret
+3. evidensafhængige OQ'er er behandlet på faktisk data
+4. nødvendige audio sources/masters har human evidence og korrekt provenance
+5. private personalization source er produceret/QA'et når det faktisk skal bruges, eller neutral fallback er den accepterede release-løsning
+6. alle produkt/content handoffs til Claude er source-stable og uden skjulte produktbeslutninger
+7. status/backlog er reconcilet mod faktisk device/human evidence
 
-Først dér giver det mening at sige, at “alt uden for Unity” er færdigt.
+Indtil da er den korrekte formulering:
+
+> **Automatable non-Unity foundation: langt fremskreden og hovedsageligt lukket. Real-world evidence/owner gates: fortsat åbne.**
