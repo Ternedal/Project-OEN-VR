@@ -1,0 +1,42 @@
+name: Validate source closeout v15
+
+on:
+  pull_request:
+    paths:
+      - 'source_art/items/b1/ITM_KNIFE_001.*'
+      - 'source_art/avatar/base/CHR_TORSO_BASE_001.*'
+      - 'source_art/environment/c1/ENV_EPILOGUE_001.*'
+      - 'content/items/itm_knife.source.json'
+      - 'content/avatar/chr_torso_base.source.json'
+      - 'content/environment/env_epilogue.source.json'
+      - 'content/source_inventory.source.json'
+      - 'docs/38_SOURCE_ASSET_MANIFEST.md'
+      - 'docs/39_AUDIO_CUE_MANIFEST.md'
+      - 'docs/55_SOURCE_PRODUCTION_BATCH_PLAN.md'
+      - 'tools/validate_*source*.py'
+      - 'tools/validate_audio_manifest_registry_alignment.py'
+      - '.github/workflows/source-closeout-v15-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate utility knife
+        run: python tools/validate_utility_knife_source.py
+      - name: Validate neutral torso
+        run: python tools/validate_avatar_torso_source.py
+      - name: Validate epilogue source
+        run: python tools/validate_epilogue_source.py
+      - name: Validate source closeout
+        run: python tools/validate_source_closeout_v15.py
+      - name: Validate audio manifest registry alignment
+        run: python tools/validate_audio_manifest_registry_alignment.py
+      - name: Validate inventory backing
+        run: python tools/validate_source_inventory_backing.py
