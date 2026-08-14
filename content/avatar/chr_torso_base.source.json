@@ -1,7 +1,7 @@
 {
   "id": "CHR_TORSO_BASE_001",
-  "version": 1,
-  "status": "source-reference-ready-unity-pending",
+  "version": 2,
+  "status": "production-source-ready-unity-pending",
   "priority": "C",
   "owner": "ChatGPT",
   "runtimeOwner": "Claude",
@@ -10,7 +10,10 @@
     "mtl": "source_art/avatar/base/CHR_TORSO_BASE_001.mtl",
     "reference": "source_art/avatar/base/CHR_TORSO_BASE_001.svg",
     "units": "meters",
-    "axisIntent": "Z-up"
+    "axisIntent": "Z-up",
+    "productionMesh": true,
+    "semanticParts": true,
+    "uvMapped": true
   },
   "productIntent": {
     "role": "neutral visual grounding for multiplayer avatar",
@@ -29,9 +32,9 @@
     "network replication",
     "collider policy",
     "body tracking assumptions",
-    "final mesh/materials",
+    "runtime mesh/material adaptation",
     "LOD/performance",
     "Quest 2/3 QA"
   ],
-  "releaseRule": "Source reference is not Unity-integrated or release-approved."
+  "releaseRule": "Production source is not Unity-integrated or release-approved."
 }

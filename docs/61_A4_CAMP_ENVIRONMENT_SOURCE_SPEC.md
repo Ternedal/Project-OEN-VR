@@ -357,6 +357,11 @@ A4 does **not** require:
 
 until greybox is stable enough.
 
+The current production source implementation is in
+`source_art/environment/a4/production/`: base ground, landmark assembly layout
+and additive storm-state geometry plus original diffuse material sources. These
+remain tunable source assets, not a device-approved final Unity scene.
+
 ---
 
 # 14. Product QA

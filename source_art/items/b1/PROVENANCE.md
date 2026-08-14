@@ -36,3 +36,5 @@ Source/reference for later 3D/world item production. Runtime meshes, colliders, 
 ## Release status
 
 Source provenance is complete. Final runtime/device/readability acceptance remains pending.
+
+The pack also includes `ITM_KNIFE_001.obj/.mtl/.svg`, a UV-mapped short utility knife with named grip, guard, blunt nose and cutting-contact geometry. Its contract explicitly excludes weapon-first use.

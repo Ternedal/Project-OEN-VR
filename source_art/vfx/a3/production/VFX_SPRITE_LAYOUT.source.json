@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "generator": "tools/generate_a3_vfx_sprites.py",
+  "atlases": {
+    "VFX_RAIN_001.png": {
+      "grid": [
+        2,
+        2
+      ],
+      "cellPixels": [
+        256,
+        256
+      ],
+      "alpha": true
+    },
+    "VFX_WIND_DEBRIS_001.png": {
+      "grid": [
+        2,
+        2
+      ],
+      "cellPixels": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "cells": [
+        "leaf",
+        "fiber",
+        "twig",
+        "flecks"
+      ]
+    },
+    "VFX_FIRE_EMBERS_001.png": {
+      "grid": [
+        2,
+        2
+      ],
+      "cellPixels": [
+        256,
+        256
+      ],
+      "alpha": true
+    },
+    "VFX_FIRE_SMOKE_001.png": {
+      "grid": [
+        2,
+        2
+      ],
+      "cellPixels": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "rows": [
+        "lighter",
+        "wet-dense"
+      ]
+    },
+    "VFX_IMPACT_001.png": {
+      "grid": [
+        2,
+        2
+      ],
+      "cellPixels": [
+        256,
+        256
+      ],
+      "alpha": true
+    },
+    "VFX_ROPE_STRAIN_001.png": {
+      "grid": [
+        2,
+        2
+      ],
+      "cellPixels": [
+        256,
+        256
+      ],
+      "alpha": true,
+      "rule": "secondary cue only"
+    },
+    "VFX_WETNESS_REFERENCE_001.png": {
+      "grid": [
+        1,
+        1
+      ],
+      "cellPixels": [
+        512,
+        512
+      ],
+      "alpha": false,
+      "rule": "look/mask reference, not shader mandate"
+    }
+  },
+  "runtimeBoundary": "Unity particle systems, blending, shader binding, timing, density, pooling, overdraw and device QA remain Claude-owned."
+}

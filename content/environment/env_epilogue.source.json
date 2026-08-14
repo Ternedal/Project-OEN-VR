@@ -1,11 +1,18 @@
 {
   "id": "ENV_EPILOGUE_001",
   "version": 1,
-  "status": "source-reference-ready-unity-pending",
+  "status": "production-source-ready-unity-pending",
   "priority": "C",
   "owner": "ChatGPT",
   "runtimeOwner": "Claude",
   "sourceReference": "source_art/environment/c1/ENV_EPILOGUE_001.svg",
+  "productionSource": {
+    "obj": "source_art/environment/c1/ENV_EPILOGUE_001.obj",
+    "mtl": "source_art/environment/c1/ENV_EPILOGUE_001.mtl",
+    "units": "metres",
+    "axisIntent": "Y-up",
+    "reuseFirstOverlay": true
+  },
   "productIntent": {
     "zoneRule": "existing camp after storm; not a new gameplay zone",
     "requiredReads": [
@@ -31,5 +38,5 @@
       "private content before deliberate reveal"
     ]
   },
-  "releaseRule": "Source reference is not Unity-integrated, human-tested or release-approved."
+  "releaseRule": "Production source is not Unity-integrated, human-tested or release-approved."
 }

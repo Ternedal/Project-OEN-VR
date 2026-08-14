@@ -1,0 +1,19 @@
+# B1 environment source materials; final Unity shaders remain runtime-owned.
+newmtl MAT_FOLIAGE
+Kd 0.20 0.31 0.18
+map_Kd textures/MAT_JUNGLE_FOLIAGE_001.png
+newmtl MAT_ROCK
+Kd 0.28 0.32 0.34
+map_Kd textures/MAT_RAVINE_ROCK_001.png
+newmtl MAT_RIDGE
+Kd 0.34 0.34 0.22
+map_Kd textures/MAT_RIDGE_GROUND_001.png
+newmtl MAT_MARKER
+Kd 0.64 0.57 0.40
+map_Kd textures/MAT_ROUTE_MARKER_001.png
+newmtl MAT_WOOD
+Kd 0.42 0.29 0.18
+map_Kd ../../../props/a2/production/textures/MAT_WEATHERED_WOOD_001.png
+newmtl MAT_ROPE
+Kd 0.68 0.60 0.42
+map_Kd ../../../props/a2/production/textures/MAT_AGED_CANVAS_001.png

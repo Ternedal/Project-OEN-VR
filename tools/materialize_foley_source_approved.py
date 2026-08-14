@@ -20,7 +20,7 @@ def validate_normalized(normalized: dict[str, Any], context: dict[str, Any]) -> 
         raise FoleyReviewError("normalized Foley review bindings are stale")
     cue_reviews = normalized.get("cueReviews")
     if not isinstance(cue_reviews, list) or len(cue_reviews) != contract["expectedCueCount"]:
-        raise FoleyReviewError("normalized Foley review must contain exactly 13 cue reviews")
+        raise FoleyReviewError("normalized Foley review must contain exactly 17 cue reviews")
     by_cue = {x.get("cueId"): x for x in cue_reviews if isinstance(x, dict) and isinstance(x.get("cueId"), str)}
     if set(by_cue) != set(context["cueRecords"]):
         raise FoleyReviewError("normalized Foley cue set no longer matches current session")
@@ -102,7 +102,7 @@ def materialize(session_root: Path, normalized_path: Path, output_root: Path, re
         "sourceCount": len(records),
         "copyOnly": True,
         "records": records,
-        "rule": "These 53 raw Foley originals were explicitly source-approved through hash-bound human evidence. No derived-master, Unity, Quest or release approval is implied.",
+        "rule": "These 73 raw Foley originals were explicitly source-approved through hash-bound human evidence. No derived-master, Unity, Quest or release approval is implied.",
     }
     receipt_path = output_root / contract["output"]["receiptFilename"]
     receipt_path.parent.mkdir(parents=True, exist_ok=True)

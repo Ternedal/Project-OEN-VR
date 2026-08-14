@@ -19,7 +19,7 @@ def validate(root:Path=ROOT):
             _,x,y,z=line.split();vs.append((float(x),float(y),float(z)))
         elif line.startswith("o "): groups.add(line[2:])
         elif line.startswith("f "):
-            faces+=1; ids=[int(x) for x in line.split()[1:]]
+            faces+=1; ids=[int(x.split("/")[0]) for x in line.split()[1:]]
             if len(set(ids))<3: errors.append("degenerate face")
     for g in ["grip_swell","contact_face_left","contact_face_right"]:
         if g not in groups: errors.append(f"missing group {g}")

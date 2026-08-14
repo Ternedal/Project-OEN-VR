@@ -284,7 +284,10 @@ If visible/visited during storm:
 - `B1_RIDGE_READABILITY_001.svg`
 - `PROVENANCE.md`
 
-These are reference masters, not Unity textures or final level maps.
+These SVGs remain reference masters. Modeled source layouts, semantic props,
+materials and retained texture provenance now live in
+`source_art/environment/b1/production/`. They are importable production sources,
+not a mandated final Unity navmesh or device-approved level.
 
 ---
 

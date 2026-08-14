@@ -103,8 +103,8 @@ def main() -> int:
         errors.append("AUDIO_TYPED_SOURCE_APPROVAL currentAuditionSourceCount must remain 27")
     for lane_id in ("FOLEY_RECORDING", "FOLEY_HUMAN_REVIEW"):
         lane = by_id.get(lane_id, {})
-        if (lane.get("expectedCueCount"), lane.get("expectedTakeCount")) != (13, 53):
-            errors.append(f"{lane_id} must remain 13 cues / 53 distinct physical take slots")
+        if (lane.get("expectedCueCount"), lane.get("expectedTakeCount")) != (17, 73):
+            errors.append(f"{lane_id} must remain 17 cues / 73 distinct physical take slots")
     foley_review = by_id.get("FOLEY_HUMAN_REVIEW", {})
     if foley_review.get("materializationContract") != "content/audio/foley_source_materialization_contract.source.json":
         errors.append("FOLEY_HUMAN_REVIEW must retain explicit source materialization contract")
@@ -134,7 +134,7 @@ def main() -> int:
         print(f"Non-Unity capability matrix FAILED: {len(errors)} error(s).")
         return 1
 
-    print(f"Non-Unity capability matrix OK: {len(lanes)} lanes; 27-source acquisition review plus 13-cue/53-take Foley recording+human-review boundaries current; real-world gates remain open.")
+    print(f"Non-Unity capability matrix OK: {len(lanes)} lanes; 27-source acquisition review plus 17-cue/73-take Foley recording+human-review boundaries current; real-world gates remain open.")
     return 0
 
 

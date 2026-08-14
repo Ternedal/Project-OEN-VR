@@ -54,6 +54,7 @@ TestResults/
 PerformanceReports/
 DeviceLogs/
 coverage/
+work/
 
 # Archives generated from this repository
 *.zip

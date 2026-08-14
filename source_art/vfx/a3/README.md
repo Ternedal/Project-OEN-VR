@@ -2,7 +2,7 @@
 
 **Owner:** ChatGPT  
 **Date:** 2026-08-13  
-**Format:** SVG source masters/reference sheets
+**Format:** SVG source masters/reference sheets + deterministic production PNG atlases
 
 This pack provides small, reusable source shapes for storm VFX. It is deliberately **not** a Unity particle/shader implementation.
 
@@ -16,4 +16,6 @@ Files:
 - `VFX_WETNESS_REFERENCE_001.svg` — stylized dry→wet value/roughness reference
 - `STORM_PHASE_REFERENCE.md` — intensity/use contract
 
-Claude owns raster derivation, particle systems, shaders, material binding, overdraw/performance and device tuning.
+Deterministic raster derivatives and their layout metadata now live in
+`production/`. Claude owns particle systems, shaders, material binding,
+timing/density, overdraw/performance and device tuning.

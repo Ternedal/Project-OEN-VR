@@ -1,6 +1,6 @@
 {
   "id": "ITM_EMBER_CARRIER_001",
-  "status": "source-master-ready-unity-pending",
+  "status": "production-source-ready-unity-pending",
   "owner": "ChatGPT",
   "runtimeOwner": "Claude",
   "purpose": "Carry protected embers/fire source from camp to signal frame during the finale.",

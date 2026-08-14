@@ -53,6 +53,19 @@ N-002–N-010 foundation er leveret og valideret: source-asset/audio-manifests, 
 
 Producer kun nyt source/content, når et konkret dokumenteret gap reduceres.
 
+## Grafik/source-produktion
+
+Repoet indeholder nu konkrete importklare non-Unity masters, ikke kun briefs:
+
+- **45 OBJ** source meshes med matchende materialehandoff, herunder Camp, B1, A5, avatar og C1-epilog;
+- **22 PNG** texture/VFX sources;
+- A2-, B1-, A4-, A5-, avatar- og C1-pakker har eksplicitte produktionsvalidatorer;
+- de sidste reference-only priority interactables (`ITM_FIRESTEEL_001`, `ITM_TINDER_001`, `ITM_ROPE_COIL_001`, `ITM_CLOTH_001`, `ITM_MAP_FRAGMENT_001`, `ITM_RADIO_BATTERY_001`) har nu UV-mapped OBJ/MTL source geometry;
+- de fem A5-props og utility knife/repair mallet/ember carrier er erstattet eller opgraderet til UV/materiale/semantic-part handoff;
+- `ENV_EPILOGUE_001` har en reuse-first production overlay, ikke kun et mood board.
+
+Dette lukker den automatiserbare source-art-produktion. Unity-import, shader/prefab/collider/rig/VFX-binding og Quest-visuel acceptance er fortsat runtime/device gates.
+
 ---
 
 # Audio — faktisk pipeline-status
@@ -70,7 +83,7 @@ Kun `SFX_AMB_Beach_PalmCanopy` mangler stadig field acquisition. En exact-fit CC
 
 Der er ingen faktisk human source approval eller derived-master approval påstået.
 
-## Physical Foley — 13 cues / 53 takes
+## Physical Foley — 17 cues / 73 takes
 
 De releasekritiske heavy-crate, rope/tarp og shelter-timber cues har nu en separat fysisk recording lane.
 
@@ -81,7 +94,7 @@ Recording/intake:
 - `tools/prepare_foley_session.py`
 - `tools/validate_foley_session.py`
 
-Shape er **13 canonical cues / 53 distinct physical raw take slots**. Technical intake kræver 48 kHz / 24-bit mono PCM, no full-scale samples, current session/provenance bindings og unikke raw bytes.
+Shape er **17 canonical cues / 73 distinct physical raw take slots**. Technical intake kræver 48 kHz / 24-bit mono PCM, no full-scale samples, current session/provenance bindings og unikke raw bytes.
 
 Human review/promotion:
 
@@ -92,7 +105,7 @@ Human review/promotion:
 - `tools/normalize_foley_human_review.py`
 - `tools/materialize_foley_source_approved.py`
 
-Alle 53 take hashes bindes til 13 cue-family reviews. De 8 canonical listening checks suppleres med `UNDER_WEATHER_READABILITY`. MATERIAL_MATCH og VARIATION_VALUE skal være >=3. Komplet negativ/rerecord evidence er gyldig, men kan ikke source-promote.
+Alle 73 take hashes bindes til 17 cue-family reviews. De 8 canonical listening checks suppleres med `UNDER_WEATHER_READABILITY`. MATERIAL_MATCH og VARIATION_VALUE skal være >=3. Komplet negativ/rerecord evidence er gyldig, men kan ikke source-promote.
 
 **Faktisk status:** 0 fysiske Foley recordings og 0 human Foley approvals er påstået. Tooling er klar; human recording/listening mangler.
 
@@ -128,7 +141,7 @@ PR #5 og #6 forbliver fysisk-QA-blokerede. Repo/CI-evidence alene må ikke bruge
 
 # CI / kvalitet
 
-Aktive guards omfatter bl.a. Core, handoff, source inventory, non-Unity capability/gap/status, field acquisition, 27-source audition/approval, derived masters, **Foley 13/53 recording intake + human review/source promotion**, radio VO, music og M-Pre evidence tooling.
+Aktive guards omfatter bl.a. Core, handoff, source inventory, non-Unity capability/gap/status, field acquisition, 27-source audition/approval, derived masters, **Foley 17/73 recording intake + human review/source promotion**, radio VO, music, M-Pre evidence tooling og de konkrete source-mesh/VFX/audio-master packs.
 
 Grøn CI beviser contract/repository-integritet; ikke menneskelig listening/playtest eller fysisk Quest evidence.
 
@@ -139,7 +152,7 @@ Grøn CI beviser contract/repository-integritet; ikke menneskelig listening/play
 1. **M-Pre:** 3 reelle human sessions → evaluator → evidence bundle → gate-resultat.
 2. **M0b:** rigtig Quest 2/Quest 3 evidence.
 3. **Issue #8:** Anders disponerer fire-start.
-4. **Physical Foley:** optag 53 distinct performances → technical intake → human 13-cue review → evt. copy-only source approval.
+4. **Physical Foley:** optag 73 distinct performances → technical intake → human 17-cue review → evt. copy-only source approval.
 5. **Ambience/Foley acquisition:** human audition af 27-source pack; find exact PalmCanopy original under current policy.
 6. **Radio VO:** faktisk authorized 27-take recording → review/selection.
 7. **Music:** human audition af 14 candidates → 5 canonical selections.

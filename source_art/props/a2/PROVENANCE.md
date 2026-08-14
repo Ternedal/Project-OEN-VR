@@ -3,7 +3,7 @@
 **Class:** `OWN`  
 **Created for:** PROJECT ØEN  
 **Date:** 2026-08-13  
-**Status:** SOURCE REFERENCES / Unity integration pending
+**Status:** SOURCE REFERENCES + UV-MAPPED PRODUCTION MESH PACK / Unity integration pending
 
 All A2 briefs, reference sheets and source masters in this folder are project-original and derive from PROJECT ØEN's own design documents and interaction briefs.
 
@@ -41,5 +41,15 @@ The signal-frame master preserves a stage 0-3 landmark progression from material
 The corresponding Markdown files remain product/handoff contracts.
 
 ChatGPT owns source shape/state/readability intent. Claude owns Unity implementation, XR scale tuning and Quest device QA.
+
+## Production geometry
+
+The A2 production lane now contains concrete metre-scaled OBJ/MTL source geometry, not only reference boards:
+
+- three grabbable core items at this directory level: `ITM_FIRESTEEL_001`, `ITM_TINDER_001` and `ITM_ROPE_COIL_001`;
+- fourteen Camp/world sources under `production/`, including the plan table, heavy crate, firepit, signal frame, shelter states, wreck landmark and support props;
+- explicit UV indices, named semantic parts and resolved project-owned PNG material references.
+
+The three fire-start-related source files do not make manual fire-start canonical; issue #8 remains an owner gate.
 
 Source existence does not imply release approval; runtime readability, performance and interaction still require the relevant gates.

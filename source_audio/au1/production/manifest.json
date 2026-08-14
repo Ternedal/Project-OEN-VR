@@ -1,0 +1,113 @@
+{
+  "source": "generate_au1.py",
+  "cues": [
+    {
+      "file": "SFX_MARKER_PICKUP_001.wav",
+      "sampleRate": 48000,
+      "bitDepth": 16,
+      "channels": 1,
+      "durationSeconds": 0.2,
+      "peakLinearBeforeQuantize": 0.263825,
+      "sha256": "9165ec9a1f08c39f7c6979ef90b16d776cf62adc68d3bf8b151b24e1d1a60409"
+    },
+    {
+      "file": "SFX_MARKER_PLACE_001.wav",
+      "sampleRate": 48000,
+      "bitDepth": 16,
+      "channels": 1,
+      "durationSeconds": 0.22,
+      "peakLinearBeforeQuantize": 0.348186,
+      "sha256": "d7472afc1f46c3c86bbb41287a18628ab04b2b20b7160a3d631aec8ee7b01e8c"
+    },
+    {
+      "file": "SFX_MARKER_MOVE_001.wav",
+      "sampleRate": 48000,
+      "bitDepth": 16,
+      "channels": 1,
+      "durationSeconds": 0.18,
+      "peakLinearBeforeQuantize": 0.216146,
+      "sha256": "47fbb16cc7bc4e4d391af6dd7788eb3a7b0e2f90cb4e4d1fcb1c244af1a1f4bc"
+    },
+    {
+      "file": "SFX_PLAN_READY_001.wav",
+      "sampleRate": 48000,
+      "bitDepth": 16,
+      "channels": 1,
+      "durationSeconds": 0.38,
+      "peakLinearBeforeQuantize": 0.318852,
+      "sha256": "ab53870a58d74e2018333d9c6ae65627275cf0d94eb1e6771198468b7164e9a4"
+    },
+    {
+      "file": "SFX_PLAN_LOCK_001.wav",
+      "sampleRate": 48000,
+      "bitDepth": 16,
+      "channels": 1,
+      "durationSeconds": 0.42,
+      "peakLinearBeforeQuantize": 0.341402,
+      "sha256": "a1abc19624a7082950c6fdf4bcafbe461cb5983bbb89880181eaa4a9bcd4149c"
+    },
+    {
+      "file": "SFX_PLAN_CONFLICT_001.wav",
+      "sampleRate": 48000,
+      "bitDepth": 16,
+      "channels": 1,
+      "durationSeconds": 0.46,
+      "peakLinearBeforeQuantize": 0.256054,
+      "sha256": "10e3de84ddb507994390cb24963c4e0eb1da5b100ae066fc2d97bb651f9a89b0"
+    },
+    {
+      "file": "UIA_JOIN_SUCCESS_001.wav",
+      "sampleRate": 48000,
+      "bitDepth": 16,
+      "channels": 1,
+      "durationSeconds": 0.45,
+      "peakLinearBeforeQuantize": 0.336597,
+      "sha256": "6736b91fa5d00c02d5991594f9f61dc60159f59dd8a2032e6083e300f6d4c987"
+    },
+    {
+      "file": "UIA_RECONNECT_START_001.wav",
+      "sampleRate": 48000,
+      "bitDepth": 16,
+      "channels": 1,
+      "durationSeconds": 0.45,
+      "peakLinearBeforeQuantize": 0.133556,
+      "sha256": "f339207afe090243584354095736b6923151e3daa94d674216ea30b537bfb567"
+    },
+    {
+      "file": "UIA_RECONNECT_SUCCESS_001.wav",
+      "sampleRate": 48000,
+      "bitDepth": 16,
+      "channels": 1,
+      "durationSeconds": 0.42,
+      "peakLinearBeforeQuantize": 0.254159,
+      "sha256": "59a6002168df37861e9f47068fb220b26b731a407bfb6daffd45853a2cfb0207"
+    },
+    {
+      "file": "SFX_CONFIRM_001.wav",
+      "sampleRate": 48000,
+      "bitDepth": 16,
+      "channels": 1,
+      "durationSeconds": 0.26,
+      "peakLinearBeforeQuantize": 0.187267,
+      "sha256": "bf0f2b96586f4b65cfd40c4734ba76da05c568ae1b38925a1dcdca295eaeb45f"
+    },
+    {
+      "file": "SFX_WARNING_001.wav",
+      "sampleRate": 48000,
+      "bitDepth": 16,
+      "channels": 1,
+      "durationSeconds": 0.42,
+      "peakLinearBeforeQuantize": 0.163756,
+      "sha256": "15b5495ffe8524e5f9d27c1bcd6ffaefeba5d82f691ed8706ccab99934d49d8a"
+    },
+    {
+      "file": "SFX_ERROR_SOFT_001.wav",
+      "sampleRate": 48000,
+      "bitDepth": 16,
+      "channels": 1,
+      "durationSeconds": 0.38,
+      "peakLinearBeforeQuantize": 0.225911,
+      "sha256": "3b396dc3788a1d9afbd15165ba4964adad0b9702e890c7fa15227da0b5a99c1f"
+    }
+  ]
+}

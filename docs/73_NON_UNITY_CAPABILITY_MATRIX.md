@@ -15,7 +15,7 @@ The matrix intentionally keeps the following as open gates:
 - M0b physical Quest 2/Quest 3 cross-device evidence — issue #3
 - fire-start owner disposition — issue #8
 - human listening/source selection for acquired ambience/Foley
-- **actual physical Foley recording for 13 cues / 53 planned performances**
+- **actual physical Foley recording for 17 cues / 73 planned performances**
 - **actual human Foley material/variation/weather review after recording**
 - actual authorized radio VO recording and human take selection
 - human music audition/canonical family selection
@@ -55,9 +55,9 @@ This lane remains `gateSatisfied=false` until the 53 physical recordings actuall
 
 After a real technical pass:
 
-1. review tooling revalidates current session, provenance, technical receipt and all 53 take hashes
+1. review tooling revalidates current session, provenance, technical receipt and all 73 take hashes
 2. human reviewer decides keep/rerecord/more-listening per take
-3. human reviewer decides accept/rerecord/more-listening per 13-cue family
+3. human reviewer decides accept/rerecord/more-listening per 17-cue family
 4. the eight canonical listening checks are completed per cue family
 5. MATERIAL_MATCH and VARIATION_VALUE must each be >=3
 6. Foley-specific UNDER_WEATHER_READABILITY must pass
@@ -101,7 +101,7 @@ The validator checks:
 - required lanes are present and unique;
 - important lane statuses still match their underlying contracts;
 - the audition pack represents 27 sources;
-- Foley recording remains 13 cues / 53 physical take slots and explicitly open;
+- Foley recording remains 17 cues / 73 physical take slots and explicitly open;
 - Foley human review remains a separate 13/53 evidence gate and explicitly open;
 - radio VO remains 9 cues / 27 take candidates;
 - music remains 14 candidates / 5 canonical mapped families;

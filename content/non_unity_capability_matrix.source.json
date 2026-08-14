@@ -26,11 +26,11 @@
       "operatorDoc": "docs/74_FOLEY_RECORDING_INTAKE.md",
       "tool": "tools/prepare_foley_session.py",
       "validator": "tools/validate_foley_session.py",
-      "expectedCueCount": 13,
-      "expectedTakeCount": 53,
+      "expectedCueCount": 17,
+      "expectedTakeCount": 73,
       "humanEvidenceRequired": true,
       "gateSatisfied": false,
-      "next": "Record 53 distinct physical Foley performances across heavy crate, rope/tarp and shelter timber, then run technical intake."
+      "next": "Record 73 distinct physical Foley performances across heavy crate, rope/tarp, shelter timber, cold-fire maintenance and ambiguous event props, then run technical intake."
     },
     {
       "id": "FOLEY_HUMAN_REVIEW",
@@ -42,11 +42,11 @@
       "normalizer": "tools/normalize_foley_human_review.py",
       "materializer": "tools/materialize_foley_source_approved.py",
       "validator": "tools/validate_foley_human_review_contract.py",
-      "expectedCueCount": 13,
-      "expectedTakeCount": 53,
+      "expectedCueCount": 17,
+      "expectedTakeCount": 73,
       "humanEvidenceRequired": true,
       "gateSatisfied": false,
-      "next": "After a real 53/53 technical intake, human-review every take and cue family; negative/rerecord evidence is valid, source promotion requires complete positive 13/13 evidence."
+      "next": "After a real 73/73 technical intake, human-review every take and cue family; negative/rerecord evidence is valid, source promotion requires complete positive 17/17 evidence."
     },
     {
       "id": "RADIO_VO_RECORDING",

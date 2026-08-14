@@ -42,7 +42,7 @@ jobs:
           tools/prepare_foley_session.py
           tools/validate_foley_session.py
           tools/test_foley_session.py
-      - name: Validate current 13-cue / 53-take preparation contract
+      - name: Validate current 17-cue / 73-take preparation contract
         run: |
           OUT="$(mktemp -d)/FoleySession"
           python tools/prepare_foley_session.py --output "$OUT"
@@ -50,12 +50,12 @@ jobs:
           import json, sys
           data = json.load(open(sys.argv[1], encoding='utf-8'))
           assert data['status'] == 'prepared-not-recorded'
-          assert data['expectedQueueSessionCount'] == 3
-          assert data['expectedPhysicalSessionCount'] == 3
-          assert data['expectedCueCount'] == 13
-          assert data['expectedTakeCount'] == 53
-          assert len(data['expectedTakes']) == 53
-          print('Foley prepare contract OK: 3 queue sessions, 3 physical sessions, 13 cues, 53 raw slots.')
+          assert data['expectedQueueSessionCount'] == 5
+          assert data['expectedPhysicalSessionCount'] == 5
+          assert data['expectedCueCount'] == 17
+          assert data['expectedTakeCount'] == 73
+          assert len(data['expectedTakes']) == 73
+          print('Foley prepare contract OK: 5 queue sessions, 5 physical sessions, 17 cues, 73 raw slots.')
           PY
       - name: Run technical intake regression suite
         run: python tools/test_foley_session.py

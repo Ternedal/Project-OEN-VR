@@ -36,7 +36,7 @@
     {"cueId":"SFX_FIRE_EMBERS_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_receipt.source.json","sourceTargets":["SFX_FIRE_ALT"],"next":"Human-audition SFX_FIRE_ALT for sparse ember/crackle regions; only derive after source approval."},
     {"cueId":"SFX_FIRE_SMALL_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_receipt.source.json","sourceTargets":["SFX_FIRE_ALT"],"next":"Human-audition SFX_FIRE_ALT for a stable light-fire bed and loop/slice value; derive only after approval."},
     {"cueId":"SFX_FIRE_STRONG_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_receipt.source.json","sourceTargets":["SFX_FIRE_ALT"],"next":"Human-audition SFX_FIRE_ALT for fuller but non-bonfire material; reject if size/room identity is wrong."},
-    {"cueId":"SFX_FIRE_FUEL_ADD_001","routeType":"physical-recording-extension-pending","status":"no-recording-session-yet","backing":"docs/58_AUDIO_SOURCE_PRODUCTION_SPEC.md","next":"Add a safe small-prop/event Foley capture for dry fuel/wood placement; this storm-maintenance cue is not the owner-gated firesteel interaction."},
+    {"cueId":"SFX_FIRE_FUEL_ADD_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture five distinct cold-firepit dry-fuel performances and run the Foley technical + human review lane; this remains separate from owner-gated firesteel."},
     {"cueId":"SFX_FIRE_WET_HISS_001","routeType":"source-acquisition-or-recording-pending","status":"no-dedicated-source-candidate-yet","backing":"docs/58_AUDIO_SOURCE_PRODUCTION_SPEC.md","next":"Prefer a provenance-clean licensed/natural wet-fire hiss source or a safely produced equivalent; do not require risky fire recording."},
 
     {"cueId":"SFX_WIND_L0_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_receipt.source.json","sourceTargets":["AMB_WIND_WORLD"],"next":"Human-audition calm/light regions; distinct level must come from temporal/spectral material, not volume-only scaling."},
@@ -52,16 +52,16 @@
     {"cueId":"SFX_AMB_CAMP_NIGHT_001","routeType":"acquired-candidate-pool","status":"partial-candidate-coverage-human-listening-pending","backing":"content/audio/acquisition_field_backlog_receipt.source.json","sourceTargets":["SFX_NAT_NIGHT_CRICKET_ALT_01"],"next":"Human-audition night insect layer for noise/biome fit; combine only with separately approved bed sources through documented derivation."},
 
     {"cueId":"SFX_ANIMAL_DISTANT_001","routeType":"licensed-source-acquisition-pending","status":"no-ambiguous-threat-source-yet","backing":"docs/58_AUDIO_SOURCE_PRODUCTION_SPEC.md","next":"Acquire a provenance-clean ambiguous medium-animal distant presence without canonicalizing an obvious dog/wolf/monkey signature."},
-    {"cueId":"SFX_ANIMAL_CAMP_APPROACH_001","routeType":"physical-recording-extension-pending","status":"no-recording-session-yet","backing":"docs/58_AUDIO_SOURCE_PRODUCTION_SPEC.md","next":"Plan event Foley for ambiguous approach/rustle/ground movement rather than requiring a species vocalization."},
-    {"cueId":"SFX_ANIMAL_RETREAT_001","routeType":"physical-recording-extension-pending","status":"no-recording-session-yet","backing":"docs/58_AUDIO_SOURCE_PRODUCTION_SPEC.md","next":"Plan receding rustle/ground movement as event Foley, preserving the intentionally ambiguous threat identity."},
-    {"cueId":"SFX_FOOD_DISTURBED_001","routeType":"physical-recording-extension-pending","status":"no-recording-session-yet","backing":"docs/58_AUDIO_SOURCE_PRODUCTION_SPEC.md","next":"Plan small-prop Foley for food parcel/container disturbance with clean physical variations."}
+    {"cueId":"SFX_ANIMAL_CAMP_APPROACH_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture five distinct ambiguous brush/leaf/ground approach performances without a species vocalization, then run technical + human review."},
+    {"cueId":"SFX_ANIMAL_RETREAT_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture five distinct receding rustle/ground performances while preserving ambiguous threat identity, then run technical + human review."},
+    {"cueId":"SFX_FOOD_DISTURBED_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture five distinct clean food parcel/container disturbance performances and run technical + human review."}
   ],
   "summary": {
     "needsSourceCueCount": 35,
-    "physicalFoleySessionReady": 13,
+    "physicalFoleySessionReady": 17,
     "acquiredCandidatePool": 12,
     "derivedAfterApprovedSources": 1,
-    "physicalRecordingExtensionPending": 4,
+    "physicalRecordingExtensionPending": 0,
     "sourceAcquisitionOrRecordingPending": 2,
     "licensedSourceAcquisitionPending": 1,
     "ownerGated": 1,
