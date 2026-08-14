@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "status": "source-ready-expanded-acquired-review",
   "owner": "ChatGPT",
   "runtimeOwner": "Claude",
@@ -8,6 +8,7 @@
     "content/audio/acquisition_receipt.source.json",
     "content/audio/acquisition_extension_receipt.source.json",
     "content/audio/acquisition_extension_member_shortlist.source.json",
+    "content/audio/acquisition_field_backlog_receipt.source.json",
     "content/audio/listening_review_targets.source.json",
     "content/audio/pr6_environment_artifact_audit.source.json"
   ],
@@ -25,14 +26,16 @@
   "reviewEvidence": {
     "schemaVersion": 2,
     "normalizer": "tools/normalize_audio_human_review.py",
+    "fieldNormalizer": "tools/normalize_audio_field_review.py",
     "ci": ".github/workflows/audio-human-review-validation.yml",
     "acceptedExportStatuses": [
       "human-listening-review-unvalidated",
-      "human-review-not-canonical-approval"
+      "human-review-not-canonical-approval",
+      "human-field-review-not-canonical-approval"
     ],
     "normalizedStatus": "human-review-evidence-unapproved",
     "requireHashBindings": true,
-    "rule": "Only V2 reviewer exports with SHA-256 bindings matching the committed receipts/shortlist are valid evidence input. Normalization never promotes source approval."
+    "rule": "Only V2 reviewer exports with SHA-256 bindings matching the committed receipts/shortlist are valid evidence input. Main/extension and field normalizers both preserve an explicitly unapproved evidence status and cannot promote source approval."
   },
   "reviewGroups": [
     {
@@ -58,6 +61,26 @@
       "focus": ["tarp/cloth material scale", "synthetic/game-SFX character", "tension usefulness", "lossy-source handling"]
     },
     {
+      "id": "FIELD_BACKLOG_ACQUIRED",
+      "source": "content/audio/acquisition_field_backlog_receipt.source.json",
+      "targets": [
+        "SFX_NAT_NIGHT_CRICKET_ALT_01",
+        "SFX_WTH_THUNDER_ALT_01",
+        "SFX_NAT_SHORE_GULL_ALT_01",
+        "SFX_NAT_SHORE_GULL_ALT_02",
+        "SFX_WTH_WIND_FISTERRA_ALT_01",
+        "SFX_AMB_JUNGLE_DEEP_GUADELOUPE_ALT_01"
+      ],
+      "focus": [
+        "cricket noise floor and biome fit",
+        "thunder perceived proximity, transient/tail and headroom risk",
+        "gull codec artifacts, call isolation and shore/island fit",
+        "Fisterra gust segmentation, contamination and genuinely distinct attacks/bodies/tails",
+        "Guadeloupe rainforest walking/handling noise, close-bird dominance and stable deep-bed regions"
+      ],
+      "decisionRule": "keep/maybe/reject is source-selection evidence only; source-approved remains a separate gate"
+    },
+    {
       "id": "PR6_ENVIRONMENT_CANDIDATES",
       "source": "content/audio/pr6_environment_artifact_audit.source.json",
       "focus": ["seam risk", "source reuse", "perspective differentiation", "fire idle/low differentiation", "wind space identity"]
@@ -79,7 +102,8 @@
     "do not overwrite the acquired original",
     "record every edit/resample operation used for a derived master",
     "preserve selected archive member SHA-256 before any extraction-derived edit",
-    "avoid repeated lossy transcodes when a selected source member is Vorbis/OGG"
+    "avoid repeated lossy transcodes when a selected source member is Vorbis/OGG",
+    "for field sources, preserve the exact receipt target and evidence-run binding used by the human review export"
   ],
   "approvalRule": {
     "sourceApprovedRequires": ["license evidence preserved", "SHA-256 preserved", "all applicable required listening checks completed", "no unresolved contamination failure", "material match >= 3"],
