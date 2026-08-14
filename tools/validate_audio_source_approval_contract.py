@@ -28,6 +28,10 @@ def main() -> int:
     approval_rules = " | ".join(listening.get("approvalRule", {}).get("sourceApprovedRequires", [])).lower()
     if "material match >= 3" not in approval_rules or "license evidence preserved" not in approval_rules or "sha-256 preserved" not in approval_rules:
         errors.append("typed gate no longer matches listening-QA sourceApprovedRequires")
+    eligibility = set(approval.get("sourceApprovedEligibilityRequires", []))
+    for identity_rule in ("reviewerAlias is non-empty", "reviewedAt is non-empty"):
+        if identity_rule not in eligibility:
+            errors.append(f"source approval eligibility must require human review identity: {identity_rule}")
     upstream = approval.get("upstreamEvidence", {})
     if upstream.get("normalizedStatus") != listening.get("reviewEvidence", {}).get("normalizedStatus"):
         errors.append("typed approval upstream status must match preliminary human-review normalizer output")
@@ -47,7 +51,7 @@ def main() -> int:
         for error in errors:
             print("ERROR:", error)
         return 1
-    print("Audio source approval contract OK: 25 current sources, preliminary V2 evidence preserved, typed 1-5 approval gate aligned to sourceApprovedRequires, exact-byte explicit promotion only.")
+    print("Audio source approval contract OK: 25 current sources, typed 1-5 gate aligned to sourceApprovedRequires, reviewer identity/timestamp required, exact-byte explicit promotion only.")
     return 0
 
 
