@@ -15,7 +15,6 @@ import math
 from pathlib import Path
 
 from refine_mockup_fidelity import Mesh, add_cylinder_between, write_obj
-from refine_mockup_fidelity_v2 import add_ribbon
 from refine_mockup_fidelity_v6 import build_palm
 from refine_world_density import base_mesh, enhance as density_enhance
 
@@ -24,6 +23,25 @@ ROOT = HERE.parents[1]
 PROD = ROOT / "Assets" / "ProjectOEN" / "ProductionArt"
 MANIFEST = PROD / "Docs" / "production_art_manifest.json"
 TARGETS = {"EN-007", "EN-008", "EN-009", "EN-010"}
+
+
+def leaf_ribbon(mesh, points, widths, mat="Leaf") -> None:
+    """Double-sided filled ribbon compatible with both production Mesh classes.
+
+    The environment and mockup mesh helpers intentionally expose slightly different
+    quad signatures. Calling only the common five-argument form keeps this final pass
+    composable with both without weakening or bypassing either generator.
+    """
+    left=[]; right=[]
+    for i,p in enumerate(points):
+        prev=points[max(0,i-1)]; nxt=points[min(len(points)-1,i+1)]
+        dx=nxt[0]-prev[0]; dz=nxt[2]-prev[2]; ln=math.hypot(dx,dz) or 1.0
+        px,pz=-dz/ln,dx/ln; w=widths[i]/2
+        left.append((p[0]+px*w,p[1],p[2]+pz*w))
+        right.append((p[0]-px*w,p[1],p[2]-pz*w))
+    for i in range(len(points)-1):
+        mesh.quad(left[i],right[i],right[i+1],left[i+1],mat)
+        mesh.quad(right[i],left[i],left[i+1],right[i+1],mat)
 
 
 def broad_leaf(mesh: Mesh, root, yaw: float, length: float, width: float,
@@ -43,8 +61,8 @@ def broad_leaf(mesh: Mesh, root, yaw: float, length: float, width: float,
             z + dz*length*t + sz*side,
         ))
     widths=[.07*width,.72*width,width,.96*width,.72*width,.40*width,.018]
-    add_ribbon(mesh, points, widths, "Leaf")
-    # only one subtle midrib; avoids the previous stick-heavy read
+    leaf_ribbon(mesh, points, widths, "Leaf")
+    # Only one subtle midrib; avoids the previous stick-heavy read.
     for p,q in zip(points[1:5],points[2:6]):
         add_cylinder_between(mesh,p,q,.0045,"Wood",5)
 
@@ -86,8 +104,9 @@ def enrich_bush(mesh: Mesh, variant: str) -> None:
                    (.34+.055*(i%3))*scale,(.22+.025*(i%2))*scale,
                    lift=.08+.02*(i%3),droop=.08+.025*(i%4),curl=.04*((i%3)-1))
     # A crown layer closes the conspicuous twiggy centre.
-    for i in range(7 if variant!="dense" else 10):
-        yaw=i*(360/(7 if variant!="dense" else 10))+22
+    crown_count=7 if variant!="dense" else 10
+    for i in range(crown_count):
+        yaw=i*(360/crown_count)+22
         broad_leaf(mesh,(0,.48*scale,0),yaw,.36*scale,.23*scale,
                    lift=.13,droop=.07,curl=.035)
 
@@ -105,7 +124,7 @@ def enrich_vines(mesh: Mesh, variant: str) -> None:
                        lift=.03,droop=.08,curl=.025*((i+j)%3-1))
 
 
-def build(aid: str, variant: str) -> Mesh:
+def build(aid: str, variant: str):
     if aid=="EN-007":
         mesh=build_palm(variant)
         enrich_palm(mesh,variant)
