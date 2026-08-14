@@ -1,0 +1,73 @@
+{
+  "material_count": 11,
+  "materials": {
+    "char": {
+      "metallic_max": 0,
+      "metallic_min": 0,
+      "smoothness_max": 44,
+      "smoothness_min": 12
+    },
+    "cloth": {
+      "metallic_max": 0,
+      "metallic_min": 0,
+      "smoothness_max": 58,
+      "smoothness_min": 22
+    },
+    "fire": {
+      "metallic_max": 0,
+      "metallic_min": 0,
+      "smoothness_max": 228,
+      "smoothness_min": 176
+    },
+    "leaf": {
+      "metallic_max": 0,
+      "metallic_min": 0,
+      "smoothness_max": 82,
+      "smoothness_min": 30
+    },
+    "metal": {
+      "metallic_max": 230,
+      "metallic_min": 142,
+      "smoothness_max": 154,
+      "smoothness_min": 72
+    },
+    "mud": {
+      "metallic_max": 0,
+      "metallic_min": 0,
+      "smoothness_max": 112,
+      "smoothness_min": 30
+    },
+    "rope": {
+      "metallic_max": 0,
+      "metallic_min": 0,
+      "smoothness_max": 62,
+      "smoothness_min": 24
+    },
+    "stone": {
+      "metallic_max": 0,
+      "metallic_min": 0,
+      "smoothness_max": 66,
+      "smoothness_min": 24
+    },
+    "tarp": {
+      "metallic_max": 0,
+      "metallic_min": 0,
+      "smoothness_max": 132,
+      "smoothness_min": 62
+    },
+    "water": {
+      "metallic_max": 0,
+      "metallic_min": 0,
+      "smoothness_max": 246,
+      "smoothness_min": 202
+    },
+    "wood": {
+      "metallic_max": 0,
+      "metallic_min": 0,
+      "smoothness_max": 82,
+      "smoothness_min": 34
+    }
+  },
+  "notes": "Deterministic damp/wear albedo variation and non-flat packed smoothness; metal also varies metallic response.",
+  "version": 1
+}

@@ -1,0 +1,156 @@
+name: Generate Project OEN runtime art
+
+on:
+  push:
+    branches:
+      - agent/complete-unity-graphics-v1
+    paths:
+      - 'tools/generated_art/**'
+      - 'src/unity/ProjectOen.Art/**'
+      - 'prototype/m0b-bootstrap/**'
+      - 'docs/36_GENERATED_ART_PACK.md'
+      - '.github/workflows/generate-project-oen-art.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: project-oen-art-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Parse production-art PowerShell entrypoints
+        shell: pwsh
+        run: |
+          $files = @(
+            'prototype/m0b-bootstrap/Bootstrap-M0b.ps1',
+            'prototype/m0b-bootstrap/Review-ProductionArt.ps1'
+          )
+          $failed = $false
+          foreach ($file in $files) {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($file, [ref]$tokens, [ref]$errors) | Out-Null
+            if ($errors.Count -gt 0) {
+              Write-Host "PowerShell parse errors in $file" -ForegroundColor Red
+              $errors | ForEach-Object { Write-Host ("  " + $_.Message) -ForegroundColor Red }
+              $failed = $true
+            } else {
+              Write-Host "PASS: $file"
+            }
+          }
+          if ($failed) { exit 1 }
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check Pillow==11.3.0
+      - name: Generate compact runtime sprites
+        run: python tools/generated_art/generate_runtime_sprites.py
+      - name: Import production-art source payload when requested
+        run: python tools/generated_art/import_production_art_payload.py
+      - name: Generate full production art
+        run: python tools/generated_art/generate_production_art.py
+      - name: Refine shared Quest-friendly materials
+        run: python tools/generated_art/refine_material_textures.py
+      - name: Add surface weathering and wetness response
+        run: python tools/generated_art/refine_surface_weathering.py
+      - name: Refine Stormnatten hero world assets
+        run: python tools/generated_art/refine_hero_art.py
+      - name: Add readable hero joinery
+        run: python tools/generated_art/refine_hero_joinery.py
+      - name: Refine Stormnatten environment world assets
+        run: python tools/generated_art/refine_environment_art.py
+      - name: Refine survival and tool prop world assets
+        run: python tools/generated_art/refine_prop_art.py
+      - name: Add VR-readable interaction detail to hero props
+        run: python tools/generated_art/refine_interaction_readability.py
+      - name: Refine remaining set dressing and decal assets
+        run: python tools/generated_art/refine_set_dressing_art.py
+      - name: Add Stormnatten damage-story mesh detail
+        run: python tools/generated_art/refine_storm_story_geometry.py
+      - name: Add signal-finale failure/load mesh detail
+        run: python tools/generated_art/refine_signal_finale_geometry.py
+      - name: Refine production UI and world-space sprites
+        run: python tools/generated_art/refine_ui_sprite_art.py
+      - name: Refine dedicated production VFX textures
+        run: python tools/generated_art/refine_vfx_art.py
+      - name: Finalize generated production-art documentation
+        run: python tools/generated_art/finalize_production_art_docs.py
+      - name: Validate full production art
+        run: python tools/generated_art/validate_production_art.py
+      - name: Validate production UI and sprite refinement
+        run: python tools/generated_art/validate_ui_sprite_art.py
+      - name: Validate production VFX textures
+        run: python tools/generated_art/validate_vfx_art.py
+      - name: Validate Unity VFX integration
+        run: python tools/generated_art/validate_vfx_builder.py
+      - name: Validate isolated production VFX showcase
+        run: python tools/generated_art/validate_vfx_showcase.py
+      - name: Validate diegetic UI prefab integration
+        run: python tools/generated_art/validate_diegetic_ui_builder.py
+      - name: Validate diegetic UI physical-scale showcase
+        run: python tools/generated_art/validate_ui_showcase.py
+      - name: Validate refined materials
+        run: python tools/generated_art/validate_material_textures.py
+      - name: Validate surface weathering
+        run: python tools/generated_art/validate_surface_weathering.py
+      - name: Validate Unity material wetness calibration
+        run: python tools/generated_art/validate_material_calibration.py
+      - name: Validate state-specific storm appearance
+        run: python tools/generated_art/validate_state_appearance.py
+      - name: Validate state-transition review scene
+        run: python tools/generated_art/validate_state_transition_showcase.py
+      - name: Validate hero prop physical-scale readability
+        run: python tools/generated_art/validate_hero_readability_showcase.py
+      - name: Validate VR-readable interaction geometry
+        run: python tools/generated_art/validate_interaction_readability.py
+      - name: Validate hero-art refinement
+        run: python tools/generated_art/validate_hero_art.py
+      - name: Validate environment-art refinement
+        run: python tools/generated_art/validate_environment_art.py
+      - name: Validate survival/tool prop refinement
+        run: python tools/generated_art/validate_prop_art.py
+      - name: Validate remaining set dressing and decals
+        run: python tools/generated_art/validate_set_dressing_art.py
+      - name: Validate Stormnatten damage-story geometry
+        run: python tools/generated_art/validate_storm_story_geometry.py
+      - name: Validate signal-finale failure/load geometry
+        run: python tools/generated_art/validate_signal_finale_geometry.py
+      - name: Validate Stormnatten signal finale story
+        run: python tools/generated_art/validate_signal_finale_story.py
+      - name: Validate imported Stormnatten story audit contract
+        run: python tools/generated_art/validate_showcase_story_audit.py
+      - name: Validate one-shot Unity production-art verification
+        run: python tools/generated_art/validate_review_batch.py
+      - name: Validate enriched Stormnatten showcase coverage
+        run: python tools/generated_art/validate_showcase_content.py
+      - name: Validate Unity production-art wiring
+        run: python tools/generated_art/validate_unity_art_builder_compat.py
+      - name: Commit generated and production assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch='${{ github.ref_name }}'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Assets/ProjectOEN/GeneratedArtRuntime256 Assets/ProjectOEN/GeneratedArtRuntime256Docs
+          git add Assets/ProjectOEN/ProductionArt
+          git add -A tools/generated_art 2>/dev/null || true
+          git add -A art_payloads 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo 'No generated or production art changes.'
+            exit 0
+          fi
+          git commit -m 'Generate refined Project OEN production art'
+          git fetch origin "$branch"
+          git rebase "origin/$branch"
+          git push origin "HEAD:$branch"
