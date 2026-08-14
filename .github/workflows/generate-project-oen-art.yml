@@ -7,6 +7,7 @@ on:
       - agent/resync-production-art-20260814
     paths:
       - 'tools/generated_art/**'
+      - 'art_payloads/**'
       - 'src/unity/ProjectOen.Art/**'
       - 'prototype/m0b-bootstrap/**'
       - 'docs/36_GENERATED_ART_PACK.md'
@@ -16,6 +17,7 @@ on:
       - main
     paths:
       - 'tools/generated_art/**'
+      - 'art_payloads/**'
       - 'src/unity/ProjectOen.Art/**'
       - 'prototype/m0b-bootstrap/**'
       - 'docs/36_GENERATED_ART_PACK.md'
