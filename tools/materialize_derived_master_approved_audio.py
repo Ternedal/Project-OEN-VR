@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from audio_derived_master_support import ROOT, DerivedError, load_json, load_review_context, sha256_file
-from normalize_audio_derived_master_review import derived_eligible, expected_bindings
+from normalize_audio_derived_master_review import derived_eligible, expected_bindings, reviewer_identity_complete
 from normalize_audio_source_approval_review import normalize_check
 
 
@@ -22,6 +22,7 @@ def validate_review(review: dict[str, Any], technical_receipt: Path, submission:
         raise DerivedError("normalized derived human review status/kind mismatch")
     if review.get("bindings") != expected_bindings(context):
         raise DerivedError("normalized derived human review bindings are stale")
+    reviewer_ok = reviewer_identity_complete(review.get("reviewerAlias"), review.get("reviewedAt"))
     records = review.get("records")
     expected = {x["masterId"]: x for x in context["technicalReceipt"]["records"]}
     if not isinstance(records, list) or len(records) != len(expected):
@@ -46,7 +47,7 @@ def validate_review(review: dict[str, Any], technical_receipt: Path, submission:
             normalized_checks = {check_id: normalize_check(check_id, checks[check_id], typed[check_id]) for check_id in typed}
         except Exception as exc:
             raise DerivedError(f"{master_id}: invalid normalized typed evidence: {exc}") from exc
-        recomputed = derived_eligible(typed, record.get("decision", ""), normalized_checks)
+        recomputed = derived_eligible(typed, record.get("decision", ""), normalized_checks, reviewer_ok)
         if record.get("derivedMasterApprovedEligible") is not recomputed:
             raise DerivedError(f"{master_id}: stored eligibility disagrees with current human evidence")
         if recomputed:
@@ -91,7 +92,7 @@ def materialize(review_path: Path, technical_receipt: Path, submission: Path, so
             "humanDerivedReviewSha256": sha256_file(review_path),
             "technicalReceiptSha256": sha256_file(technical_receipt),
             "approvedCount": len(records), "records": records,
-            "rule": "Explicit human derived-master gate materialized verified derived WAV bytes unchanged. Runtime/Quest/release approval remain separate."
+            "rule": "Explicit human derived-master gate materialized verified derived WAV bytes unchanged. Reviewer identity/timestamp are revalidated; runtime/Quest/release approval remain separate."
         }
         (staging / contract["materialization"]["receiptFilename"]).write_text(json.dumps(receipt, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         if output_dir.exists():
