@@ -13,8 +13,12 @@
   "events": [
     {
       "eventId": "SFX_AMB_Beach_CoastalWind",
-      "status": "source-acquisition-pending",
-      "next": "Acquire a clean natural coastal-wind source; do not substitute open-field wind unless human listening proves coastal perspective is unnecessary."
+      "status": "acquired-candidate-human-listening-pending",
+      "sourceTarget": "SFX_AMB_BEACH_SC_ALT_01",
+      "receipt": "content/audio/acquisition_field_backlog_receipt.source.json",
+      "sourceSha256": "d81d1a4eafd0fd20e7fe697ece52aacb500f4baa1042080c5b2fd4cf634759d7",
+      "candidateFit": "Natural public-domain stereo recording made at Litchfield Beach with MiniDisc and an AudioTechnica stereo microphone. It proves a real coastal/beach source, not that wind dominates over surf/water.",
+      "next": "Human listening must decide whether there is enough clean coastal air/wind character for CoastalWind without surf becoming the wrong semantic layer. Reject or repurpose if the recording reads primarily as beach/waves."
     },
     {
       "eventId": "SFX_AMB_Beach_PalmCanopy",
@@ -106,8 +110,8 @@
   ],
   "summary": {
     "trackedRuntimeEvents": 11,
-    "acquiredSourceCandidatePendingHuman": 7,
-    "sourceAcquisitionPending": 4,
+    "acquiredSourceCandidatePendingHuman": 8,
+    "sourceAcquisitionPending": 3,
     "sourceApproved": 0,
     "runtimeProducedFromThisCoverage": 0
   }
