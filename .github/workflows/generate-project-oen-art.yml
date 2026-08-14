@@ -64,6 +64,8 @@ jobs:
         run: python tools/generated_art/generate_mockup_atlas_expansion.py
       - name: Normalize atlas expansion material references
         run: python tools/generated_art/fix_mockup_atlas_expansion_mtl.py
+      - name: Repair atlas shoreline-spray visibility
+        run: python tools/generated_art/fix_mockup_atlas_expansion_alpha.py
       - name: Refine shared Quest-friendly materials
         run: python tools/generated_art/refine_material_textures.py
       - name: Add surface weathering and wetness response
