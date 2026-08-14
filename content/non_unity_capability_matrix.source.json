@@ -20,6 +20,19 @@
       "next": "Build the review pack from acquired artifacts and obtain actual human shortlist evidence."
     },
     {
+      "id": "FOLEY_RECORDING",
+      "status": "operator-intake-ready-not-recorded",
+      "contract": "content/audio/foley_session_contract.source.json",
+      "operatorDoc": "docs/74_FOLEY_RECORDING_INTAKE.md",
+      "tool": "tools/prepare_foley_session.py",
+      "validator": "tools/validate_foley_session.py",
+      "expectedCueCount": 13,
+      "expectedTakeCount": 53,
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "Record 53 distinct physical Foley performances across heavy crate, rope/tarp and shelter timber, then run technical intake."
+    },
+    {
       "id": "RADIO_VO_RECORDING",
       "status": "operator-ready-not-recorded",
       "contract": "content/audio/radio_vo_session_contract.source.json",
@@ -148,6 +161,7 @@
   ],
   "blockedByEvidence": [
     "actual human listening/selection",
+    "actual physical Foley recording",
     "actual authorized voice recording",
     "actual M-Pre human sessions",
     "actual Quest 2/Quest 3 device evidence",
