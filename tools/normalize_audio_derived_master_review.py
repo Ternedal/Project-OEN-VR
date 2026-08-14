@@ -10,9 +10,24 @@ from audio_derived_master_support import ROOT, DerivedError, load_json, load_rev
 from normalize_audio_source_approval_review import normalize_check
 
 
-def derived_eligible(typed: dict[str, Any], decision: str, checks: dict[str, dict[str, Any]]) -> bool:
+def reviewer_identity_complete(reviewer: Any, reviewed_at: Any) -> bool:
     return (
-        decision == "approve-derived-master"
+        isinstance(reviewer, str)
+        and bool(reviewer.strip())
+        and isinstance(reviewed_at, str)
+        and bool(reviewed_at.strip())
+    )
+
+
+def derived_eligible(
+    typed: dict[str, Any],
+    decision: str,
+    checks: dict[str, dict[str, Any]],
+    reviewer_ok: bool,
+) -> bool:
+    return (
+        reviewer_ok
+        and decision == "approve-derived-master"
         and checks["CONTAMINATION"]["value"] == "pass"
         and checks["MATERIAL_MATCH"]["value"] >= typed["MATERIAL_MATCH"]["approvalMin"]
         and checks["LOOP_OR_SLICE"]["value"] in {"pass", "not-applicable"}
@@ -43,6 +58,7 @@ def normalize(payload: dict[str, Any], technical_receipt: Path, submission: Path
     reviewed_at = payload.get("reviewedAt")
     if not isinstance(reviewer, str) or not isinstance(reviewed_at, str):
         raise DerivedError("reviewerAlias/reviewedAt must be text")
+    reviewer_ok = reviewer_identity_complete(reviewer, reviewed_at)
     records = payload.get("records")
     expected = {x["masterId"]: x for x in context["technicalReceipt"]["records"]}
     if not isinstance(records, list) or len(records) != len(expected):
@@ -79,7 +95,7 @@ def normalize(payload: dict[str, Any], technical_receipt: Path, submission: Path
             raise DerivedError(f"{master_id}: invalid typed listening evidence: {exc}") from exc
         if decision:
             decided += 1
-        eligible = derived_eligible(typed, decision, normalized_checks)
+        eligible = derived_eligible(typed, decision, normalized_checks, reviewer_ok)
         if eligible:
             eligible_count += 1
         normalized.append({
@@ -96,9 +112,12 @@ def normalize(payload: dict[str, Any], technical_receipt: Path, submission: Path
             "overallNote": overall.strip(),
             "derivedMasterApprovedEligible": eligible,
         })
-    complete = bool(reviewer.strip()) and bool(reviewed_at.strip()) and decided == len(expected)
+    complete = reviewer_ok and decided == len(expected)
     if require_complete and not complete:
-        raise DerivedError(f"derived human review incomplete: reviewer={bool(reviewer.strip())}, reviewedAt={bool(reviewed_at.strip())}, decisions={decided}/{len(expected)}")
+        raise DerivedError(
+            f"derived human review incomplete: reviewer={bool(reviewer.strip())}, "
+            f"reviewedAt={bool(reviewed_at.strip())}, decisions={decided}/{len(expected)}"
+        )
     return {
         "version": 1,
         "status": contract["humanReview"]["normalizedStatus"],
@@ -108,7 +127,7 @@ def normalize(payload: dict[str, Any], technical_receipt: Path, submission: Path
         "bindings": expected_bindings(context),
         "coverage": {"decided": decided, "total": len(expected), "eligibleForDerivedMasterApproval": eligible_count, "complete": complete},
         "records": sorted(normalized, key=lambda x: x["masterId"]),
-        "rule": "Human re-listening evidence evaluated on derived bytes. Eligibility is not materialized derived-master-approved state until the separate promotion tool succeeds."
+        "rule": "Human re-listening evidence evaluated on derived bytes. Eligibility requires reviewer identity/timestamp and is not materialized derived-master-approved state until the separate promotion tool succeeds.",
     }
 
 
