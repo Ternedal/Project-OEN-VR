@@ -18,6 +18,13 @@
       "artifactId": 9208215051,
       "artifactDigest": "sha256:7d527d5f3512fcaf3af640250aa158319ccb7b156c30f04fc090aa77c03b25be",
       "targets": ["SFX_NAT_SHORE_GULL_ALT_01", "SFX_NAT_SHORE_GULL_ALT_02", "SFX_WTH_WIND_FISTERRA_ALT_01"]
+    },
+    {
+      "runId": 31771555065,
+      "headSha": "ec4ee0f9d17c2c70f641980a893de7627f62319e",
+      "artifactId": 9208315224,
+      "artifactDigest": "sha256:3358309590167866feadac9a273fdf364e1d35d80f5c7c9e45058b73f82ede21",
+      "targets": ["SFX_AMB_JUNGLE_DEEP_GUADELOUPE_ALT_01"]
     }
   ],
   "records": [
@@ -143,8 +150,31 @@
         "note": "Long natural stereo wind source with meaningful channel difference. Vorbis decode has a small number of samples above unity; any derived gust masters need explicit headroom and segmentation QA, and human listening must identify genuinely distinct gust attacks/bodies/tails."
       },
       "status": "acquired-original-not-listening-approved"
+    },
+    {
+      "target": "SFX_AMB_JUNGLE_DEEP_GUADELOUPE_ALT_01",
+      "runtimeEventCandidate": "SFX_AMB_Jungle_DeepBed",
+      "filename": "Walk_in_the_rainforest.ogg",
+      "provider": "Wikimedia Commons / PDSounds",
+      "creator": "ezwa",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Walk_in_the_rainforest.ogg",
+      "license": "Public Domain",
+      "bytes": 460110,
+      "sha256": "24dd8245130186af92393968a8df037eaa70916fcc2d28381b992aaa9cfcf3c0",
+      "acquiredAtUtc": "2026-08-14T04:59:35.764130+00:00",
+      "evidenceRunId": 31771555065,
+      "technicalProbe": {"codec": "vorbis", "sampleRateHz": 44100, "channels": 1, "durationSeconds": 30.51102, "bitRate": 120641},
+      "objectiveQa": {
+        "decodedPeakDbFs": -0.13,
+        "decodedRmsDbFs": -17.842,
+        "decodedSamplesAboveUnity": 0,
+        "oneSecondRmsDbFsMin": -19.532,
+        "oneSecondRmsDbFsMax": -16.331,
+        "note": "Technically stable mono source with no decoded overs. Metadata and provenance show a Guadeloupean rainforest walk, but birds/birdsong and possible walking/handling perspective require human listening before it can serve a stable deep bed."
+      },
+      "status": "acquired-original-not-listening-approved"
     }
   ],
-  "next": "Human listening must assess cricket noise/biome fit, thunder proximity/transient/tail quality, gull codec/context fit and Fisterra gust segmentation. Selected sources still require documented derivation and repeated listening QA before any source or derived-master approval.",
+  "next": "Human listening must assess cricket noise/biome fit, thunder proximity/transient/tail quality, gull codec/context fit, Fisterra gust segmentation and Guadeloupe rainforest activity/perspective. Selected sources still require documented derivation and repeated listening QA before any source or derived-master approval.",
   "rule": "Acquisition and objective QA do not imply source-approved, derived-master-approved, Unity-integrated or release-approved."
 }
