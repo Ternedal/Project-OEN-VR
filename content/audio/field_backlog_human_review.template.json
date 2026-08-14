@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "status": "human-field-backlog-review-unvalidated",
+  "createdAt": "",
+  "bindings": {
+    "SFX_NAT_NIGHT_CRICKET_ALT_01": "ecc088a3d1ab967202b63a92836dadc47bd08c8ab3f17d8527f620264aa5faf9"
+  },
+  "records": [
+    {
+      "target": "SFX_NAT_NIGHT_CRICKET_ALT_01",
+      "runtimeEventCandidate": "SFX_NAT_Insect_NightChirp",
+      "disposition": "unreviewed",
+      "overall": "",
+      "checks": {
+        "CONTAMINATION": {"result": "", "note": ""},
+        "MATERIAL_MATCH": {"result": "", "note": ""},
+        "LOOP_OR_SLICE": {"result": "", "note": ""},
+        "NOISE_FLOOR": {"result": "", "note": ""},
+        "SPACE_IDENTITY": {"result": "", "note": ""},
+        "VARIATION_VALUE": {"result": "", "note": ""},
+        "SPEECH_SPACE": {"result": "", "note": ""}
+      }
+    }
+  ],
+  "rule": "Reviewer input only. Normalization is hash-bound evidence and never promotes source approval automatically."
+}
