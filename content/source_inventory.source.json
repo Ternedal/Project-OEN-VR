@@ -23,9 +23,9 @@
     {"id":"A5_RELEASE_UI","status":"produced-source-set","path":"source_art/ui/a5","format":"SVG","producedIds":["UI_RECONNECT_PANEL_001","UI_JOIN_CODE_PANEL_001","UI_FIRST_LAUNCH_SETUP_001","UI_PAUSE_PANEL_001","UI_CONNECTED_READY_001","UI_SUBTITLE_BAND_001"],"next":"Claude Unity layout/binding/headset-distance/accessibility QA"},
     {"id":"AU1_SYNTH_FEEDBACK","status":"generator-ready-ci-validated","path":"source_audio/au1","format":"Python->WAV","next":"Claude runtime mix/binding"},
     {"id":"AU2_FOLEY","status":"recording-plan-reconciled-source-packs-acquired-not-recorded","path":"content/audio/foley_session_reconciliation.source.json","format":"48kHz-24bit-mono-WAV-target","extensionShortlist":"content/audio/acquisition_extension_member_shortlist.source.json","next":"human-audition acquired wood/cloth members; record/edit/master natural Foley where pack fit is insufficient"},
-    {"id":"AU_WORLD_AMBIENCE","status":"expanded-acquired-sources-not-listening-approved","path":"content/audio/acquisition_receipt.source.json","format":"mixed-original-format-preserved","acquiredTargets":["AMB_WIND_WORLD","AMB_RAIN_ALT","SFX_FIRE_ALT"],"extensionAcquiredTargets":["AMB_OCEAN_ALT","SFX_WOOD_PACK_ALT","SFX_CLOTH_PACK_ALT"],"extensionReceipt":"content/audio/acquisition_extension_receipt.source.json","extensionShortlist":"content/audio/acquisition_extension_member_shortlist.source.json","technicalQa":"content/audio/acquisition_technical_qa.source.json","listeningTargets":"content/audio/listening_review_targets.source.json","next":"human listening/selection on acquired originals and extension members; derive masters only after approval"},
-    {"id":"RADIO_VO","status":"recording-queue-ready","path":"content/audio/radio_vo_recording_queue.source.json","script":"docs/59_RADIO_VO_SOURCE_SCRIPT.md","format":"48kHz-24bit-mono-WAV-target","next":"record 3 clean takes for each of 9 cues; preserve dry masters and provenance"},
-    {"id":"MUSIC","status":"direction-ready-not-produced","path":"docs/60_MUSIC_DIRECTION_AND_CUE_SHEET.md","next":"compose/produce minimal cue sources after timing evidence"}
+    {"id":"AU_WORLD_AMBIENCE","status":"base-extension-field-originals-acquired-not-listening-approved","path":"content/audio/acquisition_receipt.source.json","format":"mixed-original-format-preserved","acquiredTargets":["AMB_WIND_WORLD","AMB_RAIN_ALT","SFX_FIRE_ALT"],"extensionAcquiredTargets":["AMB_OCEAN_ALT","SFX_WOOD_PACK_ALT","SFX_CLOTH_PACK_ALT"],"extensionReceipt":"content/audio/acquisition_extension_receipt.source.json","fieldBacklogReceipt":"content/audio/acquisition_field_backlog_receipt.source.json","technicalQa":"content/audio/acquisition_technical_qa.source.json","listeningTargets":"content/audio/listening_review_targets.source.json","fieldReviewTool":"tools/normalize_audio_field_review.py","next":"human listening/selection on acquired originals, extension members and field-backlog originals; derive/promote masters only after explicit approval"},
+    {"id":"RADIO_VO","status":"recording-intake-ready-not-recorded","path":"content/audio/radio_vo_recording_queue.source.json","sessionContract":"content/audio/radio_vo_session_contract.source.json","script":"docs/59_RADIO_VO_SOURCE_SCRIPT.md","format":"48kHz-24bit-mono-WAV-target","expectedTakes":27,"next":"record 3 clean takes for each of 9 cues; run technical intake; human pronunciation/delivery/listening approval remains required"},
+    {"id":"MUSIC","status":"candidate-audition-ready-not-source-approved","path":"docs/60_MUSIC_DIRECTION_AND_CUE_SHEET.md","candidateAudit":"content/audio/music_candidate_audit.source.json","reproducibility":"content/audio/music_candidate_reproducibility.source.json","generator":"tools/generate_authored_adaptive_music.py","candidateCount":14,"canonicalMappedFamilies":5,"unmappedFamilies":["MUS_Warning_LowPulse"],"next":"human audition and explicit source promotion; runtime/headset acceptance remains separate"}
   ],
   "contentContracts": [
     {"id":"LOCALIZATION_DA","status":"source-ready","path":"content/localization/da.source.json"},
@@ -41,10 +41,15 @@
     {"id":"AUDIO_ACQUISITION_TECH_QA","status":"objective-qa-complete-for-acquired-originals","path":"content/audio/acquisition_technical_qa.source.json"},
     {"id":"AUDIO_ACQUISITION_EXTENSION_RECEIPT","status":"extension-originals-acquired-individual-selection-pending","path":"content/audio/acquisition_extension_receipt.source.json"},
     {"id":"AUDIO_ACQUISITION_EXTENSION_SHORTLIST","status":"technical-shortlist-not-listening-approved","path":"content/audio/acquisition_extension_member_shortlist.source.json"},
+    {"id":"AUDIO_ACQUISITION_FIELD_BACKLOG_RECEIPT","status":"seven-field-originals-acquired-not-listening-approved","path":"content/audio/acquisition_field_backlog_receipt.source.json"},
     {"id":"AUDIO_LISTENING_QA","status":"source-ready","path":"content/audio/listening_qa.source.json"},
     {"id":"AUDIO_LISTENING_TARGETS","status":"review-navigation-ready","path":"content/audio/listening_review_targets.source.json"},
     {"id":"PR6_ENVIRONMENT_ARTIFACT_AUDIT","status":"external-pr-artifact-audited-candidate-headset-listen","path":"content/audio/pr6_environment_artifact_audit.source.json"},
     {"id":"PR6_ENVIRONMENT_ARTIFACT_TECH_QA","status":"objective-qa-complete-candidate-headset-listen","path":"content/audio/pr6_environment_artifact_technical_qa.source.json"},
+    {"id":"RADIO_VO_SESSION","status":"session-intake-ready-not-recorded","path":"content/audio/radio_vo_session_contract.source.json"},
+    {"id":"MUSIC_CANDIDATE_AUDIT","status":"artifact-audited-audition-ready-not-source-approved","path":"content/audio/music_candidate_audit.source.json"},
+    {"id":"MUSIC_CANDIDATE_REPRODUCIBILITY","status":"exact-byte-reproducibility-verified-in-pinned-ci-environment","path":"content/audio/music_candidate_reproducibility.source.json"},
+    {"id":"M_PRE_EVIDENCE_BUNDLE","status":"bundle-tooling-ready-no-human-evidence","path":"content/mpre/evidence_bundle_contract.source.json"},
     {"id":"NEUTRAL_PERSONALIZATION","status":"source-ready","path":"content/personalization/neutral_profile.source.json"},
     {"id":"ONBOARDING","status":"canonical-source-ready-fire-start-owner-gated","path":"content/onboarding/stormnatten.onboarding.source.json"},
     {"id":"DAY3_PLANNING","status":"canonical-source-ready","path":"content/phases/stormnatten.day3_planning.source.json"},
@@ -60,5 +65,5 @@
     {"id":"STORM_FINALE","status":"source-ready-qualitative-phase3-gated","path":"content/finale/storm_finale.source.json"}
   ],
   "ownerGated": ["Issue #8 fire-start scope disposition"],
-  "evidenceGated": ["M-Pre human evidence","OQ-008 randomness/fairness","OQ-009 role policy","OQ-010 after-action competition","M3/M4 numeric balance","M0b cross-device evidence"]
+  "evidenceGated": ["M-Pre human evidence","audio human listening/source approval","radio VO human recording/pronunciation/listening approval","OQ-008 randomness/fairness","OQ-009 role policy","OQ-010 after-action competition","M3/M4 numeric balance","M0b cross-device evidence"]
 }
