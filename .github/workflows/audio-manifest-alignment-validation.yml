@@ -1,0 +1,31 @@
+name: Validate audio manifest alignment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/39_AUDIO_CUE_MANIFEST.md'
+      - 'content/audio/audio_cues.source.json'
+      - 'content/audio/audio_cue_alias_reconciliation.source.json'
+      - 'tools/validate_audio_manifest_registry_alignment.py'
+      - '.github/workflows/audio-manifest-alignment-validation.yml'
+  pull_request:
+    paths:
+      - 'docs/39_AUDIO_CUE_MANIFEST.md'
+      - 'content/audio/audio_cues.source.json'
+      - 'content/audio/audio_cue_alias_reconciliation.source.json'
+      - 'tools/validate_audio_manifest_registry_alignment.py'
+      - '.github/workflows/audio-manifest-alignment-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python tools/validate_audio_manifest_registry_alignment.py
