@@ -35,7 +35,7 @@ def main() -> int:
     human = derived.get("humanReview", {})
     if human.get("normalizedStatus") != "human-derived-master-review-evidence-evaluated-not-materialized":
         errors.append("derived human normalized status must remain explicitly unmaterialized")
-    if human.get("typedChecksSource") != str(SOURCE_APPROVAL_CONTRACT):
+    if human.get("typedChecksSource") != SOURCE_APPROVAL_CONTRACT.as_posix():
         errors.append("derived human review must reuse typed source-approval checks")
     if set(source.get("typedChecks", {})) != {"CONTAMINATION","MATERIAL_MATCH","LOOP_OR_SLICE","NOISE_FLOOR","TRANSIENT_QUALITY","SPACE_IDENTITY","VARIATION_VALUE","SPEECH_SPACE"}:
         errors.append("source typed check set drift")

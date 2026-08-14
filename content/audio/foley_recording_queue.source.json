@@ -1,9 +1,10 @@
 {
-  "version": 1,
+  "version": 2,
   "status": "recording-queue-ready",
   "sourceOwner": "ChatGPT",
   "runtimeOwner": "Claude",
   "masterFormat": {"sampleRateHz": 48000, "bitDepth": 24, "defaultChannels": "mono"},
+  "variationRule": "For event/random one-shot families added in v2, use at least five genuinely independent physical performances per cue per docs/58 source-production standards; do not satisfy count with gain/pitch copies.",
   "sessions": [
     {
       "id": "FOLEY_HEAVY_OBJECTS_01",
@@ -35,10 +36,26 @@
         {"id":"SFX_BEAM_SHIFT_001","variants":4,"targetLengthMs":[250,1000],"filenamePattern":"SFX_BEAM_SHIFT_001_vNN.wav","captureIntent":"wood shift plus short scrape; strong positional cue"},
         {"id":"SFX_SHELTER_SNAP_SUCCESS_001","variants":4,"targetLengthMs":[90,350],"filenamePattern":"SFX_SHELTER_SNAP_SUCCESS_001_vNN.wav","captureIntent":"short tactile physical success cue, distinct from UI tones"}
       ]
+    },
+    {
+      "id": "FOLEY_FIRE_MAINTENANCE_01",
+      "priority": "A",
+      "cues": [
+        {"id":"SFX_FIRE_FUEL_ADD_001","variants":5,"targetLengthMs":[250,950],"filenamePattern":"SFX_FIRE_FUEL_ADD_001_vNN.wav","captureIntent":"dry sticks/fuel placed or dropped into a cold firepit proxy; no live fire required; varied wood mass/contact geometry"}
+      ]
+    },
+    {
+      "id": "FOLEY_ANIMAL_EVENT_PROPS_01",
+      "priority": "B",
+      "cues": [
+        {"id":"SFX_ANIMAL_CAMP_APPROACH_001","variants":5,"targetLengthMs":[650,2000],"filenamePattern":"SFX_ANIMAL_CAMP_APPROACH_001_vNN.wav","captureIntent":"ambiguous brush/leaf/ground approach movement with increasing proximity; no species-specific vocal signature"},
+        {"id":"SFX_ANIMAL_RETREAT_001","variants":5,"targetLengthMs":[550,1800],"filenamePattern":"SFX_ANIMAL_RETREAT_001_vNN.wav","captureIntent":"ambiguous rustle/ground movement receding away from listener; no species-specific vocal signature"},
+        {"id":"SFX_FOOD_DISTURBED_001","variants":5,"targetLengthMs":[300,1400],"filenamePattern":"SFX_FOOD_DISTURBED_001_vNN.wav","captureIntent":"food sack/container nudge, scrape, shuffle or small spill using clean dry props; no animal vocalization"}
+      ]
     }
   ],
   "qa": {
-    "required": ["no_clipping", "no_background_speech", "no_background_music", "clean_tail", "cue_id_matches_filename", "provenance_logged"],
+    "required": ["no_clipping", "no_background_speech", "no_background_music", "clean_tail", "cue_id_matches_filename", "provenance_logged", "distinct_physical_performance_per_variant"],
     "listeningContexts": ["headphones", "small_speaker", "under_weather_bed"]
   }
 }

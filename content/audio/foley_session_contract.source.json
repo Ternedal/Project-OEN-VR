@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "status": "session-intake-ready-not-recorded",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "recordingQueue": "content/audio/foley_recording_queue.source.json",
+  "sessionReconciliation": "content/audio/foley_session_reconciliation.source.json",
+  "operatorDoc": "docs/74_FOLEY_RECORDING_INTAKE.md",
+  "privateSessionRoot": "PrivateContent/FoleySession",
+  "captureShape": {
+    "expectedQueueSessionCount": 5,
+    "expectedPhysicalSessionCount": 5,
+    "expectedCueCount": 17,
+    "expectedTakeCount": 73,
+    "filenamePattern": "{cueId}_vNN.wav",
+    "rule": "Every planned variant is a distinct physical performance. Gain-only or pitch-only copies do not satisfy a take slot."
+  },
+  "technicalAcceptance": {
+    "container": "WAV",
+    "encoding": "PCM integer",
+    "sampleRateHz": 48000,
+    "bitDepth": 24,
+    "channels": 1,
+    "fullScaleSampleCountMax": 0,
+    "preserveOriginalBytes": true,
+    "durationRule": "target-length mismatch is warning only; semantic/material performance is a later human gate"
+  },
+  "provenance": {
+    "filename": "foley_provenance.json",
+    "requiredTopLevelFields": [
+      "recordistAlias",
+      "recordedAtUtc",
+      "recordingChain",
+      "rightsStatement",
+      "commercialReuseAllowed",
+      "physicalSessions"
+    ],
+    "requiredPhysicalSessionFields": [
+      "sourceMaterials",
+      "locationClass",
+      "backgroundSpeechNone",
+      "backgroundMusicNone",
+      "notes"
+    ],
+    "privacyRule": "Use a location class such as home-room, workshop or outdoor-private; do not put a street address in repo-bound evidence."
+  },
+  "receipt": {
+    "filename": "foley_intake_receipt.json",
+    "statusOnPass": "technical-intake-passed-not-listening-approved"
+  },
+  "humanGates": [
+    "material identity and weight reviewed",
+    "different variants are genuinely different physical performances",
+    "no distracting background speech/music/content",
+    "clean beginning/tail or documented intentional tail",
+    "cue intent remains readable under weather bed",
+    "source selection and any later edits receive listening QA"
+  ],
+  "rules": [
+    "Preparation creates filename slots and operator guidance only; it never claims a recording exists.",
+    "Technical intake validates container/PCM identity, hashes, clipping/full-scale samples, filenames and provenance completeness only.",
+    "Technical pass is not material-fit, variation-value, listening, source-approved, derived-master-approved, Unity-integrated, Quest-approved or release-approved evidence.",
+    "Raw accepted takes are immutable source originals. Any edit creates a new file identity and enters the derived-master/listening pipeline.",
+    "Fuel-add capture uses cold dry props and does not require live fire.",
+    "Animal approach/retreat and food-disturbance capture remains ambiguous physical event Foley and must not canonize an animal species.",
+    "SFX_FIRESTEEL_STRIKE_001 and fire-start-specific Foley remain outside this session because issue #8 is owner-gated."
+  ]
+}

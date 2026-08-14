@@ -1,0 +1,46 @@
+name: Validate audio source routing
+
+on:
+  pull_request:
+    paths:
+      - 'content/audio/audio_cues.source.json'
+      - 'content/audio/audio_source_routing.source.json'
+      - 'content/audio/foley_recording_queue.source.json'
+      - 'content/audio/acquisition_receipt.source.json'
+      - 'content/audio/acquisition_extension_receipt.source.json'
+      - 'content/audio/acquisition_field_backlog_receipt.source.json'
+      - 'content/audio/acquisition_field_backlog_final_receipt.source.json'
+      - 'content/contracts/issue8.reconciliation.source.json'
+      - 'tools/validate_audio_source_routing.py'
+      - 'docs/76_AUDIO_SOURCE_ROUTING.md'
+      - '.github/workflows/audio-source-routing-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/audio/audio_cues.source.json'
+      - 'content/audio/audio_source_routing.source.json'
+      - 'content/audio/foley_recording_queue.source.json'
+      - 'content/audio/acquisition_receipt.source.json'
+      - 'content/audio/acquisition_extension_receipt.source.json'
+      - 'content/audio/acquisition_field_backlog_receipt.source.json'
+      - 'content/audio/acquisition_field_backlog_final_receipt.source.json'
+      - 'content/contracts/issue8.reconciliation.source.json'
+      - 'tools/validate_audio_source_routing.py'
+      - 'docs/76_AUDIO_SOURCE_ROUTING.md'
+      - '.github/workflows/audio-source-routing-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile routing validator
+        run: python -m py_compile tools/validate_audio_source_routing.py
+      - name: Validate all needs-source cue routes
+        run: python tools/validate_audio_source_routing.py

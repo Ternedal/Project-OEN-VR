@@ -1,0 +1,61 @@
+name: Validate Foley recording intake tooling
+
+on:
+  pull_request:
+    paths:
+      - 'content/audio/foley_recording_queue.source.json'
+      - 'content/audio/foley_session_reconciliation.source.json'
+      - 'content/audio/foley_session_contract.source.json'
+      - 'tools/prepare_foley_session.py'
+      - 'tools/validate_foley_session.py'
+      - 'tools/test_foley_session.py'
+      - 'docs/58_AUDIO_SOURCE_PRODUCTION_SPEC.md'
+      - 'docs/74_FOLEY_RECORDING_INTAKE.md'
+      - '.github/workflows/foley-recording-intake-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/audio/foley_recording_queue.source.json'
+      - 'content/audio/foley_session_reconciliation.source.json'
+      - 'content/audio/foley_session_contract.source.json'
+      - 'tools/prepare_foley_session.py'
+      - 'tools/validate_foley_session.py'
+      - 'tools/test_foley_session.py'
+      - 'docs/58_AUDIO_SOURCE_PRODUCTION_SPEC.md'
+      - 'docs/74_FOLEY_RECORDING_INTAKE.md'
+      - '.github/workflows/foley-recording-intake-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile Foley tooling
+        run: >-
+          python -m py_compile
+          tools/prepare_foley_session.py
+          tools/validate_foley_session.py
+          tools/test_foley_session.py
+      - name: Validate current 17-cue / 73-take preparation contract
+        run: |
+          OUT="$(mktemp -d)/FoleySession"
+          python tools/prepare_foley_session.py --output "$OUT"
+          python - "$OUT/recording_session.json" <<'PY'
+          import json, sys
+          data = json.load(open(sys.argv[1], encoding='utf-8'))
+          assert data['status'] == 'prepared-not-recorded'
+          assert data['expectedQueueSessionCount'] == 5
+          assert data['expectedPhysicalSessionCount'] == 5
+          assert data['expectedCueCount'] == 17
+          assert data['expectedTakeCount'] == 73
+          assert len(data['expectedTakes']) == 73
+          print('Foley prepare contract OK: 5 queue sessions, 5 physical sessions, 17 cues, 73 raw slots.')
+          PY
+      - name: Run technical intake regression suite
+        run: python tools/test_foley_session.py

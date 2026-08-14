@@ -1,0 +1,87 @@
+name: Validate final field audio integration
+
+on:
+  pull_request:
+    paths:
+      - 'content/audio/acquisition_candidates.field_backlog_pending.source.json'
+      - 'content/audio/acquisition_field_backlog_final_receipt.source.json'
+      - 'content/audio/field_backlog_coverage.source.json'
+      - 'tools/validate_final_field_acquisition.py'
+      - 'tools/audio_audition_pack_support.py'
+      - 'tools/build_audio_source_audition_pack.py'
+      - 'tools/validate_audio_source_audition_contract.py'
+      - 'tools/normalize_audio_field_review.py'
+      - 'tools/audio_source_approval_support.py'
+      - 'tools/validate_audio_source_approval_contract.py'
+      - 'content/non_unity_capability_matrix.source.json'
+      - 'tools/validate_non_unity_capability_matrix.py'
+      - 'repo_status.md'
+      - 'docs/36_CHATGPT_WORKSTREAM.md'
+      - 'docs/37_NON_UNITY_GAP_AUDIT.md'
+      - 'docs/73_NON_UNITY_CAPABILITY_MATRIX.md'
+      - 'tools/validate_status_entrypoints.py'
+      - '.github/workflows/final-field-audio-integration-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/audio/acquisition_candidates.field_backlog_pending.source.json'
+      - 'content/audio/acquisition_field_backlog_final_receipt.source.json'
+      - 'content/audio/field_backlog_coverage.source.json'
+      - 'tools/validate_final_field_acquisition.py'
+      - 'tools/audio_audition_pack_support.py'
+      - 'tools/build_audio_source_audition_pack.py'
+      - 'tools/validate_audio_source_audition_contract.py'
+      - 'tools/normalize_audio_field_review.py'
+      - 'tools/audio_source_approval_support.py'
+      - 'tools/validate_audio_source_approval_contract.py'
+      - 'content/non_unity_capability_matrix.source.json'
+      - 'tools/validate_non_unity_capability_matrix.py'
+      - 'repo_status.md'
+      - 'docs/36_CHATGPT_WORKSTREAM.md'
+      - 'docs/37_NON_UNITY_GAP_AUDIT.md'
+      - 'docs/73_NON_UNITY_CAPABILITY_MATRIX.md'
+      - 'tools/validate_status_entrypoints.py'
+      - '.github/workflows/final-field-audio-integration-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile field integration tooling
+        run: >-
+          python -m py_compile
+          tools/validate_final_field_acquisition.py
+          tools/validate_field_backlog_coverage.py
+          tools/audio_audition_pack_support.py
+          tools/build_audio_source_audition_pack.py
+          tools/validate_audio_source_audition_contract.py
+          tools/normalize_audio_field_review.py
+          tools/audio_source_approval_support.py
+          tools/validate_audio_source_approval_contract.py
+          tools/validate_non_unity_capability_matrix.py
+          tools/validate_status_entrypoints.py
+          tools/validate_non_unity_gap_closeout.py
+      - name: Validate exact acquisition evidence and coverage
+        run: |
+          python tools/validate_final_field_acquisition.py
+          python tools/validate_field_backlog_coverage.py
+      - name: Validate 27-source human review boundary
+        run: |
+          python tools/validate_audio_source_audition_contract.py
+          python tools/validate_audio_source_approval_contract.py
+      - name: Preserve broader non-Unity gates
+        run: |
+          python tools/validate_non_unity_capability_matrix.py
+          python tools/validate_status_entrypoints.py
+          python tools/validate_non_unity_gap_closeout.py
+      - name: Run fixture regression suites
+        run: |
+          python tools/test_build_audio_source_audition_pack.py
+          python tools/test_audio_field_review_import.py

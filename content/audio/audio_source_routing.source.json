@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "status": "needs-source-routing-complete-not-source-approved",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "cueCatalog": "content/audio/audio_cues.source.json",
+  "rule": "Every cue whose productionStatus is needs_source must have exactly one explicit route. A route describes the next evidence/production lane; it never implies source approval or runtime readiness.",
+  "routeTypes": [
+    "physical-foley-session",
+    "acquired-candidate-pool",
+    "derived-after-approved-sources",
+    "physical-recording-extension-pending",
+    "source-acquisition-or-recording-pending",
+    "licensed-source-acquisition-pending",
+    "owner-gated"
+  ],
+  "routes": [
+    {"cueId":"SFX_GRAB_HEAVY_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture the planned distinct physical takes, then use the Foley technical + human review lane."},
+    {"cueId":"SFX_HEAVY_MOVE_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture the planned distinct physical takes, then use the Foley technical + human review lane."},
+    {"cueId":"SFX_HEAVY_PLACE_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture the planned distinct physical takes, then use the Foley technical + human review lane."},
+    {"cueId":"SFX_CRATE_OPEN_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture the planned distinct physical takes, then use the Foley technical + human review lane."},
+    {"cueId":"SFX_ROPE_TENSION_LOW_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Record coarse natural rope under real tension; preserve low/good/high material identity as distinct performances."},
+    {"cueId":"SFX_ROPE_TENSION_GOOD_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Record coarse natural rope under real tension; preserve low/good/high material identity as distinct performances."},
+    {"cueId":"SFX_ROPE_TENSION_HIGH_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Record coarse natural rope under real tension; preserve low/good/high material identity as distinct performances."},
+    {"cueId":"SFX_ROPE_TIE_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture the planned physical tie/tighten performances and run the same intake/review lane."},
+    {"cueId":"SFX_SHELTER_CREAK_LOW_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture low structural strain as distinct raw timber performances."},
+    {"cueId":"SFX_SHELTER_CREAK_HIGH_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture higher structural strain without turning it into metal/cinematic stress."},
+    {"cueId":"SFX_SHELTER_ROPE_FLAP_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture heavy tarp/rope movement in the reconciled rope/tarp physical setup."},
+    {"cueId":"SFX_BEAM_SHIFT_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture timber mass/shift performances and preserve raw source identity."},
+    {"cueId":"SFX_SHELTER_SNAP_SUCCESS_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture short tactile physical success performances rather than substituting a UI tone."},
+
+    {"cueId":"SFX_SHELTER_COLLAPSE_PARTIAL_001","routeType":"derived-after-approved-sources","status":"awaiting-approved-shelter-source-family","backing":"content/audio/derived_master_contract.source.json","sourceDependencies":["SFX_SHELTER_CREAK_HIGH_001","SFX_BEAM_SHIFT_001"],"next":"After shelter/timber raw sources are human-approved, author a documented composite/derived collapse master and repeat listening QA."},
+
+    {"cueId":"SFX_FIRESTEEL_STRIKE_001","routeType":"owner-gated","status":"issue-8-owner-decision-pending","backing":"content/contracts/issue8.reconciliation.source.json","next":"Do not acquire/record implementation-specific firesteel Foley until Anders disposes issue #8 fire-start scope."},
+    {"cueId":"SFX_FIRE_IGNITION_001","routeType":"source-acquisition-or-recording-pending","status":"no-dedicated-source-candidate-yet","backing":"docs/58_AUDIO_SOURCE_PRODUCTION_SPEC.md","next":"Acquire or safely record a natural ignition/transient source independent of the owner-gated manual firesteel mechanic; preserve provenance and human-review boundary."},
+    {"cueId":"SFX_FIRE_EMBERS_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_receipt.source.json","sourceTargets":["SFX_FIRE_ALT"],"next":"Human-audition SFX_FIRE_ALT for sparse ember/crackle regions; only derive after source approval."},
+    {"cueId":"SFX_FIRE_SMALL_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_receipt.source.json","sourceTargets":["SFX_FIRE_ALT"],"next":"Human-audition SFX_FIRE_ALT for a stable light-fire bed and loop/slice value; derive only after approval."},
+    {"cueId":"SFX_FIRE_STRONG_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_receipt.source.json","sourceTargets":["SFX_FIRE_ALT"],"next":"Human-audition SFX_FIRE_ALT for fuller but non-bonfire material; reject if size/room identity is wrong."},
+    {"cueId":"SFX_FIRE_FUEL_ADD_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture five distinct cold-firepit dry-fuel performances and run the Foley technical + human review lane; this remains separate from owner-gated firesteel."},
+    {"cueId":"SFX_FIRE_WET_HISS_001","routeType":"source-acquisition-or-recording-pending","status":"no-dedicated-source-candidate-yet","backing":"docs/58_AUDIO_SOURCE_PRODUCTION_SPEC.md","next":"Prefer a provenance-clean licensed/natural wet-fire hiss source or a safely produced equivalent; do not require risky fire recording."},
+
+    {"cueId":"SFX_WIND_L0_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_receipt.source.json","sourceTargets":["AMB_WIND_WORLD"],"next":"Human-audition calm/light regions; distinct level must come from temporal/spectral material, not volume-only scaling."},
+    {"cueId":"SFX_WIND_L1_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_receipt.source.json","sourceTargets":["AMB_WIND_WORLD"],"next":"Human-audition moderate regions and preserve speech space."},
+    {"cueId":"SFX_WIND_L2_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_field_backlog_receipt.source.json","sourceTargets":["SFX_WTH_WIND_FISTERRA_ALT_01"],"next":"Human-audition sustained storm-wind material; any derived master must address decoded headroom risk."},
+    {"cueId":"SFX_WIND_L3_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_field_backlog_receipt.source.json","sourceTargets":["SFX_WTH_WIND_FISTERRA_ALT_01"],"next":"Human-segment genuinely distinct peak/gust material; do not manufacture variation with gain-only copies."},
+    {"cueId":"SFX_RAIN_LIGHT_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_receipt.source.json","sourceTargets":["AMB_RAIN_ALT"],"next":"Human-audition lower-intensity clean regions and speech masking before derivation."},
+    {"cueId":"SFX_RAIN_L2_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/acquisition_receipt.source.json","sourceTargets":["AMB_RAIN_ALT"],"next":"Human-audition storm-intensity regions; establish headroom before any derivative because the source true peak is near/above unity."},
+
+    {"cueId":"SFX_AMB_BEACH_CAMP_001","routeType":"acquired-candidate-pool","status":"partial-candidate-coverage-human-listening-plus-palm-pending","backing":"content/audio/field_backlog_coverage.source.json","sourceTargets":["SFX_AMB_BEACH_SC_ALT_01","AMB_OCEAN_ALT"],"next":"Human-audition coastal/ocean layers; PalmCanopy remains a separate acquisition gap and must not be faked with generic tree wind."},
+    {"cueId":"SFX_AMB_JUNGLE_001","routeType":"acquired-candidate-pool","status":"candidate-source-human-listening-pending","backing":"content/audio/field_backlog_coverage.source.json","sourceTargets":["SFX_AMB_JUNGLE_DEEP_GUADELOUPE_ALT_01","SFX_AMB_JUNGLE_CANOPY_WIND_ALT_01"],"next":"Human-audition deep-bed + canopy candidates; reject the temperate canopy source if biome identity reads wrong."},
+    {"cueId":"SFX_AMB_RAVINE_001","routeType":"acquired-candidate-pool","status":"partial-candidate-coverage-human-listening-pending","backing":"content/audio/field_backlog_coverage.source.json","sourceTargets":["AMB_WIND_WORLD"],"next":"Evaluate exposed/ridge wind as supporting material; acquire a more specific ravine-space bed if human listening shows insufficient spatial identity."},
+    {"cueId":"SFX_AMB_CAMP_NIGHT_001","routeType":"acquired-candidate-pool","status":"partial-candidate-coverage-human-listening-pending","backing":"content/audio/acquisition_field_backlog_receipt.source.json","sourceTargets":["SFX_NAT_NIGHT_CRICKET_ALT_01"],"next":"Human-audition night insect layer for noise/biome fit; combine only with separately approved bed sources through documented derivation."},
+
+    {"cueId":"SFX_ANIMAL_DISTANT_001","routeType":"licensed-source-acquisition-pending","status":"no-ambiguous-threat-source-yet","backing":"docs/58_AUDIO_SOURCE_PRODUCTION_SPEC.md","next":"Acquire a provenance-clean ambiguous medium-animal distant presence without canonicalizing an obvious dog/wolf/monkey signature."},
+    {"cueId":"SFX_ANIMAL_CAMP_APPROACH_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture five distinct ambiguous brush/leaf/ground approach performances without a species vocalization, then run technical + human review."},
+    {"cueId":"SFX_ANIMAL_RETREAT_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture five distinct receding rustle/ground performances while preserving ambiguous threat identity, then run technical + human review."},
+    {"cueId":"SFX_FOOD_DISTURBED_001","routeType":"physical-foley-session","status":"recording-tooling-ready-not-recorded","backing":"content/audio/foley_recording_queue.source.json","next":"Capture five distinct clean food parcel/container disturbance performances and run technical + human review."}
+  ],
+  "summary": {
+    "needsSourceCueCount": 35,
+    "physicalFoleySessionReady": 17,
+    "acquiredCandidatePool": 12,
+    "derivedAfterApprovedSources": 1,
+    "physicalRecordingExtensionPending": 0,
+    "sourceAcquisitionOrRecordingPending": 2,
+    "licensedSourceAcquisitionPending": 1,
+    "ownerGated": 1,
+    "partialCandidateCoverage": 1,
+    "sourceApproved": 0
+  }
+}

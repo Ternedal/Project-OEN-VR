@@ -1,0 +1,16 @@
+# PROJECT OEN A2 item production materials; Unity shaders remain runtime-owned.
+newmtl MAT_WOOD
+Kd 0.52 0.34 0.20
+map_Kd production/textures/MAT_WEATHERED_WOOD_001.png
+newmtl MAT_METAL
+Kd 0.18 0.19 0.18
+map_Kd production/textures/MAT_WORN_IRON_001.png
+newmtl MAT_FIBER
+Kd 0.66 0.54 0.35
+map_Kd production/textures/MAT_AGED_CANVAS_001.png
+newmtl MAT_TINDER
+Kd 0.43 0.27 0.14
+map_Kd production/textures/MAT_WEATHERED_WOOD_001.png
+newmtl MAT_EMBER
+Kd 0.72 0.24 0.08
+map_Kd production/textures/MAT_AGED_CANVAS_001.png

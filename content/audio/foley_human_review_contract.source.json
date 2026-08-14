@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "status": "human-review-tooling-ready-not-reviewed",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "sessionContract": "content/audio/foley_session_contract.source.json",
+  "listeningContract": "content/audio/listening_qa.source.json",
+  "requiredTechnicalReceiptStatus": "technical-intake-passed-not-listening-approved",
+  "reviewExport": {
+    "version": 1,
+    "status": "human-foley-review-unvalidated"
+  },
+  "normalizedStatus": "human-foley-review-evidence-evaluated-not-materialized",
+  "expectedCueCount": 17,
+  "expectedTakeCount": 73,
+  "takeDecisionValues": ["keep", "needs-rerecord", "needs-more-listening"],
+  "cueDecisionValues": ["accept-current-set", "needs-rerecord", "needs-more-listening"],
+  "typedChecks": {
+    "CONTAMINATION": {"type": "result", "values": ["pass", "fail", "needs-more-listening"], "approval": ["pass"]},
+    "MATERIAL_MATCH": {"type": "rating", "min": 1, "max": 5, "approvalMin": 3},
+    "LOOP_OR_SLICE": {"type": "result", "values": ["pass", "fail", "not-applicable", "needs-more-listening"], "approval": ["pass", "not-applicable"]},
+    "NOISE_FLOOR": {"type": "result", "values": ["pass", "fail", "needs-more-listening"], "approval": ["pass"]},
+    "TRANSIENT_QUALITY": {"type": "result", "values": ["pass", "fail", "not-applicable", "needs-more-listening"], "approval": ["pass", "not-applicable"]},
+    "SPACE_IDENTITY": {"type": "result", "values": ["pass", "fail", "needs-more-listening"], "approval": ["pass"]},
+    "VARIATION_VALUE": {"type": "rating", "min": 1, "max": 5, "approvalMin": 3},
+    "SPEECH_SPACE": {"type": "result", "values": ["pass", "fail", "not-applicable", "needs-more-listening"], "approval": ["pass", "not-applicable"]},
+    "UNDER_WEATHER_READABILITY": {"type": "result", "values": ["pass", "fail", "needs-more-listening"], "approval": ["pass"]}
+  },
+  "sourceApprovedEligibilityRequires": [
+    "reviewerAlias is non-empty",
+    "reviewedAt is non-empty",
+    "technical receipt and all 73 source SHA-256 bindings still match actual raw take bytes",
+    "foley provenance SHA still matches technical receipt",
+    "commercialReuseAllowed is true",
+    "all 73 take decisions are keep",
+    "all 17 cue decisions are accept-current-set",
+    "all eight listening-QA checks are complete per cue",
+    "no unresolved contamination/noise/space/transient failure",
+    "MATERIAL_MATCH >= 3 per cue",
+    "VARIATION_VALUE >= 3 per cue",
+    "UNDER_WEATHER_READABILITY is pass per cue"
+  ],
+  "rules": [
+    "A complete negative review is valid evidence and must remain representable; it does not cause normalization failure merely because rerecording is required.",
+    "Take decisions are hash-bound to the technical receipt; a rerecorded take changes SHA and requires a fresh review context.",
+    "The eight canonical listening checks are evaluated per cue family across its planned variants; UNDER_WEATHER_READABILITY is an additional Foley-specific cue-family check.",
+    "Fuel-add and animal-event prop cues use the same human gate as the original crate/rope/shelter cues; no weaker approval lane is introduced.",
+    "Normalization never copies or promotes source files. Explicit materialization is a separate state-changing operation.",
+    "Fire-start-specific Foley remains outside this review lane while issue #8 is owner-gated."
+  ]
+}

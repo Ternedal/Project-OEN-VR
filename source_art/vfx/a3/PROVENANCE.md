@@ -3,11 +3,12 @@
 **Class:** `OWN`  
 **Created for:** PROJECT ØEN  
 **Date:** 2026-08-13  
-**Status:** APPROVED AS SOURCE / Unity runtime implementation pending
+**Status:** APPROVED SOURCE MASTERS + DETERMINISTIC PNG DERIVATIVES / Unity runtime implementation pending
 
 All SVG path/shape data in this folder was created specifically from the project's own storm/source briefs (`docs/47`, `docs/55`, `docs/57`) and interaction/readability rules. No third-party weather texture, photograph, sprite pack or VFX atlas was copied.
 
-The files are stylized source masters intended for later raster/atlas/particle derivation if useful.
+The files are stylized source masters. Deterministic PNG atlas derivatives and
+their separate provenance now live in `production/`.
 
 Current VFX/source coverage includes:
 

@@ -1,0 +1,116 @@
+event_id,category,subcategory,variations,loop,spatial,duration,mixer,min_distance_m,max_distance_m,pitch_range,volume_range,priority,notes,filename_pattern,source_format,unity_import,status
+SFX_AMB_Beach_OceanNear,Ambience,Beds,4,yes,2D,120-240s,Ambience,,,0.96-1.04,0.90-1.00,128,"Seamless irregular surf, foreground",SFX_AMB_Beach_OceanNear_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_AMB_Beach_OceanFar,Ambience,Beds,4,yes,2D,120-240s,Ambience,,,0.96-1.04,0.90-1.00,128,Seamless distant surf bed,SFX_AMB_Beach_OceanFar_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_AMB_Beach_CoastalWind,Ambience,Beds,4,yes,2D,120-240s,Ambience,,,0.96-1.04,0.90-1.00,128,Sea breeze without obvious cyclic gust,SFX_AMB_Beach_CoastalWind_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_AMB_Beach_PalmCanopy,Ambience,Beds,4,yes,2D,120-240s,Ambience,,,0.96-1.04,0.90-1.00,128,Palm fronds and dry leaves,SFX_AMB_Beach_PalmCanopy_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_AMB_Jungle_DayBed,Ambience,Beds,4,yes,2D,120-240s,Ambience,,,0.96-1.04,0.90-1.00,128,Tropical daytime bed,SFX_AMB_Jungle_DayBed_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_AMB_Jungle_NightBed,Ambience,Beds,4,yes,2D,120-240s,Ambience,,,0.96-1.04,0.90-1.00,128,"Night insects, distant fauna",SFX_AMB_Jungle_NightBed_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_AMB_Jungle_CanopyWind,Ambience,Beds,4,yes,2D,120-240s,Ambience,,,0.96-1.04,0.90-1.00,128,Broadleaf canopy,SFX_AMB_Jungle_CanopyWind_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_AMB_Jungle_DeepBed,Ambience,Beds,4,yes,2D,120-240s,Ambience,,,0.96-1.04,0.90-1.00,128,Enclosed humid jungle,SFX_AMB_Jungle_DeepBed_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_AMB_Ridge_WindBed,Ambience,Beds,4,yes,2D,120-240s,Ambience,,,0.96-1.04,0.90-1.00,128,Exposed ridge wind,SFX_AMB_Ridge_WindBed_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_AMB_Shelter_Calm,Ambience,Beds,3,yes,2D,120-240s,Ambience,,,0.96-1.04,0.90-1.00,128,Muffled exterior + close tarp micro-movement,SFX_AMB_Shelter_Calm_{01..03}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_AMB_Shelter_Windy,Ambience,Beds,3,yes,2D,120-240s,Ambience,,,0.96-1.04,0.90-1.00,128,"Shelter resonance, restrained flap",SFX_AMB_Shelter_Windy_{01..03}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_AMB_Shore_Wash,Ambience,Beach,10,no,3D,4-12s,Ambience,2,25,0.96-1.04,0.90-1.00,160,Individual shoreline wash events,SFX_AMB_Shore_Wash_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_WTH_Rain_Light,Weather,Storm/Rain,4,yes,2D,120-240s,Weather,,,0.96-1.04,0.90-1.00,110,General light rain,SFX_WTH_Rain_Light_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_WTH_Rain_Heavy,Weather,Storm/Rain,4,yes,2D,120-240s,Weather,,,0.96-1.04,0.90-1.00,110,Heavy tropical rain,SFX_WTH_Rain_Heavy_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_WTH_Rain_OnTarp,Weather,Storm/Rain,4,yes,3D,120-240s,Weather,1,60,0.96-1.04,0.90-1.00,110,Rain impacts on shelter tarp,SFX_WTH_Rain_OnTarp_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_WTH_Storm_Wind,Weather,Storm/Rain,4,yes,2D,120-240s,Weather,,,0.96-1.04,0.90-1.00,110,Strong storm wind,SFX_WTH_Storm_Wind_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_WTH_Storm_RoughOcean,Weather,Storm/Rain,4,yes,2D,120-240s,Weather,,,0.96-1.04,0.90-1.00,110,Aggressive storm surf,SFX_WTH_Storm_RoughOcean_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+SFX_WTH_Storm_WindGust,Weather,Storm/Rain,10,no,3D,2-7s,Weather,1,60,0.96-1.04,0.90-1.00,110,Localized gust,SFX_WTH_Storm_WindGust_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_WTH_Thunder_Near,Weather,Storm/Rain,8,no,2D,3-10s,Weather,,,0.96-1.04,0.90-1.00,110,Close thunder,SFX_WTH_Thunder_Near_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_WTH_Thunder_Far,Weather,Storm/Rain,8,no,2D,4-12s,Weather,,,0.96-1.04,0.90-1.00,110,Distant rolling thunder,SFX_WTH_Thunder_Far_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_NAT_Bird_ShoreCall,Nature,Fauna,10,no,3D,0.5-4s,Nature,2,25,0.96-1.04,0.90-1.00,170,Randomized world one-shot,SFX_NAT_Bird_ShoreCall_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_NAT_Bird_JungleCall,Nature,Fauna,16,no,3D,0.5-5s,Nature,2,25,0.96-1.04,0.90-1.00,170,Randomized world one-shot,SFX_NAT_Bird_JungleCall_{01..16}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_NAT_Bird_WingFlap,Nature,Fauna,6,no,3D,0.4-2s,Nature,2,12,0.96-1.04,0.90-1.00,170,Randomized world one-shot,SFX_NAT_Bird_WingFlap_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_NAT_Insect_CicadaCluster,Nature,Fauna,8,no,3D,2-8s,Nature,2,18,0.96-1.04,0.90-1.00,170,Randomized world one-shot,SFX_NAT_Insect_CicadaCluster_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_NAT_Insect_NightChirp,Nature,Fauna,10,no,3D,0.3-3s,Nature,2,14,0.96-1.04,0.90-1.00,170,Randomized world one-shot,SFX_NAT_Insect_NightChirp_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_NAT_Frog_Call,Nature,Fauna,8,no,3D,0.5-4s,Nature,2,18,0.96-1.04,0.90-1.00,170,Randomized world one-shot,SFX_NAT_Frog_Call_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_NAT_Animal_RustleNear,Nature,Fauna,10,no,3D,1-5s,Nature,2,10,0.96-1.04,0.90-1.00,170,Randomized world one-shot,SFX_NAT_Animal_RustleNear_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_NAT_Animal_BranchSnapFar,Nature,Fauna,8,no,3D,0.2-2s,Nature,2,22,0.96-1.04,0.90-1.00,170,Randomized world one-shot,SFX_NAT_Animal_BranchSnapFar_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_NAT_Animal_ScrapeFar,Nature,Fauna,6,no,3D,0.5-4s,Nature,2,20,0.96-1.04,0.90-1.00,170,Randomized world one-shot,SFX_NAT_Animal_ScrapeFar_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Fire_Idle,Environment,Fire,4,yes,3D,60-120s,Environment,1,12,0.96-1.04,0.90-1.00,100,,SFX_ENV_Fire_Idle_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Fire_Low,Environment,Fire,3,yes,3D,45-90s,Environment,1,12,0.96-1.04,0.90-1.00,100,,SFX_ENV_Fire_Low_{01..03}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Fire_Pop,Environment,Fire,14,no,3D,0.1-1.5s,Environment,1,12,0.96-1.04,0.90-1.00,100,,SFX_ENV_Fire_Pop_{01..14}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Fire_AddWood,Environment,Fire,8,no,3D,0.5-3s,Environment,1,12,0.96-1.04,0.90-1.00,100,,SFX_ENV_Fire_AddWood_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Fire_Ignite,Environment,Fire,6,no,3D,1-5s,Environment,1,12,0.96-1.04,0.90-1.00,100,,SFX_ENV_Fire_Ignite_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Fire_Extinguish,Environment,Fire,6,no,3D,1-5s,Environment,1,12,0.96-1.04,0.90-1.00,100,,SFX_ENV_Fire_Extinguish_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Tarp_Flap,Environment,Tarp,12,no,3D,0.3-3s,Environment,1,12,0.96-1.04,0.90-1.00,115,,SFX_ENV_Tarp_Flap_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Tarp_Handle,Environment,Tarp,10,no,3D,0.4-3s,Environment,1,8,0.96-1.04,0.90-1.00,115,,SFX_ENV_Tarp_Handle_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Tarp_Tension,Environment,Tarp,8,no,3D,0.2-2s,Environment,1,10,0.96-1.04,0.90-1.00,115,,SFX_ENV_Tarp_Tension_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Rope_Handle,Environment,Rope,10,no,3D,0.2-2s,Environment,1,6,0.96-1.04,0.90-1.00,115,,SFX_ENV_Rope_Handle_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Rope_Tighten,Environment,Rope,10,no,3D,0.3-2s,Environment,1,8,0.96-1.04,0.90-1.00,115,,SFX_ENV_Rope_Tighten_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Rope_Creak,Environment,Rope,8,no,3D,0.5-4s,Environment,1,12,0.96-1.04,0.90-1.00,115,,SFX_ENV_Rope_Creak_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Rope_TensionRelease,Environment,Rope,6,no,3D,0.2-1.5s,Environment,1,10,0.96-1.04,0.90-1.00,115,,SFX_ENV_Rope_TensionRelease_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Wood_Pickup,Environment,Wood,10,no,3D,0.2-1.2s,Environment,1,7,0.96-1.04,0.90-1.00,115,,SFX_ENV_Wood_Pickup_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Wood_Drop,Environment,Wood,12,no,3D,0.2-2s,Environment,1,12,0.96-1.04,0.90-1.00,115,,SFX_ENV_Wood_Drop_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Wood_Hit,Environment,Wood,12,no,3D,0.1-1.2s,Environment,1,12,0.96-1.04,0.90-1.00,115,,SFX_ENV_Wood_Hit_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Wood_Break,Environment,Wood,10,no,3D,0.2-2s,Environment,1,14,0.96-1.04,0.90-1.00,115,,SFX_ENV_Wood_Break_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Wood_Chop,Environment,Wood,12,no,3D,0.2-1.5s,Environment,1,14,0.96-1.04,0.90-1.00,115,,SFX_ENV_Wood_Chop_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Stone_Pickup,Environment,Stone,8,no,3D,0.2-1s,Environment,1,7,0.96-1.04,0.90-1.00,115,,SFX_ENV_Stone_Pickup_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Stone_Drop,Environment,Stone,10,no,3D,0.2-2s,Environment,1,12,0.96-1.04,0.90-1.00,115,,SFX_ENV_Stone_Drop_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Stone_Hit,Environment,Stone,12,no,3D,0.1-1.2s,Environment,1,14,0.96-1.04,0.90-1.00,115,,SFX_ENV_Stone_Hit_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Leaves_Rustle,Environment,Leaves,12,no,3D,0.2-3s,Environment,1,10,0.96-1.04,0.90-1.00,115,,SFX_ENV_Leaves_Rustle_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Water_SplashSmall,Environment,Water,12,no,3D,0.2-2s,Environment,1,12,0.96-1.04,0.90-1.00,115,,SFX_ENV_Water_SplashSmall_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Water_SplashLarge,Environment,Water,8,no,3D,0.5-4s,Environment,1,18,0.96-1.04,0.90-1.00,115,,SFX_ENV_Water_SplashLarge_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Water_Pour,Environment,Water,10,no,3D,0.5-5s,Environment,1,8,0.96-1.04,0.90-1.00,115,,SFX_ENV_Water_Pour_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Container_SetDown,Environment,Container,8,no,3D,0.2-2s,Environment,1,8,0.96-1.04,0.90-1.00,115,,SFX_ENV_Container_SetDown_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Container_Open,Environment,Container,6,no,3D,0.3-2s,Environment,1,8,0.96-1.04,0.90-1.00,115,,SFX_ENV_Container_Open_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Container_Close,Environment,Container,6,no,3D,0.3-2s,Environment,1,8,0.96-1.04,0.90-1.00,115,,SFX_ENV_Container_Close_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Crate_Open,Environment,Crate,8,no,3D,0.5-3s,Environment,1,10,0.96-1.04,0.90-1.00,115,,SFX_ENV_Crate_Open_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Crate_Close,Environment,Crate,8,no,3D,0.3-2s,Environment,1,10,0.96-1.04,0.90-1.00,115,,SFX_ENV_Crate_Close_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Metal_Scrape,Environment,Metal,8,no,3D,0.3-3s,Environment,1,12,0.96-1.04,0.90-1.00,115,,SFX_ENV_Metal_Scrape_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_ENV_Metal_Impact,Environment,Metal,10,no,3D,0.1-1.5s,Environment,1,12,0.96-1.04,0.90-1.00,115,,SFX_ENV_Metal_Impact_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Footstep_SandDry,Player,Footsteps,12,no,3D,0.15-0.8s,Player,0.5,8,0.94-1.06,0.88-1.00,80,,SFX_PLY_Footstep_SandDry_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Footstep_SandWet,Player,Footsteps,12,no,3D,0.15-0.8s,Player,0.5,8,0.94-1.06,0.88-1.00,80,,SFX_PLY_Footstep_SandWet_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Footstep_Dirt,Player,Footsteps,12,no,3D,0.15-0.8s,Player,0.5,8,0.94-1.06,0.88-1.00,80,,SFX_PLY_Footstep_Dirt_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Footstep_Rock,Player,Footsteps,12,no,3D,0.15-0.8s,Player,0.5,8,0.94-1.06,0.88-1.00,80,,SFX_PLY_Footstep_Rock_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Footstep_Wood,Player,Footsteps,12,no,3D,0.15-0.8s,Player,0.5,8,0.94-1.06,0.88-1.00,80,,SFX_PLY_Footstep_Wood_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Footstep_Leaves,Player,Footsteps,12,no,3D,0.15-0.8s,Player,0.5,8,0.94-1.06,0.88-1.00,80,,SFX_PLY_Footstep_Leaves_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Footstep_ShallowWater,Player,Footsteps,12,no,3D,0.15-0.8s,Player,0.5,8,0.94-1.06,0.88-1.00,80,,SFX_PLY_Footstep_ShallowWater_{01..12}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Land_Soft,Player,Movement,6,no,3D,0.2-1s,Player,0.5,7,0.96-1.04,0.90-1.00,75,,SFX_PLY_Land_Soft_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Land_Hard,Player,Movement,6,no,3D,0.3-1.5s,Player,0.5,7,0.96-1.04,0.90-1.00,75,,SFX_PLY_Land_Hard_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Wade,Player,Movement,10,no,3D,0.3-2s,Player,0.5,7,0.96-1.04,0.90-1.00,75,,SFX_PLY_Wade_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_SwimStroke,Player,Movement,10,no,3D,0.4-2s,Player,0.5,7,0.96-1.04,0.90-1.00,75,,SFX_PLY_SwimStroke_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Cloth_Move,Player,Movement,10,no,3D,0.2-1.5s,Player,0.5,7,0.96-1.04,0.90-1.00,75,,SFX_PLY_Cloth_Move_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Hand_Grab,Player,Movement,8,no,3D,0.1-0.6s,Player,0.5,7,0.96-1.04,0.90-1.00,75,,SFX_PLY_Hand_Grab_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_PLY_Hand_Release,Player,Movement,8,no,3D,0.1-0.6s,Player,0.5,7,0.96-1.04,0.90-1.00,75,,SFX_PLY_Hand_Release_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_INT_Pickup_Generic,Interaction,Gameplay,8,no,3D,0.1-2.5s,Interaction,1,10,0.96-1.04,0.90-1.00,70,,SFX_INT_Pickup_Generic_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_INT_Drop_Generic,Interaction,Gameplay,8,no,3D,0.1-2.5s,Interaction,1,10,0.96-1.04,0.90-1.00,70,,SFX_INT_Drop_Generic_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_INT_Place_Valid,Interaction,Gameplay,6,no,2D,0.1-2.5s,Interaction,,,0.96-1.04,0.90-1.00,70,,SFX_INT_Place_Valid_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_INT_Place_Invalid,Interaction,Gameplay,4,no,2D,0.1-2.5s,Interaction,,,0.96-1.04,0.90-1.00,70,,SFX_INT_Place_Invalid_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_INT_Objective_Complete,Interaction,Gameplay,4,no,2D,0.1-2.5s,Interaction,,,0.96-1.04,0.90-1.00,70,,SFX_INT_Objective_Complete_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_INT_Discovery,Interaction,Gameplay,6,no,2D,0.1-2.5s,Interaction,,,0.96-1.04,0.90-1.00,70,,SFX_INT_Discovery_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_INT_Danger_Warning,Interaction,Gameplay,4,no,2D,0.1-2.5s,Interaction,,,0.96-1.04,0.90-1.00,70,,SFX_INT_Danger_Warning_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_INT_Resource_Depleted,Interaction,Gameplay,4,no,2D,0.1-2.5s,Interaction,,,0.96-1.04,0.90-1.00,70,,SFX_INT_Resource_Depleted_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_CRF_Start,Crafting,Gameplay,6,no,2D,0.1-2.5s,Crafting,,,0.96-1.04,0.90-1.00,70,,SFX_CRF_Start_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_CRF_Progress,Crafting,Gameplay,8,no,2D,0.1-2.5s,Crafting,,,0.96-1.04,0.90-1.00,70,,SFX_CRF_Progress_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_CRF_Success,Crafting,Gameplay,6,no,2D,0.1-2.5s,Crafting,,,0.96-1.04,0.90-1.00,70,,SFX_CRF_Success_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_CRF_Fail,Crafting,Gameplay,5,no,2D,0.1-2.5s,Crafting,,,0.96-1.04,0.90-1.00,70,,SFX_CRF_Fail_{01..05}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_CRF_Build_Place,Crafting,Gameplay,8,no,3D,0.1-2.5s,Crafting,1,10,0.96-1.04,0.90-1.00,70,,SFX_CRF_Build_Place_{01..08}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_CRF_Build_Hammer,Crafting,Gameplay,10,no,3D,0.1-2.5s,Crafting,1,10,0.96-1.04,0.90-1.00,70,,SFX_CRF_Build_Hammer_{01..10}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_UI_Hover,UI,Interface,4,no,2D,0.05-1.5s,UI,,,0.96-1.04,0.90-1.00,60,,SFX_UI_Hover_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_UI_Select,UI,Interface,4,no,2D,0.05-1.5s,UI,,,0.96-1.04,0.90-1.00,60,,SFX_UI_Select_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_UI_Back,UI,Interface,4,no,2D,0.05-1.5s,UI,,,0.96-1.04,0.90-1.00,60,,SFX_UI_Back_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_UI_Error,UI,Interface,4,no,2D,0.05-1.5s,UI,,,0.96-1.04,0.90-1.00,60,,SFX_UI_Error_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_UI_PageTurn,UI,Interface,5,no,2D,0.05-1.5s,UI,,,0.96-1.04,0.90-1.00,60,,SFX_UI_PageTurn_{01..05}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_UI_Map_Open,UI,Interface,4,no,2D,0.05-1.5s,UI,,,0.96-1.04,0.90-1.00,60,,SFX_UI_Map_Open_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_UI_Map_Close,UI,Interface,4,no,2D,0.05-1.5s,UI,,,0.96-1.04,0.90-1.00,60,,SFX_UI_Map_Close_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_UI_Radio_Click,UI,Interface,5,no,2D,0.05-1.5s,UI,,,0.96-1.04,0.90-1.00,60,,SFX_UI_Radio_Click_{01..05}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_UI_Radio_Static,UI,Interface,5,no,2D,0.05-1.5s,UI,,,0.96-1.04,0.90-1.00,60,,SFX_UI_Radio_Static_{01..05}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_UI_Inventory_Open,UI,Interface,4,no,2D,0.05-1.5s,UI,,,0.96-1.04,0.90-1.00,60,,SFX_UI_Inventory_Open_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_UI_Inventory_Close,UI,Interface,4,no,2D,0.05-1.5s,UI,,,0.96-1.04,0.90-1.00,60,,SFX_UI_Inventory_Close_{01..04}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_STS_Hunger_Warn,Interaction,Status,3,no,2D,0.2-2s,Interaction,,,0.96-1.04,0.90-1.00,55,,SFX_STS_Hunger_Warn_{01..03}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_STS_Thirst_Warn,Interaction,Status,3,no,2D,0.2-2s,Interaction,,,0.96-1.04,0.90-1.00,55,,SFX_STS_Thirst_Warn_{01..03}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_STS_Fatigue_Warn,Interaction,Status,3,no,2D,0.2-2s,Interaction,,,0.96-1.04,0.90-1.00,55,,SFX_STS_Fatigue_Warn_{01..03}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_STS_Health_Damage,Interaction,Status,6,no,2D,0.2-2s,Interaction,,,0.96-1.04,0.90-1.00,55,,SFX_STS_Health_Damage_{01..06}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+SFX_STS_Health_Critical,Interaction,Status,3,no,2D,0.2-2s,Interaction,,,0.96-1.04,0.90-1.00,55,,SFX_STS_Health_Critical_{01..03}.wav,WAV 48kHz/24-bit,ADPCM/DecompressOnLoad,production-needed
+MUS_Camp_WarmTexture,Music,Adaptive,3,yes,2D,90-180s,Music,,,0.96-1.04,0.90-1.00,40,,MUS_Camp_WarmTexture_{01..03}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+MUS_Warning_LowPulse,Music,Adaptive,3,yes,2D,60-120s,Music,,,0.96-1.04,0.90-1.00,40,,MUS_Warning_LowPulse_{01..03}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+MUS_Storm_Phase1,Music,Adaptive,2,yes,2D,90-180s,Music,,,0.96-1.04,0.90-1.00,40,,MUS_Storm_Phase1_{01..02}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+MUS_Storm_Phase2,Music,Adaptive,2,yes,2D,90-180s,Music,,,0.96-1.04,0.90-1.00,40,,MUS_Storm_Phase2_{01..02}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+MUS_Storm_Phase3,Music,Adaptive,2,yes,2D,90-180s,Music,,,0.96-1.04,0.90-1.00,40,,MUS_Storm_Phase3_{01..02}.wav,WAV 48kHz/24-bit,Vorbis/Streaming,production-needed
+MUS_Finale_Success,Music,Adaptive,2,no,2D,20-60s,Music,,,0.96-1.04,0.90-1.00,40,,MUS_Finale_Success_{01..02}.wav,WAV 48kHz/24-bit,Vorbis/CompressedInMemory,production-needed
+STG_Discovery_Small,Stinger,Adaptive,4,no,2D,1-4s,Stinger,,,0.96-1.04,0.90-1.00,40,,STG_Discovery_Small_{01..04}.wav,WAV 48kHz/24-bit,Vorbis/CompressedInMemory,production-needed
+STG_Objective_Major,Stinger,Adaptive,3,no,2D,2-6s,Stinger,,,0.96-1.04,0.90-1.00,40,,STG_Objective_Major_{01..03}.wav,WAV 48kHz/24-bit,Vorbis/CompressedInMemory,production-needed
+STG_Danger_Reveal,Stinger,Adaptive,3,no,2D,1-5s,Stinger,,,0.96-1.04,0.90-1.00,40,,STG_Danger_Reveal_{01..03}.wav,WAV 48kHz/24-bit,Vorbis/CompressedInMemory,production-needed
+STG_Signal_Success,Stinger,Adaptive,3,no,2D,2-8s,Stinger,,,0.96-1.04,0.90-1.00,40,,STG_Signal_Success_{01..03}.wav,WAV 48kHz/24-bit,Vorbis/CompressedInMemory,production-needed

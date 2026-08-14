@@ -21,9 +21,15 @@ REQUIRED_COMMON = [
 ]
 
 REQUIRED_PIPELINE_MARKERS = [
-    "25-source",
+    "27-source",
+    "SFX_AMB_Beach_PalmCanopy",
     "source_approval_contract.source.json",
     "derived_master_contract.source.json",
+    "17 cues / 73",
+    "foley_session_contract.source.json",
+    "foley_human_review_contract.source.json",
+    "foley_source_materialization_contract.source.json",
+    "UNDER_WEATHER_READABILITY",
     "9 cues × 3 takes",
     "radio_vo_human_review_contract.source.json",
     "radio_vo_selected_dry_contract.source.json",
@@ -32,14 +38,11 @@ REQUIRED_PIPELINE_MARKERS = [
     "music_selected_source_contract.source.json",
 ]
 
-# Avoid broad phrases such as "M-Pre er grøn": those also occur in correct future
-# conditions like "M1 starts when M0b + M-Pre are green". Open-gate truth is
-# protected by REQUIRED_COMMON, explicit evidence-boundary language, the capability
-# matrix validator and the gap-closeout validator. These phrases represent actual
-# false completion claims rather than conditional wording.
 FORBIDDEN_FALSE_PROGRESS = [
     "source approval er gennemført",
     "derived-master approval er gennemført",
+    "foley er optaget",
+    "foley source approval er gennemført",
     "radio vo er optaget",
     "music selection er godkendt",
 ]
@@ -49,18 +52,22 @@ REQUIRED_EVIDENCE_BOUNDARIES = {
         "mangler",
         "ingen synthetic/self-test må lukke denne gate",
         "der er fortsat ingen påståede menneskesessioner",
+        "0 fysiske Foley recordings",
+        "0 human Foley approvals",
     ],
     "workstream": [
         "mangler",
         "ingen synthetic/self-test lukker gaten",
         "tre faktiske menneskesessioner",
+        "faktisk recording findes ikke endnu",
+        "faktisk human Foley review/source approval findes ikke endnu",
     ],
 }
 
 
 def main() -> int:
     errors: list[str] = []
-    texts = {}
+    texts: dict[str, str] = {}
     for name, path in FILES.items():
         if not path.is_file():
             errors.append(f"missing status entrypoint: {path.relative_to(ROOT)}")
@@ -94,8 +101,14 @@ def main() -> int:
     backing_paths = [
         "content/non_unity_capability_matrix.source.json",
         "docs/37_NON_UNITY_GAP_AUDIT.md",
+        "content/audio/acquisition_field_backlog_final_receipt.source.json",
         "content/audio/source_approval_contract.source.json",
         "content/audio/derived_master_contract.source.json",
+        "content/audio/foley_session_contract.source.json",
+        "content/audio/foley_human_review_contract.source.json",
+        "content/audio/foley_source_materialization_contract.source.json",
+        "docs/74_FOLEY_RECORDING_INTAKE.md",
+        "docs/75_FOLEY_HUMAN_REVIEW_AND_SOURCE_APPROVAL.md",
         "content/audio/radio_vo_human_review_contract.source.json",
         "content/audio/radio_vo_selected_dry_contract.source.json",
         "content/audio/music_family_selection_contract.source.json",
@@ -111,7 +124,7 @@ def main() -> int:
         print(f"Status entrypoint validation FAILED: {len(errors)} error(s).")
         return 1
 
-    print("Status entrypoints OK: source/tooling/evidence states separated; current audio/VO/music lanes referenced; real-world gates remain explicit.")
+    print("Status entrypoints OK: 27-source acquired lane + separate 17-cue/73-take Foley recording and human-review gates current; real-world evidence boundaries explicit.")
     return 0
 
 

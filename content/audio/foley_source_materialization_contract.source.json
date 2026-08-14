@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "status": "source-approved-materialization-tooling-ready-no-foley-source-approved",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "input": {
+    "status": "human-foley-review-evidence-evaluated-not-materialized",
+    "eligibleFlag": "readyForSourceMaterialization",
+    "eligibleFlagMustBe": true
+  },
+  "sourceBytes": {
+    "sessionRoot": "PrivateContent/FoleySession",
+    "rule": "Every promoted raw WAV must match the exact relative path and SHA-256 bound in the technical receipt and normalized human review."
+  },
+  "output": {
+    "directory": "source_approved",
+    "filenamePattern": "{cueId}/{filename}",
+    "receiptFilename": "foley_source_approved_receipt.json",
+    "receiptStatus": "source-approved-foley-originals-materialized-from-human-gate"
+  },
+  "materialization": {
+    "expectedCueCount": 17,
+    "expectedTakeCount": 73,
+    "copyOnly": true,
+    "preserveSourceBytes": true,
+    "sourceAndOutputShaMustMatch": true,
+    "overwriteRequiresExplicitReplace": true
+  },
+  "rules": [
+    "Materialization is the explicit state-promoting operation and requires a complete positive normalized human Foley review.",
+    "Eligibility is recomputed from reviewer identity, provenance rights, all take/cue decisions and typed listening checks; the tool never trusts a manually edited ready flag alone.",
+    "Raw WAV bytes are copied unchanged. No trim, denoise, resample, EQ, gain, layering, looping edit, compression or transcoding occurs here.",
+    "source-approved does not imply derived-master-approved, Unity-integrated, Quest-approved or release-approved.",
+    "Any later edit creates a new file identity and must follow the derived-master technical + repeated-human-listening gate."
+  ]
+}

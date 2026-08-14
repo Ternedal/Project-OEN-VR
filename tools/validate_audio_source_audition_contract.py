@@ -3,7 +3,16 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from audio_audition_pack_support import PackError, contract_paths, expected_artifact_digests, load_json, records_index, require_sha
+from audio_audition_pack_support import (
+    PackError,
+    contract_paths,
+    expected_artifact_digests,
+    load_field_receipts,
+    load_json,
+    merge_field_receipts,
+    records_index,
+    require_sha,
+)
 from audio_audition_pack_main import MAIN_CHECKS, check_questions, navigation_index
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,10 +23,11 @@ def validate(root: Path = ROOT) -> dict[str, int]:
     main = load_json(paths['main'])
     ext = load_json(paths['extension'])
     shortlist = load_json(paths['shortlist'])
-    field = load_json(paths['field'])
+    field_receipts = load_field_receipts(root)
+    field = merge_field_receipts(field_receipts)
     targets = load_json(paths['targets'])
     qa = load_json(paths['qa'])
-    expected_artifact_digests(main, ext, field)
+    expected_artifact_digests(main, ext, *field_receipts)
     check_questions(qa)
 
     main_records = records_index(main, 'main receipt')
@@ -48,14 +58,19 @@ def validate(root: Path = ROOT) -> dict[str, int]:
             raise PackError(f'unsupported extension member identity: {target}/{source_path}')
         require_sha(member.get('sha256'), f'extension member {target}/{source_path}')
 
-    field_records = records_index(field, 'field receipt')
+    field_records = records_index(field, 'field receipts')
     if not field_records:
-        raise PackError('field receipt has no acquired records')
+        raise PackError('field receipts have no acquired records')
     for target, record in field_records.items():
         for key in ('filename', 'runtimeEventCandidate'):
             if not isinstance(record.get(key), str) or not record[key]:
                 raise PackError(f'field receipt {target}: missing {key}')
         require_sha(record.get('sha256'), f'field receipt {target}')
+        if record.get('status') != 'acquired-original-not-listening-approved':
+            raise PackError(f'field receipt {target}: source status drift')
+
+    if root == ROOT and len(field_records) != 9:
+        raise PackError(f'current field source count must be 9, got {len(field_records)}')
 
     html = paths['html'].read_text(encoding='utf-8')
     if html.count('__AUDITION_DATA_JSON__') != 1:

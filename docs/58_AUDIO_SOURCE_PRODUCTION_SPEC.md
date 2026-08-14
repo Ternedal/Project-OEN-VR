@@ -287,7 +287,7 @@ Actual ducking/mixer logic belongs to Claude.
 
 # 10. Production order
 
-1. AU-1 synthetic feedback — generator ready
+1. AU-1 synthetic feedback — 12 production WAV masters committed; generator retained
 2. rope/shelter/crate Foley
 3. fire state family
 4. wind/rain core beds

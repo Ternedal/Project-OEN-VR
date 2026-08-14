@@ -23,12 +23,16 @@
     {
       "eventId": "SFX_AMB_Beach_PalmCanopy",
       "status": "source-acquisition-pending",
-      "next": "Acquire natural palm/frond canopy movement with clean long regions and no preview artifacts."
+      "next": "Continue exact palm/frond source research. Current best CC0 exact-fit candidate requires authenticated original download; do not substitute preview audio or generic temperate tree wind."
     },
     {
       "eventId": "SFX_AMB_Jungle_CanopyWind",
-      "status": "source-acquisition-pending",
-      "next": "Acquire broadleaf/jungle canopy wind with enough clean material for distinct temporal edits."
+      "status": "acquired-candidate-human-listening-pending",
+      "sourceTarget": "SFX_AMB_JUNGLE_CANOPY_WIND_ALT_01",
+      "receipt": "content/audio/acquisition_field_backlog_final_receipt.source.json",
+      "sourceSha256": "0977950ade4efe3c1a975c4c7c983b1487bfeb4adb456895e4d0b637ba81373b",
+      "candidateFit": "Natural CC0 48 kHz stereo treetop wind recording with exact acquired bytes and clean technical probe. It was recorded in a temperate French forest, so it proves canopy-motion material rather than tropical-biome fit.",
+      "next": "Human listening must judge bird/branch contamination, temporal editability and whether the vegetation/biome identity reads acceptably for Jungle_CanopyWind. Reject or repurpose if temperate identity is obvious."
     },
     {
       "eventId": "SFX_AMB_Jungle_DeepBed",
@@ -50,8 +54,12 @@
     },
     {
       "eventId": "SFX_WTH_Storm_RoughOcean",
-      "status": "source-acquisition-pending",
-      "next": "Acquire natural rough sea plus strong wind; current short beach-wave source is not promoted to storm-ocean coverage."
+      "status": "acquired-candidate-human-listening-pending",
+      "sourceTarget": "SFX_WTH_STORM_ROUGH_OCEAN_ALT_01",
+      "receipt": "content/audio/acquisition_field_backlog_final_receipt.source.json",
+      "sourceSha256": "3406e8219f093870a83584d6295e415b4ef175e75d25c9de081e3274b436cf9d",
+      "candidateFit": "Natural CC0 48 kHz/24-bit stereo cliff-wave recording with exact acquired bytes. It provides forceful ocean/wave-body material, but metadata does not establish storm conditions or strong wind; one source sample reaches integer full scale.",
+      "next": "Human listening must judge force, storm-context fit, usable wave bodies and whether separately approved wind is required. Any derivative must establish headroom before processing."
     },
     {
       "eventId": "SFX_WTH_Storm_WindGust",
@@ -110,8 +118,8 @@
   ],
   "summary": {
     "trackedRuntimeEvents": 11,
-    "acquiredSourceCandidatePendingHuman": 8,
-    "sourceAcquisitionPending": 3,
+    "acquiredSourceCandidatePendingHuman": 10,
+    "sourceAcquisitionPending": 1,
     "sourceApproved": 0,
     "runtimeProducedFromThisCoverage": 0
   }

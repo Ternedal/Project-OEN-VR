@@ -1,11 +1,11 @@
-# Provenance — B1 environment source references
+# Provenance — B1 environment references and production pack
 
-**Pack:** B1 jungle/ravine/ridge environment source references  
+**Pack:** B1 jungle/ravine/ridge references + OBJ/MTL/PNG production sources
 **Owner:** ChatGPT  
 **Class:** `OWN`  
 **Date:** 2026-08-13
 
-## Files
+## Reference files
 
 - `B1_JUNGLE_READABILITY_001.svg`
 - `B1_RAVINE_READABILITY_001.svg`
@@ -15,7 +15,7 @@
 
 ## Origin
 
-All files in this pack are project-original vector diagrams authored specifically for PROJECT ØEN.
+All reference and production files in this pack are project-original and authored specifically for PROJECT ØEN.
 
 They do not contain:
 
@@ -27,9 +27,9 @@ They do not contain:
 
 ## Intended use
 
-These SVGs are source/readability references for later world and level production. They are **not** final Unity geometry, textures or baked navigation maps.
+The SVGs are source/readability references. Concrete metre-scaled UV-mapped geometry and project-owned texture sources are committed under `production/` for `ENV_JUNGLE_PATH_001`, `ENV_RAVINE_001`, `ENV_RIDGE_001`, `PRP_RAVINE_ANCHOR_001` and `PRP_RAVINE_GUIDE_MARKERS_001`.
 
-The ravine prop masters define the product-visible anchor/guide language referenced by `design/interactions/RAVINE_RESCUE.md`; final 3D source/runtime implementation remains separate.
+The ravine prop masters define the product-visible anchor/guide language referenced by `design/interactions/RAVINE_RESCUE.md`; Unity navigation, colliders and runtime implementation remain separate.
 
 Derived assets may be created from them, but release provenance must preserve the link back to this record.
 

@@ -14,10 +14,39 @@
       "operatorDoc": "docs/67_AUDIO_SOURCE_AUDITION_PACK.md",
       "tool": "tools/build_audio_source_audition_pack.py",
       "validator": "tools/validate_audio_source_audition_contract.py",
-      "expectedSourceCount": 25,
+      "expectedSourceCount": 27,
       "humanEvidenceRequired": true,
       "gateSatisfied": false,
       "next": "Build the review pack from acquired artifacts and obtain actual human shortlist evidence."
+    },
+    {
+      "id": "FOLEY_RECORDING",
+      "status": "operator-intake-ready-not-recorded",
+      "contract": "content/audio/foley_session_contract.source.json",
+      "operatorDoc": "docs/74_FOLEY_RECORDING_INTAKE.md",
+      "tool": "tools/prepare_foley_session.py",
+      "validator": "tools/validate_foley_session.py",
+      "expectedCueCount": 17,
+      "expectedTakeCount": 73,
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "Record 73 distinct physical Foley performances across heavy crate, rope/tarp, shelter timber, cold-fire maintenance and ambiguous event props, then run technical intake."
+    },
+    {
+      "id": "FOLEY_HUMAN_REVIEW",
+      "status": "review-and-source-promotion-tooling-ready-no-human-review",
+      "contract": "content/audio/foley_human_review_contract.source.json",
+      "materializationContract": "content/audio/foley_source_materialization_contract.source.json",
+      "operatorDoc": "docs/75_FOLEY_HUMAN_REVIEW_AND_SOURCE_APPROVAL.md",
+      "tool": "tools/prepare_foley_human_review.py",
+      "normalizer": "tools/normalize_foley_human_review.py",
+      "materializer": "tools/materialize_foley_source_approved.py",
+      "validator": "tools/validate_foley_human_review_contract.py",
+      "expectedCueCount": 17,
+      "expectedTakeCount": 73,
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "After a real 73/73 technical intake, human-review every take and cue family; negative/rerecord evidence is valid, source promotion requires complete positive 17/17 evidence."
     },
     {
       "id": "RADIO_VO_RECORDING",
@@ -98,7 +127,7 @@
       "normalizer": "tools/normalize_audio_source_approval_review.py",
       "materializer": "tools/materialize_source_approved_audio.py",
       "validator": "tools/validate_audio_source_approval_contract.py",
-      "currentAuditionSourceCount": 25,
+      "currentAuditionSourceCount": 27,
       "humanEvidenceRequired": true,
       "gateSatisfied": false,
       "next": "Run typed human source approval on shortlisted sources; material match must remain >=3 and reviewer identity/timestamp are mandatory."
@@ -148,6 +177,8 @@
   ],
   "blockedByEvidence": [
     "actual human listening/selection",
+    "actual physical Foley recording",
+    "actual human Foley material/variation/weather review",
     "actual authorized voice recording",
     "actual M-Pre human sessions",
     "actual Quest 2/Quest 3 device evidence",

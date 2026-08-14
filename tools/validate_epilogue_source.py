@@ -3,11 +3,20 @@ from pathlib import Path
 import json
 ROOT=Path(__file__).resolve().parents[1]
 SVG=ROOT/"source_art/environment/c1/ENV_EPILOGUE_001.svg"
+OBJ=ROOT/"source_art/environment/c1/ENV_EPILOGUE_001.obj"
+MTL=ROOT/"source_art/environment/c1/ENV_EPILOGUE_001.mtl"
 DATA=ROOT/"content/environment/env_epilogue.source.json"
 def main():
     errors=[]
     text=SVG.read_text(encoding="utf-8")
     data=json.loads(DATA.read_text(encoding="utf-8"))
+    for path in (OBJ, MTL):
+        if not path.is_file(): errors.append(f"production source missing {path.name}")
+    if data.get("status") != "production-source-ready-unity-pending":
+        errors.append("production status missing")
+    production = data.get("productionSource", {})
+    if production.get("obj") != "source_art/environment/c1/ENV_EPILOGUE_001.obj":
+        errors.append("production OBJ contract missing")
     for token in ["Storm release","Camp history remains","Signal causality","Dawn direction","Epilogue focus"]:
         if token not in text: errors.append(f"SVG missing {token}")
     if data.get("productIntent",{}).get("zoneRule")!="existing camp after storm; not a new gameplay zone":
@@ -18,6 +27,6 @@ def main():
     if errors:
         for e in errors: print("ERROR:",e)
         return 1
-    print("Epilogue source reference OK.")
+    print("Epilogue production source + reference OK.")
     return 0
 if __name__=="__main__": raise SystemExit(main())
