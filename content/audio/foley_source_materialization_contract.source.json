@@ -19,8 +19,8 @@
     "receiptStatus": "source-approved-foley-originals-materialized-from-human-gate"
   },
   "materialization": {
-    "expectedCueCount": 13,
-    "expectedTakeCount": 53,
+    "expectedCueCount": 17,
+    "expectedTakeCount": 73,
     "copyOnly": true,
     "preserveSourceBytes": true,
     "sourceAndOutputShaMustMatch": true,

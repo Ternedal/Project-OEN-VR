@@ -6,7 +6,7 @@ import shutil
 import tempfile
 from pathlib import Path
 
-from foley_human_review_support import FoleyReviewError, load_context
+from foley_human_review_support import FoleyReviewError, REVIEW_CONTRACT, load_context
 from materialize_foley_source_approved import materialize
 from normalize_foley_human_review import normalize
 from prepare_foley_human_review import prepare as prepare_review
@@ -66,6 +66,12 @@ def assert_not_ready(normalized: dict, label: str) -> None:
 
 
 def main() -> int:
+    review_contract = json.loads(REVIEW_CONTRACT.read_text(encoding="utf-8"))
+    expected_takes = review_contract["expectedTakeCount"]
+    expected_cues = review_contract["expectedCueCount"]
+    if (expected_cues, expected_takes) != (17, 73):
+        raise AssertionError(f"current Foley human review contract must remain 17 cues / 73 takes; got {(expected_cues, expected_takes)}")
+
     with tempfile.TemporaryDirectory(prefix="oen-foley-review-test-") as td:
         base = Path(td)
         clean = base / "clean"
@@ -73,14 +79,20 @@ def main() -> int:
         review = positive_review(clean)
         normalized, normalized_path = normalize_to(clean, review, "positive.normalized.json")
         if normalized.get("reviewComplete") is not True or normalized.get("readyForSourceMaterialization") is not True:
-            raise AssertionError("positive 53/53 + 13/13 review should be complete and ready")
-        if normalized["coverage"] != {"reviewedTakes": 53, "expectedTakes": 53, "completeCues": 13, "expectedCues": 13, "complete": True}:
+            raise AssertionError(f"positive {expected_takes}/{expected_takes} + {expected_cues}/{expected_cues} review should be complete and ready")
+        expected_coverage = {
+            "reviewedTakes": expected_takes,
+            "expectedTakes": expected_takes,
+            "completeCues": expected_cues,
+            "expectedCues": expected_cues,
+            "complete": True,
+        }
+        if normalized["coverage"] != expected_coverage:
             raise AssertionError(f"unexpected positive coverage: {normalized['coverage']}")
         output = base / "positive-output"
         receipt = materialize(clean, normalized_path, output)
-        if receipt["sourceCount"] != 53 or receipt["cueCount"] != 13:
-            raise AssertionError("positive materialization did not copy 53 sources / 13 cues")
-        context = load_context(clean)
+        if receipt["sourceCount"] != expected_takes or receipt["cueCount"] != expected_cues:
+            raise AssertionError(f"positive materialization did not copy {expected_takes} sources / {expected_cues} cues")
         for record in receipt["records"]:
             source = clean / record["sourceRelativePath"]
             copied = output / record["outputRelativePath"]
@@ -169,7 +181,7 @@ def main() -> int:
         except FoleyReviewError:
             pass
 
-    print("Foley human review tests OK: positive 53/53 materialization plus negative, threshold, weather, identity, rights, stale-byte/provenance and tampered-ready guards verified.")
+    print(f"Foley human review tests OK: positive {expected_takes}/{expected_takes} materialization across {expected_cues} cues plus negative, threshold, weather, identity, rights, stale-byte/provenance and tampered-ready guards verified.")
     return 0
 
 

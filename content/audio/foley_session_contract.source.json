@@ -8,10 +8,10 @@
   "operatorDoc": "docs/74_FOLEY_RECORDING_INTAKE.md",
   "privateSessionRoot": "PrivateContent/FoleySession",
   "captureShape": {
-    "expectedQueueSessionCount": 3,
-    "expectedPhysicalSessionCount": 3,
-    "expectedCueCount": 13,
-    "expectedTakeCount": 53,
+    "expectedQueueSessionCount": 5,
+    "expectedPhysicalSessionCount": 5,
+    "expectedCueCount": 17,
+    "expectedTakeCount": 73,
     "filenamePattern": "{cueId}_vNN.wav",
     "rule": "Every planned variant is a distinct physical performance. Gain-only or pitch-only copies do not satisfy a take slot."
   },
@@ -61,6 +61,8 @@
     "Technical intake validates container/PCM identity, hashes, clipping/full-scale samples, filenames and provenance completeness only.",
     "Technical pass is not material-fit, variation-value, listening, source-approved, derived-master-approved, Unity-integrated, Quest-approved or release-approved evidence.",
     "Raw accepted takes are immutable source originals. Any edit creates a new file identity and enters the derived-master/listening pipeline.",
+    "Fuel-add capture uses cold dry props and does not require live fire.",
+    "Animal approach/retreat and food-disturbance capture remains ambiguous physical event Foley and must not canonize an animal species.",
     "SFX_FIRESTEEL_STRIKE_001 and fire-start-specific Foley remain outside this session because issue #8 is owner-gated."
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "status": "recording-session-reconciliation-ready-not-recorded",
   "owner": "ChatGPT",
   "runtimeOwner": "Claude",
@@ -10,7 +10,7 @@
     "headAtReconciliation": "6b3d22f4b7a3e100fa7d237331b66225e55d0f4f",
     "mainPlan": "content/audio/foley_recording_plan.csv",
     "supplementalPlan": "content/audio/supplemental_foley_recording_plan.csv",
-    "rule": "PR #6 runtime-event mappings must be revalidated after that branch syncs current main; this file reconciles source recording work, not runtime code."
+    "rule": "PR #6 runtime-event mappings must be revalidated after that branch syncs current main; this file reconciles source recording work, not runtime code. New v2 event-prop source cues are canonical main cue IDs and do not invent PR #6 runtime IDs."
   },
   "masterCaptureFormat": {
     "sampleRateHz": 48000,
@@ -22,136 +22,65 @@
     {
       "id": "UNIFIED_HEAVY_CRATE_01",
       "priority": "A",
-      "physicalSetup": [
-        "weathered wooden crate or believable equivalent",
-        "medium/heavy wood mass",
-        "wood/sand/dirt contact surfaces",
-        "restrained hinge/latch hardware"
-      ],
-      "performances": [
-        "hand contact and weight settle",
-        "controlled lift/start movement",
-        "short drag/shift under load",
-        "weighty place/set-down",
-        "crate lid open and close at multiple speeds",
-        "short component fit/place gestures"
-      ],
-      "mainCueIntents": [
-        "SFX_GRAB_HEAVY_001",
-        "SFX_HEAVY_MOVE_001",
-        "SFX_HEAVY_PLACE_001",
-        "SFX_CRATE_OPEN_001"
-      ],
-      "pr6EventCandidates": [
-        "SFX_ENV_Wood_Pickup",
-        "SFX_ENV_Wood_Drop",
-        "SFX_ENV_Crate_Open",
-        "SFX_ENV_Crate_Close",
-        "SFX_PLY_Hand_Grab",
-        "SFX_PLY_Hand_Release",
-        "SFX_CRF_Build_Place"
-      ],
+      "physicalSetup": ["weathered wooden crate or believable equivalent","medium/heavy wood mass","wood/sand/dirt contact surfaces","restrained hinge/latch hardware"],
+      "performances": ["hand contact and weight settle","controlled lift/start movement","short drag/shift under load","weighty place/set-down","crate lid open and close at multiple speeds","short component fit/place gestures"],
+      "mainCueIntents": ["SFX_GRAB_HEAVY_001","SFX_HEAVY_MOVE_001","SFX_HEAVY_PLACE_001","SFX_CRATE_OPEN_001"],
+      "pr6EventCandidates": ["SFX_ENV_Wood_Pickup","SFX_ENV_Wood_Drop","SFX_ENV_Crate_Open","SFX_ENV_Crate_Close","SFX_PLY_Hand_Grab","SFX_PLY_Hand_Release","SFX_CRF_Build_Place"],
       "takeStrategy": "Record long source passes plus isolated contacts. Preserve raw takes; derive event-specific cuts later so the same physical performance is not re-recorded under different naming systems.",
-      "qa": [
-        "no clipping",
-        "no speech/music contamination",
-        "heavy movement reads as believable mass rather than cinematic sub impact",
-        "crate character is rough/survival-grade rather than clean furniture"
-      ]
+      "qa": ["no clipping","no speech/music contamination","heavy movement reads as believable mass rather than cinematic sub impact","crate character is rough/survival-grade rather than clean furniture"]
     },
     {
       "id": "UNIFIED_ROPE_TARP_01",
       "priority": "A",
-      "physicalSetup": [
-        "8-12 mm natural or natural-reading rope",
-        "wood pole or eyelet anchor",
-        "medium/heavy PE tarp or similarly heavy shelter cloth"
-      ],
-      "performances": [
-        "rope coil/grip/feed through hands",
-        "wrap and knot sequence",
-        "low/medium/high tension pulls",
-        "loaded fibre/anchor creak",
-        "tension release and recoil",
-        "tarp grab/fold/bunch/release",
-        "short flap/snaps under varied tension",
-        "tarp eyelet/rope strain and settling"
-      ],
-      "mainCueIntents": [
-        "SFX_ROPE_TENSION_LOW_001",
-        "SFX_ROPE_TENSION_GOOD_001",
-        "SFX_ROPE_TENSION_HIGH_001",
-        "SFX_ROPE_TIE_001",
-        "SFX_SHELTER_ROPE_FLAP_001"
-      ],
-      "pr6EventCandidates": [
-        "SFX_ENV_Rope_Handle",
-        "SFX_ENV_Rope_Tighten",
-        "SFX_ENV_Rope_Creak",
-        "SFX_ENV_Rope_TensionRelease",
-        "SFX_ENV_Tarp_Handle",
-        "SFX_ENV_Tarp_Flap",
-        "SFX_ENV_Tarp_Tension"
-      ],
+      "physicalSetup": ["8-12 mm natural or natural-reading rope","wood pole or eyelet anchor","medium/heavy PE tarp or similarly heavy shelter cloth"],
+      "performances": ["rope coil/grip/feed through hands","wrap and knot sequence","low/medium/high tension pulls","loaded fibre/anchor creak","tension release and recoil","tarp grab/fold/bunch/release","short flap/snaps under varied tension","tarp eyelet/rope strain and settling"],
+      "mainCueIntents": ["SFX_ROPE_TENSION_LOW_001","SFX_ROPE_TENSION_GOOD_001","SFX_ROPE_TENSION_HIGH_001","SFX_ROPE_TIE_001","SFX_SHELTER_ROPE_FLAP_001"],
+      "pr6EventCandidates": ["SFX_ENV_Rope_Handle","SFX_ENV_Rope_Tighten","SFX_ENV_Rope_Creak","SFX_ENV_Rope_TensionRelease","SFX_ENV_Tarp_Handle","SFX_ENV_Tarp_Flap","SFX_ENV_Tarp_Tension"],
       "takeStrategy": "Capture material actions as long clean takes and isolated readable gestures. Do not bake gameplay urgency into source filenames; low/good/high variants should be derived from genuinely different physical strain, not gain-only copies.",
-      "qa": [
-        "rope must not read as metal cable",
-        "tarp must not read as paper or thin plastic bag",
-        "different tension states need real material-behaviour differences",
-        "retain clean natural tails"
-      ]
+      "qa": ["rope must not read as metal cable","tarp must not read as paper or thin plastic bag","different tension states need real material-behaviour differences","retain clean natural tails"]
     },
     {
       "id": "UNIFIED_SHELTER_TIMBER_01",
       "priority": "A",
-      "physicalSetup": [
-        "dry timber/planks/poles representative of improvised shelter scale",
-        "rope/tarp attached where practical",
-        "small hand mallet/hammer only for generic build Foley; not weapon framing"
-      ],
-      "performances": [
-        "low structural flex/creak",
-        "higher strain flex/creak without full collapse",
-        "beam shift and short scrape",
-        "component seat/fit/place",
-        "short successful snap/settle contact",
-        "controlled build strikes at varied force",
-        "long calm shelter bed",
-        "long windy shelter bed with non-repetitive movement"
-      ],
-      "mainCueIntents": [
-        "SFX_SHELTER_CREAK_LOW_001",
-        "SFX_SHELTER_CREAK_HIGH_001",
-        "SFX_BEAM_SHIFT_001",
-        "SFX_SHELTER_SNAP_SUCCESS_001"
-      ],
-      "pr6EventCandidates": [
-        "SFX_ENV_Wood_Hit",
-        "SFX_ENV_Wood_Pickup",
-        "SFX_ENV_Wood_Drop",
-        "SFX_CRF_Build_Place",
-        "SFX_CRF_Build_Hammer",
-        "SFX_AMB_Shelter_Calm",
-        "SFX_AMB_Shelter_Windy"
-      ],
+      "physicalSetup": ["dry timber/planks/poles representative of improvised shelter scale","rope/tarp attached where practical","small hand mallet/hammer only for generic build Foley; not weapon framing"],
+      "performances": ["low structural flex/creak","higher strain flex/creak without full collapse","beam shift and short scrape","component seat/fit/place","short successful snap/settle contact","controlled build strikes at varied force","long calm shelter bed","long windy shelter bed with non-repetitive movement"],
+      "mainCueIntents": ["SFX_SHELTER_CREAK_LOW_001","SFX_SHELTER_CREAK_HIGH_001","SFX_BEAM_SHIFT_001","SFX_SHELTER_SNAP_SUCCESS_001"],
+      "pr6EventCandidates": ["SFX_ENV_Wood_Hit","SFX_ENV_Wood_Pickup","SFX_ENV_Wood_Drop","SFX_CRF_Build_Place","SFX_CRF_Build_Hammer","SFX_AMB_Shelter_Calm","SFX_AMB_Shelter_Windy"],
       "takeStrategy": "Record both isolated Foley and longer structural beds from one coherent material setup. Separate source recordings from runtime event derivation; preserve raw takes and provenance.",
-      "qa": [
-        "no implied total shelter collapse unless explicitly selected for a later event",
-        "hammer/mallet hits remain construction Foley, not combat Foley",
-        "shelter beds must not contain obvious hand-driven repeating rhythm",
-        "capture enough dynamic range to derive low/high structural states physically"
-      ]
+      "qa": ["no implied total shelter collapse unless explicitly selected for a later event","hammer/mallet hits remain construction Foley, not combat Foley","shelter beds must not contain obvious hand-driven repeating rhythm","capture enough dynamic range to derive low/high structural states physically"]
+    },
+    {
+      "id": "UNIFIED_FIRE_MAINTENANCE_01",
+      "priority": "A",
+      "physicalSetup": ["cold firepit proxy or dry non-burning tray","several dry sticks/wood pieces with varied mass","stone/metal/wood contact options to avoid one repeated timbre"],
+      "performances": ["single dry fuel placement","small bundle placement","short wood-on-wood drop","fuel settling after placement","five genuinely different performances for SFX_FIRE_FUEL_ADD_001"],
+      "mainCueIntents": ["SFX_FIRE_FUEL_ADD_001"],
+      "takeStrategy": "Record fuel-add physical contact without live fire. The cue belongs to storm fire maintenance and must not be conflated with the owner-gated firesteel interaction.",
+      "qa": ["no live flame or heat required","fuel reads as dry wood/material rather than generic hard impact","five takes differ in real mass/contact/action","no firesteel strike or ignition performance"]
+    },
+    {
+      "id": "UNIFIED_ANIMAL_EVENT_PROPS_01",
+      "priority": "B",
+      "physicalSetup": ["dry leaves/brush or clean natural-reading substitute","dirt/sand/wood ground contact surfaces","cloth or paper food sack plus small wooden/cardboard food container","dry granular food-safe props where useful"],
+      "performances": ["approach rustle moving toward microphone/listener position","ground/brush movement with increasing proximity","receding rustle/ground movement","food sack/container nudge and scrape","small dry spill/shuffle","five genuinely different performances per canonical cue"],
+      "mainCueIntents": ["SFX_ANIMAL_CAMP_APPROACH_001","SFX_ANIMAL_RETREAT_001","SFX_FOOD_DISTURBED_001"],
+      "takeStrategy": "Create ambiguous physical event Foley only. Do not perform animal vocals or footsteps that canonize a species; the distant animal-presence cue remains a separate licensed-source acquisition gap.",
+      "qa": ["no species-specific vocal signature","approach and retreat direction remain perceptually distinct","food disturbance reads as physical camp interaction rather than comedy Foley","five variants per cue are genuinely different performances","no speech/music contamination"]
     }
   ],
   "explicitlyNotIncluded": [
     {
       "event": "SFX_ENV_Fire_Ignite",
-      "reason": "Issue #8 fire-start remains owner-gated. Do not prioritize ignition Foley as accepted gift-scope production until Anders records a scope disposition. Existing fire ambience/source work may continue independently."
+      "reason": "Issue #8 fire-start remains owner-gated at runtime/product scope. Do not prioritize manual fire-start ignition implementation Foley as accepted gift-scope production until Anders records a scope disposition. Existing generic fire source research may continue independently where it does not imply the firesteel interaction."
+    },
+    {
+      "event": "SFX_ANIMAL_DISTANT_001",
+      "reason": "The distant ambiguous animal-presence cue remains a licensed-source acquisition task. This Foley extension deliberately avoids inventing a canonical species voice."
     }
   ],
   "derivationRules": [
     "Raw field/foley takes are immutable source originals with provenance and SHA-256 once captured.",
-    "One raw take may legitimately feed more than one design/runtime cue only when the resulting cuts represent distinct physical moments; do not create fake variation by gain-only duplication.",
+    "One raw take may legitimately feed more than one design/runtime cue only when resulting cuts represent distinct physical moments; do not create fake variation by gain-only duplication.",
     "Runtime event IDs from PR #6 remain branch references until that branch is synchronized with current main.",
     "Derived files require their own hashes and listening QA.",
     "No recording/session completion is claimed by this contract."
