@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "updated": "2026-08-14",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "status": "generator-preserved-exact-byte-repro-ci-pending",
+  "audit": "content/audio/music_candidate_audit.source.json",
+  "generator": "tools/generate_authored_adaptive_music.py",
+  "generatorVersion": "1.0.0",
+  "origin": {
+    "pr": 6,
+    "headSha": "6b3d22f4b7a3e100fa7d237331b66225e55d0f4f",
+    "workflowRunId": 31675225432,
+    "workflowRunNumber": 180,
+    "artifactId": 9171306726,
+    "artifactExpiresAt": "2026-08-20T06:50:10Z",
+    "generatorBlobSha": "e857bb1be24cc1de413f43e5b370fb133cb81b30"
+  },
+  "sourceAuthoringEnvironment": {
+    "os": "Ubuntu 24.04.4 LTS",
+    "runnerImage": "ubuntu-24.04",
+    "runnerImageVersion": "20260720.247.2",
+    "runnerVersion": "2.336.0",
+    "architecture": "x86_64",
+    "python": "3.12.13",
+    "numpy": "2.3.5",
+    "numpyWheelFamily": "cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64"
+  },
+  "ciReproductionEnvironment": {
+    "runsOn": "ubuntu-24.04",
+    "python": "3.12.13",
+    "numpyRequirement": "numpy==2.3.5",
+    "rule": "Exact SHA-256 comparison is authoritative; runner-image drift must fail rather than silently mint new reviewed bytes."
+  },
+  "expected": {
+    "fileCount": 14,
+    "sourceFamilyCount": 6,
+    "sampleRateHz": 48000,
+    "bitDepth": 24,
+    "channels": 2,
+    "thirdPartySamples": false,
+    "hashSource": "content/audio/music_candidate_audit.source.json"
+  },
+  "crossEnvironmentObservation": {
+    "environment": "local CPython 3.13.5 + NumPy 2.3.5",
+    "exactHashMatches": 12,
+    "exactHashTotal": 14,
+    "mismatches": [
+      "MUS_Finale_Success_01.wav",
+      "MUS_Finale_Success_02.wav"
+    ],
+    "interpretation": "The source algorithm is deterministic in intent, but byte identity is environment-sensitive for the finale renderer. Exact candidate identity therefore requires the pinned CI hash gate."
+  },
+  "approvalBoundary": "Reproducibility does not imply human listening approval, source approval, runtime binding, Unity/Quest evidence or release approval."
+}
