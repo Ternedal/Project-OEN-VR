@@ -25,9 +25,42 @@
       "artifactId": 9208315224,
       "artifactDigest": "sha256:3358309590167866feadac9a273fdf364e1d35d80f5c7c9e45058b73f82ede21",
       "targets": ["SFX_AMB_JUNGLE_DEEP_GUADELOUPE_ALT_01"]
+    },
+    {
+      "runId": 31772138774,
+      "headSha": "4c9f66087e857a6ec6a98a1bc557ed51d1a8edb6",
+      "artifactId": 9208514862,
+      "artifactDigest": "sha256:26cbec89064598c3c5665cb7fd1f6ecca775f5c9afb43efc06b1428a67c0f17c",
+      "targets": ["SFX_AMB_BEACH_SC_ALT_01"]
     }
   ],
   "records": [
+    {
+      "target": "SFX_AMB_BEACH_SC_ALT_01",
+      "runtimeEventCandidate": "SFX_AMB_Beach_CoastalWind",
+      "filename": "Beach_sounds_South_Carolina.ogg",
+      "provider": "Wikimedia Commons",
+      "creator": "Anthropic42",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Beach_sounds_South_Carolina.ogg",
+      "license": "Public Domain",
+      "bytes": 1053334,
+      "sha256": "d81d1a4eafd0fd20e7fe697ece52aacb500f4baa1042080c5b2fd4cf634759d7",
+      "acquiredAtUtc": "2026-08-14T05:10:32.658146+00:00",
+      "evidenceRunId": 31772138774,
+      "technicalProbe": {"codec": "vorbis", "sampleRateHz": 44100, "channels": 2, "durationSeconds": 61.58576, "bitRate": 136828},
+      "objectiveQa": {
+        "decodedPeakDbFsLeft": -1.228,
+        "decodedPeakDbFsRight": -2.894,
+        "decodedRmsDbFsLeft": -24.936,
+        "decodedRmsDbFsRight": -25.162,
+        "decodedSamplesAboveUnity": 0,
+        "channelCorrelation": -0.288395,
+        "oneSecondRmsDbFsMin": -35.587,
+        "oneSecondRmsDbFsMax": -17.423,
+        "note": "Technically intact stereo public-domain beach recording with no decoded overs. Metadata proves real Litchfield Beach provenance but does not prove that the wind component is suitable for CoastalWind; human listening must separate surf/water dominance from useful coastal air movement."
+      },
+      "status": "acquired-original-not-listening-approved"
+    },
     {
       "target": "SFX_NAT_NIGHT_CRICKET_ALT_01",
       "runtimeEventCandidate": "SFX_NAT_Insect_NightChirp",
@@ -175,6 +208,6 @@
       "status": "acquired-original-not-listening-approved"
     }
   ],
-  "next": "Human listening must assess cricket noise/biome fit, thunder proximity/transient/tail quality, gull codec/context fit, Fisterra gust segmentation and Guadeloupe rainforest activity/perspective. Selected sources still require documented derivation and repeated listening QA before any source or derived-master approval.",
+  "next": "Human listening must assess coastal beach/wind fit, cricket noise/biome fit, thunder proximity/transient/tail quality, gull codec/context fit, Fisterra gust segmentation and Guadeloupe rainforest activity/perspective. Selected sources still require documented derivation and repeated listening QA before any source or derived-master approval.",
   "rule": "Acquisition and objective QA do not imply source-approved, derived-master-approved, Unity-integrated or release-approved."
 }
