@@ -1,0 +1,53 @@
+name: Validate audio derived master tooling
+
+on:
+  pull_request:
+    paths:
+      - 'content/audio/derived_master_contract.source.json'
+      - 'content/audio/source_approval_contract.source.json'
+      - 'tools/audio_derived_master_support.py'
+      - 'tools/validate_audio_derived_master_submission.py'
+      - 'tools/prepare_audio_derived_master_review.py'
+      - 'tools/normalize_audio_derived_master_review.py'
+      - 'tools/materialize_derived_master_approved_audio.py'
+      - 'tools/test_audio_derived_master_pipeline.py'
+      - 'tools/test_audio_derived_master_reviewer_guard.py'
+      - 'tools/validate_audio_derived_master_contract.py'
+      - 'docs/72_AUDIO_DERIVED_MASTER_GATE.md'
+      - '.github/workflows/audio-derived-master-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/audio/derived_master_contract.source.json'
+      - 'content/audio/source_approval_contract.source.json'
+      - 'tools/audio_derived_master_support.py'
+      - 'tools/validate_audio_derived_master_submission.py'
+      - 'tools/prepare_audio_derived_master_review.py'
+      - 'tools/normalize_audio_derived_master_review.py'
+      - 'tools/materialize_derived_master_approved_audio.py'
+      - 'tools/test_audio_derived_master_pipeline.py'
+      - 'tools/test_audio_derived_master_reviewer_guard.py'
+      - 'tools/validate_audio_derived_master_contract.py'
+      - 'docs/72_AUDIO_DERIVED_MASTER_GATE.md'
+      - '.github/workflows/audio-derived-master-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile derived master tooling
+        run: python -m py_compile tools/audio_derived_master_support.py tools/validate_audio_derived_master_submission.py tools/prepare_audio_derived_master_review.py tools/normalize_audio_derived_master_review.py tools/materialize_derived_master_approved_audio.py tools/test_audio_derived_master_pipeline.py tools/test_audio_derived_master_reviewer_guard.py tools/validate_audio_derived_master_contract.py
+      - name: Validate live derived master contract
+        run: python tools/validate_audio_derived_master_contract.py
+      - name: Test derived master pipeline
+        run: python tools/test_audio_derived_master_pipeline.py
+      - name: Test derived reviewer identity guard
+        run: python tools/test_audio_derived_master_reviewer_guard.py
