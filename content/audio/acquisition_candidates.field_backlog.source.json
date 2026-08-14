@@ -1,16 +1,17 @@
 {
   "version": 1,
-  "status": "license-verified-direct-candidates-not-acquired",
+  "status": "field-backlog-direct-candidate-registry",
   "owner": "ChatGPT",
   "runtimeOwner": "Claude",
   "sourceBacklogReference": {
     "pr": 6,
     "branch": "agent/audio-foundation-v1",
     "path": "content/audio/field_source_acquisition_plan.csv",
-    "event": "SFX_NAT_Insect_NightChirp"
+    "events": ["SFX_NAT_Insect_NightChirp", "SFX_WTH_Thunder_Near"]
   },
   "policy": {
     "preferredLicense": "CC0",
+    "acceptedLicenses": ["CC0", "Public Domain"],
     "naturalSourceRequired": true,
     "directDownloadRequiredForThisQueue": true,
     "acquisitionIsNotApproval": true
@@ -34,6 +35,25 @@
       ],
       "provenance": "Uploader states this was captured fresh in their backyard and recorded directly to Audacity via the built-in microphone of a Toshiba NB505 netbook.",
       "caveat": "Uploader explicitly says recording quality is not great. Human listening must reject laptop-mic noise, unsuitable biome character or insufficient clean variation; filename semantics do not imply approval."
+    },
+    {
+      "target": "SFX_WTH_THUNDER_ALT_01",
+      "runtimeEventCandidate": "SFX_WTH_Thunder_Near",
+      "provider": "Wikimedia Commons",
+      "creator": "Mysid",
+      "title": "Tonitrus.ogg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Tonitrus.ogg",
+      "directDownload": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Tonitrus.ogg",
+      "filename": "Tonitrus.ogg",
+      "license": "Public Domain",
+      "sourceFormat": "Ogg Vorbis; Commons reports 32 s / 98 kbps; inspect exact stream after acquisition",
+      "priority": "A",
+      "use": [
+        "natural thunder source comparison",
+        "possible near-thunder event/tail extraction if human listening supports proximity"
+      ],
+      "provenance": "Wikimedia Commons states thunder was recorded in Southern Finland on Minidisc by uploader Mysid; copyright holder released the work into the public domain worldwide.",
+      "caveat": "Metadata proves natural thunder and provenance, not perceived distance. Do not mark SFX_WTH_Thunder_Near covered until human listening confirms suitable near-event character, transient and tail."
     }
   ],
   "rejectedDuringResearch": [
@@ -48,6 +68,10 @@
     {
       "candidate": "Storm & Siren",
       "reason": "Natural CC0 storm recording but deliberately contains repeated flood siren events, making it unsuitable as clean storm/thunder source material for the island context."
+    },
+    {
+      "candidate": "Wikimedia Commons File:Thunder.ogg",
+      "reason": "Natural thunder source but licensed CC BY 3.0/GFDL; the current preferred field-source lane accepts CC0 or Public Domain when an equally useful candidate is available."
     }
   ],
   "rule": "A field-backlog candidate remains candidate-only until the acquisition workflow has captured exact bytes, technical metadata and SHA-256; human listening is still required before any source approval."
