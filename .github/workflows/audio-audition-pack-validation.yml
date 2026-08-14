@@ -1,0 +1,36 @@
+name: Validate audio audition pack builder
+
+on:
+  pull_request:
+    paths:
+      - 'tools/audio_audition_pack_support.py'
+      - 'tools/audio_audition_pack_main.py'
+      - 'tools/audio_audition_pack_extension.py'
+      - 'tools/audio_audition_pack_field.py'
+      - 'tools/build_audio_source_audition_pack.py'
+      - 'tools/validate_audio_source_audition_contract.py'
+      - 'tools/audio_source_audition_template.html'
+      - 'tools/test_build_audio_source_audition_pack.py'
+      - 'content/audio/acquisition_receipt.source.json'
+      - 'content/audio/acquisition_extension_receipt.source.json'
+      - 'content/audio/acquisition_extension_member_shortlist.source.json'
+      - 'content/audio/acquisition_field_backlog_receipt.source.json'
+      - 'content/audio/listening_review_targets.source.json'
+      - 'content/audio/listening_qa.source.json'
+      - '.github/workflows/audio-audition-pack-validation.yml'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile builder
+        run: python -m py_compile tools/audio_audition_pack_support.py tools/audio_audition_pack_main.py tools/audio_audition_pack_extension.py tools/audio_audition_pack_field.py tools/build_audio_source_audition_pack.py tools/validate_audio_source_audition_contract.py tools/test_build_audio_source_audition_pack.py
+      - name: Validate current repository contracts
+        run: python tools/validate_audio_source_audition_contract.py
+      - name: Test builder contracts
+        run: python tools/test_build_audio_source_audition_pack.py
