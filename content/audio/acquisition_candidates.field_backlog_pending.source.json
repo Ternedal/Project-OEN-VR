@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "status": "field-backlog-pending-direct-candidate-registry",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "updated": "2026-08-14",
+  "policy": {
+    "acceptedLicenses": ["CC0", "Public Domain"],
+    "commercialReuseRequired": true,
+    "naturalSourceRequired": true,
+    "directDownloadRequired": true,
+    "acquisitionIsNotApproval": true,
+    "humanListeningRequired": true
+  },
+  "candidates": [
+    {
+      "target": "SFX_AMB_JUNGLE_CANOPY_WIND_ALT_01",
+      "runtimeEventCandidate": "SFX_AMB_Jungle_CanopyWind",
+      "provider": "LaSonotheque / BigSoundBank",
+      "creator": "Joseph SARDIN",
+      "title": "Vent à la cime des arbres / Wind in the Trees",
+      "sourcePage": "https://lasonotheque.org/foret-vent-a-la-cime-des-arbres-s0904.html",
+      "directDownload": "https://lasonotheque.org/UPLOAD/bwf-en/0904.wav",
+      "filename": "lasonotheque_0904_wind_in_trees.wav",
+      "license": "CC0",
+      "sourceFormat": "WAV; source page reports 48 kHz, 16-bit, stereo, 3:38, Tascam DR-40",
+      "priority": "B",
+      "use": [
+        "canopy wind source audition",
+        "possible SFX_AMB_Jungle_CanopyWind source only if human listening supports vegetation movement without wrong biome identity"
+      ],
+      "provenance": "Natural outdoor recording with microphones directed upward toward the treetops in the Rambouillet forest, France. The source page identifies wind, branch sounds and bird song and releases the recording as CC0/public-domain equivalent for commercial use.",
+      "caveat": "This is a temperate French forest recording, not a tropical jungle recording. It is registered only as a canopy-motion candidate. Human listening must reject it if birds, branch species, seasonal texture or overall biome identity read as wrong for Project OEN. Acquisition does not imply source approval."
+    },
+    {
+      "target": "SFX_WTH_STORM_ROUGH_OCEAN_ALT_01",
+      "runtimeEventCandidate": "SFX_WTH_Storm_RoughOcean",
+      "provider": "LaSonotheque / BigSoundBank",
+      "creator": "Joseph SARDIN",
+      "title": "Falaise #1 / Cliff #1",
+      "sourcePage": "https://lasonotheque.org/falaise-1-s2570.html",
+      "directDownload": "https://lasonotheque.org/UPLOAD/wav/2570.wav",
+      "filename": "lasonotheque_2570_cliff_waves.wav",
+      "license": "CC0",
+      "sourceFormat": "WAV; source page reports 48 kHz, 24-bit, stereo, 5:33, SoundDevices MixPre-3 + Neumann KM184",
+      "priority": "B",
+      "use": [
+        "rough ocean/wave-body source audition",
+        "possible SFX_WTH_Storm_RoughOcean layer if human listening proves enough force and useful clean wave bodies"
+      ],
+      "provenance": "Natural outdoor recording by Joseph SARDIN. The source page describes waves crashing against a cliff, identifies the recording as real stereo seaside ambience and releases it as CC0/public-domain equivalent for commercial use.",
+      "caveat": "The source page does not claim that the recording was made during a storm or that strong wind is present. Treat it as a rough-wave/ocean-body candidate only. Human listening must decide whether it is forceful enough for the storm role and whether it should be layered with a separately approved wind source. Acquisition does not imply source approval."
+    }
+  ],
+  "stillUnresolved": [
+    {
+      "runtimeEvent": "SFX_AMB_Beach_PalmCanopy",
+      "status": "source-acquisition-pending",
+      "reason": "No exact palm-canopy recording found yet that simultaneously satisfies semantic fit, accepted CC0/Public-Domain licensing and direct unauthenticated acquisition policy.",
+      "researchedCandidates": [
+        {
+          "provider": "Freesound",
+          "title": "Wind through Palm Trees.wav",
+          "creator": "klangfabrik",
+          "sourcePage": "https://freesound.org/people/klangfabrik/sounds/423800/",
+          "license": "CC0",
+          "semanticFit": "strong offshore wind through palm trees at Cocoa Beach, Florida",
+          "disposition": "blocked-download-policy",
+          "reason": "Exact semantic fit and acceptable license, but Freesound requires login for the original WAV download; do not replace the original with preview audio."
+        },
+        {
+          "provider": "Freesound",
+          "title": "Palm Trees in the Wind.wav",
+          "creator": "StrangeAcoustics",
+          "sourcePage": "https://freesound.org/people/StrangeAcoustics/sounds/346106/",
+          "license": "CC BY 4.0",
+          "semanticFit": "strong dry wind through palm trees in Lanzarote",
+          "disposition": "rejected-license-policy",
+          "reason": "Excellent semantic/technical fit but outside the current CC0/Public-Domain-only field-source policy."
+        }
+      ],
+      "next": "Continue searching for a natural palm/frond recording with accepted license and a direct original-file URL. Do not silently substitute generic temperate tree wind."
+    }
+  ],
+  "rule": "These records are research-backed acquisition candidates only. A successful download/ffprobe produces acquired-original-not-listening-approved evidence; human listening and explicit source approval remain separate gates."
+}
