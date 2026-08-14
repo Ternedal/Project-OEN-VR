@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "status": "acquired-originals-not-listening-approved",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "candidateSource": "content/audio/acquisition_candidates.field_backlog.source.json",
+  "workflowEvidence": {
+    "runId": 31770096095,
+    "headSha": "d36d7ca8bf2d552b4844726c438b76744ef3e09e",
+    "artifactId": 9207802266,
+    "artifactDigest": "sha256:7bb48ba09eec9886d98f55224c31a1a239ea0089d53eed08a4018fa55080599c"
+  },
+  "records": [
+    {
+      "target": "SFX_NAT_NIGHT_CRICKET_ALT_01",
+      "runtimeEventCandidate": "SFX_NAT_Insect_NightChirp",
+      "filename": "cricketsounds090613.wav",
+      "provider": "OpenGameArt",
+      "creator": "syncopika",
+      "sourcePage": "https://opengameart.org/content/cricket-sounds",
+      "license": "CC0",
+      "bytes": 6798936,
+      "sha256": "ecc088a3d1ab967202b63a92836dadc47bd08c8ab3f17d8527f620264aa5faf9",
+      "acquiredAtUtc": "2026-08-14T04:31:56.307336+00:00",
+      "technicalProbe": {
+        "codec": "pcm_s16le",
+        "sampleRateHz": 44100,
+        "bitDepth": 16,
+        "channels": 2,
+        "durationSeconds": 38.542472
+      },
+      "objectiveQa": {
+        "peakDbFs": -20.892,
+        "rmsDbFsLeft": -42.536,
+        "rmsDbFsRight": -42.536,
+        "clippedSampleCount": 0,
+        "channelCorrelation": 0.999867,
+        "oneSecondRmsDbFsMin": -59.203,
+        "oneSecondRmsDbFsMax": -37.570,
+        "note": "L/R are near-identical; useful stereo width is unproven. Original level is low but unclipped. Preserve original bytes and defer noise/biome/material judgement to human listening."
+      },
+      "status": "acquired-original-not-listening-approved"
+    }
+  ],
+  "next": "Human listening must assess laptop-mic noise, insect/biome fit and whether enough genuinely distinct chirp clusters can be derived. If approved, derive once to project delivery format and repeat listening QA on the derived master.",
+  "rule": "Acquisition and objective QA do not imply source-approved, derived-master-approved, Unity-integrated or release-approved."
+}
