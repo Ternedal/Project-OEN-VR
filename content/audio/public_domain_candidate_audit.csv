@@ -1,0 +1,5 @@
+event_id,source_key,target_variations,audit_result,replacement_lane,evidence,status
+SFX_AMB_Shore_Wash,waves_pd,10,pass-candidate,,"Waves.ogg is a 4m47 compilation of shoreline water recordings; use ten widely separated temporal cuts as candidate one-shots, pending listening",candidate-build-approved
+SFX_AMB_Ridge_WindBed,wind_cc0,4,reject-source,field-source,"Howling wind.ogg is 2m08 and described as wind howling in a building; insufficient for four genuine 120s+ exposed-ridge beds",new-source-needed
+SFX_WTH_Storm_WindGust,wind_cc0,10,reject-source,field-source,"Howling wind.ogg is described as wind howling in a building; no listening evidence that it contains ten clean localized outdoor gust envelopes",new-source-needed
+SFX_ENV_Fire_Pop,fire_pd,14,reject-source,field-source,"Fire.ogv is only 9.4s; do not claim fourteen unique natural pop events from this short source without listening/transient evidence",new-source-needed

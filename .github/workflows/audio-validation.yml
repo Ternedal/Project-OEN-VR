@@ -1,0 +1,229 @@
+name: Audio Validation
+
+on:
+  pull_request:
+    paths:
+      - 'content/audio/**'
+      - 'docs/36_AUDIO_SYSTEM_AND_PRODUCTION_SPEC.md'
+      - 'docs/37_AUDIO_PRODUCTION_PIPELINE.md'
+      - 'docs/38_REVIEWED_FIELD_RECORDING_INGEST.md'
+      - 'docs/39_FOLEY_AND_UNITY_BINDING.md'
+      - 'docs/40_ADAPTIVE_MUSIC_CANDIDATE_PACK.md'
+      - 'docs/41_UNITY_FIRST_PLAYABLE_AUDIO_ASSEMBLY.md'
+      - 'docs/42_AUDIO_ONE_CLICK_FIRST_PLAYABLE.md'
+      - 'docs/43_AUDIO_SCENE_INSTALL_AND_WORLD_FAUNA.md'
+      - 'docs/44_FIELD_SOURCE_ACQUISITION_GATE.md'
+      - 'docs/45_AUDIO_PREMERGE_ACCEPTANCE.md'
+      - 'docs/46_QUEST2_AUDIO_PREMERGE_EVIDENCE.md'
+      - 'src/unity/ProjectOen.Audio/**'
+      - 'src/unity/ProjectOen.Audio.Editor/**'
+      - 'tools/validate_audio_manifest.py'
+      - 'tools/validate_foley_recording_plan.py'
+      - 'tools/validate_supplemental_foley_recording_plan.py'
+      - 'tools/validate_public_domain_candidate_audit.py'
+      - 'tools/validate_field_source_acquisition_plan.py'
+      - 'tools/validate_audio_unity_editor_contract.py'
+      - 'tools/validate_audio_premerge_tooling.py'
+      - 'tools/import_audio_unity_premerge_evidence.py'
+      - 'tools/import_audio_quest2_premerge_evidence.py'
+      - 'tools/verify_first_playable_artifact_pin.py'
+      - 'tools/report_audio_first_playable_readiness.py'
+      - 'tools/report_audio_merge_readiness.py'
+      - 'tools/generate_authored_audio_pack.py'
+      - 'tools/validate_authored_audio_pack.py'
+      - 'tools/generate_authored_gameplay_stingers.py'
+      - 'tools/validate_authored_gameplay_stingers.py'
+      - 'tools/generate_authored_adaptive_music.py'
+      - 'tools/validate_authored_adaptive_music.py'
+      - 'tools/requirements-audio-authoring.txt'
+      - 'tools/build_public_domain_environment_pack.py'
+      - 'tools/build_reviewed_field_recording_pack.py'
+      - 'tools/stage_unity_first_playable_audio.py'
+      - '.github/workflows/audio-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/audio/**'
+      - 'docs/36_AUDIO_SYSTEM_AND_PRODUCTION_SPEC.md'
+      - 'docs/37_AUDIO_PRODUCTION_PIPELINE.md'
+      - 'docs/38_REVIEWED_FIELD_RECORDING_INGEST.md'
+      - 'docs/39_FOLEY_AND_UNITY_BINDING.md'
+      - 'docs/40_ADAPTIVE_MUSIC_CANDIDATE_PACK.md'
+      - 'docs/41_UNITY_FIRST_PLAYABLE_AUDIO_ASSEMBLY.md'
+      - 'docs/42_AUDIO_ONE_CLICK_FIRST_PLAYABLE.md'
+      - 'docs/43_AUDIO_SCENE_INSTALL_AND_WORLD_FAUNA.md'
+      - 'docs/44_FIELD_SOURCE_ACQUISITION_GATE.md'
+      - 'docs/45_AUDIO_PREMERGE_ACCEPTANCE.md'
+      - 'docs/46_QUEST2_AUDIO_PREMERGE_EVIDENCE.md'
+      - 'src/unity/ProjectOen.Audio/**'
+      - 'src/unity/ProjectOen.Audio.Editor/**'
+      - 'tools/validate_audio_manifest.py'
+      - 'tools/validate_foley_recording_plan.py'
+      - 'tools/validate_supplemental_foley_recording_plan.py'
+      - 'tools/validate_public_domain_candidate_audit.py'
+      - 'tools/validate_field_source_acquisition_plan.py'
+      - 'tools/validate_audio_unity_editor_contract.py'
+      - 'tools/validate_audio_premerge_tooling.py'
+      - 'tools/import_audio_unity_premerge_evidence.py'
+      - 'tools/import_audio_quest2_premerge_evidence.py'
+      - 'tools/verify_first_playable_artifact_pin.py'
+      - 'tools/report_audio_first_playable_readiness.py'
+      - 'tools/report_audio_merge_readiness.py'
+      - 'tools/generate_authored_audio_pack.py'
+      - 'tools/validate_authored_audio_pack.py'
+      - 'tools/generate_authored_gameplay_stingers.py'
+      - 'tools/validate_authored_gameplay_stingers.py'
+      - 'tools/generate_authored_adaptive_music.py'
+      - 'tools/validate_authored_adaptive_music.py'
+      - 'tools/requirements-audio-authoring.txt'
+      - 'tools/build_public_domain_environment_pack.py'
+      - 'tools/build_reviewed_field_recording_pack.py'
+      - 'tools/stage_unity_first_playable_audio.py'
+      - '.github/workflows/audio-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-audio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audio authoring dependency
+        run: python -m pip install -r tools/requirements-audio-authoring.txt
+      - name: Ensure ffmpeg is available
+        run: |
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
+      - name: Validate audio manifest and runtime IDs
+        run: python tools/validate_audio_manifest.py
+      - name: Validate Foley recording plan
+        run: python tools/validate_foley_recording_plan.py
+      - name: Validate supplemental Foley recording plan
+        run: python tools/validate_supplemental_foley_recording_plan.py
+      - name: Validate public-domain candidate audit
+        run: python tools/validate_public_domain_candidate_audit.py
+      - name: Validate field-source acquisition plan
+        run: python tools/validate_field_source_acquisition_plan.py
+      - name: Validate Unity Editor serialized-field contract
+        run: python tools/validate_audio_unity_editor_contract.py
+      - name: Validate audio premerge evidence tooling
+        run: python tools/validate_audio_premerge_tooling.py
+      - name: Self-test Unity premerge evidence importer
+        run: python tools/import_audio_unity_premerge_evidence.py --self-test
+      - name: Self-test Quest 2 premerge evidence importer
+        run: python tools/import_audio_quest2_premerge_evidence.py --self-test
+      - name: Report first-playable audio readiness
+        run: |
+          python tools/report_audio_first_playable_readiness.py \
+            --csv build/audio-first-playable-readiness.csv \
+            --markdown build/audio-first-playable-readiness.md
+          cat build/audio-first-playable-readiness.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Report audio merge-readiness boundary
+        run: |
+          python tools/report_audio_merge_readiness.py \
+            --csv build/audio-merge-readiness.csv \
+            --markdown build/audio-merge-readiness.md
+          cat build/audio-merge-readiness.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload audio readiness reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: oen-audio-first-playable-readiness-v1
+          path: |
+            build/audio-first-playable-readiness.csv
+            build/audio-first-playable-readiness.md
+            build/audio-merge-readiness.csv
+            build/audio-merge-readiness.md
+          if-no-files-found: error
+          retention-days: 30
+      - name: Validate deterministic authored UI/status WAV pack
+        run: python tools/validate_authored_audio_pack.py
+      - name: Validate deterministic authored gameplay/stinger WAV pack
+        run: python tools/validate_authored_gameplay_stingers.py
+      - name: Audit reviewed field-recording sources
+        run: >-
+          python tools/build_reviewed_field_recording_pack.py
+          --source-dir build/reviewed-field-recording-sources
+          --audit-sources
+      - name: Build authored UI/status pack
+        run: >-
+          python tools/generate_authored_audio_pack.py
+          --clean
+          --output build/oen-authored-ui-status-v1
+          --zip build/oen-authored-ui-status-v1.zip
+      - name: Upload authored UI/status pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: oen-authored-ui-status-v1
+          path: build/oen-authored-ui-status-v1.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Build authored gameplay/stinger pack
+        run: >-
+          python tools/generate_authored_gameplay_stingers.py
+          --clean
+          --output build/oen-authored-gameplay-stingers-v1
+          --zip build/oen-authored-gameplay-stingers-v1.zip
+      - name: Upload authored gameplay/stinger pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: oen-authored-gameplay-stingers-v1
+          path: build/oen-authored-gameplay-stingers-v1.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Build authored adaptive music candidate pack
+        run: >-
+          python tools/generate_authored_adaptive_music.py
+          --clean
+          --output build/oen-authored-adaptive-music-v1
+          --zip build/oen-authored-adaptive-music-v1.zip
+      - name: Validate authored adaptive music candidate pack
+        run: python tools/validate_authored_adaptive_music.py --input build/oen-authored-adaptive-music-v1
+      - name: Upload authored adaptive music candidate pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: oen-authored-adaptive-music-v1
+          path: build/oen-authored-adaptive-music-v1.zip
+          if-no-files-found: error
+          retention-days: 7
+      - name: Build public-domain environmental candidate pack
+        run: >-
+          python tools/build_public_domain_environment_pack.py
+          --clean
+          --output build/oen-public-domain-environment-v0
+          --zip build/oen-public-domain-environment-v0.zip
+      - name: Upload environmental candidate pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: oen-public-domain-environment-v0
+          path: build/oen-public-domain-environment-v0.zip
+          if-no-files-found: error
+          retention-days: 30
+      - name: Stage Unity first-playable audio pack
+        run: >-
+          python tools/stage_unity_first_playable_audio.py
+          --clean
+          --ui-status build/oen-authored-ui-status-v1
+          --gameplay-stingers build/oen-authored-gameplay-stingers-v1
+          --adaptive-music build/oen-authored-adaptive-music-v1
+          --environment build/oen-public-domain-environment-v0
+          --output build/oen-unity-first-playable-audio-v1
+          --zip build/oen-unity-first-playable-audio-v1.zip
+          --expect-files 173
+          --expect-events 47
+      - name: Verify staged Unity pack against committed QA pin
+        run: python tools/verify_first_playable_artifact_pin.py
+      - name: Upload Unity first-playable audio pack
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oen-unity-first-playable-audio-v1
+          path: build/oen-unity-first-playable-audio-v1.zip
+          if-no-files-found: error
+          retention-days: 30
