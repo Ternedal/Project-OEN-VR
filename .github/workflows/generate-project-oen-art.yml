@@ -64,6 +64,8 @@ jobs:
         run: python tools/generated_art/refine_material_textures.py
       - name: Add surface weathering and wetness response
         run: python tools/generated_art/refine_surface_weathering.py
+      - name: Align shared materials to approved atlas
+        run: python tools/generated_art/refine_mockup_materials.py
       - name: Refine Stormnatten hero world assets
         run: python tools/generated_art/refine_hero_art.py
       - name: Add readable hero joinery
@@ -104,6 +106,8 @@ jobs:
         run: python tools/generated_art/render_mockup_review.py
       - name: Render scene-level mockup review sheet
         run: python tools/generated_art/render_mockup_scene_review.py
+      - name: Render actual production material review sheet
+        run: python tools/generated_art/render_material_review.py
       - name: Upload mockup-fidelity visual review
         uses: actions/upload-artifact@v4
         with:
