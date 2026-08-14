@@ -1,0 +1,36 @@
+name: Validate audio field human review
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/audio/acquisition_field_backlog_receipt.source.json'
+      - 'content/audio/field_backlog_human_review.template.json'
+      - 'tools/normalize_audio_field_backlog_review.py'
+      - 'tools/test_audio_field_backlog_human_review.py'
+      - 'docs/66_AUDIO_FIELD_BACKLOG_HUMAN_REVIEW.md'
+      - '.github/workflows/audio-field-human-review-validation.yml'
+  pull_request:
+    paths:
+      - 'content/audio/acquisition_field_backlog_receipt.source.json'
+      - 'content/audio/field_backlog_human_review.template.json'
+      - 'tools/normalize_audio_field_backlog_review.py'
+      - 'tools/test_audio_field_backlog_human_review.py'
+      - 'docs/66_AUDIO_FIELD_BACKLOG_HUMAN_REVIEW.md'
+      - '.github/workflows/audio-field-human-review-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile normalizer
+        run: python -m py_compile tools/normalize_audio_field_backlog_review.py tools/test_audio_field_backlog_human_review.py
+      - name: Run field human-review self-test
+        run: python tools/test_audio_field_backlog_human_review.py
