@@ -98,8 +98,12 @@ jobs:
         run: python tools/generated_art/refine_mockup_fidelity_v5.py
       - name: Finish organic palm and campfire fidelity
         run: python tools/generated_art/refine_mockup_fidelity_v6.py
+      - name: Separate campfire flame tongues after visual review
+        run: python tools/generated_art/refine_mockup_fidelity_v7.py
       - name: Render actual OBJ mockup review sheet
         run: python tools/generated_art/render_mockup_review.py
+      - name: Render scene-level mockup review sheet
+        run: python tools/generated_art/render_mockup_scene_review.py
       - name: Upload mockup-fidelity visual review
         uses: actions/upload-artifact@v4
         with:
