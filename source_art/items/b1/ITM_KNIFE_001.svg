@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+<rect width="900" height="600" fill="#f6f2e8"/>
+<text x="50" y="55" font-family="Arial" font-size="30" font-weight="700">ITM_KNIFE_001 — utility rope/fiber knife</text>
+<text x="50" y="88" font-family="Arial" font-size="18">B-priority · blunt sheepsfoot profile · no weapon-first affordance</text>
+<g transform="translate(70,160)">
+  <rect x="0" y="70" width="330" height="70" rx="25" fill="#6c5438"/>
+  <rect x="300" y="55" width="55" height="100" rx="12" fill="#51483c"/>
+  <path d="M345 75 H585 Q610 75 610 100 V120 H345 Z" fill="#8b8d88"/>
+  <rect x="390" y="120" width="175" height="12" rx="5" fill="#5f615e"/>
+  <text x="52" y="113" font-family="Arial" font-size="16" fill="#fff">PRIMARY GRIP</text>
+  <text x="435" y="110" font-family="Arial" font-size="16">BLUNT NOSE</text>
+  <text x="412" y="154" font-family="Arial" font-size="15">short cutting edge</text>
+</g>
+<g transform="translate(70,390)" font-family="Arial" font-size="17">
+  <text x="0" y="0">• Fiber / rope / cloth utility interactions only.</text>
+  <text x="0" y="32">• No stabbing point, combat stats, damage verbs or weapon iconography.</text>
+  <text x="0" y="64">• Runtime interaction should be explicit-target gated.</text>
+  <text x="0" y="96">• Claude owns collider, grip pose, haptics, materials and Quest QA.</text>
+</g>
+</svg>
