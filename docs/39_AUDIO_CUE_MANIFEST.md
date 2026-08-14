@@ -42,6 +42,10 @@ Anbefalet source-master før Unity-import:
 
 Runtime codec/compression bestemmes af Claude.
 
+## Canonical machine-ID rule
+
+Machine runtime binding IDs come from `content/audio/audio_cues.source.json`. Rows in this human manifest that are absent from the machine registry remain **source/design specs only** and must not be bound under invented runtime IDs. `content/audio/audio_cue_alias_reconciliation.source.json` records retired aliases.
+
 ---
 
 # Prioritet
@@ -57,7 +61,7 @@ Runtime codec/compression bestemmes af Claude.
 
 | ID | Zone | Type | Pri. | Funktion | Variation/fallback | Status |
 |---|---|---|---:|---|---|---|
-| `SFX_AMB_BEACH_CALM_001` | Strand/camp | loop | A | Base island ambience | surf + light wind; neutral fallback | Spec klar |
+| `SFX_AMB_BEACH_CAMP_001` | Strand/camp | loop | A | Base island ambience | surf + light wind; neutral fallback | Spec klar |
 | `SFX_AMB_CAMP_NIGHT_001` | Camp/night | loop | B | Nat, sårbarhed | insects/surf/light creaks | Spec klar |
 | `SFX_AMB_JUNGLE_001` | Jungle | loop | B | Exploration identity | foliage/insects/birds | Spec klar |
 | `SFX_AMB_RAVINE_001` | Ravine | loop | B | Height/depth tension | wind/stone/echo | Spec klar |
@@ -74,7 +78,7 @@ Runtime codec/compression bestemmes af Claude.
 | `SFX_WIND_L1_001` | Building wind | loop layer | A | warning | stronger VFX + forecast cues | Spec klar |
 | `SFX_WIND_L2_001` | Storm wind | loop layer | A | storm 1 | debris/VFX intensity | Spec klar |
 | `SFX_WIND_L3_001` | Peak wind | loop layer | A | collapse risk | camera-safe world VFX + structure cues | Spec klar |
-| `SFX_RAIN_L1_001` | Light rain | loop layer | B | night/weather | visible droplets/wetness | Spec klar |
+| `SFX_RAIN_LIGHT_001` | Light rain | loop layer | B | night/weather | visible droplets/wetness | Spec klar |
 | `SFX_RAIN_L2_001` | Heavy rain | loop layer | A | storm 2 | rain VFX + wetness | Spec klar |
 | `SFX_THUNDER_DISTANT_001` | Distant thunder | one-shot set | B | warning | sky flash optional; never sole information | Spec klar |
 | `SFX_THUNDER_NEAR_001` | Near thunder | one-shot set | C | drama | flash + environmental response | Spec klar |
@@ -105,7 +109,7 @@ Fire audio is gameplay information. Every state must have a readable visual stat
 | `SFX_SHELTER_CREAK_HIGH_001` | stressed creak | loop/oneshots | A | Structure under threat | Spec klar |
 | `SFX_SHELTER_ROPE_FLAP_001` | loose tarp/rope | loop/oneshots | A | Repair needed | Spec klar |
 | `SFX_SHELTER_TEAR_001` | tarp tear | one-shot | A | Damage event | Spec klar |
-| `SFX_SHELTER_BEAM_SHIFT_001` | beam shift | one-shot | A | Stability loss | Spec klar |
+| `SFX_BEAM_SHIFT_001` | beam shift | one-shot | A | Stability loss | Spec klar |
 | `SFX_SHELTER_SNAP_SUCCESS_001` | repair/snap confirm | one-shot | A | Successful placement | Spec klar |
 | `SFX_SHELTER_COLLAPSE_PARTIAL_001` | partial collapse | staged one-shot | A | Storm phase 4 | Spec klar |
 
@@ -148,7 +152,7 @@ No cue may pressure players into confirming faster. Planning audio should feel t
 | `SFX_TOOL_WOOD_HIT_001` | wood impact | one-shot set | B | Spec klar |
 | `SFX_TOOL_ROCK_HIT_001` | rock impact | one-shot set | C | Spec klar |
 | `SFX_CLOTH_HANDLE_001` | tarp/cloth handling | one-shot set | A | Spec klar |
-| `SFX_SUPPLY_CRATE_OPEN_001` | crate open | one-shot | A | Spec klar |
+| `SFX_CRATE_OPEN_001` | crate open | one-shot | A | Spec klar |
 | `SFX_RADIO_SWITCH_001` | radio control | one-shot | A | Spec klar |
 | `SFX_ITEM_RETURN_001` | critical item reset/return | one-shot | B | Spec klar |
 
@@ -202,11 +206,11 @@ Minimal and adaptive. Music must not become a constant score that masks communic
 
 | ID | Layer | Pri. | Trigger intention | Status |
 |---|---|---:|---|---|
-| `MUS_CAMP_WARM_001` | warm camp texture | C | safe planning/rest | Spec klar |
+| `MUS_CAMP_BASE_001` | warm camp texture | C | safe planning/rest | Spec klar |
 | `MUS_WARNING_PULSE_001` | low pulse | B | approaching storm | Spec klar |
 | `MUS_STORM_BASE_001` | storm base | A | storm starts | Spec klar |
 | `MUS_STORM_PRESSURE_001` | pressure layer | A | camp state worsens | Spec klar |
-| `MUS_STORM_FINAL_001` | final tension | A | signal window | Spec klar |
+| `MUS_SIGNAL_FINAL_001` | final tension | A | signal window | Spec klar |
 | `MUS_RESCUE_RELEASE_001` | resolution layer | A | signal succeeds | Spec klar |
 | `MUS_LOSS_RELEASE_001` | quiet loss resolution | B | loss/retry | Spec klar |
 

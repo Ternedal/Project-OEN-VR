@@ -1,0 +1,37 @@
+{
+  "id": "CHR_TORSO_BASE_001",
+  "version": 1,
+  "status": "source-reference-ready-unity-pending",
+  "priority": "C",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "source": {
+    "obj": "source_art/avatar/base/CHR_TORSO_BASE_001.obj",
+    "mtl": "source_art/avatar/base/CHR_TORSO_BASE_001.mtl",
+    "reference": "source_art/avatar/base/CHR_TORSO_BASE_001.svg",
+    "units": "meters",
+    "axisIntent": "Z-up"
+  },
+  "productIntent": {
+    "role": "neutral visual grounding for multiplayer avatar",
+    "identity": "neutral/non-personalized",
+    "mustNotRequire": "Meta Avatar dependency",
+    "trackedParts": [
+      "head",
+      "left hand",
+      "right hand"
+    ],
+    "rule": "Torso source does not define IK/networking/body-tracking architecture."
+  },
+  "claudeOwned": [
+    "runtime avatar representation",
+    "IK/body alignment",
+    "network replication",
+    "collider policy",
+    "body tracking assumptions",
+    "final mesh/materials",
+    "LOD/performance",
+    "Quest 2/3 QA"
+  ],
+  "releaseRule": "Source reference is not Unity-integrated or release-approved."
+}

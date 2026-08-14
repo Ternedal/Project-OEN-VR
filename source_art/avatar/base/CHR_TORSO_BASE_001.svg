@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650">
+<rect width="900" height="650" fill="#f4f0e8"/>
+<text x="50" y="55" font-family="Arial" font-size="30" font-weight="700">CHR_TORSO_BASE_001 — neutral torso source reference</text>
+<text x="50" y="88" font-family="Arial" font-size="18">C-priority · simple silhouette · no Meta Avatar dependency · identity-neutral</text>
+
+<g transform="translate(110,155)">
+  <text x="0" y="-25" font-family="Arial" font-size="20" font-weight="700">Front</text>
+  <path d="M75 20 L245 20 L270 330 L50 330 Z" fill="#7c8581" stroke="#2b2b2b" stroke-width="4"/>
+  <circle cx="160" cy="-30" r="28" fill="none" stroke="#555" stroke-width="3" stroke-dasharray="8 6"/>
+  <line x1="160" y1="-2" x2="160" y2="20" stroke="#555" stroke-width="3"/>
+  <circle cx="45" cy="95" r="12" fill="none" stroke="#555" stroke-width="3"/>
+  <circle cx="275" cy="95" r="12" fill="none" stroke="#555" stroke-width="3"/>
+  <text x="86" y="375" font-family="Arial" font-size="16">broad readable body mass</text>
+</g>
+
+<g transform="translate(470,155)">
+  <text x="0" y="-25" font-family="Arial" font-size="20" font-weight="700">Side</text>
+  <path d="M90 20 L165 20 L185 330 L70 330 Z" fill="#7c8581" stroke="#2b2b2b" stroke-width="4"/>
+  <circle cx="125" cy="-30" r="28" fill="none" stroke="#555" stroke-width="3" stroke-dasharray="8 6"/>
+  <text x="55" y="375" font-family="Arial" font-size="16">no arm mesh commitment</text>
+</g>
+
+<g transform="translate(50,555)" font-family="Arial" font-size="16">
+  <text x="0" y="0">Runtime intent: head + hands remain tracked/replicated independently; torso is a visual grounding layer only.</text>
+  <text x="0" y="30">Claude owns IK, networking, collider policy, body tracking assumptions, final mesh/materials, LOD and Quest QA.</text>
+</g>
+</svg>
