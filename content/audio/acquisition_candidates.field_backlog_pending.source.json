@@ -25,10 +25,7 @@
       "license": "CC0",
       "sourceFormat": "WAV; source page reports 48 kHz, 16-bit, stereo, 3:38, Tascam DR-40",
       "priority": "B",
-      "use": [
-        "canopy wind source audition",
-        "possible SFX_AMB_Jungle_CanopyWind source only if human listening supports vegetation movement without wrong biome identity"
-      ],
+      "use": ["canopy wind source audition", "possible SFX_AMB_Jungle_CanopyWind source only if human listening supports vegetation movement without wrong biome identity"],
       "provenance": "Natural outdoor recording with microphones directed upward toward the treetops in the Rambouillet forest, France. The source page identifies wind, branch sounds and bird song and releases the recording as CC0/public-domain equivalent for commercial use.",
       "caveat": "This is a temperate French forest recording, not a tropical jungle recording. It is registered only as a canopy-motion candidate. Human listening must reject it if birds, branch species, seasonal texture or overall biome identity read as wrong for Project OEN. Acquisition does not imply source approval."
     },
@@ -39,15 +36,12 @@
       "creator": "Joseph SARDIN",
       "title": "Falaise #1 / Cliff #1",
       "sourcePage": "https://lasonotheque.org/falaise-1-s2570.html",
-      "directDownload": "https://lasonotheque.org/UPLOAD/wav/2570.wav",
+      "directDownload": "https://lasonotheque.org/UPLOAD/bwf-en/2570.wav",
       "filename": "lasonotheque_2570_cliff_waves.wav",
       "license": "CC0",
       "sourceFormat": "WAV; source page reports 48 kHz, 24-bit, stereo, 5:33, SoundDevices MixPre-3 + Neumann KM184",
       "priority": "B",
-      "use": [
-        "rough ocean/wave-body source audition",
-        "possible SFX_WTH_Storm_RoughOcean layer if human listening proves enough force and useful clean wave bodies"
-      ],
+      "use": ["rough ocean/wave-body source audition", "possible SFX_WTH_Storm_RoughOcean layer if human listening proves enough force and useful clean wave bodies"],
       "provenance": "Natural outdoor recording by Joseph SARDIN. The source page describes waves crashing against a cliff, identifies the recording as real stereo seaside ambience and releases it as CC0/public-domain equivalent for commercial use.",
       "caveat": "The source page does not claim that the recording was made during a storm or that strong wind is present. Treat it as a rough-wave/ocean-body candidate only. Human listening must decide whether it is forceful enough for the storm role and whether it should be layered with a separately approved wind source. Acquisition does not imply source approval."
     }
@@ -82,5 +76,6 @@
       "next": "Continue searching for a natural palm/frond recording with accepted license and a direct original-file URL. Do not silently substitute generic temperate tree wind."
     }
   ],
-  "rule": "These records are research-backed acquisition candidates only. A successful download/ffprobe produces acquired-original-not-listening-approved evidence; human listening and explicit source approval remain separate gates."
+  "acquiredEvidence": "content/audio/acquisition_field_backlog_final_receipt.source.json",
+  "rule": "These records are research-backed acquisition candidates only. Successful acquisition is pinned separately; human listening and explicit source approval remain separate gates."
 }
