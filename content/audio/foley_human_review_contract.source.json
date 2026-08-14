@@ -11,8 +11,8 @@
     "status": "human-foley-review-unvalidated"
   },
   "normalizedStatus": "human-foley-review-evidence-evaluated-not-materialized",
-  "expectedCueCount": 13,
-  "expectedTakeCount": 53,
+  "expectedCueCount": 17,
+  "expectedTakeCount": 73,
   "takeDecisionValues": ["keep", "needs-rerecord", "needs-more-listening"],
   "cueDecisionValues": ["accept-current-set", "needs-rerecord", "needs-more-listening"],
   "typedChecks": {
@@ -29,11 +29,11 @@
   "sourceApprovedEligibilityRequires": [
     "reviewerAlias is non-empty",
     "reviewedAt is non-empty",
-    "technical receipt and all 53 source SHA-256 bindings still match actual raw take bytes",
+    "technical receipt and all 73 source SHA-256 bindings still match actual raw take bytes",
     "foley provenance SHA still matches technical receipt",
     "commercialReuseAllowed is true",
-    "all 53 take decisions are keep",
-    "all 13 cue decisions are accept-current-set",
+    "all 73 take decisions are keep",
+    "all 17 cue decisions are accept-current-set",
     "all eight listening-QA checks are complete per cue",
     "no unresolved contamination/noise/space/transient failure",
     "MATERIAL_MATCH >= 3 per cue",
@@ -44,6 +44,7 @@
     "A complete negative review is valid evidence and must remain representable; it does not cause normalization failure merely because rerecording is required.",
     "Take decisions are hash-bound to the technical receipt; a rerecorded take changes SHA and requires a fresh review context.",
     "The eight canonical listening checks are evaluated per cue family across its planned variants; UNDER_WEATHER_READABILITY is an additional Foley-specific cue-family check.",
+    "Fuel-add and animal-event prop cues use the same human gate as the original crate/rope/shelter cues; no weaker approval lane is introduced.",
     "Normalization never copies or promotes source files. Explicit materialization is a separate state-changing operation.",
     "Fire-start-specific Foley remains outside this review lane while issue #8 is owner-gated."
   ]
