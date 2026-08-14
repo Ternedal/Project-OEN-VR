@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - agent/complete-unity-graphics-v1
+      - agent/resync-production-art-20260814
     paths:
       - 'tools/generated_art/**'
       - 'src/unity/ProjectOen.Art/**'
@@ -79,6 +80,8 @@ jobs:
         run: python tools/generated_art/refine_storm_story_geometry.py
       - name: Add signal-finale failure/load mesh detail
         run: python tools/generated_art/refine_signal_finale_geometry.py
+      - name: Final mockup-fidelity pass for hero world art
+        run: python tools/generated_art/refine_mockup_fidelity.py
       - name: Refine production UI and world-space sprites
         run: python tools/generated_art/refine_ui_sprite_art.py
       - name: Refine dedicated production VFX textures
