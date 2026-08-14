@@ -128,6 +128,8 @@ jobs:
         run: python tools/generated_art/refine_vfx_art.py
       - name: Raise Stormnatten VFX texture fidelity
         run: python tools/generated_art/refine_mockup_vfx_v2.py
+      - name: Restore useful ash and wet-sheen alpha range
+        run: python tools/generated_art/fix_mockup_vfx_alpha.py
       - name: Render full sprite VFX and decal review sheets
         run: python tools/generated_art/render_sprite_vfx_review.py
       - name: Upload complete mockup-fidelity visual review
