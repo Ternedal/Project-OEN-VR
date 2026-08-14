@@ -1,17 +1,16 @@
 # Repository status
 
-**Opdateret:** 2026-08-13
+**Opdateret:** 2026-08-14
 
 ## Baseline
 
 - Baseline: **v2.1**.
-- Alle 10 oprindelige reviewfund er lukket.
 - Quest 2 = performance-/kvalitetsgulv.
 - Quest 3/3S = enhanced parity.
-- Quest 1 = droppet runtime/testlane (`DROP_Q1_RUNTIME`).
-- Gaveversion = **1.012 t**; 439 t deferred efter v1.0.
+- Quest 1 = droppet runtime/testlane (`DROP_Q1_RUNTIME`); kun historisk/frossen sideload-demo.
+- Gaveversion = **1.012 t**; 439 t deferred efter v1.0, så længe owner-gated fire-start ikke promoveres.
 - M5 = Release 1.
-- Arbejdsdeling: `AI_COLLABORATION_AGREEMENT.md` — Claude = Unity, ChatGPT = alt andet.
+- Arbejdsdeling: `AI_COLLABORATION_AGREEMENT.md` — Claude = Unity/runtime/device; ChatGPT = non-Unity produkt/content/source/QA.
 
 ---
 
@@ -21,41 +20,42 @@
 
 Tracker: GitHub issue #3.
 
-Per-client feasibility er dokumenteret. Cross-device evidence mangler fortsat:
+Per-client feasibility er dokumenteret. Rigtig cross-device Quest-evidens mangler fortsat, herunder remote head/hands, mismatch rejection, shared-state, 10× Q2↔Q3, 72 Hz, standby/reconnect og compatibility matrix.
 
-1. remote head/hands replication
-2. handshake mismatch rejection
-3. shared box korrekt two-player state
-4. 10× Q2↔Q3 lift uden permanent desync
-5. 72 Hz minimal network scene
-6. standby/reconnect measurement
-7. compatibility matrix completion
+Ingen synthetic/self-test må lukke denne gate.
 
-## M-Pre — ChatGPT / produkt
+## M-Pre — human product evidence
 
 Tracker: GitHub issue #7.
 
-Ready-to-run package findes i `prototype/m-pre/`; menneskedata mangler.
+Ready-to-run material findes i `prototype/m-pre/`. Repoet har nu også en tamper-evident evidence-bundle pipeline:
 
-## Content contract
+- `content/mpre/evidence_bundle_contract.source.json`
+- `tools/package_mpre_evidence.py`
+- `tools/validate_mpre_evidence_bundle.py`
+
+Der er fortsat **ingen påståede menneskesessioner**. Gate kræver tre reelle sessioner og mindst to testerpar; bundle-tooling kan kun validere/hashbinde leveret menneskeevidens.
+
+## Content contract / fire-start
 
 Tracker: GitHub issue #8.
 
-- intro → explicit onboarding sequence foreslået
-- Day 3 → explicit planning phase foreslået
-- minimal fire-start → source/spec/reference findes, men gave-scope kræver Anders' disposition
+- onboarding er canonical i `content/onboarding/stormnatten.onboarding.source.json`
+- Day 3 planning er canonical i `content/phases/stormnatten.day3_planning.source.json`
+- proposal-filer under `content/proposals/` er historiske/non-canonical
+- fire-start er fortsat owner-gated og må ikke promoveres uden Anders' eksplicitte scope-disposition
 
-Proposal-data under `content/proposals/` er `proposal-not-canonical`.
-
-**M1 åbner først efter grøn M0b + M-Pre.** Det stopper ikke non-Unity-sourceproduktionen.
+**M1 åbner først efter grøn M0b + M-Pre.** Det stopper ikke ublokeret non-Unity-sourcearbejde.
 
 ---
 
 # Core / Unity
 
-`src/ProjectOen.Core` har senest dokumenteret **146 passed, 0 failed** i Core-dokumentationen, og aktuelle Core Actions-runs er fortsat grønne efter de seneste non-Unity/repo-hygiene ændringer.
+Core Actions er grønne efter de seneste non-Unity merges.
 
-Unity/Fusion-laget ejes af Claude. Den gamle status “Fusion ukompileret” er historisk; M0b cross-device er den reelle åbne tekniske gate.
+Unity/Fusion-laget ejes af Claude. Den reelle tekniske gate er M0b cross-device/device evidence — ikke historiske labels om “ukompileret Fusion”.
+
+Draft PR #5 og #6 forbliver fysisk QA-blokerede og må ikke merges alene på synthetic/CI-evidens.
 
 ---
 
@@ -63,137 +63,138 @@ Unity/Fusion-laget ejes af Claude. Den gamle status “Fusion ukompileret” er 
 
 ## Autoritativ status
 
-- levende arbejdskø: `docs/36_CHATGPT_WORKSTREAM.md`
 - machine-readable produktionsstatus: `content/source_inventory.source.json`
 - asset-ID/funktionsmanifest: `docs/38_SOURCE_ASSET_MANIFEST.md`
 - source-art provenance: `source_art/PROVENANCE_INDEX.md`
+- denne fil: kort menneskelig repo-status
 
-`docs/38` er reconcilet med de faktisk producerede sourcefiler og skelner nu mellem **source master**, **source reference**, **spec** og **Unity/release-status**.
+`source-ready`, `candidate-ready` og `technical-intake-passed` betyder **ikke** Unity-integreret, human-approved eller release-approved.
 
-## Leveret produkt/design/QA foundation
+## Produkt/design/content
 
-Der findes nu bl.a.:
+Canonical non-Unity foundation omfatter bl.a.:
 
-- non-Unity gap audit
-- source asset/audio manifests
 - dansk UX/copy/localization
-- personalization/privacy + komplet neutral fallback-source
-- human QA M1-M9
-- IP/provenance
-- Stormnatten content coverage + 10-event authoring
-- visual style bible + UI information architecture
-- gift/release flow
-- telemetry/metrics
-- backlog ownership overlay
-- narrative continuity
-- content-contract proposals
-- interaction handoffs for planning, shelter, fire, ravine og stormfinale
-
-## Machine-readable content
-
-`content/` indeholder bl.a.:
-
-- dansk localization
-- Stormnatten actions + placeholder-cost mirror
-- 10-event authoring
-- event→presentation mapping
-- neutral personalization profile
-- onboarding/Day 3 proposals
-- Foley recording queue
-- ambience acquisition queue
-- radio VO recording queue
-- after-action presentation contract
-- samlet source inventory
-
-After-action-kontrakten bruger Core's authoritative causal data og holder individuelle titler slået fra, indtil OQ-010 giver evidens.
+- Stormnatten actions/events/presentation
+- canonical onboarding og Day 3 planning
+- neutral personalization fallback
+- after-action presentation
+- material families
+- release/planning UI source
+- storm-finale source contract
+- source-closeout for utility knife, torso-reference og epilogue-reference
+- M-Pre facilitator/evidence-bundle tooling
 
 ---
 
 # Source-art på main
 
-Producerede sourcepakker omfatter nu:
+Producerede sourcepakker omfatter nu bl.a.:
 
-- **A1:** gameplay/status/action UI, effort markers, cards og feedback cues
+- **A1:** gameplay/status/action UI
 - **Neutral:** fictional chart, compass, route card og signal tag
-- **A2:** core prop briefs/concepts + individuelle masters for firesteel-reference, tinder og rope coil
-- **A3:** storm VFX/source references
+- **A2:** core prop reference + 10 individuelle masters
+- **A3:** storm VFX/source references inkl. rope-strain
 - **A4:** camp layout/state + wreck, ground, radio og signal progression refs
 - **B1 environment:** jungle/ravine/ridge + ravine anchor/guide markers
-- **B1 resources:** wood/fiber/herbs/food/general supplies
-- **B1 utility:** supply crate source master
+- **B1 resources/items:** wood/fiber/herbs/food/general supplies + `ITM_KNIFE_001`
+- **B1 utility:** supply crate source
 - **B2:** event presentation source + mapping for alle 10 events
-- **A5 meshes:** wind shield, dry-fuel cache og signal-fuel OBJ source
-- **A5 items:** cloth, map fragment og radio battery
+- **Character:** P1/P2 hand refs + `CHR_TORSO_BASE_001`
+- **C1:** `ENV_EPILOGUE_001` reuse-first ending reference
+- **A5 meshes:** wind shield, dry-fuel cache, signal fuel, firepit og waterproof ending crate
+- **A5 items:** cloth, map fragment, radio battery, ember carrier og repair mallet
 - **A5 release UI:** join, reconnect, setup, pause, ready-state og subtitle band
 
-Source-ready betyder ikke Unity-integreret eller release-approved; Claude ejer runtime-import, prefabs, colliders, materials, performance og device QA.
+Claude ejer runtime-import, prefabs, colliders, materials, IK/networking, performance og device QA.
 
 ---
 
 # Audio/source-status
 
-- AU-1: deterministisk generator til 12 korte UI/system cues; CI-valideret.
-- Foley: recording queue klar; faktiske naturalistiske masters mangler.
-- Ambience: acquisition/recording queue klar; faktiske masters mangler.
-- Radio VO: 9 cues × 3 takes er specificeret; faktisk recording mangler.
-- Musik: direction/cue-sheet klar; composition/source mangler.
+## AU-1 / authored feedback
 
-Ingen naturalistisk lyd markeres som produceret, før reel source + provenance findes.
+Deterministisk generator til korte UI/system cues er source- og CI-valideret. Runtime mix/binding er Claude-lane.
+
+## Foley / naturalistic sources
+
+Wood/cloth extension packs er acquired og teknisk shortlisted. Naturlig Foley er **ikke** generelt human-approved eller færdigmasteret; human audition og evt. field recording mangler dér, hvor pack-fit ikke er godt nok.
+
+## Ambience / environment
+
+Repoet har nu faktiske originale/acquired sources med provenance og objektiv QA:
+
+- base acquisition: wind, rain og fire
+- extension acquisition: ocean + wood/cloth packs
+- field-backlog receipt: syv yderligere originals
+
+De er **ikke automatisk listening/source-approved**. `tools/normalize_audio_field_review.py` hashbinder menneskelig review-evidens uden at promovere source-status.
+
+## Radio VO
+
+9 cues × 3 takes er specificeret, og repoet har nu en fail-closed 27-take technical intake:
+
+- `content/audio/radio_vo_session_contract.source.json`
+- `tools/prepare_radio_vo_session.py`
+- `tools/validate_radio_vo_session.py`
+
+Faktisk menneskelig recording, dansk pronunciation/delivery review og listening approval mangler fortsat.
+
+## Musik
+
+14 originale procedurale adaptive-music candidates er auditeret og audition-ready:
+
+- `content/audio/music_candidate_audit.source.json`
+- fem candidate-families er mappet til eksisterende canonical music cues
+- `MUS_Warning_LowPulse` er eksplicit unmapped
+
+PR #33 har bevaret den originale generator på `main` og tilføjet exact-byte reproducibility. CI reproducerede **14/14 SHA-256-identiske WAVs** med Ubuntu 24.04 / CPython 3.12.13 / NumPy 2.3.5.
+
+Det fjerner afhængigheden af den tidsbegrænsede PR #6 artifact, men **human audition/source promotion mangler stadig**.
 
 ---
 
 # CI / kvalitet
 
-Aktive guards omfatter:
+Aktive non-Unity guards omfatter bl.a.:
 
 - Core tests
 - Validate handoff
 - Validate non-Unity sources
-- action placeholder-cost mirror
-- AU-1 source regeneration/validation
-- event-presentation validation
-- **Validate source inventory**
+- Validate source inventory
+- source-inventory backing
+- audio manifest alignment
+- source closeout validation
+- radio VO session tooling
+- music candidate audition tooling
+- **music exact-byte candidate reproducibility**
+- M-Pre evidence-bundle tooling
+- audio acquisition/listening/field-review validators
 
-Den nye inventory-validator kontrollerer package/content paths, dublet-ID'er, `producedIds`-coverage og A2 `individualMasterIds`. Første workflow-run er grøn.
-
-Source-art får desuden visuel QA, når layout/readability kræver det; supply-crate source blev fx rettet for tekst-overflow før merge.
-
----
-
-# Repo hygiene
-
-Tidligere tracked `src/ProjectOen.Core/bin/` og `src/ProjectOen.Core.Tests/bin/` er fjernet via PR #12.
-
-- 89 genererede build/test-filer fjernet
-- `.gitignore` dækkede allerede `src/**/bin/`
-- Core tests var grønne efter cleanup
-- begge paths er verificeret væk fra `main`
-
-Denne gæld er lukket.
+Ingen af disse CI-checks må bruges som erstatning for menneskelig listening/playtest eller Quest-device evidence.
 
 ---
 
-# Fortsat åbent på ChatGPT-siden
+# Fortsat åbent på ChatGPT/non-Unity-siden
 
-Der er fortsat væsentligt non-Unity-arbejde:
+Den brede automatable source-backlog er ikke længere den primære flaskehals. De væsentlige næste skridt er nu:
 
-1. stabile B1/world/source assets hvor det reducerer Unity-gætteri
-2. source material/texture families og øvrig produktionsreference
-3. reel Foley/ambience/radio-VO sourceproduktion og provenance
-4. musikproduktion, når timing/evidence gør cue-længder meningsfulde
-5. yderligere machine-readable presentation/content contracts hvor nødvendigt
-6. richer environment/polish efter geometry/device evidence
-7. private personalization source uden for public repo senere
-8. human design/playtest evidence
-9. M1 handoff assembly når M0b + M-Pre er grønne
+1. menneskelig audition/selection af acquired ambience/Foley sources
+2. menneskelig audition af de 14 music candidates og eksplicit source promotion af valgte candidates
+3. faktisk radio-VO recording + pronunciation/delivery/listening review
+4. tre reelle M-Pre sessions + bundle/acceptance flow
+5. status/backlog-opdatering efter rigtig human/device evidence
+6. richer environment/polish kun når stabil geometry/device evidence gør det nyttigt
+7. private personalization source uden for public repo, når det faktisk skal produceres
+8. M1 handoff assembly når M0b + M-Pre er grønne
 
-Genererede men ikke committede artifacts tælles aldrig som produceret.
+Genererede, private eller lokalt auditerede artifacts tælles aldrig som release-/human-approved alene.
 
 ---
 
 # Parallelle handlinger
 
-- Claude fortsætter issue #3.
-- M-Pre human sessions lukker issue #7, når de køres.
-- Fire-start-scope i issue #8 kræver Anders' beslutning, før det må tælle ind i gaveversionen.
-- ChatGPT fortsætter resten af den ublokerede non-Unity-kø parallelt.
+- Claude fortsætter issue #3 og fysisk Unity/Quest QA på #5/#6.
+- M-Pre human sessions er nødvendig input til issue #7.
+- Fire-start scope i issue #8 kræver Anders' beslutning.
+- ChatGPT fortsætter non-Unity source/review tooling og statusreconciliation uden at fabrikere human/device evidence.
