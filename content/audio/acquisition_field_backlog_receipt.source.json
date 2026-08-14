@@ -1,15 +1,25 @@
 {
-  "version": 1,
+  "version": 2,
   "status": "acquired-originals-not-listening-approved",
   "owner": "ChatGPT",
   "runtimeOwner": "Claude",
   "candidateSource": "content/audio/acquisition_candidates.field_backlog.source.json",
-  "workflowEvidence": {
-    "runId": 31770545642,
-    "headSha": "ccbee4292f0e85d9ffe41ac05c16055be8408d0b",
-    "artifactId": 9207970986,
-    "artifactDigest": "sha256:3c1ffcef95c0f7635d03fc53359b1e0c1cdf07cbb1e1b8a8e6257ce7d9752ed5"
-  },
+  "evidenceRuns": [
+    {
+      "runId": 31770545642,
+      "headSha": "ccbee4292f0e85d9ffe41ac05c16055be8408d0b",
+      "artifactId": 9207970986,
+      "artifactDigest": "sha256:3c1ffcef95c0f7635d03fc53359b1e0c1cdf07cbb1e1b8a8e6257ce7d9752ed5",
+      "targets": ["SFX_NAT_NIGHT_CRICKET_ALT_01", "SFX_WTH_THUNDER_ALT_01"]
+    },
+    {
+      "runId": 31771262918,
+      "headSha": "7f0ece2c8446bf4256f3577d2af1f39754972854",
+      "artifactId": 9208215051,
+      "artifactDigest": "sha256:7d527d5f3512fcaf3af640250aa158319ccb7b156c30f04fc090aa77c03b25be",
+      "targets": ["SFX_NAT_SHORE_GULL_ALT_01", "SFX_NAT_SHORE_GULL_ALT_02", "SFX_WTH_WIND_FISTERRA_ALT_01"]
+    }
+  ],
   "records": [
     {
       "target": "SFX_NAT_NIGHT_CRICKET_ALT_01",
@@ -22,13 +32,8 @@
       "bytes": 6798936,
       "sha256": "ecc088a3d1ab967202b63a92836dadc47bd08c8ab3f17d8527f620264aa5faf9",
       "acquiredAtUtc": "2026-08-14T04:40:50.459703+00:00",
-      "technicalProbe": {
-        "codec": "pcm_s16le",
-        "sampleRateHz": 44100,
-        "bitDepth": 16,
-        "channels": 2,
-        "durationSeconds": 38.542472
-      },
+      "evidenceRunId": 31770545642,
+      "technicalProbe": {"codec": "pcm_s16le", "sampleRateHz": 44100, "bitDepth": 16, "channels": 2, "durationSeconds": 38.542472},
       "objectiveQa": {
         "peakDbFs": -20.892,
         "rmsDbFsLeft": -42.536,
@@ -52,13 +57,8 @@
       "bytes": 394881,
       "sha256": "75c4d3911eedd1370db6aa30c90aee9e2eee3d18b429862eee6db221bcd0f421",
       "acquiredAtUtc": "2026-08-14T04:40:50.647328+00:00",
-      "technicalProbe": {
-        "codec": "vorbis",
-        "sampleRateHz": 44100,
-        "channels": 2,
-        "durationSeconds": 32.225057,
-        "bitRate": 98030
-      },
+      "evidenceRunId": 31770545642,
+      "technicalProbe": {"codec": "vorbis", "sampleRateHz": 44100, "channels": 2, "durationSeconds": 32.225057, "bitRate": 98030},
       "objectiveQa": {
         "decodedPeakDbFsLeft": 0.342,
         "decodedPeakDbFsRight": 0.265,
@@ -71,8 +71,80 @@
         "note": "Natural stereo source with meaningful channel difference. Vorbis decode overshoots unity on some float samples, so any derived master needs explicit headroom/clipping inspection. Metadata does not prove perceived near-thunder distance."
       },
       "status": "acquired-original-not-listening-approved"
+    },
+    {
+      "target": "SFX_NAT_SHORE_GULL_ALT_01",
+      "runtimeEventCandidate": "SFX_NAT_Bird_ShoreCall",
+      "filename": "Gull_1.ogg",
+      "provider": "Wikimedia Commons / PDSounds",
+      "creator": "avphillips",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Gull_1.ogg",
+      "license": "Public Domain",
+      "bytes": 167299,
+      "sha256": "a1fb43d87b82defea6d4ccc70380431ac65f3ae98b4acbffc01478b81539b140",
+      "acquiredAtUtc": "2026-08-14T04:53:50.276854+00:00",
+      "evidenceRunId": 31771262918,
+      "technicalProbe": {"codec": "vorbis", "sampleRateHz": 22050, "channels": 1, "durationSeconds": 18.130385, "bitRate": 73820},
+      "objectiveQa": {
+        "decodedPeakDbFs": -3.428,
+        "decodedRmsDbFs": -16.953,
+        "decodedSamplesAboveUnity": 0,
+        "oneSecondRmsDbFsMin": -35.282,
+        "oneSecondRmsDbFsMax": -12.374,
+        "note": "Mono 22.05 kHz historical PDSounds derivative. Technically unclipped after decode; human listening must judge codec/ambient artifacts, call isolation and island-context fit before any derivation."
+      },
+      "status": "acquired-original-not-listening-approved"
+    },
+    {
+      "target": "SFX_NAT_SHORE_GULL_ALT_02",
+      "runtimeEventCandidate": "SFX_NAT_Bird_ShoreCall",
+      "filename": "Gull_2.ogg",
+      "provider": "Wikimedia Commons / PDSounds",
+      "creator": "avphillips",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Gull_2.ogg",
+      "license": "Public Domain",
+      "bytes": 58414,
+      "sha256": "ccbd57767255152a4def3d5abc57719158bd294748a9da1acc1b064083d1575f",
+      "acquiredAtUtc": "2026-08-14T04:53:55.481100+00:00",
+      "evidenceRunId": 31771262918,
+      "technicalProbe": {"codec": "vorbis", "sampleRateHz": 22050, "channels": 1, "durationSeconds": 5.73093, "bitRate": 81542},
+      "objectiveQa": {
+        "decodedPeakDbFs": -0.938,
+        "decodedRmsDbFs": -16.113,
+        "decodedSamplesAboveUnity": 0,
+        "oneSecondRmsDbFsMin": -22.559,
+        "oneSecondRmsDbFsMax": -12.756,
+        "note": "Short mono 22.05 kHz historical PDSounds derivative. Technically unclipped after decode; treat as a separate natural source event, not a basis for pitch/gain-only variation inflation."
+      },
+      "status": "acquired-original-not-listening-approved"
+    },
+    {
+      "target": "SFX_WTH_WIND_FISTERRA_ALT_01",
+      "runtimeEventCandidate": "SFX_WTH_Storm_WindGust",
+      "filename": "Vento_fisterra.ogg",
+      "provider": "Wikimedia Commons",
+      "creator": "Escoitar.org",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Vento_fisterra.ogg",
+      "license": "Public Domain",
+      "bytes": 4555849,
+      "sha256": "7ea1fd527488b5cfada8545e6acaf73c22a9432a94eec94157e1c76d01e4ccdf",
+      "acquiredAtUtc": "2026-08-14T04:54:01.069487+00:00",
+      "evidenceRunId": 31771262918,
+      "technicalProbe": {"codec": "vorbis", "sampleRateHz": 44100, "channels": 2, "durationSeconds": 257.044898, "bitRate": 141791},
+      "objectiveQa": {
+        "decodedPeakDbFsLeft": 0.24,
+        "decodedPeakDbFsRight": 0.221,
+        "decodedRmsDbFsLeft": -15.406,
+        "decodedRmsDbFsRight": -15.084,
+        "decodedSamplesAboveUnity": 262,
+        "channelCorrelation": -0.238903,
+        "oneSecondRmsDbFsMin": -87.957,
+        "oneSecondRmsDbFsMax": -12.943,
+        "note": "Long natural stereo wind source with meaningful channel difference. Vorbis decode has a small number of samples above unity; any derived gust masters need explicit headroom and segmentation QA, and human listening must identify genuinely distinct gust attacks/bodies/tails."
+      },
+      "status": "acquired-original-not-listening-approved"
     }
   ],
-  "next": "Human listening must assess cricket noise/biome fit and thunder proximity/transient/tail quality. Selected sources still require documented derivation and repeated listening QA before any source or derived-master approval.",
+  "next": "Human listening must assess cricket noise/biome fit, thunder proximity/transient/tail quality, gull codec/context fit and Fisterra gust segmentation. Selected sources still require documented derivation and repeated listening QA before any source or derived-master approval.",
   "rule": "Acquisition and objective QA do not imply source-approved, derived-master-approved, Unity-integrated or release-approved."
 }
