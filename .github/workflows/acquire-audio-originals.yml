@@ -1,4 +1,4 @@
-name: Acquire audio originals
+name: Acquire core audio originals
 
 on:
   workflow_dispatch:
@@ -8,14 +8,11 @@ on:
       - 'tools/acquire_audio_sources.py'
       - 'tools/validate_audio_canonical_acquisition.py'
       - 'tools/validate_audio_extension_acquisition.py'
-      - 'tools/validate_audio_field_backlog_acquisition.py'
       - 'content/audio/acquisition_candidates.source.json'
       - 'content/audio/acquisition_candidates.direct_extension.source.json'
-      - 'content/audio/acquisition_candidates.field_backlog.source.json'
       - 'content/audio/acquisition_receipt.source.json'
       - 'content/audio/acquisition_extension_receipt.source.json'
       - 'content/audio/acquisition_extension_member_shortlist.source.json'
-      - 'content/audio/acquisition_field_backlog_receipt.source.json'
 
 permissions:
   contents: read
@@ -63,36 +60,20 @@ jobs:
           python tools/validate_audio_extension_acquisition.py
           --root PrivateContent/AudioSourceExtension
 
-      - name: Acquire field-backlog candidates
-        run: >-
-          python tools/acquire_audio_sources.py
-          --candidate-source content/audio/acquisition_candidates.field_backlog.source.json
-          --all-direct --timeout 120
-          --output PrivateContent/AudioFieldBacklog
-
-      - name: Verify pinned field sources and report new unpinned candidates
-        run: >-
-          python tools/validate_audio_field_backlog_acquisition.py
-          --root PrivateContent/AudioFieldBacklog
-          --allow-unpinned-new
-
       - name: Show acquisition manifests
         run: |
           echo '--- canonical ---'
           cat PrivateContent/AudioSourceIncoming/acquisition_manifest.json
           echo '--- direct extension ---'
           cat PrivateContent/AudioSourceExtension/acquisition_manifest.json
-          echo '--- field backlog ---'
-          cat PrivateContent/AudioFieldBacklog/acquisition_manifest.json
 
       - name: Upload acquired originals and manifests
         uses: actions/upload-artifact@v4
         with:
-          name: oen-audio-direct-acquisition
+          name: oen-audio-core-acquisition
           path: |
             PrivateContent/AudioSourceIncoming/
             PrivateContent/AudioSourceExtension/
-            PrivateContent/AudioFieldBacklog/
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
