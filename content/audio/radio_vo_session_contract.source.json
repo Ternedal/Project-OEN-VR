@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "updated": "2026-08-14",
+  "owner": "ChatGPT",
+  "status": "session-intake-ready-not-recorded",
+  "recordingQueue": "content/audio/radio_vo_recording_queue.source.json",
+  "operatorDoc": "docs/66_RADIO_VO_RECORDING_INTAKE.md",
+  "privateSessionRoot": "PrivateContent/RadioVOSession",
+  "takeNaming": {
+    "pattern": "{cueId}__T{take:02d}.wav",
+    "takesPerCue": 3,
+    "expectedTakeCount": 27,
+    "selectedDryMasterPattern": "{cueId}.wav",
+    "rule": "Raw takes are never silently renamed into selected dry masters."
+  },
+  "technicalAcceptance": {
+    "container": "WAV",
+    "encoding": "PCM integer",
+    "sampleRateHz": 48000,
+    "bitDepth": 24,
+    "channels": 1,
+    "fullScaleSampleCountMax": 0,
+    "preserveOriginalBytes": true,
+    "durationRule": "duration mismatch is warning only"
+  },
+  "provenance": {
+    "filename": "performer_provenance.json",
+    "requiredFields": [
+      "sourceType",
+      "sourceNameOrAlias",
+      "permissionOrLicense",
+      "recordedOrGeneratedAt",
+      "commercialReuseAllowed",
+      "identifiablePublicPersonImitation"
+    ],
+    "allowedSourceTypes": [
+      "human-performer",
+      "licensed-voice-service",
+      "owned-model"
+    ],
+    "publicPersonImitationMustBe": false
+  },
+  "receipt": {
+    "filename": "radio_vo_intake_receipt.json",
+    "statusOnPass": "technical-intake-passed-not-listening-approved"
+  },
+  "humanGates": [
+    "Danish pronunciation reviewed",
+    "delivery/tone approved",
+    "semantic parity reviewed",
+    "one take selected per cue",
+    "selected dry masters reviewed after edits",
+    "performer/source permission accepted"
+  ],
+  "runtimeBoundary": "Claude owns radio processing, spatialization, ducking, runtime binding and subtitle timing in Unity."
+}
