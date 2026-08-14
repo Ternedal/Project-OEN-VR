@@ -1,0 +1,32 @@
+name: Validate M-Pre evidence bundle tooling
+on:
+  pull_request:
+    paths:
+      - 'content/mpre/evidence_bundle_contract.source.json'
+      - 'tools/evaluate_mpre.py'
+      - 'tools/package_mpre_evidence.py'
+      - 'tools/validate_mpre_evidence_bundle.py'
+      - 'tools/test_mpre_evidence_bundle.py'
+      - 'docs/68_M_PRE_EVIDENCE_BUNDLE.md'
+      - '.github/workflows/m-pre-evidence-bundle-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/mpre/evidence_bundle_contract.source.json'
+      - 'tools/evaluate_mpre.py'
+      - 'tools/package_mpre_evidence.py'
+      - 'tools/validate_mpre_evidence_bundle.py'
+      - 'tools/test_mpre_evidence_bundle.py'
+      - 'docs/68_M_PRE_EVIDENCE_BUNDLE.md'
+      - '.github/workflows/m-pre-evidence-bundle-validation.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python tools/test_mpre_evidence_bundle.py
