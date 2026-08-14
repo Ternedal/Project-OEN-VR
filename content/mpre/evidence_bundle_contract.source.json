@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "updated": "2026-08-14",
+  "owner": "ChatGPT",
+  "status": "bundle-tooling-ready-no-human-evidence",
+  "gateIssue": 7,
+  "canonicalEvaluator": "tools/evaluate_mpre.py",
+  "sessionCount": 3,
+  "minimumDistinctPairs": 2,
+  "csvFilename": "mpre_sessions.csv",
+  "notesFilenamePattern": "mpre_notes_{session_id}.json",
+  "manifestFilename": "mpre_evidence_manifest.json",
+  "notesRequirements": {
+    "oneDocumentPerSession": true,
+    "sessionAndPairMustMatchCsv": true,
+    "dayCount": 3,
+    "requiredDayFields": ["day", "proposal_a", "proposal_b", "observations"],
+    "requiredTopLevelFields": ["session_id", "pair_id", "days", "debrief", "status_after_day3"],
+    "qualitativeContentRequired": true,
+    "privacyRule": "Use anonymous session/pair IDs. Do not put participant names, emails, phone numbers or addresses in structured fields."
+  },
+  "bundleStatusOnValid": "human-evidence-bundle-valid-unaccepted",
+  "rule": "The packager only validates, copies and hashes supplied human evidence. It never creates session evidence, changes the gate, closes issue #7 or promotes M1."
+}
