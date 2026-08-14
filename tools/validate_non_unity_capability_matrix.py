@@ -9,6 +9,7 @@ MATRIX = ROOT / "content/non_unity_capability_matrix.source.json"
 
 EXPECTED = {
     "FOLEY_RECORDING": ("content/audio/foley_session_contract.source.json", "session-intake-ready-not-recorded"),
+    "FOLEY_HUMAN_REVIEW": ("content/audio/foley_human_review_contract.source.json", "human-review-tooling-ready-not-reviewed"),
     "RADIO_VO_RECORDING": ("content/audio/radio_vo_session_contract.source.json", "session-intake-ready-not-recorded"),
     "RADIO_VO_HUMAN_REVIEW": ("content/audio/radio_vo_human_review_contract.source.json", "human-review-tooling-ready-not-reviewed"),
     "RADIO_VO_SELECTED_DRY": ("content/audio/radio_vo_selected_dry_contract.source.json", "materialization-tooling-ready-no-selected-dry-source"),
@@ -100,9 +101,13 @@ def main() -> int:
         errors.append("AUDIO_SOURCE_AUDITION_PACK expectedSourceCount must remain 27")
     if approval.get("currentAuditionSourceCount") != 27:
         errors.append("AUDIO_TYPED_SOURCE_APPROVAL currentAuditionSourceCount must remain 27")
-    foley = by_id.get("FOLEY_RECORDING", {})
-    if (foley.get("expectedCueCount"), foley.get("expectedTakeCount")) != (13, 53):
-        errors.append("FOLEY_RECORDING must remain 13 cues / 53 distinct physical take slots")
+    for lane_id in ("FOLEY_RECORDING", "FOLEY_HUMAN_REVIEW"):
+        lane = by_id.get(lane_id, {})
+        if (lane.get("expectedCueCount"), lane.get("expectedTakeCount")) != (13, 53):
+            errors.append(f"{lane_id} must remain 13 cues / 53 distinct physical take slots")
+    foley_review = by_id.get("FOLEY_HUMAN_REVIEW", {})
+    if foley_review.get("materializationContract") != "content/audio/foley_source_materialization_contract.source.json":
+        errors.append("FOLEY_HUMAN_REVIEW must retain explicit source materialization contract")
     radio = by_id.get("RADIO_VO_RECORDING", {})
     if (radio.get("expectedCueCount"), radio.get("expectedTakeCount")) != (9, 27):
         errors.append("RADIO_VO_RECORDING must remain 9 cues x 3 takes = 27")
@@ -110,14 +115,18 @@ def main() -> int:
     if (music.get("candidateCount"), music.get("canonicalMappedFamilyCount")) != (14, 5):
         errors.append("MUSIC_CANDIDATE_AUDITION must remain 14 candidates / 5 mapped families")
 
-    open_gate_ids = {"FOLEY_RECORDING", "M_PRE_EVIDENCE", "M0B_CROSS_DEVICE", "FIRE_START_SCOPE"}
+    open_gate_ids = {"FOLEY_RECORDING", "FOLEY_HUMAN_REVIEW", "M_PRE_EVIDENCE", "M0B_CROSS_DEVICE", "FIRE_START_SCOPE"}
     for gate_id in open_gate_ids:
         if by_id.get(gate_id, {}).get("gateSatisfied") is not False:
             errors.append(f"{gate_id}: real-world gate must remain explicitly open")
 
     blocked = data.get("blockedByEvidence")
-    if not isinstance(blocked, list) or "actual physical Foley recording" not in blocked:
-        errors.append("blockedByEvidence must explicitly retain actual physical Foley recording")
+    if not isinstance(blocked, list):
+        errors.append("blockedByEvidence must be a list")
+    else:
+        for marker in ("actual physical Foley recording", "actual human Foley material/variation/weather review"):
+            if marker not in blocked:
+                errors.append(f"blockedByEvidence missing: {marker}")
 
     if errors:
         for error in errors:
@@ -125,7 +134,7 @@ def main() -> int:
         print(f"Non-Unity capability matrix FAILED: {len(errors)} error(s).")
         return 1
 
-    print(f"Non-Unity capability matrix OK: {len(lanes)} lanes; 27-source acquisition review + 13-cue/53-take Foley boundary current; real-world gates remain open.")
+    print(f"Non-Unity capability matrix OK: {len(lanes)} lanes; 27-source acquisition review plus 13-cue/53-take Foley recording+human-review boundaries current; real-world gates remain open.")
     return 0
 
 
