@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "updated": "2026-08-14",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "status": "tooling-reconciled-human-device-owner-gates-open",
+  "sourceState": "content/source_inventory.source.json",
+  "rule": "Tooling readiness never implies human approval, device evidence, runtime integration or release approval.",
+  "lanes": [
+    {
+      "id": "AUDIO_SOURCE_AUDITION_PACK",
+      "status": "reproducible-pack-builder-ready-no-human-review",
+      "contract": "content/audio/listening_qa.source.json",
+      "operatorDoc": "docs/67_AUDIO_SOURCE_AUDITION_PACK.md",
+      "tool": "tools/build_audio_source_audition_pack.py",
+      "validator": "tools/validate_audio_audition_pack_contract.py",
+      "expectedSourceCount": 25,
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "Build the review pack from acquired artifacts and obtain actual human shortlist evidence."
+    },
+    {
+      "id": "RADIO_VO_RECORDING",
+      "status": "operator-ready-not-recorded",
+      "contract": "content/audio/radio_vo_session_contract.source.json",
+      "operatorDoc": "docs/66_RADIO_VO_RECORDING_INTAKE.md",
+      "tool": "tools/prepare_radio_vo_session.py",
+      "validator": "tools/validate_radio_vo_session.py",
+      "expectedCueCount": 9,
+      "expectedTakeCount": 27,
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "Record three authorized clean takes for each of the nine canonical cues."
+    },
+    {
+      "id": "RADIO_VO_HUMAN_REVIEW",
+      "status": "review-tooling-ready-no-human-selection",
+      "contract": "content/audio/radio_vo_human_review_contract.source.json",
+      "tool": "tools/prepare_radio_vo_human_review.py",
+      "normalizer": "tools/normalize_radio_vo_human_review.py",
+      "validator": "tools/validate_radio_vo_human_review_contract.py",
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "After technical intake, human-review pronunciation, delivery, semantic parity, rights and one take per cue."
+    },
+    {
+      "id": "RADIO_VO_SELECTED_DRY",
+      "status": "copy-only-materializer-ready-no-selected-dry-source",
+      "contract": "content/audio/radio_vo_selected_dry_contract.source.json",
+      "tool": "tools/materialize_radio_vo_selected_dry.py",
+      "validator": "tools/validate_radio_vo_selected_dry_contract.py",
+      "expectedCueCount": 9,
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "Materialize only after a complete positive normalized human take selection."
+    },
+    {
+      "id": "MUSIC_CANDIDATE_AUDITION",
+      "status": "candidate-audition-ready-not-human-reviewed",
+      "contract": "content/audio/music_candidate_audit.source.json",
+      "operatorDoc": "docs/67_MUSIC_CANDIDATE_AUDITION.md",
+      "tool": "tools/prepare_music_candidate_review.py",
+      "normalizer": "tools/normalize_music_candidate_review.py",
+      "candidateCount": 14,
+      "canonicalMappedFamilyCount": 5,
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "Human-audition all 14 candidates; keep MUS_Warning_LowPulse unmapped."
+    },
+    {
+      "id": "MUSIC_CANONICAL_FAMILY_SELECTION",
+      "status": "family-selection-tooling-ready-not-selected",
+      "contract": "content/audio/music_family_selection_contract.source.json",
+      "tool": "tools/prepare_music_family_selection.py",
+      "normalizer": "tools/normalize_music_family_selection.py",
+      "validator": "tools/validate_music_family_selection_contract.py",
+      "canonicalFamilyCount": 5,
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "Select one eligible keep+pass candidate per canonical family, or record a negative decision."
+    },
+    {
+      "id": "MUSIC_SELECTED_SOURCE",
+      "status": "copy-only-materializer-ready-no-selected-music-source",
+      "contract": "content/audio/music_selected_source_contract.source.json",
+      "tool": "tools/materialize_music_selected_sources.py",
+      "expectedCanonicalCueCount": 5,
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "Materialize five byte-identical canonical music sources only after complete positive human family selection."
+    },
+    {
+      "id": "AUDIO_TYPED_SOURCE_APPROVAL",
+      "status": "typed-human-source-approval-tooling-ready-no-source-approved",
+      "contract": "content/audio/source_approval_contract.source.json",
+      "materializationContract": "content/audio/source_approved_materialization_contract.source.json",
+      "tool": "tools/prepare_audio_source_approval_review.py",
+      "normalizer": "tools/normalize_audio_source_approval_review.py",
+      "materializer": "tools/materialize_source_approved_audio.py",
+      "validator": "tools/validate_audio_source_approval_contract.py",
+      "currentAuditionSourceCount": 25,
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "Run typed human source approval on shortlisted sources; material match must remain >=3 and reviewer identity/timestamp are mandatory."
+    },
+    {
+      "id": "AUDIO_DERIVED_MASTER",
+      "status": "derived-master-intake-review-tooling-ready-no-master-approved",
+      "contract": "content/audio/derived_master_contract.source.json",
+      "technicalTool": "tools/validate_audio_derived_master_submission.py",
+      "reviewTool": "tools/prepare_audio_derived_master_review.py",
+      "normalizer": "tools/normalize_audio_derived_master_review.py",
+      "materializer": "tools/materialize_derived_master_approved_audio.py",
+      "validator": "tools/validate_audio_derived_master_contract.py",
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "For actual edits, submit explicit recipes and 48k/24-bit PCM masters, pass technical intake, then repeat all eight human listening checks before approval."
+    },
+    {
+      "id": "M_PRE_EVIDENCE",
+      "status": "bundle-tooling-ready-no-human-evidence",
+      "contract": "content/mpre/evidence_bundle_contract.source.json",
+      "tool": "tools/package_mpre_evidence.py",
+      "validator": "tools/validate_mpre_evidence_bundle.py",
+      "issue": 7,
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "Run three real human sessions with at least two tester pairs and package the actual evidence."
+    },
+    {
+      "id": "M0B_CROSS_DEVICE",
+      "status": "physical-device-evidence-pending",
+      "issue": 3,
+      "owner": "Claude/device",
+      "deviceEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "Collect real Quest 2/Quest 3 cross-device evidence; synthetic checks do not close this gate."
+    },
+    {
+      "id": "FIRE_START_SCOPE",
+      "status": "owner-decision-pending",
+      "issue": 8,
+      "owner": "Anders",
+      "ownerDecisionRequired": true,
+      "gateSatisfied": false,
+      "next": "Explicitly choose remove/skip, minimal onboarding beat, or full PO-044 before scope/totals change."
+    }
+  ],
+  "blockedByEvidence": [
+    "actual human listening/selection",
+    "actual authorized voice recording",
+    "actual M-Pre human sessions",
+    "actual Quest 2/Quest 3 device evidence",
+    "owner fire-start disposition"
+  ],
+  "runtimeBoundary": "Claude owns Unity/runtime/editor/XR/Fusion/C#/build/device implementation and physical Quest QA."
+}
