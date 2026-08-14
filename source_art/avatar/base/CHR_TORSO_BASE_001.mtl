@@ -1,0 +1,4 @@
+# PROJECT OEN neutral torso material reference
+newmtl TORSO_NEUTRAL
+Kd 0.31 0.34 0.33
+Ns 10
