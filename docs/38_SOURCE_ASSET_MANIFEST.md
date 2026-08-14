@@ -59,13 +59,13 @@ Produktion kan være gated, men specifikationen må være klar tidligere.
 | ID | Navn | Pri. | Funktion | Source-leverance | Status |
 |---|---|---:|---|---|---|
 | `ENV_BEACH_CAMP_001` | Strand/lejr base kit | A | Primært hubområde, intro, planning, storm | layout/state geometry | **Production source produceret** (`source_art/environment/a4/production/ENV_BEACH_CAMP_001.obj`) |
-| `ENV_WRECKAGE_001` | Vrag-landmark | A | Visuelt landmark og intro-kontekst | hero silhouette/reference | **Source reference produceret** |
+| `ENV_WRECKAGE_001` | Vrag-landmark | A | Visuelt landmark og intro-kontekst | hero silhouette/reference | **Production source produceret** (`source_art/props/a2/production/ENV_WRECKAGE_001.obj`) |
 | `ENV_CAMP_GROUND_001` | Lejrterræn/underlag | A | Grounding af camp, byggezoner | dry/wet material/readability geometry | **Production source produceret** (`source_art/environment/a4/production/ENV_CAMP_GROUND_001.obj`) |
 | `ENV_JUNGLE_PATH_001` | Junglesti kit | B | Gathering/exploration | path/readability geometry | **Production source produceret** (`source_art/environment/b1/production/ENV_JUNGLE_PATH_001.obj`) |
 | `ENV_RAVINE_001` | Kløft-kit | B | Ravine rescue | route/role/readability geometry | **Production source produceret** (`source_art/environment/b1/production/ENV_RAVINE_001.obj`) |
 | `ENV_RIDGE_001` | Højderyg/udsigt | B | Signal-/skibsruteinformation | vista/readability geometry | **Production source produceret** (`source_art/environment/b1/production/ENV_RIDGE_001.obj`) |
 | `ENV_STORM_CAMP_001` | Stormvariant af camp | A | M5 finale | damaged/wet state geometry | **Production source produceret** (`source_art/environment/a4/production/ENV_STORM_CAMP_001.obj`) |
-| `ENV_EPILOGUE_001` | Epilog-/lejrbålsområde | C | Efterspil/finale | mood/world concept | **Source reference produceret** (`source_art/environment/c1/ENV_EPILOGUE_001.svg`); reuse-first existing camp |
+| `ENV_EPILOGUE_001` | Epilog-/lejrbålsområde | C | Efterspil/finale | reuse-first mood/world overlay | **Production source produceret** (`source_art/environment/c1/ENV_EPILOGUE_001.obj` + `.mtl`; reference `source_art/environment/c1/ENV_EPILOGUE_001.svg` retained); reuse-first existing camp |
 
 ## Miljøfamilier
 
@@ -83,16 +83,16 @@ Alle miljøkits skal visuelt hænge sammen via:
 
 | ID | Navn | Pri. | Gameplayfunktion | Varianter/states | Status |
 |---|---|---:|---|---|---|
-| `PRP_FIREPIT_001` | Lejrbål | A | Hub, save-/statuspunkt | cold / ember / small / strong | **Source master produceret** (`source_art/props/a5/PRP_FIREPIT_001.obj`); manual fire-start remains owner-gated |
-| `PRP_SHELTER_FRAME_001` | Shelter frame | A | Bygge-/stormstate | stage 0-3 | **Source reference produceret** |
-| `PRP_SHELTER_TARP_001` | Presenning/tagdug | A | Shelter og stormfeedback | dry / wet / torn | **Source reference produceret** |
-| `PRP_SHELTER_BEAM_001` | Bærende bjælke | A | Tohåndsstabilisering | intact / damaged | **Source reference produceret** |
-| `PRP_SHELTER_ROPE_001` | Shelter-reb | A | Binding/repair | loose / tensioned / tied | **Source reference produceret** |
-| `PRP_SIGNAL_FRAME_001` | Signalstativ | A | Finaleprogression | stage 0-3 | **Source reference produceret** (`SIGNAL_FRAME_REFERENCE_001.svg`) |
+| `PRP_FIREPIT_001` | Lejrbål | A | Hub, save-/statuspunkt | cold / ember / small / strong | **Production source produceret** (`source_art/props/a2/production/PRP_FIREPIT_001.obj` and UV/MTL duplicate `source_art/props/a5/PRP_FIREPIT_001.obj`); manual fire-start remains owner-gated |
+| `PRP_SHELTER_FRAME_001` | Shelter frame | A | Bygge-/stormstate | stage 0-3 | **Production source produceret** (`source_art/props/a2/production/PRP_SHELTER_FRAME_001.obj`) |
+| `PRP_SHELTER_TARP_001` | Presenning/tagdug | A | Shelter og stormfeedback | dry / wet / torn | **Three production state sources produced** (`source_art/props/a2/production/PRP_SHELTER_TARP_001_*.obj`) |
+| `PRP_SHELTER_BEAM_001` | Bærende bjælke | A | Tohåndsstabilisering | intact / damaged | **Production source produceret** (`source_art/props/a2/production/PRP_SHELTER_BEAM_001.obj`) |
+| `PRP_SHELTER_ROPE_001` | Shelter-reb | A | Binding/repair | loose / tensioned / tied | **Production source produceret** (`source_art/props/a2/production/PRP_SHELTER_ROPE_001.obj`) |
+| `PRP_SIGNAL_FRAME_001` | Signalstativ | A | Finaleprogression | stage 0-3 | **Production source produceret** (`source_art/props/a2/production/PRP_SIGNAL_FRAME_001.obj`; reference retained) |
 | `PRP_SIGNAL_FUEL_001` | Signalbrændsel | A | Final signal | dry / wet | **Source master produceret** (`source_art/props/a5/PRP_SIGNAL_FUEL_001.obj`) |
-| `PRP_PLAN_TABLE_001` | Planlægningsbord | A | Fire effort markers/cards | neutral table + snap areas | **Source reference produceret** (A2 concept) |
-| `PRP_RADIO_001` | Radio | A | Narrative/status/finale | dead / weak / active | **Source reference produceret** (`RADIO_SOURCE_REFERENCE_001.svg`) |
-| `PRP_HEAVY_CRATE_001` | Tung kasse | A | Intro + kollapsgenbrug | closed / opened | **Source reference produceret** (A2 concept) |
+| `PRP_PLAN_TABLE_001` | Planlægningsbord | A | Fire effort markers/cards | neutral table + snap areas | **Production source produceret** (`source_art/props/a2/production/PRP_PLAN_TABLE_001.obj`) |
+| `PRP_RADIO_001` | Radio | A | Narrative/status/finale | dead / weak / active | **Production source produceret** (`source_art/props/a2/production/PRP_RADIO_001.obj`; reference retained) |
+| `PRP_HEAVY_CRATE_001` | Tung kasse | A | Intro + kollapsgenbrug | closed / opened | **Production source produceret** (`source_art/props/a2/production/PRP_HEAVY_CRATE_001.obj`) |
 | `PRP_SUPPLY_CRATE_001` | Forsyningskasse | B | Shared resources | open / sealed | **Source master produceret** (`source_art/props/b1/`) |
 | `PRP_WATERPROOF_ENDING_CRATE_001` | Vandtæt finalekasse | P | Personalization hook | neutral / personal | **Source master produceret** (`source_art/props/a5/PRP_WATERPROOF_ENDING_CRATE_001.obj`); private payload remains external |
 
@@ -107,11 +107,11 @@ Alle miljøkits skal visuelt hænge sammen via:
 | `ITM_FOOD_PARCEL_001` | Mad/forsyning | A | Food security | lukket pose/kasse; ikke små items | **Source master produceret** |
 | `ITM_HERB_BUNDLE_001` | Urter | B | Behandling | ikonisk bladform + labelform | **Source master produceret** |
 | `ITM_GENERAL_SUPPLIES_001` | Supplies bundle | A | General resource pool | tydeligt generisk kit | **Source master produceret** |
-| `ITM_EMBER_CARRIER_001` | Gløde-/ildbærer | A | Signal-finale | tydelig bærer/state | **Source master produceret** (`source_art/items/a5/ITM_EMBER_CARRIER_001.obj`) |
-| `ITM_TINDER_001` | Tinder/tørt materiale | A | Fire-start | stort, gribbart bundt | **Source master produceret** (`source_art/props/a2/`) |
-| `ITM_CLOTH_001` | Klud | A | Intro/crafting | foldet, tydelig tekstilform | **Source master produceret** |
-| `ITM_MAP_FRAGMENT_001` | Kortfragment | A | Intro/narrative | stor læsbar grafisk flade | **Source master produceret** |
-| `ITM_RADIO_BATTERY_001` | Radio-strømkilde | B | Narrative progression | tydelig socket-form | **Source master produceret** |
+| `ITM_EMBER_CARRIER_001` | Gløde-/ildbærer | A | Signal-finale | tydelig bærer/state | **UV-mapped production source produceret** (`source_art/items/a5/ITM_EMBER_CARRIER_001.obj`) |
+| `ITM_TINDER_001` | Tinder/tørt materiale | A | Fire-start | stort, gribbart bundt | **UV-mapped production source produceret** (`source_art/props/a2/ITM_TINDER_001.obj`) |
+| `ITM_CLOTH_001` | Klud | A | Intro/crafting | foldet, tydelig tekstilform | **UV-mapped production source produceret** (`source_art/items/a5/ITM_CLOTH_001.obj`) |
+| `ITM_MAP_FRAGMENT_001` | Kortfragment | A | Intro/narrative | stor læsbar grafisk flade | **UV-mapped production source produceret** (`source_art/items/a5/ITM_MAP_FRAGMENT_001.obj`) |
+| `ITM_RADIO_BATTERY_001` | Radio-strømkilde | B | Narrative progression | tydelig socket-form | **UV-mapped production source produceret** (`source_art/items/a5/ITM_RADIO_BATTERY_001.obj`) |
 
 ---
 
@@ -119,10 +119,10 @@ Alle miljøkits skal visuelt hænge sammen via:
 
 | ID | Navn | Pri. | Funktion | Designkrav | Status |
 |---|---|---:|---|---|---|
-| `ITM_FIRESTEEL_001` | Ildstål | A | Fire-start | overdimensioneret greb, tydelig strike-zone | **Source master produceret / Gated af issue #8** |
-| `ITM_KNIFE_001` | Kniv/værktøj | B | Crafting/fiber | utility-look, ikke våbenfokus | **Source master produceret** (`source_art/items/b1/ITM_KNIFE_001.obj`) |
-| `ITM_HAMMER_001` | Hammer/mallet | B | Repair/build | stor kontaktflade | **Source master produceret** (`source_art/items/a5/ITM_HAMMER_001.obj`) |
-| `ITM_ROPE_COIL_001` | Rebspole | A | Binding/ravine | stor coil, tydelig endeføring | **Source master produceret** |
+| `ITM_FIRESTEEL_001` | Ildstål | A | Fire-start | overdimensioneret greb, tydelig strike-zone | **UV-mapped production source produceret / Gated af issue #8** (`source_art/props/a2/ITM_FIRESTEEL_001.obj`) |
+| `ITM_KNIFE_001` | Kniv/værktøj | B | Crafting/fiber | utility-look, ikke våbenfokus | **UV-mapped production source produceret** (`source_art/items/b1/ITM_KNIFE_001.obj`) |
+| `ITM_HAMMER_001` | Hammer/mallet | B | Repair/build | stor kontaktflade | **UV-mapped production source produceret** (`source_art/items/a5/ITM_HAMMER_001.obj`) |
+| `ITM_ROPE_COIL_001` | Rebspole | A | Binding/ravine | stor coil, tydelig endeføring | **UV-mapped production source produceret** (`source_art/props/a2/ITM_ROPE_COIL_001.obj`) |
 | `PRP_RAVINE_ANCHOR_001` | Reb-anker | B | Rescue | høj visuel kontrast/form | **Production source produceret** (`source_art/environment/b1/production/PRP_RAVINE_ANCHOR_001.obj`) |
 | `PRP_RAVINE_GUIDE_MARKERS_001` | Sikre greb/markører | B | Sekundær rolle | form + ikon, ikke farve-only | **Production source produceret** (`source_art/environment/b1/production/PRP_RAVINE_GUIDE_MARKERS_001.obj`) |
 | `PRP_WIND_SHIELD_001` | Ild-/glødeskærm | A | Fire/storm | stor fysisk skærm | **Source master produceret** (`source_art/props/a5/*.obj`) |

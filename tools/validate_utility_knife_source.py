@@ -10,7 +10,11 @@ def main():
     errors = []
     text = OBJ.read_text(encoding="utf-8")
     vertices = []
-    groups = {line.split(maxsplit=1)[1] for line in text.splitlines() if line.startswith("g ")}
+    groups = {
+        line.split(maxsplit=1)[1]
+        for line in text.splitlines()
+        if line.startswith(("g ", "o "))
+    }
     for line in text.splitlines():
         if line.startswith("v "):
             _, x, y, z = line.split()
@@ -28,7 +32,7 @@ def main():
         if required not in groups:
             errors.append(f"missing group {required}")
     data = json.loads(CONTRACT.read_text(encoding="utf-8"))
-    if data.get("status") != "source-ready-unity-pending":
+    if data.get("status") != "production-source-ready-unity-pending":
         errors.append("bad contract status")
     nwa = " ".join(data["productIntent"].get("nonWeaponAffordance", [])).lower()
     if "blunt" not in nwa or "combat" not in nwa:

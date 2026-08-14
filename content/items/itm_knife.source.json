@@ -1,7 +1,7 @@
 {
   "id": "ITM_KNIFE_001",
   "version": 1,
-  "status": "source-ready-unity-pending",
+  "status": "production-source-ready-unity-pending",
   "priority": "B",
   "owner": "ChatGPT",
   "runtimeOwner": "Claude",

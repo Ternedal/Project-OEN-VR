@@ -19,22 +19,22 @@ Dette dokument er den aktuelle eksekveringsrækkefølge for non-Unity source-pro
 |---|---|---|
 | A1 UI/readability | **Produceret + source-QA** | Claude import/readability/device QA |
 | Neutral fallback | **Produceret + source-QA** | runtime fallback + M8 E2E |
-| A2 core props | **10 individual masters + firepit source mesh produceret** | Claude import/representation; PO-044 manual fire-start er stadig owner-gated |
-| A3 storm VFX | **Produceret source-reference** | Claude runtime VFX/performance tuning |
-| A4 camp | **Source references produceret** | final world/material polish venter stabil geometry/evidence |
-| B1 environment | **Source references produceret** | Claude world implementation |
-| B1 resource set | **Core set + utility/fiber tool source produceret** | Claude runtime handoff/device QA |
+| A2 core props | **17 UV-mapped production meshes + references produceret** | Claude import/representation; PO-044 manual fire-start er stadig owner-gated |
+| A3 storm VFX | **7 deterministic production PNG sprites + references** | Claude runtime VFX/performance tuning |
+| A4 camp | **3 environment production meshes + 5 PNG sources** | Claude world/material assembly og device QA |
+| B1 environment | **5 environment/interaction production meshes + 5 PNG sources** | Claude world implementation |
+| B1 resource set | **6 UV-mapped production item meshes** | Claude runtime handoff/device QA |
 | B2 event presentation | **7 masters produceret + mapped** | Claude binding til event contract |
 | Materials | **3 families produceret** | Claude Unity material/shader implementation |
-| Character readability | **P1/P2 hands + neutral torso source reference produceret** | Claude runtime representation/device QA |
-| A5 utility/release source | **Expanded source set + ending crate produceret** | Unity import/binding/device QA |
-| C1 epilogue | **Reuse-first post-storm mood/reference produceret** | Claude ending-state layout/light/weather/device QA |
+| Character readability | **P1/P2 hands + neutral torso production meshes produceret** | Claude runtime representation/device QA |
+| A5 utility/release source | **5 item + 5 prop UV-mapped production meshes** | Unity import/binding/device QA |
+| C1 epilogue | **Reuse-first post-storm production overlay + reference produceret** | Claude ending-state assembly/light/weather/device QA |
 | AU-1 feedback | **12 production WAV masters committed + deterministically CI validated** | Claude runtime mix/binding |
 | AU-2 natural Foley | **Recording plan + acquired wood/cloth source packs** | human audition; record/edit/master where pack fit is insufficient |
 | World ambience | **Core + ocean extension originals acquired; ikke listening-approved** | human listening/source selection |
 | PR #6 env candidates | **28 WAV artifact audited; ikke approved** | PR re-sync + headset/listening QA |
 | Radio VO | **Script/queue ready; ikke optaget** | dry source recording |
-| Music | **Direction ready; ikke produceret** | composition efter timing evidence |
+| Music | **14 deterministic candidates produceret/auditeret; ikke human-selected** | human audition og 5 canonical family selections |
 | Personalization | **Contract + neutral fallback ready** | konkret gaveindhold holdes uden for public repo |
 
 ---
@@ -54,7 +54,7 @@ Producerede A2 individual masters:
 - `PRP_SHELTER_FRAME_001`
 - `PRP_SIGNAL_FRAME_001`
 
-`PRP_FIREPIT_001` har nu også en project-original low-complexity OBJ source mesh under `source_art/props/a5/`.
+Alle ti individual masters har nu konkret OBJ/MTL-handoff, og Camp-familien har fjorten yderligere production meshes under `source_art/props/a2/production/`. `PRP_FIREPIT_001` findes også som project-original UV-mapped A5 source.
 
 Firepit-meshen er en world/fire-state reference med lav stenring og centralt fuel-referenceområde. Den indeholder ingen særskilt strike-zone eller manuel tændingsmekanik.
 
@@ -64,7 +64,7 @@ Det ændrer **ikke** issue #8: PO-044 manual fire-start er fortsat owner-gated o
 
 # 3. A3 — storm source
 
-Produceret SVG coverage:
+Produceret SVG coverage plus matchende deterministic PNG production sprites:
 
 - `VFX_RAIN_001`
 - `VFX_WIND_DEBRIS_001`
@@ -82,7 +82,7 @@ Final VFX polish venter Claude/runtime/Quest 2 evidence.
 
 # 4. Environment / epilogue
 
-Camp, wreckage, storm-camp, radio og signal source references findes.
+Camp, wreckage, storm-camp, radio og signal har konkrete OBJ/MTL production sources; references er bevaret som art-direction records.
 
 Epilog-produktkontrakten er klar i:
 
@@ -94,7 +94,7 @@ Epilog-produktkontrakten er klar i:
 
 `PRP_WATERPROOF_ENDING_CRATE_001` har nu en project-original OBJ source mesh med separate body/lid/gasket/latches/handles og neutrale hook-slot references. Den indeholder ingen private thumbnails, navne eller gaveindhold; sealed/available/open runtime states og hook-binding er Claude-lane.
 
-Dedicated post-storm mood/dressing reference er nu produceret som `source_art/environment/c1/ENV_EPILOGUE_001.svg`.
+Dedicated post-storm mood/dressing reference er bevaret som `source_art/environment/c1/ENV_EPILOGUE_001.svg`, og den konkrete reuse-first overlay findes som `ENV_EPILOGUE_001.obj/.mtl` med camp footprint, receding wetness, dawn sightline, signal causality og ending-crate socket.
 
 Neutral ending-content er allerede produceret; final lighting/weather/material implementation remains Claude-lane.
 

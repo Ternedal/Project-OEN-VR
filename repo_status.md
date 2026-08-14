@@ -53,6 +53,19 @@ N-002–N-010 foundation er leveret og valideret: source-asset/audio-manifests, 
 
 Producer kun nyt source/content, når et konkret dokumenteret gap reduceres.
 
+## Grafik/source-produktion
+
+Repoet indeholder nu konkrete importklare non-Unity masters, ikke kun briefs:
+
+- **45 OBJ** source meshes med matchende materialehandoff, herunder Camp, B1, A5, avatar og C1-epilog;
+- **22 PNG** texture/VFX sources;
+- A2-, B1-, A4-, A5-, avatar- og C1-pakker har eksplicitte produktionsvalidatorer;
+- de sidste reference-only priority interactables (`ITM_FIRESTEEL_001`, `ITM_TINDER_001`, `ITM_ROPE_COIL_001`, `ITM_CLOTH_001`, `ITM_MAP_FRAGMENT_001`, `ITM_RADIO_BATTERY_001`) har nu UV-mapped OBJ/MTL source geometry;
+- de fem A5-props og utility knife/repair mallet/ember carrier er erstattet eller opgraderet til UV/materiale/semantic-part handoff;
+- `ENV_EPILOGUE_001` har en reuse-first production overlay, ikke kun et mood board.
+
+Dette lukker den automatiserbare source-art-produktion. Unity-import, shader/prefab/collider/rig/VFX-binding og Quest-visuel acceptance er fortsat runtime/device gates.
+
 ---
 
 # Audio — faktisk pipeline-status
@@ -81,7 +94,7 @@ Recording/intake:
 - `tools/prepare_foley_session.py`
 - `tools/validate_foley_session.py`
 
-Shape er **13 canonical cues / 53 distinct physical raw take slots**. Technical intake kræver 48 kHz / 24-bit mono PCM, no full-scale samples, current session/provenance bindings og unikke raw bytes.
+Shape er **17 canonical cues / 73 distinct physical raw take slots**. Technical intake kræver 48 kHz / 24-bit mono PCM, no full-scale samples, current session/provenance bindings og unikke raw bytes.
 
 Human review/promotion:
 
@@ -128,7 +141,7 @@ PR #5 og #6 forbliver fysisk-QA-blokerede. Repo/CI-evidence alene må ikke bruge
 
 # CI / kvalitet
 
-Aktive guards omfatter bl.a. Core, handoff, source inventory, non-Unity capability/gap/status, field acquisition, 27-source audition/approval, derived masters, **Foley 13/53 recording intake + human review/source promotion**, radio VO, music og M-Pre evidence tooling.
+Aktive guards omfatter bl.a. Core, handoff, source inventory, non-Unity capability/gap/status, field acquisition, 27-source audition/approval, derived masters, **Foley 17/73 recording intake + human review/source promotion**, radio VO, music, M-Pre evidence tooling og de konkrete source-mesh/VFX/audio-master packs.
 
 Grøn CI beviser contract/repository-integritet; ikke menneskelig listening/playtest eller fysisk Quest evidence.
 

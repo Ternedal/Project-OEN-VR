@@ -20,6 +20,8 @@ on:
       - 'tools/validate_b1_environment_meshes.py'
       - 'tools/validate_a4_camp_environment_meshes.py'
       - 'tools/validate_a3_vfx_sprites.py'
+      - 'tools/generate_extended_source_meshes.py'
+      - 'tools/validate_extended_source_meshes.py'
       - '.github/workflows/non-unity-source-validation.yml'
   pull_request:
     paths:
@@ -39,6 +41,8 @@ on:
       - 'tools/validate_b1_environment_meshes.py'
       - 'tools/validate_a4_camp_environment_meshes.py'
       - 'tools/validate_a3_vfx_sprites.py'
+      - 'tools/generate_extended_source_meshes.py'
+      - 'tools/validate_extended_source_meshes.py'
       - '.github/workflows/non-unity-source-validation.yml'
 
 permissions:
@@ -78,3 +82,9 @@ jobs:
         run: python tools/validate_a4_camp_environment_meshes.py
       - name: Validate A3 VFX production sprites
         run: python tools/validate_a3_vfx_sprites.py
+      - name: Regenerate extended production sources
+        run: python tools/generate_extended_source_meshes.py
+      - name: Require deterministic extended mesh outputs
+        run: git diff --exit-code -- source_art/props/a2 source_art/items/a5 source_art/items/b1 source_art/props/a5 source_art/environment/c1
+      - name: Validate extended production sources
+        run: python tools/validate_extended_source_meshes.py

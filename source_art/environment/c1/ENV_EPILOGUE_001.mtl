@@ -1,0 +1,19 @@
+# PROJECT OEN reuse-first epilogue source materials; Unity shaders remain runtime-owned.
+newmtl MAT_SAND_DRY
+Kd 0.62 0.54 0.39
+map_Kd ../a4/production/textures/MAT_CAMP_DRY_SAND_001.png
+newmtl MAT_SAND_WET
+Kd 0.31 0.31 0.27
+map_Kd ../a4/production/textures/MAT_CAMP_WET_SAND_001.png
+newmtl MAT_WOOD
+Kd 0.49 0.32 0.20
+map_Kd ../../props/a2/production/textures/MAT_WEATHERED_WOOD_001.png
+newmtl MAT_STONE
+Kd 0.29 0.29 0.27
+map_Kd ../../props/a2/production/textures/MAT_BEACH_STONE_001.png
+newmtl MAT_CANVAS
+Kd 0.62 0.53 0.39
+map_Kd ../../props/a2/production/textures/MAT_AGED_CANVAS_001.png
+newmtl MAT_METAL
+Kd 0.20 0.21 0.20
+map_Kd ../../props/a2/production/textures/MAT_WORN_IRON_001.png

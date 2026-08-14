@@ -2,7 +2,11 @@
 - Asset: `ENV_EPILOGUE_001`
 - Owner: ChatGPT / PROJECT ØEN non-Unity source
 - Created: 2026-08-14
-- Method: original SVG mood/readability reference
+- Method: original SVG mood/readability reference plus deterministic metre-scaled OBJ/MTL production overlay
+- Production files: `ENV_EPILOGUE_001.obj`, `ENV_EPILOGUE_001.mtl`
+- Material inputs: project-owned A2/A4 production PNG textures
+- Semantic geometry: existing camp footprint, receding wetness, dawn route, signal causality, epilogue focus and ending-crate socket
 - Third-party assets: none
 - Private content: none
 - Runtime/Unity ownership: Claude
+- Status: production-source-ready; reuse-first Unity assembly and device QA pending
