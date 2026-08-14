@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "status": "human-review-tooling-ready-not-reviewed",
+  "owner": "ChatGPT",
+  "sessionRoot": "PrivateContent/RadioVOSession",
+  "requiredTechnicalReceiptStatus": "technical-intake-passed-not-listening-approved",
+  "reviewExport": {
+    "version": 1,
+    "status": "human-radio-vo-review-unvalidated"
+  },
+  "normalizedStatus": "human-review-evidence-unapproved",
+  "cueDecisionValues": [
+    "select",
+    "needs-rerecord",
+    "needs-more-listening"
+  ],
+  "checkIds": [
+    "PRONUNCIATION",
+    "DELIVERY",
+    "SEMANTIC_PARITY",
+    "NO_CRITICAL_ADLIB"
+  ],
+  "checkResultValues": [
+    "pass",
+    "fail",
+    "needs-more-listening"
+  ],
+  "rightsDecisionValues": [
+    "accepted",
+    "rejected",
+    "needs-review"
+  ],
+  "completeEvidenceRule": "reviewerAlias is non-empty, every cue has a decision, every check has a result, and rightsDecision is non-empty. Complete evidence may still be negative and must not be rewritten into a passing result.",
+  "readyForDryMasterSelectionRequires": [
+    "complete human evidence",
+    "rightsDecision == accepted",
+    "all 9 cue decisions == select",
+    "every selected filename belongs to that cue's 3 technically accepted takes",
+    "every selected SHA-256 matches the technical intake receipt",
+    "all four human checks == pass for every cue"
+  ],
+  "bindings": [
+    "radio_vo_intake_receipt.json SHA-256",
+    "recording_session.json SHA-256",
+    "performer_provenance.json SHA-256",
+    "content/audio/radio_vo_recording_queue.source.json SHA-256",
+    "content/localization/da.source.json SHA-256",
+    "all 27 take filename -> SHA-256 pairs"
+  ],
+  "rules": [
+    "Preparation fails if technical receipt is not a clean 27/27 pass.",
+    "Preparation fails if any current canonical Danish line differs from the recording session spokenText.",
+    "Preparation verifies actual take bytes against the technical receipt before presenting them for review.",
+    "A completed human review can document rejection or rerecord needs; tooling never forces a positive result.",
+    "Normalization never promotes source-approved, derived-master-approved, Unity-integrated or release-approved status.",
+    "Claude owns derived radio treatment, runtime binding, subtitle timing and Quest intelligibility QA."
+  ]
+}
