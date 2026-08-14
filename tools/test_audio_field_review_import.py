@@ -72,12 +72,24 @@ class Tests(unittest.TestCase):
         with self.assertRaises(mod.ReviewError):
             mod.normalize_field(payload, self.context())
 
-    def test_project_receipt_has_six_pinned_field_originals(self):
+    def test_project_receipt_matches_canonical_field_review_group(self):
         receipt_path = mod.ROOT / "content/audio/acquisition_field_backlog_receipt.source.json"
-        if not receipt_path.exists():
+        listening_path = mod.ROOT / "content/audio/listening_qa.source.json"
+        if not receipt_path.exists() or not listening_path.exists():
             self.skipTest("repo fixtures unavailable")
         context = mod.field_context(mod.load_json(receipt_path))
-        self.assertEqual(6, len(context))
+        listening = mod.load_json(listening_path)
+        groups = {
+            group.get("id"): group
+            for group in listening.get("reviewGroups", [])
+            if isinstance(group, dict) and isinstance(group.get("id"), str)
+        }
+        field_group = groups.get("FIELD_BACKLOG_ACQUIRED")
+        self.assertIsInstance(field_group, dict)
+        targets = field_group.get("targets")
+        self.assertIsInstance(targets, list)
+        self.assertEqual(set(context), set(targets))
+        self.assertEqual(len(targets), len(set(targets)))
         self.assertTrue(all(len(record["sha256"]) == 64 for record in context.values()))
         self.assertTrue(all(record["status"] == mod.EXPECTED_SOURCE_STATUS for record in context.values()))
 
