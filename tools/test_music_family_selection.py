@@ -153,9 +153,10 @@ def main() -> int:
         template = preparer.prepare(audition, candidates, repo)
         assert len(template["families"]) == 5
         assert len(template["bindings"]["candidateHashes"]) == 14
+        assert "MUS_Warning_LowPulse_01.wav" in template["bindings"]["candidateHashes"]
+        assert all(item["candidateFamily"] != "MUS_Warning_LowPulse" for item in template["families"])
         html = (candidates / "music_family_selection.html").read_text(encoding="utf-8")
         assert "MUS_CAMP_BASE_001" in html
-        assert "MUS_Warning_LowPulse_01.wav" not in json.dumps(template)
 
         positive_payload = fill_selection(template, mappings)
         positive = normalizer.normalize(positive_payload, audition, repo, require_complete=True)
@@ -186,7 +187,7 @@ def main() -> int:
         assert receipt["selectedCount"] == 5
         assert receipt["unmappedFamiliesMaterialized"] == []
         assert receipt["sourceApprovalPromoted"] is False
-        assert not (output / "MUS_Warning_LowPulse.wav").exists()
+        assert not any(path.name.startswith("MUS_Warning_LowPulse") for path in output.iterdir())
         for record in receipt["records"]:
             src = candidates / record["sourceFilename"]
             dst = output / record["selectedSourceFilename"]
@@ -202,7 +203,6 @@ def main() -> int:
         else:
             raise AssertionError("negative selection must not materialize")
 
-        chosen = candidates / mappings[0][1] / "not-used"
         actual = candidates / f"{mappings[0][1]}_01.wav"
         actual.write_bytes(actual.read_bytes() + b"tamper")
         try:
