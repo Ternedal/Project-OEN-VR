@@ -1,0 +1,49 @@
+name: Validate status entrypoints
+
+on:
+  pull_request:
+    paths:
+      - 'repo_status.md'
+      - 'docs/36_CHATGPT_WORKSTREAM.md'
+      - 'docs/37_NON_UNITY_GAP_AUDIT.md'
+      - 'content/non_unity_capability_matrix.source.json'
+      - 'content/audio/source_approval_contract.source.json'
+      - 'content/audio/derived_master_contract.source.json'
+      - 'content/audio/radio_vo_human_review_contract.source.json'
+      - 'content/audio/radio_vo_selected_dry_contract.source.json'
+      - 'content/audio/music_family_selection_contract.source.json'
+      - 'content/audio/music_selected_source_contract.source.json'
+      - 'tools/validate_status_entrypoints.py'
+      - '.github/workflows/status-entrypoints-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'repo_status.md'
+      - 'docs/36_CHATGPT_WORKSTREAM.md'
+      - 'docs/37_NON_UNITY_GAP_AUDIT.md'
+      - 'content/non_unity_capability_matrix.source.json'
+      - 'content/audio/source_approval_contract.source.json'
+      - 'content/audio/derived_master_contract.source.json'
+      - 'content/audio/radio_vo_human_review_contract.source.json'
+      - 'content/audio/radio_vo_selected_dry_contract.source.json'
+      - 'content/audio/music_family_selection_contract.source.json'
+      - 'content/audio/music_selected_source_contract.source.json'
+      - 'tools/validate_status_entrypoints.py'
+      - '.github/workflows/status-entrypoints-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile status validator
+        run: python -m py_compile tools/validate_status_entrypoints.py
+      - name: Validate status entrypoints
+        run: python tools/validate_status_entrypoints.py
