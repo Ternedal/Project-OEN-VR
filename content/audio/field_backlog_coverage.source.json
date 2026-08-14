@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "status": "source-coverage-tracked-not-approved",
   "owner": "ChatGPT",
   "runtimeOwner": "Claude",
@@ -47,8 +47,12 @@
     },
     {
       "eventId": "SFX_WTH_Storm_WindGust",
-      "status": "source-acquisition-pending",
-      "next": "Acquire natural outdoor gust attacks/bodies/tails without dominant surf, sirens or urban contamination."
+      "status": "acquired-candidate-human-listening-pending",
+      "sourceTarget": "SFX_WTH_WIND_FISTERRA_ALT_01",
+      "receipt": "content/audio/acquisition_field_backlog_receipt.source.json",
+      "sourceSha256": "7ea1fd527488b5cfada8545e6acaf73c22a9432a94eec94157e1c76d01e4ccdf",
+      "candidateFit": "Long natural public-domain stereo wind recording from Fisterra. It is a plausible source pool for storm gust attacks/bodies/tails, but source duration and location do not prove ten genuinely distinct usable gust events.",
+      "next": "Human listening and segmentation audit for clean outdoor gusts, contamination, headroom and genuinely distinct event shapes before derivation."
     },
     {
       "eventId": "SFX_WTH_Thunder_Near",
@@ -61,8 +65,21 @@
     },
     {
       "eventId": "SFX_NAT_Bird_ShoreCall",
-      "status": "source-acquisition-pending",
-      "next": "Acquire shore/coastal bird calls with direct provenance. Generic backyard birds and weak third-party-video provenance are not promoted as shore-call coverage."
+      "status": "acquired-candidate-human-listening-pending",
+      "sourceCandidates": [
+        {
+          "sourceTarget": "SFX_NAT_SHORE_GULL_ALT_01",
+          "receipt": "content/audio/acquisition_field_backlog_receipt.source.json",
+          "sourceSha256": "a1fb43d87b82defea6d4ccc70380431ac65f3ae98b4acbffc01478b81539b140"
+        },
+        {
+          "sourceTarget": "SFX_NAT_SHORE_GULL_ALT_02",
+          "receipt": "content/audio/acquisition_field_backlog_receipt.source.json",
+          "sourceSha256": "ccbd57767255152a4def3d5abc57719158bd294748a9da1acc1b064083d1575f"
+        }
+      ],
+      "candidateFit": "Two independently recorded public-domain Herring Gull source files with Bird/Gull/Shore provenance. Both are historical 22.05 kHz mono PDSounds-derived Ogg files and therefore need codec/context listening rather than automatic promotion.",
+      "next": "Human listening for call isolation, codec artifacts, background contamination and island-context fit. Preserve them as two natural source events; do not inflate variation count with pitch/gain-only copies."
     },
     {
       "eventId": "SFX_NAT_Insect_NightChirp",
@@ -85,8 +102,8 @@
   ],
   "summary": {
     "trackedRuntimeEvents": 11,
-    "acquiredSourceCandidatePendingHuman": 4,
-    "sourceAcquisitionPending": 7,
+    "acquiredSourceCandidatePendingHuman": 6,
+    "sourceAcquisitionPending": 5,
     "sourceApproved": 0,
     "runtimeProducedFromThisCoverage": 0
   }
