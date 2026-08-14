@@ -52,8 +52,12 @@
     },
     {
       "eventId": "SFX_WTH_Thunder_Near",
-      "status": "source-acquisition-pending",
-      "next": "Acquire multiple natural close thunder events with clean transients/tails. CC-BY or synthetic/plugin thunder is not accepted into the preferred CC0 natural-source lane."
+      "status": "acquired-candidate-human-listening-pending",
+      "sourceTarget": "SFX_WTH_THUNDER_ALT_01",
+      "receipt": "content/audio/acquisition_field_backlog_receipt.source.json",
+      "sourceSha256": "75c4d3911eedd1370db6aa30c90aee9e2eee3d18b429862eee6db221bcd0f421",
+      "candidateFit": "Natural public-domain thunder recorded in Southern Finland on Minidisc by the uploader. Metadata proves thunder and provenance, but not perceived near-event distance; decoded Vorbis also shows an explicit headroom risk that must be handled in any derivative.",
+      "next": "Human listening for perceived proximity, transient quality, contamination and natural tail. If selected, derive with explicit headroom and re-run listening QA."
     },
     {
       "eventId": "SFX_NAT_Bird_ShoreCall",
@@ -81,8 +85,8 @@
   ],
   "summary": {
     "trackedRuntimeEvents": 11,
-    "acquiredSourceCandidatePendingHuman": 3,
-    "sourceAcquisitionPending": 8,
+    "acquiredSourceCandidatePendingHuman": 4,
+    "sourceAcquisitionPending": 7,
     "sourceApproved": 0,
     "runtimeProducedFromThisCoverage": 0
   }
