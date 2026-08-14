@@ -11,7 +11,8 @@
       "SFX_NAT_Insect_NightChirp",
       "SFX_WTH_Thunder_Near",
       "SFX_NAT_Bird_ShoreCall",
-      "SFX_WTH_Storm_WindGust"
+      "SFX_WTH_Storm_WindGust",
+      "SFX_AMB_Jungle_DeepBed"
     ]
   },
   "policy": {
@@ -101,29 +102,32 @@
       "use": ["storm wind/gust source comparison", "possible natural gust attack/body/tail extraction"],
       "provenance": "Own-work wind recording from Fisterra by Escoitar.org, Soundscape of Galicia project; copyright holder released it into the public domain worldwide.",
       "caveat": "Long wind recording is not automatically a ten-variation gust set. Human listening must identify clean, genuinely different gust events and reject location-specific contamination or repeated edit patterns."
+    },
+    {
+      "target": "SFX_AMB_JUNGLE_DEEP_GUADELOUPE_ALT_01",
+      "runtimeEventCandidate": "SFX_AMB_Jungle_DeepBed",
+      "provider": "Wikimedia Commons / PDSounds",
+      "creator": "ezwa",
+      "title": "Walk in the rainforest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Walk_in_the_rainforest.ogg",
+      "directDownload": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Walk_in_the_rainforest.ogg",
+      "filename": "Walk_in_the_rainforest.ogg",
+      "license": "Public Domain",
+      "sourceFormat": "Ogg Vorbis; Commons reports 31 s / 121 kbps; historical PDSounds source was MP3 mono 44 kHz 128 kbps",
+      "priority": "B",
+      "use": ["tropical jungle/deep-bed source comparison", "possible low-detail bed or supporting fauna layer if human listening supports it"],
+      "provenance": "PDSounds recording by ezwa, described as sounds on a walk in the Guadeloupean rainforest; natural recording transferred to Wikimedia Commons and released into the public domain by its author.",
+      "caveat": "Metadata explicitly tags birds/birdsong and the recording was made while walking. Do not promote it as a stable deep bed if footsteps, handling noise or dominant close birds make the perspective too active; it is not a canopy-wind source."
     }
   ],
   "rejectedDuringResearch": [
-    {
-      "candidate": "Solo Seagull Sound Effects",
-      "reason": "OGA page is CC0-labelled, but uploader states the recordings originated in a third-party video shared with permission. Provenance chain is weaker than project policy requires for a new canonical source candidate."
-    },
-    {
-      "candidate": "rain and thunders",
-      "reason": "CC0 page, but thunder is described as built from plugins/mixed production rather than a clean natural thunder field source. Not suitable for the natural near-thunder source role."
-    },
-    {
-      "candidate": "Storm & Siren",
-      "reason": "Natural CC0 storm recording but deliberately contains repeated flood siren events, making it unsuitable as clean storm/thunder source material for the island context."
-    },
-    {
-      "candidate": "Wikimedia Commons File:Thunder.ogg",
-      "reason": "Natural thunder source but licensed CC BY 3.0/GFDL; the current preferred field-source lane accepts CC0 or Public Domain when an equally useful candidate is available."
-    },
-    {
-      "candidate": "Wikimedia Commons 20090610 0 ambience.ogg",
-      "reason": "Public-domain forest recording, but uploader documents substantial microphone noise and dominant crow interruptions; not promoted as a clean jungle/deep-bed source merely because tags mention jungle/nature."
-    }
+    {"candidate": "Solo Seagull Sound Effects", "reason": "OGA page is CC0-labelled, but uploader states the recordings originated in a third-party video shared with permission. Provenance chain is weaker than project policy requires for a new canonical source candidate."},
+    {"candidate": "rain and thunders", "reason": "CC0 page, but thunder is described as built from plugins/mixed production rather than a clean natural thunder field source. Not suitable for the natural near-thunder source role."},
+    {"candidate": "Storm & Siren", "reason": "Natural CC0 storm recording but deliberately contains repeated flood siren events, making it unsuitable as clean storm/thunder source material for the island context."},
+    {"candidate": "Wikimedia Commons File:Thunder.ogg", "reason": "Natural thunder source but licensed CC BY 3.0/GFDL; the current preferred field-source lane accepts CC0 or Public Domain when an equally useful candidate is available."},
+    {"candidate": "Wikimedia Commons 20090610 0 ambience.ogg", "reason": "Public-domain forest recording, but uploader documents substantial microphone noise and dominant crow interruptions; not promoted as a clean jungle/deep-bed source merely because tags mention jungle/nature."},
+    {"candidate": "Wikimedia Commons Howling wind.ogg", "reason": "CC0 own-work wind recording, but the source is wind howling in a building; the enclosed space identity is wrong for an open-island storm/coastal role."},
+    {"candidate": "Wikimedia Commons ocean-surface video sources", "reason": "Useful visual/ocean material but supplied as large Ogg Theora video containers rather than clean audio originals; not used as audio-source masters when better field-audio hygiene is required."}
   ],
   "rule": "A field-backlog candidate remains candidate-only until the acquisition workflow has captured exact bytes, technical metadata and SHA-256; human listening is still required before any source approval."
 }
