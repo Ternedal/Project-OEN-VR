@@ -64,6 +64,7 @@
       "id": "FIELD_BACKLOG_ACQUIRED",
       "source": "content/audio/acquisition_field_backlog_receipt.source.json",
       "targets": [
+        "SFX_AMB_BEACH_SC_ALT_01",
         "SFX_NAT_NIGHT_CRICKET_ALT_01",
         "SFX_WTH_THUNDER_ALT_01",
         "SFX_NAT_SHORE_GULL_ALT_01",
@@ -72,6 +73,7 @@
         "SFX_AMB_JUNGLE_DEEP_GUADELOUPE_ALT_01"
       ],
       "focus": [
+        "South Carolina beach source: whether usable coastal wind exists without surf becoming the wrong semantic layer",
         "cricket noise floor and biome fit",
         "thunder perceived proximity, transient/tail and headroom risk",
         "gull codec artifacts, call isolation and shore/island fit",
