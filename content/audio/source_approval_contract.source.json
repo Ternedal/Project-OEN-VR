@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "status": "typed-human-source-approval-tooling-ready-no-source-approved",
+  "owner": "ChatGPT",
+  "upstreamEvidence": {
+    "normalizedStatus": "human-review-evidence-unapproved",
+    "acceptedKinds": [
+      "main-acquired-originals",
+      "extension-source-selection",
+      "field-backlog-source-selection"
+    ],
+    "eligibleUpstreamDecisions": {
+      "main-acquired-originals": "candidate-pass",
+      "extension-source-selection": "keep",
+      "field-backlog-source-selection": "keep"
+    }
+  },
+  "reviewExport": {
+    "version": 1,
+    "status": "human-source-approval-review-unvalidated"
+  },
+  "normalizedStatus": "human-source-approval-evidence-evaluated-not-materialized",
+  "typedChecks": {
+    "CONTAMINATION": {"type":"categorical","allowed":["pass","fail"]},
+    "MATERIAL_MATCH": {"type":"rating","min":1,"max":5,"approvalMin":3},
+    "LOOP_OR_SLICE": {"type":"categorical","allowed":["pass","fail","not-applicable"]},
+    "NOISE_FLOOR": {"type":"categorical","allowed":["pass","fail"]},
+    "TRANSIENT_QUALITY": {"type":"categorical","allowed":["pass","fail","not-applicable"]},
+    "SPACE_IDENTITY": {"type":"categorical","allowed":["pass","fail"]},
+    "VARIATION_VALUE": {"type":"rating","min":1,"max":5},
+    "SPEECH_SPACE": {"type":"categorical","allowed":["pass","fail","not-applicable"]}
+  },
+  "sourceDecisionValues": [
+    "approve-source",
+    "reject-source",
+    "needs-more-listening"
+  ],
+  "sourceApprovedEligibilityRequires": [
+    "reviewerAlias is non-empty",
+    "all 8 typed checks are completed",
+    "sourceDecision == approve-source",
+    "license evidence is present in committed acquisition provenance",
+    "source SHA-256 matches committed acquisition/shortlist provenance",
+    "CONTAMINATION == pass",
+    "MATERIAL_MATCH >= 3",
+    "LOOP_OR_SLICE is pass or not-applicable",
+    "NOISE_FLOOR == pass",
+    "TRANSIENT_QUALITY is pass or not-applicable",
+    "SPACE_IDENTITY == pass",
+    "VARIATION_VALUE is a completed 1-5 rating",
+    "SPEECH_SPACE is pass or not-applicable"
+  ],
+  "rules": [
+    "Existing V2 shortlist review remains preliminary evidence and is not reinterpreted as a typed approval review.",
+    "Only sources that passed the appropriate upstream shortlist decision may enter this approval review.",
+    "A complete negative source review is valid evidence and must not be coerced into approval.",
+    "Typed approval evidence is still not a byte materialization; a separate guarded materializer performs the explicit source-approved state transition.",
+    "Derived-master, Unity, Quest and release approval remain separate gates."
+  ],
+  "sourceOfTruth": "content/audio/listening_qa.source.json"
+}
