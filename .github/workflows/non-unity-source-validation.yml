@@ -15,6 +15,7 @@ on:
       - 'tools/validate_repair_mallet_source.py'
       - 'tools/test_validate_repair_mallet_source.py'
       - 'tools/validate_storm_finale_contract.py'
+      - 'tools/validate_camp_source_meshes.py'
       - '.github/workflows/non-unity-source-validation.yml'
   pull_request:
     paths:
@@ -29,6 +30,7 @@ on:
       - 'tools/validate_repair_mallet_source.py'
       - 'tools/test_validate_repair_mallet_source.py'
       - 'tools/validate_storm_finale_contract.py'
+      - 'tools/validate_camp_source_meshes.py'
       - '.github/workflows/non-unity-source-validation.yml'
 
 permissions:
@@ -58,3 +60,5 @@ jobs:
         run: python tools/validate_repair_mallet_source.py
       - name: Validate Storm finale contract
         run: python tools/validate_storm_finale_contract.py
+      - name: Validate Camp source meshes
+        run: python tools/validate_camp_source_meshes.py
