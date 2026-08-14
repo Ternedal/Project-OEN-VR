@@ -1,0 +1,37 @@
+fileFormatVersion: 2
+guid: 5ea3955366f6416110faa7ef5c32b626
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+  isReadable: 0
+  streamingMipmaps: 0
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  alphaIsTransparency: 1
+  textureType: 8
+  spriteMode: 1
+  spritePixelsToUnits: 100
+  alphaSource: 1
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 72
+    crunchedCompression: 0
+    overridden: 0
+  userData: Project OEN mockup atlas expansion
+  assetBundleName: 
+  assetBundleVariant: 
