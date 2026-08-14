@@ -1,0 +1,51 @@
+name: Validate radio VO human review tooling
+
+on:
+  pull_request:
+    paths:
+      - 'content/audio/radio_vo_recording_queue.source.json'
+      - 'content/audio/radio_vo_session_contract.source.json'
+      - 'content/audio/radio_vo_human_review_contract.source.json'
+      - 'content/localization/da.source.json'
+      - 'tools/prepare_radio_vo_session.py'
+      - 'tools/radio_vo_human_review_support.py'
+      - 'tools/prepare_radio_vo_human_review.py'
+      - 'tools/normalize_radio_vo_human_review.py'
+      - 'tools/validate_radio_vo_human_review_contract.py'
+      - 'tools/test_radio_vo_human_review.py'
+      - 'docs/68_RADIO_VO_HUMAN_TAKE_REVIEW.md'
+      - '.github/workflows/radio-vo-human-review-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/audio/radio_vo_recording_queue.source.json'
+      - 'content/audio/radio_vo_session_contract.source.json'
+      - 'content/audio/radio_vo_human_review_contract.source.json'
+      - 'content/localization/da.source.json'
+      - 'tools/prepare_radio_vo_session.py'
+      - 'tools/radio_vo_human_review_support.py'
+      - 'tools/prepare_radio_vo_human_review.py'
+      - 'tools/normalize_radio_vo_human_review.py'
+      - 'tools/validate_radio_vo_human_review_contract.py'
+      - 'tools/test_radio_vo_human_review.py'
+      - 'docs/68_RADIO_VO_HUMAN_TAKE_REVIEW.md'
+      - '.github/workflows/radio-vo-human-review-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile review tooling
+        run: python -m py_compile tools/radio_vo_human_review_support.py tools/prepare_radio_vo_human_review.py tools/normalize_radio_vo_human_review.py tools/validate_radio_vo_human_review_contract.py tools/test_radio_vo_human_review.py
+      - name: Validate live review contract
+        run: python tools/validate_radio_vo_human_review_contract.py
+      - name: Test hash-bound positive and negative review evidence
+        run: python tools/test_radio_vo_human_review.py
