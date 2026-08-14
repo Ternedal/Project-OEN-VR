@@ -220,6 +220,7 @@ jobs:
       - name: Verify staged Unity pack against committed QA pin
         run: python tools/verify_first_playable_artifact_pin.py
       - name: Upload Unity first-playable audio pack
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: oen-unity-first-playable-audio-v1
