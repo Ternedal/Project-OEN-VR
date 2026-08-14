@@ -94,8 +94,11 @@ def main() -> int:
             errors.append(f"{lane_id}: contract status drift: {contract.get('status')!r} != {expected_status!r}")
 
     audition = by_id.get("AUDIO_SOURCE_AUDITION_PACK", {})
-    if audition.get("expectedSourceCount") != 25:
-        errors.append("AUDIO_SOURCE_AUDITION_PACK expectedSourceCount must remain 25")
+    approval = by_id.get("AUDIO_TYPED_SOURCE_APPROVAL", {})
+    if audition.get("expectedSourceCount") != 27:
+        errors.append("AUDIO_SOURCE_AUDITION_PACK expectedSourceCount must remain 27")
+    if approval.get("currentAuditionSourceCount") != 27:
+        errors.append("AUDIO_TYPED_SOURCE_APPROVAL currentAuditionSourceCount must remain 27")
     radio = by_id.get("RADIO_VO_RECORDING", {})
     if (radio.get("expectedCueCount"), radio.get("expectedTakeCount")) != (9, 27):
         errors.append("RADIO_VO_RECORDING must remain 9 cues x 3 takes = 27")
@@ -114,7 +117,7 @@ def main() -> int:
         print(f"Non-Unity capability matrix FAILED: {len(errors)} error(s).")
         return 1
 
-    print(f"Non-Unity capability matrix OK: {len(lanes)} lanes; contract/path bindings valid; human/device/owner gates remain open.")
+    print(f"Non-Unity capability matrix OK: {len(lanes)} lanes; 27-source audio boundary current; contract/path bindings valid; human/device/owner gates remain open.")
     return 0
 
 
