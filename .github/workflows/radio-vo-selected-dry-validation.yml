@@ -1,0 +1,47 @@
+name: Validate radio VO selected dry tooling
+
+on:
+  pull_request:
+    paths:
+      - 'content/audio/radio_vo_session_contract.source.json'
+      - 'content/audio/radio_vo_human_review_contract.source.json'
+      - 'content/audio/radio_vo_selected_dry_contract.source.json'
+      - 'tools/radio_vo_human_review_support.py'
+      - 'tools/materialize_radio_vo_selected_dry.py'
+      - 'tools/test_radio_vo_human_review.py'
+      - 'tools/test_materialize_radio_vo_selected_dry.py'
+      - 'tools/validate_radio_vo_selected_dry_contract.py'
+      - 'docs/69_RADIO_VO_SELECTED_DRY_MATERIALIZATION.md'
+      - '.github/workflows/radio-vo-selected-dry-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/audio/radio_vo_session_contract.source.json'
+      - 'content/audio/radio_vo_human_review_contract.source.json'
+      - 'content/audio/radio_vo_selected_dry_contract.source.json'
+      - 'tools/radio_vo_human_review_support.py'
+      - 'tools/materialize_radio_vo_selected_dry.py'
+      - 'tools/test_radio_vo_human_review.py'
+      - 'tools/test_materialize_radio_vo_selected_dry.py'
+      - 'tools/validate_radio_vo_selected_dry_contract.py'
+      - 'docs/69_RADIO_VO_SELECTED_DRY_MATERIALIZATION.md'
+      - '.github/workflows/radio-vo-selected-dry-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile materialization tooling
+        run: python -m py_compile tools/materialize_radio_vo_selected_dry.py tools/test_materialize_radio_vo_selected_dry.py tools/validate_radio_vo_selected_dry_contract.py
+      - name: Validate live selected-dry contract
+        run: python tools/validate_radio_vo_selected_dry_contract.py
+      - name: Test selected-dry materialization
+        run: python tools/test_materialize_radio_vo_selected_dry.py
