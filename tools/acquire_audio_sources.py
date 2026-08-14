@@ -5,9 +5,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import random
 import shutil
 import subprocess
 import sys
+import time
+import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -17,7 +20,9 @@ DEFAULT_CANDIDATES = ROOT / "content" / "audio" / "acquisition_candidates.source
 # Backward-compatible public constant retained for existing contract tests/importers.
 CANDIDATES = DEFAULT_CANDIDATES
 DEFAULT_OUTPUT = ROOT / "PrivateContent" / "AudioSourceIncoming"
-USER_AGENT = "Project-OEN-VR-source-acquisition/1.1"
+USER_AGENT = "Project-OEN-VR-source-acquisition/1.2"
+DEFAULT_RETRIES = 4
+DEFAULT_INTER_DOWNLOAD_DELAY = 1.5
 
 
 def sha256_file(path: Path) -> str:
@@ -70,7 +75,49 @@ def load_candidates(path: Path = CANDIDATES) -> list[dict]:
     return [item for item in candidates if isinstance(item, dict)]
 
 
-def download(candidate: dict, originals: Path, timeout: int) -> dict:
+def _retry_delay(exc: urllib.error.HTTPError, attempt: int) -> float:
+    retry_after = exc.headers.get("Retry-After") if exc.headers else None
+    if retry_after:
+        try:
+            return min(60.0, max(1.0, float(retry_after)))
+        except ValueError:
+            pass
+    return min(60.0, (2.0 ** attempt) + random.uniform(0.25, 1.25))
+
+
+def _download_bytes(url: str, part_path: Path, timeout: int, retries: int) -> None:
+    last_error: Exception | None = None
+    for attempt in range(retries + 1):
+        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        try:
+            with urllib.request.urlopen(request, timeout=timeout) as response, part_path.open("wb") as output:
+                while True:
+                    block = response.read(1024 * 1024)
+                    if not block:
+                        break
+                    output.write(block)
+            return
+        except urllib.error.HTTPError as exc:
+            last_error = exc
+            if exc.code not in {429, 500, 502, 503, 504} or attempt >= retries:
+                raise
+            delay = _retry_delay(exc, attempt)
+            part_path.unlink(missing_ok=True)
+            print(f"RETRY HTTP {exc.code}: attempt {attempt + 2}/{retries + 1} in {delay:.1f}s", file=sys.stderr)
+            time.sleep(delay)
+        except (urllib.error.URLError, TimeoutError) as exc:
+            last_error = exc
+            if attempt >= retries:
+                raise
+            delay = min(60.0, (2.0 ** attempt) + random.uniform(0.25, 1.25))
+            part_path.unlink(missing_ok=True)
+            print(f"RETRY transport error: attempt {attempt + 2}/{retries + 1} in {delay:.1f}s", file=sys.stderr)
+            time.sleep(delay)
+    if last_error:
+        raise last_error
+
+
+def download(candidate: dict, originals: Path, timeout: int, retries: int = DEFAULT_RETRIES) -> dict:
     target = candidate.get("target")
     url = candidate.get("directDownload")
     filename = candidate.get("filename")
@@ -80,14 +127,8 @@ def download(candidate: dict, originals: Path, timeout: int) -> dict:
     originals.mkdir(parents=True, exist_ok=True)
     final_path = originals / filename
     part_path = originals / f"{filename}.part"
-
-    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(request, timeout=timeout) as response, part_path.open("wb") as output:
-        while True:
-            block = response.read(1024 * 1024)
-            if not block:
-                break
-            output.write(block)
+    part_path.unlink(missing_ok=True)
+    _download_bytes(url, part_path, timeout, retries)
     part_path.replace(final_path)
 
     return {
@@ -115,6 +156,8 @@ def main() -> int:
     parser.add_argument("--all-direct", action="store_true", help="Acquire every candidate with directDownload metadata.")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--timeout", type=int, default=90)
+    parser.add_argument("--retries", type=int, default=DEFAULT_RETRIES)
+    parser.add_argument("--inter-download-delay", type=float, default=DEFAULT_INTER_DOWNLOAD_DELAY)
     args = parser.parse_args()
 
     candidate_source = resolve_candidate_source(args.candidate_source)
@@ -145,10 +188,12 @@ def main() -> int:
     records = [item for item in previous.get("records", []) if isinstance(item, dict)]
 
     failures = 0
-    for candidate in selected:
+    for index, candidate in enumerate(selected):
         target = candidate.get("target")
+        if index and args.inter_download_delay > 0:
+            time.sleep(args.inter_download_delay)
         try:
-            record = download(candidate, originals, args.timeout)
+            record = download(candidate, originals, args.timeout, max(0, args.retries))
             records = [item for item in records if item.get("target") != target]
             records.append(record)
             print(f"ACQUIRED {target}: {record['bytes']} bytes sha256={record['sha256']}")
