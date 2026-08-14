@@ -1,0 +1,35 @@
+{
+  "id": "ENV_EPILOGUE_001",
+  "version": 1,
+  "status": "source-reference-ready-unity-pending",
+  "priority": "C",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "sourceReference": "source_art/environment/c1/ENV_EPILOGUE_001.svg",
+  "productIntent": {
+    "zoneRule": "existing camp after storm; not a new gameplay zone",
+    "requiredReads": [
+      "storm release",
+      "camp history remains",
+      "signal causality remains",
+      "dawn direction",
+      "epilogue focus"
+    ],
+    "reuseFirst": [
+      "ENV_BEACH_CAMP_001",
+      "ENV_STORM_CAMP_001",
+      "PRP_SIGNAL_FRAME_001",
+      "PRP_RADIO_001",
+      "PRP_WATERPROOF_ENDING_CRATE_001"
+    ],
+    "mustNotRequire": [
+      "new traversal mechanic",
+      "separate island zone",
+      "hard camera lock",
+      "forced edge movement",
+      "scoreboard before message beat",
+      "private content before deliberate reveal"
+    ]
+  },
+  "releaseRule": "Source reference is not Unity-integrated, human-tested or release-approved."
+}
