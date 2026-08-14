@@ -8,6 +8,7 @@ on:
       - 'tools/audio_audition_pack_extension.py'
       - 'tools/audio_audition_pack_field.py'
       - 'tools/build_audio_source_audition_pack.py'
+      - 'tools/validate_audio_source_audition_contract.py'
       - 'tools/audio_source_audition_template.html'
       - 'tools/test_build_audio_source_audition_pack.py'
       - 'content/audio/acquisition_receipt.source.json'
@@ -28,6 +29,8 @@ jobs:
         with:
           python-version: '3.12'
       - name: Compile builder
-        run: python -m py_compile tools/audio_audition_pack_support.py tools/audio_audition_pack_main.py tools/audio_audition_pack_extension.py tools/audio_audition_pack_field.py tools/build_audio_source_audition_pack.py tools/test_build_audio_source_audition_pack.py
+        run: python -m py_compile tools/audio_audition_pack_support.py tools/audio_audition_pack_main.py tools/audio_audition_pack_extension.py tools/audio_audition_pack_field.py tools/build_audio_source_audition_pack.py tools/validate_audio_source_audition_contract.py tools/test_build_audio_source_audition_pack.py
+      - name: Validate current repository contracts
+        run: python tools/validate_audio_source_audition_contract.py
       - name: Test builder contracts
         run: python tools/test_build_audio_source_audition_pack.py
