@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "status": "source-approved-materialization-tooling-ready-no-materialized-approval",
+  "owner": "ChatGPT",
+  "input": {
+    "status": "human-source-approval-evidence-evaluated-not-materialized",
+    "eligibleFlag": "sourceApprovedEligible",
+    "eligibleFlagMustBe": true
+  },
+  "sourceBytes": {
+    "preferredRoot": "human audition pack root",
+    "rule": "Every promoted source file/member must match the exact SHA-256 bound in the typed approval evidence and committed provenance."
+  },
+  "output": {
+    "directory": "source_approved",
+    "receiptFilename": "source_approved_receipt.json",
+    "receiptStatus": "source-approved-original-materialized-from-human-gate"
+  },
+  "materialization": {
+    "copyOnly": true,
+    "preserveSourceBytes": true,
+    "sourceAndOutputShaMustMatch": true,
+    "overwriteRequiresExplicitReplace": true
+  },
+  "rules": [
+    "This is the explicit state-promoting source gate and may materialize only records with sourceApprovedEligible=true.",
+    "The original acquired source bytes are copied unchanged; archive-member originals remain in their original codec.",
+    "No trim, denoise, resample, EQ, gain, segmentation, looping edit or transcoding occurs here.",
+    "source-approved does not imply derived-master-approved, Unity-integrated, Quest-approved or release-approved.",
+    "Any derived edit creates a new file identity and must follow the derived-master listening QA gate."
+  ]
+}
