@@ -1,0 +1,49 @@
+name: Acquire pending field audio candidates
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/acquire-field-audio-pending.yml'
+      - 'tools/acquire_audio_sources.py'
+      - 'tools/validate_pending_field_acquisition.py'
+      - 'content/audio/acquisition_candidates.field_backlog_pending.source.json'
+
+permissions:
+  contents: read
+
+jobs:
+  acquire:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install technical audio probe
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          ffprobe -version | head -n 1
+      - name: Acquire pending direct candidates
+        run: >-
+          python tools/acquire_audio_sources.py
+          --candidate-source content/audio/acquisition_candidates.field_backlog_pending.source.json
+          --all-direct
+          --timeout 120 --retries 5 --inter-download-delay 3
+          --output PrivateContent/AudioFieldPending
+      - name: Validate exact downloaded bytes and technical probe
+        run: >-
+          python tools/validate_pending_field_acquisition.py
+          --root PrivateContent/AudioFieldPending
+      - name: Show acquisition manifest
+        run: cat PrivateContent/AudioFieldPending/acquisition_manifest.json
+      - name: Upload pending field originals and manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: oen-audio-field-pending-acquisition
+          path: PrivateContent/AudioFieldPending/
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
