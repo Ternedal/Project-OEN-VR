@@ -1,0 +1,40 @@
+name: Validate non-Unity capability matrix
+
+on:
+  pull_request:
+    paths:
+      - 'content/non_unity_capability_matrix.source.json'
+      - 'content/audio/**'
+      - 'content/mpre/**'
+      - 'content/source_inventory.source.json'
+      - 'docs/67_AUDIO_SOURCE_AUDITION_PACK.md'
+      - 'docs/67_MUSIC_CANDIDATE_AUDITION.md'
+      - 'docs/66_RADIO_VO_RECORDING_INTAKE.md'
+      - 'tools/validate_non_unity_capability_matrix.py'
+      - '.github/workflows/non-unity-capability-matrix-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/non_unity_capability_matrix.source.json'
+      - 'content/audio/**'
+      - 'content/mpre/**'
+      - 'content/source_inventory.source.json'
+      - 'tools/validate_non_unity_capability_matrix.py'
+      - '.github/workflows/non-unity-capability-matrix-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile validator
+        run: python -m py_compile tools/validate_non_unity_capability_matrix.py
+      - name: Validate capability matrix
+        run: python tools/validate_non_unity_capability_matrix.py
