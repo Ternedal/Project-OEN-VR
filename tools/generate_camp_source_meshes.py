@@ -16,8 +16,10 @@ OUT = ROOT / "source_art" / "props" / "a2" / "production"
 
 
 class Obj:
-    def __init__(self, name: str):
+    def __init__(self, name: str, out: Path | None = None, mtl: str | None = None):
         self.name = name
+        self.out = out or OUT
+        self.mtl = mtl or MTL
         self.v = []
         self.vt = []
         self.faces = []
@@ -100,7 +102,7 @@ class Obj:
             self.faces.append((name,self.current,[(base+i+1,uvbase+j+1) for j,i in enumerate(poly)]))
 
     def write(self):
-        path=OUT/f"{self.name}.obj"
+        path=self.out/f"{self.name}.obj"
         lines=[f"# PROJECT OEN production source mesh: {self.name}",f"mtllib {self.name}.mtl","s off"]
         lines += [f"v {x:.6f} {y:.6f} {z:.6f}" for x,y,z in self.v]
         lines += [f"vt {u:.6f} {v:.6f}" for u,v in self.vt]
@@ -110,7 +112,7 @@ class Obj:
             if mat!=last[1]: lines.append(f"usemtl {mat}")
             lines.append("f "+" ".join(f"{vi}/{ti}" for vi,ti in face)); last=(part,mat)
         path.write_text("\n".join(lines)+"\n",encoding="utf-8")
-        (OUT/f"{self.name}.mtl").write_text(MTL,encoding="utf-8")
+        (self.out/f"{self.name}.mtl").write_text(self.mtl,encoding="utf-8")
         return path
 
 

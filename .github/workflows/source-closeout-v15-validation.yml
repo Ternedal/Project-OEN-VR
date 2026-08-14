@@ -5,6 +5,9 @@ on:
     paths:
       - 'source_art/items/b1/ITM_KNIFE_001.*'
       - 'source_art/avatar/base/CHR_TORSO_BASE_001.*'
+      - 'source_art/avatar/base/CHR_HAND_P1_001.*'
+      - 'source_art/avatar/base/CHR_HAND_P2_001.*'
+      - 'source_art/avatar/base/AVATAR_PRODUCTION_README.md'
       - 'source_art/environment/c1/ENV_EPILOGUE_001.*'
       - 'content/items/itm_knife.source.json'
       - 'content/avatar/chr_torso_base.source.json'
@@ -30,7 +33,7 @@ jobs:
           python-version: '3.12'
       - name: Validate utility knife
         run: python tools/validate_utility_knife_source.py
-      - name: Validate neutral torso
+      - name: Validate avatar production sources
         run: python tools/validate_avatar_torso_source.py
       - name: Validate epilogue source
         run: python tools/validate_epilogue_source.py

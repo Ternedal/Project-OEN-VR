@@ -2,7 +2,7 @@
 
 ## Geometry
 
-The four OBJ/MTL source meshes are original procedural authoring produced for
+The fourteen OBJ/MTL source meshes are original procedural authoring produced for
 PROJECT ØEN from the corresponding `source_art/props/a2/*.md` requirements.
 Generator: `tools/generate_camp_source_meshes.py`. No third-party mesh source is
 embedded.

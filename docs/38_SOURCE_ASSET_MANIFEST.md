@@ -61,9 +61,9 @@ Produktion kan være gated, men specifikationen må være klar tidligere.
 | `ENV_BEACH_CAMP_001` | Strand/lejr base kit | A | Primært hubområde, intro, planning, storm | layout/state/reference | **Source reference produceret** (`source_art/environment/a4/`) |
 | `ENV_WRECKAGE_001` | Vrag-landmark | A | Visuelt landmark og intro-kontekst | hero silhouette/reference | **Source reference produceret** |
 | `ENV_CAMP_GROUND_001` | Lejrterræn/underlag | A | Grounding af camp, byggezoner | dry/wet material/readability ref | **Source reference produceret** |
-| `ENV_JUNGLE_PATH_001` | Junglesti kit | B | Gathering/exploration | path/readability reference | **Source reference produceret** (`source_art/environment/b1/`) |
-| `ENV_RAVINE_001` | Kløft-kit | B | Ravine rescue | route/role/readability reference | **Source reference produceret** |
-| `ENV_RIDGE_001` | Højderyg/udsigt | B | Signal-/skibsruteinformation | vista/readability reference | **Source reference produceret** |
+| `ENV_JUNGLE_PATH_001` | Junglesti kit | B | Gathering/exploration | path/readability geometry | **Production source produceret** (`source_art/environment/b1/production/ENV_JUNGLE_PATH_001.obj`) |
+| `ENV_RAVINE_001` | Kløft-kit | B | Ravine rescue | route/role/readability geometry | **Production source produceret** (`source_art/environment/b1/production/ENV_RAVINE_001.obj`) |
+| `ENV_RIDGE_001` | Højderyg/udsigt | B | Signal-/skibsruteinformation | vista/readability geometry | **Production source produceret** (`source_art/environment/b1/production/ENV_RIDGE_001.obj`) |
 | `ENV_STORM_CAMP_001` | Stormvariant af camp | A | M5 finale | damaged/wet state reference | **Source reference produceret** via A4 camp-state/A3 storm refs |
 | `ENV_EPILOGUE_001` | Epilog-/lejrbålsområde | C | Efterspil/finale | mood/world concept | **Source reference produceret** (`source_art/environment/c1/ENV_EPILOGUE_001.svg`); reuse-first existing camp |
 
@@ -123,8 +123,8 @@ Alle miljøkits skal visuelt hænge sammen via:
 | `ITM_KNIFE_001` | Kniv/værktøj | B | Crafting/fiber | utility-look, ikke våbenfokus | **Source master produceret** (`source_art/items/b1/ITM_KNIFE_001.obj`) |
 | `ITM_HAMMER_001` | Hammer/mallet | B | Repair/build | stor kontaktflade | **Source master produceret** (`source_art/items/a5/ITM_HAMMER_001.obj`) |
 | `ITM_ROPE_COIL_001` | Rebspole | A | Binding/ravine | stor coil, tydelig endeføring | **Source master produceret** |
-| `PRP_RAVINE_ANCHOR_001` | Reb-anker | B | Rescue | høj visuel kontrast/form | **Source master produceret** (`source_art/environment/b1/`) |
-| `PRP_RAVINE_GUIDE_MARKERS_001` | Sikre greb/markører | B | Sekundær rolle | form + ikon, ikke farve-only | **Source master produceret** |
+| `PRP_RAVINE_ANCHOR_001` | Reb-anker | B | Rescue | høj visuel kontrast/form | **Production source produceret** (`source_art/environment/b1/production/PRP_RAVINE_ANCHOR_001.obj`) |
+| `PRP_RAVINE_GUIDE_MARKERS_001` | Sikre greb/markører | B | Sekundær rolle | form + ikon, ikke farve-only | **Production source produceret** (`source_art/environment/b1/production/PRP_RAVINE_GUIDE_MARKERS_001.obj`) |
 | `PRP_WIND_SHIELD_001` | Ild-/glødeskærm | A | Fire/storm | stor fysisk skærm | **Source master produceret** (`source_art/props/a5/*.obj`) |
 | `PRP_DRY_FUEL_CACHE_001` | Tørt brændsel-cache | A | Storm phase 2 | tydelig beskyttet cache | **Source master produceret** (`source_art/props/a5/*.obj`) |
 
@@ -192,9 +192,9 @@ ChatGPT leverer look/reference og source textures/sprites; Claude bygger runtime
 
 | ID | Navn | Pri. | Krav | Status |
 |---|---|---:|---|---|
-| `CHR_HAND_P1_001` | Player 1 hands | A | stiliseret, symbol A, neutral hud/handwear | **Source reference produceret** (`source_art/avatar/base/CHR_HAND_P1_001.svg`) |
-| `CHR_HAND_P2_001` | Player 2 hands | A | stiliseret, symbol B, neutral hud/handwear | **Source reference produceret** (`source_art/avatar/base/CHR_HAND_P2_001.svg`) |
-| `CHR_TORSO_BASE_001` | Simple torso | C | enkel silhouette, ingen Meta Avatar-afhængighed | **Source reference produceret** (`source_art/avatar/base/CHR_TORSO_BASE_001.svg`) |
+| `CHR_HAND_P1_001` | Player 1 hands | A | stiliseret, rundt A-badge, neutral handwear | **Production source produceret** (`source_art/avatar/base/CHR_HAND_P1_001.obj` + `.mtl`; reference: `source_art/avatar/base/CHR_HAND_P1_001.svg`) |
+| `CHR_HAND_P2_001` | Player 2 hands | A | stiliseret, firkantet B-badge, neutral handwear | **Production source produceret** (`source_art/avatar/base/CHR_HAND_P2_001.obj` + `.mtl`; reference: `source_art/avatar/base/CHR_HAND_P2_001.svg`) |
+| `CHR_TORSO_BASE_001` | Simple torso | C | enkel silhouette, ingen Meta Avatar-afhængighed | **Production source produceret** (`source_art/avatar/base/CHR_TORSO_BASE_001.obj` + `.mtl`; reference: `source_art/avatar/base/CHR_TORSO_BASE_001.svg`) |
 | `UI_PLAYER_SYMBOL_A_001` | Player symbol A | A | farve + unik shape | **Source master produceret** |
 | `UI_PLAYER_SYMBOL_B_001` | Player symbol B | A | farve + unik shape | **Source master produceret** |
 
