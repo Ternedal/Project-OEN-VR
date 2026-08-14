@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "status": "materialization-tooling-ready-no-selected-dry-source",
+  "owner": "ChatGPT",
+  "sessionRoot": "PrivateContent/RadioVOSession",
+  "input": {
+    "reviewKind": "radio-vo-human-take-selection",
+    "normalizedStatus": "human-review-evidence-unapproved",
+    "readyFlag": "readyForDryMasterSelection",
+    "readyFlagMustBe": true
+  },
+  "output": {
+    "directory": "selected_dry",
+    "filenamePattern": "{cueId}.wav",
+    "receiptFilename": "radio_vo_selected_dry_receipt.json",
+    "receiptStatus": "selected-dry-source-materialized-from-human-review-not-processed"
+  },
+  "materialization": {
+    "copyOnly": true,
+    "preserveSourceBytes": true,
+    "sourceAndOutputShaMustMatch": true,
+    "expectedCueCount": 9,
+    "overwriteRequiresExplicitReplace": true
+  },
+  "rules": [
+    "Materialization requires a complete normalized human review with readyForDryMasterSelection=true.",
+    "Normalized review bindings must still match the current 27-take session, technical receipt, provenance, queue and localization.",
+    "Every selected filename and SHA-256 must match one technically accepted take for the same cue.",
+    "Selected dry files are byte-for-byte copies. This tool performs no trim, denoise, EQ, gain, resample, compression or radio processing.",
+    "Materialization does not promote derived-master-approved, Unity-integrated, Quest-approved or release-approved status.",
+    "Any later edit creates a new file identity and requires documented processing plus another listening review."
+  ],
+  "runtimeBoundary": "Claude owns radio EQ/static/dropouts, spatialization, ducking, runtime binding, subtitle timing and Quest intelligibility QA."
+}
