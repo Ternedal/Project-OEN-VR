@@ -12,6 +12,7 @@ on:
       - 'content/audio/acquisition_extension_receipt.source.json'
       - 'content/audio/acquisition_extension_member_shortlist.source.json'
       - 'content/audio/acquisition_field_backlog_receipt.source.json'
+      - 'content/audio/acquisition_field_backlog_final_receipt.source.json'
       - 'content/audio/listening_qa.source.json'
       - '.github/workflows/audio-human-review-validation.yml'
   pull_request:
@@ -24,6 +25,7 @@ on:
       - 'content/audio/acquisition_extension_receipt.source.json'
       - 'content/audio/acquisition_extension_member_shortlist.source.json'
       - 'content/audio/acquisition_field_backlog_receipt.source.json'
+      - 'content/audio/acquisition_field_backlog_final_receipt.source.json'
       - 'content/audio/listening_qa.source.json'
       - '.github/workflows/audio-human-review-validation.yml'
 
@@ -49,5 +51,5 @@ jobs:
           tools/test_audio_field_review_import.py
       - name: Test main and extension review importer
         run: python tools/test_audio_human_review_import.py
-      - name: Test field review importer against pinned receipt
+      - name: Test field review importer against pinned receipts
         run: python tools/test_audio_field_review_import.py
