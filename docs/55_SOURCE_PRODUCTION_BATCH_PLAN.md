@@ -2,7 +2,7 @@
 
 **Ejer:** ChatGPT  
 **Unity integration:** Claude  
-**Dato:** 2026-08-13  
+**Dato:** 2026-08-14  
 **Machine-readable status:** `content/source_inventory.source.json`
 
 ## Formål
@@ -23,14 +23,15 @@ Dette dokument er den aktuelle eksekveringsrækkefølge for non-Unity source-pro
 | A3 storm VFX | **Produceret source-reference** | Claude runtime VFX/performance tuning |
 | A4 camp | **Source references produceret** | final world/material polish venter stabil geometry/evidence |
 | B1 environment | **Source references produceret** | Claude world implementation |
-| B1 resource set | **Core set produceret** | kun resterende stabile utility gaps |
+| B1 resource set | **Core set + utility/fiber tool source produceret** | Claude runtime handoff/device QA |
 | B2 event presentation | **7 masters produceret + mapped** | Claude binding til event contract |
 | Materials | **3 families produceret** | Claude Unity material/shader implementation |
-| Character readability | **P1/P2 hands produceret** | torso source reference er stadig åben |
+| Character readability | **P1/P2 hands + neutral torso source reference produceret** | Claude runtime representation/device QA |
 | A5 utility/release source | **Expanded source set + ending crate produceret** | Unity import/binding/device QA |
+| C1 epilogue | **Reuse-first post-storm mood/reference produceret** | Claude ending-state layout/light/weather/device QA |
 | AU-1 feedback | **Generator ready + CI validated** | Claude runtime mix/binding |
-| AU-2 natural Foley | **Recording plan ready; ikke optaget** | real recording/edit/master |
-| World ambience | **3 originals acquired; ikke listening-approved** | human listening + mere acquisition |
+| AU-2 natural Foley | **Recording plan + acquired wood/cloth source packs** | human audition; record/edit/master where pack fit is insufficient |
+| World ambience | **Core + ocean extension originals acquired; ikke listening-approved** | human listening/source selection |
 | PR #6 env candidates | **28 WAV artifact audited; ikke approved** | PR re-sync + headset/listening QA |
 | Radio VO | **Script/queue ready; ikke optaget** | dry source recording |
 | Music | **Direction ready; ikke produceret** | composition efter timing evidence |
@@ -93,11 +94,9 @@ Epilog-produktkontrakten er klar i:
 
 `PRP_WATERPROOF_ENDING_CRATE_001` har nu en project-original OBJ source mesh med separate body/lid/gasket/latches/handles og neutrale hook-slot references. Den indeholder ingen private thumbnails, navne eller gaveindhold; sealed/available/open runtime states og hook-binding er Claude-lane.
 
-Fortsat åbent som senere C-polish, hvis det reducerer implementation ambiguity:
+Dedicated post-storm mood/dressing reference er nu produceret som `source_art/environment/c1/ENV_EPILOGUE_001.svg`.
 
-- dedicated post-storm mood/dressing reference
-
-Neutral ending-content er allerede produceret.
+Neutral ending-content er allerede produceret; final lighting/weather/material implementation remains Claude-lane.
 
 ---
 
@@ -121,6 +120,7 @@ Resource/world source:
 - food parcel
 - general supplies
 - supply crate
+- utility/fiber knife source master
 
 ## B2 produced + mapped
 
@@ -148,17 +148,29 @@ Three source sessions:
 2. rope/tarp
 3. shelter/timber
 
+Wood/cloth extension packs are acquired and technically shortlisted. Human audition still decides whether individual members are usable; recording remains the fallback where pack fit is insufficient.
+
 ## Acquired ambience originals
+
+Canonical originals:
 
 - `AMB_WIND_WORLD`
 - `AMB_RAIN_ALT`
 - `SFX_FIRE_ALT`
 
-Receipt: `content/audio/acquisition_receipt.source.json`.
+Extension acquisition:
 
-They are acquired and technically QA'ed, **not listening-approved**.
+- `AMB_OCEAN_ALT`
+- `SFX_WOOD_PACK_ALT`
+- `SFX_CLOTH_PACK_ALT`
 
-Additional direct CC0 candidates for ocean/wood/cloth are verified but not acquired through the canonical pipeline yet.
+Receipts:
+
+- `content/audio/acquisition_receipt.source.json`
+- `content/audio/acquisition_extension_receipt.source.json`
+- `content/audio/acquisition_extension_member_shortlist.source.json`
+
+They are acquired and technically QA'ed/shortlisted, **not listening-approved**. No acquired original or archive member is promoted to source-approved solely because acquisition succeeded.
 
 ## PR #6 audition pack
 
@@ -178,11 +190,10 @@ PR #6 must re-sync current `main` and regenerate/re-pin physical evidence before
 
 ### Can still progress without M0b/M-Pre
 
-1. natural audio acquisition/recording/listening coordination
-2. dedicated epilogue mood/dressing reference only if it reduces implementation ambiguity
-3. torso source reference as later avatar polish
-4. utility/fiber tool visual source if still useful and accepted by the asset pipeline
-5. keep machine-readable source inventory synchronized with actual files
+1. natural audio recording/listening coordination and human source selection
+2. keep machine-readable source inventory synchronized with actual files
+
+Automatable repo-side source gaps for utility tool, torso and epilogue reference are closed by this batch; this does **not** close human/audio or Unity/device gates.
 
 ### Human-gated
 
