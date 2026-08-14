@@ -5,10 +5,10 @@
   "runtimeOwner": "Claude",
   "candidateSource": "content/audio/acquisition_candidates.field_backlog.source.json",
   "workflowEvidence": {
-    "runId": 31770096095,
-    "headSha": "d36d7ca8bf2d552b4844726c438b76744ef3e09e",
-    "artifactId": 9207802266,
-    "artifactDigest": "sha256:7bb48ba09eec9886d98f55224c31a1a239ea0089d53eed08a4018fa55080599c"
+    "runId": 31770545642,
+    "headSha": "ccbee4292f0e85d9ffe41ac05c16055be8408d0b",
+    "artifactId": 9207970986,
+    "artifactDigest": "sha256:3c1ffcef95c0f7635d03fc53359b1e0c1cdf07cbb1e1b8a8e6257ce7d9752ed5"
   },
   "records": [
     {
@@ -21,7 +21,7 @@
       "license": "CC0",
       "bytes": 6798936,
       "sha256": "ecc088a3d1ab967202b63a92836dadc47bd08c8ab3f17d8527f620264aa5faf9",
-      "acquiredAtUtc": "2026-08-14T04:31:56.307336+00:00",
+      "acquiredAtUtc": "2026-08-14T04:40:50.459703+00:00",
       "technicalProbe": {
         "codec": "pcm_s16le",
         "sampleRateHz": 44100,
@@ -40,8 +40,39 @@
         "note": "L/R are near-identical; useful stereo width is unproven. Original level is low but unclipped. Preserve original bytes and defer noise/biome/material judgement to human listening."
       },
       "status": "acquired-original-not-listening-approved"
+    },
+    {
+      "target": "SFX_WTH_THUNDER_ALT_01",
+      "runtimeEventCandidate": "SFX_WTH_Thunder_Near",
+      "filename": "Tonitrus.ogg",
+      "provider": "Wikimedia Commons",
+      "creator": "Mysid",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Tonitrus.ogg",
+      "license": "Public Domain",
+      "bytes": 394881,
+      "sha256": "75c4d3911eedd1370db6aa30c90aee9e2eee3d18b429862eee6db221bcd0f421",
+      "acquiredAtUtc": "2026-08-14T04:40:50.647328+00:00",
+      "technicalProbe": {
+        "codec": "vorbis",
+        "sampleRateHz": 44100,
+        "channels": 2,
+        "durationSeconds": 32.225057,
+        "bitRate": 98030
+      },
+      "objectiveQa": {
+        "decodedPeakDbFsLeft": 0.342,
+        "decodedPeakDbFsRight": 0.265,
+        "decodedRmsDbFsLeft": -15.472,
+        "decodedRmsDbFsRight": -15.732,
+        "decodedSamplesAboveUnity": 2530,
+        "channelCorrelation": -0.0609,
+        "oneSecondRmsDbFsMin": -48.467,
+        "oneSecondRmsDbFsMax": -9.851,
+        "note": "Natural stereo source with meaningful channel difference. Vorbis decode overshoots unity on some float samples, so any derived master needs explicit headroom/clipping inspection. Metadata does not prove perceived near-thunder distance."
+      },
+      "status": "acquired-original-not-listening-approved"
     }
   ],
-  "next": "Human listening must assess laptop-mic noise, insect/biome fit and whether enough genuinely distinct chirp clusters can be derived. If approved, derive once to project delivery format and repeat listening QA on the derived master.",
+  "next": "Human listening must assess cricket noise/biome fit and thunder proximity/transient/tail quality. Selected sources still require documented derivation and repeated listening QA before any source or derived-master approval.",
   "rule": "Acquisition and objective QA do not imply source-approved, derived-master-approved, Unity-integrated or release-approved."
 }
