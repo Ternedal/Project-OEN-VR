@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "status": "license-verified-direct-candidates-not-acquired",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "sourceBacklogReference": {
+    "pr": 6,
+    "branch": "agent/audio-foundation-v1",
+    "path": "content/audio/field_source_acquisition_plan.csv",
+    "event": "SFX_NAT_Insect_NightChirp"
+  },
+  "policy": {
+    "preferredLicense": "CC0",
+    "naturalSourceRequired": true,
+    "directDownloadRequiredForThisQueue": true,
+    "acquisitionIsNotApproval": true
+  },
+  "candidates": [
+    {
+      "target": "SFX_NAT_NIGHT_CRICKET_ALT_01",
+      "runtimeEventCandidate": "SFX_NAT_Insect_NightChirp",
+      "provider": "OpenGameArt",
+      "creator": "syncopika",
+      "title": "cricket sounds — cricketsounds090613.wav",
+      "sourcePage": "https://opengameart.org/content/cricket-sounds",
+      "directDownload": "https://opengameart.org/sites/default/files/cricketsounds090613.wav",
+      "filename": "cricketsounds090613.wav",
+      "license": "CC0",
+      "sourceFormat": "WAV; inspect after acquisition",
+      "priority": "B",
+      "use": [
+        "night insect source comparison",
+        "possible temporal chirp/cluster extraction"
+      ],
+      "provenance": "Uploader states this was captured fresh in their backyard and recorded directly to Audacity via the built-in microphone of a Toshiba NB505 netbook.",
+      "caveat": "Uploader explicitly says recording quality is not great. Human listening must reject laptop-mic noise, unsuitable biome character or insufficient clean variation; filename semantics do not imply approval."
+    }
+  ],
+  "rejectedDuringResearch": [
+    {
+      "candidate": "Solo Seagull Sound Effects",
+      "reason": "OGA page is CC0-labelled, but uploader states the recordings originated in a third-party video shared with permission. Provenance chain is weaker than project policy requires for a new canonical source candidate."
+    },
+    {
+      "candidate": "rain and thunders",
+      "reason": "CC0 page, but thunder is described as built from plugins/mixed production rather than a clean natural thunder field source. Not suitable for the natural near-thunder source role."
+    },
+    {
+      "candidate": "Storm & Siren",
+      "reason": "Natural CC0 storm recording but deliberately contains repeated flood siren events, making it unsuitable as clean storm/thunder source material for the island context."
+    }
+  ],
+  "rule": "A field-backlog candidate remains candidate-only until the acquisition workflow has captured exact bytes, technical metadata and SHA-256; human listening is still required before any source approval."
+}
