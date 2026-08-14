@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "status": "source-coverage-tracked-not-approved",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "sourcePlanReference": {
+    "pr": 6,
+    "branch": "agent/audio-foundation-v1",
+    "path": "content/audio/field_source_acquisition_plan.csv",
+    "headAtReview": "6b3d22f4b7a3e100fa7d237331b66225e55d0f4f"
+  },
+  "rule": "An acquired source candidate is not a produced runtime event. Human listening, edit/derivation provenance and later Unity/device QA remain separate gates.",
+  "events": [
+    {
+      "eventId": "SFX_AMB_Beach_CoastalWind",
+      "status": "source-acquisition-pending",
+      "next": "Acquire a clean natural coastal-wind source; do not substitute open-field wind unless human listening proves coastal perspective is unnecessary."
+    },
+    {
+      "eventId": "SFX_AMB_Beach_PalmCanopy",
+      "status": "source-acquisition-pending",
+      "next": "Acquire natural palm/frond canopy movement with clean long regions and no preview artifacts."
+    },
+    {
+      "eventId": "SFX_AMB_Jungle_CanopyWind",
+      "status": "source-acquisition-pending",
+      "next": "Acquire broadleaf/jungle canopy wind with enough clean material for distinct temporal edits."
+    },
+    {
+      "eventId": "SFX_AMB_Jungle_DeepBed",
+      "status": "source-acquisition-pending",
+      "next": "Acquire low-detail stable jungle bed; reject dominant close fauna or obvious non-island contamination."
+    },
+    {
+      "eventId": "SFX_AMB_Ridge_WindBed",
+      "status": "acquired-candidate-human-listening-pending",
+      "sourceTarget": "AMB_WIND_WORLD",
+      "receipt": "content/audio/acquisition_receipt.source.json",
+      "sourceSha256": "5c381856745b4706e7eba55eb9271a61a530e90c05df8126adb2db89ecfa6c5a",
+      "candidateFit": "Existing CC0 open-field wind recording is a plausible exposed-ridge texture but was recorded in a public park, not on a literal ridge.",
+      "next": "Human headset/source listening for exposed-hill character, contamination and speech space before any derived ridge bed."
+    },
+    {
+      "eventId": "SFX_WTH_Storm_RoughOcean",
+      "status": "source-acquisition-pending",
+      "next": "Acquire natural rough sea plus strong wind; current short beach-wave source is not promoted to storm-ocean coverage."
+    },
+    {
+      "eventId": "SFX_WTH_Storm_WindGust",
+      "status": "source-acquisition-pending",
+      "next": "Acquire natural outdoor gust attacks/bodies/tails without dominant surf, sirens or urban contamination."
+    },
+    {
+      "eventId": "SFX_WTH_Thunder_Near",
+      "status": "source-acquisition-pending",
+      "next": "Acquire multiple natural close thunder events with clean transients/tails. CC-BY or synthetic/plugin thunder is not accepted into the preferred CC0 natural-source lane."
+    },
+    {
+      "eventId": "SFX_NAT_Bird_ShoreCall",
+      "status": "source-acquisition-pending",
+      "next": "Acquire shore/coastal bird calls with direct provenance. Generic backyard birds and weak third-party-video provenance are not promoted as shore-call coverage."
+    },
+    {
+      "eventId": "SFX_NAT_Insect_NightChirp",
+      "status": "acquired-candidate-human-listening-pending",
+      "sourceTarget": "SFX_NAT_NIGHT_CRICKET_ALT_01",
+      "receipt": "content/audio/acquisition_field_backlog_receipt.source.json",
+      "sourceSha256": "ecc088a3d1ab967202b63a92836dadc47bd08c8ab3f17d8527f620264aa5faf9",
+      "candidateFit": "Natural backyard cricket recording; technically intact but low-level and recorded with a laptop built-in microphone.",
+      "next": "Human listening for noise floor, biome fit and genuinely distinct chirp clusters before derivation."
+    },
+    {
+      "eventId": "SFX_ENV_Fire_Pop",
+      "status": "acquired-candidate-human-listening-pending",
+      "sourceTarget": "SFX_FIRE_ALT",
+      "receipt": "content/audio/acquisition_receipt.source.json",
+      "sourceSha256": "85ca0cc60d0c037fff8b185e31ad1fcdbda6ce45eee17c3ee1318d1b8f59e330",
+      "candidateFit": "Existing CC0 wood-burning fireplace source is a plausible source for isolated dry pops/crackles; it has not been proven to yield fourteen genuinely distinct usable events.",
+      "next": "Human transient/listening review and segmentation audit; no gain-only duplicates."
+    }
+  ],
+  "summary": {
+    "trackedRuntimeEvents": 11,
+    "acquiredSourceCandidatePendingHuman": 3,
+    "sourceAcquisitionPending": 8,
+    "sourceApproved": 0,
+    "runtimeProducedFromThisCoverage": 0
+  }
+}
