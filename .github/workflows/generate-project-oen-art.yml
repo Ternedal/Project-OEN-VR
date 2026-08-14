@@ -106,6 +106,10 @@ jobs:
         run: python tools/generated_art/refine_mockup_fidelity_v7.py
       - name: Raise surrounding world density to mockup art direction
         run: python tools/generated_art/refine_world_density.py
+      - name: Broaden tropical vegetation silhouettes
+        run: python tools/generated_art/refine_vegetation_fidelity.py
+      - name: Restore authoritative Stormnatten damage geometry after world dressing
+        run: python tools/generated_art/refine_storm_story_geometry.py
       - name: Render actual OBJ mockup review sheet
         run: python tools/generated_art/render_mockup_review.py
       - name: Render scene-level mockup review sheet
