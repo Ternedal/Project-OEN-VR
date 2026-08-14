@@ -7,7 +7,10 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-FIELD_RECEIPT = ROOT / "content" / "audio" / "acquisition_field_backlog_receipt.source.json"
+FIELD_RECEIPTS = [
+    Path("content/audio/acquisition_field_backlog_receipt.source.json"),
+    Path("content/audio/acquisition_field_backlog_final_receipt.source.json"),
+]
 FIELD_STATUS = "human-field-review-not-canonical-approval"
 OUTPUT_STATUS = "human-review-evidence-unapproved"
 DECISIONS = {"", "keep", "maybe", "reject"}
@@ -47,6 +50,26 @@ def field_context(receipt: dict[str, Any]) -> dict[str, dict[str, Any]]:
             raise ReviewError(f"field receipt: {target} is not acquired-unapproved")
         out[target] = record
     return out
+
+
+def current_field_context(root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    merged: dict[str, dict[str, Any]] = {}
+    found = 0
+    for rel in FIELD_RECEIPTS:
+        path = root / rel
+        if not path.is_file():
+            continue
+        receipt = load_json(path)
+        if not isinstance(receipt, dict):
+            raise ReviewError(f"field receipt must be a JSON object: {rel}")
+        found += 1
+        for target, record in field_context(receipt).items():
+            if target in merged:
+                raise ReviewError(f"duplicate field target across receipts: {target}")
+            merged[target] = record
+    if not found:
+        raise ReviewError("no field receipt found")
+    return merged
 
 
 def validate_bindings(payload: dict[str, Any], context: dict[str, dict[str, Any]]) -> None:
@@ -112,10 +135,7 @@ def normalize_field(payload: dict[str, Any], context: dict[str, dict[str, Any]],
 
 
 def normalize(payload: dict[str, Any], root: Path = ROOT, require_complete: bool = False) -> dict[str, Any]:
-    receipt = load_json(root / "content/audio/acquisition_field_backlog_receipt.source.json")
-    if not isinstance(receipt, dict):
-        raise ReviewError("field receipt must be a JSON object")
-    return normalize_field(payload, field_context(receipt), require_complete=require_complete)
+    return normalize_field(payload, current_field_context(root), require_complete=require_complete)
 
 
 def main() -> int:

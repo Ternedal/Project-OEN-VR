@@ -10,6 +10,7 @@ MAIN_RECEIPT = Path("content/audio/acquisition_receipt.source.json")
 EXT_RECEIPT = Path("content/audio/acquisition_extension_receipt.source.json")
 EXT_SHORTLIST = Path("content/audio/acquisition_extension_member_shortlist.source.json")
 FIELD_RECEIPT = Path("content/audio/acquisition_field_backlog_receipt.source.json")
+FIELD_FINAL_RECEIPT = Path("content/audio/acquisition_field_backlog_final_receipt.source.json")
 APPROVAL_CONTRACT = Path("content/audio/source_approval_contract.source.json")
 MATERIALIZE_CONTRACT = Path("content/audio/source_approved_materialization_contract.source.json")
 LISTENING_QA = Path("content/audio/listening_qa.source.json")
@@ -52,10 +53,22 @@ def records_index(data: dict[str, Any], owner: str) -> dict[str, dict[str, Any]]
     return out
 
 
+def current_field_records(repo_root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    merged = records_index(load_json(repo_root / FIELD_RECEIPT), "field receipt")
+    final_path = repo_root / FIELD_FINAL_RECEIPT
+    if final_path.is_file():
+        final = records_index(load_json(final_path), "final field receipt")
+        duplicates = sorted(set(merged) & set(final))
+        if duplicates:
+            raise ApprovalError(f"duplicate field target across receipts: {duplicates}")
+        merged.update(final)
+    return merged
+
+
 def current_source_context(repo_root: Path = ROOT) -> dict[str, dict[str, Any]]:
     main = records_index(load_json(repo_root / MAIN_RECEIPT), "main receipt")
     ext = records_index(load_json(repo_root / EXT_RECEIPT), "extension receipt")
-    field = records_index(load_json(repo_root / FIELD_RECEIPT), "field receipt")
+    field = current_field_records(repo_root)
     shortlist = load_json(repo_root / EXT_SHORTLIST).get("members")
     if not isinstance(shortlist, list):
         raise ApprovalError("extension shortlist members missing")

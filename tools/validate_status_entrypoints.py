@@ -21,7 +21,8 @@ REQUIRED_COMMON = [
 ]
 
 REQUIRED_PIPELINE_MARKERS = [
-    "25-source",
+    "27-source",
+    "SFX_AMB_Beach_PalmCanopy",
     "source_approval_contract.source.json",
     "derived_master_contract.source.json",
     "9 cues × 3 takes",
@@ -32,11 +33,6 @@ REQUIRED_PIPELINE_MARKERS = [
     "music_selected_source_contract.source.json",
 ]
 
-# Avoid broad phrases such as "M-Pre er grøn": those also occur in correct future
-# conditions like "M1 starts when M0b + M-Pre are green". Open-gate truth is
-# protected by REQUIRED_COMMON, explicit evidence-boundary language, the capability
-# matrix validator and the gap-closeout validator. These phrases represent actual
-# false completion claims rather than conditional wording.
 FORBIDDEN_FALSE_PROGRESS = [
     "source approval er gennemført",
     "derived-master approval er gennemført",
@@ -94,6 +90,7 @@ def main() -> int:
     backing_paths = [
         "content/non_unity_capability_matrix.source.json",
         "docs/37_NON_UNITY_GAP_AUDIT.md",
+        "content/audio/acquisition_field_backlog_final_receipt.source.json",
         "content/audio/source_approval_contract.source.json",
         "content/audio/derived_master_contract.source.json",
         "content/audio/radio_vo_human_review_contract.source.json",
@@ -111,7 +108,7 @@ def main() -> int:
         print(f"Status entrypoint validation FAILED: {len(errors)} error(s).")
         return 1
 
-    print("Status entrypoints OK: source/tooling/evidence states separated; current audio/VO/music lanes referenced; real-world gates remain explicit.")
+    print("Status entrypoints OK: 27-source audio coverage current; PalmCanopy remains explicit acquisition gap; source/tooling/evidence states separated; real-world gates remain explicit.")
     return 0
 
 

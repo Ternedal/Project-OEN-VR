@@ -66,7 +66,7 @@ Ud over den oprindelige N-00x-kø findes nu machine-readable/product/source/tool
 - neutral personalization fallback
 - expanded source-art inventory og provenance
 - actual acquired audio receipts/technical QA
-- reproducible 25-source human audition pack
+- reproducible **27-source** human audition pack (3 main + 15 extension + 9 field)
 - typed human source-approval gate
 - derived-master technical intake + repeated human listening gate
 - radio VO 9 cues × 3 takes operator/intake/review/selection/materialization pipeline
@@ -74,6 +74,8 @@ Ud over den oprindelige N-00x-kø findes nu machine-readable/product/source/tool
 - human canonical-family music selection + materialization
 - M-Pre evaluator + tamper-evident evidence bundle
 - validated non-Unity capability matrix
+
+De to seneste field acquisitions (`SFX_AMB_Jungle_CanopyWind` og `SFX_WTH_Storm_RoughOcean`) er exact-byte pinned og står stadig i acquired-unapproved state. `SFX_AMB_Beach_PalmCanopy` er den eneste resterende field source-acquisition gap.
 
 Se `content/non_unity_capability_matrix.source.json` for den maskinlæsbare pipeline-status.
 
@@ -158,7 +160,7 @@ Fortsat tilladt uden at fabrikere evidens:
 
 1. rette dokumenteret contract/status drift
 2. forbedre fail-closed validators og deterministic handoff tooling ved konkrete gaps
-3. producere source/content kun når en konkret manglende master reducerer implementation ambiguity
+3. producere/acquire source/content kun når en konkret manglende master reducerer implementation ambiguity — aktuelt bl.a. exact palm-canopy source under den eksisterende license/direct-download policy
 4. ingestere og validere faktisk menneske-/device-evidens når Anders/Claude leverer den
 5. opdatere roadmap/status atomisk efter faktisk gate-resultat
 6. forberede M1 handoff når både M0b og M-Pre er grønne

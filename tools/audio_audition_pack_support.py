@@ -13,12 +13,15 @@ MAIN_RECEIPT = Path('content/audio/acquisition_receipt.source.json')
 EXT_RECEIPT = Path('content/audio/acquisition_extension_receipt.source.json')
 EXT_SHORTLIST = Path('content/audio/acquisition_extension_member_shortlist.source.json')
 FIELD_RECEIPT = Path('content/audio/acquisition_field_backlog_receipt.source.json')
+FIELD_FINAL_RECEIPT = Path('content/audio/acquisition_field_backlog_final_receipt.source.json')
 LISTENING_TARGETS = Path('content/audio/listening_review_targets.source.json')
 LISTENING_QA = Path('content/audio/listening_qa.source.json')
 HTML_TEMPLATE = Path('tools/audio_source_audition_template.html')
 
+
 class PackError(RuntimeError):
     pass
+
 
 @dataclass(frozen=True)
 class Artifact:
@@ -26,14 +29,17 @@ class Artifact:
     sha256: str
     known_label: str | None
 
+
 @dataclass(frozen=True)
 class LocatedBytes:
     data: bytes
     artifact: Artifact
     member_path: str
 
+
 def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
 
 def sha256_file(path: Path) -> str:
     h = hashlib.sha256()
@@ -41,6 +47,7 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b''):
             h.update(chunk)
     return h.hexdigest()
+
 
 def load_json(path: Path) -> dict[str, Any]:
     try:
@@ -51,52 +58,96 @@ def load_json(path: Path) -> dict[str, Any]:
         raise PackError(f'{path}: root must be an object')
     return value
 
+
 def atomic_write(path: Path, data: bytes) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = path.with_suffix(path.suffix + '.tmp')
     temp.write_bytes(data)
     temp.replace(path)
 
+
 def clean_hex(value: str) -> str:
     return value.removeprefix('sha256:').strip().lower()
+
 
 def require_sha(value: Any, owner: str) -> str:
     if not isinstance(value, str) or len(clean_hex(value)) != 64:
         raise PackError(f'{owner}: invalid sha256')
     return clean_hex(value)
 
+
 def source_main_sha(repo_root: Path) -> str | None:
     try:
-        result = subprocess.run(['git','-C',str(repo_root),'rev-parse','HEAD'], check=True, capture_output=True, text=True, timeout=5)
+        result = subprocess.run(['git', '-C', str(repo_root), 'rev-parse', 'HEAD'], check=True, capture_output=True, text=True, timeout=5)
         sha = result.stdout.strip()
         return sha if len(sha) == 40 else None
     except Exception:
         return None
 
+
 def contract_paths(repo_root: Path) -> dict[str, Path]:
     return {
-        'main': repo_root / MAIN_RECEIPT, 'extension': repo_root / EXT_RECEIPT,
-        'shortlist': repo_root / EXT_SHORTLIST, 'field': repo_root / FIELD_RECEIPT,
-        'targets': repo_root / LISTENING_TARGETS, 'qa': repo_root / LISTENING_QA,
+        'main': repo_root / MAIN_RECEIPT,
+        'extension': repo_root / EXT_RECEIPT,
+        'shortlist': repo_root / EXT_SHORTLIST,
+        'field': repo_root / FIELD_RECEIPT,
+        'fieldFinal': repo_root / FIELD_FINAL_RECEIPT,
+        'targets': repo_root / LISTENING_TARGETS,
+        'qa': repo_root / LISTENING_QA,
         'html': repo_root / HTML_TEMPLATE,
     }
 
-def expected_artifact_digests(main: dict[str, Any], ext: dict[str, Any], field: dict[str, Any]) -> dict[str, str]:
+
+def load_field_receipts(repo_root: Path) -> list[dict[str, Any]]:
+    receipts = [load_json(repo_root / FIELD_RECEIPT)]
+    final_path = repo_root / FIELD_FINAL_RECEIPT
+    if final_path.is_file():
+        receipts.append(load_json(final_path))
+    return receipts
+
+
+def merge_field_receipts(receipts: Iterable[dict[str, Any]]) -> dict[str, Any]:
+    records: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for receipt in receipts:
+        raw = receipt.get('records')
+        if not isinstance(raw, list):
+            raise PackError('field receipt: records must be a list')
+        for record in raw:
+            if not isinstance(record, dict) or not isinstance(record.get('target'), str):
+                raise PackError('field receipt: invalid record')
+            target = record['target']
+            if target in seen:
+                raise PackError(f'field receipt: duplicate target across receipts: {target}')
+            seen.add(target)
+            records.append(record)
+    return {'records': records}
+
+
+def _field_evidence_runs(field: dict[str, Any]) -> list[dict[str, Any]]:
+    runs = field.get('evidenceRuns')
+    if isinstance(runs, list):
+        return [run for run in runs if isinstance(run, dict)]
+    run = field.get('evidenceRun')
+    if isinstance(run, dict):
+        return [run]
+    raise PackError('field receipt: evidenceRuns/evidenceRun missing')
+
+
+def expected_artifact_digests(main: dict[str, Any], ext: dict[str, Any], *fields: dict[str, Any]) -> dict[str, str]:
     out: dict[str, str] = {}
-    for data, label in ((main,'main-receipt'),(ext,'extension-receipt')):
+    for data, label in ((main, 'main-receipt'), (ext, 'extension-receipt')):
         workflow = data.get('workflow')
         if isinstance(workflow, dict) and workflow.get('artifactSha256'):
             out[require_sha(workflow['artifactSha256'], f'{label} artifact')] = label
-    runs = field.get('evidenceRuns')
-    if not isinstance(runs, list):
-        raise PackError('field receipt: evidenceRuns must be a list')
-    for run in runs:
-        if not isinstance(run, dict):
-            raise PackError('field receipt: invalid evidence run')
-        out[require_sha(run.get('artifactDigest'), 'field receipt artifact')] = f"field-run-{run.get('runId','unknown')}"
+    for field in fields:
+        for run in _field_evidence_runs(field):
+            digest = require_sha(run.get('artifactDigest'), 'field receipt artifact')
+            out[digest] = f"field-run-{run.get('runId', 'unknown')}"
     return out
 
-def index_artifacts(paths: Iterable[Path], known: dict[str,str], require_pinned: bool) -> list[Artifact]:
+
+def index_artifacts(paths: Iterable[Path], known: dict[str, str], require_pinned: bool) -> list[Artifact]:
     result: list[Artifact] = []
     for raw in paths:
         path = raw.resolve()
@@ -110,6 +161,7 @@ def index_artifacts(paths: Iterable[Path], known: dict[str,str], require_pinned:
     if not result:
         raise PackError('At least one --artifact ZIP is required')
     return result
+
 
 def locate_direct(artifacts: list[Artifact], filename: str, expected_sha: str, preferred_labels: set[str] | None = None) -> LocatedBytes:
     matches: list[LocatedBytes] = []
@@ -127,6 +179,7 @@ def locate_direct(artifacts: list[Artifact], filename: str, expected_sha: str, p
     matches.sort(key=lambda x: (x.artifact.known_label not in preferred, x.artifact.path.name, x.member_path))
     return matches[0]
 
+
 def extract_nested_member(archive_bytes: bytes, member_path: str, expected_sha: str, owner: str) -> bytes:
     try:
         with zipfile.ZipFile(io.BytesIO(archive_bytes)) as nested:
@@ -142,6 +195,7 @@ def extract_nested_member(archive_bytes: bytes, member_path: str, expected_sha: 
         raise PackError(f'{owner}/{member_path}: sha mismatch expected={expected_sha} actual={actual}')
     return data
 
+
 def records_index(data: dict[str, Any], owner: str) -> dict[str, dict[str, Any]]:
     records = data.get('records')
     if not isinstance(records, list):
@@ -156,12 +210,18 @@ def records_index(data: dict[str, Any], owner: str) -> dict[str, dict[str, Any]]
         out[target] = record
     return out
 
+
 def tech_text(technical: dict[str, Any]) -> str:
     pieces: list[str] = []
-    rate,bits,channels,codec = technical.get('sampleRateHz'),technical.get('bitDepth'),technical.get('channels'),technical.get('codec')
-    if isinstance(rate, int): pieces.append(f'{rate/1000:g} kHz')
-    if isinstance(bits, int): pieces.append(f'{bits}-bit')
-    if channels == 1: pieces.append('mono')
-    elif channels == 2: pieces.append('stereo')
-    if isinstance(codec, str) and codec: pieces.append(codec)
+    rate, bits, channels, codec = technical.get('sampleRateHz'), technical.get('bitDepth'), technical.get('channels'), technical.get('codec')
+    if isinstance(rate, int):
+        pieces.append(f'{rate/1000:g} kHz')
+    if isinstance(bits, int):
+        pieces.append(f'{bits}-bit')
+    if channels == 1:
+        pieces.append('mono')
+    elif channels == 2:
+        pieces.append('stereo')
+    if isinstance(codec, str) and codec:
+        pieces.append(codec)
     return ' · '.join(pieces)

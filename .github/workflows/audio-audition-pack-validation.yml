@@ -15,6 +15,7 @@ on:
       - 'content/audio/acquisition_extension_receipt.source.json'
       - 'content/audio/acquisition_extension_member_shortlist.source.json'
       - 'content/audio/acquisition_field_backlog_receipt.source.json'
+      - 'content/audio/acquisition_field_backlog_final_receipt.source.json'
       - 'content/audio/listening_review_targets.source.json'
       - 'content/audio/listening_qa.source.json'
       - '.github/workflows/audio-audition-pack-validation.yml'

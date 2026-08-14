@@ -14,7 +14,7 @@
       "operatorDoc": "docs/67_AUDIO_SOURCE_AUDITION_PACK.md",
       "tool": "tools/build_audio_source_audition_pack.py",
       "validator": "tools/validate_audio_source_audition_contract.py",
-      "expectedSourceCount": 25,
+      "expectedSourceCount": 27,
       "humanEvidenceRequired": true,
       "gateSatisfied": false,
       "next": "Build the review pack from acquired artifacts and obtain actual human shortlist evidence."
@@ -98,7 +98,7 @@
       "normalizer": "tools/normalize_audio_source_approval_review.py",
       "materializer": "tools/materialize_source_approved_audio.py",
       "validator": "tools/validate_audio_source_approval_contract.py",
-      "currentAuditionSourceCount": 25,
+      "currentAuditionSourceCount": 27,
       "humanEvidenceRequired": true,
       "gateSatisfied": false,
       "next": "Run typed human source approval on shortlisted sources; material match must remain >=3 and reviewer identity/timestamp are mandatory."

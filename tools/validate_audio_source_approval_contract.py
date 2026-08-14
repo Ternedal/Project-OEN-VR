@@ -45,13 +45,13 @@ def main() -> int:
     main_count = sum(1 for x in sources.values() if x["reviewKind"] == "main-acquired-originals")
     ext_count = sum(1 for x in sources.values() if x["reviewKind"] == "extension-source-selection")
     field_count = sum(1 for x in sources.values() if x["reviewKind"] == "field-backlog-source-selection")
-    if (main_count, ext_count, field_count, len(sources)) != (3, 15, 7, 25):
+    if (main_count, ext_count, field_count, len(sources)) != (3, 15, 9, 27):
         errors.append(f"current audition source context drift: main={main_count}, extension={ext_count}, field={field_count}, total={len(sources)}")
     if errors:
         for error in errors:
             print("ERROR:", error)
         return 1
-    print("Audio source approval contract OK: 25 current sources, typed 1-5 gate aligned to sourceApprovedRequires, reviewer identity/timestamp required, exact-byte explicit promotion only.")
+    print("Audio source approval contract OK: 27 current sources, typed 1-5 gate aligned to sourceApprovedRequires, reviewer identity/timestamp required, exact-byte explicit promotion only.")
     return 0
 
 
