@@ -32,14 +32,30 @@ REQUIRED_PIPELINE_MARKERS = [
     "music_selected_source_contract.source.json",
 ]
 
+# Avoid broad phrases such as "M-Pre er grøn": those also occur in correct future
+# conditions like "M1 starts when M0b + M-Pre are green". Open-gate truth is
+# protected by REQUIRED_COMMON, explicit evidence-boundary language, the capability
+# matrix validator and the gap-closeout validator. These phrases represent actual
+# false completion claims rather than conditional wording.
 FORBIDDEN_FALSE_PROGRESS = [
-    "m-pre er grøn",
-    "m0b er grøn",
     "source approval er gennemført",
     "derived-master approval er gennemført",
     "radio vo er optaget",
     "music selection er godkendt",
 ]
+
+REQUIRED_EVIDENCE_BOUNDARIES = {
+    "repo_status": [
+        "mangler",
+        "ingen synthetic/self-test må lukke denne gate",
+        "der er fortsat ingen påståede menneskesessioner",
+    ],
+    "workstream": [
+        "mangler",
+        "ingen synthetic/self-test lukker gaten",
+        "tre faktiske menneskesessioner",
+    ],
+}
 
 
 def main() -> int:
@@ -59,6 +75,9 @@ def main() -> int:
         for marker in REQUIRED_PIPELINE_MARKERS:
             if marker.lower() not in low:
                 errors.append(f"{name}: missing current pipeline marker {marker!r}")
+        for marker in REQUIRED_EVIDENCE_BOUNDARIES.get(name, []):
+            if marker.lower() not in low:
+                errors.append(f"{name}: missing explicit open-evidence marker {marker!r}")
         for marker in FORBIDDEN_FALSE_PROGRESS:
             if marker.lower() in low:
                 errors.append(f"{name}: false-progress claim present: {marker!r}")
