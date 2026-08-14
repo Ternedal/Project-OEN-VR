@@ -93,6 +93,6 @@
   "rules": [
     "Objective technical QA does not promote any file beyond candidate-headset-listen.",
     "No Unity/Quest physical evidence is created by this file.",
-    "PR #6 must still sync current main and collect its six real physical QA gates on the post-sync payload."
+    "PR #49 completed the main resync; the six real physical QA gates remain open on the pinned post-sync payload."
   ]
 }

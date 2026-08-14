@@ -9,7 +9,9 @@
   "pr6": {
     "pr": 6,
     "headAtMapping": "6b3d22f4b7a3e100fa7d237331b66225e55d0f4f",
-    "rule": "Revalidate event IDs and payload pin after PR #6 synchronizes current main."
+    "resyncPr": 49,
+    "mergedMainSha": "13828bf569649d3a792233a1bb3ff56edbfcd45a",
+    "rule": "PR #49 synchronized the PR #6 audio foundation with current main; runtime event IDs and the payload pin were revalidated by Audio Validation #182 before merge. Any future payload change must be re-pinned and physically re-verified."
   },
   "mappings": [
     {
@@ -19,7 +21,7 @@
       "relationship": "alternate-source-candidate",
       "derivationIntent": "If human-approved, extract genuinely different temporal wind sections/levels as separate derivatives; preserve one immutable original.",
       "guardrails": [
-        "Do not replace the PR #6 wind source merely because this original is acquired.",
+        "Do not replace the current first-playable wind source merely because this original is acquired.",
         "Compare contamination, island fit, variation value and Quest speech masking before source selection.",
         "Different runtime variations must reflect different physical/time behaviour, not gain-only copies."
       ]
@@ -43,7 +45,7 @@
       "relationship": "alternate-source-candidate",
       "derivationIntent": "If human-approved, use only if distinct fire-state material can be identified; otherwise target one fire state rather than manufacturing a second near-duplicate.",
       "guardrails": [
-        "The existing PR #6 Idle/Low pair is already flagged for extreme objective similarity and needs A/B review.",
+        "The current first-playable Idle/Low pair is already flagged for extreme objective similarity and needs A/B review.",
         "Do not solve that issue by deriving two gain/EQ variants from this single 29.26 s source.",
         "Source is 44.1 kHz; any accepted derivative must use quality 48 kHz resampling and receive another listening pass."
       ]
@@ -68,7 +70,7 @@
   ],
   "hardRules": [
     "Candidate target mapping is not source approval.",
-    "No mapping changes the current PR #6 first-playable artifact pin.",
+    "No candidate mapping changes the current first-playable artifact pin.",
     "A source-selected decision requires human listening evidence tied to the exact source SHA-256.",
     "Derived files require new hashes and repeat listening QA.",
     "Final Unity spatialization, mix and Quest acceptance remain Claude-owned physical gates."

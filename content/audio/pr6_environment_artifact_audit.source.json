@@ -46,9 +46,9 @@
   ],
   "rules": [
     "This audit proves artifact integrity and technical format only.",
-    "The artifact belongs to an unmerged draft PR and is not canonical main runtime content.",
+    "The artifact generator/runtime foundation is integrated on main via PR #49, but the candidate assets remain pinned audition material rather than source-approved masters.",
     "No candidate is source-approved, Unity-approved or release-approved by this audit.",
-    "PR #6 must sync current main and rerun/re-pin its payload before authoritative physical QA.",
-    "Any promotion of these candidates still requires human headset/listening QA and the PR #6 physical acceptance gates."
+    "PR #49 completed the main resync and Audio Validation #182 reproduced the pinned 173/47 payload before merge.",
+    "Any promotion of these candidates still requires human headset/listening QA and the current physical acceptance gates."
   ]
 }

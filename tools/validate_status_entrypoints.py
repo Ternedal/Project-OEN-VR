@@ -38,6 +38,13 @@ REQUIRED_PIPELINE_MARKERS = [
     "music_selected_source_contract.source.json",
 ]
 
+REQUIRED_INTEGRATION_MARKERS = [
+    "PR #48",
+    "PR #49",
+    "PR #56",
+    "post-merge",
+]
+
 FORBIDDEN_FALSE_PROGRESS = [
     "source approval er gennemført",
     "derived-master approval er gennemført",
@@ -45,6 +52,10 @@ FORBIDDEN_FALSE_PROGRESS = [
     "foley source approval er gennemført",
     "radio vo er optaget",
     "music selection er godkendt",
+    "PR #5 og #6 forbliver fysisk-QA-blokerede",
+    "PR #5/#6 må ikke merges",
+    "re-sync + fysisk QA før merge",
+    "Claude #5/#6 physical QA",
 ]
 
 REQUIRED_EVIDENCE_BOUNDARIES = {
@@ -82,6 +93,9 @@ def main() -> int:
         for marker in REQUIRED_PIPELINE_MARKERS:
             if marker.lower() not in low:
                 errors.append(f"{name}: missing current pipeline marker {marker!r}")
+        for marker in REQUIRED_INTEGRATION_MARKERS:
+            if marker.lower() not in low:
+                errors.append(f"{name}: missing merged integration marker {marker!r}")
         for marker in REQUIRED_EVIDENCE_BOUNDARIES.get(name, []):
             if marker.lower() not in low:
                 errors.append(f"{name}: missing explicit open-evidence marker {marker!r}")

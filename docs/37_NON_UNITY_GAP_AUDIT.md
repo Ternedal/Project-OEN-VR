@@ -2,7 +2,7 @@
 
 **Ejer:** ChatGPT  
 **Projektejer:** Anders  
-**Opdateret:** 2026-08-14  
+**Opdateret:** 2026-08-15
 **Scope:** Alt uden for Unity jf. `AI_COLLABORATION_AGREEMENT.md`
 
 ## Konklusion
@@ -135,7 +135,9 @@ Tooling er klar, men følgende kan ikke produceres syntetisk:
 
 ## E. Unity/Quest physical QA
 
-Draft PR #5/#6 og øvrig Unity/runtime/device acceptance er Claude/device-lane og må ikke promoveres alene på CI.
+De tidligere draft-spor er resynced og merged som PR #48 (production art) og PR #49 (first-playable audio) sammen med PR #56 (non-Unity product/content/source). Den integrerede `main`-head `2842f5f47005110d72cc8afc9905e85f947d52ae` har grøn post-merge Core/handoff/art-CI.
+
+Repository-integrationen er ikke Unity/runtime/device acceptance. Unity 6000.4.10f1 import/compile, saved-scene review, headset listening og fysisk Quest 2/3 evidence er fortsat Claude/Anders-lane og må ikke promoveres alene på CI.
 
 ---
 

@@ -1,5 +1,7 @@
 # Project ØEN — Quest 2 audio pre-merge evidence
 
+> **Post-merge status (2026-08-15):** PR #49 is integrated on `main`, but no Quest 2 listening/soak evidence is thereby claimed. The template and importer below remain the required fail-closed path for promoting the three physical Quest audio gates against the pinned 173/47 payload.
+
 ## Purpose
 
 The three Quest 2 audio merge gates require real headset work. CI cannot listen, judge spatial perspective, or measure a device soak. It can, however, prevent incomplete or stale physical evidence from being promoted as a pass.
@@ -131,7 +133,7 @@ Audio Validation runs the importer in `--self-test` mode against a temporary QA 
 
 The synthetic self-test is **not physical evidence** and never mutates `content/audio/audio_premerge_qa.csv`.
 
-## Final merge sequence
+## Physical acceptance sequence
 
 After the three Unity gates and three Quest gates have real accepted evidence:
 
@@ -141,4 +143,4 @@ python tools/report_audio_merge_readiness.py --strict
 
 Strict mode independently refuses a manually edited `passed` row unless its evidence marker comes from the correct category importer and is bound to the current pinned manifest/173/47 payload.
 
-Only when strict mode succeeds, the current PR checks are green, and there are no unresolved review blockers should PR #6 be moved out of draft and merged.
+PR #49 has already landed the repository baseline after exact-head CI. Strict mode is still required before the integrated audio baseline may be described as physically accepted on Quest; merge status must not be confused with that acceptance state.

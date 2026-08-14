@@ -32,7 +32,7 @@ Dette dokument er den aktuelle eksekveringsrækkefølge for non-Unity source-pro
 | AU-1 feedback | **12 production WAV masters committed + deterministically CI validated** | Claude runtime mix/binding |
 | AU-2 natural Foley | **Recording plan + acquired wood/cloth source packs** | human audition; record/edit/master where pack fit is insufficient |
 | World ambience | **Core + ocean extension originals acquired; ikke listening-approved** | human listening/source selection |
-| PR #6 env candidates | **28 WAV artifact audited; ikke approved** | PR re-sync + headset/listening QA |
+| First-playable env candidates (opr. PR #6, merged via #49) | **28 WAV artifact audited; ikke approved** | headset/listening QA på pinned payload |
 | Radio VO | **Script/queue ready; ikke optaget** | dry source recording |
 | Music | **14 deterministic candidates produceret/auditeret; ikke human-selected** | human audition og 5 canonical family selections |
 | Personalization | **Contract + neutral fallback ready** | konkret gaveindhold holdes uden for public repo |
@@ -182,7 +182,7 @@ Independent audit records:
 - 0 output-hash mismatches
 - status remains `candidate-headset-listen`
 
-PR #6 must re-sync current `main` and regenerate/re-pin physical evidence before merge consideration.
+PR #49 completed the `main` resync and exact-head Audio Validation #182 regenerated the same pinned 173/47 payload identity. Headset/listening evidence remains required before any candidate is promoted beyond `candidate-headset-listen`.
 
 ---
 

@@ -1,6 +1,6 @@
 # Repository status
 
-**Opdateret:** 2026-08-14  
+**Opdateret:** 2026-08-15
 **Baseline:** v2.1
 
 ## Platform og scope
@@ -133,9 +133,17 @@ Human audition/selection mangler.
 
 ---
 
-# Unity / Claude
+# Integreret produktionsbaseline
 
-PR #5 og #6 forbliver fysisk-QA-blokerede. Repo/CI-evidence alene må ikke bruges som Quest acceptance.
+De tre resync-/produktionsspor er nu landet på `main`:
+
+- PR #56 — non-Unity product/content/source/provenance/tooling — merge `4b22cfeadd581140b2ee4e518d704a20a2106e27`;
+- PR #49 — authored first-playable audio/runtime/editor foundation — merge `13828bf569649d3a792233a1bb3ff56edbfcd45a`;
+- PR #48 — generated production art/runtime/editor integration — merge `2842f5f47005110d72cc8afc9905e85f947d52ae`.
+
+Den endelige merge-head bestod `Core tests #1829`, `Validate handoff #1906` og alle generation/validation-trin i `Generate Project OEN runtime art #283`. Den pinned first-playable-audioartifact fra den grønne `Audio Validation #182` er desuden uafhængigt verificeret til 173 clips / 47 events mod committed ZIP- og manifest-SHA.
+
+Dette er repository-/CI-integration, ikke fysisk acceptance. Unity 6000.4.10f1 import/compile i den faktiske projektkopi, saved-scene visuel/skala-review, in-headset audio review og Quest 2/3 device/cross-device evidence er fortsat åbne Claude/Anders-gates. Repo/CI-evidence alene må ikke bruges som Quest acceptance.
 
 ---
 
@@ -156,7 +164,7 @@ Grøn CI beviser contract/repository-integritet; ikke menneskelig listening/play
 5. **Ambience/Foley acquisition:** human audition af 27-source pack; find exact PalmCanopy original under current policy.
 6. **Radio VO:** faktisk authorized 27-take recording → review/selection.
 7. **Music:** human audition af 14 candidates → 5 canonical selections.
-8. **Claude #5/#6:** re-sync + fysisk QA før merge.
+8. **Post-merge Unity/Quest QA:** importér den integrerede `main`-head i Unity 6000.4.10f1, kør saved-scene/visuel/audio-review og indsamle faktisk Quest-evidence.
 9. M1 handoff først efter grøn M0b + M-Pre.
 
 Hvis en autonom opgave ikke reducerer et dokumenteret gap, skal den ikke oprettes for aktivitetens skyld.
