@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900">
+<defs><style>
+.title{font:700 36px Arial;fill:#1f2424}.h{font:700 24px Arial;fill:#1f2424}
+.b{font:18px Arial;fill:#2a3030}.s{font:15px Arial;fill:#4c5553}.label{font:700 17px Arial;fill:#1f2424}
+.fine{stroke:#5b6663;stroke-width:2;fill:none}.dash{stroke:#737d79;stroke-width:2;fill:none;stroke-dasharray:8 7}
+.zone{stroke:#3f4946;stroke-width:3;fill:#dfe5e1}.wet{stroke:#4b5d63;stroke-width:3;fill:#cbd9dc}
+.warm{stroke:#645744;stroke-width:3;fill:#eadfc8}.signal{stroke:#5d5137;stroke-width:3;fill:#e3d2a5}
+.focus{stroke:#4b5149;stroke-width:4;fill:#f2eee4}</style></defs>
+<rect width="1400" height="900" fill="#f7f4ed"/>
+<text x="55" y="60" class="title">ENV_EPILOGUE_001 — post-storm camp mood / dressing reference</text>
+<text x="55" y="95" class="b">C-polish · reuse-first · existing camp after storm · no new gameplay zone</text>
+
+<g transform="translate(55,145)">
+<text x="0" y="0" class="h">1. Reuse-first camp composition</text>
+<rect x="0" y="30" width="820" height="530" rx="16" class="zone"/>
+<path d="M20 420 C180 390 330 430 480 390 C620 355 710 380 800 340" class="wet"/>
+<text x="35" y="455" class="s">shoreline / wet ground read remains visible</text>
+<circle cx="350" cy="265" r="30" class="focus"/><circle cx="470" cy="265" r="30" class="focus"/>
+<line x1="380" y1="265" x2="440" y2="265" class="dash"/>
+<text x="317" y="320" class="label">P1</text><text x="453" y="320" class="label">P2</text>
+<text x="300" y="350" class="s">clear mutual sightline</text>
+<circle cx="410" cy="395" r="48" class="warm"/><circle cx="410" cy="395" r="20" class="fine"/>
+<text x="355" y="465" class="label">Firepit</text><text x="315" y="490" class="s">calm ember/small-fire state</text>
+<rect x="135" y="150" width="150" height="105" rx="12" class="wet"/>
+<line x1="145" y1="160" x2="275" y2="245" class="fine"/><line x1="275" y1="160" x2="145" y2="245" class="fine"/>
+<text x="155" y="285" class="label">Shelter</text><text x="110" y="310" class="s">wet + repaired/damaged history preserved</text>
+<polygon points="650,125 710,255 590,255" class="signal"/><line x1="650" y1="125" x2="650" y2="285" class="fine"/>
+<text x="595" y="315" class="label">Signal frame</text><text x="570" y="340" class="s">remains visibly causal</text>
+<rect x="615" y="390" width="85" height="55" rx="8" class="focus"/><circle cx="635" cy="417" r="8" class="fine"/>
+<text x="620" y="480" class="label">Radio</text>
+<rect x="710" y="385" width="85" height="65" rx="8" class="focus"/><line x1="752" y1="385" x2="752" y2="450" class="fine"/>
+<text x="704" y="480" class="label">Ending crate</text><text x="598" y="510" class="s">discoverable; no flash / teleport / auto-open</text>
+<circle cx="95" cy="85" r="32" class="warm"/><path d="M95 45 L95 20 M55 55 L35 35 M135 55 L155 35" class="fine"/>
+<text x="205" y="93" class="label">Dawn direction</text><text x="205" y="118" class="s">visual release without edge approach</text>
+<ellipse cx="410" cy="290" rx="290" ry="210" class="dash"/><text x="285" y="75" class="s">safe seated/standing interaction envelope</text>
+</g>
+
+<g transform="translate(920,145)">
+<text x="0" y="0" class="h">2. Required ending reads</text>
+<g transform="translate(0,40)"><rect width="410" height="82" rx="12" class="wet"/><text x="18" y="30" class="label">Storm release</text><text x="18" y="57" class="s">rain/wind pressure falls; puddles/wetness remain</text></g>
+<g transform="translate(0,140)"><rect width="410" height="82" rx="12" class="zone"/><text x="18" y="30" class="label">Camp history remains</text><text x="18" y="57" class="s">damage + repairs stay readable; no reset-to-clean</text></g>
+<g transform="translate(0,240)"><rect width="410" height="82" rx="12" class="signal"/><text x="18" y="30" class="label">Signal causality</text><text x="18" y="57" class="s">signal state still reads as why rescue found them</text></g>
+<g transform="translate(0,340)"><rect width="410" height="82" rx="12" class="warm"/><text x="18" y="30" class="label">Dawn direction</text><text x="18" y="57" class="s">horizon light shifts pressure → release</text></g>
+<g transform="translate(0,440)"><rect width="410" height="82" rx="12" class="focus"/><text x="18" y="30" class="label">Epilogue focus</text><text x="18" y="57" class="s">radio + ending crate visible, calm and deliberate</text></g>
+</g>
+
+<g transform="translate(55,750)">
+<text x="0" y="0" class="h">3. Product guardrails</text>
+<text x="0" y="38" class="b">No new traversal zone · no hard camera lock · no forced edge movement · no early scoreboard · no private thumbnail leak · no outcome difference when private content is absent.</text>
+<text x="0" y="76" class="s">Claude owns final Unity layout, light rig, weather/VFX/audio transition, interaction placement, seated/standing reach, materials, LOD and Quest 2/3 device QA.</text>
+</g></svg>
