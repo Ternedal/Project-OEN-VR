@@ -43,6 +43,8 @@
   },
   "derivedMasterApprovedEligibilityRequires": [
     "clean technical intake receipt bound to current source-approved receipt and derived bytes",
+    "reviewerAlias is non-empty",
+    "reviewedAt is non-empty",
     "human decision == approve-derived-master",
     "all eight repeated typed checks completed",
     "CONTAMINATION == pass",
@@ -65,7 +67,7 @@
   "rules": [
     "Technical validation never implies listening approval.",
     "A derived master always remains bound to the exact source-approved original SHA and explicit edit recipe.",
-    "Human review is repeated on the derived file rather than inherited from source approval.",
+    "Human review identity/timestamp and all eight listening checks are evaluated on the derived file rather than inherited from source approval.",
     "Derived-master-approved does not imply Unity-integrated, Quest-approved or release-approved.",
     "Claude owns final runtime import/mix/spatial/device QA."
   ]
