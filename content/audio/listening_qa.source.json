@@ -22,6 +22,18 @@
   ],
   "reviewDecisionValues": ["keep", "maybe", "reject"],
   "reviewDecisionRule": "keep/maybe/reject is a source-selection note only. Only a completed pass through sourceApprovedRequires may change a source to source-approved.",
+  "reviewEvidence": {
+    "schemaVersion": 2,
+    "normalizer": "tools/normalize_audio_human_review.py",
+    "ci": ".github/workflows/audio-human-review-validation.yml",
+    "acceptedExportStatuses": [
+      "human-listening-review-unvalidated",
+      "human-review-not-canonical-approval"
+    ],
+    "normalizedStatus": "human-review-evidence-unapproved",
+    "requireHashBindings": true,
+    "rule": "Only V2 reviewer exports with SHA-256 bindings matching the committed receipts/shortlist are valid evidence input. Normalization never promotes source approval."
+  },
   "reviewGroups": [
     {
       "id": "MAIN_ACQUIRED_ORIGINALS",
