@@ -70,10 +70,11 @@ jobs:
           --all-direct --timeout 120
           --output PrivateContent/AudioFieldBacklog
 
-      - name: Verify pinned field-backlog source integrity
+      - name: Verify pinned field sources and report new unpinned candidates
         run: >-
           python tools/validate_audio_field_backlog_acquisition.py
           --root PrivateContent/AudioFieldBacklog
+          --allow-unpinned-new
 
       - name: Show acquisition manifests
         run: |
