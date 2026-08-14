@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "updated": "2026-08-14",
+  "owner": "ChatGPT",
+  "status": "artifact-audited-audition-ready-not-source-approved",
+  "origin": {
+    "pr": 6,
+    "headSha": "6b3d22f4b7a3e100fa7d237331b66225e55d0f4f",
+    "workflowRunId": 31675225432,
+    "workflowRunNumber": 180,
+    "artifactId": 9171306726,
+    "artifactName": "oen-authored-adaptive-music-v1",
+    "artifactWrapperSha256": "f3c46d3e450c6ba240fd6d613237856ad3e768e4c868af8b27c849b612fa70f3",
+    "innerZipSha256": "12fc27d8e2bc7817fb0777de491d0a1b7ce35d67dd5698f55a581732a0fc61f2",
+    "artifactExpiresAt": "2026-08-20T06:50:10Z"
+  },
+  "provenance": {
+    "description": "Original deterministic procedural works generated for Project OEN.",
+    "thirdPartySamples": false,
+    "generator": "tools/generate_authored_adaptive_music.py",
+    "generatorRef": "6b3d22f4b7a3e100fa7d237331b66225e55d0f4f",
+    "generatorVersion": "1.0.0",
+    "numpyVersion": "2.3.5",
+    "artifactLicenseNote": "Candidate material requires headset/listening approval before production promotion."
+  },
+  "technical": {
+    "fileCount": 14,
+    "sourceFamilyCount": 6,
+    "sampleRateHz": 48000,
+    "bitDepth": 24,
+    "channels": 2,
+    "peakTargetDbfs": -6.0,
+    "hashVerification": "14/14 artifact files independently matched pack_manifest.json"
+  },
+  "canonicalMappings": [
+    {"canonicalCueId":"MUS_CAMP_BASE_001","candidateFamily":"MUS_Camp_WarmTexture","rule":"audition candidate only; no runtime/source promotion before human review"},
+    {"canonicalCueId":"MUS_STORM_BASE_001","candidateFamily":"MUS_Storm_Phase1","rule":"audition candidate only; no runtime/source promotion before human review"},
+    {"canonicalCueId":"MUS_STORM_PRESSURE_001","candidateFamily":"MUS_Storm_Phase2","rule":"audition candidate only; no runtime/source promotion before human review"},
+    {"canonicalCueId":"MUS_SIGNAL_FINAL_001","candidateFamily":"MUS_Storm_Phase3","rule":"audition candidate only; no runtime/source promotion before human review"},
+    {"canonicalCueId":"MUS_RESCUE_RELEASE_001","candidateFamily":"MUS_Finale_Success","rule":"audition candidate only; no runtime/source promotion before human review"}
+  ],
+  "unmappedFamilies": [{"candidateFamily":"MUS_Warning_LowPulse","reason":"No canonical runtime cue ID exists for this family on main. It may be auditioned, but must not be bound or promoted without an explicit product decision."}],
+  "files": [
+    {"event_id":"MUS_Camp_WarmTexture","variant":1,"file":"MUS_Camp_WarmTexture_01.wav","state":"camp-calm","loop":true,"duration_seconds":90.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":25920044,"sha256":"f8c0125d2eb879d048829ca05fbf51d2ff83f556862e847c4799ef526262fce0","canonicalTarget":"MUS_CAMP_BASE_001","mappingStatus":"candidate-for-canonical-audition"},
+    {"event_id":"MUS_Camp_WarmTexture","variant":2,"file":"MUS_Camp_WarmTexture_02.wav","state":"camp-calm","loop":true,"duration_seconds":90.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":25920044,"sha256":"c86e20f6e67c321dc328c1a2e555b0a712312b1f152dea9cf8c57ad5fe3e0d85","canonicalTarget":"MUS_CAMP_BASE_001","mappingStatus":"candidate-for-canonical-audition"},
+    {"event_id":"MUS_Camp_WarmTexture","variant":3,"file":"MUS_Camp_WarmTexture_03.wav","state":"camp-calm","loop":true,"duration_seconds":90.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":25920044,"sha256":"9e1c5fcb65598abb47a3da43f94af303eec79cde18020c6018f0b8a445e357a7","canonicalTarget":"MUS_CAMP_BASE_001","mappingStatus":"candidate-for-canonical-audition"},
+    {"event_id":"MUS_Warning_LowPulse","variant":1,"file":"MUS_Warning_LowPulse_01.wav","state":"warning","loop":true,"duration_seconds":60.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":17280044,"sha256":"c57e682c0bdac06cdb797936f0f59dca93ee932d2fb4adb17d707bd1b2814454","canonicalTarget":null,"mappingStatus":"unmapped-extra-candidate"},
+    {"event_id":"MUS_Warning_LowPulse","variant":2,"file":"MUS_Warning_LowPulse_02.wav","state":"warning","loop":true,"duration_seconds":60.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":17280044,"sha256":"59451bb26c324df928dd394d3e0f34ddcf56aef25d140d468ebc6b2dd5f6a4ae","canonicalTarget":null,"mappingStatus":"unmapped-extra-candidate"},
+    {"event_id":"MUS_Warning_LowPulse","variant":3,"file":"MUS_Warning_LowPulse_03.wav","state":"warning","loop":true,"duration_seconds":60.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":17280044,"sha256":"0686321b11c717f01f69bc08e1d1b3bd007e79b2ea8132a198e6d78286c6f020","canonicalTarget":null,"mappingStatus":"unmapped-extra-candidate"},
+    {"event_id":"MUS_Storm_Phase1","variant":1,"file":"MUS_Storm_Phase1_01.wav","state":"storm-wind","loop":true,"duration_seconds":90.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":25920044,"sha256":"8d9eb107377ef53d82a2b8cc7b7705ea5cd6241fa4375744d2761e4ca40246bf","canonicalTarget":"MUS_STORM_BASE_001","mappingStatus":"candidate-for-canonical-audition"},
+    {"event_id":"MUS_Storm_Phase1","variant":2,"file":"MUS_Storm_Phase1_02.wav","state":"storm-wind","loop":true,"duration_seconds":90.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":25920044,"sha256":"985e78819b901fa0757808e0f46eec4631f6e4a11d4c88f4b51b1a51a97820d6","canonicalTarget":"MUS_STORM_BASE_001","mappingStatus":"candidate-for-canonical-audition"},
+    {"event_id":"MUS_Storm_Phase2","variant":1,"file":"MUS_Storm_Phase2_01.wav","state":"storm-rain-fire","loop":true,"duration_seconds":90.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":25920044,"sha256":"2153fdcffe7e0b8a342d0528169500f741830f57a5d8c950b778c5641515c28e","canonicalTarget":"MUS_STORM_PRESSURE_001","mappingStatus":"candidate-for-canonical-audition"},
+    {"event_id":"MUS_Storm_Phase2","variant":2,"file":"MUS_Storm_Phase2_02.wav","state":"storm-rain-fire","loop":true,"duration_seconds":90.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":25920044,"sha256":"53138bba3c98051334207fc6a50a13dae78b28cc02eec547dbc96869230833ba","canonicalTarget":"MUS_STORM_PRESSURE_001","mappingStatus":"candidate-for-canonical-audition"},
+    {"event_id":"MUS_Storm_Phase3","variant":1,"file":"MUS_Storm_Phase3_01.wav","state":"storm-signal","loop":true,"duration_seconds":90.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":25920044,"sha256":"941cd709d24eaf4e823a9bc7e6867d49d62e95052a2e17e92bf3051c37fd9900","canonicalTarget":"MUS_SIGNAL_FINAL_001","mappingStatus":"candidate-for-canonical-audition"},
+    {"event_id":"MUS_Storm_Phase3","variant":2,"file":"MUS_Storm_Phase3_02.wav","state":"storm-signal","loop":true,"duration_seconds":90.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":25920044,"sha256":"d158d479ff834671b5a631a79ecf065221417bbe48b11fb38cd1dd01f9f22d7c","canonicalTarget":"MUS_SIGNAL_FINAL_001","mappingStatus":"candidate-for-canonical-audition"},
+    {"event_id":"MUS_Finale_Success","variant":1,"file":"MUS_Finale_Success_01.wav","state":"finale-success","loop":false,"duration_seconds":24.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":6912044,"sha256":"d1301d1706c806def1d274e49d5eb53a1f556ec196aa925c6bcef565895894c0","canonicalTarget":"MUS_RESCUE_RELEASE_001","mappingStatus":"candidate-for-canonical-audition"},
+    {"event_id":"MUS_Finale_Success","variant":2,"file":"MUS_Finale_Success_02.wav","state":"finale-success","loop":false,"duration_seconds":24.0,"channels":2,"sample_rate_hz":48000,"bit_depth":24,"bytes":6912044,"sha256":"038432a7f0cb2f17087e49fda7c48ba7ee3c08a1789f5b6a58deb1d981543505","canonicalTarget":"MUS_RESCUE_RELEASE_001","mappingStatus":"candidate-for-canonical-audition"}
+  ],
+  "humanReviewRequired": ["speech-space and partner communication compatibility","genre/tone fit","storm pressure without task confusion","signal/rescue payoff","loop seam or ending shape","variant selection per canonical family"],
+  "rule": "Artifact audit and hash verification make candidates audition-ready only. They do not make music source-approved, runtime-bound, Unity-integrated or release-approved."
+}
