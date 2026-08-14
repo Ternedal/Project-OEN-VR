@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from audio_source_approval_support import MATERIALIZE_CONTRACT, ROOT, ApprovalError, collect_upstream, expected_bindings, load_json, sha256_file, verify_pack_sources
-from normalize_audio_source_approval_review import normalize_check, source_eligible
+from normalize_audio_source_approval_review import normalize_check, reviewer_identity_complete, source_eligible
 
 
 def validate_approval(approval: dict[str, Any], upstream: list[Path], pack_root: Path, repo_root: Path = ROOT) -> tuple[dict[str, Any], list[dict[str, Any]]]:
@@ -23,6 +23,9 @@ def validate_approval(approval: dict[str, Any], upstream: list[Path], pack_root:
         raise ApprovalError("normalized typed source approval status/kind mismatch")
     if approval.get("bindings") != expected_bindings(context):
         raise ApprovalError("normalized typed source approval bindings are stale")
+    reviewer = approval.get("reviewerAlias")
+    reviewed_at = approval.get("reviewedAt")
+    reviewer_ok = reviewer_identity_complete(reviewer, reviewed_at)
     records = approval.get("records")
     if not isinstance(records, list) or len(records) != len(context["selected"]):
         raise ApprovalError("normalized typed approval source set mismatch")
@@ -36,15 +39,28 @@ def validate_approval(approval: dict[str, Any], upstream: list[Path], pack_root:
         if not source or key in seen:
             raise ApprovalError(f"unknown/duplicate approval sourceKey: {key!r}")
         seen.add(key)
-        for field, expected in (("reviewKind", source["reviewKind"]), ("target", source["target"]), ("reviewPath", source["reviewPath"]), ("sourcePath", source["sourcePath"]), ("sourceSha256", source["sha256"]), ("license", source["license"]), ("provider", source["provider"]), ("sourcePage", source["sourcePage"]), ("sourceKind", source["sourceKind"])):
+        for field, expected in (
+            ("reviewKind", source["reviewKind"]),
+            ("target", source["target"]),
+            ("reviewPath", source["reviewPath"]),
+            ("sourcePath", source["sourcePath"]),
+            ("sourceSha256", source["sha256"]),
+            ("license", source["license"]),
+            ("provider", source["provider"]),
+            ("sourcePage", source["sourcePage"]),
+            ("sourceKind", source["sourceKind"]),
+        ):
             if record.get(field) != expected:
                 raise ApprovalError(f"{key}: normalized approval provenance drift in {field}")
         checks = record.get("checks")
         if not isinstance(checks, dict) or set(checks) != set(contract["typedChecks"]):
             raise ApprovalError(f"{key}: normalized typed check set mismatch")
-        normalized_checks = {check_id: normalize_check(check_id, checks[check_id], contract["typedChecks"][check_id]) for check_id in contract["typedChecks"]}
+        normalized_checks = {
+            check_id: normalize_check(check_id, checks[check_id], contract["typedChecks"][check_id])
+            for check_id in contract["typedChecks"]
+        }
         decision = record.get("sourceDecision", "")
-        recomputed = source_eligible(contract, source, decision, normalized_checks)
+        recomputed = source_eligible(contract, source, decision, normalized_checks, reviewer_ok)
         if record.get("sourceApprovedEligible") is not recomputed:
             raise ApprovalError(f"{key}: stored sourceApprovedEligible disagrees with current evidence")
         if recomputed:
@@ -103,7 +119,7 @@ def materialize(approval_path: Path, upstream: list[Path], pack_root: Path, outp
             "upstreamEvidenceSha256": collect_upstream(upstream, repo_root)["upstreamEvidenceSha256"],
             "approvedCount": len(receipt_records),
             "records": receipt_records,
-            "rule": "Explicit human source-approved gate materialized original bytes unchanged. Derived-master, Unity, Quest and release approval remain separate."
+            "rule": "Explicit human source-approved gate materialized original bytes unchanged. Reviewer identity/timestamp are revalidated; derived-master, Unity, Quest and release approval remain separate.",
         }
         (staging / contract["output"]["receiptFilename"]).write_text(json.dumps(receipt, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         if output_dir.exists():

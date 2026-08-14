@@ -24,10 +24,31 @@ def normalize_check(check_id: str, raw: Any, spec: dict[str, Any]) -> dict[str, 
     return {"value": value, "note": note.strip()}
 
 
-def source_eligible(contract: dict[str, Any], source: dict[str, Any], decision: str, checks: dict[str, dict[str, Any]]) -> bool:
-    license_ok = isinstance(source.get("license"), str) and bool(source["license"].strip()) and isinstance(source.get("sourcePage"), str) and bool(source["sourcePage"].strip())
+def reviewer_identity_complete(reviewer: Any, reviewed_at: Any) -> bool:
     return (
-        decision == "approve-source"
+        isinstance(reviewer, str)
+        and bool(reviewer.strip())
+        and isinstance(reviewed_at, str)
+        and bool(reviewed_at.strip())
+    )
+
+
+def source_eligible(
+    contract: dict[str, Any],
+    source: dict[str, Any],
+    decision: str,
+    checks: dict[str, dict[str, Any]],
+    reviewer_ok: bool,
+) -> bool:
+    license_ok = (
+        isinstance(source.get("license"), str)
+        and bool(source["license"].strip())
+        and isinstance(source.get("sourcePage"), str)
+        and bool(source["sourcePage"].strip())
+    )
+    return (
+        reviewer_ok
+        and decision == "approve-source"
         and license_ok
         and checks["CONTAMINATION"]["value"] == "pass"
         and checks["MATERIAL_MATCH"]["value"] >= contract["typedChecks"]["MATERIAL_MATCH"]["approvalMin"]
@@ -53,6 +74,7 @@ def normalize(payload: dict[str, Any], upstream: list[Path], pack_root: Path, re
     reviewed_at = payload.get("reviewedAt")
     if not isinstance(reviewer, str) or not isinstance(reviewed_at, str):
         raise ApprovalError("reviewerAlias/reviewedAt must be text")
+    reviewer_ok = reviewer_identity_complete(reviewer, reviewed_at)
     records = payload.get("records")
     if not isinstance(records, list) or len(records) != len(context["selected"]):
         raise ApprovalError(f"typed review must contain exactly {len(context['selected'])} shortlisted source records")
@@ -70,7 +92,14 @@ def normalize(payload: dict[str, Any], upstream: list[Path], pack_root: Path, re
         if not source or key in seen:
             raise ApprovalError(f"unknown/duplicate sourceKey: {key!r}")
         seen.add(key)
-        for field, expected in (("reviewKind", source["reviewKind"]), ("target", source["target"]), ("reviewPath", source["reviewPath"]), ("sourcePath", source["sourcePath"]), ("sourceSha256", source["sha256"]), ("license", source["license"])):
+        for field, expected in (
+            ("reviewKind", source["reviewKind"]),
+            ("target", source["target"]),
+            ("reviewPath", source["reviewPath"]),
+            ("sourcePath", source["sourcePath"]),
+            ("sourceSha256", source["sha256"]),
+            ("license", source["license"]),
+        ):
             if raw.get(field) != expected:
                 raise ApprovalError(f"{key}: source identity/provenance drift in {field}")
         decision = raw.get("sourceDecision", "")
@@ -82,10 +111,13 @@ def normalize(payload: dict[str, Any], upstream: list[Path], pack_root: Path, re
         checks = raw.get("checks")
         if not isinstance(checks, dict) or set(checks) != required_checks:
             raise ApprovalError(f"{key}: typed check set mismatch")
-        normalized_checks = {check_id: normalize_check(check_id, checks[check_id], contract["typedChecks"][check_id]) for check_id in contract["typedChecks"]}
+        normalized_checks = {
+            check_id: normalize_check(check_id, checks[check_id], contract["typedChecks"][check_id])
+            for check_id in contract["typedChecks"]
+        }
         if decision:
             decided += 1
-        eligible = source_eligible(contract, source, decision, normalized_checks)
+        eligible = source_eligible(contract, source, decision, normalized_checks, reviewer_ok)
         if eligible:
             eligible_count += 1
         normalized.append({
@@ -104,9 +136,12 @@ def normalize(payload: dict[str, Any], upstream: list[Path], pack_root: Path, re
             "overallNote": overall.strip(),
             "sourceApprovedEligible": eligible,
         })
-    complete = bool(reviewer.strip()) and bool(reviewed_at.strip()) and decided == len(context["selected"])
+    complete = reviewer_ok and decided == len(context["selected"])
     if require_complete and not complete:
-        raise ApprovalError(f"typed source approval review incomplete: reviewer={bool(reviewer.strip())}, reviewedAt={bool(reviewed_at.strip())}, decisions={decided}/{len(context['selected'])}")
+        raise ApprovalError(
+            f"typed source approval review incomplete: reviewer={bool(reviewer.strip())}, "
+            f"reviewedAt={bool(reviewed_at.strip())}, decisions={decided}/{len(context['selected'])}"
+        )
     return {
         "version": 1,
         "status": contract["normalizedStatus"],
@@ -114,9 +149,14 @@ def normalize(payload: dict[str, Any], upstream: list[Path], pack_root: Path, re
         "reviewedAt": reviewed_at,
         "reviewerAlias": reviewer.strip(),
         "bindings": expected_bindings(context),
-        "coverage": {"decided": decided, "total": len(context["selected"]), "eligibleForSourceApproval": eligible_count, "complete": complete},
+        "coverage": {
+            "decided": decided,
+            "total": len(context["selected"]),
+            "eligibleForSourceApproval": eligible_count,
+            "complete": complete,
+        },
         "records": sorted(normalized, key=lambda x: x["sourceKey"]),
-        "rule": "Typed human evidence evaluated against sourceApprovedRequires. Eligibility is not materialized source-approved state until the separate promotion tool succeeds."
+        "rule": "Typed human evidence evaluated against sourceApprovedRequires. Eligibility requires reviewer identity/timestamp and is not materialized source-approved state until the separate promotion tool succeeds.",
     }
 
 

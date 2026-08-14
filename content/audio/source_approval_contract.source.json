@@ -37,6 +37,7 @@
   ],
   "sourceApprovedEligibilityRequires": [
     "reviewerAlias is non-empty",
+    "reviewedAt is non-empty",
     "all 8 typed checks are completed",
     "sourceDecision == approve-source",
     "license evidence is present in committed acquisition provenance",
@@ -53,6 +54,7 @@
   "rules": [
     "Existing V2 shortlist review remains preliminary evidence and is not reinterpreted as a typed approval review.",
     "Only sources that passed the appropriate upstream shortlist decision may enter this approval review.",
+    "Reviewer identity and review timestamp are part of source-approval eligibility, not just global completeness metadata.",
     "A complete negative source review is valid evidence and must not be coerced into approval.",
     "Typed approval evidence is still not a byte materialization; a separate guarded materializer performs the explicit source-approved state transition.",
     "Derived-master, Unity, Quest and release approval remain separate gates."
