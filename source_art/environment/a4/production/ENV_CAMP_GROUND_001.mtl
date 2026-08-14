@@ -1,0 +1,22 @@
+# A4 Camp environment materials; final Unity shaders remain runtime-owned.
+newmtl MAT_DRY_SAND
+Kd 0.64 0.53 0.36
+map_Kd textures/MAT_CAMP_DRY_SAND_001.png
+newmtl MAT_WET_SAND
+Kd 0.31 0.30 0.26
+map_Kd textures/MAT_CAMP_WET_SAND_001.png
+newmtl MAT_STORM_GROUND
+Kd 0.24 0.26 0.25
+map_Kd textures/MAT_CAMP_STORM_GROUND_001.png
+newmtl MAT_DRIFTWOOD
+Kd 0.37 0.29 0.21
+map_Kd textures/MAT_CAMP_DRIFTWOOD_001.png
+newmtl MAT_ROCK
+Kd 0.28 0.32 0.34
+map_Kd ../../b1/production/textures/MAT_RAVINE_ROCK_001.png
+newmtl MAT_MARKER
+Kd 0.66 0.57 0.39
+map_Kd ../../b1/production/textures/MAT_ROUTE_MARKER_001.png
+newmtl MAT_CANVAS
+Kd 0.66 0.59 0.43
+map_Kd ../../../props/a2/production/textures/MAT_AGED_CANVAS_001.png

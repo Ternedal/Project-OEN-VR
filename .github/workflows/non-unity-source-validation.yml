@@ -18,6 +18,8 @@ on:
       - 'tools/validate_camp_source_meshes.py'
       - 'tools/validate_b1_source_meshes.py'
       - 'tools/validate_b1_environment_meshes.py'
+      - 'tools/validate_a4_camp_environment_meshes.py'
+      - 'tools/validate_a3_vfx_sprites.py'
       - '.github/workflows/non-unity-source-validation.yml'
   pull_request:
     paths:
@@ -35,6 +37,8 @@ on:
       - 'tools/validate_camp_source_meshes.py'
       - 'tools/validate_b1_source_meshes.py'
       - 'tools/validate_b1_environment_meshes.py'
+      - 'tools/validate_a4_camp_environment_meshes.py'
+      - 'tools/validate_a3_vfx_sprites.py'
       - '.github/workflows/non-unity-source-validation.yml'
 
 permissions:
@@ -70,3 +74,7 @@ jobs:
         run: python tools/validate_b1_source_meshes.py
       - name: Validate B1 environment meshes
         run: python tools/validate_b1_environment_meshes.py
+      - name: Validate A4 Camp environment meshes
+        run: python tools/validate_a4_camp_environment_meshes.py
+      - name: Validate A3 VFX production sprites
+        run: python tools/validate_a3_vfx_sprites.py

@@ -22,19 +22,19 @@ The routing contract gives every one of the 35 cues exactly one current producti
 
 | Route | Cues | Meaning |
 |---|---:|---|
-| Physical Foley session ready | 13 | Existing 13-cue / 53-take heavy/rope/shelter recording lane |
+| Physical Foley session ready | 17 | Current 17-cue / 73-take heavy/rope/shelter/event recording lane |
 | Acquired candidate pool | 13 | Exact acquired sources exist; human listening/source approval still required |
 | Derived after approved sources | 1 | Partial shelter collapse should be authored from approved shelter/timber sources with documented derivation |
-| Physical recording extension pending | 4 | Safe event/small-prop Foley still needs a recording session |
+| Physical recording extension pending | 0 | All currently scoped safe event/small-prop Foley is now in the recording queue |
 | Source acquisition or recording pending | 2 | Dedicated ignition and wet-fire-hiss source still missing |
 | Licensed source acquisition pending | 1 | Ambiguous distant animal-threat source still missing |
 | Owner-gated | 1 | Firesteel stays blocked by issue #8 |
 
 Total: **35 needs-source cues, 0 source approvals implied.**
 
-## The four physical-recording extension gaps
+## Four physical-recording extensions now routed
 
-These are not part of the existing 53-take session yet:
+These were former gaps and are now part of the 73-take physical session:
 
 - `SFX_FIRE_FUEL_ADD_001`
 - `SFX_ANIMAL_CAMP_APPROACH_001`
@@ -44,6 +44,9 @@ These are not part of the existing 53-take session yet:
 `SFX_FIRE_FUEL_ADD_001` is a storm fire-maintenance cue. It is **not** the owner-gated manual firesteel interaction, so it can receive a safe small-prop recording plan without changing issue #8 scope.
 
 The animal approach/retreat cues should remain ambiguous rustle/ground movement where possible. The project does not need to canonize a hero creature voice merely to fill those slots.
+
+Their route remains `recording-tooling-ready-not-recorded`: adding them to the
+queue does not claim that any takes or human approvals exist.
 
 ## The three acquisition-oriented gaps
 

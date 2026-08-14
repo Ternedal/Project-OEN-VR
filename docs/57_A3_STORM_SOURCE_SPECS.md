@@ -277,6 +277,10 @@ source_art/vfx/a3/
 
 File extension depends on the produced source (SVG/PNG/reference sheet). Unity-derived/runtime assets are Claude's responsibility.
 
+The current deterministic 512 px PNG derivatives and cell-layout metadata are
+in `source_art/vfx/a3/production/`. They satisfy the transparent production
+source requirement without claiming a Unity particle/shader implementation.
+
 ---
 
 # 13. Acceptance before Claude handoff

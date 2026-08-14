@@ -3,7 +3,7 @@
 **Class:** `OWN`  
 **Created for:** PROJECT ØEN  
 **Date:** 2026-08-13  
-**Status:** SOURCE REFERENCE / final scene art and Unity integration pending
+**Status:** SOURCE REFERENCE + PRODUCTION MESH/MATERIAL PACK / Unity integration pending
 
 Files in this pack were created specifically from PROJECT ØEN's own environment/product briefs:
 
@@ -22,7 +22,11 @@ Current source references:
 - `RADIO_SOURCE_REFERENCE_001.svg` — dead/weak/active diegetic radio language
 - `SIGNAL_FRAME_REFERENCE_001.svg` — stage 0–3 signal-frame progression
 
-All six references are project-original source masters. They define product/art intent only; they are not final Unity geometry, materials, shaders, lighting, colliders, LODs, prefabs, VFX, networking or runtime state.
+All six references are project-original source masters. Importable geometry and
+material sources derived from them now live in `production/`, with their own
+README and provenance. Neither the references nor the production pack claim
+final Unity scene assembly, shaders, lighting, colliders, LODs, prefabs, VFX,
+networking, device evidence or runtime state.
 
 ## Handoff boundary
 

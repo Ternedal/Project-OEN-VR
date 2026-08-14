@@ -26,6 +26,8 @@ jobs:
           python-version: '3.12'
       - name: Generate AU-1 cues
         run: python source_audio/au1/generate_au1.py --output /tmp/oen-au1
+      - name: Validate committed AU-1 production masters
+        run: python source_audio/au1/validate_production.py --generated /tmp/oen-au1
       - name: Validate generated WAV set
         run: |
           python - <<'PY'

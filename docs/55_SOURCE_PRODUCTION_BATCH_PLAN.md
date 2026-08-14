@@ -29,7 +29,7 @@ Dette dokument er den aktuelle eksekveringsrækkefølge for non-Unity source-pro
 | Character readability | **P1/P2 hands + neutral torso source reference produceret** | Claude runtime representation/device QA |
 | A5 utility/release source | **Expanded source set + ending crate produceret** | Unity import/binding/device QA |
 | C1 epilogue | **Reuse-first post-storm mood/reference produceret** | Claude ending-state layout/light/weather/device QA |
-| AU-1 feedback | **Generator ready + CI validated** | Claude runtime mix/binding |
+| AU-1 feedback | **12 production WAV masters committed + deterministically CI validated** | Claude runtime mix/binding |
 | AU-2 natural Foley | **Recording plan + acquired wood/cloth source packs** | human audition; record/edit/master where pack fit is insufficient |
 | World ambience | **Core + ocean extension originals acquired; ikke listening-approved** | human listening/source selection |
 | PR #6 env candidates | **28 WAV artifact audited; ikke approved** | PR re-sync + headset/listening QA |

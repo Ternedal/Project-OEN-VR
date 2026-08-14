@@ -2,7 +2,7 @@
 
 **Owner:** ChatGPT  
 **Date:** 2026-08-13  
-**Status:** reproducible source generator ready; generated WAVs are derived artifacts
+**Status:** 12 production WAV masters committed; reproducible generator retained
 
 ## Scope
 
@@ -20,9 +20,10 @@ Generator:
 python source_audio/au1/generate_au1.py --output /tmp/oen-au1
 ```
 
-Output is mono PCM WAV, 48 kHz, 16-bit, plus a manifest with duration, peak and SHA-256.
+Committed output is in `production/`: mono PCM WAV, 48 kHz, 16-bit, plus a
+manifest with duration, peak and SHA-256.
 
-## Why the WAVs are derived
+## Source and committed derivatives
 
 The generator is the source master for this batch. It keeps the cues:
 
@@ -31,7 +32,10 @@ The generator is the source master for this batch. It keeps the cues:
 - regenerable without a binary source dependency
 - easy to revise by changing actual synthesis parameters
 
-Generated WAVs may be committed or packaged later if the release/tooling flow benefits from that, but Claude is free to regenerate/derive Unity import assets from the source generator.
+The canonical waveform source remains the deterministic generator. Its 12 exact
+WAV derivatives are now committed so Unity can import real audio files directly
+without a separate generation step. CI regenerates them and compares their
+bytes against the committed masters.
 
 ## Not covered
 

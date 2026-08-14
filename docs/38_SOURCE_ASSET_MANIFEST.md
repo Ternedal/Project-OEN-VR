@@ -58,13 +58,13 @@ Produktion kan være gated, men specifikationen må være klar tidligere.
 
 | ID | Navn | Pri. | Funktion | Source-leverance | Status |
 |---|---|---:|---|---|---|
-| `ENV_BEACH_CAMP_001` | Strand/lejr base kit | A | Primært hubområde, intro, planning, storm | layout/state/reference | **Source reference produceret** (`source_art/environment/a4/`) |
+| `ENV_BEACH_CAMP_001` | Strand/lejr base kit | A | Primært hubområde, intro, planning, storm | layout/state geometry | **Production source produceret** (`source_art/environment/a4/production/ENV_BEACH_CAMP_001.obj`) |
 | `ENV_WRECKAGE_001` | Vrag-landmark | A | Visuelt landmark og intro-kontekst | hero silhouette/reference | **Source reference produceret** |
-| `ENV_CAMP_GROUND_001` | Lejrterræn/underlag | A | Grounding af camp, byggezoner | dry/wet material/readability ref | **Source reference produceret** |
+| `ENV_CAMP_GROUND_001` | Lejrterræn/underlag | A | Grounding af camp, byggezoner | dry/wet material/readability geometry | **Production source produceret** (`source_art/environment/a4/production/ENV_CAMP_GROUND_001.obj`) |
 | `ENV_JUNGLE_PATH_001` | Junglesti kit | B | Gathering/exploration | path/readability geometry | **Production source produceret** (`source_art/environment/b1/production/ENV_JUNGLE_PATH_001.obj`) |
 | `ENV_RAVINE_001` | Kløft-kit | B | Ravine rescue | route/role/readability geometry | **Production source produceret** (`source_art/environment/b1/production/ENV_RAVINE_001.obj`) |
 | `ENV_RIDGE_001` | Højderyg/udsigt | B | Signal-/skibsruteinformation | vista/readability geometry | **Production source produceret** (`source_art/environment/b1/production/ENV_RIDGE_001.obj`) |
-| `ENV_STORM_CAMP_001` | Stormvariant af camp | A | M5 finale | damaged/wet state reference | **Source reference produceret** via A4 camp-state/A3 storm refs |
+| `ENV_STORM_CAMP_001` | Stormvariant af camp | A | M5 finale | damaged/wet state geometry | **Production source produceret** (`source_art/environment/a4/production/ENV_STORM_CAMP_001.obj`) |
 | `ENV_EPILOGUE_001` | Epilog-/lejrbålsområde | C | Efterspil/finale | mood/world concept | **Source reference produceret** (`source_art/environment/c1/ENV_EPILOGUE_001.svg`); reuse-first existing camp |
 
 ## Miljøfamilier
@@ -177,13 +177,13 @@ ChatGPT leverer look/reference og source textures/sprites; Claude bygger runtime
 
 | ID | Cue | Pri. | Source-leverance | Status |
 |---|---|---:|---|---|
-| `VFX_RAIN_001` | Regn | A | droplet/streak source + density reference | **Source master/reference produceret** |
-| `VFX_WIND_DEBRIS_001` | Vinddebris | A | debris source + motion ref | **Source master/reference produceret** |
-| `VFX_FIRE_EMBERS_001` | Gløder | A | ember source + state ref | **Source master/reference produceret** |
-| `VFX_FIRE_SMOKE_001` | Røg | A | smoke source + intensity ref | **Source master/reference produceret** |
-| `VFX_ROPE_STRAIN_001` | Rebspænding | B | dust/fiber cue ref | **Source master/reference produceret** (`source_art/vfx/a3/VFX_ROPE_STRAIN_001.svg`) |
-| `VFX_IMPACT_001` | Impact/build hit | B | small impact source set | **Source master/reference produceret** |
-| `VFX_WETNESS_REFERENCE_001` | Wetness look | A | dry→wet reference board | **Source reference produceret** |
+| `VFX_RAIN_001` | Regn | A | droplet/streak source + density reference | **Production PNG + SVG master produceret** (`source_art/vfx/a3/production/VFX_RAIN_001.png`) |
+| `VFX_WIND_DEBRIS_001` | Vinddebris | A | debris source + motion ref | **Production PNG + SVG master produceret** |
+| `VFX_FIRE_EMBERS_001` | Gløder | A | ember source + state ref | **Production PNG + SVG master produceret** |
+| `VFX_FIRE_SMOKE_001` | Røg | A | smoke source + intensity ref | **Production PNG + SVG master produceret** |
+| `VFX_ROPE_STRAIN_001` | Rebspænding | B | dust/fiber cue ref | **Production PNG + SVG master produceret** (`source_art/vfx/a3/production/VFX_ROPE_STRAIN_001.png`) |
+| `VFX_IMPACT_001` | Impact/build hit | B | small impact source set | **Production PNG + SVG master produceret** |
+| `VFX_WETNESS_REFERENCE_001` | Wetness look | A | dry→wet reference board | **Production PNG + SVG master produceret** |
 | `VFX_STORM_PHASE_REF_001` | Storm intensitetsguide | A | phase visual target sheet | **Source reference produceret** |
 
 ---

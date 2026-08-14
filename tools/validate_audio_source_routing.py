@@ -15,12 +15,7 @@ RECEIPTS = [
     ROOT / "content/audio/acquisition_field_backlog_receipt.source.json",
     ROOT / "content/audio/acquisition_field_backlog_final_receipt.source.json",
 ]
-EXPECTED_EXTENSION = {
-    "SFX_FIRE_FUEL_ADD_001",
-    "SFX_ANIMAL_CAMP_APPROACH_001",
-    "SFX_ANIMAL_RETREAT_001",
-    "SFX_FOOD_DISTURBED_001",
-}
+EXPECTED_EXTENSION: set[str] = set()
 EXPECTED_PENDING = {"SFX_FIRE_IGNITION_001", "SFX_FIRE_WET_HISS_001"}
 EXPECTED_LICENSED = {"SFX_ANIMAL_DISTANT_001"}
 EXPECTED_DERIVED = {"SFX_SHELTER_COLLAPSE_PARTIAL_001"}
@@ -101,8 +96,8 @@ def main() -> int:
         errors.append(f"needs_source route coverage mismatch: missing={sorted(needs_source-set(by_id))}, extra={sorted(set(by_id)-needs_source)}")
 
     physical = {cue_id for cue_id, route in by_id.items() if route.get("routeType") == "physical-foley-session"}
-    if physical != foley or len(physical) != 13:
-        errors.append(f"physical Foley route set must exactly equal current 13-cue queue: routed={sorted(physical)} queue={sorted(foley)}")
+    if physical != foley or len(physical) != 17:
+        errors.append(f"physical Foley route set must exactly equal current 17-cue queue: routed={sorted(physical)} queue={sorted(foley)}")
 
     pools = {cue_id: route for cue_id, route in by_id.items() if route.get("routeType") == "acquired-candidate-pool"}
     if len(pools) != 13:
@@ -150,10 +145,9 @@ def main() -> int:
 
     counts = Counter(route.get("routeType") for route in by_id.values())
     expected_counts = {
-        "physical-foley-session": 13,
+        "physical-foley-session": 17,
         "acquired-candidate-pool": 13,
         "derived-after-approved-sources": 1,
-        "physical-recording-extension-pending": 4,
         "source-acquisition-or-recording-pending": 2,
         "licensed-source-acquisition-pending": 1,
         "owner-gated": 1,
@@ -164,15 +158,15 @@ def main() -> int:
     summary = routing.get("summary", {})
     if summary.get("needsSourceCueCount") != 35 or summary.get("sourceApproved") != 0:
         errors.append("routing summary must remain 35 needs-source / 0 source-approved")
-    if summary.get("physicalFoleySessionReady") != 13:
-        errors.append("routing summary must report 13 current physical-Foley cues")
+    if summary.get("physicalFoleySessionReady") != 17:
+        errors.append("routing summary must report 17 current physical-Foley cues")
     if summary.get("acquiredCandidatePool") != 12 or summary.get("partialCandidateCoverage") != 1:
         errors.append("routing summary must separate 12 acquired-pool cues without a known extra acquisition from 1 Beach/Palm partial route")
     if summary.get("acquiredCandidatePool", 0) + summary.get("partialCandidateCoverage", 0) != len(pools):
         errors.append("routing summary acquired+partial pool count must equal the 13 acquired-candidate-pool routes")
     expected_summary_rest = {
         "derivedAfterApprovedSources": 1,
-        "physicalRecordingExtensionPending": 4,
+        "physicalRecordingExtensionPending": 0,
         "sourceAcquisitionOrRecordingPending": 2,
         "licensedSourceAcquisitionPending": 1,
         "ownerGated": 1,
@@ -186,7 +180,7 @@ def main() -> int:
             print("ERROR:", error)
         print(f"Audio source routing FAILED: {len(errors)} error(s).")
         return 1
-    print("Audio source routing OK: all 35 needs-source cues have exactly one route; 13 current Foley, 13 acquired-pool routes (12 + 1 explicit Beach/Palm partial), 8 pending/derived/owner routes, 0 source approvals implied.")
+    print("Audio source routing OK: all 35 needs-source cues have exactly one route; 17 current Foley, 13 acquired-pool routes (12 + 1 explicit Beach/Palm partial), 5 pending/derived/owner routes, 0 source approvals implied.")
     return 0
 
 
