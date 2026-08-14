@@ -1,0 +1,57 @@
+name: Validate typed audio source approval tooling
+
+on:
+  pull_request:
+    paths:
+      - 'content/audio/acquisition_receipt.source.json'
+      - 'content/audio/acquisition_extension_receipt.source.json'
+      - 'content/audio/acquisition_extension_member_shortlist.source.json'
+      - 'content/audio/acquisition_field_backlog_receipt.source.json'
+      - 'content/audio/listening_qa.source.json'
+      - 'content/audio/source_approval_contract.source.json'
+      - 'content/audio/source_approved_materialization_contract.source.json'
+      - 'tools/audio_source_approval_support.py'
+      - 'tools/prepare_audio_source_approval_review.py'
+      - 'tools/normalize_audio_source_approval_review.py'
+      - 'tools/materialize_source_approved_audio.py'
+      - 'tools/test_audio_source_approval.py'
+      - 'tools/validate_audio_source_approval_contract.py'
+      - 'docs/71_AUDIO_SOURCE_APPROVAL_GATE.md'
+      - '.github/workflows/audio-source-approval-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/audio/acquisition_receipt.source.json'
+      - 'content/audio/acquisition_extension_receipt.source.json'
+      - 'content/audio/acquisition_extension_member_shortlist.source.json'
+      - 'content/audio/acquisition_field_backlog_receipt.source.json'
+      - 'content/audio/listening_qa.source.json'
+      - 'content/audio/source_approval_contract.source.json'
+      - 'content/audio/source_approved_materialization_contract.source.json'
+      - 'tools/audio_source_approval_support.py'
+      - 'tools/prepare_audio_source_approval_review.py'
+      - 'tools/normalize_audio_source_approval_review.py'
+      - 'tools/materialize_source_approved_audio.py'
+      - 'tools/test_audio_source_approval.py'
+      - 'tools/validate_audio_source_approval_contract.py'
+      - 'docs/71_AUDIO_SOURCE_APPROVAL_GATE.md'
+      - '.github/workflows/audio-source-approval-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile source approval tooling
+        run: python -m py_compile tools/audio_source_approval_support.py tools/prepare_audio_source_approval_review.py tools/normalize_audio_source_approval_review.py tools/materialize_source_approved_audio.py tools/test_audio_source_approval.py tools/validate_audio_source_approval_contract.py
+      - name: Validate live source approval contract
+        run: python tools/validate_audio_source_approval_contract.py
+      - name: Test typed approval and explicit promotion
+        run: python tools/test_audio_source_approval.py
