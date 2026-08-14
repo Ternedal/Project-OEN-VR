@@ -6,26 +6,47 @@
 
 ## Purpose
 
-The project already defines the physical material intent for heavy crate, rope/tarp and shelter timber in:
+The physical Foley lane covers release-critical crate, rope/tarp, shelter timber and now the remaining safe event/small-prop cues that benefit from real material behaviour rather than arbitrary stock substitution.
+
+Source contracts:
 
 - `content/audio/foley_recording_queue.source.json`
 - `content/audio/foley_session_reconciliation.source.json`
 - `docs/58_AUDIO_SOURCE_PRODUCTION_SPEC.md`
 
-This lane turns those contracts into a repeatable recording session without pretending that source audio exists before someone actually records it.
+This lane turns those contracts into one repeatable recording session without pretending that source audio exists before someone actually records it.
 
 ## Current capture shape
 
-- 3 queue sessions
-- 3 reconciled physical setups
-- 13 canonical cue IDs
-- **53 raw variation slots**
+- **5 queue sessions**
+- **5 reconciled physical setups**
+- **17 canonical cue IDs**
+- **73 raw variation slots**
 - WAV, 48 kHz, 24-bit integer PCM, mono
 - no full-scale samples
 
-The 53 slots are real physical performances. Do not satisfy variation count by copying a WAV, changing gain, pitching one take or renaming the same bytes.
+The 73 slots are real physical performances. Do not satisfy variation count by copying a WAV, changing gain, pitching one take or renaming the same bytes.
 
-Fire-start-specific recording is not included. `SFX_FIRESTEEL_STRIKE_001` remains outside this lane while issue #8 is owner-gated.
+The four v2 event/small-prop cues each receive five genuinely independent performances, matching the project minimum for random one-shot source families:
+
+- `SFX_FIRE_FUEL_ADD_001`
+- `SFX_ANIMAL_CAMP_APPROACH_001`
+- `SFX_ANIMAL_RETREAT_001`
+- `SFX_FOOD_DISTURBED_001`
+
+Fire-start-specific recording is still excluded. `SFX_FIRESTEEL_STRIKE_001` remains outside this lane while issue #8 is owner-gated.
+
+## Safety / semantic boundaries for the new setups
+
+### Fire maintenance
+
+`SFX_FIRE_FUEL_ADD_001` is captured using a **cold firepit proxy** and dry sticks/wood props. No live flame, heat or firesteel is required. This is a normal storm fire-maintenance cue, not acceptance of the owner-gated manual fire-start interaction.
+
+### Animal/event props
+
+Approach/retreat are ambiguous brush, leaf and ground-movement performances. Do not perform animal vocals or distinctive species footsteps. `SFX_ANIMAL_DISTANT_001` remains a separate licensed-source acquisition task, so this lane must not accidentally canonize a creature species.
+
+Food disturbance uses clean dry camp props such as sacks, containers and small dry spill/shuffle material.
 
 ## 1. Prepare the private session
 
@@ -35,7 +56,7 @@ python tools/prepare_foley_session.py --output PrivateContent/FoleySession
 
 This creates:
 
-- `recording_session.json` — exact queue/reconciliation/contract bindings and all 53 expected paths
+- `recording_session.json` — exact queue/reconciliation/contract bindings and all 73 expected paths
 - `recording_board.html` — printable/operator-friendly capture board
 - `foley_provenance.json` — blank provenance template, created only if it does not already exist
 - `takes/<queue-session>/` directories
@@ -64,13 +85,15 @@ Existing provenance is never overwritten by `prepare_foley_session.py`.
 
 Use `recording_board.html` and preserve the exact filenames/paths.
 
-The three material families are:
+The five physical setups are:
 
 1. heavy crate / wooden mass
 2. rope + tarp under real physical tension
 3. shelter timber / structural creak and shift
+4. cold fire-maintenance props
+5. ambiguous animal/event props
 
-Capture raw, dry source audio. Do not bake runtime urgency, radio treatment, storm beds, EQ, compression or Unity processing into the only source master.
+Capture raw, dry source audio. Do not bake runtime urgency, weather beds, EQ, compression or Unity processing into the only source master.
 
 Target durations are navigation guidance. A duration outside the requested window is a **technical warning**, not automatic semantic rejection.
 
@@ -92,13 +115,13 @@ The validator checks:
 
 - session bindings are still current
 - exactly the expected WAV paths are used
-- all 53 planned takes exist
+- all **73** planned takes exist
 - WAV is uncompressed integer PCM
 - 48 kHz / 24-bit / mono
 - no full-scale samples
 - SHA-256 and byte count per raw take
 - exact duplicate raw bytes are rejected
-- provenance is complete
+- provenance is complete across all five physical setups
 - target-duration differences are reported as warnings
 
 ## 5. What technical PASS does not mean
@@ -109,7 +132,10 @@ A technical pass does **not** prove:
 - rope sounds like rope instead of cable
 - tarp sounds like heavy shelter fabric
 - low/high structural strain are perceptually distinct
-- 53 variants have enough human-perceived variation
+- fuel-add sounds like believable dry camp fuel
+- approach/retreat remain suitably ambiguous
+- food disturbance reads naturally in scene context
+- 73 variants have enough human-perceived variation
 - a cue survives a weather bed
 - a raw take is source-approved
 - an edited cut is derived-master-approved
@@ -119,6 +145,6 @@ Those remain human listening and later runtime/device gates.
 
 ## Evidence boundary
 
-Keep raw WAVs under private/local storage or an explicit evidence artifact; do not commit the 53 recording binaries to public Git history merely to prove the tooling works.
+Keep raw WAVs under private/local storage or an explicit evidence artifact; do not commit the 73 recording binaries to public Git history merely to prove the tooling works.
 
 Any selected raw source remains immutable. Any trim, edit, EQ, denoise, gain, resample or composite creates a new file identity and must enter the documented derived-master + repeated-listening lane.
