@@ -90,6 +90,13 @@ jobs:
         run: python tools/generated_art/refine_signal_finale_geometry.py
       - name: Render actual OBJ mockup review sheet
         run: python tools/generated_art/render_mockup_review.py
+      - name: Upload mockup-fidelity visual review
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-oen-mockup-fidelity-review-${{ github.run_id }}
+          path: tools/generated_art/review_renders/*.png
+          if-no-files-found: error
+          retention-days: 30
       - name: Refine production UI and world-space sprites
         run: python tools/generated_art/refine_ui_sprite_art.py
       - name: Refine dedicated production VFX textures
