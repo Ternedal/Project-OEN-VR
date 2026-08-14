@@ -1,18 +1,13 @@
 #!/usr/bin/env python3
 """Render scene-level Project ØEN art-direction review compositions.
 
-Asset-by-asset review is necessary but not sufficient: the approved gameplay mockups
-are compositions. This renderer combines the *actual canonical generated OBJ files*
-into four representative arrangements so silhouette, relative scale and visual language
-can be compared at a glance:
+Asset turntables are not enough: the approved gameplay mockups are dense compositions.
+This gate therefore combines the *actual canonical generated OBJ files* into four
+representative Stormnatten arrangements with real jungle-edge, ground clutter, rocks,
+wreck debris and camp dressing around the hero interaction anchors.
 
-1. camp / usable shelter + strong fire + cooking corner;
-2. storm aftermath / damaged shelter + low wet fire;
-3. beach / open shipwreck + tropical palms;
-4. signal hill / active lattice beacon + camp dressing.
-
-It is intentionally dependency-light and deterministic. It does not pretend to be a
-Unity beauty render; it is a CI art-direction gate built from the shipping geometry.
+It remains a deterministic CI art-direction render rather than a Unity beauty render;
+the important property is that every visible object is shipping canonical geometry.
 """
 from __future__ import annotations
 
@@ -30,30 +25,61 @@ MANIFEST=PROD/"Docs"/"production_art_manifest.json"
 OUT=HERE/"review_renders"
 
 # title, objects. object=(asset_id, variant-or-None, xyz, scale, local_yaw)
+# Repeated canonical vegetation/set-dressing instances are deliberate: the original
+# gameplay mockups read as an island world, not isolated catalogue assets.
 SCENES=[
-    ("CAMP / USABLE SHELTER + FIRE",[
-        ("CS-003",None,(-.55,0,.70),1.00,0),
-        ("CS-009",None,(.48,0,-.28),.92,0),
-        ("EN-017","pot",(1.28,0,.38),.70,-14),
-        ("EN-007","mature",(-1.92,0,1.25),.48,10),
+    ("CAMP / SHELTER + FIRE / DENSE JUNGLE EDGE",[
+        ("CS-003",None,(-.55,0,.72),1.00,0),
+        ("CS-009",None,(.48,0,-.34),.80,0),
+        ("EN-017","pot",(1.28,0,.28),.68,-14),
+        ("EN-018","sack",(1.58,0,.70),.58,18),
+        ("EN-007","mature",(-2.05,0,1.30),.50,10),
+        ("EN-009","dense",(-1.55,0,.96),.82,15),
+        ("EN-009","medium",(1.92,0,1.22),.72,-18),
+        ("EN-009","medium",(-1.72,0,-.48),.62,24),
+        ("EN-008","medium",(.90,0,-.82),.72,31),
+        ("EN-008","small",(-.96,0,-.70),.68,-18),
+        ("EN-005","medium",(-.08,0,-.90),.72,8),
+        ("EN-006","small",(1.58,0,-.72),.62,-24),
     ]),
-    ("STORM AFTERMATH / DAMAGED CAMP",[
-        ("CS-004",None,(-.20,0,.55),1.00,-5),
-        ("CS-010",None,(.58,0,-.28),.88,0),
-        ("PR-001","wet",(1.40,.02,.75),.48,8),
-        ("EN-007","broken",(-1.72,0,1.38),.52,-10),
+    ("STORM AFTERMATH / DAMAGED CAMP + DEBRIS",[
+        ("CS-004",None,(-.20,0,.56),1.00,-5),
+        ("CS-010",None,(.58,0,-.30),.78,0),
+        ("PR-001","wet",(1.44,.02,.78),.46,8),
+        ("EN-007","broken",(-1.78,0,1.35),.54,-10),
+        ("EN-009","dense",(-1.52,0,.72),.78,21),
+        ("EN-009","medium",(1.90,0,1.12),.70,-14),
+        ("EN-010","dense",(-1.10,.08,1.54),.72,0),
+        ("EN-008","medium",(.94,0,-.76),.72,17),
+        ("EN-002","medium",(1.58,0,-.52),.70,-27),
+        ("EN-005","large",(-.92,0,-.66),.72,12),
+        ("EN-006","medium",(-1.62,0,-.46),.62,32),
     ]),
-    ("BEACH / WRECK + TROPICAL EDGE",[
-        ("EN-001","large",(-.05,0,.10),1.00,-3),
-        ("EN-007","mature",(-2.10,0,1.25),.55,8),
-        ("EN-007","young",(1.90,0,1.48),.52,-9),
-        ("EN-006","medium",(1.25,0,-.56),.78,20),
+    ("BEACH / OPEN WRECK + TROPICAL WALL",[
+        ("EN-001","large",(-.05,0,.12),1.00,-3),
+        ("EN-007","mature",(-2.16,0,1.28),.55,8),
+        ("EN-007","young",(2.00,0,1.48),.52,-9),
+        ("EN-009","dense",(-1.62,0,1.10),.84,8),
+        ("EN-009","dense",(1.52,0,1.18),.82,-12),
+        ("EN-009","medium",(.46,0,1.62),.72,26),
+        ("EN-008","medium",(-1.10,0,-.70),.72,-25),
+        ("EN-008","medium",(1.15,0,-.62),.70,24),
+        ("EN-006","medium",(1.52,0,-.66),.76,20),
+        ("EN-002","medium",(-1.52,0,-.56),.68,-24),
+        ("EN-005","large",(.10,0,-.92),.74,7),
     ]),
-    ("SIGNAL HILL / ACTIVE BEACON",[
+    ("SIGNAL HILL / BEACON + CLIFF VEGETATION",[
         ("CS-014",None,(0,0,.38),1.00,0),
-        ("EN-019","logs",(-1.05,0,-.42),.72,12),
-        ("EN-019","ropes",(.95,0,-.34),.72,-9),
-        ("EN-007","young",(-1.75,0,1.70),.42,5),
+        ("EN-019","logs",(-1.08,0,-.46),.70,12),
+        ("EN-019","ropes",(.98,0,-.36),.70,-9),
+        ("EN-019","stones",(.25,0,-.72),.68,14),
+        ("EN-007","young",(-1.86,0,1.72),.43,5),
+        ("EN-012","ledge",(1.68,0,1.48),.52,-9),
+        ("EN-013","dense",(-1.28,0,-.62),.82,12),
+        ("EN-013","dense",(1.32,0,-.68),.76,-18),
+        ("EN-009","medium",(-1.54,0,.92),.64,18),
+        ("EN-009","medium",(1.48,0,.98),.62,-15),
+        ("EN-005","medium",(-.76,0,-.78),.64,5),
     ]),
 ]
 
@@ -76,7 +102,8 @@ def parse_obj(path:Path):
 def pick(manifest,aid,variant):
     rows=[e for e in manifest if e.get("kind")=="mesh" and str(e.get("asset_id"))==aid]
     if variant is not None:
-        exact=[e for e in rows if str(e.get("variant","default")).replace("-","_")==variant.replace("-","_")]
+        wanted=variant.replace("-","_").replace(" ","_")
+        exact=[e for e in rows if str(e.get("variant","default")).replace("-","_").replace(" ","_")==wanted]
         if exact: rows=exact
     if not rows: raise KeyError(f"No manifest mesh for {aid}/{variant}")
     return ROOT/rows[0]["path"]
@@ -110,16 +137,16 @@ def render_scene(manifest,title,objects,size=(760,490)):
     verts,faces=load_scene(manifest,objects); rv=[camera_transform(p) for p in verts]
     xs=[p[0] for p in rv]; ys=[p[1] for p in rv]
     minx,maxx,miny,maxy=min(xs),max(xs),min(ys),max(ys); sx=max(maxx-minx,.01); sy=max(maxy-miny,.01)
-    scale=min((rw-100*ss)/sx,(rh-95*ss)/sy); cx=(minx+maxx)/2; floor_y=rh-52*ss
+    scale=min((rw-82*ss)/sx,(rh-92*ss)/sy); cx=(minx+maxx)/2; floor_y=rh-48*ss
     def sp(p): return (rw/2+(p[0]-cx)*scale,floor_y-(p[1]-miny)*scale)
 
-    im=Image.new("RGB",(rw,rh),(20,27,25)); d=ImageDraw.Draw(im)
-    # Deliberately restrained world context: storm-green sky, dark wet ground, no fake scenery.
-    horizon=int(rh*.70)
-    d.rectangle((0,0,rw,horizon),fill=(24,34,32))
-    d.rectangle((0,horizon,rw,rh),fill=(34,39,32))
-    d.rectangle((0,int(rh*.53),rw,horizon),fill=(28,37,34))
-    d.ellipse((rw*.13,floor_y-9*ss,rw*.87,floor_y+18*ss),fill=(22,27,23))
+    im=Image.new("RGB",(rw,rh),(18,26,23)); d=ImageDraw.Draw(im)
+    # Restrained Stormnatten context. The scenery silhouettes themselves are all actual OBJ assets.
+    horizon=int(rh*.69)
+    d.rectangle((0,0,rw,horizon),fill=(22,33,30))
+    d.rectangle((0,horizon,rw,rh),fill=(31,38,30))
+    d.rectangle((0,int(rh*.52),rw,horizon),fill=(26,37,33))
+    d.ellipse((rw*.06,floor_y-10*ss,rw*.94,floor_y+19*ss),fill=(19,25,21))
 
     light=(.32,.86,-.40); packets=[]
     for ia,ib,ic,mat in faces:
@@ -132,9 +159,9 @@ def render_scene(manifest,title,objects,size=(760,490)):
         packets.append((depth,(sp(a),sp(b),sp(c)),tint(PALETTE.get(mat,(125,120,110)),shade)))
     for _,poly,col in sorted(packets,key=lambda q:q[0],reverse=True): d.polygon(poly,fill=col)
 
-    d.rectangle((0,0,rw,42*ss),fill=(13,18,16))
+    d.rectangle((0,0,rw,42*ss),fill=(12,17,15))
     d.text((14*ss,13*ss),title,fill=(229,222,201),stroke_width=0)
-    d.text((rw-250*ss,13*ss),"ACTUAL CANONICAL OBJ COMPOSITION",fill=(139,157,136))
+    d.text((rw-270*ss,13*ss),"ACTUAL CANONICAL OBJ WORLD COMPOSITION",fill=(139,157,136))
     return im.resize(size,Image.Resampling.LANCZOS)
 
 
@@ -145,11 +172,11 @@ def main()->int:
         img=render_scene(manifest,title,objects); cards.append(img)
         img.save(OUT/f"mockup_scene_{idx:02d}.png",compress_level=6)
     cw,ch=cards[0].size; sheet=Image.new("RGB",(cw*2,ch*2+66),(11,15,13)); d=ImageDraw.Draw(sheet)
-    d.text((18,16),"PROJECT ØEN — SCENE-LEVEL MOCKUP FIDELITY REVIEW",fill=(232,225,203))
-    d.text((18,40),"Shipping geometry composed at gameplay scale; use with original gameplay mockup board for visual sign-off.",fill=(148,163,146))
+    d.text((18,16),"PROJECT ØEN — DENSE SCENE-LEVEL MOCKUP FIDELITY REVIEW",fill=(232,225,203))
+    d.text((18,40),"Actual shipping geometry at gameplay scale: hero assets + jungle edge + debris + cliff/camp dressing.",fill=(148,163,146))
     for i,img in enumerate(cards): sheet.paste(img,((i%2)*cw,66+(i//2)*ch))
     sheet.save(OUT/"mockup_scene_contact_sheet.png",compress_level=6)
-    print(f"Rendered {len(cards)} scene-level fidelity compositions from actual canonical OBJ assets")
+    print(f"Rendered {len(cards)} dense scene-level compositions from actual canonical OBJ assets")
     return 0
 
 if __name__=="__main__": raise SystemExit(main())
