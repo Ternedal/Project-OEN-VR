@@ -209,6 +209,30 @@ def _restore_reference_panels():
     print("Restored six valid mockup reference panels from committed V2 sprite pixels")
 
 
+def _ensure_radio_reference():
+    """Replace the unused-but-versioned radio panel if the resync corrupted it."""
+    target=REF/"radio_communication.jpg"
+    try:
+        with Image.open(target) as src:
+            src.verify()
+        with Image.open(target) as src:
+            if src.width<256 or src.height<128:
+                raise ValueError(f"undersized {src.size}")
+        return
+    except (FileNotFoundError,OSError,ValueError) as exc:
+        print(f"Restoring invalid radio reference panel {target.relative_to(ROOT)}: {exc}")
+
+    index=_manifest_sprite_index()
+    source=index.get(("AX-DOC-002","clean"))
+    if source is None:
+        raise SystemExit("Cannot restore radio reference panel; manifest lacks AX-DOC-002/clean")
+    canvas=Image.new("RGBA",(512,256),(47,50,49,255))
+    _paste_reference(canvas,(0,0,512,256),source,True)
+    target.parent.mkdir(parents=True,exist_ok=True)
+    canvas.convert("RGB").save(target,format="JPEG",quality=95,subsampling=0,optimize=True)
+    print("Restored valid radio reference panel from committed radio-repair art")
+
+
 def load_sources():
     result={}; invalid=[]
     for key,name in SOURCES.items():
@@ -223,6 +247,7 @@ def load_sources():
         except (FileNotFoundError,OSError,ValueError) as exc:
             invalid.append(f"{path.relative_to(ROOT)}: {exc}")
     if not invalid:
+        _ensure_radio_reference()
         return result
 
     print("Invalid mockup reference panel payload detected:")
@@ -235,6 +260,7 @@ def load_sources():
         path=REF/name
         with Image.open(path) as src:
             result[key]=src.convert("RGB")
+    _ensure_radio_reference()
     return result
 
 
