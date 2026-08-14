@@ -1,0 +1,46 @@
+{
+  "id": "AUDIO_CUE_ALIAS_RECONCILIATION_001",
+  "version": 1,
+  "status": "canonical-doc-aliases-reconciled",
+  "owner": "ChatGPT",
+  "machineRegistry": "content/audio/audio_cues.source.json",
+  "humanManifest": "docs/39_AUDIO_CUE_MANIFEST.md",
+  "rule": "Machine runtime binding IDs come from audio_cues.source.json. Human-manifest rows absent from the registry remain source/design specs only until explicitly registered.",
+  "aliases": [
+    {
+      "old": "SFX_AMB_BEACH_CALM_001",
+      "canonical": "SFX_AMB_BEACH_CAMP_001",
+      "reason": "same beach/camp base ambience intent"
+    },
+    {
+      "old": "SFX_RAIN_L1_001",
+      "canonical": "SFX_RAIN_LIGHT_001",
+      "reason": "canonical registry names light rain semantically rather than by L1"
+    },
+    {
+      "old": "SFX_SHELTER_BEAM_SHIFT_001",
+      "canonical": "SFX_BEAM_SHIFT_001",
+      "reason": "canonical registry uses shared beam-shift cue id"
+    },
+    {
+      "old": "SFX_SUPPLY_CRATE_OPEN_001",
+      "canonical": "SFX_CRATE_OPEN_001",
+      "reason": "canonical registry uses shared crate-open cue id"
+    },
+    {
+      "old": "MUS_CAMP_WARM_001",
+      "canonical": "MUS_CAMP_BASE_001",
+      "reason": "canonical music registry uses camp base"
+    },
+    {
+      "old": "MUS_STORM_FINAL_001",
+      "canonical": "MUS_SIGNAL_FINAL_001",
+      "reason": "canonical finale music is tied to signal window"
+    }
+  ],
+  "explicitlyNotAutoReconciled": [
+    "VO conceptual family rows that expand to take IDs in the machine registry",
+    "design/spec-only cues absent from the machine registry",
+    "private personalization audio"
+  ]
+}
