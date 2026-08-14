@@ -32,14 +32,16 @@ jobs:
           sudo apt-get install -y ffmpeg
           ffprobe -version | head -n 1
 
-      - name: Acquire field-backlog candidates
+      - name: Acquire only unpinned field candidates
         run: >-
           python tools/acquire_audio_sources.py
           --candidate-source content/audio/acquisition_candidates.field_backlog.source.json
-          --all-direct --timeout 120
+          --exclude-targets-from content/audio/acquisition_field_backlog_receipt.source.json
+          --all-direct --allow-empty
+          --timeout 120 --retries 6 --inter-download-delay 5
           --output PrivateContent/AudioFieldBacklog
 
-      - name: Verify pinned field sources and report new unpinned candidates
+      - name: Verify unpinned field bootstrap against registry
         run: >-
           python tools/validate_audio_field_backlog_acquisition.py
           --root PrivateContent/AudioFieldBacklog
@@ -48,7 +50,7 @@ jobs:
       - name: Show field acquisition manifest
         run: cat PrivateContent/AudioFieldBacklog/acquisition_manifest.json
 
-      - name: Upload field originals and manifest
+      - name: Upload field bootstrap originals and manifest
         uses: actions/upload-artifact@v4
         with:
           name: oen-audio-field-backlog
