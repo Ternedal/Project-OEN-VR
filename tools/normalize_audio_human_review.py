@@ -120,7 +120,7 @@ def _validate_bindings(payload: dict[str, Any], expected: dict[str, str], owner:
             raise ReviewError(f"{owner}: stale or mismatched binding for {key}")
 
 
-def normalize_main(payload: dict[str, Any], context: dict[str, dict[str, Any]], configured_checks: set[str]) -> dict[str, Any]:
+def normalize_main(payload: dict[str, Any], context: dict[str, dict[str, Any]], configured_checks: set[str], require_complete: bool = False) -> dict[str, Any]:
     if payload.get("version") != 2 or payload.get("status") != MAIN_STATUS:
         raise ReviewError("main review: expected V2 human-listening-review-unvalidated payload")
     expected_targets = set(MAIN_CHECKS)
@@ -176,12 +176,20 @@ def normalize_main(payload: dict[str, Any], context: dict[str, dict[str, Any]], 
     if seen != expected_targets:
         raise ReviewError(f"main review: reviewer export must contain all three targets, got {sorted(seen)}")
     reviewed = sum(r["disposition"] != "unreviewed" for r in normalized)
+    checks_total = sum(len(r["checks"]) for r in normalized)
+    checks_completed = sum(1 for r in normalized for c in r["checks"].values() if c["result"] != "")
+    complete = reviewed == len(normalized) and checks_completed == checks_total
+    if require_complete and not complete:
+        raise ReviewError(
+            f"main review: incomplete; dispositions {reviewed}/{len(normalized)}, "
+            f"checks {checks_completed}/{checks_total}"
+        )
     return {
         "version": 1,
         "status": OUTPUT_STATUS,
         "reviewKind": "main-acquired-originals",
         "reviewedAt": payload.get("reviewedAt"),
-        "coverage": {"reviewed": reviewed, "total": len(normalized), "complete": reviewed == len(normalized)},
+        "coverage": {"reviewed": reviewed, "total": len(normalized), "checksCompleted": checks_completed, "checksTotal": checks_total, "complete": complete},
         "records": sorted(normalized, key=lambda r: r["target"]),
         "rule": "Normalized human evidence is hash-bound and never promotes source approval automatically.",
     }
@@ -240,7 +248,7 @@ def normalize(payload: dict[str, Any], root: Path = ROOT, require_complete: bool
     configured_checks = {x.get("id") for x in listening.get("requiredListeningChecks", []) if isinstance(x, dict)}
     status = payload.get("status")
     if status == MAIN_STATUS:
-        return normalize_main(payload, canonical_context(receipt), configured_checks)
+        return normalize_main(payload, canonical_context(receipt), configured_checks, require_complete=require_complete)
     if status == EXT_STATUS:
         return normalize_extension(payload, extension_context(ext_receipt, shortlist), require_complete=require_complete)
     raise ReviewError(f"Unsupported review status {status!r}")
