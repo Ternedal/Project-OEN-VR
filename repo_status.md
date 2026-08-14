@@ -100,15 +100,19 @@ Repoet har provenance/receipts og technical QA for:
 
 - base originals: wind, rain, fire
 - extension: ocean + wood/cloth packs
-- field backlog: 7 yderligere originals
+- field backlog: **9 acquired originals** — de tidligere 7 plus canopy-wind og rough-ocean candidates
 
-Der findes nu en reproducibel **25-source audition pack**:
+De to nyeste field-sources er pinned i `content/audio/acquisition_field_backlog_final_receipt.source.json` til Actions run `31799582783`, artifact `9218700659` og exact source SHA-256. Rough-ocean-originalen har én full-scale integer sample og skal have eksplicit headroom/peak-inspection før en eventuel derivative.
+
+Der findes nu en reproducibel **27-source audition pack**:
 
 - `docs/67_AUDIO_SOURCE_AUDITION_PACK.md`
 - `tools/build_audio_source_audition_pack.py`
 - `tools/validate_audio_source_audition_contract.py`
 
 Preliminary human shortlist-evidence kan hashbindes, men giver stadig ikke source approval.
+
+**Eneste tilbageværende field-acquisition-rest:** `SFX_AMB_Beach_PalmCanopy`. En exact-fit CC0-kandidat er fundet, men originaldownload kræver login; preview audio må ikke bruges som source master. Der substitueres ikke med generisk temperate-tree wind bare for at lukke coverage.
 
 ## Typed source approval
 
@@ -206,7 +210,7 @@ Aktive guards omfatter nu bl.a.:
 - Validate non-Unity gap closeout
 - source closeout / manifest alignment
 - audio acquisition/listening/field review
-- 25-source audition pack builder
+- **27-source audition pack builder**
 - typed audio source approval
 - derived-master pipeline
 - radio VO session/human-review/selected-dry tooling
@@ -224,11 +228,12 @@ Prioritet nu:
 1. **M-Pre:** 3 reelle human sessions → evaluator → evidence bundle → eksplicit gate-resultat.
 2. **M0b:** rigtig Quest 2/Quest 3 cross-device evidence fra Claude/Anders.
 3. **Issue #8:** Anders disponerer fire-start scope.
-4. **Ambience/Foley:** human audition → typed source approval → evt. documented derived master + ny human listening.
-5. **Radio VO:** faktisk authorized recording af 27 takes → human take review/selection.
-6. **Music:** human audition af 14 candidates → 5 canonical family selections.
-7. **Claude #5/#6:** re-sync og fysisk Unity/Quest QA før merge.
-8. **Private personalization:** producer kun når det faktisk skal ind i gavebuildet; neutral fallback findes.
-9. **M1 handoff:** samles først når M0b + M-Pre er grønne.
+4. **Ambience/Foley:** human audition af 27-source pack → typed source approval → evt. documented derived master + ny human listening.
+5. **Field acquisition:** find en exact, direct-download, CC0/Public-Domain palm-canopy original; det er den eneste åbne field-source acquisition.
+6. **Radio VO:** faktisk authorized recording af 27 takes → human take review/selection.
+7. **Music:** human audition af 14 candidates → 5 canonical family selections.
+8. **Claude #5/#6:** re-sync og fysisk Unity/Quest QA før merge.
+9. **Private personalization:** producer kun når det faktisk skal ind i gavebuildet; neutral fallback findes.
+10. **M1 handoff:** samles først når M0b + M-Pre er grønne.
 
 Hvis en ny autonom non-Unity-opgave ikke reducerer en dokumenteret gap, skal den ikke oprettes bare for aktivitetens skyld.
