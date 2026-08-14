@@ -8,7 +8,7 @@ Generated from the canonical **148-row asset master** and finalized after the co
 - Dedicated non-VFX sprite refinement: **192**
 - Dedicated VFX texture refinement: **14**
 - Separate world meshes: **134**
-- Final world geometry: **256,514 vertices / 119,538 faces**
+- Final world geometry: **276,114 vertices / 129,104 faces**
 - State-specific transparent ground decals: **5** (3 puddle + 2 shoreline foam)
 - Shared Quest-friendly surface materials: **11**
 - Surface texture maps: **33** — 1024px albedo + 512px normal + 512px metallic/smoothness
