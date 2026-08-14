@@ -3,8 +3,17 @@ name: Generate Project OEN runtime art
 on:
   push:
     branches:
-      - agent/complete-unity-graphics-v1
+      - main
       - agent/resync-production-art-20260814
+    paths:
+      - 'tools/generated_art/**'
+      - 'src/unity/ProjectOen.Art/**'
+      - 'prototype/m0b-bootstrap/**'
+      - 'docs/36_GENERATED_ART_PACK.md'
+      - '.github/workflows/generate-project-oen-art.yml'
+  pull_request:
+    branches:
+      - main
     paths:
       - 'tools/generated_art/**'
       - 'src/unity/ProjectOen.Art/**'
@@ -26,7 +35,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref_name }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
@@ -202,6 +211,7 @@ jobs:
       - name: Validate Unity production-art wiring
         run: python tools/generated_art/validate_unity_art_builder_compat.py
       - name: Commit generated and production assets
+        if: github.event_name != 'pull_request'
         shell: bash
         run: |
           set -euo pipefail
