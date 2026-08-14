@@ -95,7 +95,16 @@ Den fulde machine-readable status ligger i `content/non_unity_capability_matrix.
 
 ## Acquired ambience/Foley
 
-Repoet har base, extension og field receipts/technical QA samt en reproducibel 25-source audition pack.
+Repoet har base, extension og **9 field originals** med provenance/technical QA samt en reproducibel **27-source audition pack**.
+
+De to nyeste field candidates er:
+
+- `SFX_AMB_JUNGLE_CANOPY_WIND_ALT_01` → `SFX_AMB_Jungle_CanopyWind`
+- `SFX_WTH_STORM_ROUGH_OCEAN_ALT_01` → `SFX_WTH_Storm_RoughOcean`
+
+De er exact-byte acquired og pinned i `content/audio/acquisition_field_backlog_final_receipt.source.json`, men begge kræver human semantic listening. Canopy-kilden er temperate forest og skal afvises/repurposes hvis biome-identiteten er forkert. Rough-ocean-kilden har én full-scale integer sample og kræver headroom-inspection før enhver derivative.
+
+**Kun `SFX_AMB_Beach_PalmCanopy` mangler stadig field source acquisition.** Exact-fit CC0 research findes, men originalfilen kræver authenticated download; preview audio og generisk temperate-tree substitution er ikke acceptable.
 
 Flow:
 
@@ -177,12 +186,13 @@ Prioritér nu:
 1. **M-Pre:** 3 reelle human sessions → evaluator → evidence bundle → gate-resultat.
 2. **M0b:** rigtig two-headset/Quest evidence fra Claude/Anders.
 3. **Issue #8:** Anders disponerer fire-start scope.
-4. **Ambience/Foley:** human audition → typed source approval → evt. documented derived edit + ny human listening.
-5. **Radio VO:** faktisk authorized recording af 27 takes → human review/selection.
-6. **Music:** human audition af 14 candidates → 5 canonical selections.
-7. **Claude #5/#6:** re-sync + fysisk QA før merge.
-8. Private personalization source produceres først når det konkret skal i gavebuildet; neutral fallback findes.
-9. M1 handoff assembly først når både M0b + M-Pre er grønne.
+4. **Ambience/Foley:** human audition af 27-source pack → typed source approval → evt. documented derived edit + ny human listening.
+5. **Field acquisition:** find direct original til `SFX_AMB_Beach_PalmCanopy` under CC0/Public-Domain-policy; det er eneste resterende field acquisition-gap.
+6. **Radio VO:** faktisk authorized recording af 27 takes → human review/selection.
+7. **Music:** human audition af 14 candidates → 5 canonical selections.
+8. **Claude #5/#6:** re-sync + fysisk QA før merge.
+9. Private personalization source produceres først når det konkret skal i gavebuildet; neutral fallback findes.
+10. M1 handoff assembly først når både M0b + M-Pre er grønne.
 
 ---
 
