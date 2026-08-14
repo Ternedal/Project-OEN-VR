@@ -25,7 +25,7 @@ The matrix intentionally keeps the following as open gates:
 
 The matrix captures the full non-Unity pipeline that is already on `main`:
 
-1. reproducible 25-source audition pack
+1. reproducible 27-source audition pack
 2. preliminary human shortlist evidence
 3. typed human source-approval gate
 4. copy-only source-approved original materialization
@@ -33,6 +33,8 @@ The matrix captures the full non-Unity pipeline that is already on `main`:
 6. 48 kHz / 24-bit integer PCM technical intake
 7. repeated human listening on the derived bytes
 8. explicit derived-master-approved materialization
+
+The current 27-source boundary is 3 main originals + 15 extension sources/members + 9 field originals. The two newest field originals are pinned by `content/audio/acquisition_field_backlog_final_receipt.source.json`; `SFX_AMB_Beach_PalmCanopy` remains the only field acquisition gap and is not counted as acquired.
 
 Radio VO has its own parallel lane:
 
@@ -66,7 +68,7 @@ The validator checks:
 - every referenced repo path exists;
 - required lanes are present and unique;
 - important lane statuses still match their underlying contracts;
-- the audition pack still represents 25 sources;
+- the audition pack represents 27 sources;
 - radio VO remains 9 cues / 27 take candidates;
 - music remains 14 candidates / 5 canonical mapped families;
 - evidence-, device- and owner-gated lanes remain explicitly open.
