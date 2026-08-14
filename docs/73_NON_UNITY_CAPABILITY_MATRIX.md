@@ -15,6 +15,7 @@ The matrix intentionally keeps the following as open gates:
 - M0b physical Quest 2/Quest 3 cross-device evidence — issue #3
 - fire-start owner disposition — issue #8
 - human listening/source selection for acquired ambience/Foley
+- **actual physical Foley recording for 13 cues / 53 planned performances**
 - actual authorized radio VO recording and human take selection
 - human music audition/canonical family selection
 - human re-listening after any derived audio edit
@@ -23,7 +24,7 @@ The matrix intentionally keeps the following as open gates:
 
 ## Audio pipeline now represented
 
-The matrix captures the full non-Unity pipeline that is already on `main`:
+The matrix captures the acquired-source pipeline already on `main`:
 
 1. reproducible 27-source audition pack
 2. preliminary human shortlist evidence
@@ -35,6 +36,18 @@ The matrix captures the full non-Unity pipeline that is already on `main`:
 8. explicit derived-master-approved materialization
 
 The current 27-source boundary is 3 main originals + 15 extension sources/members + 9 field originals. The two newest field originals are pinned by `content/audio/acquisition_field_backlog_final_receipt.source.json`; `SFX_AMB_Beach_PalmCanopy` remains the only field acquisition gap and is not counted as acquired.
+
+Physical Foley has a separate recording lane because heavy crate, rope/tarp and shelter-timber cues require actual material performances rather than stock-source substitution:
+
+1. 3 queue sessions reconciled to 3 physical setups
+2. 13 canonical Foley cue IDs
+3. 53 exact filename/variation slots
+4. operator recording board + provenance template
+5. 48 kHz / 24-bit mono PCM technical intake
+6. SHA-256/byte receipt and duplicate-byte rejection
+7. later human material-fit, variation-value and under-weather listening
+
+The Foley lane is mechanically ready only. It remains `gateSatisfied=false` until those recordings actually exist. Fire-start-specific Foley is excluded while issue #8 remains owner-gated.
 
 Radio VO has its own parallel lane:
 
@@ -69,6 +82,7 @@ The validator checks:
 - required lanes are present and unique;
 - important lane statuses still match their underlying contracts;
 - the audition pack represents 27 sources;
+- Foley remains 13 cues / 53 physical take slots and explicitly open;
 - radio VO remains 9 cues / 27 take candidates;
 - music remains 14 candidates / 5 canonical mapped families;
 - evidence-, device- and owner-gated lanes remain explicitly open.
