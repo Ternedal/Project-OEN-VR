@@ -60,6 +60,10 @@ jobs:
         run: python tools/generated_art/import_production_art_payload.py
       - name: Generate full production art
         run: python tools/generated_art/generate_production_art.py
+      - name: Generate missing mockup atlas expansion
+        run: python tools/generated_art/generate_mockup_atlas_expansion.py
+      - name: Normalize atlas expansion material references
+        run: python tools/generated_art/fix_mockup_atlas_expansion_mtl.py
       - name: Refine shared Quest-friendly materials
         run: python tools/generated_art/refine_material_textures.py
       - name: Add surface weathering and wetness response
@@ -132,6 +136,8 @@ jobs:
         run: python tools/generated_art/fix_mockup_vfx_alpha.py
       - name: Render full sprite VFX and decal review sheets
         run: python tools/generated_art/render_sprite_vfx_review.py
+      - name: Render mockup atlas expansion review sheets
+        run: python tools/generated_art/render_mockup_atlas_expansion_review.py
       - name: Upload complete mockup-fidelity visual review
         uses: actions/upload-artifact@v4
         with:
@@ -143,6 +149,8 @@ jobs:
         run: python tools/generated_art/finalize_production_art_docs.py
       - name: Validate full production art
         run: python tools/generated_art/validate_production_art.py
+      - name: Validate mockup atlas expansion
+        run: python tools/generated_art/validate_mockup_atlas_expansion.py
       - name: Validate production UI and sprite refinement
         run: python tools/generated_art/validate_ui_sprite_art.py
       - name: Validate production VFX textures
