@@ -110,6 +110,8 @@ jobs:
         run: python tools/generated_art/refine_vegetation_fidelity.py
       - name: Restore authoritative Stormnatten damage geometry after world dressing
         run: python tools/generated_art/refine_storm_story_geometry.py
+      - name: Restore authoritative signal-hill finale geometry after world dressing
+        run: python tools/generated_art/restore_signal_hill_after_density.py
       - name: Render actual OBJ mockup review sheet
         run: python tools/generated_art/render_mockup_review.py
       - name: Render scene-level mockup review sheet
