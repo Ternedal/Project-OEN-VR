@@ -1,0 +1,728 @@
+{
+  "version": 1,
+  "reference": "approved Project OEN mockup asset atlas",
+  "entry_count": 64,
+  "asset_id_count": 34,
+  "entries": [
+    {
+      "asset_id": "AX-BG-001",
+      "category": "Key art & backgrounds",
+      "name": "Island daylight backdrop",
+      "variant": "clear",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/key_art__backgrounds/ax-bg-001_island_daylight_backdrop__clear.png",
+      "dimensions": [
+        1536,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-BG-001",
+      "category": "Key art & backgrounds",
+      "name": "Island daylight backdrop",
+      "variant": "golden_hour",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/key_art__backgrounds/ax-bg-001_island_daylight_backdrop__golden_hour.png",
+      "dimensions": [
+        1536,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-BG-001",
+      "category": "Key art & backgrounds",
+      "name": "Island daylight backdrop",
+      "variant": "storm",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/key_art__backgrounds/ax-bg-001_island_daylight_backdrop__storm.png",
+      "dimensions": [
+        1536,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-BG-002",
+      "category": "Key art & backgrounds",
+      "name": "Camp night backdrop",
+      "variant": "moonlit",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/key_art__backgrounds/ax-bg-002_camp_night_backdrop__moonlit.png",
+      "dimensions": [
+        1536,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-BG-002",
+      "category": "Key art & backgrounds",
+      "name": "Camp night backdrop",
+      "variant": "firelit",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/key_art__backgrounds/ax-bg-002_camp_night_backdrop__firelit.png",
+      "dimensions": [
+        1536,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-BG-002",
+      "category": "Key art & backgrounds",
+      "name": "Camp night backdrop",
+      "variant": "lightning",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/key_art__backgrounds/ax-bg-002_camp_night_backdrop__lightning.png",
+      "dimensions": [
+        1536,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-BG-003",
+      "category": "Key art & backgrounds",
+      "name": "Shoreline panorama",
+      "variant": "calm",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/key_art__backgrounds/ax-bg-003_shoreline_panorama__calm.png",
+      "dimensions": [
+        1536,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-BG-003",
+      "category": "Key art & backgrounds",
+      "name": "Shoreline panorama",
+      "variant": "sunset",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/key_art__backgrounds/ax-bg-003_shoreline_panorama__sunset.png",
+      "dimensions": [
+        1536,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-BG-003",
+      "category": "Key art & backgrounds",
+      "name": "Shoreline panorama",
+      "variant": "storm",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/key_art__backgrounds/ax-bg-003_shoreline_panorama__storm.png",
+      "dimensions": [
+        1536,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-MAP-001",
+      "category": "Maps & documents",
+      "name": "Island overview map",
+      "variant": "clean",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/maps__documents/ax-map-001_island_overview_map__clean.png",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "asset_id": "AX-MAP-001",
+      "category": "Maps & documents",
+      "name": "Island overview map",
+      "variant": "marked",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/maps__documents/ax-map-001_island_overview_map__marked.png",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "asset_id": "AX-MAP-001",
+      "category": "Maps & documents",
+      "name": "Island overview map",
+      "variant": "storm_route",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/maps__documents/ax-map-001_island_overview_map__storm_route.png",
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "asset_id": "AX-DOC-001",
+      "category": "Maps & documents",
+      "name": "Survival journal page",
+      "variant": "camp",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/maps__documents/ax-doc-001_survival_journal_page__camp.png",
+      "dimensions": [
+        768,
+        1024
+      ]
+    },
+    {
+      "asset_id": "AX-DOC-001",
+      "category": "Maps & documents",
+      "name": "Survival journal page",
+      "variant": "storm_annotated",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/maps__documents/ax-doc-001_survival_journal_page__storm_annotated.png",
+      "dimensions": [
+        768,
+        1024
+      ]
+    },
+    {
+      "asset_id": "AX-DOC-001",
+      "category": "Maps & documents",
+      "name": "Survival journal page",
+      "variant": "signal",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/maps__documents/ax-doc-001_survival_journal_page__signal.png",
+      "dimensions": [
+        768,
+        1024
+      ]
+    },
+    {
+      "asset_id": "AX-DOC-002",
+      "category": "Maps & documents",
+      "name": "Radio repair sheet",
+      "variant": "clean",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/maps__documents/ax-doc-002_radio_repair_sheet__clean.png",
+      "dimensions": [
+        768,
+        1024
+      ]
+    },
+    {
+      "asset_id": "AX-DOC-002",
+      "category": "Maps & documents",
+      "name": "Radio repair sheet",
+      "variant": "annotated",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/maps__documents/ax-doc-002_radio_repair_sheet__annotated.png",
+      "dimensions": [
+        768,
+        1024
+      ]
+    },
+    {
+      "asset_id": "AX-DOC-003",
+      "category": "Maps & documents",
+      "name": "Signal construction note",
+      "variant": "clean",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/maps__documents/ax-doc-003_signal_construction_note__clean.png",
+      "dimensions": [
+        768,
+        1024
+      ]
+    },
+    {
+      "asset_id": "AX-DOC-003",
+      "category": "Maps & documents",
+      "name": "Signal construction note",
+      "variant": "storm_annotated",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/maps__documents/ax-doc-003_signal_construction_note__storm_annotated.png",
+      "dimensions": [
+        768,
+        1024
+      ]
+    },
+    {
+      "asset_id": "AX-WLD-001",
+      "category": "Animals & wildlife",
+      "name": "Seabird / gull",
+      "variant": "default",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/animals__wildlife/ax-wld-001_seabird__gull__default.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-WLD-002",
+      "category": "Animals & wildlife",
+      "name": "Tropical parrot",
+      "variant": "default",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/animals__wildlife/ax-wld-002_tropical_parrot__default.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-WLD-003",
+      "category": "Animals & wildlife",
+      "name": "Beach crab",
+      "variant": "default",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/animals__wildlife/ax-wld-003_beach_crab__default.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-WLD-004",
+      "category": "Animals & wildlife",
+      "name": "Wild boar",
+      "variant": "default",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/animals__wildlife/ax-wld-004_wild_boar__default.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-WLD-005",
+      "category": "Animals & wildlife",
+      "name": "Feral goat",
+      "variant": "default",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/animals__wildlife/ax-wld-005_feral_goat__default.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-WLD-006",
+      "category": "Animals & wildlife",
+      "name": "Reef fish",
+      "variant": "default",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/animals__wildlife/ax-wld-006_reef_fish__default.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-WLD-007",
+      "category": "Animals & wildlife",
+      "name": "Island lizard",
+      "variant": "default",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/animals__wildlife/ax-wld-007_island_lizard__default.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-FOOD-001",
+      "category": "Food & cooking",
+      "name": "Coconut",
+      "variant": "whole",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/food__cooking/ax-food-001_coconut__whole.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-FOOD-001",
+      "category": "Food & cooking",
+      "name": "Coconut",
+      "variant": "split",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/food__cooking/ax-food-001_coconut__split.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-FOOD-002",
+      "category": "Food & cooking",
+      "name": "Fish meal",
+      "variant": "raw",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/food__cooking/ax-food-002_fish_meal__raw.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-FOOD-002",
+      "category": "Food & cooking",
+      "name": "Fish meal",
+      "variant": "cooked",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/food__cooking/ax-food-002_fish_meal__cooked.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-FOOD-003",
+      "category": "Food & cooking",
+      "name": "Island fruit",
+      "variant": "mixed",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/food__cooking/ax-food-003_island_fruit__mixed.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-FOOD-004",
+      "category": "Food & cooking",
+      "name": "Meat ration",
+      "variant": "raw",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/food__cooking/ax-food-004_meat_ration__raw.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-FOOD-004",
+      "category": "Food & cooking",
+      "name": "Meat ration",
+      "variant": "cooked",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/food__cooking/ax-food-004_meat_ration__cooked.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-FOOD-005",
+      "category": "Food & cooking",
+      "name": "Camp meal bowl",
+      "variant": "cooked",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/food__cooking/ax-food-005_camp_meal_bowl__cooked.png",
+      "dimensions": [
+        768,
+        768
+      ]
+    },
+    {
+      "asset_id": "AX-SKY-001",
+      "category": "Weather & atmosphere",
+      "name": "Cloud bank",
+      "variant": "calm",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/weather__atmosphere/ax-sky-001_cloud_bank__calm.png",
+      "dimensions": [
+        1024,
+        512
+      ]
+    },
+    {
+      "asset_id": "AX-SKY-001",
+      "category": "Weather & atmosphere",
+      "name": "Cloud bank",
+      "variant": "storm",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/weather__atmosphere/ax-sky-001_cloud_bank__storm.png",
+      "dimensions": [
+        1024,
+        512
+      ]
+    },
+    {
+      "asset_id": "AX-SKY-002",
+      "category": "Weather & atmosphere",
+      "name": "Sun / moon disc",
+      "variant": "sun",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/weather__atmosphere/ax-sky-002_sun__moon_disc__sun.png",
+      "dimensions": [
+        1024,
+        512
+      ]
+    },
+    {
+      "asset_id": "AX-SKY-002",
+      "category": "Weather & atmosphere",
+      "name": "Sun / moon disc",
+      "variant": "moon",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/weather__atmosphere/ax-sky-002_sun__moon_disc__moon.png",
+      "dimensions": [
+        1024,
+        512
+      ]
+    },
+    {
+      "asset_id": "AX-SKY-003",
+      "category": "Weather & atmosphere",
+      "name": "Shoreline spray band",
+      "variant": "calm",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/weather__atmosphere/ax-sky-003_shoreline_spray_band__calm.png",
+      "dimensions": [
+        1024,
+        512
+      ]
+    },
+    {
+      "asset_id": "AX-SKY-003",
+      "category": "Weather & atmosphere",
+      "name": "Shoreline spray band",
+      "variant": "storm",
+      "kind": "sprite",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/atlas_expansion/weather__atmosphere/ax-sky-003_shoreline_spray_band__storm.png",
+      "dimensions": [
+        1024,
+        512
+      ]
+    },
+    {
+      "asset_id": "AX-TOOL-001",
+      "category": "Tools & crafting",
+      "name": "Survival axe",
+      "variant": "clean",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-tool-001_survival_axe__clean.obj",
+      "vertices": 130,
+      "faces": 64
+    },
+    {
+      "asset_id": "AX-TOOL-001",
+      "category": "Tools & crafting",
+      "name": "Survival axe",
+      "variant": "worn",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-tool-001_survival_axe__worn.obj",
+      "vertices": 154,
+      "faces": 76
+    },
+    {
+      "asset_id": "AX-TOOL-002",
+      "category": "Tools & crafting",
+      "name": "Machete",
+      "variant": "clean",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-tool-002_machete__clean.obj",
+      "vertices": 122,
+      "faces": 60
+    },
+    {
+      "asset_id": "AX-TOOL-002",
+      "category": "Tools & crafting",
+      "name": "Machete",
+      "variant": "worn",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-tool-002_machete__worn.obj",
+      "vertices": 146,
+      "faces": 72
+    },
+    {
+      "asset_id": "AX-TOOL-003",
+      "category": "Tools & crafting",
+      "name": "Hand saw",
+      "variant": "clean",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-tool-003_hand_saw__clean.obj",
+      "vertices": 336,
+      "faces": 168
+    },
+    {
+      "asset_id": "AX-TOOL-003",
+      "category": "Tools & crafting",
+      "name": "Hand saw",
+      "variant": "worn",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-tool-003_hand_saw__worn.obj",
+      "vertices": 360,
+      "faces": 180
+    },
+    {
+      "asset_id": "AX-TOOL-004",
+      "category": "Tools & crafting",
+      "name": "Shovel",
+      "variant": "clean",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-tool-004_shovel__clean.obj",
+      "vertices": 378,
+      "faces": 188
+    },
+    {
+      "asset_id": "AX-TOOL-004",
+      "category": "Tools & crafting",
+      "name": "Shovel",
+      "variant": "worn",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-tool-004_shovel__worn.obj",
+      "vertices": 402,
+      "faces": 200
+    },
+    {
+      "asset_id": "AX-TOOL-005",
+      "category": "Tools & crafting",
+      "name": "Binoculars",
+      "variant": "clean",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-tool-005_binoculars__clean.obj",
+      "vertices": 724,
+      "faces": 360
+    },
+    {
+      "asset_id": "AX-TOOL-005",
+      "category": "Tools & crafting",
+      "name": "Binoculars",
+      "variant": "worn",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-tool-005_binoculars__worn.obj",
+      "vertices": 748,
+      "faces": 372
+    },
+    {
+      "asset_id": "AX-TOOL-006",
+      "category": "Tools & crafting",
+      "name": "Compass",
+      "variant": "clean",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-tool-006_compass__clean.obj",
+      "vertices": 530,
+      "faces": 264
+    },
+    {
+      "asset_id": "AX-TOOL-006",
+      "category": "Tools & crafting",
+      "name": "Compass",
+      "variant": "worn",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-tool-006_compass__worn.obj",
+      "vertices": 554,
+      "faces": 276
+    },
+    {
+      "asset_id": "AX-CRAFT-001",
+      "category": "Tools & crafting",
+      "name": "Crafting workbench",
+      "variant": "clean",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-craft-001_crafting_workbench__clean.obj",
+      "vertices": 1396,
+      "faces": 684
+    },
+    {
+      "asset_id": "AX-CRAFT-001",
+      "category": "Tools & crafting",
+      "name": "Crafting workbench",
+      "variant": "storm",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-craft-001_crafting_workbench__storm.obj",
+      "vertices": 1420,
+      "faces": 696
+    },
+    {
+      "asset_id": "AX-CRAFT-002",
+      "category": "Tools & crafting",
+      "name": "Workbench tool board",
+      "variant": "stocked",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-craft-002_workbench_tool_board__stocked.obj",
+      "vertices": 896,
+      "faces": 444
+    },
+    {
+      "asset_id": "AX-CRAFT-002",
+      "category": "Tools & crafting",
+      "name": "Workbench tool board",
+      "variant": "used",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/tools__crafting/ax-craft-002_workbench_tool_board__used.obj",
+      "vertices": 920,
+      "faces": 456
+    },
+    {
+      "asset_id": "AX-COM-001",
+      "category": "Radio & communication",
+      "name": "Handheld radio",
+      "variant": "off",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/radio__communication/ax-com-001_handheld_radio__off.obj",
+      "vertices": 436,
+      "faces": 216
+    },
+    {
+      "asset_id": "AX-COM-001",
+      "category": "Radio & communication",
+      "name": "Handheld radio",
+      "variant": "active",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/radio__communication/ax-com-001_handheld_radio__active.obj",
+      "vertices": 460,
+      "faces": 228
+    },
+    {
+      "asset_id": "AX-COM-002",
+      "category": "Radio & communication",
+      "name": "Antenna mast kit",
+      "variant": "folded",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/radio__communication/ax-com-002_antenna_mast_kit__folded.obj",
+      "vertices": 398,
+      "faces": 196
+    },
+    {
+      "asset_id": "AX-COM-002",
+      "category": "Radio & communication",
+      "name": "Antenna mast kit",
+      "variant": "deployed",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/radio__communication/ax-com-002_antenna_mast_kit__deployed.obj",
+      "vertices": 514,
+      "faces": 248
+    },
+    {
+      "asset_id": "AX-COM-003",
+      "category": "Radio & communication",
+      "name": "Signal lamp",
+      "variant": "off",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/radio__communication/ax-com-003_signal_lamp__off.obj",
+      "vertices": 884,
+      "faces": 440
+    },
+    {
+      "asset_id": "AX-COM-003",
+      "category": "Radio & communication",
+      "name": "Signal lamp",
+      "variant": "lit",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/radio__communication/ax-com-003_signal_lamp__lit.obj",
+      "vertices": 998,
+      "faces": 496
+    },
+    {
+      "asset_id": "AX-COM-004",
+      "category": "Radio & communication",
+      "name": "Cable coil",
+      "variant": "coiled",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/radio__communication/ax-com-004_cable_coil__coiled.obj",
+      "vertices": 1200,
+      "faces": 600
+    },
+    {
+      "asset_id": "AX-COM-004",
+      "category": "Radio & communication",
+      "name": "Cable coil",
+      "variant": "loose",
+      "kind": "mesh",
+      "path": "Assets/ProjectOEN/ProductionArt/Meshes/atlas_expansion/radio__communication/ax-com-004_cable_coil__loose.obj",
+      "vertices": 1250,
+      "faces": 624
+    }
+  ]
+}

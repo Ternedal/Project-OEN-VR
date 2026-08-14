@@ -1,0 +1,149 @@
+asset_id,category,asset_name,recommended_implementation,priority,states_variants,current_status,notes
+BR-001,Branding & identity,Primary logo,2D sprite / branding,P0,"main, monochrome, dark-bg, light-bg",existing_concept,"Needs export-safe variants for menu, splash and icon use."
+BR-002,Branding & identity,Secondary logo / wordmark,2D sprite,P1,"horizontal, stacked",missing,Useful for marketing and title screen layouts.
+BR-003,Branding & identity,App icon emblem,2D sprite,P0,"full color, mono, mask-safe",missing,For launcher/app identity.
+BR-004,Branding & identity,Faction / scenario stamp,2D sprite,P2,"clean, distressed",missing,Optional seal for journals and cards.
+BR-005,Branding & identity,Title screen backdrop frame,UI frame,P1,"dark, storm, neutral",missing,Decorative title framing.
+BR-006,Branding & identity,Loading screen title lockup,UI graphic,P1,"default, storm",missing,Canonical loading screen treatment.
+BR-007,Branding & identity,Typography ornament set,2D UI ornament,P2,"dividers, corners, lines",missing,For journal and panels.
+BR-008,Branding & identity,Chapter / day badge set,UI badge,P0,"Day 1, Day 2, Day 3, Stormnatten",missing,Needed for scenario progression.
+UI-001,Wrist UI & player status,Wrist device base frame,Diegetic UI,P0,"idle, hover, active",missing,Canonical player-status container.
+UI-002,Wrist UI & player status,Health icon,Icon sprite,P0,"normal, low, critical",existing_concept,Heart icon exists as concept; needs production-ready set.
+UI-003,Wrist UI & player status,Fatigue icon,Icon sprite,P0,"normal, tired, exhausted",missing,Canonical fatigue status.
+UI-004,Wrist UI & player status,Cold/Wet icon,Icon sprite,P0,"dry, wet, freezing",existing_concept,Lightning/weather icon may inform style; needs canonical cold/wet icon.
+UI-005,Wrist UI & player status,Injury icon,Icon sprite,P0,"minor, severe, critical",existing_concept,Medical cross exists as concept; needs state variants.
+UI-006,Wrist UI & player status,Status ring background,UI sprite,P0,"full, half, low",missing,Radial or segmented status representation.
+UI-007,Wrist UI & player status,Player 1 identifier,UI marker,P0,"P1, highlighted",missing,Co-op readability.
+UI-008,Wrist UI & player status,Player 2 identifier,UI marker,P0,"P2, highlighted",missing,Co-op readability.
+UI-009,Wrist UI & player status,Condition alert pulse,UI effect sprite,P1,"warning, danger",missing,Lightweight alert overlay.
+UI-010,Wrist UI & player status,Object held indicator,UI marker,P1,"held, shared-carry",missing,For co-op carry actions.
+UI-011,Wrist UI & player status,Radio signal icon,Icon sprite,P1,"offline, weak, good",missing,Radio state.
+UI-012,Wrist UI & player status,Shelter integrity icon,Icon sprite,P0,"intact, weakened, damaged",missing,Camp summary on diegetic displays.
+UI-013,Wrist UI & player status,Fire strength icon,Icon sprite,P0,"out, ember, low, strong",missing,Camp summary on diegetic displays.
+UI-014,Wrist UI & player status,Signal progress icon,Icon sprite,P0,"none, partial, ready, active",missing,Camp summary / goal status.
+PL-001,Planning board & phase UI,Planning board base,Diegetic UI panel,P0,"empty, populated",missing,Central planning phase surface.
+PL-002,Planning board & phase UI,Time slots track,UI board element,P0,"4 slots, spent state",missing,Core planning mechanic.
+PL-003,Planning board & phase UI,Action token – gather,Board token,P0,"idle, selected, placed",missing,Physical action token.
+PL-004,Planning board & phase UI,Action token – build,Board token,P0,"idle, selected, placed",missing,Physical action token.
+PL-005,Planning board & phase UI,Action token – scout,Board token,P0,"idle, selected, placed",missing,Physical action token.
+PL-006,Planning board & phase UI,Action token – repair,Board token,P0,"idle, selected, placed",missing,Physical action token.
+PL-007,Planning board & phase UI,Risk marker set,Board token,P1,"low, medium, high",missing,Used for consequence communication.
+PL-008,Planning board & phase UI,Camp summary board card,Board card,P0,"health, shelter, fire, signal",missing,Core planning summary.
+PL-009,Planning board & phase UI,Weather card set,Board card,P1,"clear, rain, storm, lightning",missing,Optional scenario communication.
+PL-010,Planning board & phase UI,Objective card set,Board card,P0,"current objective, optional objective",missing,Goal communication.
+PL-011,Planning board & phase UI,Resource requirement pips,Board icon set,P0,"wood, rope, fuel, food, parts",missing,Small board UI tokens.
+PL-012,Planning board & phase UI,Consequences reveal panel,Board panel,P1,"hidden, reveal",missing,Stormnatten delayed consequence presentation.
+RS-001,Resource icons & inventory support,Wood resource icon,Icon sprite,P0,"single, stack",missing,Core resource.
+RS-002,Resource icons & inventory support,Wet wood icon,Icon sprite,P0,"single, stack",missing,Affects fire/shelter systems.
+RS-003,Resource icons & inventory support,Rope resource icon,Icon sprite,P0,"single, coil",missing,Core resource.
+RS-004,Resource icons & inventory support,Fiber / vines icon,Icon sprite,P1,"single, bundle",missing,Crafting material.
+RS-005,Resource icons & inventory support,Leaves / palm fronds icon,Icon sprite,P1,"single, bundle",missing,Shelter material.
+RS-006,Resource icons & inventory support,Stone resource icon,Icon sprite,P1,"single, stack",missing,Campfire/base construction.
+RS-007,Resource icons & inventory support,Fuel / tinder icon,Icon sprite,P0,"single, bundle",missing,Fire startup.
+RS-008,Resource icons & inventory support,Food ration icon,Icon sprite,P1,"single, bundle",missing,Scenario flavor / support.
+RS-009,Resource icons & inventory support,Water icon,Icon sprite,P1,"full, half, empty",missing,Can appear on containers / UI.
+RS-010,Resource icons & inventory support,Radio parts icon,Icon sprite,P0,"single, bundle",missing,Repair goal.
+RS-011,Resource icons & inventory support,Cloth / rag icon,Icon sprite,P1,"single, bundle",missing,Repair / fuel material.
+RS-012,Resource icons & inventory support,Metal scrap icon,Icon sprite,P1,"single, stack",missing,Repair material.
+RS-013,Resource icons & inventory support,Medicinal herb icon,Icon sprite,P2,"single, bundle",missing,Optional support item.
+RS-014,Resource icons & inventory support,Torch fuel icon,Icon sprite,P2,"single, bottle",missing,Optional support item.
+RS-015,Resource icons & inventory support,Signal material icon,Icon sprite,P0,"single, stack",missing,Beacon build progress.
+RS-016,Resource icons & inventory support,Camp supplies crate icon,Icon sprite,P1,"closed, open",missing,Planning/inventory feedback.
+RS-017,Resource icons & inventory support,Carried weight icon,Icon sprite,P1,"light, medium, heavy",missing,Shared-carry / object heft.
+RS-018,Resource icons & inventory support,Wetness droplet icon,Icon sprite,P1,"light, medium, high",missing,Feedback for objects/weather.
+RS-019,Resource icons & inventory support,Durability pip set,UI sprite set,P1,"full, medium, low",missing,Shared for items.
+RS-020,Resource icons & inventory support,Quantity counter frame,UI frame,P1,"1-digit, 2-digit",missing,Inventory counts.
+PR-001,Props & tools,Tarp / presenning,3D prop + texture ref,P0,"folded, placed, damaged, wet",existing_concept,Needs production variants.
+PR-002,Props & tools,Rope coil,3D prop + texture ref,P0,"loose, carried, placed",missing,Core prop.
+PR-003,Props & tools,Wood poles bundle,3D prop + texture ref,P0,"bundle, placed, damaged",existing_concept,Core prop.
+PR-004,Props & tools,Supply crate,3D prop + texture ref,P0,"closed, open, broken",existing_concept,Core prop.
+PR-005,Props & tools,Portable radio,3D prop + texture ref,P0,"off, active, broken, repaired",existing_concept,Quest interaction hero prop.
+PR-006,Props & tools,First-aid kit,3D prop + texture ref,P1,"closed, open",existing_concept,Support prop.
+PR-007,Props & tools,Metal canteen,3D prop + texture ref,P1,"full, empty",existing_concept,Support prop.
+PR-008,Props & tools,Oil lantern,3D prop + texture ref,P1,"off, lit",existing_concept,Night readability prop.
+PR-009,Props & tools,Torch,3D prop + texture ref,P1,"unlit, lit, dying",missing,Exploration support.
+PR-010,Props & tools,Stone pile,3D prop + texture ref,P1,"small, medium, large",missing,Campfire / construction material.
+PR-011,Props & tools,Palm leaf pile,3D prop + texture ref,P1,"small, medium",missing,Shelter build material.
+PR-012,Props & tools,Scrap metal bundle,3D prop + texture ref,P1,"small, medium",missing,Radio repair resource.
+PR-013,Props & tools,Cloth bundle,3D prop + texture ref,P1,"small, medium",missing,Repair / tinder prop.
+PR-014,Props & tools,Signal flag / cloth strip,3D prop + texture ref,P1,"clean, worn, storm-damaged",missing,Beacon dressing.
+PR-015,Props & tools,Cook pot,3D prop + texture ref,P2,"empty, cooking",missing,Camp detail.
+PR-016,Props & tools,Water collector,3D prop + texture ref,P1,"empty, collecting, full",missing,Mockup implied.
+PR-017,Props & tools,Tool hammer / mallet,3D prop + texture ref,P1,"clean, worn",missing,Build interaction support.
+PR-018,Props & tools,Knife / cutting tool,3D prop + texture ref,P2,"clean, worn",missing,Optional detail prop.
+PR-019,Props & tools,Anchor point peg,3D prop + texture ref,P1,"inactive, active",missing,Rope/ravine sequences.
+PR-020,Props & tools,Shared-carry heavy box,3D prop + texture ref,P0,"idle, carried, placed",missing,Onboarding / co-op hero interaction.
+CS-001,Construction states,Shelter – foundation,3D set + state art,P0,state 1 of 5,missing,Build progression.
+CS-002,Construction states,Shelter – partial frame,3D set + state art,P0,state 2 of 5,missing,Build progression.
+CS-003,Construction states,Shelter – covered / usable,3D set + state art,P0,state 3 of 5,missing,Canonical usable shelter.
+CS-004,Construction states,Shelter – damaged,3D set + state art,P0,state 4 of 5,missing,Storm aftermath state.
+CS-005,Construction states,Shelter – repaired / reinforced,3D set + state art,P1,state 5 of 5,missing,Post-storm or upgraded state.
+CS-006,Construction states,Campfire – laid but unlit,3D set + state art,P0,state 1 of 5,missing,Fire setup state.
+CS-007,Construction states,Campfire – ember,3D set + VFX ref,P0,state 2 of 5,missing,Low-energy fire state.
+CS-008,Construction states,Campfire – small flame,3D set + VFX ref,P0,state 3 of 5,missing,Core gameplay state.
+CS-009,Construction states,Campfire – strong flame,3D set + VFX ref,P0,state 4 of 5,missing,Best shelter warmth state.
+CS-010,Construction states,Campfire – nearly out / wet,3D set + VFX ref,P0,state 5 of 5,missing,Storm pressure state.
+CS-011,Construction states,Signal beacon – base,3D set + state art,P0,state 1 of 5,missing,Goal structure progression.
+CS-012,Construction states,Signal beacon – partial,3D set + state art,P0,state 2 of 5,missing,Goal structure progression.
+CS-013,Construction states,Signal beacon – complete,3D set + state art,P0,state 3 of 5,missing,Ready structure.
+CS-014,Construction states,Signal beacon – lit / active,3D set + VFX ref,P0,state 4 of 5,missing,Victory path state.
+CS-015,Construction states,Signal beacon – storm-damaged,3D set + state art,P0,state 5 of 5,missing,Repair / finale tension.
+CS-016,Construction states,Radio repair station,3D prop cluster,P1,"broken, mid-repair, repaired",missing,Scenario support state cluster.
+WK-001,Interaction markers & helper UI,Grab prompt icon,World-space UI,P0,"idle, hover",missing,Core interaction.
+WK-002,Interaction markers & helper UI,Two-hand carry prompt,World-space UI,P0,"idle, active",missing,Co-op carry readability.
+WK-003,Interaction markers & helper UI,Snap zone highlight,World-space UI,P0,"off, preview, valid",missing,Placement system.
+WK-004,Interaction markers & helper UI,Rope anchor marker,World-space UI,P1,"inactive, valid",missing,Ravine gameplay.
+WK-005,Interaction markers & helper UI,Objective marker,World-space UI,P0,"primary, secondary",missing,Navigation.
+WK-006,Interaction markers & helper UI,Partner location ping,World-space UI,P1,"idle, active",missing,Co-op readability.
+WK-007,Interaction markers & helper UI,Return object marker,World-space UI,P1,available,missing,Comfort/support function.
+WK-008,Interaction markers & helper UI,Reset position marker,World-space UI,P1,available,missing,Comfort/support function.
+WK-009,Interaction markers & helper UI,Camp danger marker,World-space UI,P1,"low, medium, high",missing,Storm pressure communication.
+WK-010,Interaction markers & helper UI,Fire needs fuel marker,World-space UI,P0,warning,missing,Objective support.
+WK-011,Interaction markers & helper UI,Shelter needs repair marker,World-space UI,P0,warning,missing,Objective support.
+WK-012,Interaction markers & helper UI,Radio part insertion marker,World-space UI,P1,"preview, valid",missing,Repair interaction.
+WK-013,Interaction markers & helper UI,Planning board interact marker,World-space UI,P0,"idle, active",missing,Planning phase usability.
+WK-014,Interaction markers & helper UI,Subtitle speaker indicator,UI helper,P1,"player1, player2, radio",missing,Accessibility support.
+WK-015,Interaction markers & helper UI,Pause / reconnect overlay icons,UI overlay,P1,"paused, reconnecting, failed",missing,Meta flow support.
+EN-001,Environment set dressing,Shipwreck hull chunk,3D prop cluster,P0,"large, medium",missing,Beach scene anchor.
+EN-002,Environment set dressing,Broken plank pile,3D prop cluster,P0,"small, medium, large",missing,Beach dressing.
+EN-003,Environment set dressing,Barrel / container wreckage,3D prop cluster,P1,"closed, broken",missing,Beach dressing.
+EN-004,Environment set dressing,Rope debris set,3D prop cluster,P1,"small, medium",missing,Beach dressing.
+EN-005,Environment set dressing,Beach stone cluster,3D prop cluster,P1,"small, medium, large",missing,Set dressing.
+EN-006,Environment set dressing,Driftwood cluster,3D prop cluster,P1,"small, medium, large",missing,Set dressing.
+EN-007,Environment set dressing,Palm tree variant set,3D vegetation,P0,"young, mature, broken",missing,Macro environment.
+EN-008,Environment set dressing,Palm frond ground clutter,3D vegetation,P1,"small, medium",missing,Ground dressing.
+EN-009,Environment set dressing,Broadleaf bush set,3D vegetation,P0,"small, medium, dense",missing,Jungle readability.
+EN-010,Environment set dressing,Vine cluster set,3D vegetation,P1,"short, hanging, dense",missing,Jungle detail.
+EN-011,Environment set dressing,Wet mud / puddle decal set,Material / decal,P1,"small, medium, large",missing,Storm atmosphere.
+EN-012,Environment set dressing,Rock wall module,3D environment module,P0,"straight, corner, ledge",missing,Ravine / cliff scenes.
+EN-013,Environment set dressing,Cliff edge grass set,3D vegetation,P1,"short, dense",missing,Ravine dressing.
+EN-014,Environment set dressing,Cave wall module,3D environment module,P1,"straight, corner, arch",missing,Cave scene support.
+EN-015,Environment set dressing,Cave floor debris set,3D prop cluster,P1,"stones, branches",missing,Cave dressing.
+EN-016,Environment set dressing,Camp mat / groundsheet,3D prop cluster,P1,"clean, worn, wet",missing,Camp dressing.
+EN-017,Environment set dressing,Cooking corner set,3D prop cluster,P1,"pot, crate, utensils",missing,Camp dressing.
+EN-018,Environment set dressing,Storage corner set,3D prop cluster,P1,"crate, sack, poles",missing,Camp dressing.
+EN-019,Environment set dressing,Signal hill dressing set,3D prop cluster,P1,"logs, ropes, stones",missing,Beacon area dressing.
+EN-020,Environment set dressing,Rain catcher placement set,3D prop cluster,P1,"frame, cloth, basin",missing,Derived from mockups.
+EN-021,Environment set dressing,Torch stand,3D prop cluster,P2,"unlit, lit",missing,Night readability.
+EN-022,Environment set dressing,Path marker stakes,3D prop cluster,P1,"plain, cloth-marked",missing,Navigation hinting.
+EN-023,Environment set dressing,Storm damage debris set,3D prop cluster,P1,"broken shelter parts, loose cloth",missing,Finale aftermath.
+EN-024,Environment set dressing,Camp boundary rope set,3D prop cluster,P2,"slack, taut",missing,Optional spatial framing.
+EN-025,Environment set dressing,Water shoreline foam decal,Material / decal,P2,"calm, storm",missing,Beach polish.
+MN-001,Menus & meta screens,Main menu background,UI scene art,P1,"neutral, storm",missing,Startup presentation.
+MN-002,Menus & meta screens,Lobby panel,UI panel,P0,"host, client, connected",missing,Pre-game flow.
+MN-003,Menus & meta screens,Comfort settings panel,UI panel,P0,default,missing,Required UX.
+MN-004,Menus & meta screens,Pause menu panel,UI panel,P0,default,missing,Required UX.
+MN-005,Menus & meta screens,Reconnect screen,UI panel,P0,"trying, failed, success",missing,Required UX.
+MN-006,Menus & meta screens,Subtitle settings panel,UI panel,P1,default,missing,Accessibility.
+MN-007,Menus & meta screens,Scenario select card,UI panel,P1,"Stormnatten, locked future scenario",missing,Future-ready UI.
+MN-008,Menus & meta screens,End-of-run summary card,UI panel,P1,"success, failure",missing,Postgame.
+MN-009,Menus & meta screens,Player accolade badge set,UI badge,P1,"survivor, builder, rescuer etc.",missing,Postgame stats flavor.
+MN-010,Menus & meta screens,Credits / thank you panel,UI panel,P2,default,missing,Gift-version polish.
+FX-001,VFX support graphics,Smoke flipbook texture,VFX texture,P1,"small, medium",missing,Campfire / signal fire.
+FX-002,VFX support graphics,Ember particle texture,VFX texture,P1,"small, medium",missing,Campfire / signal fire.
+FX-003,VFX support graphics,Ash particle texture,VFX texture,P2,single,missing,Storm aftermath.
+FX-004,VFX support graphics,Rain splash decal texture,VFX texture,P1,"small, medium",missing,Storm ambience.
+FX-005,VFX support graphics,Wet sheen mask texture,VFX/material helper,P1,single,missing,Wet objects look.
+FX-006,VFX support graphics,Lightning flash overlay,Screen effect,P1,"near, far",missing,Storm dramatics.
+FX-007,VFX support graphics,Glow halo texture,VFX texture,P1,"fire, lantern",missing,Simple bloom support.
+FX-008,VFX support graphics,Objective pulse ring,VFX/UI hybrid,P1,"small, medium",missing,World markers.

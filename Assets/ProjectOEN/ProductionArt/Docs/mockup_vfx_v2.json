@@ -1,0 +1,90 @@
+{
+  "version": 2,
+  "count": 14,
+  "entries": [
+    {
+      "asset_id": "FX-001",
+      "variant": "small",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-001_smoke_flipbook_texture__small.png",
+      "sha256": "7828aea42c368e39f3760f1b81a987aa9dc0e8d34917d1ce40a09500ab0f6435"
+    },
+    {
+      "asset_id": "FX-001",
+      "variant": "medium",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-001_smoke_flipbook_texture__medium.png",
+      "sha256": "429f660fe50397b37d2bf189aaa4245d8c5ef7897a92367332aec4b2e3e1b343"
+    },
+    {
+      "asset_id": "FX-002",
+      "variant": "small",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-002_ember_particle_texture__small.png",
+      "sha256": "d25758725fafb756fc244ee6c3528ee3066dd64ac33288cdbe3ecf2fe1abce0f"
+    },
+    {
+      "asset_id": "FX-002",
+      "variant": "medium",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-002_ember_particle_texture__medium.png",
+      "sha256": "27275722dff43a51ce726dfd5feacea4c03648eed1eb917f1c18d5846938c0cd"
+    },
+    {
+      "asset_id": "FX-003",
+      "variant": "single",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-003_ash_particle_texture__single.png",
+      "sha256": "eafe200617d876bbe118f0359d84f0f6caabdaed535108ce7608babb90cdb982"
+    },
+    {
+      "asset_id": "FX-004",
+      "variant": "small",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-004_rain_splash_decal_texture__small.png",
+      "sha256": "4482f8620eb2cd2df7fa4ceae5806c5ec33a466a83e6376cb333593a0c722391"
+    },
+    {
+      "asset_id": "FX-004",
+      "variant": "medium",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-004_rain_splash_decal_texture__medium.png",
+      "sha256": "e61ad3f2ab5d4b3257fcd514fbb0c2ca1467916dd237b4f0efac0ef11361fc5e"
+    },
+    {
+      "asset_id": "FX-005",
+      "variant": "single",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-005_wet_sheen_mask_texture__single.png",
+      "sha256": "f752210cafdeeade1f24a0ced28394be932965fefec1a3a6313d487b0cf73a18"
+    },
+    {
+      "asset_id": "FX-006",
+      "variant": "near",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-006_lightning_flash_overlay__near.png",
+      "sha256": "0c8fd79c27e61d05a1652dbb68bfacdec27839555097c7d4b540957a6190ec32"
+    },
+    {
+      "asset_id": "FX-006",
+      "variant": "far",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-006_lightning_flash_overlay__far.png",
+      "sha256": "9ff167aa0a04564082a7744c81dd47777c3fb117cb0276a5707f6ffa419c3e63"
+    },
+    {
+      "asset_id": "FX-007",
+      "variant": "fire",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-007_glow_halo_texture__fire.png",
+      "sha256": "b43d474b399aec5a8327a42dda1f6b0b421743998528a42615600f65d2e804ae"
+    },
+    {
+      "asset_id": "FX-007",
+      "variant": "lantern",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-007_glow_halo_texture__lantern.png",
+      "sha256": "869a8b43205f35423fd1a709b9d07f6ef1750254903a006cd763fe49febef277"
+    },
+    {
+      "asset_id": "FX-008",
+      "variant": "small",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-008_objective_pulse_ring__small.png",
+      "sha256": "f3e4444249eefca5f26181d15b7e125ecd37378793eec53fca8df45ff3f866cf"
+    },
+    {
+      "asset_id": "FX-008",
+      "variant": "medium",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics/fx-008_objective_pulse_ring__medium.png",
+      "sha256": "3e7816ccbdef54938f957c2e47a842840373f3f33445b419a82aceeae0f84b83"
+    }
+  ]
+}

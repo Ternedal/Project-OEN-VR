@@ -1,0 +1,2126 @@
+{
+  "version": 2,
+  "count": 192,
+  "category_counts": {
+    "Branding & identity": 23,
+    "Wrist UI & player status": 40,
+    "Planning board & phase UI": 36,
+    "Resource icons & inventory support": 44,
+    "Interaction markers & helper UI": 30,
+    "Menus & meta screens": 19
+  },
+  "entries": [
+    {
+      "asset_id": "BR-001",
+      "variant": "main",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-001_primary_logo__main.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "70dded1b1d3390737705b62fe3ee640d5e50b4a0e7b57fe435b4ab9a4c2d6903"
+    },
+    {
+      "asset_id": "BR-001",
+      "variant": "monochrome",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-001_primary_logo__monochrome.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "38c51d45afca210c0fdc02eb0528a011fbc706ff2740f884d36438a5af8ae667"
+    },
+    {
+      "asset_id": "BR-001",
+      "variant": "dark_bg",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-001_primary_logo__dark_bg.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "80264cd2823d998592b4a78a6b25b5e1b1714b26816b3840345104b37d51dca6"
+    },
+    {
+      "asset_id": "BR-001",
+      "variant": "light_bg",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-001_primary_logo__light_bg.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "d84b1eebe489fe85a91aef1d1a88d0d95c01f106cd55f2b3ef835ae5f1b62154"
+    },
+    {
+      "asset_id": "BR-002",
+      "variant": "horizontal",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-002_secondary_logo_wordmark__horizontal.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "b60aaa4fb069f095157b33fb5fef0d1439f1cad9a7971caada6a6c72bc88b9f3"
+    },
+    {
+      "asset_id": "BR-002",
+      "variant": "stacked",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-002_secondary_logo_wordmark__stacked.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "6a63e5b2708757e64fb24b579b36a207776769686797837da2c33d2173167d75"
+    },
+    {
+      "asset_id": "BR-003",
+      "variant": "full_color",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-003_app_icon_emblem__full_color.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "5d214288174b1d05beccb4107249748373f4aa4ab68d6ed244439df6d95c18dd"
+    },
+    {
+      "asset_id": "BR-003",
+      "variant": "mono",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-003_app_icon_emblem__mono.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "d933ccf10054fc147c24f60fe1487c17282d438b96636816823cdc954c06c2a1"
+    },
+    {
+      "asset_id": "BR-003",
+      "variant": "mask_safe",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-003_app_icon_emblem__mask_safe.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "5793a7496411554f6eca36efaf0c8798b1740e12d1412aba8f561a43dc15aecb"
+    },
+    {
+      "asset_id": "BR-004",
+      "variant": "clean",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-004_faction_scenario_stamp__clean.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "087dfe37a2ccc56003a070c7db5c4acf9f1cf214151c2daf7184e704822acc73"
+    },
+    {
+      "asset_id": "BR-004",
+      "variant": "distressed",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-004_faction_scenario_stamp__distressed.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "dcb3f6524ece12fc1e74fabe672d782c2b1d138e471012cd75ec24f5144be874"
+    },
+    {
+      "asset_id": "BR-005",
+      "variant": "dark",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-005_title_screen_backdrop_frame__dark.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "9dff9d8b1bd482ebf26b5cdd8f3b9cc73595c3b88ba3e0d5de143371fc29f3b9"
+    },
+    {
+      "asset_id": "BR-005",
+      "variant": "storm",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-005_title_screen_backdrop_frame__storm.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "28ff959e1d40b17b980eb322bae7d3945ed67209933e4ca8b76de41078cede53"
+    },
+    {
+      "asset_id": "BR-005",
+      "variant": "neutral",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-005_title_screen_backdrop_frame__neutral.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "d0074d3bcc891a55ca1de7f628822be6727193f056bb1ab73b1fcb7ca4c748ec"
+    },
+    {
+      "asset_id": "BR-006",
+      "variant": "default",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-006_loading_screen_title_lockup.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "6fe5ac356c5e320d777782dac9c4e0e4e2ec6e85cf78b1bc687a0c8db093b065"
+    },
+    {
+      "asset_id": "BR-006",
+      "variant": "storm",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-006_loading_screen_title_lockup__storm.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "7c72feed73d962032f900ee60cb87fd943c591162693a023beaf4bf11e94bf3c"
+    },
+    {
+      "asset_id": "BR-007",
+      "variant": "dividers",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-007_typography_ornament_set__dividers.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "bd4f5bc39354dc048951f12d10c288e4adb043561dfd7bd45b077240965fb3b3"
+    },
+    {
+      "asset_id": "BR-007",
+      "variant": "corners",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-007_typography_ornament_set__corners.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "fa3e9408a0349274b3ff668e42861f0658457ae2d87ebaac5e9497c4a823882b"
+    },
+    {
+      "asset_id": "BR-007",
+      "variant": "lines",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-007_typography_ornament_set__lines.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "cb40fe2775a3c25cc007c6b399d017034c5caa3e9f829a509777e4ac7d49939f"
+    },
+    {
+      "asset_id": "BR-008",
+      "variant": "day_1",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-008_chapter_day_badge_set__day_1.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "67f8beb596e26ba770eeb853cf26dd9faf471fea988a9c7a1f480a6cb3da213b"
+    },
+    {
+      "asset_id": "BR-008",
+      "variant": "day_2",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-008_chapter_day_badge_set__day_2.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "dacf1f5e1ac2c6736819f720b4a9293332298f3230a9a2fc6c846592905fb355"
+    },
+    {
+      "asset_id": "BR-008",
+      "variant": "day_3",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-008_chapter_day_badge_set__day_3.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "5c05d88dca0b76d65f4c9b711b8ee73b2f17db8d6cafe39525c00df65aa80a3d"
+    },
+    {
+      "asset_id": "BR-008",
+      "variant": "stormnatten",
+      "category": "Branding & identity",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/branding_identity/br-008_chapter_day_badge_set__stormnatten.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "5702093ac4061b5462540b1c94ef58811c4f649a901947662f685a80dae609d5"
+    },
+    {
+      "asset_id": "UI-001",
+      "variant": "idle",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-001_wrist_device_base_frame__idle.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "13e255a2b9558c046481290986316e79efc5f8223e476858ce2369dd4464025b"
+    },
+    {
+      "asset_id": "UI-001",
+      "variant": "hover",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-001_wrist_device_base_frame__hover.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "7e2f4a7507186049d467c73ac6666d2a6d40ceacaae164fe4eaae6e785ee4a8e"
+    },
+    {
+      "asset_id": "UI-001",
+      "variant": "active",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-001_wrist_device_base_frame__active.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "adb8f8a576768e43cc30f360003e53ccc391681f46c5b53bb580b003a8b58a8e"
+    },
+    {
+      "asset_id": "UI-002",
+      "variant": "normal",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-002_health_icon__normal.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "daf2959805412f4d9df428a075d8a4c3e1b24e7ef9b318f4b6478139aff62f76"
+    },
+    {
+      "asset_id": "UI-002",
+      "variant": "low",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-002_health_icon__low.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "3b1a3446ba16e76d5478863f4d7b2afa2fedbb1e802a7da87e78d1039b5dedcc"
+    },
+    {
+      "asset_id": "UI-002",
+      "variant": "critical",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-002_health_icon__critical.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "9f67b616a56c442c97ba97b9b1daf10781303d34ba1cbbb30ca269a7447f6205"
+    },
+    {
+      "asset_id": "UI-003",
+      "variant": "normal",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-003_fatigue_icon__normal.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "51a9c1fdc360fd9a66768bf092a549484b7cc14d8bdf82b390eae76f5e81762b"
+    },
+    {
+      "asset_id": "UI-003",
+      "variant": "tired",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-003_fatigue_icon__tired.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "78c2f4cd75e8cce7eafcf7c3e3df17ec99195b6e333a1134135c1a8f730877e4"
+    },
+    {
+      "asset_id": "UI-003",
+      "variant": "exhausted",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-003_fatigue_icon__exhausted.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "738a699263cbf9a1debb4d69be0a8777a31ff944c31eb4c68ae5f1413cb3b274"
+    },
+    {
+      "asset_id": "UI-004",
+      "variant": "dry",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-004_cold_wet_icon__dry.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "af69ea67a9f9788cb4525da137bb6c1676b40f09058d6e67c9bfde9a5fe7016e"
+    },
+    {
+      "asset_id": "UI-004",
+      "variant": "wet",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-004_cold_wet_icon__wet.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "2ba610fe78728eef3a54288eed50ea8c58a1e389a24a4a12942ce4f3d97a1b00"
+    },
+    {
+      "asset_id": "UI-004",
+      "variant": "freezing",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-004_cold_wet_icon__freezing.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "cb7a8f23ef62ea57a0c9f7ded5176ff7798ed59178450fe1ec16dfcd747b3c46"
+    },
+    {
+      "asset_id": "UI-005",
+      "variant": "minor",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-005_injury_icon__minor.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "c8fe2cc6aa54e27b17290eab0bae7415418f9a5389f1f2e0cc0f9386a365c78b"
+    },
+    {
+      "asset_id": "UI-005",
+      "variant": "severe",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-005_injury_icon__severe.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "85822afdef10948a84e19d0a2b1883e4c254796a5b2da8924acfa5bd0b760ad1"
+    },
+    {
+      "asset_id": "UI-005",
+      "variant": "critical",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-005_injury_icon__critical.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "6d3d33c3f331fa85be7437768f3a9b935a9ce6bebe788165cebe675d0b2126bc"
+    },
+    {
+      "asset_id": "UI-006",
+      "variant": "full",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-006_status_ring_background__full.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "dabaca51eb2280c10b6b409c29fa39a311527614fb350855ac1e4a3001943eb6"
+    },
+    {
+      "asset_id": "UI-006",
+      "variant": "half",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-006_status_ring_background__half.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "9e080ee5c1918aaed0661232133e1f69aa547a17aae82a357a14923b8293d3db"
+    },
+    {
+      "asset_id": "UI-006",
+      "variant": "low",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-006_status_ring_background__low.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "6aa41f4bb39a8240c74305ffd1bb2282c89eba2d7368abd6ca79e346e8f4d622"
+    },
+    {
+      "asset_id": "UI-007",
+      "variant": "p1",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-007_player_1_identifier__p1.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "138f1e641587abb0d85704f662d03b3181d412b68510a576118f662e4997b181"
+    },
+    {
+      "asset_id": "UI-007",
+      "variant": "highlighted",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-007_player_1_identifier__highlighted.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "96381a1228ab099c3721482fbc0b7d053e197df3b694166c3bb063681553201e"
+    },
+    {
+      "asset_id": "UI-008",
+      "variant": "p2",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-008_player_2_identifier__p2.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "063d2578ae583f1165eb15c0254750aeb895d844111cda8153a76e103a81186b"
+    },
+    {
+      "asset_id": "UI-008",
+      "variant": "highlighted",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-008_player_2_identifier__highlighted.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "0dc4a1ea17f7c5c66191be29a3cbb178ee4a4dec8dcf6bf0066a56ec10940787"
+    },
+    {
+      "asset_id": "UI-009",
+      "variant": "warning",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-009_condition_alert_pulse.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "8e2d509935d8de5523ad2f26431f0a3b554d9f499d79097722485551e490b870"
+    },
+    {
+      "asset_id": "UI-009",
+      "variant": "danger",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-009_condition_alert_pulse__danger.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "f7719f892e3f13e9073c764bc6eeca992c9fd7b9d04e88c1ca86d5a93b728d15"
+    },
+    {
+      "asset_id": "UI-010",
+      "variant": "held",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-010_object_held_indicator__held.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "c25d2b205f2760de21e5a3d68ac34d83d9f248cec139b28a2717b13c92405c94"
+    },
+    {
+      "asset_id": "UI-010",
+      "variant": "shared_carry",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-010_object_held_indicator__shared_carry.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "0eebbc650f84cd0b9bc35fef00a363ba3e8b8328f32802bf95b28ed8ab7e35ca"
+    },
+    {
+      "asset_id": "UI-011",
+      "variant": "offline",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-011_radio_signal_icon__offline.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "d0f6c25dff3acede62766a84269e737f82f9ff34a74d08d40caa6a19894e9d78"
+    },
+    {
+      "asset_id": "UI-011",
+      "variant": "weak",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-011_radio_signal_icon__weak.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "3cc2071a6e45fbca55be777472c640c8aead31f9b909e65b12331e4491cbe23b"
+    },
+    {
+      "asset_id": "UI-011",
+      "variant": "good",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-011_radio_signal_icon__good.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "1278534491728bb1931e870a99ddb778793a20bffc83ae49f45c9ef3cb73fe70"
+    },
+    {
+      "asset_id": "UI-012",
+      "variant": "intact",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-012_shelter_integrity_icon__intact.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "e4c7996b4fbac7e89eae1d3659038fcf94cc1ac6851f3911581148e0fe05f93f"
+    },
+    {
+      "asset_id": "UI-012",
+      "variant": "weakened",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-012_shelter_integrity_icon__weakened.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "c99e8a031c2571fd04bfebd4b119d816201ca83ea90700a17a2ac576333fd659"
+    },
+    {
+      "asset_id": "UI-012",
+      "variant": "damaged",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-012_shelter_integrity_icon__damaged.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "605fa8e92848506e1bac0ebf25b027c687f255af33c5cb82c2a7823794e0bf17"
+    },
+    {
+      "asset_id": "UI-013",
+      "variant": "out",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-013_fire_strength_icon__out.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "0e8e87ec93ac21914a578c9374b2dcbfeb62fdf74ae54f6ca7f16bad04dbb21c"
+    },
+    {
+      "asset_id": "UI-013",
+      "variant": "ember",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-013_fire_strength_icon__ember.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "396717d96a212892ad2cb6ad9bd3db9f88c79ac1af3491e296e336813f4caaef"
+    },
+    {
+      "asset_id": "UI-013",
+      "variant": "low",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-013_fire_strength_icon__low.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "412e868d808ac2d09e3e3fa6ccd3e273e017ce4812542643b9159ecfe3853697"
+    },
+    {
+      "asset_id": "UI-013",
+      "variant": "strong",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-013_fire_strength_icon__strong.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "aed0f78e83ed823fb03cde32522a9dd5ad48cd366a87501549b66370d4becd7e"
+    },
+    {
+      "asset_id": "UI-014",
+      "variant": "none",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-014_signal_progress_icon__none.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "713bfb582a682bc7f5c38ed2442619d86b12975eca648ae4d5137899b57a7428"
+    },
+    {
+      "asset_id": "UI-014",
+      "variant": "partial",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-014_signal_progress_icon__partial.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "bbc64a0eea883fbe45096b8400e6c9fe9c70278ae3c74ea232dc23970f98f26b"
+    },
+    {
+      "asset_id": "UI-014",
+      "variant": "ready",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-014_signal_progress_icon__ready.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "2e1e4d596a575864dafaafb29538858abfa34d3a57d5a3f845d1ba9614d2b815"
+    },
+    {
+      "asset_id": "UI-014",
+      "variant": "active",
+      "category": "Wrist UI & player status",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/wrist_ui_player_status/ui-014_signal_progress_icon__active.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "d7e20bd93386ba38b59473b527d5febba3263fada492831428937bfe6dd4f67b"
+    },
+    {
+      "asset_id": "PL-001",
+      "variant": "empty",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-001_planning_board_base__empty.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "65e8b9660364a4252806fb97ec6f5a3c0a2ada8ad8c0268af4c43477d49b06fd"
+    },
+    {
+      "asset_id": "PL-001",
+      "variant": "populated",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-001_planning_board_base__populated.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "2cd57619e472de3c4d361d1829384a3409b0e9912a3b9d6cc6f41aa32c9e5ff5"
+    },
+    {
+      "asset_id": "PL-002",
+      "variant": "4_slots",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-002_time_slots_track__4_slots.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "016b60f43670f2f00b14b3a7f78cadf5b104b024761e7509a41077abcc7e31f3"
+    },
+    {
+      "asset_id": "PL-002",
+      "variant": "spent_state",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-002_time_slots_track__spent_state.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "7ff1f59bf6a41980e821e84813c7a537b38ee6389f566883ab8471df54b673fa"
+    },
+    {
+      "asset_id": "PL-003",
+      "variant": "idle",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-003_action_token_gather__idle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "74cbef0180726b8534a5fbe46f556e760bb4c352a691a2a9c00377f74743670d"
+    },
+    {
+      "asset_id": "PL-003",
+      "variant": "selected",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-003_action_token_gather__selected.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "e13f0abb8b03562fc12ce49eea44cd102461f3e8f57dc749ee34ac2bcf322cf9"
+    },
+    {
+      "asset_id": "PL-003",
+      "variant": "placed",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-003_action_token_gather__placed.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "3799b0777aefcb063bcc40887259bf670e886df97593c487edf4642889f6957b"
+    },
+    {
+      "asset_id": "PL-004",
+      "variant": "idle",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-004_action_token_build__idle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "e8f31f0fb70022b862af824966dd2d5ec96eae7ce691da4eec89253739cd57e1"
+    },
+    {
+      "asset_id": "PL-004",
+      "variant": "selected",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-004_action_token_build__selected.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "1875548df7cf54f254bc01b41cefa51b8c6b24a2c4fe1ed3d553f6105fe3bef0"
+    },
+    {
+      "asset_id": "PL-004",
+      "variant": "placed",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-004_action_token_build__placed.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "0298643bc2bd43a5058efc3ceb2513cc3168de22082c71928546349610cae6b3"
+    },
+    {
+      "asset_id": "PL-005",
+      "variant": "idle",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-005_action_token_scout__idle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "57beeaf40007242c17da05df0326fd6b19094b4bf464ae05d084036f24b30341"
+    },
+    {
+      "asset_id": "PL-005",
+      "variant": "selected",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-005_action_token_scout__selected.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "e9a25f54bb4cfc951041bcd908d5482561fbb051610d89ff0ff09569679860fd"
+    },
+    {
+      "asset_id": "PL-005",
+      "variant": "placed",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-005_action_token_scout__placed.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "2ed63efbdae670da641e53d7df460ed9658fb5e31d787bd67217644831dc2f92"
+    },
+    {
+      "asset_id": "PL-006",
+      "variant": "idle",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-006_action_token_repair__idle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "2e910dfa8333d9e76b3f6a53411f90b9498a351ec70f08bef165b5c1b0e67a47"
+    },
+    {
+      "asset_id": "PL-006",
+      "variant": "selected",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-006_action_token_repair__selected.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "0840de01635677e1d55f1eb49e17f4a05d85c4d1c8d2df1e1b5884e806936858"
+    },
+    {
+      "asset_id": "PL-006",
+      "variant": "placed",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-006_action_token_repair__placed.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "c8f6c0afc88f61c21603e3397c1147e28dba41444947111cc406ff439c7a6a43"
+    },
+    {
+      "asset_id": "PL-007",
+      "variant": "low",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-007_risk_marker_set__low.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "05455e1741bb80b63da4c91ffebdbdc9f4f2a82470b66a2cddb4ca3812aa275d"
+    },
+    {
+      "asset_id": "PL-007",
+      "variant": "medium",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-007_risk_marker_set__medium.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "dc918994de878bb3f6054abedbf70c39b2c1521fe693ade8b6ac1d112e46cb05"
+    },
+    {
+      "asset_id": "PL-007",
+      "variant": "high",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-007_risk_marker_set__high.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "10de43b38ca2e87ed3e3da14a526b18f83b8559222a090b17f0e876954bf6d21"
+    },
+    {
+      "asset_id": "PL-008",
+      "variant": "health",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-008_camp_summary_board_card__health.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "2825fb8665c82859d676de2724d60aee025e164baa0df6c73aaa1781f0417539"
+    },
+    {
+      "asset_id": "PL-008",
+      "variant": "shelter",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-008_camp_summary_board_card__shelter.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "157ced2087f726c2681ba69246012335cf5e4da4204d0393838a53e46b7ee950"
+    },
+    {
+      "asset_id": "PL-008",
+      "variant": "fire",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-008_camp_summary_board_card__fire.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "6c6b2e35711638e6209e8e2665e7ed4f8325ed59b146e0a5a2dc8eb55cff6286"
+    },
+    {
+      "asset_id": "PL-008",
+      "variant": "signal",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-008_camp_summary_board_card__signal.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "a2c8208014ceafbc8936ee8c1526bc7910ebf45e66ed372249e8295b43cefcd8"
+    },
+    {
+      "asset_id": "PL-009",
+      "variant": "clear",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-009_weather_card_set__clear.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "c9cf42e12e3bba041507d43153f36c191a27c1002cdb868f8b0a25ce188f767a"
+    },
+    {
+      "asset_id": "PL-009",
+      "variant": "rain",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-009_weather_card_set__rain.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "9d30183c89a18b033c72010e6828f2b7c8798d1af6fc6de5f1a2d82467c93c4b"
+    },
+    {
+      "asset_id": "PL-009",
+      "variant": "storm",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-009_weather_card_set__storm.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "5c1ec1014bd82f87d873fe00823bf8b724468df4ba058ea09d54a56314e3c807"
+    },
+    {
+      "asset_id": "PL-009",
+      "variant": "lightning",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-009_weather_card_set__lightning.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "9d8f1387fd635364f7275ca3e65f462ad4e96b88f6dbe113068e1c4d097f8bcd"
+    },
+    {
+      "asset_id": "PL-010",
+      "variant": "current_objective",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-010_objective_card_set__current_objective.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "f97502f95a0e27e4481a3d0486036bf454550a65cec4bd54c61640b771b7ca76"
+    },
+    {
+      "asset_id": "PL-010",
+      "variant": "optional_objective",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-010_objective_card_set__optional_objective.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "6316f9c2029f011374ec93408ee935a845c7824b68fb951e91a984d6a0429d9a"
+    },
+    {
+      "asset_id": "PL-011",
+      "variant": "wood",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-011_resource_requirement_pips__wood.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "abcc328e51ca4d78a2fe839722bfd37f5a2370c29f7cc51d571847e4e9354787"
+    },
+    {
+      "asset_id": "PL-011",
+      "variant": "rope",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-011_resource_requirement_pips__rope.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "8bfc32744d8cb8ddb7cf135fb665e3a70d845dcbf2e7d0f2fdee1244a2cbcdf0"
+    },
+    {
+      "asset_id": "PL-011",
+      "variant": "fuel",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-011_resource_requirement_pips__fuel.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "dbc2b148b91020366f00f1fc01d1afe9fc64c950bd1ef5805ef12bffe6a1b51d"
+    },
+    {
+      "asset_id": "PL-011",
+      "variant": "food",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-011_resource_requirement_pips__food.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "8947a7b80534f0b52c8efbec288394c20796e61e9629398d18f42c2abe4a7c2e"
+    },
+    {
+      "asset_id": "PL-011",
+      "variant": "parts",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-011_resource_requirement_pips__parts.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "d3ead273951723b5f334d2b0337dbaa5bf9ee7be3738a583639d6c05dbc07000"
+    },
+    {
+      "asset_id": "PL-012",
+      "variant": "hidden",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-012_consequences_reveal_panel__hidden.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "75b453bf453d6233083f73188ab84e4533fe22c9342011b98390046721080e0e"
+    },
+    {
+      "asset_id": "PL-012",
+      "variant": "reveal",
+      "category": "Planning board & phase UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/planning_board_phase_ui/pl-012_consequences_reveal_panel__reveal.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "caa3b0688b0d598af36933ce6a99c2f3a1fe2fd01c29a0133987594409811b95"
+    },
+    {
+      "asset_id": "RS-001",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-001_wood_resource_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "1baaea2d1e3006c37676682d919e3a5ecaa7520ae74248ae4552a2e6b68577af"
+    },
+    {
+      "asset_id": "RS-001",
+      "variant": "stack",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-001_wood_resource_icon__stack.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "d3e21b7d2900badb8de708623d7f8f7af18ad082568058f76b8e2fab9aa89b73"
+    },
+    {
+      "asset_id": "RS-002",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-002_wet_wood_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "93849929578aadd72497017e9d67243e0294d65253b02c9f0b402bbbe8a4cae0"
+    },
+    {
+      "asset_id": "RS-002",
+      "variant": "stack",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-002_wet_wood_icon__stack.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "ae0fdf1b463c1346b338d7b70146ba441547dbaaaedf538d49888741c44c1ac0"
+    },
+    {
+      "asset_id": "RS-003",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-003_rope_resource_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "a8642d1aed288945ffba8ef910f7953b21866f6a19e86c99359696f46c92fc09"
+    },
+    {
+      "asset_id": "RS-003",
+      "variant": "coil",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-003_rope_resource_icon__coil.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "89992c69fb46dae48ce7bb441ee65f9b3e0fa6bfc3cf34606aeeca73e97f5d0a"
+    },
+    {
+      "asset_id": "RS-004",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-004_fiber_vines_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "368586c32bc3b0c93fe5bbfa680c590360ea1229eac777af65509c9989468715"
+    },
+    {
+      "asset_id": "RS-004",
+      "variant": "bundle",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-004_fiber_vines_icon__bundle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "0c6709c7010ffa8e5a690bcfb336a3b0b2e0aa129a5c08bbdf7324cc16a97e8a"
+    },
+    {
+      "asset_id": "RS-005",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-005_leaves_palm_fronds_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "22f195187058d4dcc31da1ca9d054edebb1e06ebe86775ca7c8ab115fc06efcc"
+    },
+    {
+      "asset_id": "RS-005",
+      "variant": "bundle",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-005_leaves_palm_fronds_icon__bundle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "766687597a934e103e413b70b75bfcd56107bcca86c2bea1db716d64d12218cb"
+    },
+    {
+      "asset_id": "RS-006",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-006_stone_resource_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "6ef9797885bfaa75ed778f1bfe88f51e42e7bce7f11a5a4b788da812131d3ed7"
+    },
+    {
+      "asset_id": "RS-006",
+      "variant": "stack",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-006_stone_resource_icon__stack.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "b9feebc4762666d0b229cdc5d7dc77c585f4dc8d004e8a31ae763ee9fa9e17ea"
+    },
+    {
+      "asset_id": "RS-007",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-007_fuel_tinder_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "8b9aaecc2f96e349f770047c56e2fc489d10c38f12125fd028e2fd340f54a4b4"
+    },
+    {
+      "asset_id": "RS-007",
+      "variant": "bundle",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-007_fuel_tinder_icon__bundle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "ef6153d70fb8046274f91d8f5ea558005fd7e50e61dab1a985b2f0f8d0f5312f"
+    },
+    {
+      "asset_id": "RS-008",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-008_food_ration_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "22ccd2f65e08e68fc19789e0403de267360138ea01a737d4748b76bfe677aeeb"
+    },
+    {
+      "asset_id": "RS-008",
+      "variant": "bundle",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-008_food_ration_icon__bundle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "c0471652971c11f5bb4c9250aad0f559d5853e79055fb194f964f195b0a7cdbb"
+    },
+    {
+      "asset_id": "RS-009",
+      "variant": "full",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-009_water_icon__full.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "e9697e50c79e564160b1dfaca71492e3ea4452ca74d398a7c94bb352a94112a7"
+    },
+    {
+      "asset_id": "RS-009",
+      "variant": "half",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-009_water_icon__half.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "798775c1003a775fba71800c85102c899f8c3bd442d9361d9be4b365148d7142"
+    },
+    {
+      "asset_id": "RS-009",
+      "variant": "empty",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-009_water_icon__empty.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "ad65bbec686d459bc480b3c8a589cc23d4af5c4a58f5097892911466a4c177d5"
+    },
+    {
+      "asset_id": "RS-010",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-010_radio_parts_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "88de214fc1851a97ea5590e696799c9c41d2272b8155d6b9f5ce7e0e694246d7"
+    },
+    {
+      "asset_id": "RS-010",
+      "variant": "bundle",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-010_radio_parts_icon__bundle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "e7ec80538feabf4c425046d3379ef357bcf3d26f71eefeaac73051d620549d69"
+    },
+    {
+      "asset_id": "RS-011",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-011_cloth_rag_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "7e1f08426500c26f14aa502190e6d3711cb23a15e01513dff3678649df21ca46"
+    },
+    {
+      "asset_id": "RS-011",
+      "variant": "bundle",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-011_cloth_rag_icon__bundle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "a751cfcb50c5dc608c4f0e57ae37b66ba276c45b16a7d185ed7c428ee58db7f7"
+    },
+    {
+      "asset_id": "RS-012",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-012_metal_scrap_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "f635f80eb4b2bbc9ca922ee61d27233468e90d8c828ce18e43435d2e83220c2e"
+    },
+    {
+      "asset_id": "RS-012",
+      "variant": "stack",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-012_metal_scrap_icon__stack.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "7600e2df7dcfcf9a74cecd620dd10dae370b337a0a0583e6f3b17eb4013b7887"
+    },
+    {
+      "asset_id": "RS-013",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-013_medicinal_herb_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "8dd90b35bbcd4f2cd22546b5d864c334a4c8b374e3aa8875a461c4c98ddf763c"
+    },
+    {
+      "asset_id": "RS-013",
+      "variant": "bundle",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-013_medicinal_herb_icon__bundle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "d932833c42c8a57c50bc38c7682b6145c54bc8b4d39e13ff9017dab36ae2ea12"
+    },
+    {
+      "asset_id": "RS-014",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-014_torch_fuel_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "6f3960aa70f99d7574fe8f94b41f6ef69bdd88589d3744daa67aab47dd70ae6d"
+    },
+    {
+      "asset_id": "RS-014",
+      "variant": "bottle",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-014_torch_fuel_icon__bottle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "bc3929ed2786283b0ab7365ecf93b5d105e0606dcc673d8d2265f9bb98143aa2"
+    },
+    {
+      "asset_id": "RS-015",
+      "variant": "single",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-015_signal_material_icon__single.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "2e451749a9212c31332e16584684b640240db999b75b5077c3f6336ed9a7f955"
+    },
+    {
+      "asset_id": "RS-015",
+      "variant": "stack",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-015_signal_material_icon__stack.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "d80c9b53f87415da3b9eb587a1cec42e929499825f84ff2f6aea6e7c62f74b42"
+    },
+    {
+      "asset_id": "RS-016",
+      "variant": "closed",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-016_camp_supplies_crate_icon__closed.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "4b690458938d706d330204c02f19920507d6b5aacf243c2f8d191ec8e1efcf64"
+    },
+    {
+      "asset_id": "RS-016",
+      "variant": "open",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-016_camp_supplies_crate_icon__open.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "8e060885bad0ef10fe7b8380f60ff82d590a7b9a68f487322cebc81254d9c58d"
+    },
+    {
+      "asset_id": "RS-017",
+      "variant": "light",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-017_carried_weight_icon__light.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "dd97c1b7619b653d5980995af2424d032428e6cba90c61babc31e4d1ccd0c37b"
+    },
+    {
+      "asset_id": "RS-017",
+      "variant": "medium",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-017_carried_weight_icon__medium.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "ef2e9f4d4f1c077f1b2e8a06d9664eeb05658b414ddc1f6d54b7901d3020807c"
+    },
+    {
+      "asset_id": "RS-017",
+      "variant": "heavy",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-017_carried_weight_icon__heavy.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "32662e8392f9347e58acee4d80126318879ac4778d5968447701100af74f1582"
+    },
+    {
+      "asset_id": "RS-018",
+      "variant": "light",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-018_wetness_droplet_icon__light.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "946b37cfd45780041c2a1e210b91d293013e0b46285b4fda4d06e4a258c89b48"
+    },
+    {
+      "asset_id": "RS-018",
+      "variant": "medium",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-018_wetness_droplet_icon__medium.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "9ef346d28f38839ef332f3a831d7bd084308bbc9b96c9c0ad81f6f4411eee5e0"
+    },
+    {
+      "asset_id": "RS-018",
+      "variant": "high",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-018_wetness_droplet_icon__high.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "ec642a62a743b931353b3c2ee3d3537d6208afe4f4cd13ef3a4e3f26e7c84d3b"
+    },
+    {
+      "asset_id": "RS-019",
+      "variant": "full",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-019_durability_pip_set__full.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "5d5c6c9360c7719c48a8a8693d6023650c48bb42e48bdef52381634e2a062e4a"
+    },
+    {
+      "asset_id": "RS-019",
+      "variant": "medium",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-019_durability_pip_set__medium.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "0cbf225bb4c9fd798c930e3c7a767a9fb98f7a08abe6c7c484eb4149ab74c4a7"
+    },
+    {
+      "asset_id": "RS-019",
+      "variant": "low",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-019_durability_pip_set__low.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "809769d0774f2d2f57c3f9ab24d88e7064dfc42dbdb806d90f36ec8a52d4467d"
+    },
+    {
+      "asset_id": "RS-020",
+      "variant": "1_digit",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-020_quantity_counter_frame__1_digit.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "5e32c83a63919aaad4a7ada0fea7b00155ef88f6dce7c33f96fb901cc20ff194"
+    },
+    {
+      "asset_id": "RS-020",
+      "variant": "2_digit",
+      "category": "Resource icons & inventory support",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/resource_icons_inventory_support/rs-020_quantity_counter_frame__2_digit.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "de8308f1a07d5b0b4c54bd914902e47da3cab0a05ccea0c13a141ed165d9771a"
+    },
+    {
+      "asset_id": "WK-001",
+      "variant": "idle",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-001_grab_prompt_icon__idle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "b73e3ab88a1eb6cbadd53e90746cfa95ac974c8bbc19a5f6f2a779b7f43144e5"
+    },
+    {
+      "asset_id": "WK-001",
+      "variant": "hover",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-001_grab_prompt_icon__hover.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "e36bc83c7d039693a6cd18e377e7219d3e76257199b9a8b2860432638ad96a6c"
+    },
+    {
+      "asset_id": "WK-002",
+      "variant": "idle",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-002_two_hand_carry_prompt__idle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "acea809c5803887942de795aaeee478d668989a5dc61a8c596bf0c19df4edd8d"
+    },
+    {
+      "asset_id": "WK-002",
+      "variant": "active",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-002_two_hand_carry_prompt__active.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "58c9c118ff00607af63c0d8bef9e232bfe4676df7b5828a7d9c92b058f5d2db1"
+    },
+    {
+      "asset_id": "WK-003",
+      "variant": "off",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-003_snap_zone_highlight__off.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "0c0e9019a5f1cf5e3196ec616ec019d8159a965747260cfbbbf0076991883629"
+    },
+    {
+      "asset_id": "WK-003",
+      "variant": "preview",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-003_snap_zone_highlight__preview.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "5ecd2ccfa27f6709df1677a00bd75bd12625893c441fa948a26022057883ed09"
+    },
+    {
+      "asset_id": "WK-003",
+      "variant": "valid",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-003_snap_zone_highlight__valid.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "c8c3d52a8e2b9ffb6fb40694831b59b459ab02e3b7d96e42634ba1b13488b2ba"
+    },
+    {
+      "asset_id": "WK-004",
+      "variant": "inactive",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-004_rope_anchor_marker__inactive.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "e16dd1e9426638c779827439dff222550641f9037712818be15a733d153f5047"
+    },
+    {
+      "asset_id": "WK-004",
+      "variant": "valid",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-004_rope_anchor_marker__valid.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "5f06eaeb8777321eb06995e083651b6bbe3cbf3d7a48df859cd38b2bd4857c34"
+    },
+    {
+      "asset_id": "WK-005",
+      "variant": "primary",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-005_objective_marker__primary.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "80f1aad12b0444299d78fac595cdbbaad30a5531ddd5f8470a729a02b733940d"
+    },
+    {
+      "asset_id": "WK-005",
+      "variant": "secondary",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-005_objective_marker__secondary.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "03da6add00e81ca76d2c2a556fa17b87a62fb99fbb89093906df405096e841a0"
+    },
+    {
+      "asset_id": "WK-006",
+      "variant": "idle",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-006_partner_location_ping__idle.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "e9d17c3dfd3104d73d338fc8a07f418f6d0596ffba765018126b258db4613b31"
+    },
+    {
+      "asset_id": "WK-006",
+      "variant": "active",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-006_partner_location_ping__active.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "c2f08846393cb07348978408b7eb4bd02c23a09bbcc7e8d63807d191fe58b3dd"
+    },
+    {
+      "asset_id": "WK-007",
+      "variant": "available",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-007_return_object_marker.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "2fdd98b7138c37b916f07c5b91d13ef0aa63c78e44fe47923f0820794157578d"
+    },
+    {
+      "asset_id": "WK-008",
+      "variant": "available",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-008_reset_position_marker.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "8d40a431d7a9851c4d2664df4833f899f0a9799d723899458a3766d675202b5e"
+    },
+    {
+      "asset_id": "WK-009",
+      "variant": "low",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-009_camp_danger_marker__low.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "b065776477d12636151b6960e41769374144b85f7b2e74836f59c378619d3784"
+    },
+    {
+      "asset_id": "WK-009",
+      "variant": "medium",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-009_camp_danger_marker__medium.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "440cba487258e9e626b1afc0d5efc8acea850cca1c953ed802a81fccaa8f31b0"
+    },
+    {
+      "asset_id": "WK-009",
+      "variant": "high",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-009_camp_danger_marker__high.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "985c3c82506c30d01f58eb3975df9fe2803790752b28bfb4f65e1894c6552722"
+    },
+    {
+      "asset_id": "WK-010",
+      "variant": "warning",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-010_fire_needs_fuel_marker.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "bd56263cd0d2f06f339d1f8c09eefba2be7302823b7fe8bdb8baa244a9473e50"
+    },
+    {
+      "asset_id": "WK-011",
+      "variant": "warning",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-011_shelter_needs_repair_marker.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "9f555b2366e2303ed8a67df98f59c6876d4a74f735b52b777f6c3b025213c15a"
+    },
+    {
+      "asset_id": "WK-012",
+      "variant": "preview",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-012_radio_part_insertion_marker__preview.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "1cb804e2831b3d9d11eeb437adb247a88637f73b8c1c5e71bf17e1b40dc1b663"
+    },
+    {
+      "asset_id": "WK-012",
+      "variant": "valid",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-012_radio_part_insertion_marker__valid.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "cabafb637a9e3e017369d60e7c825b9a332a10049f610424945b45b9e1532d4d"
+    },
+    {
+      "asset_id": "WK-013",
+      "variant": "idle",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-013_planning_board_interact_marker__idle.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "84285d201c9de11c3d16fbd2b19bea7a93788e97800bb68e8c1fb75a36f2a129"
+    },
+    {
+      "asset_id": "WK-013",
+      "variant": "active",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-013_planning_board_interact_marker__active.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "cdf0b6bba8335953183a94f0fc81d7bf8bb927f887607f2a51c3842edf1e6d8c"
+    },
+    {
+      "asset_id": "WK-014",
+      "variant": "player1",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-014_subtitle_speaker_indicator__player1.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "e4e5e43738818ad1fd624386e04023b62e4fc844f9d4d5fac65abd41700d83f7"
+    },
+    {
+      "asset_id": "WK-014",
+      "variant": "player2",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-014_subtitle_speaker_indicator__player2.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "303faf3cec35206ea1b7bd10af83b6917225b97e542a0f1c86d59bcd688441ae"
+    },
+    {
+      "asset_id": "WK-014",
+      "variant": "radio",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-014_subtitle_speaker_indicator__radio.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "3b94f53471bad5ee0c1657e19161f773c821f0ae798d65ad083a11d979f06d7c"
+    },
+    {
+      "asset_id": "WK-015",
+      "variant": "paused",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-015_pause_reconnect_overlay_icons__paused.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "73908df79e3110d6c0071c42e30011fb739142012d77a4543b40c51204c7873b"
+    },
+    {
+      "asset_id": "WK-015",
+      "variant": "reconnecting",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-015_pause_reconnect_overlay_icons__reconnecting.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "9f94e0fa9cda3aebae91eb82d1643d7b8ce6c6634e10486bfc36197a3d6dcf5d"
+    },
+    {
+      "asset_id": "WK-015",
+      "variant": "failed",
+      "category": "Interaction markers & helper UI",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/interaction_markers_helper_ui/wk-015_pause_reconnect_overlay_icons__failed.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "6671eacd548514d833ee7b9dec4832f336db0815385d488b035abea1c960ddd1"
+    },
+    {
+      "asset_id": "MN-001",
+      "variant": "neutral",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-001_main_menu_background__neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "6bb060364b0316f12e6cf8dd3c3bd30114e71e69bb09dbb2047fb42941e064fd"
+    },
+    {
+      "asset_id": "MN-001",
+      "variant": "storm",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-001_main_menu_background__storm.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "7906d10c82983aa486a449dd5747fea693727de474f2b43f20674813e0765408"
+    },
+    {
+      "asset_id": "MN-002",
+      "variant": "host",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-002_lobby_panel__host.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "8aab42dff7270bd92b3193806ec1876d27b4175aaa83940426db4a947bc7240c"
+    },
+    {
+      "asset_id": "MN-002",
+      "variant": "client",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-002_lobby_panel__client.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "7710dd71da3a5d5f0d52c4109e5dcef8de4acdf1e858a28b0410fcae48874edc"
+    },
+    {
+      "asset_id": "MN-002",
+      "variant": "connected",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-002_lobby_panel__connected.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "8be74a33c508f4a4a2690c635765d357d77f1b710d4a764d4447bcdc3330c934"
+    },
+    {
+      "asset_id": "MN-003",
+      "variant": "default",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-003_comfort_settings_panel.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "fb27859db6048a98d1e2e2d2bac11c94fe8e30113403045e7569fc8762dd7882"
+    },
+    {
+      "asset_id": "MN-004",
+      "variant": "default",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-004_pause_menu_panel.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "f74c260c045f4a585a1d50ef75b674a740d6435bb659f8f254ad46b5cc2b3a7d"
+    },
+    {
+      "asset_id": "MN-005",
+      "variant": "trying",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-005_reconnect_screen__trying.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "dc06f502d427471861978f4e7b512915fc4e33ea04fbafa2f22557a074bc28a8"
+    },
+    {
+      "asset_id": "MN-005",
+      "variant": "failed",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-005_reconnect_screen__failed.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "815485c8f1893315f5b1f288719f02486fb7c878e74f63a89802db593585e8ba"
+    },
+    {
+      "asset_id": "MN-005",
+      "variant": "success",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-005_reconnect_screen__success.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "7977ec8ea237c5b95b6f2021bb201ecdffbd3b56ad67c4957003672f1c2ae773"
+    },
+    {
+      "asset_id": "MN-006",
+      "variant": "default",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-006_subtitle_settings_panel.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "d8becc75d4377b63e583b10624282b010c1120d16b1e20cbae5afbb998b33e83"
+    },
+    {
+      "asset_id": "MN-007",
+      "variant": "stormnatten",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-007_scenario_select_card__stormnatten.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "e6bc17a1e2115ae12c754cd888b6db56673912cc38cccac58948a9b1e684b295"
+    },
+    {
+      "asset_id": "MN-007",
+      "variant": "locked_future_scenario",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-007_scenario_select_card__locked_future_scenario.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "9f324a2ee82da707a18dcf9114f9be78d17c1839606c4cfc0ad4064e89e7ba98"
+    },
+    {
+      "asset_id": "MN-008",
+      "variant": "success",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-008_end_of_run_summary_card__success.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "25d0b8ebe3a4fa35420ee0ae2ac2e0c1fd6a65e19bef4561626c6b3293fbbe1c"
+    },
+    {
+      "asset_id": "MN-008",
+      "variant": "failure",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-008_end_of_run_summary_card__failure.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "7b34f6c69bc0a1a912069962b654f71d26f292491263218506d5c5a1e93b32dc"
+    },
+    {
+      "asset_id": "MN-009",
+      "variant": "survivor",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-009_player_accolade_badge_set__survivor.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "307b8c7092c73f2cfd19bf622740b36e4cd606c0146471919082bed74750dae7"
+    },
+    {
+      "asset_id": "MN-009",
+      "variant": "builder",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-009_player_accolade_badge_set__builder.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "99246b774934af2cd5fd00e08dd168f0514ce29d7bbccda5d47af735a6af3e8e"
+    },
+    {
+      "asset_id": "MN-009",
+      "variant": "rescuer_etc",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-009_player_accolade_badge_set__rescuer_etc.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "ec3a694beb34f439d2ca6cf7bb8b401d31a722d7a3a8e1bea6d1903ff6e64ecb"
+    },
+    {
+      "asset_id": "MN-010",
+      "variant": "default",
+      "category": "Menus & meta screens",
+      "path": "Assets/ProjectOEN/ProductionArt/Sprites/menus_meta_screens/mn-010_credits_thank_you_panel.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "4c1601295d0bc963eb7c82ff55cea2fc73353501033d0d3b92643559b60aaf2f"
+    }
+  ]
+}

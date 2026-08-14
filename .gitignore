@@ -55,6 +55,8 @@ PerformanceReports/
 DeviceLogs/
 coverage/
 work/
+prototype/m0b-bootstrap/review-art-verification.json
+prototype/m0b-bootstrap/review-art-*.log
 
 # Archives generated from this repository
 *.zip
