@@ -64,7 +64,7 @@ Heavy crate, rope/tarp og shelter timber er samlet i en fysisk lane:
 - `tools/prepare_foley_session.py`
 - `tools/validate_foley_session.py`
 
-Shape: **13 cues / 53 distinct physical take slots**. Technical intake kræver current session/provenance bindings, 48 kHz / 24-bit mono PCM, no full-scale samples og ingen duplicate raw bytes.
+Shape: **17 cues / 73 distinct physical take slots**. Technical intake kræver current session/provenance bindings, 48 kHz / 24-bit mono PCM, no full-scale samples og ingen duplicate raw bytes.
 
 Faktisk recording findes ikke endnu.
 
@@ -79,7 +79,7 @@ Efter en reel 53/53 technical pass:
 - `tools/normalize_foley_human_review.py`
 - `tools/materialize_foley_source_approved.py`
 
-Alle take SHA’er revalideres. Human reviewer vurderer alle 53 takes og alle 13 cue-familier med de 8 canonical listening checks + `UNDER_WEATHER_READABILITY`.
+Alle take SHA’er revalideres. Human reviewer vurderer alle 73 takes og alle 17 cue-familier med de 8 canonical listening checks + `UNDER_WEATHER_READABILITY`.
 
 Krav til positiv promotion omfatter bl.a. MATERIAL_MATCH >=3, VARIATION_VALUE >=3, weather readability pass, reviewer/timestamp, rights og 53/53 keep + 13/13 accept-current-set.
 
@@ -118,7 +118,7 @@ PR #5/#6 må ikke merges på synthetic/repo-evidence alene. Re-sync og rigtig Un
 1. M-Pre: 3 human sessions.
 2. M0b: fysisk Q2/Q3 cross-device evidence.
 3. Issue #8: Anders fire-start disposition.
-4. Physical Foley: 53 recordings → technical intake → 13-cue human review → evt. source promotion.
+4. Physical Foley: 73 recordings → technical intake → 17-cue human review → evt. source promotion.
 5. 27-source ambience/Foley human audition + PalmCanopy acquisition.
 6. Radio VO: 27 actual takes → review/selection.
 7. Music: 14-candidate audition → 5 canonical selections.

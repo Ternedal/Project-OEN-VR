@@ -181,7 +181,7 @@ ChatGPT leverer look/reference og source textures/sprites; Claude bygger runtime
 | `VFX_WIND_DEBRIS_001` | Vinddebris | A | debris source + motion ref | **Production PNG + SVG master produceret** |
 | `VFX_FIRE_EMBERS_001` | Gløder | A | ember source + state ref | **Production PNG + SVG master produceret** |
 | `VFX_FIRE_SMOKE_001` | Røg | A | smoke source + intensity ref | **Production PNG + SVG master produceret** |
-| `VFX_ROPE_STRAIN_001` | Rebspænding | B | dust/fiber cue ref | **Production PNG + SVG master produceret** (`source_art/vfx/a3/production/VFX_ROPE_STRAIN_001.png`) |
+| `VFX_ROPE_STRAIN_001` | Rebspænding | B | dust/fiber cue ref | **Production PNG + SVG master produceret** (`source_art/vfx/a3/production/VFX_ROPE_STRAIN_001.png`; master: `source_art/vfx/a3/VFX_ROPE_STRAIN_001.svg`) |
 | `VFX_IMPACT_001` | Impact/build hit | B | small impact source set | **Production PNG + SVG master produceret** |
 | `VFX_WETNESS_REFERENCE_001` | Wetness look | A | dry→wet reference board | **Production PNG + SVG master produceret** |
 | `VFX_STORM_PHASE_REF_001` | Storm intensitetsguide | A | phase visual target sheet | **Source reference produceret** |

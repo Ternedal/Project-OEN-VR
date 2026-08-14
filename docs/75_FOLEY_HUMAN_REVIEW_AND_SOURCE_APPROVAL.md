@@ -8,7 +8,7 @@
 
 `docs/74_FOLEY_RECORDING_INTAKE.md` ends at technical intake. A technically valid WAV can still be the wrong material, a weak variation or unreadable under storm/weather.
 
-This lane adds the human evidence gate between a completed 53-take recording session and any `source-approved` state.
+This lane adds the human evidence gate between a completed 73-take recording session and any `source-approved` state.
 
 ## Preconditions
 
@@ -25,7 +25,7 @@ The review tooling revalidates the receipt against:
 - current Foley queue/reconciliation/session contract
 - `recording_session.json`
 - `foley_provenance.json`
-- all 53 actual WAV SHA-256 values
+- all 73 actual WAV SHA-256 values
 
 If any take, provenance or session binding changed after technical intake, review preparation fails closed.
 
@@ -41,7 +41,7 @@ This creates:
 - `foley_human_review.template.json`
 - `foley_human_review_board.html`
 
-The browser board exposes all 53 raw takes grouped under 13 canonical cue families. No human decision is prefilled.
+The browser board exposes all 73 raw takes grouped under 17 canonical cue families. No human decision is prefilled.
 
 ## 2. Human review model
 
@@ -104,14 +104,14 @@ Source materialization requires all of the following at the same time:
 - review timestamp present
 - provenance still hash-matches technical intake
 - `commercialReuseAllowed=true`
-- all 53 take decisions = `keep`
-- all 13 cue decisions = `accept-current-set`
+- all 73 take decisions = `keep`
+- all 17 cue decisions = `accept-current-set`
 - all typed checks complete
 - MATERIAL_MATCH >= 3 for every cue
 - VARIATION_VALUE >= 3 for every cue
 - all pass-required listening checks pass
 - UNDER_WEATHER_READABILITY = pass for every cue
-- all 53 current raw WAV hashes still match the technical receipt
+- all 73 current raw WAV hashes still match the technical receipt
 
 ## 4. Explicit source-approved materialization
 
@@ -126,7 +126,7 @@ python tools/materialize_foley_source_approved.py \
 
 The materializer **recomputes eligibility**. Manually changing a JSON field to `readyForSourceMaterialization=true` cannot bypass the gate.
 
-On success it copies all 53 raw WAVs byte-for-byte to:
+On success it copies all 73 raw WAVs byte-for-byte to:
 
 `source_approved/{cueId}/{filename}`
 

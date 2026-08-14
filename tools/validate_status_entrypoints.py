@@ -25,7 +25,7 @@ REQUIRED_PIPELINE_MARKERS = [
     "SFX_AMB_Beach_PalmCanopy",
     "source_approval_contract.source.json",
     "derived_master_contract.source.json",
-    "13 cues / 53",
+    "17 cues / 73",
     "foley_session_contract.source.json",
     "foley_human_review_contract.source.json",
     "foley_source_materialization_contract.source.json",
@@ -124,7 +124,7 @@ def main() -> int:
         print(f"Status entrypoint validation FAILED: {len(errors)} error(s).")
         return 1
 
-    print("Status entrypoints OK: 27-source acquired lane + separate 13-cue/53-take Foley recording and human-review gates current; real-world evidence boundaries explicit.")
+    print("Status entrypoints OK: 27-source acquired lane + separate 17-cue/73-take Foley recording and human-review gates current; real-world evidence boundaries explicit.")
     return 0
 
 

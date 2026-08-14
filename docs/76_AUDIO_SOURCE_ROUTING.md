@@ -107,7 +107,7 @@ The validator checks:
 
 - exactly 35 current `needs_source` cues;
 - exactly one route per cue;
-- physical-Foley routes exactly equal the current 13-cue recording queue;
+- physical-Foley routes exactly equal the current 17-cue recording queue;
 - acquired candidate targets exist in committed acquisition receipts;
 - extension/pending/licensed/derived/owner route sets do not drift;
 - firesteel is the only current owner-gated audio source cue;

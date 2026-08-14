@@ -35,11 +35,11 @@ def normalize(payload: dict[str, Any], session_root: Path, require_complete: boo
     expected_paths = list(sorted(context["takeRecords"]))
     expected_cues = list(context["cueRecords"])
     if not isinstance(take_decisions, dict) or set(take_decisions) != set(expected_paths):
-        raise FoleyReviewError("takeDecisions must contain exactly the 53 current take paths")
+        raise FoleyReviewError("takeDecisions must contain exactly the 73 current take paths")
     if not isinstance(take_notes, dict) or set(take_notes) != set(expected_paths):
-        raise FoleyReviewError("takeNotes must contain exactly the 53 current take paths")
+        raise FoleyReviewError("takeNotes must contain exactly the 73 current take paths")
     if not isinstance(cue_reviews, dict) or set(cue_reviews) != set(expected_cues):
-        raise FoleyReviewError("cueReviews must contain exactly the 13 current cue IDs")
+        raise FoleyReviewError("cueReviews must contain exactly the 17 current cue IDs")
 
     normalized_cues: list[dict[str, Any]] = []
     reviewed_takes = 0
