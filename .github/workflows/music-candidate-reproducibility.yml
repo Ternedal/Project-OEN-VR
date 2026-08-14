@@ -1,0 +1,35 @@
+name: Validate music candidate reproducibility
+on:
+  pull_request:
+    paths:
+      - 'content/audio/music_candidate_audit.source.json'
+      - 'content/audio/music_candidate_reproducibility.source.json'
+      - 'tools/generate_authored_adaptive_music.py'
+      - 'tools/requirements-music-repro.txt'
+      - 'tools/validate_music_candidate_reproducibility.py'
+      - 'docs/69_MUSIC_CANDIDATE_REPRODUCIBILITY.md'
+      - '.github/workflows/music-candidate-reproducibility.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/audio/music_candidate_audit.source.json'
+      - 'content/audio/music_candidate_reproducibility.source.json'
+      - 'tools/generate_authored_adaptive_music.py'
+      - 'tools/requirements-music-repro.txt'
+      - 'tools/validate_music_candidate_reproducibility.py'
+      - 'docs/69_MUSIC_CANDIDATE_REPRODUCIBILITY.md'
+      - '.github/workflows/music-candidate-reproducibility.yml'
+permissions:
+  contents: read
+jobs:
+  exact-byte-reproduction:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.13'
+      - name: Install pinned authoring dependency
+        run: python -m pip install --disable-pip-version-check -r tools/requirements-music-repro.txt
+      - name: Rebuild and compare all audited candidate bytes
+        run: python tools/validate_music_candidate_reproducibility.py
