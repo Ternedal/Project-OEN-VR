@@ -1,0 +1,55 @@
+name: Validate non-Unity gap closeout
+
+on:
+  pull_request:
+    paths:
+      - 'docs/37_NON_UNITY_GAP_AUDIT.md'
+      - 'docs/38_SOURCE_ASSET_MANIFEST.md'
+      - 'docs/39_AUDIO_CUE_MANIFEST.md'
+      - 'docs/40_UX_COPY_AND_LOCALIZATION_CATALOG.md'
+      - 'docs/41_PERSONALIZATION_PACKAGE_SPEC.md'
+      - 'docs/42_HUMAN_QA_PLAYTEST_PACK.md'
+      - 'docs/43_IP_AND_ASSET_PROVENANCE.md'
+      - 'docs/44_CONTENT_COVERAGE_MATRIX.md'
+      - 'docs/45_GIFT_EXPERIENCE_AND_RELEASE_FLOW.md'
+      - 'design/interactions/**'
+      - 'content/non_unity_capability_matrix.source.json'
+      - 'content/source_inventory.source.json'
+      - 'repo_status.md'
+      - 'tools/validate_non_unity_gap_closeout.py'
+      - '.github/workflows/non-unity-gap-closeout-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/37_NON_UNITY_GAP_AUDIT.md'
+      - 'docs/38_SOURCE_ASSET_MANIFEST.md'
+      - 'docs/39_AUDIO_CUE_MANIFEST.md'
+      - 'docs/40_UX_COPY_AND_LOCALIZATION_CATALOG.md'
+      - 'docs/41_PERSONALIZATION_PACKAGE_SPEC.md'
+      - 'docs/42_HUMAN_QA_PLAYTEST_PACK.md'
+      - 'docs/43_IP_AND_ASSET_PROVENANCE.md'
+      - 'docs/44_CONTENT_COVERAGE_MATRIX.md'
+      - 'docs/45_GIFT_EXPERIENCE_AND_RELEASE_FLOW.md'
+      - 'design/interactions/**'
+      - 'content/non_unity_capability_matrix.source.json'
+      - 'content/source_inventory.source.json'
+      - 'repo_status.md'
+      - 'tools/validate_non_unity_gap_closeout.py'
+      - '.github/workflows/non-unity-gap-closeout-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile closeout validator
+        run: python -m py_compile tools/validate_non_unity_gap_closeout.py
+      - name: Validate non-Unity closeout
+        run: python tools/validate_non_unity_gap_closeout.py
