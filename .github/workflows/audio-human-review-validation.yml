@@ -1,0 +1,40 @@
+name: Validate human audio review import
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/normalize_audio_human_review.py'
+      - 'tools/test_audio_human_review_import.py'
+      - 'content/audio/acquisition_receipt.source.json'
+      - 'content/audio/acquisition_extension_receipt.source.json'
+      - 'content/audio/acquisition_extension_member_shortlist.source.json'
+      - 'content/audio/listening_qa.source.json'
+      - '.github/workflows/audio-human-review-validation.yml'
+  pull_request:
+    paths:
+      - 'tools/normalize_audio_human_review.py'
+      - 'tools/test_audio_human_review_import.py'
+      - 'content/audio/acquisition_receipt.source.json'
+      - 'content/audio/acquisition_extension_receipt.source.json'
+      - 'content/audio/acquisition_extension_member_shortlist.source.json'
+      - 'content/audio/listening_qa.source.json'
+      - '.github/workflows/audio-human-review-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile importer
+        run: python -m py_compile tools/normalize_audio_human_review.py tools/test_audio_human_review_import.py
+      - name: Run importer tests against repo source contracts
+        run: python tools/test_audio_human_review_import.py
