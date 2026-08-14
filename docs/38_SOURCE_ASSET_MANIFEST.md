@@ -65,7 +65,7 @@ Produktion kan være gated, men specifikationen må være klar tidligere.
 | `ENV_RAVINE_001` | Kløft-kit | B | Ravine rescue | route/role/readability reference | **Source reference produceret** |
 | `ENV_RIDGE_001` | Højderyg/udsigt | B | Signal-/skibsruteinformation | vista/readability reference | **Source reference produceret** |
 | `ENV_STORM_CAMP_001` | Stormvariant af camp | A | M5 finale | damaged/wet state reference | **Source reference produceret** via A4 camp-state/A3 storm refs |
-| `ENV_EPILOGUE_001` | Epilog-/lejrbålsområde | C | Efterspil/finale | mood/world concept | **Spec klar**; neutral ending-content produceret separat |
+| `ENV_EPILOGUE_001` | Epilog-/lejrbålsområde | C | Efterspil/finale | mood/world concept | **Source reference produceret** (`source_art/environment/c1/ENV_EPILOGUE_001.svg`); reuse-first existing camp |
 
 ## Miljøfamilier
 
@@ -83,7 +83,7 @@ Alle miljøkits skal visuelt hænge sammen via:
 
 | ID | Navn | Pri. | Gameplayfunktion | Varianter/states | Status |
 |---|---|---:|---|---|---|
-| `PRP_FIREPIT_001` | Lejrbål | A | Hub, save-/statuspunkt | cold / ember / small / strong | **Source reference produceret** (A2 concept/state) |
+| `PRP_FIREPIT_001` | Lejrbål | A | Hub, save-/statuspunkt | cold / ember / small / strong | **Source master produceret** (`source_art/props/a5/PRP_FIREPIT_001.obj`); manual fire-start remains owner-gated |
 | `PRP_SHELTER_FRAME_001` | Shelter frame | A | Bygge-/stormstate | stage 0-3 | **Source reference produceret** |
 | `PRP_SHELTER_TARP_001` | Presenning/tagdug | A | Shelter og stormfeedback | dry / wet / torn | **Source reference produceret** |
 | `PRP_SHELTER_BEAM_001` | Bærende bjælke | A | Tohåndsstabilisering | intact / damaged | **Source reference produceret** |
@@ -94,7 +94,7 @@ Alle miljøkits skal visuelt hænge sammen via:
 | `PRP_RADIO_001` | Radio | A | Narrative/status/finale | dead / weak / active | **Source reference produceret** (`RADIO_SOURCE_REFERENCE_001.svg`) |
 | `PRP_HEAVY_CRATE_001` | Tung kasse | A | Intro + kollapsgenbrug | closed / opened | **Source reference produceret** (A2 concept) |
 | `PRP_SUPPLY_CRATE_001` | Forsyningskasse | B | Shared resources | open / sealed | **Source master produceret** (`source_art/props/b1/`) |
-| `PRP_WATERPROOF_ENDING_CRATE_001` | Vandtæt finalekasse | P | Personalization hook | neutral / personal | **Spec klar**; neutral indholdspakke produceret |
+| `PRP_WATERPROOF_ENDING_CRATE_001` | Vandtæt finalekasse | P | Personalization hook | neutral / personal | **Source master produceret** (`source_art/props/a5/PRP_WATERPROOF_ENDING_CRATE_001.obj`); private payload remains external |
 
 ---
 
@@ -107,7 +107,7 @@ Alle miljøkits skal visuelt hænge sammen via:
 | `ITM_FOOD_PARCEL_001` | Mad/forsyning | A | Food security | lukket pose/kasse; ikke små items | **Source master produceret** |
 | `ITM_HERB_BUNDLE_001` | Urter | B | Behandling | ikonisk bladform + labelform | **Source master produceret** |
 | `ITM_GENERAL_SUPPLIES_001` | Supplies bundle | A | General resource pool | tydeligt generisk kit | **Source master produceret** |
-| `ITM_EMBER_CARRIER_001` | Gløde-/ildbærer | A | Signal-finale | tydelig bærer/state | **Spec klar; source master ikke committed** |
+| `ITM_EMBER_CARRIER_001` | Gløde-/ildbærer | A | Signal-finale | tydelig bærer/state | **Source master produceret** (`source_art/items/a5/ITM_EMBER_CARRIER_001.obj`) |
 | `ITM_TINDER_001` | Tinder/tørt materiale | A | Fire-start | stort, gribbart bundt | **Source master produceret** (`source_art/props/a2/`) |
 | `ITM_CLOTH_001` | Klud | A | Intro/crafting | foldet, tydelig tekstilform | **Source master produceret** |
 | `ITM_MAP_FRAGMENT_001` | Kortfragment | A | Intro/narrative | stor læsbar grafisk flade | **Source master produceret** |
@@ -120,8 +120,8 @@ Alle miljøkits skal visuelt hænge sammen via:
 | ID | Navn | Pri. | Funktion | Designkrav | Status |
 |---|---|---:|---|---|---|
 | `ITM_FIRESTEEL_001` | Ildstål | A | Fire-start | overdimensioneret greb, tydelig strike-zone | **Source master produceret / Gated af issue #8** |
-| `ITM_KNIFE_001` | Kniv/værktøj | B | Crafting/fiber | utility-look, ikke våbenfokus | **Mangler produktion** |
-| `ITM_HAMMER_001` | Hammer/mallet | B | Repair/build | stor kontaktflade | **Spec klar; source master ikke committed** |
+| `ITM_KNIFE_001` | Kniv/værktøj | B | Crafting/fiber | utility-look, ikke våbenfokus | **Source master produceret** (`source_art/items/b1/ITM_KNIFE_001.obj`) |
+| `ITM_HAMMER_001` | Hammer/mallet | B | Repair/build | stor kontaktflade | **Source master produceret** (`source_art/items/a5/ITM_HAMMER_001.obj`) |
 | `ITM_ROPE_COIL_001` | Rebspole | A | Binding/ravine | stor coil, tydelig endeføring | **Source master produceret** |
 | `PRP_RAVINE_ANCHOR_001` | Reb-anker | B | Rescue | høj visuel kontrast/form | **Source master produceret** (`source_art/environment/b1/`) |
 | `PRP_RAVINE_GUIDE_MARKERS_001` | Sikre greb/markører | B | Sekundær rolle | form + ikon, ikke farve-only | **Source master produceret** |
@@ -181,7 +181,7 @@ ChatGPT leverer look/reference og source textures/sprites; Claude bygger runtime
 | `VFX_WIND_DEBRIS_001` | Vinddebris | A | debris source + motion ref | **Source master/reference produceret** |
 | `VFX_FIRE_EMBERS_001` | Gløder | A | ember source + state ref | **Source master/reference produceret** |
 | `VFX_FIRE_SMOKE_001` | Røg | A | smoke source + intensity ref | **Source master/reference produceret** |
-| `VFX_ROPE_STRAIN_001` | Rebspænding | B | dust/fiber cue ref | **Mangler særskilt VFX-source**; UI tension cue findes |
+| `VFX_ROPE_STRAIN_001` | Rebspænding | B | dust/fiber cue ref | **Source master/reference produceret** (`source_art/vfx/a3/VFX_ROPE_STRAIN_001.svg`) |
 | `VFX_IMPACT_001` | Impact/build hit | B | small impact source set | **Source master/reference produceret** |
 | `VFX_WETNESS_REFERENCE_001` | Wetness look | A | dry→wet reference board | **Source reference produceret** |
 | `VFX_STORM_PHASE_REF_001` | Storm intensitetsguide | A | phase visual target sheet | **Source reference produceret** |
@@ -192,9 +192,9 @@ ChatGPT leverer look/reference og source textures/sprites; Claude bygger runtime
 
 | ID | Navn | Pri. | Krav | Status |
 |---|---|---:|---|---|
-| `CHR_HAND_P1_001` | Player 1 hands | A | stiliseret, symbol A, neutral hud/handwear | **Mangler produktion** |
-| `CHR_HAND_P2_001` | Player 2 hands | A | stiliseret, symbol B, neutral hud/handwear | **Mangler produktion** |
-| `CHR_TORSO_BASE_001` | Simple torso | C | enkel silhouette, ingen Meta Avatar-afhængighed | **Mangler produktion** |
+| `CHR_HAND_P1_001` | Player 1 hands | A | stiliseret, symbol A, neutral hud/handwear | **Source reference produceret** (`source_art/avatar/base/CHR_HAND_P1_001.svg`) |
+| `CHR_HAND_P2_001` | Player 2 hands | A | stiliseret, symbol B, neutral hud/handwear | **Source reference produceret** (`source_art/avatar/base/CHR_HAND_P2_001.svg`) |
+| `CHR_TORSO_BASE_001` | Simple torso | C | enkel silhouette, ingen Meta Avatar-afhængighed | **Source reference produceret** (`source_art/avatar/base/CHR_TORSO_BASE_001.svg`) |
 | `UI_PLAYER_SYMBOL_A_001` | Player symbol A | A | farve + unik shape | **Source master produceret** |
 | `UI_PLAYER_SYMBOL_B_001` | Player symbol B | A | farve + unik shape | **Source master produceret** |
 
