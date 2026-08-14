@@ -25,6 +25,7 @@ EXPECTED_PENDING = {"SFX_FIRE_IGNITION_001", "SFX_FIRE_WET_HISS_001"}
 EXPECTED_LICENSED = {"SFX_ANIMAL_DISTANT_001"}
 EXPECTED_DERIVED = {"SFX_SHELTER_COLLAPSE_PARTIAL_001"}
 EXPECTED_OWNER = {"SFX_FIRESTEEL_STRIKE_001"}
+BEACH_PARTIAL = "SFX_AMB_BEACH_CAMP_001"
 
 
 def load(path: Path):
@@ -117,6 +118,12 @@ def main() -> int:
         if "human-listening" not in str(route.get("status", "")):
             errors.append(f"{cue_id}: acquired candidate route must remain human-listening-pending")
 
+    beach = by_id.get(BEACH_PARTIAL, {})
+    if beach.get("routeType") != "acquired-candidate-pool" or beach.get("status") != "partial-candidate-coverage-human-listening-plus-palm-pending":
+        errors.append("Beach Camp must remain the single explicit acquired-pool route with a known PalmCanopy acquisition dependency")
+    if "PalmCanopy" not in str(beach.get("next", "")):
+        errors.append("Beach Camp route must explicitly preserve the PalmCanopy acquisition gap")
+
     partitions = {
         "physical-recording-extension-pending": EXPECTED_EXTENSION,
         "source-acquisition-or-recording-pending": EXPECTED_PENDING,
@@ -157,15 +164,29 @@ def main() -> int:
     summary = routing.get("summary", {})
     if summary.get("needsSourceCueCount") != 35 or summary.get("sourceApproved") != 0:
         errors.append("routing summary must remain 35 needs-source / 0 source-approved")
-    if summary.get("physicalFoleySessionReady") != 13 or summary.get("acquiredCandidatePool") != 13:
-        errors.append("routing summary must report 13 physical-Foley and 13 acquired-pool cues")
+    if summary.get("physicalFoleySessionReady") != 13:
+        errors.append("routing summary must report 13 current physical-Foley cues")
+    if summary.get("acquiredCandidatePool") != 12 or summary.get("partialCandidateCoverage") != 1:
+        errors.append("routing summary must separate 12 acquired-pool cues without a known extra acquisition from 1 Beach/Palm partial route")
+    if summary.get("acquiredCandidatePool", 0) + summary.get("partialCandidateCoverage", 0) != len(pools):
+        errors.append("routing summary acquired+partial pool count must equal the 13 acquired-candidate-pool routes")
+    expected_summary_rest = {
+        "derivedAfterApprovedSources": 1,
+        "physicalRecordingExtensionPending": 4,
+        "sourceAcquisitionOrRecordingPending": 2,
+        "licensedSourceAcquisitionPending": 1,
+        "ownerGated": 1,
+    }
+    for key, value in expected_summary_rest.items():
+        if summary.get(key) != value:
+            errors.append(f"routing summary {key} drift: {summary.get(key)!r} != {value}")
 
     if errors:
         for error in errors:
             print("ERROR:", error)
         print(f"Audio source routing FAILED: {len(errors)} error(s).")
         return 1
-    print("Audio source routing OK: all 35 needs-source cues have exactly one route; 13 current Foley, 13 acquired pools, 8 explicit pending/derived/owner routes, 0 source approvals implied.")
+    print("Audio source routing OK: all 35 needs-source cues have exactly one route; 13 current Foley, 13 acquired-pool routes (12 + 1 explicit Beach/Palm partial), 8 pending/derived/owner routes, 0 source approvals implied.")
     return 0
 
 
