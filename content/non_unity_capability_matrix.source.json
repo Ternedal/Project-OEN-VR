@@ -33,6 +33,22 @@
       "next": "Record 53 distinct physical Foley performances across heavy crate, rope/tarp and shelter timber, then run technical intake."
     },
     {
+      "id": "FOLEY_HUMAN_REVIEW",
+      "status": "review-and-source-promotion-tooling-ready-no-human-review",
+      "contract": "content/audio/foley_human_review_contract.source.json",
+      "materializationContract": "content/audio/foley_source_materialization_contract.source.json",
+      "operatorDoc": "docs/75_FOLEY_HUMAN_REVIEW_AND_SOURCE_APPROVAL.md",
+      "tool": "tools/prepare_foley_human_review.py",
+      "normalizer": "tools/normalize_foley_human_review.py",
+      "materializer": "tools/materialize_foley_source_approved.py",
+      "validator": "tools/validate_foley_human_review_contract.py",
+      "expectedCueCount": 13,
+      "expectedTakeCount": 53,
+      "humanEvidenceRequired": true,
+      "gateSatisfied": false,
+      "next": "After a real 53/53 technical intake, human-review every take and cue family; negative/rerecord evidence is valid, source promotion requires complete positive 13/13 evidence."
+    },
+    {
       "id": "RADIO_VO_RECORDING",
       "status": "operator-ready-not-recorded",
       "contract": "content/audio/radio_vo_session_contract.source.json",
@@ -162,6 +178,7 @@
   "blockedByEvidence": [
     "actual human listening/selection",
     "actual physical Foley recording",
+    "actual human Foley material/variation/weather review",
     "actual authorized voice recording",
     "actual M-Pre human sessions",
     "actual Quest 2/Quest 3 device evidence",
