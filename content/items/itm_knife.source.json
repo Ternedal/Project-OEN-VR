@@ -1,0 +1,46 @@
+{
+  "id": "ITM_KNIFE_001",
+  "version": 1,
+  "status": "source-ready-unity-pending",
+  "priority": "B",
+  "owner": "ChatGPT",
+  "runtimeOwner": "Claude",
+  "source": {
+    "obj": "source_art/items/b1/ITM_KNIFE_001.obj",
+    "mtl": "source_art/items/b1/ITM_KNIFE_001.mtl",
+    "reference": "source_art/items/b1/ITM_KNIFE_001.svg",
+    "units": "meters",
+    "axisIntent": "Z-up"
+  },
+  "productIntent": {
+    "name": "utility rope/fiber knife",
+    "allowedUses": [
+      "fiber cutting",
+      "rope cutting",
+      "cloth utility/crafting interaction"
+    ],
+    "nonWeaponAffordance": [
+      "blunt sheepsfoot-style nose",
+      "short exposed cutting edge",
+      "broad primary grip",
+      "no combat stats, damage verbs or weapon-first presentation"
+    ],
+    "runtimeRule": "Use explicit interaction targets/approved crafting verbs; source contract does not authorize free-form combat damage."
+  },
+  "namedGeometry": {
+    "primaryGrip": "grip_core",
+    "cuttingContact": "cutting_edge",
+    "guard": "finger_guard",
+    "bluntNose": "blunt_nose"
+  },
+  "claudeOwned": [
+    "Unity import",
+    "colliders",
+    "grip pose",
+    "target interaction implementation",
+    "haptics",
+    "materials/shaders",
+    "Quest 2/3 device QA"
+  ],
+  "releaseRule": "Source-ready is not Unity-integrated or release-approved."
+}
