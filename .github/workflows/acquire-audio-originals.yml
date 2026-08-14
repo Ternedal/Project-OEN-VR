@@ -6,9 +6,12 @@ on:
     paths:
       - '.github/workflows/acquire-audio-originals.yml'
       - 'tools/acquire_audio_sources.py'
+      - 'tools/validate_audio_canonical_acquisition.py'
       - 'tools/validate_audio_extension_acquisition.py'
       - 'content/audio/acquisition_candidates.source.json'
       - 'content/audio/acquisition_candidates.direct_extension.source.json'
+      - 'content/audio/acquisition_candidates.field_backlog.source.json'
+      - 'content/audio/acquisition_receipt.source.json'
       - 'content/audio/acquisition_extension_receipt.source.json'
       - 'content/audio/acquisition_extension_member_shortlist.source.json'
 
@@ -41,6 +44,11 @@ jobs:
           --all-direct --timeout 120
           --output PrivateContent/AudioSourceIncoming
 
+      - name: Verify pinned canonical source integrity
+        run: >-
+          python tools/validate_audio_canonical_acquisition.py
+          --root PrivateContent/AudioSourceIncoming
+
       - name: Acquire verified direct extension sources
         run: >-
           python tools/acquire_audio_sources.py
@@ -53,12 +61,21 @@ jobs:
           python tools/validate_audio_extension_acquisition.py
           --root PrivateContent/AudioSourceExtension
 
+      - name: Acquire field-backlog candidates
+        run: >-
+          python tools/acquire_audio_sources.py
+          --candidate-source content/audio/acquisition_candidates.field_backlog.source.json
+          --all-direct --timeout 120
+          --output PrivateContent/AudioFieldBacklog
+
       - name: Show acquisition manifests
         run: |
           echo '--- canonical ---'
           cat PrivateContent/AudioSourceIncoming/acquisition_manifest.json
           echo '--- direct extension ---'
           cat PrivateContent/AudioSourceExtension/acquisition_manifest.json
+          echo '--- field backlog ---'
+          cat PrivateContent/AudioFieldBacklog/acquisition_manifest.json
 
       - name: Upload acquired originals and manifests
         uses: actions/upload-artifact@v4
@@ -67,6 +84,7 @@ jobs:
           path: |
             PrivateContent/AudioSourceIncoming/
             PrivateContent/AudioSourceExtension/
+            PrivateContent/AudioFieldBacklog/
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
