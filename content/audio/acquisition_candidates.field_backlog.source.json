@@ -7,7 +7,12 @@
     "pr": 6,
     "branch": "agent/audio-foundation-v1",
     "path": "content/audio/field_source_acquisition_plan.csv",
-    "events": ["SFX_NAT_Insect_NightChirp", "SFX_WTH_Thunder_Near"]
+    "events": [
+      "SFX_NAT_Insect_NightChirp",
+      "SFX_WTH_Thunder_Near",
+      "SFX_NAT_Bird_ShoreCall",
+      "SFX_WTH_Storm_WindGust"
+    ]
   },
   "policy": {
     "preferredLicense": "CC0",
@@ -29,10 +34,7 @@
       "license": "CC0",
       "sourceFormat": "WAV; inspect after acquisition",
       "priority": "B",
-      "use": [
-        "night insect source comparison",
-        "possible temporal chirp/cluster extraction"
-      ],
+      "use": ["night insect source comparison", "possible temporal chirp/cluster extraction"],
       "provenance": "Uploader states this was captured fresh in their backyard and recorded directly to Audacity via the built-in microphone of a Toshiba NB505 netbook.",
       "caveat": "Uploader explicitly says recording quality is not great. Human listening must reject laptop-mic noise, unsuitable biome character or insufficient clean variation; filename semantics do not imply approval."
     },
@@ -48,12 +50,57 @@
       "license": "Public Domain",
       "sourceFormat": "Ogg Vorbis; Commons reports 32 s / 98 kbps; inspect exact stream after acquisition",
       "priority": "A",
-      "use": [
-        "natural thunder source comparison",
-        "possible near-thunder event/tail extraction if human listening supports proximity"
-      ],
+      "use": ["natural thunder source comparison", "possible near-thunder event/tail extraction if human listening supports proximity"],
       "provenance": "Wikimedia Commons states thunder was recorded in Southern Finland on Minidisc by uploader Mysid; copyright holder released the work into the public domain worldwide.",
       "caveat": "Metadata proves natural thunder and provenance, not perceived distance. Do not mark SFX_WTH_Thunder_Near covered until human listening confirms suitable near-event character, transient and tail."
+    },
+    {
+      "target": "SFX_NAT_SHORE_GULL_ALT_01",
+      "runtimeEventCandidate": "SFX_NAT_Bird_ShoreCall",
+      "provider": "Wikimedia Commons / PDSounds",
+      "creator": "avphillips",
+      "title": "Gull 1",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Gull_1.ogg",
+      "directDownload": "https://upload.wikimedia.org/wikipedia/commons/4/43/Gull_1.ogg",
+      "filename": "Gull_1.ogg",
+      "license": "Public Domain",
+      "sourceFormat": "Ogg Vorbis; Commons reports 18 s / 74 kbps; historical PDSounds source was mono 22 kHz-class material",
+      "priority": "A",
+      "use": ["shore bird call source", "Herring Gull variation source"],
+      "provenance": "PDSounds recording by avphillips, tagged Bird/Gull/Shore and documented as Herring Gull on Long Island, USA, September 1999; author released the recording into the public domain and Commons preserves the transfer/provenance chain.",
+      "caveat": "Commons file is a transcoded derivative of the older public-domain PDSounds source. Preserve acquired bytes and avoid repeated lossy transcodes; human listening must reject codec/ambient artifacts and verify island-context fit."
+    },
+    {
+      "target": "SFX_NAT_SHORE_GULL_ALT_02",
+      "runtimeEventCandidate": "SFX_NAT_Bird_ShoreCall",
+      "provider": "Wikimedia Commons / PDSounds",
+      "creator": "avphillips",
+      "title": "Gull 2",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Gull_2.ogg",
+      "directDownload": "https://upload.wikimedia.org/wikipedia/commons/c/c6/Gull_2.ogg",
+      "filename": "Gull_2.ogg",
+      "license": "Public Domain",
+      "sourceFormat": "Ogg Vorbis; Commons reports 5.7 s / 81 kbps; historical PDSounds source was mono 22 kHz-class material",
+      "priority": "A",
+      "use": ["shore bird call source", "second Herring Gull variation source"],
+      "provenance": "PDSounds recording by avphillips, tagged Bird/Gull/Shore and documented as Herring Gull at Damariscotta Falls, Maine, USA, April 1998; author released the recording into the public domain and Commons preserves the transfer/provenance chain.",
+      "caveat": "Short transcoded derivative. Treat as one natural source event/family candidate, not a license to manufacture many pitch/gain-only variations."
+    },
+    {
+      "target": "SFX_WTH_WIND_FISTERRA_ALT_01",
+      "runtimeEventCandidate": "SFX_WTH_Storm_WindGust",
+      "provider": "Wikimedia Commons",
+      "creator": "Escoitar.org",
+      "title": "Vento fisterra.ogg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Vento_fisterra.ogg",
+      "directDownload": "https://upload.wikimedia.org/wikipedia/commons/3/38/Vento_fisterra.ogg",
+      "filename": "Vento_fisterra.ogg",
+      "license": "Public Domain",
+      "sourceFormat": "Ogg Vorbis; Commons reports 4 min 17 s / 142 kbps; inspect exact stream after acquisition",
+      "priority": "A",
+      "use": ["storm wind/gust source comparison", "possible natural gust attack/body/tail extraction"],
+      "provenance": "Own-work wind recording from Fisterra by Escoitar.org, Soundscape of Galicia project; copyright holder released it into the public domain worldwide.",
+      "caveat": "Long wind recording is not automatically a ten-variation gust set. Human listening must identify clean, genuinely different gust events and reject location-specific contamination or repeated edit patterns."
     }
   ],
   "rejectedDuringResearch": [
@@ -72,6 +119,10 @@
     {
       "candidate": "Wikimedia Commons File:Thunder.ogg",
       "reason": "Natural thunder source but licensed CC BY 3.0/GFDL; the current preferred field-source lane accepts CC0 or Public Domain when an equally useful candidate is available."
+    },
+    {
+      "candidate": "Wikimedia Commons 20090610 0 ambience.ogg",
+      "reason": "Public-domain forest recording, but uploader documents substantial microphone noise and dominant crow interruptions; not promoted as a clean jungle/deep-bed source merely because tags mention jungle/nature."
     }
   ],
   "rule": "A field-backlog candidate remains candidate-only until the acquisition workflow has captured exact bytes, technical metadata and SHA-256; human listening is still required before any source approval."
