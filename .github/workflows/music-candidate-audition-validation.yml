@@ -1,0 +1,35 @@
+name: Validate music candidate audition lane
+on:
+  pull_request:
+    paths:
+      - 'content/audio/music_candidate_audit.source.json'
+      - 'tools/prepare_music_candidate_review.py'
+      - 'content/audio/audio_cues.source.json'
+      - 'tools/normalize_music_candidate_review.py'
+      - 'tools/validate_music_candidate_audit.py'
+      - 'tools/test_music_candidate_review_import.py'
+      - 'docs/67_MUSIC_CANDIDATE_AUDITION.md'
+      - '.github/workflows/music-candidate-audition-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'content/audio/music_candidate_audit.source.json'
+      - 'tools/prepare_music_candidate_review.py'
+      - 'content/audio/audio_cues.source.json'
+      - 'tools/normalize_music_candidate_review.py'
+      - 'tools/validate_music_candidate_audit.py'
+      - 'tools/test_music_candidate_review_import.py'
+      - 'docs/67_MUSIC_CANDIDATE_AUDITION.md'
+      - '.github/workflows/music-candidate-audition-validation.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python tools/validate_music_candidate_audit.py
+      - run: python tools/test_music_candidate_review_import.py
