@@ -92,12 +92,31 @@ def assert_has(errors: list[str], needle: str) -> None:
 
 
 def main() -> int:
+    contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    shape = contract["captureShape"]
+    expected_shape = (
+        shape["expectedQueueSessionCount"],
+        shape["expectedPhysicalSessionCount"],
+        shape["expectedCueCount"],
+        shape["expectedTakeCount"],
+    )
+    if expected_shape != (5, 5, 17, 73):
+        raise AssertionError(f"current Foley contract must remain 5/5 sessions, 17 cues, 73 takes; got {expected_shape}")
+
     with tempfile.TemporaryDirectory(prefix="oen-foley-test-") as td:
         base = Path(td)
         clean = base / "clean"
         prepared = prepare(clean)
-        if (prepared["expectedCueCount"], prepared["expectedTakeCount"]) != (13, 53):
-            raise AssertionError("Foley preparation must remain 13 cues / 53 takes")
+        actual_shape = (
+            prepared["expectedQueueSessionCount"],
+            prepared["expectedPhysicalSessionCount"],
+            prepared["expectedCueCount"],
+            prepared["expectedTakeCount"],
+        )
+        if actual_shape != expected_shape:
+            raise AssertionError(f"Foley preparation shape drift: {actual_shape} != {expected_shape}")
+        if len(prepared["expectedTakes"]) != shape["expectedTakeCount"]:
+            raise AssertionError("prepared expectedTakes length drift")
         if not (clean / "recording_board.html").is_file():
             raise AssertionError("recording board missing")
         provenance_path = clean / "foley_provenance.json"
@@ -112,9 +131,9 @@ def main() -> int:
         receipt, errors, warnings = validate_session(clean)
         if errors or warnings:
             raise AssertionError(f"clean fixture should pass without errors/warnings: errors={errors} warnings={warnings}")
-        if receipt["status"] != "technical-intake-passed-not-listening-approved" or receipt["validatedTakeCount"] != 53:
+        if receipt["status"] != "technical-intake-passed-not-listening-approved" or receipt["validatedTakeCount"] != shape["expectedTakeCount"]:
             raise AssertionError("clean fixture did not produce expected technical-only pass")
-        if len({record["sha256"] for record in receipt["records"]}) != 53:
+        if len({record["sha256"] for record in receipt["records"]}) != shape["expectedTakeCount"]:
             raise AssertionError("clean fixture hashes must all be distinct")
 
         missing = clone(clean, base, "missing")
@@ -146,12 +165,12 @@ def main() -> int:
         stale = clone(clean, base, "stale")
         stale_path = stale / "recording_session.json"
         stale_data = json.loads(stale_path.read_text(encoding="utf-8"))
-        stale_data["expectedTakeCount"] = 52
+        stale_data["expectedTakeCount"] = shape["expectedTakeCount"] - 1
         stale_path.write_text(json.dumps(stale_data, indent=2) + "\n", encoding="utf-8")
         _, errors, _ = validate_session(stale)
         assert_has(errors, "expectedTakeCount mismatch")
 
-    print("Foley session tests OK: 13 cues / 53 unique raw take slots; clean pass plus missing/depth/full-scale/duplicate/stale guards verified.")
+    print("Foley session tests OK: 5 queue/physical sessions, 17 cues / 73 unique raw take slots; clean pass plus missing/depth/full-scale/duplicate/stale guards verified.")
     return 0
 
 
