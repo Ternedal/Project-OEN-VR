@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail closed on pinned field audio while allowing explicit first-acquisition bootstrap."""
+"""Validate field audio: strict full reacquisition or explicit unpinned-only bootstrap."""
 from __future__ import annotations
 
 import argparse
@@ -24,11 +24,7 @@ def sha256_file(path: Path) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, required=True)
-    parser.add_argument(
-        "--allow-unpinned-new",
-        action="store_true",
-        help="Allow newly declared candidate targets that do not have a receipt yet. Existing pinned targets still fail closed.",
-    )
+    parser.add_argument("--allow-unpinned-new", action="store_true")
     args = parser.parse_args()
 
     root = args.root if args.root.is_absolute() else ROOT / args.root
@@ -38,24 +34,28 @@ def main() -> int:
     candidates = json.loads(CANDIDATES.read_text(encoding="utf-8"))
     errors: list[str] = []
 
-    pinned = {record["target"]: record for record in receipt.get("records", []) if isinstance(record, dict)}
-    actual = {record["target"]: record for record in manifest.get("records", []) if isinstance(record, dict)}
-    declared = {item["target"]: item for item in candidates.get("candidates", []) if isinstance(item, dict)}
+    pinned = {r["target"]: r for r in receipt.get("records", []) if isinstance(r, dict)}
+    actual = {r["target"]: r for r in manifest.get("records", []) if isinstance(r, dict)}
+    declared = {c["target"]: c for c in candidates.get("candidates", []) if isinstance(c, dict)}
+    expected_unpinned = set(declared) - set(pinned)
 
-    if set(actual) != set(declared):
-        errors.append(f"manifest/candidate target mismatch: actual={sorted(actual)} declared={sorted(declared)}")
-
-    missing_pinned = sorted(set(pinned) - set(actual))
-    if missing_pinned:
-        errors.append(f"missing pinned target(s): {missing_pinned}")
-
-    unpinned = sorted(set(actual) - set(pinned))
-    if unpinned and not args.allow_unpinned_new:
-        errors.append(f"unpinned target(s) require receipt before strict validation: {unpinned}")
+    if args.allow_unpinned_new:
+        if set(actual) != expected_unpinned:
+            errors.append(f"bootstrap target mismatch: actual={sorted(actual)} expected-unpinned={sorted(expected_unpinned)}")
+    else:
+        if set(actual) != set(declared):
+            errors.append(f"strict target mismatch: actual={sorted(actual)} declared={sorted(declared)}")
+        missing_pinned = sorted(set(pinned) - set(actual))
+        if missing_pinned:
+            errors.append(f"missing pinned target(s): {missing_pinned}")
+        unexpected_unpinned = sorted(set(actual) - set(pinned))
+        if unexpected_unpinned:
+            errors.append(f"strict validation has unpinned target(s): {unexpected_unpinned}")
 
     for target, record in actual.items():
         candidate = declared.get(target)
         if not candidate:
+            errors.append(f"{target}: absent from candidate registry")
             continue
         filename = candidate.get("filename")
         if not isinstance(filename, str) or not filename:
@@ -91,10 +91,10 @@ def main() -> int:
         print(f"Field-backlog acquisition integrity FAILED: {len(errors)} error(s).")
         return 1
 
-    print(
-        f"Field-backlog acquisition integrity OK: {len(pinned)} pinned original(s), "
-        f"{len(unpinned)} explicitly unpinned candidate(s)."
-    )
+    if args.allow_unpinned_new:
+        print(f"Field bootstrap integrity OK: {len(actual)} unpinned candidate(s); {len(pinned)} pinned target(s) intentionally skipped.")
+    else:
+        print(f"Field strict integrity OK: {len(pinned)} pinned original(s), no unpinned candidates.")
     return 0
 
 
