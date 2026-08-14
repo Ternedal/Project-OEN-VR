@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "artifact_name": "oen-unity-first-playable-audio-v1",
+  "unity_version": "6000.4.10f1",
+  "source_head_sha": "fbe600d456e1eae534150f206054ddbcaf8ceba1",
+  "source_audio_validation_run": 160,
+  "source_workflow_run_id": 31672487033,
+  "source_artifact_id": 9170281865,
+  "github_artifact_wrapper_sha256": "c45ce7c6f1b389a66694c76fda5b413c1e2e7e0e98e58037f9d1bf4fa71788ea",
+  "inner_zip_sha256": "ecc59ee4287de3a26fe5c0b2d89eb35ba12d50537c96047244fad9a4c9c8ffd3",
+  "manifest_sha256": "319b38b302465f4a7148adb562e9f2b9f12c80ef78d6456ae58d95fcce6e72f1",
+  "clip_count": 173,
+  "event_count": 47,
+  "verification": "Downloaded from green Audio Validation #160 and independently verified: 173 manifest rows/WAVs, 47 events, unique event+variation/path identities, and zero manifest SHA/byte/filename mismatches."
+}
