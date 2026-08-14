@@ -69,12 +69,17 @@ def load_context(session_root: Path) -> dict[str, Any]:
             raise FoleyReviewError(f"technical receipt is stale or modified: {key}")
     stored_records = stored_receipt.get("records")
     fresh_records = fresh_receipt.get("records")
-    if not isinstance(stored_records, list) or not isinstance(fresh_records, list) or len(stored_records) != 53 or len(fresh_records) != 53:
-        raise FoleyReviewError("technical receipt must contain exactly 53 records")
+    expected_take_count = review_contract.get("expectedTakeCount")
+    if not isinstance(expected_take_count, int) or expected_take_count < 1:
+        raise FoleyReviewError("human review contract expectedTakeCount is invalid")
+    if not isinstance(stored_records, list) or not isinstance(fresh_records, list) or len(stored_records) != expected_take_count or len(fresh_records) != expected_take_count:
+        raise FoleyReviewError(f"technical receipt must contain exactly {expected_take_count} records")
     if [_record_identity(x) for x in stored_records] != [_record_identity(x) for x in fresh_records]:
         raise FoleyReviewError("technical receipt record identities no longer match current raw takes")
 
     expected, _ = fresh_expected()
+    if expected.get("expectedTakeCount") != expected_take_count or expected.get("expectedCueCount") != review_contract.get("expectedCueCount"):
+        raise FoleyReviewError("Foley session/review contract shape drift")
     expected_by_path = {x["relativePath"]: x for x in expected["expectedTakes"]}
     receipt_by_path: dict[str, dict[str, Any]] = {}
     for record in stored_records:
