@@ -21,10 +21,34 @@ EXPECTED_EVENTS = {
     "SFX_ENV_Fire_Pop",
 }
 ALLOWED = {"source-acquisition-pending", "acquired-candidate-human-listening-pending"}
+EXPECTED_SOURCE_STATUS = "acquired-original-not-listening-approved"
 
 
 def load(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def validate_source_binding(event_id: str, binding: dict, receipt_cache: dict, errors: list[str]) -> None:
+    receipt_rel = binding.get("receipt")
+    target = binding.get("sourceTarget")
+    sha = binding.get("sourceSha256")
+    if not all(isinstance(v, str) and v for v in (receipt_rel, target, sha)):
+        errors.append(f"{event_id}: acquired candidate identity is incomplete")
+        return
+    receipt_path = ROOT / receipt_rel
+    if not receipt_path.is_file():
+        errors.append(f"{event_id}: missing receipt {receipt_rel}")
+        return
+    receipt = receipt_cache.setdefault(receipt_rel, load(receipt_path))
+    records = {r.get("target"): r for r in receipt.get("records", []) if isinstance(r, dict)}
+    record = records.get(target)
+    if not record:
+        errors.append(f"{event_id}: target {target} absent from {receipt_rel}")
+        return
+    if record.get("sha256") != sha:
+        errors.append(f"{event_id}: source SHA for {target} does not match receipt")
+    if record.get("status") != EXPECTED_SOURCE_STATUS:
+        errors.append(f"{event_id}: receipt target {target} is not in acquired-unapproved state")
 
 
 def main() -> int:
@@ -57,31 +81,36 @@ def main() -> int:
         status = item.get("status")
         if status == "source-acquisition-pending":
             pending += 1
-            if item.get("sourceTarget") or item.get("sourceSha256"):
+            if item.get("sourceTarget") or item.get("sourceSha256") or item.get("sourceCandidates"):
                 errors.append(f"{event_id}: pending row must not claim acquired source identity")
             continue
-        if status == "acquired-candidate-human-listening-pending":
-            acquired += 1
-            receipt_rel = item.get("receipt")
-            target = item.get("sourceTarget")
-            sha = item.get("sourceSha256")
-            if not all(isinstance(v, str) and v for v in (receipt_rel, target, sha)):
-                errors.append(f"{event_id}: acquired candidate identity is incomplete")
+
+        if status != "acquired-candidate-human-listening-pending":
+            continue
+        acquired += 1
+
+        candidates = item.get("sourceCandidates")
+        has_single = any(item.get(key) for key in ("receipt", "sourceTarget", "sourceSha256"))
+        if candidates is not None:
+            if has_single:
+                errors.append(f"{event_id}: use either single source identity or sourceCandidates, not both")
                 continue
-            receipt_path = ROOT / receipt_rel
-            if not receipt_path.is_file():
-                errors.append(f"{event_id}: missing receipt {receipt_rel}")
+            if not isinstance(candidates, list) or not candidates:
+                errors.append(f"{event_id}: sourceCandidates must be a non-empty list")
                 continue
-            receipt = receipt_cache.setdefault(receipt_rel, load(receipt_path))
-            records = {r.get("target"): r for r in receipt.get("records", []) if isinstance(r, dict)}
-            record = records.get(target)
-            if not record:
-                errors.append(f"{event_id}: target {target} absent from {receipt_rel}")
-                continue
-            if record.get("sha256") != sha:
-                errors.append(f"{event_id}: source SHA does not match receipt")
-            if record.get("status") != "acquired-original-not-listening-approved":
-                errors.append(f"{event_id}: receipt target is not in acquired-unapproved state")
+            seen_targets: set[str] = set()
+            for binding in candidates:
+                if not isinstance(binding, dict):
+                    errors.append(f"{event_id}: sourceCandidates contains non-object entry")
+                    continue
+                target = binding.get("sourceTarget")
+                if isinstance(target, str):
+                    if target in seen_targets:
+                        errors.append(f"{event_id}: duplicate source candidate target {target}")
+                    seen_targets.add(target)
+                validate_source_binding(event_id, binding, receipt_cache, errors)
+        else:
+            validate_source_binding(event_id, item, receipt_cache, errors)
 
     summary = data.get("summary")
     expected_summary = {
@@ -100,7 +129,7 @@ def main() -> int:
         print(f"Field backlog coverage FAILED: {len(errors)} error(s).")
         return 1
 
-    print(f"Field backlog coverage OK: {acquired} acquired candidate(s), {pending} acquisition-pending, 0 approved/produced.")
+    print(f"Field backlog coverage OK: {acquired} acquired event candidate(s), {pending} acquisition-pending, 0 approved/produced.")
     return 0
 
 
