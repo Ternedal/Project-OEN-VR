@@ -8,12 +8,14 @@ on:
       - 'tools/acquire_audio_sources.py'
       - 'tools/validate_audio_canonical_acquisition.py'
       - 'tools/validate_audio_extension_acquisition.py'
+      - 'tools/validate_audio_field_backlog_acquisition.py'
       - 'content/audio/acquisition_candidates.source.json'
       - 'content/audio/acquisition_candidates.direct_extension.source.json'
       - 'content/audio/acquisition_candidates.field_backlog.source.json'
       - 'content/audio/acquisition_receipt.source.json'
       - 'content/audio/acquisition_extension_receipt.source.json'
       - 'content/audio/acquisition_extension_member_shortlist.source.json'
+      - 'content/audio/acquisition_field_backlog_receipt.source.json'
 
 permissions:
   contents: read
@@ -67,6 +69,11 @@ jobs:
           --candidate-source content/audio/acquisition_candidates.field_backlog.source.json
           --all-direct --timeout 120
           --output PrivateContent/AudioFieldBacklog
+
+      - name: Verify pinned field-backlog source integrity
+        run: >-
+          python tools/validate_audio_field_backlog_acquisition.py
+          --root PrivateContent/AudioFieldBacklog
 
       - name: Show acquisition manifests
         run: |
