@@ -8,9 +8,11 @@
     "pr": 6,
     "branch": "agent/audio-foundation-v1",
     "headAtReconciliation": "6b3d22f4b7a3e100fa7d237331b66225e55d0f4f",
+    "resyncPr": 49,
+    "mergedMainSha": "13828bf569649d3a792233a1bb3ff56edbfcd45a",
     "mainPlan": "content/audio/foley_recording_plan.csv",
     "supplementalPlan": "content/audio/supplemental_foley_recording_plan.csv",
-    "rule": "PR #6 runtime-event mappings must be revalidated after that branch syncs current main; this file reconciles source recording work, not runtime code. New v2 event-prop source cues are canonical main cue IDs and do not invent PR #6 runtime IDs."
+    "rule": "PR #49 synchronized the PR #6 audio foundation with current main and revalidated runtime-event mappings before merge; this file reconciles source recording work, not runtime code. New v2 event-prop source cues are canonical main cue IDs and do not invent runtime IDs."
   },
   "masterCaptureFormat": {
     "sampleRateHz": 48000,
@@ -81,7 +83,7 @@
   "derivationRules": [
     "Raw field/foley takes are immutable source originals with provenance and SHA-256 once captured.",
     "One raw take may legitimately feed more than one design/runtime cue only when resulting cuts represent distinct physical moments; do not create fake variation by gain-only duplication.",
-    "Runtime event IDs from PR #6 remain branch references until that branch is synchronized with current main.",
+    "Runtime event IDs formerly referenced from PR #6 are integrated on main via PR #49; future mapping changes must be revalidated against the current audio manifest.",
     "Derived files require their own hashes and listening QA.",
     "No recording/session completion is claimed by this contract."
   ]

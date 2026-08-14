@@ -2,7 +2,7 @@
 
 **Ejer:** ChatGPT  
 **Projektejer:** Anders  
-**Opdateret:** 2026-08-14  
+**Opdateret:** 2026-08-15
 **Scope:** Alt uden for Unity jf. `AI_COLLABORATION_AGREEMENT.md`
 
 ## Arbejdsregel
@@ -107,9 +107,13 @@ Human audition/selection mangler.
 
 ---
 
-# Claude drafts
+# Integreret Unity/art/audio-baseline
 
-PR #5/#6 må ikke merges på synthetic/repo-evidence alene. Re-sync og rigtig Unity/Quest evidence kræves.
+De tidligere PR #5/#6-spor er resynced og landet som PR #48 (production art) og PR #49 (first-playable audio); PR #56 har samtidig landet den samlede non-Unity product/content/source foundation. Endelig `main`-merge-head er `2842f5f47005110d72cc8afc9905e85f947d52ae`.
+
+Post-merge CI er grøn (`Core tests #1829`, `Validate handoff #1906`, `Generate Project OEN runtime art #283`), og den pinned 173/47 first-playable-audioartifact fra `Audio Validation #182` matcher committed ZIP-/manifestidentitet.
+
+Merge ændrer ikke evidence-grænsen: Unity 6000.4.10f1 import/compile, saved-scene review, headset listening og fysisk Quest 2/3 acceptance kræver fortsat faktisk Claude/Anders-evidence. Synthetic/repo-evidence lukker ikke disse gates.
 
 ---
 
@@ -122,7 +126,7 @@ PR #5/#6 må ikke merges på synthetic/repo-evidence alene. Re-sync og rigtig Un
 5. 27-source ambience/Foley human audition + PalmCanopy acquisition.
 6. Radio VO: 27 actual takes → review/selection.
 7. Music: 14-candidate audition → 5 canonical selections.
-8. Claude #5/#6 physical QA.
+8. Post-merge Unity 6000.4.10f1 import/compile, saved-scene review, headset listening og Quest 2/3 physical QA på den integrerede `main`-head.
 9. M1 handoff først når M0b + M-Pre er grønne.
 
 ---

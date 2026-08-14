@@ -1,5 +1,7 @@
 # Project ØEN — Audio pre-merge acceptance
 
+> **Post-merge status (2026-08-15):** The audio foundation was synchronized and merged through PR #49 at `13828bf569649d3a792233a1bb3ff56edbfcd45a`. Exact-head `Audio Validation #182` passed and its 173/47 artifact still matches the committed pin. The six physical Unity/Quest rows remain pending; this document now defines the acceptance/evidence boundary for the integrated baseline rather than an unmerged draft.
+
 ## Purpose
 
 PR #6 is a first-playable audio foundation, not a claim that all 115 runtime events already have final mastered source material. The repository therefore separates two things that must not be conflated:

@@ -1,5 +1,7 @@
 # Audio human listening review — acquired originals + PR #6 candidates
 
+> **Integration status (2026-08-15):** The candidate generator/runtime foundation is now on `main` through PR #49. The historical PR #6 label is retained below for artifact provenance; it is no longer an unmerged branch dependency.
+
 **Owner lane:** ChatGPT / Anders source review  
 **Runtime/mix owner:** Claude after source approval  
 **Status:** ready for human listening; nothing in this document is automatically approved
@@ -195,5 +197,5 @@ A rejection must say why. An approval must preserve the hash/provenance it appli
 - Do not overwrite originals.
 - Do not edit and silently keep the original hash.
 - Derived masters require their own new hash + listening pass.
-- PR #6 remains physical-QA-blocked and must sync current `main` before authoritative Unity/Quest evidence.
+- The PR #6 foundation is synchronized on `main` via PR #49; authoritative Unity/Quest evidence still requires the pinned current payload and real physical review.
 - Source approval is not Unity-integrated or release-approved.
