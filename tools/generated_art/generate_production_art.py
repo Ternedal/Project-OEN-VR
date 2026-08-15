@@ -15,13 +15,15 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageChops
 import csv, hashlib, json, math, random, re, shutil, unicodedata
 
+from guid_identity import stable_production_art_guid_path
+
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1] if (HERE / 'asset_master.csv').exists() else HERE
 MASTER = HERE / 'asset_master.csv'
 if not MASTER.exists():
     # Local QA fallback used outside the repo.
     MASTER = Path('/mnt/data/Project_OEN_Asset_Master_List_v1.0/02_PROJECT_OEN_ASSET_MASTER_LIST.csv')
-OUT = ROOT / 'Assets' / 'ProjectOEN' / 'ProductionArt'
+OUT = ROOT / 'Assets' / 'ProductionArt'
 
 SPRITE_CATEGORIES = {
     'Branding & identity',
@@ -728,7 +730,7 @@ def write_obj(mesh: Mesh, path: Path, mtl_rel='../../Materials/project_oen.mtl')
 
 
 def unity_meta(path: Path, kind: str, max_size=1024):
-    rel=str(path.relative_to(ROOT)).replace('\\','/') if path.is_absolute() else str(path)
+    rel=stable_production_art_guid_path(path, ROOT)
     g=guid_for(rel)
     if kind=='texture':
         return f'''fileFormatVersion: 2\nguid: {g}\nTextureImporter:\n  internalIDToNameTable: []\n  externalObjects: {{}}\n  serializedVersion: 13\n  mipmaps:\n    mipMapMode: 0\n    enableMipMap: 1\n  isReadable: 0\n  streamingMipmaps: 0\n  textureSettings:\n    serializedVersion: 2\n    filterMode: 1\n    aniso: 1\n    mipBias: 0\n    wrapU: 0\n    wrapV: 0\n    wrapW: 0\n  nPOTScale: 0\n  alphaIsTransparency: 1\n  textureType: 0\n  spriteMode: 0\n  alphaSource: 1\n  platformSettings:\n  - serializedVersion: 3\n    buildTarget: DefaultTexturePlatform\n    maxTextureSize: {max_size}\n    resizeAlgorithm: 0\n    textureFormat: -1\n    textureCompression: 1\n    compressionQuality: 70\n    crunchedCompression: 0\n    allowsAlphaSplitting: 0\n    overridden: 0\n  userData: Project OEN production art generated texture\n  assetBundleName: \n  assetBundleVariant: \n'''
@@ -751,7 +753,7 @@ def write_mtl(mat_dir: Path):
     lines=[]
     kd={'Wood':(.47,.32,.19),'Rope':(.67,.54,.35),'Tarp':(.18,.34,.40),'Metal':(.36,.40,.40),'Stone':(.40,.42,.41),'Leaf':(.29,.41,.24),'Cloth':(.38,.32,.26),'Mud':(.29,.25,.18),'Fire':(1,.34,.04),'Char':(.12,.11,.10),'Water':(.25,.46,.54)}
     for name in names:
-        lines += [f'newmtl {name}', 'Ka 0.080 0.080 0.080', 'Kd %.3f %.3f %.3f'%kd[name], 'Ks 0.050 0.050 0.050', 'Ns 12.0', f'map_Kd Textures/{slug(name)}_albedo.png', '']
+        lines += [f'newmtl {name}', 'Ka 0.080 0.080 0.080', 'Kd %.3f %.3f %.3f'%kd[name], 'Ks 0.050 0.050 0.050', 'Ns 12.0', f'map_Kd Textures/{slug(name)}_albedo.png', f'map_Bump Textures/{slug(name)}_normal.png', '']
     p=mat_dir/'project_oen.mtl'; p.write_text('\n'.join(lines),encoding='utf-8'); write_meta(p,'generic')
 
 

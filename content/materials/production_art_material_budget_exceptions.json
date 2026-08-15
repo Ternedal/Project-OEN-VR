@@ -1,0 +1,759 @@
+{
+  "schema_version": 1,
+  "q2_base_materials_per_mesh_max": 3,
+  "exceptions": [
+    {
+      "path": "atlas_expansion/radio__communication/ax-com-001_handheld_radio__active.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Fire",
+        "Metal"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-craft-001_crafting_workbench__storm.obj",
+      "material_count": 4,
+      "materials": [
+        "Cloth",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-005_binoculars__worn.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Metal",
+        "Rope"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-001_shelter_foundation.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-002_shelter_partial_frame.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-003_shelter_covered_usable.obj",
+      "material_count": 6,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Rope",
+        "Stone",
+        "Tarp",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-004_shelter_damaged.obj",
+      "material_count": 6,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Rope",
+        "Stone",
+        "Tarp",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-005_shelter_repaired_reinforced.obj",
+      "material_count": 6,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Rope",
+        "Stone",
+        "Tarp",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-008_campfire_small_flame.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Fire",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-010_campfire_nearly_out_wet.obj",
+      "material_count": 6,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Metal",
+        "Stone",
+        "Water",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-013_signal_beacon_complete.obj",
+      "material_count": 5,
+      "materials": [
+        "Leaf",
+        "Metal",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-014_signal_beacon_lit_active.obj",
+      "material_count": 6,
+      "materials": [
+        "Fire",
+        "Leaf",
+        "Metal",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-015_signal_beacon_storm_damaged.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-016_radio_repair_station__broken.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-016_radio_repair_station__mid_repair.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "construction_states/cs-016_radio_repair_station__repaired.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Fire",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-001_shipwreck_hull_chunk__large.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-001_shipwreck_hull_chunk__medium.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-002_broken_plank_pile__large.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Leaf",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-002_broken_plank_pile__medium.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Leaf",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-003_barrel_container_wreckage__broken.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-005_beach_stone_cluster__large.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Leaf",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-005_beach_stone_cluster__medium.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Leaf",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-005_beach_stone_cluster__small.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Leaf",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-012_rock_wall_module__corner.obj",
+      "material_count": 4,
+      "materials": [
+        "Leaf",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-012_rock_wall_module__ledge.obj",
+      "material_count": 4,
+      "materials": [
+        "Leaf",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-012_rock_wall_module__straight.obj",
+      "material_count": 4,
+      "materials": [
+        "Leaf",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-014_cave_wall_module__arch.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Leaf",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-014_cave_wall_module__corner.obj",
+      "material_count": 4,
+      "materials": [
+        "Leaf",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-014_cave_wall_module__straight.obj",
+      "material_count": 4,
+      "materials": [
+        "Leaf",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-016_camp_mat_groundsheet__wet.obj",
+      "material_count": 4,
+      "materials": [
+        "Cloth",
+        "Rope",
+        "Tarp",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-016_camp_mat_groundsheet__worn.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-017_cooking_corner_set__crate.obj",
+      "material_count": 6,
+      "materials": [
+        "Char",
+        "Fire",
+        "Metal",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-017_cooking_corner_set__pot.obj",
+      "material_count": 7,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Fire",
+        "Metal",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-017_cooking_corner_set__utensils.obj",
+      "material_count": 7,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Fire",
+        "Metal",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-021_torch_stand__lit.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Fire",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-021_torch_stand__unlit.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "environment_set_dressing/en-022_path_marker_stakes__cloth_marked.obj",
+      "material_count": 4,
+      "materials": [
+        "Cloth",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-001_tarp_presenning__damaged.obj",
+      "material_count": 5,
+      "materials": [
+        "Cloth",
+        "Metal",
+        "Rope",
+        "Tarp",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-001_tarp_presenning__placed.obj",
+      "material_count": 6,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Metal",
+        "Rope",
+        "Tarp",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-001_tarp_presenning__wet.obj",
+      "material_count": 7,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Metal",
+        "Rope",
+        "Tarp",
+        "Water",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-004_supply_crate__open.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-005_portable_radio__active.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Fire",
+        "Metal",
+        "Rope"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-005_portable_radio__broken.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Metal",
+        "Rope"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-005_portable_radio__off.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Metal",
+        "Rope"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-005_portable_radio__repaired.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Fire",
+        "Metal",
+        "Rope"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-006_first_aid_kit__closed.obj",
+      "material_count": 5,
+      "materials": [
+        "Cloth",
+        "Fire",
+        "Metal",
+        "Mud",
+        "Rope"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-006_first_aid_kit__open.obj",
+      "material_count": 5,
+      "materials": [
+        "Cloth",
+        "Fire",
+        "Metal",
+        "Mud",
+        "Rope"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-007_metal_canteen__empty.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Metal",
+        "Mud",
+        "Rope"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-007_metal_canteen__full.obj",
+      "material_count": 6,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Metal",
+        "Mud",
+        "Rope",
+        "Water"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-008_oil_lantern__lit.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Fire",
+        "Metal",
+        "Water"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-009_torch__dying.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Fire",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-009_torch__lit.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Fire",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-009_torch__unlit.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-010_stone_pile__large.obj",
+      "material_count": 4,
+      "materials": [
+        "Leaf",
+        "Mud",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-010_stone_pile__medium.obj",
+      "material_count": 4,
+      "materials": [
+        "Leaf",
+        "Mud",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-010_stone_pile__small.obj",
+      "material_count": 4,
+      "materials": [
+        "Leaf",
+        "Mud",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-014_signal_flag_cloth_strip__worn.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Cloth",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-015_cook_pot__cooking.obj",
+      "material_count": 5,
+      "materials": [
+        "Char",
+        "Leaf",
+        "Metal",
+        "Water",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-016_water_collector__collecting.obj",
+      "material_count": 6,
+      "materials": [
+        "Cloth",
+        "Metal",
+        "Rope",
+        "Tarp",
+        "Water",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-016_water_collector__empty.obj",
+      "material_count": 5,
+      "materials": [
+        "Cloth",
+        "Metal",
+        "Rope",
+        "Tarp",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-016_water_collector__full.obj",
+      "material_count": 6,
+      "materials": [
+        "Cloth",
+        "Metal",
+        "Rope",
+        "Tarp",
+        "Water",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-017_tool_hammer_mallet__worn.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Rope",
+        "Stone",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    },
+    {
+      "path": "props_tools/pr-018_knife_cutting_tool__worn.obj",
+      "material_count": 4,
+      "materials": [
+        "Char",
+        "Metal",
+        "Rope",
+        "Wood"
+      ],
+      "reason": "Multi-surface authored mesh retained for state and silhouette fidelity; requires green Unity batching/MPB-aware proxy plus physical Quest profiling before release."
+    }
+  ]
+}

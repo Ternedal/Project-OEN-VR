@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw, ImageOps
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-TEX=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"/"Materials"/"Textures"
+TEX=ROOT/"Assets"/"ProductionArt"/"Materials"/"Textures"
 OUT=HERE/"review_renders"
 NAMES=("wood","rope","tarp","metal","stone","leaf","cloth","mud","fire","char","water")
 

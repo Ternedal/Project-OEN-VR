@@ -15,9 +15,9 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtVfxBuilder
     {
-        private const string SpriteRoot = "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics";
-        private const string MaterialRoot = "Assets/ProjectOEN/ProductionArt/VfxMaterials";
-        private const string PrefabRoot = "Assets/ProjectOEN/ProductionArt/VfxPrefabs";
+        private const string SpriteRoot = "Assets/ProductionArt/Sprites/vfx_support_graphics";
+        private const string MaterialRoot = "Assets/ProductionArt/VfxMaterials";
+        private const string PrefabRoot = "Assets/ProductionArt/VfxPrefabs";
 
         private sealed class VfxSpec
         {

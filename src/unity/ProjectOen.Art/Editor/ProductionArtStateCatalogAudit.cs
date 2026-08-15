@@ -15,10 +15,10 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtStateCatalogAudit
     {
-        private const string ManifestPath = "Assets/ProjectOEN/ProductionArt/Docs/production_art_manifest.json";
-        private const string SpriteRoot = "Assets/ProjectOEN/ProductionArt/StateSets/Sprites";
-        private const string WorldRoot = "Assets/ProjectOEN/ProductionArt/StateSets/World";
-        private const string CompositeRoot = "Assets/ProjectOEN/ProductionArt/StateSets/Composite";
+        private const string ManifestPath = "Assets/ProductionArt/Docs/production_art_manifest.json";
+        private const string SpriteRoot = "Assets/ProductionArt/StateSets/Sprites";
+        private const string WorldRoot = "Assets/ProductionArt/StateSets/World";
+        private const string CompositeRoot = "Assets/ProductionArt/StateSets/Composite";
 
         private const int ExpectedCanonicalIds = 148;
         private const int ExpectedSpriteSets = 87;

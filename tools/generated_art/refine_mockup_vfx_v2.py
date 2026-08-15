@@ -18,7 +18,7 @@ from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
+PROD=ROOT/"Assets"/"ProductionArt"
 MANIFEST=PROD/"Docs"/"production_art_manifest.json"
 REPORT=PROD/"Docs"/"mockup_vfx_v2.json"
 SIZE=1024

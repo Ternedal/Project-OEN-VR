@@ -64,7 +64,20 @@ Repoet indeholder nu konkrete importklare non-Unity masters, ikke kun briefs:
 - de fem A5-props og utility knife/repair mallet/ember carrier er erstattet eller opgraderet til UV/materiale/semantic-part handoff;
 - `ENV_EPILOGUE_001` har en reuse-first production overlay, ikke kun et mood board.
 
-Dette lukker den automatiserbare source-art-produktion. Unity-import, shader/prefab/collider/rig/VFX-binding og Quest-visuel acceptance er fortsat runtime/device gates.
+Dette lukker den automatiserbare source-art-produktion. Den separate Generated ProductionArt-import er beskrevet nedenfor; Quest-visuel acceptance er fortsat en fysisk device/human gate.
+
+## Generated ProductionArt import-kontrakt
+
+Den genererede runtime-art har nu en case-sikker, GUID-stabil Unity-handoff:
+
+- **158 OBJ** ligger under den ene canonical rod `Assets/ProductionArt`;
+- alle meshes har eksplicit meter-spec, og 31 portable varianter er normaliseret til højst 1,35x læsbarhedsoversize;
+- manglende OBJ-normaler dækkes deterministisk af Unity-importeren (area/angle weighted, 60 grader, Mikk tangents);
+- materialebudgettet er højst 3 per mesh eller en eksakt dokumenteret undtagelse (64 varianter);
+- 11 normal maps er linket i MTL/prefab-flowet, og prop-wetness ejes af `ProductionArtWetnessDriver` via `MaterialPropertyBlock`;
+- overflader bruger 1024px albedo og 512px normal/mask som tilsigtet produktionsopløsning.
+
+En frisk Unity 6000.4.10f1 Android/OpenXR-import og den samlede on-machine art-verifikation bestod **23/23** build/audit-trin. Stormnatten målte 70.500 trekanter og en SRP/MPB-aware draw-call proxy på 89 mod repo-målet 100. Dette er rigtig Unity-import/build-evidence, men **ikke** Quest-frame-timing, visuel human acceptance eller M0b cross-device evidence.
 
 ---
 
@@ -141,9 +154,9 @@ De tre resync-/produktionsspor er nu landet på `main`:
 - PR #49 — authored first-playable audio/runtime/editor foundation — merge `13828bf569649d3a792233a1bb3ff56edbfcd45a`;
 - PR #48 — generated production art/runtime/editor integration — merge `2842f5f47005110d72cc8afc9905e85f947d52ae`.
 
-Den endelige merge-head bestod `Core tests #1829`, `Validate handoff #1906` og alle generation/validation-trin i `Generate Project OEN runtime art #283`. Den pinned first-playable-audioartifact fra den grønne `Audio Validation #182` er desuden uafhængigt verificeret til 173 clips / 47 events mod committed ZIP- og manifest-SHA.
+Den endelige merge-head bestod `Core tests #1829`, `Validate handoff #1906` og alle generation/validation-trin i `Generate Project OEN runtime art #283`. Den pinned first-playable-audioartifact fra den grønne `Audio Validation #182` er desuden uafhængigt verificeret til 173 clips / 47 events mod committed ZIP- og manifest-SHA. ProductionArt-handoffet er efterfølgende verificeret i en frisk Unity 6000.4.10f1 Android/OpenXR-projektkopi med 23/23 grønne build/audit-trin.
 
-Dette er repository-/CI-integration, ikke fysisk acceptance. Unity 6000.4.10f1 import/compile i den faktiske projektkopi, saved-scene visuel/skala-review, in-headset audio review og Quest 2/3 device/cross-device evidence er fortsat åbne Claude/Anders-gates. Repo/CI-evidence alene må ikke bruges som Quest acceptance.
+Dette er repository-/CI-integration plus on-machine Unity-import, ikke fysisk acceptance. Saved-scene human visuel review, in-headset audio review og Quest 2/3 device/cross-device evidence er fortsat åbne Claude/Anders-gates. Repo/CI/Editor-evidence alene må ikke bruges som Quest acceptance.
 
 ---
 

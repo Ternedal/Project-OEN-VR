@@ -17,8 +17,8 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtDiegeticUiBuilder
     {
-        private const string SpriteRoot = "Assets/ProjectOEN/ProductionArt/Sprites";
-        private const string OutputRoot = "Assets/ProjectOEN/ProductionArt/UiPrefabs";
+        private const string SpriteRoot = "Assets/ProductionArt/Sprites";
+        private const string OutputRoot = "Assets/ProductionArt/UiPrefabs";
 
         [MenuItem("Project OEN/Art/Build Diegetic UI Prefabs")]
         public static void BuildAll()

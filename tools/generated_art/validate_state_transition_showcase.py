@@ -14,7 +14,7 @@ REVIEW = ROOT / "prototype" / "m0b-bootstrap" / "Review-ProductionArt.ps1"
 BOOTSTRAP = ROOT / "prototype" / "m0b-bootstrap" / "Bootstrap-M0b.ps1"
 WORKFLOW = ROOT / ".github" / "workflows" / "generate-project-oen-art.yml"
 
-SCENE = "Assets/ProjectOEN/ProductionArt/Scenes/StateTransitionShowcase.unity"
+SCENE = "Assets/ProductionArt/Scenes/StateTransitionShowcase.unity"
 ROWS = {
     "WORLD-SHELTER": ("covered_usable", "damaged", "repaired_reinforced"),
     "WORLD-CAMPFIRE": ("strong_flame", "nearly_out_wet", "small_flame"),

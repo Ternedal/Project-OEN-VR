@@ -14,7 +14,7 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtVfxShowcaseAudit
     {
-        private const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/ProductionVfxShowcase.unity";
+        private const string ScenePath = "Assets/ProductionArt/Scenes/ProductionVfxShowcase.unity";
         private const int ExpectedParticleSystems = 7;
         private const int ExpectedBillboardSprites = 6;
         private const int MaxParticlesPerSystem = 28;

@@ -22,7 +22,7 @@ from PIL import Image, ImageDraw, ImageOps
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
+PROD=ROOT/"Assets"/"ProductionArt"
 MANIFEST=PROD/"Docs"/"production_art_manifest.json"
 OUT=HERE/"review_renders"
 VFX_CATEGORY="VFX support graphics"

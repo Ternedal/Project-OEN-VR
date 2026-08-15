@@ -83,7 +83,7 @@ AUDIT_REQUIRED = (
 
 BUILDER_RENDERER_REQUIRED = (
     'using UnityEngine.Rendering;',
-    'ProductionMaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials/"',
+    'ProductionMaterialRoot = "Assets/ProductionArt/UnityMaterials/"',
     'foreach (Renderer renderer in root.GetComponentsInChildren<Renderer>(true))',
     'renderer.shadowCastingMode = ShadowCastingMode.Off;',
     'renderer.receiveShadows = false;',

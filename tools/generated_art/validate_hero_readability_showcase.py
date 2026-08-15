@@ -15,7 +15,7 @@ BOOT = ROOT / "prototype" / "m0b-bootstrap" / "Bootstrap-M0b.ps1"
 WORKFLOW = ROOT / ".github" / "workflows" / "generate-project-oen-art.yml"
 COOP = ROOT / "src" / "unity" / "App" / "CoopGameSetup.cs"
 
-SCENE = "Assets/ProjectOEN/ProductionArt/Scenes/HeroReadabilityShowcase.unity"
+SCENE = "Assets/ProductionArt/Scenes/HeroReadabilityShowcase.unity"
 SAMPLES = (
     ("PR-002", "loose"),
     ("PR-005", "repaired"),

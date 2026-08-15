@@ -20,10 +20,10 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtMaterialCalibrationBuilder
     {
-        public const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/MaterialCalibrationShowcase.unity";
+        public const string ScenePath = "Assets/ProductionArt/Scenes/MaterialCalibrationShowcase.unity";
 
-        private const string SceneRoot = "Assets/ProjectOEN/ProductionArt/Scenes";
-        private const string MaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials";
+        private const string SceneRoot = "Assets/ProductionArt/Scenes";
+        private const string MaterialRoot = "Assets/ProductionArt/UnityMaterials";
         private const float RowSpacing = 1.34f;
         private const float FirstRowY = 6.70f;
 

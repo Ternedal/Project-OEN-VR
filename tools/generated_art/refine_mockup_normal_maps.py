@@ -24,7 +24,7 @@ from refine_material_textures import normal_from_height
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-TEX=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"/"Materials"/"Textures"
+TEX=ROOT/"Assets"/"ProductionArt"/"Materials"/"Textures"
 SIZE=512
 TARGETS=("stone","mud","char")
 

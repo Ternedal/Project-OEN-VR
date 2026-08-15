@@ -19,7 +19,7 @@ from refine_environment_art import add_rock, add_leaf
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
+PROD=ROOT/"Assets"/"ProductionArt"
 MANIFEST=PROD/"Docs"/"production_art_manifest.json"
 
 PROP_IDS={f"PR-{i:03d}" for i in range(2,20)}-{"PR-004","PR-005"}

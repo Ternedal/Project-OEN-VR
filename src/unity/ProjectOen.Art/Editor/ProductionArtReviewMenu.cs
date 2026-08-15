@@ -12,12 +12,12 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtReviewMenu
     {
-        private const string WorldScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StormnattenArtShowcase.unity";
-        private const string UiScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/DiegeticUiArtShowcase.unity";
-        private const string VfxScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/ProductionVfxShowcase.unity";
-        private const string MaterialScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/MaterialCalibrationShowcase.unity";
-        private const string StateTransitionScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StateTransitionShowcase.unity";
-        private const string HeroReadabilityScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/HeroReadabilityShowcase.unity";
+        private const string WorldScenePath = "Assets/ProductionArt/Scenes/StormnattenArtShowcase.unity";
+        private const string UiScenePath = "Assets/ProductionArt/Scenes/DiegeticUiArtShowcase.unity";
+        private const string VfxScenePath = "Assets/ProductionArt/Scenes/ProductionVfxShowcase.unity";
+        private const string MaterialScenePath = "Assets/ProductionArt/Scenes/MaterialCalibrationShowcase.unity";
+        private const string StateTransitionScenePath = "Assets/ProductionArt/Scenes/StateTransitionShowcase.unity";
+        private const string HeroReadabilityScenePath = "Assets/ProductionArt/Scenes/HeroReadabilityShowcase.unity";
 
         [MenuItem("Project OEN/Art/Open Stormnatten Art Showcase")]
         public static void OpenShowcase()

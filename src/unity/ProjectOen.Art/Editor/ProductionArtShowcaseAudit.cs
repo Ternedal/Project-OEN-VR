@@ -33,13 +33,15 @@ namespace ProjectOen.Art.Editor
     /// cannot silently add realtime renderer cost on Quest 2.
     ///
     /// Dynamic renderer material slots plus compatible BatchingStatic groups are
-    /// used as a conservative draw-call proxy in this editor audit. Static groups
-    /// are split at 64k vertices; the raw material-slot count is also reported.
-    /// Device profiling remains authoritative for final draw calls.
+    /// used as a conservative draw-call proxy in this editor audit. A second proxy
+    /// treats every MaterialPropertyBlock renderer as dynamic because MPBs opt that
+    /// renderer out of the SRP Batcher. Static groups are split at 64k vertices;
+    /// the raw material-slot count is also reported. Device profiling remains
+    /// authoritative for final draw calls.
     /// </summary>
     public static class ProductionArtShowcaseAudit
     {
-        private const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StormnattenArtShowcase.unity";
+        private const string ScenePath = "Assets/ProductionArt/Scenes/StormnattenArtShowcase.unity";
         private const int TriangleTarget = 500000;
         private const int TriangleHardLimit = 750000;
         private const int DrawCallProxyTarget = 100;
@@ -204,8 +206,19 @@ namespace ProjectOen.Art.Editor
             int staticBatchGroups;
             int drawCallProxy = CalculateDrawCallProxy(
                 activeRenderers,
+                false,
                 out dynamicMaterialSlots,
                 out staticBatchGroups);
+            int srpDynamicMaterialSlots;
+            int srpStaticBatchGroups;
+            int srpBatcherAwareDrawCallProxy = CalculateDrawCallProxy(
+                activeRenderers,
+                true,
+                out srpDynamicMaterialSlots,
+                out srpStaticBatchGroups);
+            int materialPropertyBlockSlots = activeRenderers
+                .Where(renderer => renderer.HasPropertyBlock())
+                .Sum(renderer => Math.Max(1, renderer.sharedMaterials == null ? 0 : renderer.sharedMaterials.Length));
             string rawMaterialSlotsByRoot = string.Join(", ", activeRenderers
                 .GroupBy(r => r.transform.root.name)
                 .Select(group => new
@@ -237,6 +250,10 @@ namespace ProjectOen.Art.Editor
             Debug.Log("[ProjectOEN.Art.Budget] rawRendererMaterialSlots=" + rawMaterialSlots +
                       " dynamicSlots=" + dynamicMaterialSlots +
                       " staticBatchGroups=" + staticBatchGroups);
+            Debug.Log("[ProjectOEN.Art.Budget] srpBatcherAwareDrawCallProxy=" + srpBatcherAwareDrawCallProxy +
+                      " materialPropertyBlockSlots=" + materialPropertyBlockSlots +
+                      " dynamicSlots=" + srpDynamicMaterialSlots +
+                      " staticBatchGroups=" + srpStaticBatchGroups);
             Debug.Log("[ProjectOEN.Art.Budget] rawRendererMaterialSlotsByRoot=" + rawMaterialSlotsByRoot);
             Debug.Log("[ProjectOEN.Art.Budget] lights=" + lights.Length +
                       " shadowCasters=" + shadowCasters + " hard<=" + ShadowCasterHardLimit);
@@ -256,6 +273,8 @@ namespace ProjectOen.Art.Editor
                 Debug.LogWarning("[ProjectOEN.Art.Budget] Triangle target exceeded; device profile before adding more geometry.");
             if (drawCallProxy > DrawCallProxyTarget)
                 Debug.LogWarning("[ProjectOEN.Art.Budget] Draw-call proxy target exceeded; inspect batching/material sharing.");
+            if (srpBatcherAwareDrawCallProxy > DrawCallProxyTarget)
+                Debug.LogWarning("[ProjectOEN.Art.Budget] SRP-batcher-aware proxy exceeds target because wetness MPBs make affected renderers dynamic; physical Quest profiling is required before release approval.");
 
             var hardFailures = new List<string>();
             if (triangles > TriangleHardLimit)
@@ -511,6 +530,7 @@ namespace ProjectOen.Art.Editor
 
         private static int CalculateDrawCallProxy(
             Renderer[] activeRenderers,
+            bool treatPropertyBlocksAsDynamic,
             out int dynamicMaterialSlots,
             out int staticBatchGroups)
         {
@@ -526,6 +546,8 @@ namespace ProjectOen.Art.Editor
                 Mesh mesh = meshFilter == null ? null : meshFilter.sharedMesh;
                 bool batchingStatic = meshRenderer != null && mesh != null &&
                     GameObjectUtility.AreStaticEditorFlagsSet(renderer.gameObject, StaticEditorFlags.BatchingStatic);
+                if (treatPropertyBlocksAsDynamic && renderer.HasPropertyBlock())
+                    batchingStatic = false;
 
                 if (!batchingStatic)
                 {

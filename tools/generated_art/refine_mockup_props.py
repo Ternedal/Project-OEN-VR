@@ -16,7 +16,7 @@ from refine_environment_art import add_rock, add_leaf
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
+PROD=ROOT/"Assets"/"ProductionArt"
 MANIFEST=PROD/"Docs"/"production_art_manifest.json"
 TARGETS={"PR-002","PR-003","PR-006","PR-007","PR-008","PR-009","PR-010","PR-011","PR-012","PR-013","PR-015","PR-016"}
 

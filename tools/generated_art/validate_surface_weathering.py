@@ -10,7 +10,7 @@ from PIL import Image
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PROD = ROOT / "Assets" / "ProjectOEN" / "ProductionArt"
+PROD = ROOT / "Assets" / "ProductionArt"
 TEX = PROD / "Materials" / "Textures"
 REPORT = PROD / "Docs" / "surface_weathering.json"
 NAMES = ("wood","rope","tarp","metal","stone","leaf","cloth","mud","fire","char","water")

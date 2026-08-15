@@ -40,7 +40,7 @@ from refine_mockup_fidelity_v4 import build as build_v4, add_shared_quad
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PROD = ROOT / "Assets" / "ProjectOEN" / "ProductionArt"
+PROD = ROOT / "Assets" / "ProductionArt"
 MANIFEST = PROD / "Docs" / "production_art_manifest.json"
 TARGETS = {
     "PR-005",

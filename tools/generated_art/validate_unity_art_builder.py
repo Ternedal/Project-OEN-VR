@@ -79,7 +79,7 @@ def main():
             errors.append("Wetness driver must not override Fire or Water material response")
 
     d=need(DECAL,"ground decal builder",(
-        'Assets/ProjectOEN/ProductionArt/Decals/environment_set_dressing',
+        'Assets/ProductionArt/Decals/environment_set_dressing',
         'Universal Render Pipeline/Unlit','Unlit/Transparent','StartsWith("en-011_"','StartsWith("en-025_"',
         'built != 5','renderer.shadowCastingMode = ShadowCastingMode.Off','renderer.receiveShadows = false',
         'DestroyImmediate(collider)','RenderQueue.Transparent',
@@ -139,7 +139,7 @@ def main():
             errors.append("Layered lightning must instantiate exactly one far and one near production lightning prefab")
 
     wind=need(WIND,"Stormnatten wind response",(
-        'StormnattenArtShowcase.unity','Assets/ProjectOEN/ProductionArt/Animations','/StormWind',
+        'StormnattenArtShowcase.unity','Assets/ProductionArt/Animations','/StormWind',
         'AnimationClip','clip.legacy = true','clip.wrapMode = WrapMode.Loop','clip.frameRate = 30f',
         'AnimationCullingType.BasedOnRenderers','localEulerAnglesRaw.x','localEulerAnglesRaw.z',
         'clip.ClearCurves()','AssetDatabase.CreateAsset','SamplesPerClip = 12','Specs.Length',
@@ -160,6 +160,8 @@ def main():
         'Path.GetFileNameWithoutExtension','stormStates=','canonical storm-state object missing',
         'CalculateDrawCallProxy','GameObjectUtility.AreStaticEditorFlagsSet','StaticEditorFlags.BatchingStatic',
         'rawRendererMaterialSlots=','dynamicSlots=','staticBatchGroups=',
+        'treatPropertyBlocksAsDynamic','renderer.HasPropertyBlock()',
+        'srpBatcherAwareDrawCallProxy=','materialPropertyBlockSlots=',
         'Windblown Storm Debris','Camp Rain Splashes','Distant Storm Lightning','FarLightningName','NearLightningName',
         'windDebris.main.maxParticles > 24','rainSplashes.main.maxParticles > 12','lightningLight.shadows != LightShadows.None',
         'lightningSprites.Length != 2','lightningColliders.Length != 0','AnimationCullingType.AlwaysAnimate','HasPulseCurve',

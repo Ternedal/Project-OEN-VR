@@ -15,9 +15,9 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtVfxShowcaseBuilder
     {
-        private const string PrefabRoot = "Assets/ProjectOEN/ProductionArt/VfxPrefabs";
-        private const string MaterialRoot = "Assets/ProjectOEN/ProductionArt/VfxMaterials";
-        private const string SceneRoot = "Assets/ProjectOEN/ProductionArt/Scenes";
+        private const string PrefabRoot = "Assets/ProductionArt/VfxPrefabs";
+        private const string MaterialRoot = "Assets/ProductionArt/VfxMaterials";
+        private const string SceneRoot = "Assets/ProductionArt/Scenes";
         private const string ScenePath = SceneRoot + "/ProductionVfxShowcase.unity";
 
         [MenuItem("Project OEN/Art/Build Production VFX Showcase")]

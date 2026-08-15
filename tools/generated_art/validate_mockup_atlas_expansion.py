@@ -15,7 +15,7 @@ from PIL import Image
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
+PROD=ROOT/"Assets"/"ProductionArt"
 MANIFEST=PROD/"Docs"/"mockup_atlas_expansion_manifest.json"
 
 EXPECTED_VARIANTS={

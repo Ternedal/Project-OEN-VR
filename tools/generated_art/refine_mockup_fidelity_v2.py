@@ -34,7 +34,7 @@ from refine_mockup_fidelity import (
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PROD = ROOT / "Assets" / "ProjectOEN" / "ProductionArt"
+PROD = ROOT / "Assets" / "ProductionArt"
 MANIFEST = PROD / "Docs" / "production_art_manifest.json"
 TARGETS = {"CS-003", "CS-004", "CS-005", "CS-009", "CS-014", "EN-001", "EN-007", "EN-017"}
 

@@ -16,7 +16,7 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtStateAppearanceBuilder
     {
-        private const string ManifestPath = "Assets/ProjectOEN/ProductionArt/Docs/production_art_manifest.json";
+        private const string ManifestPath = "Assets/ProductionArt/Docs/production_art_manifest.json";
 
         [Serializable]
         private sealed class ManifestEntry

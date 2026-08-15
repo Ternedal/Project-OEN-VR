@@ -21,9 +21,9 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtStormFxBuilder
     {
-        private const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StormnattenArtShowcase.unity";
-        private const string VfxPrefabRoot = "Assets/ProjectOEN/ProductionArt/VfxPrefabs";
-        private const string AnimationRoot = "Assets/ProjectOEN/ProductionArt/Animations";
+        private const string ScenePath = "Assets/ProductionArt/Scenes/StormnattenArtShowcase.unity";
+        private const string VfxPrefabRoot = "Assets/ProductionArt/VfxPrefabs";
+        private const string AnimationRoot = "Assets/ProductionArt/Animations";
         private const string LightningClipPath = AnimationRoot + "/storm_lightning_loop.anim";
 
         private const string WindDebrisName = "Windblown Storm Debris";

@@ -34,7 +34,7 @@ from refine_hero_art import (
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PROD = ROOT / "Assets" / "ProjectOEN" / "ProductionArt"
+PROD = ROOT / "Assets" / "ProductionArt"
 MANIFEST = PROD / "Docs" / "production_art_manifest.json"
 
 ENV_IDS = {

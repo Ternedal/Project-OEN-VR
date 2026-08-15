@@ -1,0 +1,3814 @@
+[
+  {
+    "asset_id": "BR-001",
+    "name": "Primary logo",
+    "category": "Branding & identity",
+    "variant": "main",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-001_primary_logo__main.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-001",
+    "name": "Primary logo",
+    "category": "Branding & identity",
+    "variant": "monochrome",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-001_primary_logo__monochrome.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-001",
+    "name": "Primary logo",
+    "category": "Branding & identity",
+    "variant": "dark_bg",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-001_primary_logo__dark_bg.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-001",
+    "name": "Primary logo",
+    "category": "Branding & identity",
+    "variant": "light_bg",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-001_primary_logo__light_bg.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-002",
+    "name": "Secondary logo / wordmark",
+    "category": "Branding & identity",
+    "variant": "horizontal",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-002_secondary_logo_wordmark__horizontal.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-002",
+    "name": "Secondary logo / wordmark",
+    "category": "Branding & identity",
+    "variant": "stacked",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-002_secondary_logo_wordmark__stacked.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-003",
+    "name": "App icon emblem",
+    "category": "Branding & identity",
+    "variant": "full_color",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-003_app_icon_emblem__full_color.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-003",
+    "name": "App icon emblem",
+    "category": "Branding & identity",
+    "variant": "mono",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-003_app_icon_emblem__mono.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-003",
+    "name": "App icon emblem",
+    "category": "Branding & identity",
+    "variant": "mask_safe",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-003_app_icon_emblem__mask_safe.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-004",
+    "name": "Faction / scenario stamp",
+    "category": "Branding & identity",
+    "variant": "clean",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-004_faction_scenario_stamp__clean.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-004",
+    "name": "Faction / scenario stamp",
+    "category": "Branding & identity",
+    "variant": "distressed",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-004_faction_scenario_stamp__distressed.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-005",
+    "name": "Title screen backdrop frame",
+    "category": "Branding & identity",
+    "variant": "dark",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-005_title_screen_backdrop_frame__dark.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "BR-005",
+    "name": "Title screen backdrop frame",
+    "category": "Branding & identity",
+    "variant": "storm",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-005_title_screen_backdrop_frame__storm.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "BR-005",
+    "name": "Title screen backdrop frame",
+    "category": "Branding & identity",
+    "variant": "neutral",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-005_title_screen_backdrop_frame__neutral.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "BR-006",
+    "name": "Loading screen title lockup",
+    "category": "Branding & identity",
+    "variant": "default",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-006_loading_screen_title_lockup.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "BR-006",
+    "name": "Loading screen title lockup",
+    "category": "Branding & identity",
+    "variant": "storm",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-006_loading_screen_title_lockup__storm.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "BR-007",
+    "name": "Typography ornament set",
+    "category": "Branding & identity",
+    "variant": "dividers",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-007_typography_ornament_set__dividers.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-007",
+    "name": "Typography ornament set",
+    "category": "Branding & identity",
+    "variant": "corners",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-007_typography_ornament_set__corners.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-007",
+    "name": "Typography ornament set",
+    "category": "Branding & identity",
+    "variant": "lines",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-007_typography_ornament_set__lines.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-008",
+    "name": "Chapter / day badge set",
+    "category": "Branding & identity",
+    "variant": "day_1",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-008_chapter_day_badge_set__day_1.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-008",
+    "name": "Chapter / day badge set",
+    "category": "Branding & identity",
+    "variant": "day_2",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-008_chapter_day_badge_set__day_2.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-008",
+    "name": "Chapter / day badge set",
+    "category": "Branding & identity",
+    "variant": "day_3",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-008_chapter_day_badge_set__day_3.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "BR-008",
+    "name": "Chapter / day badge set",
+    "category": "Branding & identity",
+    "variant": "stormnatten",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/branding_identity/br-008_chapter_day_badge_set__stormnatten.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-001",
+    "name": "Wrist device base frame",
+    "category": "Wrist UI & player status",
+    "variant": "idle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-001_wrist_device_base_frame__idle.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "UI-001",
+    "name": "Wrist device base frame",
+    "category": "Wrist UI & player status",
+    "variant": "hover",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-001_wrist_device_base_frame__hover.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "UI-001",
+    "name": "Wrist device base frame",
+    "category": "Wrist UI & player status",
+    "variant": "active",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-001_wrist_device_base_frame__active.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "UI-002",
+    "name": "Health icon",
+    "category": "Wrist UI & player status",
+    "variant": "normal",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-002_health_icon__normal.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-002",
+    "name": "Health icon",
+    "category": "Wrist UI & player status",
+    "variant": "low",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-002_health_icon__low.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-002",
+    "name": "Health icon",
+    "category": "Wrist UI & player status",
+    "variant": "critical",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-002_health_icon__critical.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-003",
+    "name": "Fatigue icon",
+    "category": "Wrist UI & player status",
+    "variant": "normal",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-003_fatigue_icon__normal.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-003",
+    "name": "Fatigue icon",
+    "category": "Wrist UI & player status",
+    "variant": "tired",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-003_fatigue_icon__tired.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-003",
+    "name": "Fatigue icon",
+    "category": "Wrist UI & player status",
+    "variant": "exhausted",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-003_fatigue_icon__exhausted.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-004",
+    "name": "Cold/Wet icon",
+    "category": "Wrist UI & player status",
+    "variant": "dry",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-004_cold_wet_icon__dry.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-004",
+    "name": "Cold/Wet icon",
+    "category": "Wrist UI & player status",
+    "variant": "wet",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-004_cold_wet_icon__wet.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-004",
+    "name": "Cold/Wet icon",
+    "category": "Wrist UI & player status",
+    "variant": "freezing",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-004_cold_wet_icon__freezing.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-005",
+    "name": "Injury icon",
+    "category": "Wrist UI & player status",
+    "variant": "minor",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-005_injury_icon__minor.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-005",
+    "name": "Injury icon",
+    "category": "Wrist UI & player status",
+    "variant": "severe",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-005_injury_icon__severe.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-005",
+    "name": "Injury icon",
+    "category": "Wrist UI & player status",
+    "variant": "critical",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-005_injury_icon__critical.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-006",
+    "name": "Status ring background",
+    "category": "Wrist UI & player status",
+    "variant": "full",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-006_status_ring_background__full.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-006",
+    "name": "Status ring background",
+    "category": "Wrist UI & player status",
+    "variant": "half",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-006_status_ring_background__half.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-006",
+    "name": "Status ring background",
+    "category": "Wrist UI & player status",
+    "variant": "low",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-006_status_ring_background__low.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-007",
+    "name": "Player 1 identifier",
+    "category": "Wrist UI & player status",
+    "variant": "p1",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-007_player_1_identifier__p1.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-007",
+    "name": "Player 1 identifier",
+    "category": "Wrist UI & player status",
+    "variant": "highlighted",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-007_player_1_identifier__highlighted.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-008",
+    "name": "Player 2 identifier",
+    "category": "Wrist UI & player status",
+    "variant": "p2",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-008_player_2_identifier__p2.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-008",
+    "name": "Player 2 identifier",
+    "category": "Wrist UI & player status",
+    "variant": "highlighted",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-008_player_2_identifier__highlighted.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-009",
+    "name": "Condition alert pulse",
+    "category": "Wrist UI & player status",
+    "variant": "warning",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-009_condition_alert_pulse.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-009",
+    "name": "Condition alert pulse",
+    "category": "Wrist UI & player status",
+    "variant": "danger",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-009_condition_alert_pulse__danger.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-010",
+    "name": "Object held indicator",
+    "category": "Wrist UI & player status",
+    "variant": "held",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-010_object_held_indicator__held.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-010",
+    "name": "Object held indicator",
+    "category": "Wrist UI & player status",
+    "variant": "shared_carry",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-010_object_held_indicator__shared_carry.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-011",
+    "name": "Radio signal icon",
+    "category": "Wrist UI & player status",
+    "variant": "offline",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-011_radio_signal_icon__offline.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-011",
+    "name": "Radio signal icon",
+    "category": "Wrist UI & player status",
+    "variant": "weak",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-011_radio_signal_icon__weak.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-011",
+    "name": "Radio signal icon",
+    "category": "Wrist UI & player status",
+    "variant": "good",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-011_radio_signal_icon__good.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-012",
+    "name": "Shelter integrity icon",
+    "category": "Wrist UI & player status",
+    "variant": "intact",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-012_shelter_integrity_icon__intact.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-012",
+    "name": "Shelter integrity icon",
+    "category": "Wrist UI & player status",
+    "variant": "weakened",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-012_shelter_integrity_icon__weakened.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-012",
+    "name": "Shelter integrity icon",
+    "category": "Wrist UI & player status",
+    "variant": "damaged",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-012_shelter_integrity_icon__damaged.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-013",
+    "name": "Fire strength icon",
+    "category": "Wrist UI & player status",
+    "variant": "out",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-013_fire_strength_icon__out.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-013",
+    "name": "Fire strength icon",
+    "category": "Wrist UI & player status",
+    "variant": "ember",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-013_fire_strength_icon__ember.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-013",
+    "name": "Fire strength icon",
+    "category": "Wrist UI & player status",
+    "variant": "low",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-013_fire_strength_icon__low.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-013",
+    "name": "Fire strength icon",
+    "category": "Wrist UI & player status",
+    "variant": "strong",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-013_fire_strength_icon__strong.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-014",
+    "name": "Signal progress icon",
+    "category": "Wrist UI & player status",
+    "variant": "none",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-014_signal_progress_icon__none.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-014",
+    "name": "Signal progress icon",
+    "category": "Wrist UI & player status",
+    "variant": "partial",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-014_signal_progress_icon__partial.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-014",
+    "name": "Signal progress icon",
+    "category": "Wrist UI & player status",
+    "variant": "ready",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-014_signal_progress_icon__ready.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "UI-014",
+    "name": "Signal progress icon",
+    "category": "Wrist UI & player status",
+    "variant": "active",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/wrist_ui_player_status/ui-014_signal_progress_icon__active.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-001",
+    "name": "Planning board base",
+    "category": "Planning board & phase UI",
+    "variant": "empty",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-001_planning_board_base__empty.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-001",
+    "name": "Planning board base",
+    "category": "Planning board & phase UI",
+    "variant": "populated",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-001_planning_board_base__populated.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-002",
+    "name": "Time slots track",
+    "category": "Planning board & phase UI",
+    "variant": "4_slots",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-002_time_slots_track__4_slots.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-002",
+    "name": "Time slots track",
+    "category": "Planning board & phase UI",
+    "variant": "spent_state",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-002_time_slots_track__spent_state.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-003",
+    "name": "Action token – gather",
+    "category": "Planning board & phase UI",
+    "variant": "idle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-003_action_token_gather__idle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-003",
+    "name": "Action token – gather",
+    "category": "Planning board & phase UI",
+    "variant": "selected",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-003_action_token_gather__selected.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-003",
+    "name": "Action token – gather",
+    "category": "Planning board & phase UI",
+    "variant": "placed",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-003_action_token_gather__placed.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-004",
+    "name": "Action token – build",
+    "category": "Planning board & phase UI",
+    "variant": "idle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-004_action_token_build__idle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-004",
+    "name": "Action token – build",
+    "category": "Planning board & phase UI",
+    "variant": "selected",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-004_action_token_build__selected.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-004",
+    "name": "Action token – build",
+    "category": "Planning board & phase UI",
+    "variant": "placed",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-004_action_token_build__placed.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-005",
+    "name": "Action token – scout",
+    "category": "Planning board & phase UI",
+    "variant": "idle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-005_action_token_scout__idle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-005",
+    "name": "Action token – scout",
+    "category": "Planning board & phase UI",
+    "variant": "selected",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-005_action_token_scout__selected.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-005",
+    "name": "Action token – scout",
+    "category": "Planning board & phase UI",
+    "variant": "placed",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-005_action_token_scout__placed.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-006",
+    "name": "Action token – repair",
+    "category": "Planning board & phase UI",
+    "variant": "idle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-006_action_token_repair__idle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-006",
+    "name": "Action token – repair",
+    "category": "Planning board & phase UI",
+    "variant": "selected",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-006_action_token_repair__selected.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-006",
+    "name": "Action token – repair",
+    "category": "Planning board & phase UI",
+    "variant": "placed",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-006_action_token_repair__placed.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-007",
+    "name": "Risk marker set",
+    "category": "Planning board & phase UI",
+    "variant": "low",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-007_risk_marker_set__low.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-007",
+    "name": "Risk marker set",
+    "category": "Planning board & phase UI",
+    "variant": "medium",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-007_risk_marker_set__medium.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-007",
+    "name": "Risk marker set",
+    "category": "Planning board & phase UI",
+    "variant": "high",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-007_risk_marker_set__high.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-008",
+    "name": "Camp summary board card",
+    "category": "Planning board & phase UI",
+    "variant": "health",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-008_camp_summary_board_card__health.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-008",
+    "name": "Camp summary board card",
+    "category": "Planning board & phase UI",
+    "variant": "shelter",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-008_camp_summary_board_card__shelter.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-008",
+    "name": "Camp summary board card",
+    "category": "Planning board & phase UI",
+    "variant": "fire",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-008_camp_summary_board_card__fire.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-008",
+    "name": "Camp summary board card",
+    "category": "Planning board & phase UI",
+    "variant": "signal",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-008_camp_summary_board_card__signal.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-009",
+    "name": "Weather card set",
+    "category": "Planning board & phase UI",
+    "variant": "clear",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-009_weather_card_set__clear.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-009",
+    "name": "Weather card set",
+    "category": "Planning board & phase UI",
+    "variant": "rain",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-009_weather_card_set__rain.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-009",
+    "name": "Weather card set",
+    "category": "Planning board & phase UI",
+    "variant": "storm",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-009_weather_card_set__storm.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-009",
+    "name": "Weather card set",
+    "category": "Planning board & phase UI",
+    "variant": "lightning",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-009_weather_card_set__lightning.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-010",
+    "name": "Objective card set",
+    "category": "Planning board & phase UI",
+    "variant": "current_objective",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-010_objective_card_set__current_objective.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-010",
+    "name": "Objective card set",
+    "category": "Planning board & phase UI",
+    "variant": "optional_objective",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-010_objective_card_set__optional_objective.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-011",
+    "name": "Resource requirement pips",
+    "category": "Planning board & phase UI",
+    "variant": "wood",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-011_resource_requirement_pips__wood.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-011",
+    "name": "Resource requirement pips",
+    "category": "Planning board & phase UI",
+    "variant": "rope",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-011_resource_requirement_pips__rope.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-011",
+    "name": "Resource requirement pips",
+    "category": "Planning board & phase UI",
+    "variant": "fuel",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-011_resource_requirement_pips__fuel.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-011",
+    "name": "Resource requirement pips",
+    "category": "Planning board & phase UI",
+    "variant": "food",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-011_resource_requirement_pips__food.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-011",
+    "name": "Resource requirement pips",
+    "category": "Planning board & phase UI",
+    "variant": "parts",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-011_resource_requirement_pips__parts.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "PL-012",
+    "name": "Consequences reveal panel",
+    "category": "Planning board & phase UI",
+    "variant": "hidden",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-012_consequences_reveal_panel__hidden.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PL-012",
+    "name": "Consequences reveal panel",
+    "category": "Planning board & phase UI",
+    "variant": "reveal",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/planning_board_phase_ui/pl-012_consequences_reveal_panel__reveal.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "RS-001",
+    "name": "Wood resource icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-001_wood_resource_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-001",
+    "name": "Wood resource icon",
+    "category": "Resource icons & inventory support",
+    "variant": "stack",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-001_wood_resource_icon__stack.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-002",
+    "name": "Wet wood icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-002_wet_wood_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-002",
+    "name": "Wet wood icon",
+    "category": "Resource icons & inventory support",
+    "variant": "stack",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-002_wet_wood_icon__stack.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-003",
+    "name": "Rope resource icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-003_rope_resource_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-003",
+    "name": "Rope resource icon",
+    "category": "Resource icons & inventory support",
+    "variant": "coil",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-003_rope_resource_icon__coil.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-004",
+    "name": "Fiber / vines icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-004_fiber_vines_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-004",
+    "name": "Fiber / vines icon",
+    "category": "Resource icons & inventory support",
+    "variant": "bundle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-004_fiber_vines_icon__bundle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-005",
+    "name": "Leaves / palm fronds icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-005_leaves_palm_fronds_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-005",
+    "name": "Leaves / palm fronds icon",
+    "category": "Resource icons & inventory support",
+    "variant": "bundle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-005_leaves_palm_fronds_icon__bundle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-006",
+    "name": "Stone resource icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-006_stone_resource_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-006",
+    "name": "Stone resource icon",
+    "category": "Resource icons & inventory support",
+    "variant": "stack",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-006_stone_resource_icon__stack.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-007",
+    "name": "Fuel / tinder icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-007_fuel_tinder_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-007",
+    "name": "Fuel / tinder icon",
+    "category": "Resource icons & inventory support",
+    "variant": "bundle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-007_fuel_tinder_icon__bundle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-008",
+    "name": "Food ration icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-008_food_ration_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-008",
+    "name": "Food ration icon",
+    "category": "Resource icons & inventory support",
+    "variant": "bundle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-008_food_ration_icon__bundle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-009",
+    "name": "Water icon",
+    "category": "Resource icons & inventory support",
+    "variant": "full",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-009_water_icon__full.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-009",
+    "name": "Water icon",
+    "category": "Resource icons & inventory support",
+    "variant": "half",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-009_water_icon__half.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-009",
+    "name": "Water icon",
+    "category": "Resource icons & inventory support",
+    "variant": "empty",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-009_water_icon__empty.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-010",
+    "name": "Radio parts icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-010_radio_parts_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-010",
+    "name": "Radio parts icon",
+    "category": "Resource icons & inventory support",
+    "variant": "bundle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-010_radio_parts_icon__bundle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-011",
+    "name": "Cloth / rag icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-011_cloth_rag_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-011",
+    "name": "Cloth / rag icon",
+    "category": "Resource icons & inventory support",
+    "variant": "bundle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-011_cloth_rag_icon__bundle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-012",
+    "name": "Metal scrap icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-012_metal_scrap_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-012",
+    "name": "Metal scrap icon",
+    "category": "Resource icons & inventory support",
+    "variant": "stack",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-012_metal_scrap_icon__stack.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-013",
+    "name": "Medicinal herb icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-013_medicinal_herb_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-013",
+    "name": "Medicinal herb icon",
+    "category": "Resource icons & inventory support",
+    "variant": "bundle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-013_medicinal_herb_icon__bundle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-014",
+    "name": "Torch fuel icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-014_torch_fuel_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-014",
+    "name": "Torch fuel icon",
+    "category": "Resource icons & inventory support",
+    "variant": "bottle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-014_torch_fuel_icon__bottle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-015",
+    "name": "Signal material icon",
+    "category": "Resource icons & inventory support",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-015_signal_material_icon__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-015",
+    "name": "Signal material icon",
+    "category": "Resource icons & inventory support",
+    "variant": "stack",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-015_signal_material_icon__stack.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-016",
+    "name": "Camp supplies crate icon",
+    "category": "Resource icons & inventory support",
+    "variant": "closed",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-016_camp_supplies_crate_icon__closed.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-016",
+    "name": "Camp supplies crate icon",
+    "category": "Resource icons & inventory support",
+    "variant": "open",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-016_camp_supplies_crate_icon__open.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-017",
+    "name": "Carried weight icon",
+    "category": "Resource icons & inventory support",
+    "variant": "light",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-017_carried_weight_icon__light.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-017",
+    "name": "Carried weight icon",
+    "category": "Resource icons & inventory support",
+    "variant": "medium",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-017_carried_weight_icon__medium.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-017",
+    "name": "Carried weight icon",
+    "category": "Resource icons & inventory support",
+    "variant": "heavy",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-017_carried_weight_icon__heavy.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-018",
+    "name": "Wetness droplet icon",
+    "category": "Resource icons & inventory support",
+    "variant": "light",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-018_wetness_droplet_icon__light.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-018",
+    "name": "Wetness droplet icon",
+    "category": "Resource icons & inventory support",
+    "variant": "medium",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-018_wetness_droplet_icon__medium.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-018",
+    "name": "Wetness droplet icon",
+    "category": "Resource icons & inventory support",
+    "variant": "high",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-018_wetness_droplet_icon__high.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-019",
+    "name": "Durability pip set",
+    "category": "Resource icons & inventory support",
+    "variant": "full",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-019_durability_pip_set__full.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-019",
+    "name": "Durability pip set",
+    "category": "Resource icons & inventory support",
+    "variant": "medium",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-019_durability_pip_set__medium.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-019",
+    "name": "Durability pip set",
+    "category": "Resource icons & inventory support",
+    "variant": "low",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-019_durability_pip_set__low.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "RS-020",
+    "name": "Quantity counter frame",
+    "category": "Resource icons & inventory support",
+    "variant": "1_digit",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-020_quantity_counter_frame__1_digit.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "RS-020",
+    "name": "Quantity counter frame",
+    "category": "Resource icons & inventory support",
+    "variant": "2_digit",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/resource_icons_inventory_support/rs-020_quantity_counter_frame__2_digit.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "PR-001",
+    "name": "Tarp / presenning",
+    "category": "Props & tools",
+    "variant": "folded",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-001_tarp_presenning__folded.obj",
+    "vertices": 24,
+    "triangles": 12
+  },
+  {
+    "asset_id": "PR-001",
+    "name": "Tarp / presenning",
+    "category": "Props & tools",
+    "variant": "placed",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-001_tarp_presenning__placed.obj",
+    "vertices": 100,
+    "triangles": 50
+  },
+  {
+    "asset_id": "PR-001",
+    "name": "Tarp / presenning",
+    "category": "Props & tools",
+    "variant": "damaged",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-001_tarp_presenning__damaged.obj",
+    "vertices": 100,
+    "triangles": 50
+  },
+  {
+    "asset_id": "PR-001",
+    "name": "Tarp / presenning",
+    "category": "Props & tools",
+    "variant": "wet",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-001_tarp_presenning__wet.obj",
+    "vertices": 100,
+    "triangles": 50
+  },
+  {
+    "asset_id": "PR-002",
+    "name": "Rope coil",
+    "category": "Props & tools",
+    "variant": "loose",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-002_rope_coil__loose.obj",
+    "vertices": 960,
+    "triangles": 480
+  },
+  {
+    "asset_id": "PR-002",
+    "name": "Rope coil",
+    "category": "Props & tools",
+    "variant": "carried",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-002_rope_coil__carried.obj",
+    "vertices": 960,
+    "triangles": 480
+  },
+  {
+    "asset_id": "PR-002",
+    "name": "Rope coil",
+    "category": "Props & tools",
+    "variant": "placed",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-002_rope_coil__placed.obj",
+    "vertices": 960,
+    "triangles": 480
+  },
+  {
+    "asset_id": "PR-003",
+    "name": "Wood poles bundle",
+    "category": "Props & tools",
+    "variant": "bundle",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-003_wood_poles_bundle__bundle.obj",
+    "vertices": 1120,
+    "triangles": 504
+  },
+  {
+    "asset_id": "PR-003",
+    "name": "Wood poles bundle",
+    "category": "Props & tools",
+    "variant": "placed",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-003_wood_poles_bundle__placed.obj",
+    "vertices": 1120,
+    "triangles": 504
+  },
+  {
+    "asset_id": "PR-003",
+    "name": "Wood poles bundle",
+    "category": "Props & tools",
+    "variant": "damaged",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-003_wood_poles_bundle__damaged.obj",
+    "vertices": 1120,
+    "triangles": 504
+  },
+  {
+    "asset_id": "PR-004",
+    "name": "Supply crate",
+    "category": "Props & tools",
+    "variant": "closed",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-004_supply_crate__closed.obj",
+    "vertices": 72,
+    "triangles": 36
+  },
+  {
+    "asset_id": "PR-004",
+    "name": "Supply crate",
+    "category": "Props & tools",
+    "variant": "open",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-004_supply_crate__open.obj",
+    "vertices": 72,
+    "triangles": 36
+  },
+  {
+    "asset_id": "PR-004",
+    "name": "Supply crate",
+    "category": "Props & tools",
+    "variant": "broken",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-004_supply_crate__broken.obj",
+    "vertices": 96,
+    "triangles": 48
+  },
+  {
+    "asset_id": "PR-005",
+    "name": "Portable radio",
+    "category": "Props & tools",
+    "variant": "off",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-005_portable_radio__off.obj",
+    "vertices": 208,
+    "triangles": 88
+  },
+  {
+    "asset_id": "PR-005",
+    "name": "Portable radio",
+    "category": "Props & tools",
+    "variant": "active",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-005_portable_radio__active.obj",
+    "vertices": 208,
+    "triangles": 88
+  },
+  {
+    "asset_id": "PR-005",
+    "name": "Portable radio",
+    "category": "Props & tools",
+    "variant": "broken",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-005_portable_radio__broken.obj",
+    "vertices": 208,
+    "triangles": 88
+  },
+  {
+    "asset_id": "PR-005",
+    "name": "Portable radio",
+    "category": "Props & tools",
+    "variant": "repaired",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-005_portable_radio__repaired.obj",
+    "vertices": 208,
+    "triangles": 88
+  },
+  {
+    "asset_id": "PR-006",
+    "name": "First-aid kit",
+    "category": "Props & tools",
+    "variant": "closed",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-006_first_aid_kit__closed.obj",
+    "vertices": 48,
+    "triangles": 24
+  },
+  {
+    "asset_id": "PR-006",
+    "name": "First-aid kit",
+    "category": "Props & tools",
+    "variant": "open",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-006_first_aid_kit__open.obj",
+    "vertices": 48,
+    "triangles": 24
+  },
+  {
+    "asset_id": "PR-007",
+    "name": "Metal canteen",
+    "category": "Props & tools",
+    "variant": "full",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-007_metal_canteen__full.obj",
+    "vertices": 220,
+    "triangles": 88
+  },
+  {
+    "asset_id": "PR-007",
+    "name": "Metal canteen",
+    "category": "Props & tools",
+    "variant": "empty",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-007_metal_canteen__empty.obj",
+    "vertices": 220,
+    "triangles": 88
+  },
+  {
+    "asset_id": "PR-008",
+    "name": "Oil lantern",
+    "category": "Props & tools",
+    "variant": "off",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-008_oil_lantern__off.obj",
+    "vertices": 620,
+    "triangles": 280
+  },
+  {
+    "asset_id": "PR-008",
+    "name": "Oil lantern",
+    "category": "Props & tools",
+    "variant": "lit",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-008_oil_lantern__lit.obj",
+    "vertices": 620,
+    "triangles": 280
+  },
+  {
+    "asset_id": "PR-009",
+    "name": "Torch",
+    "category": "Props & tools",
+    "variant": "unlit",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-009_torch__unlit.obj",
+    "vertices": 170,
+    "triangles": 68
+  },
+  {
+    "asset_id": "PR-009",
+    "name": "Torch",
+    "category": "Props & tools",
+    "variant": "lit",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-009_torch__lit.obj",
+    "vertices": 178,
+    "triangles": 72
+  },
+  {
+    "asset_id": "PR-009",
+    "name": "Torch",
+    "category": "Props & tools",
+    "variant": "dying",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-009_torch__dying.obj",
+    "vertices": 178,
+    "triangles": 72
+  },
+  {
+    "asset_id": "PR-010",
+    "name": "Stone pile",
+    "category": "Props & tools",
+    "variant": "small",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-010_stone_pile__small.obj",
+    "vertices": 120,
+    "triangles": 60
+  },
+  {
+    "asset_id": "PR-010",
+    "name": "Stone pile",
+    "category": "Props & tools",
+    "variant": "medium",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-010_stone_pile__medium.obj",
+    "vertices": 216,
+    "triangles": 108
+  },
+  {
+    "asset_id": "PR-010",
+    "name": "Stone pile",
+    "category": "Props & tools",
+    "variant": "large",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-010_stone_pile__large.obj",
+    "vertices": 336,
+    "triangles": 168
+  },
+  {
+    "asset_id": "PR-011",
+    "name": "Palm leaf pile",
+    "category": "Props & tools",
+    "variant": "small",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-011_palm_leaf_pile__small.obj",
+    "vertices": 48,
+    "triangles": 24
+  },
+  {
+    "asset_id": "PR-011",
+    "name": "Palm leaf pile",
+    "category": "Props & tools",
+    "variant": "medium",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-011_palm_leaf_pile__medium.obj",
+    "vertices": 80,
+    "triangles": 40
+  },
+  {
+    "asset_id": "PR-012",
+    "name": "Scrap metal bundle",
+    "category": "Props & tools",
+    "variant": "small",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-012_scrap_metal_bundle__small.obj",
+    "vertices": 168,
+    "triangles": 84
+  },
+  {
+    "asset_id": "PR-012",
+    "name": "Scrap metal bundle",
+    "category": "Props & tools",
+    "variant": "medium",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-012_scrap_metal_bundle__medium.obj",
+    "vertices": 168,
+    "triangles": 84
+  },
+  {
+    "asset_id": "PR-013",
+    "name": "Cloth bundle",
+    "category": "Props & tools",
+    "variant": "small",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-013_cloth_bundle__small.obj",
+    "vertices": 344,
+    "triangles": 172
+  },
+  {
+    "asset_id": "PR-013",
+    "name": "Cloth bundle",
+    "category": "Props & tools",
+    "variant": "medium",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-013_cloth_bundle__medium.obj",
+    "vertices": 344,
+    "triangles": 172
+  },
+  {
+    "asset_id": "PR-014",
+    "name": "Signal flag / cloth strip",
+    "category": "Props & tools",
+    "variant": "clean",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-014_signal_flag_cloth_strip__clean.obj",
+    "vertices": 144,
+    "triangles": 64
+  },
+  {
+    "asset_id": "PR-014",
+    "name": "Signal flag / cloth strip",
+    "category": "Props & tools",
+    "variant": "worn",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-014_signal_flag_cloth_strip__worn.obj",
+    "vertices": 144,
+    "triangles": 64
+  },
+  {
+    "asset_id": "PR-014",
+    "name": "Signal flag / cloth strip",
+    "category": "Props & tools",
+    "variant": "storm_damaged",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-014_signal_flag_cloth_strip__storm_damaged.obj",
+    "vertices": 144,
+    "triangles": 64
+  },
+  {
+    "asset_id": "PR-015",
+    "name": "Cook pot",
+    "category": "Props & tools",
+    "variant": "empty",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-015_cook_pot__empty.obj",
+    "vertices": 460,
+    "triangles": 216
+  },
+  {
+    "asset_id": "PR-015",
+    "name": "Cook pot",
+    "category": "Props & tools",
+    "variant": "cooking",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-015_cook_pot__cooking.obj",
+    "vertices": 460,
+    "triangles": 216
+  },
+  {
+    "asset_id": "PR-016",
+    "name": "Water collector",
+    "category": "Props & tools",
+    "variant": "empty",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-016_water_collector__empty.obj",
+    "vertices": 344,
+    "triangles": 144
+  },
+  {
+    "asset_id": "PR-016",
+    "name": "Water collector",
+    "category": "Props & tools",
+    "variant": "collecting",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-016_water_collector__collecting.obj",
+    "vertices": 344,
+    "triangles": 144
+  },
+  {
+    "asset_id": "PR-016",
+    "name": "Water collector",
+    "category": "Props & tools",
+    "variant": "full",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-016_water_collector__full.obj",
+    "vertices": 344,
+    "triangles": 144
+  },
+  {
+    "asset_id": "PR-017",
+    "name": "Tool hammer / mallet",
+    "category": "Props & tools",
+    "variant": "clean",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-017_tool_hammer_mallet__clean.obj",
+    "vertices": 104,
+    "triangles": 44
+  },
+  {
+    "asset_id": "PR-017",
+    "name": "Tool hammer / mallet",
+    "category": "Props & tools",
+    "variant": "worn",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-017_tool_hammer_mallet__worn.obj",
+    "vertices": 104,
+    "triangles": 44
+  },
+  {
+    "asset_id": "PR-018",
+    "name": "Knife / cutting tool",
+    "category": "Props & tools",
+    "variant": "clean",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-018_knife_cutting_tool__clean.obj",
+    "vertices": 48,
+    "triangles": 24
+  },
+  {
+    "asset_id": "PR-018",
+    "name": "Knife / cutting tool",
+    "category": "Props & tools",
+    "variant": "worn",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-018_knife_cutting_tool__worn.obj",
+    "vertices": 48,
+    "triangles": 24
+  },
+  {
+    "asset_id": "PR-019",
+    "name": "Anchor point peg",
+    "category": "Props & tools",
+    "variant": "inactive",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-019_anchor_point_peg__inactive.obj",
+    "vertices": 360,
+    "triangles": 172
+  },
+  {
+    "asset_id": "PR-019",
+    "name": "Anchor point peg",
+    "category": "Props & tools",
+    "variant": "active",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-019_anchor_point_peg__active.obj",
+    "vertices": 360,
+    "triangles": 172
+  },
+  {
+    "asset_id": "PR-020",
+    "name": "Shared-carry heavy box",
+    "category": "Props & tools",
+    "variant": "idle",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-020_shared_carry_heavy_box__idle.obj",
+    "vertices": 72,
+    "triangles": 36
+  },
+  {
+    "asset_id": "PR-020",
+    "name": "Shared-carry heavy box",
+    "category": "Props & tools",
+    "variant": "carried",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-020_shared_carry_heavy_box__carried.obj",
+    "vertices": 72,
+    "triangles": 36
+  },
+  {
+    "asset_id": "PR-020",
+    "name": "Shared-carry heavy box",
+    "category": "Props & tools",
+    "variant": "placed",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/props_tools/pr-020_shared_carry_heavy_box__placed.obj",
+    "vertices": 72,
+    "triangles": 36
+  },
+  {
+    "asset_id": "CS-001",
+    "name": "Shelter – foundation",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-001_shelter_foundation.obj",
+    "vertices": 240,
+    "triangles": 96
+  },
+  {
+    "asset_id": "CS-002",
+    "name": "Shelter – partial frame",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-002_shelter_partial_frame.obj",
+    "vertices": 400,
+    "triangles": 160
+  },
+  {
+    "asset_id": "CS-003",
+    "name": "Shelter – covered / usable",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-003_shelter_covered_usable.obj",
+    "vertices": 464,
+    "triangles": 192
+  },
+  {
+    "asset_id": "CS-004",
+    "name": "Shelter – damaged",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-004_shelter_damaged.obj",
+    "vertices": 488,
+    "triangles": 204
+  },
+  {
+    "asset_id": "CS-005",
+    "name": "Shelter – repaired / reinforced",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-005_shelter_repaired_reinforced.obj",
+    "vertices": 912,
+    "triangles": 416
+  },
+  {
+    "asset_id": "CS-006",
+    "name": "Campfire – laid but unlit",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-006_campfire_laid_but_unlit.obj",
+    "vertices": 352,
+    "triangles": 160
+  },
+  {
+    "asset_id": "CS-007",
+    "name": "Campfire – ember",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-007_campfire_ember.obj",
+    "vertices": 376,
+    "triangles": 172
+  },
+  {
+    "asset_id": "CS-008",
+    "name": "Campfire – small flame",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-008_campfire_small_flame.obj",
+    "vertices": 384,
+    "triangles": 176
+  },
+  {
+    "asset_id": "CS-009",
+    "name": "Campfire – strong flame",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-009_campfire_strong_flame.obj",
+    "vertices": 384,
+    "triangles": 176
+  },
+  {
+    "asset_id": "CS-010",
+    "name": "Campfire – nearly out / wet",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-010_campfire_nearly_out_wet.obj",
+    "vertices": 392,
+    "triangles": 180
+  },
+  {
+    "asset_id": "CS-011",
+    "name": "Signal beacon – base",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-011_signal_beacon_base.obj",
+    "vertices": 160,
+    "triangles": 64
+  },
+  {
+    "asset_id": "CS-012",
+    "name": "Signal beacon – partial",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-012_signal_beacon_partial.obj",
+    "vertices": 400,
+    "triangles": 160
+  },
+  {
+    "asset_id": "CS-013",
+    "name": "Signal beacon – complete",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-013_signal_beacon_complete.obj",
+    "vertices": 774,
+    "triangles": 312
+  },
+  {
+    "asset_id": "CS-014",
+    "name": "Signal beacon – lit / active",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-014_signal_beacon_lit_active.obj",
+    "vertices": 782,
+    "triangles": 316
+  },
+  {
+    "asset_id": "CS-015",
+    "name": "Signal beacon – storm-damaged",
+    "category": "Construction states",
+    "variant": "default",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-015_signal_beacon_storm_damaged.obj",
+    "vertices": 854,
+    "triangles": 344
+  },
+  {
+    "asset_id": "CS-016",
+    "name": "Radio repair station",
+    "category": "Construction states",
+    "variant": "broken",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-016_radio_repair_station__broken.obj",
+    "vertices": 192,
+    "triangles": 96
+  },
+  {
+    "asset_id": "CS-016",
+    "name": "Radio repair station",
+    "category": "Construction states",
+    "variant": "mid_repair",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-016_radio_repair_station__mid_repair.obj",
+    "vertices": 192,
+    "triangles": 96
+  },
+  {
+    "asset_id": "CS-016",
+    "name": "Radio repair station",
+    "category": "Construction states",
+    "variant": "repaired",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/construction_states/cs-016_radio_repair_station__repaired.obj",
+    "vertices": 192,
+    "triangles": 96
+  },
+  {
+    "asset_id": "WK-001",
+    "name": "Grab prompt icon",
+    "category": "Interaction markers & helper UI",
+    "variant": "idle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-001_grab_prompt_icon__idle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-001",
+    "name": "Grab prompt icon",
+    "category": "Interaction markers & helper UI",
+    "variant": "hover",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-001_grab_prompt_icon__hover.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-002",
+    "name": "Two-hand carry prompt",
+    "category": "Interaction markers & helper UI",
+    "variant": "idle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-002_two_hand_carry_prompt__idle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-002",
+    "name": "Two-hand carry prompt",
+    "category": "Interaction markers & helper UI",
+    "variant": "active",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-002_two_hand_carry_prompt__active.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-003",
+    "name": "Snap zone highlight",
+    "category": "Interaction markers & helper UI",
+    "variant": "off",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-003_snap_zone_highlight__off.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-003",
+    "name": "Snap zone highlight",
+    "category": "Interaction markers & helper UI",
+    "variant": "preview",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-003_snap_zone_highlight__preview.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-003",
+    "name": "Snap zone highlight",
+    "category": "Interaction markers & helper UI",
+    "variant": "valid",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-003_snap_zone_highlight__valid.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-004",
+    "name": "Rope anchor marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "inactive",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-004_rope_anchor_marker__inactive.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-004",
+    "name": "Rope anchor marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "valid",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-004_rope_anchor_marker__valid.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-005",
+    "name": "Objective marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "primary",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-005_objective_marker__primary.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-005",
+    "name": "Objective marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "secondary",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-005_objective_marker__secondary.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-006",
+    "name": "Partner location ping",
+    "category": "Interaction markers & helper UI",
+    "variant": "idle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-006_partner_location_ping__idle.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-006",
+    "name": "Partner location ping",
+    "category": "Interaction markers & helper UI",
+    "variant": "active",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-006_partner_location_ping__active.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-007",
+    "name": "Return object marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "available",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-007_return_object_marker.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-008",
+    "name": "Reset position marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "available",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-008_reset_position_marker.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-009",
+    "name": "Camp danger marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "low",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-009_camp_danger_marker__low.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-009",
+    "name": "Camp danger marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "medium",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-009_camp_danger_marker__medium.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-009",
+    "name": "Camp danger marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "high",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-009_camp_danger_marker__high.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-010",
+    "name": "Fire needs fuel marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "warning",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-010_fire_needs_fuel_marker.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-011",
+    "name": "Shelter needs repair marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "warning",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-011_shelter_needs_repair_marker.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-012",
+    "name": "Radio part insertion marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "preview",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-012_radio_part_insertion_marker__preview.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-012",
+    "name": "Radio part insertion marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "valid",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-012_radio_part_insertion_marker__valid.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-013",
+    "name": "Planning board interact marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "idle",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-013_planning_board_interact_marker__idle.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "WK-013",
+    "name": "Planning board interact marker",
+    "category": "Interaction markers & helper UI",
+    "variant": "active",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-013_planning_board_interact_marker__active.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "WK-014",
+    "name": "Subtitle speaker indicator",
+    "category": "Interaction markers & helper UI",
+    "variant": "player1",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-014_subtitle_speaker_indicator__player1.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-014",
+    "name": "Subtitle speaker indicator",
+    "category": "Interaction markers & helper UI",
+    "variant": "player2",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-014_subtitle_speaker_indicator__player2.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-014",
+    "name": "Subtitle speaker indicator",
+    "category": "Interaction markers & helper UI",
+    "variant": "radio",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-014_subtitle_speaker_indicator__radio.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-015",
+    "name": "Pause / reconnect overlay icons",
+    "category": "Interaction markers & helper UI",
+    "variant": "paused",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-015_pause_reconnect_overlay_icons__paused.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-015",
+    "name": "Pause / reconnect overlay icons",
+    "category": "Interaction markers & helper UI",
+    "variant": "reconnecting",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-015_pause_reconnect_overlay_icons__reconnecting.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "WK-015",
+    "name": "Pause / reconnect overlay icons",
+    "category": "Interaction markers & helper UI",
+    "variant": "failed",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/interaction_markers_helper_ui/wk-015_pause_reconnect_overlay_icons__failed.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "EN-001",
+    "name": "Shipwreck hull chunk",
+    "category": "Environment set dressing",
+    "variant": "large",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-001_shipwreck_hull_chunk__large.obj",
+    "vertices": 328,
+    "triangles": 148
+  },
+  {
+    "asset_id": "EN-001",
+    "name": "Shipwreck hull chunk",
+    "category": "Environment set dressing",
+    "variant": "medium",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-001_shipwreck_hull_chunk__medium.obj",
+    "vertices": 328,
+    "triangles": 148
+  },
+  {
+    "asset_id": "EN-002",
+    "name": "Broken plank pile",
+    "category": "Environment set dressing",
+    "variant": "small",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-002_broken_plank_pile__small.obj",
+    "vertices": 120,
+    "triangles": 60
+  },
+  {
+    "asset_id": "EN-002",
+    "name": "Broken plank pile",
+    "category": "Environment set dressing",
+    "variant": "medium",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-002_broken_plank_pile__medium.obj",
+    "vertices": 216,
+    "triangles": 108
+  },
+  {
+    "asset_id": "EN-002",
+    "name": "Broken plank pile",
+    "category": "Environment set dressing",
+    "variant": "large",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-002_broken_plank_pile__large.obj",
+    "vertices": 336,
+    "triangles": 168
+  },
+  {
+    "asset_id": "EN-003",
+    "name": "Barrel / container wreckage",
+    "category": "Environment set dressing",
+    "variant": "closed",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-003_barrel_container_wreckage__closed.obj",
+    "vertices": 1080,
+    "triangles": 528
+  },
+  {
+    "asset_id": "EN-003",
+    "name": "Barrel / container wreckage",
+    "category": "Environment set dressing",
+    "variant": "broken",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-003_barrel_container_wreckage__broken.obj",
+    "vertices": 1104,
+    "triangles": 540
+  },
+  {
+    "asset_id": "EN-004",
+    "name": "Rope debris set",
+    "category": "Environment set dressing",
+    "variant": "small",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-004_rope_debris_set__small.obj",
+    "vertices": 960,
+    "triangles": 480
+  },
+  {
+    "asset_id": "EN-004",
+    "name": "Rope debris set",
+    "category": "Environment set dressing",
+    "variant": "medium",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-004_rope_debris_set__medium.obj",
+    "vertices": 1600,
+    "triangles": 800
+  },
+  {
+    "asset_id": "EN-005",
+    "name": "Beach stone cluster",
+    "category": "Environment set dressing",
+    "variant": "small",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-005_beach_stone_cluster__small.obj",
+    "vertices": 120,
+    "triangles": 60
+  },
+  {
+    "asset_id": "EN-005",
+    "name": "Beach stone cluster",
+    "category": "Environment set dressing",
+    "variant": "medium",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-005_beach_stone_cluster__medium.obj",
+    "vertices": 216,
+    "triangles": 108
+  },
+  {
+    "asset_id": "EN-005",
+    "name": "Beach stone cluster",
+    "category": "Environment set dressing",
+    "variant": "large",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-005_beach_stone_cluster__large.obj",
+    "vertices": 336,
+    "triangles": 168
+  },
+  {
+    "asset_id": "EN-006",
+    "name": "Driftwood cluster",
+    "category": "Environment set dressing",
+    "variant": "small",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-006_driftwood_cluster__small.obj",
+    "vertices": 120,
+    "triangles": 60
+  },
+  {
+    "asset_id": "EN-006",
+    "name": "Driftwood cluster",
+    "category": "Environment set dressing",
+    "variant": "medium",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-006_driftwood_cluster__medium.obj",
+    "vertices": 216,
+    "triangles": 108
+  },
+  {
+    "asset_id": "EN-006",
+    "name": "Driftwood cluster",
+    "category": "Environment set dressing",
+    "variant": "large",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-006_driftwood_cluster__large.obj",
+    "vertices": 336,
+    "triangles": 168
+  },
+  {
+    "asset_id": "EN-007",
+    "name": "Palm tree variant set",
+    "category": "Environment set dressing",
+    "variant": "young",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-007_palm_tree_variant_set__young.obj",
+    "vertices": 154,
+    "triangles": 68
+  },
+  {
+    "asset_id": "EN-007",
+    "name": "Palm tree variant set",
+    "category": "Environment set dressing",
+    "variant": "mature",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-007_palm_tree_variant_set__mature.obj",
+    "vertices": 154,
+    "triangles": 68
+  },
+  {
+    "asset_id": "EN-007",
+    "name": "Palm tree variant set",
+    "category": "Environment set dressing",
+    "variant": "broken",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-007_palm_tree_variant_set__broken.obj",
+    "vertices": 90,
+    "triangles": 36
+  },
+  {
+    "asset_id": "EN-008",
+    "name": "Palm frond ground clutter",
+    "category": "Environment set dressing",
+    "variant": "small",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-008_palm_frond_ground_clutter__small.obj",
+    "vertices": 40,
+    "triangles": 20
+  },
+  {
+    "asset_id": "EN-008",
+    "name": "Palm frond ground clutter",
+    "category": "Environment set dressing",
+    "variant": "medium",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-008_palm_frond_ground_clutter__medium.obj",
+    "vertices": 72,
+    "triangles": 36
+  },
+  {
+    "asset_id": "EN-009",
+    "name": "Broadleaf bush set",
+    "category": "Environment set dressing",
+    "variant": "small",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-009_broadleaf_bush_set__small.obj",
+    "vertices": 40,
+    "triangles": 20
+  },
+  {
+    "asset_id": "EN-009",
+    "name": "Broadleaf bush set",
+    "category": "Environment set dressing",
+    "variant": "medium",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-009_broadleaf_bush_set__medium.obj",
+    "vertices": 72,
+    "triangles": 36
+  },
+  {
+    "asset_id": "EN-009",
+    "name": "Broadleaf bush set",
+    "category": "Environment set dressing",
+    "variant": "dense",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-009_broadleaf_bush_set__dense.obj",
+    "vertices": 120,
+    "triangles": 60
+  },
+  {
+    "asset_id": "EN-010",
+    "name": "Vine cluster set",
+    "category": "Environment set dressing",
+    "variant": "short",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-010_vine_cluster_set__short.obj",
+    "vertices": 56,
+    "triangles": 28
+  },
+  {
+    "asset_id": "EN-010",
+    "name": "Vine cluster set",
+    "category": "Environment set dressing",
+    "variant": "hanging",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-010_vine_cluster_set__hanging.obj",
+    "vertices": 80,
+    "triangles": 40
+  },
+  {
+    "asset_id": "EN-010",
+    "name": "Vine cluster set",
+    "category": "Environment set dressing",
+    "variant": "dense",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-010_vine_cluster_set__dense.obj",
+    "vertices": 120,
+    "triangles": 60
+  },
+  {
+    "asset_id": "EN-011",
+    "name": "Wet mud / puddle decal set",
+    "category": "Environment set dressing",
+    "variant": "small",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-011_wet_mud_puddle_decal_set__small.obj",
+    "vertices": 36,
+    "triangles": 18
+  },
+  {
+    "asset_id": "EN-011",
+    "name": "Wet mud / puddle decal set",
+    "category": "Environment set dressing",
+    "variant": "medium",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-011_wet_mud_puddle_decal_set__medium.obj",
+    "vertices": 36,
+    "triangles": 18
+  },
+  {
+    "asset_id": "EN-011",
+    "name": "Wet mud / puddle decal set",
+    "category": "Environment set dressing",
+    "variant": "large",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-011_wet_mud_puddle_decal_set__large.obj",
+    "vertices": 36,
+    "triangles": 18
+  },
+  {
+    "asset_id": "EN-012",
+    "name": "Rock wall module",
+    "category": "Environment set dressing",
+    "variant": "straight",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-012_rock_wall_module__straight.obj",
+    "vertices": 288,
+    "triangles": 144
+  },
+  {
+    "asset_id": "EN-012",
+    "name": "Rock wall module",
+    "category": "Environment set dressing",
+    "variant": "corner",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-012_rock_wall_module__corner.obj",
+    "vertices": 288,
+    "triangles": 144
+  },
+  {
+    "asset_id": "EN-012",
+    "name": "Rock wall module",
+    "category": "Environment set dressing",
+    "variant": "ledge",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-012_rock_wall_module__ledge.obj",
+    "vertices": 288,
+    "triangles": 144
+  },
+  {
+    "asset_id": "EN-013",
+    "name": "Cliff edge grass set",
+    "category": "Environment set dressing",
+    "variant": "short",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-013_cliff_edge_grass_set__short.obj",
+    "vertices": 56,
+    "triangles": 28
+  },
+  {
+    "asset_id": "EN-013",
+    "name": "Cliff edge grass set",
+    "category": "Environment set dressing",
+    "variant": "dense",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-013_cliff_edge_grass_set__dense.obj",
+    "vertices": 120,
+    "triangles": 60
+  },
+  {
+    "asset_id": "EN-014",
+    "name": "Cave wall module",
+    "category": "Environment set dressing",
+    "variant": "straight",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-014_cave_wall_module__straight.obj",
+    "vertices": 288,
+    "triangles": 144
+  },
+  {
+    "asset_id": "EN-014",
+    "name": "Cave wall module",
+    "category": "Environment set dressing",
+    "variant": "corner",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-014_cave_wall_module__corner.obj",
+    "vertices": 288,
+    "triangles": 144
+  },
+  {
+    "asset_id": "EN-014",
+    "name": "Cave wall module",
+    "category": "Environment set dressing",
+    "variant": "arch",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-014_cave_wall_module__arch.obj",
+    "vertices": 288,
+    "triangles": 144
+  },
+  {
+    "asset_id": "EN-015",
+    "name": "Cave floor debris set",
+    "category": "Environment set dressing",
+    "variant": "stones",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-015_cave_floor_debris_set__stones.obj",
+    "vertices": 564,
+    "triangles": 240
+  },
+  {
+    "asset_id": "EN-015",
+    "name": "Cave floor debris set",
+    "category": "Environment set dressing",
+    "variant": "branches",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-015_cave_floor_debris_set__branches.obj",
+    "vertices": 564,
+    "triangles": 240
+  },
+  {
+    "asset_id": "EN-016",
+    "name": "Camp mat / groundsheet",
+    "category": "Environment set dressing",
+    "variant": "clean",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-016_camp_mat_groundsheet__clean.obj",
+    "vertices": 36,
+    "triangles": 18
+  },
+  {
+    "asset_id": "EN-016",
+    "name": "Camp mat / groundsheet",
+    "category": "Environment set dressing",
+    "variant": "worn",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-016_camp_mat_groundsheet__worn.obj",
+    "vertices": 36,
+    "triangles": 18
+  },
+  {
+    "asset_id": "EN-016",
+    "name": "Camp mat / groundsheet",
+    "category": "Environment set dressing",
+    "variant": "wet",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-016_camp_mat_groundsheet__wet.obj",
+    "vertices": 36,
+    "triangles": 18
+  },
+  {
+    "asset_id": "EN-017",
+    "name": "Cooking corner set",
+    "category": "Environment set dressing",
+    "variant": "pot",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-017_cooking_corner_set__pot.obj",
+    "vertices": 260,
+    "triangles": 104
+  },
+  {
+    "asset_id": "EN-017",
+    "name": "Cooking corner set",
+    "category": "Environment set dressing",
+    "variant": "crate",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-017_cooking_corner_set__crate.obj",
+    "vertices": 260,
+    "triangles": 104
+  },
+  {
+    "asset_id": "EN-017",
+    "name": "Cooking corner set",
+    "category": "Environment set dressing",
+    "variant": "utensils",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-017_cooking_corner_set__utensils.obj",
+    "vertices": 260,
+    "triangles": 104
+  },
+  {
+    "asset_id": "EN-018",
+    "name": "Storage corner set",
+    "category": "Environment set dressing",
+    "variant": "crate",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-018_storage_corner_set__crate.obj",
+    "vertices": 48,
+    "triangles": 24
+  },
+  {
+    "asset_id": "EN-018",
+    "name": "Storage corner set",
+    "category": "Environment set dressing",
+    "variant": "sack",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-018_storage_corner_set__sack.obj",
+    "vertices": 48,
+    "triangles": 24
+  },
+  {
+    "asset_id": "EN-018",
+    "name": "Storage corner set",
+    "category": "Environment set dressing",
+    "variant": "poles",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-018_storage_corner_set__poles.obj",
+    "vertices": 48,
+    "triangles": 24
+  },
+  {
+    "asset_id": "EN-019",
+    "name": "Signal hill dressing set",
+    "category": "Environment set dressing",
+    "variant": "logs",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-019_signal_hill_dressing_set__logs.obj",
+    "vertices": 1750,
+    "triangles": 840
+  },
+  {
+    "asset_id": "EN-019",
+    "name": "Signal hill dressing set",
+    "category": "Environment set dressing",
+    "variant": "ropes",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-019_signal_hill_dressing_set__ropes.obj",
+    "vertices": 1750,
+    "triangles": 840
+  },
+  {
+    "asset_id": "EN-019",
+    "name": "Signal hill dressing set",
+    "category": "Environment set dressing",
+    "variant": "stones",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-019_signal_hill_dressing_set__stones.obj",
+    "vertices": 1750,
+    "triangles": 840
+  },
+  {
+    "asset_id": "EN-020",
+    "name": "Rain catcher placement set",
+    "category": "Environment set dressing",
+    "variant": "frame",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-020_rain_catcher_placement_set__frame.obj",
+    "vertices": 212,
+    "triangles": 92
+  },
+  {
+    "asset_id": "EN-020",
+    "name": "Rain catcher placement set",
+    "category": "Environment set dressing",
+    "variant": "cloth",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-020_rain_catcher_placement_set__cloth.obj",
+    "vertices": 212,
+    "triangles": 92
+  },
+  {
+    "asset_id": "EN-020",
+    "name": "Rain catcher placement set",
+    "category": "Environment set dressing",
+    "variant": "basin",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-020_rain_catcher_placement_set__basin.obj",
+    "vertices": 212,
+    "triangles": 92
+  },
+  {
+    "asset_id": "EN-021",
+    "name": "Torch stand",
+    "category": "Environment set dressing",
+    "variant": "unlit",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-021_torch_stand__unlit.obj",
+    "vertices": 78,
+    "triangles": 32
+  },
+  {
+    "asset_id": "EN-021",
+    "name": "Torch stand",
+    "category": "Environment set dressing",
+    "variant": "lit",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-021_torch_stand__lit.obj",
+    "vertices": 78,
+    "triangles": 32
+  },
+  {
+    "asset_id": "EN-022",
+    "name": "Path marker stakes",
+    "category": "Environment set dressing",
+    "variant": "plain",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-022_path_marker_stakes__plain.obj",
+    "vertices": 86,
+    "triangles": 36
+  },
+  {
+    "asset_id": "EN-022",
+    "name": "Path marker stakes",
+    "category": "Environment set dressing",
+    "variant": "cloth_marked",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-022_path_marker_stakes__cloth_marked.obj",
+    "vertices": 86,
+    "triangles": 36
+  },
+  {
+    "asset_id": "EN-023",
+    "name": "Storm damage debris set",
+    "category": "Environment set dressing",
+    "variant": "broken_shelter_parts",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-023_storm_damage_debris_set__broken_shelter_parts.obj",
+    "vertices": 228,
+    "triangles": 114
+  },
+  {
+    "asset_id": "EN-023",
+    "name": "Storm damage debris set",
+    "category": "Environment set dressing",
+    "variant": "loose_cloth",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-023_storm_damage_debris_set__loose_cloth.obj",
+    "vertices": 228,
+    "triangles": 114
+  },
+  {
+    "asset_id": "EN-024",
+    "name": "Camp boundary rope set",
+    "category": "Environment set dressing",
+    "variant": "slack",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-024_camp_boundary_rope_set__slack.obj",
+    "vertices": 280,
+    "triangles": 112
+  },
+  {
+    "asset_id": "EN-024",
+    "name": "Camp boundary rope set",
+    "category": "Environment set dressing",
+    "variant": "taut",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-024_camp_boundary_rope_set__taut.obj",
+    "vertices": 280,
+    "triangles": 112
+  },
+  {
+    "asset_id": "EN-025",
+    "name": "Water shoreline foam decal",
+    "category": "Environment set dressing",
+    "variant": "calm",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-025_water_shoreline_foam_decal__calm.obj",
+    "vertices": 64,
+    "triangles": 32
+  },
+  {
+    "asset_id": "EN-025",
+    "name": "Water shoreline foam decal",
+    "category": "Environment set dressing",
+    "variant": "storm",
+    "kind": "mesh",
+    "path": "Assets/ProductionArt/Meshes/environment_set_dressing/en-025_water_shoreline_foam_decal__storm.obj",
+    "vertices": 64,
+    "triangles": 32
+  },
+  {
+    "asset_id": "MN-001",
+    "name": "Main menu background",
+    "category": "Menus & meta screens",
+    "variant": "neutral",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-001_main_menu_background__neutral.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "MN-001",
+    "name": "Main menu background",
+    "category": "Menus & meta screens",
+    "variant": "storm",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-001_main_menu_background__storm.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "MN-002",
+    "name": "Lobby panel",
+    "category": "Menus & meta screens",
+    "variant": "host",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-002_lobby_panel__host.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-002",
+    "name": "Lobby panel",
+    "category": "Menus & meta screens",
+    "variant": "client",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-002_lobby_panel__client.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-002",
+    "name": "Lobby panel",
+    "category": "Menus & meta screens",
+    "variant": "connected",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-002_lobby_panel__connected.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-003",
+    "name": "Comfort settings panel",
+    "category": "Menus & meta screens",
+    "variant": "default",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-003_comfort_settings_panel.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-004",
+    "name": "Pause menu panel",
+    "category": "Menus & meta screens",
+    "variant": "default",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-004_pause_menu_panel.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-005",
+    "name": "Reconnect screen",
+    "category": "Menus & meta screens",
+    "variant": "trying",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-005_reconnect_screen__trying.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-005",
+    "name": "Reconnect screen",
+    "category": "Menus & meta screens",
+    "variant": "failed",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-005_reconnect_screen__failed.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-005",
+    "name": "Reconnect screen",
+    "category": "Menus & meta screens",
+    "variant": "success",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-005_reconnect_screen__success.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-006",
+    "name": "Subtitle settings panel",
+    "category": "Menus & meta screens",
+    "variant": "default",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-006_subtitle_settings_panel.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-007",
+    "name": "Scenario select card",
+    "category": "Menus & meta screens",
+    "variant": "stormnatten",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-007_scenario_select_card__stormnatten.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-007",
+    "name": "Scenario select card",
+    "category": "Menus & meta screens",
+    "variant": "locked_future_scenario",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-007_scenario_select_card__locked_future_scenario.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-008",
+    "name": "End-of-run summary card",
+    "category": "Menus & meta screens",
+    "variant": "success",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-008_end_of_run_summary_card__success.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-008",
+    "name": "End-of-run summary card",
+    "category": "Menus & meta screens",
+    "variant": "failure",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-008_end_of_run_summary_card__failure.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "MN-009",
+    "name": "Player accolade badge set",
+    "category": "Menus & meta screens",
+    "variant": "survivor",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-009_player_accolade_badge_set__survivor.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "MN-009",
+    "name": "Player accolade badge set",
+    "category": "Menus & meta screens",
+    "variant": "builder",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-009_player_accolade_badge_set__builder.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "MN-009",
+    "name": "Player accolade badge set",
+    "category": "Menus & meta screens",
+    "variant": "rescuer_etc",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-009_player_accolade_badge_set__rescuer_etc.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "MN-010",
+    "name": "Credits / thank you panel",
+    "category": "Menus & meta screens",
+    "variant": "default",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/menus_meta_screens/mn-010_credits_thank_you_panel.png",
+    "dimensions": [
+      1024,
+      512
+    ]
+  },
+  {
+    "asset_id": "FX-001",
+    "name": "Smoke flipbook texture",
+    "category": "VFX support graphics",
+    "variant": "small",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-001_smoke_flipbook_texture__small.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-001",
+    "name": "Smoke flipbook texture",
+    "category": "VFX support graphics",
+    "variant": "medium",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-001_smoke_flipbook_texture__medium.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-002",
+    "name": "Ember particle texture",
+    "category": "VFX support graphics",
+    "variant": "small",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-002_ember_particle_texture__small.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-002",
+    "name": "Ember particle texture",
+    "category": "VFX support graphics",
+    "variant": "medium",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-002_ember_particle_texture__medium.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-003",
+    "name": "Ash particle texture",
+    "category": "VFX support graphics",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-003_ash_particle_texture__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-004",
+    "name": "Rain splash decal texture",
+    "category": "VFX support graphics",
+    "variant": "small",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-004_rain_splash_decal_texture__small.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-004",
+    "name": "Rain splash decal texture",
+    "category": "VFX support graphics",
+    "variant": "medium",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-004_rain_splash_decal_texture__medium.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-005",
+    "name": "Wet sheen mask texture",
+    "category": "VFX support graphics",
+    "variant": "single",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-005_wet_sheen_mask_texture__single.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-006",
+    "name": "Lightning flash overlay",
+    "category": "VFX support graphics",
+    "variant": "near",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-006_lightning_flash_overlay__near.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-006",
+    "name": "Lightning flash overlay",
+    "category": "VFX support graphics",
+    "variant": "far",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-006_lightning_flash_overlay__far.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-007",
+    "name": "Glow halo texture",
+    "category": "VFX support graphics",
+    "variant": "fire",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-007_glow_halo_texture__fire.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-007",
+    "name": "Glow halo texture",
+    "category": "VFX support graphics",
+    "variant": "lantern",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-007_glow_halo_texture__lantern.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-008",
+    "name": "Objective pulse ring",
+    "category": "VFX support graphics",
+    "variant": "small",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-008_objective_pulse_ring__small.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "asset_id": "FX-008",
+    "name": "Objective pulse ring",
+    "category": "VFX support graphics",
+    "variant": "medium",
+    "kind": "sprite",
+    "path": "Assets/ProductionArt/Sprites/vfx_support_graphics/fx-008_objective_pulse_ring__medium.png",
+    "dimensions": [
+      1024,
+      1024
+    ]
+  }
+]
