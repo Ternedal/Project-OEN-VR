@@ -623,7 +623,7 @@ def world_mesh(row,variant):
     elif aid=='PR-017' or 'hammer' in name or 'mallet' in name:
         add_cylinder(m,(0,.45,0),.045,.9,'Wood',8); add_box(m,(0,.93,0),(.48,.22,.22),'Metal')
     elif aid=='PR-018' or 'knife' in name:
-        add_box(m,(0,.2,0),(.13,.42,.10),'Wood'); add_box(m,(0,.63,0),(.08,.55,.025),'Metal',(0,0,-8))
+        add_box(m,(0,.12,0),(.14,.24,.085),'Wood'); add_box(m,(0,.43,0),(.07,.40,.022),'Metal',(0,0,-8))
     elif aid=='PR-019' or 'anchor point peg' in name:
         add_cylinder(m,(0,.48,0),.055,.95,'Metal',8); add_torus(m,(0,.92,0),.16,.035,'Metal',14,5,(90,0,0))
     # Construction states

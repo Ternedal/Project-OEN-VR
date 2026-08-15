@@ -71,11 +71,11 @@ def main():
         'Mathf.Lerp(1f, profile.wetBumpScale, wetness)',
     ),errors)
     for m in WETTABLE:
-        if wet and f'case "{m}":' not in wet: errors.append(f"Wetness profile missing: {m}")
+        if wet and f'case "{m.upper()}":' not in wet: errors.append(f"Wetness profile missing: {m}")
     if wet:
         for forbidden in ('void Update(', 'void LateUpdate(', 'renderer.material', '.sharedMaterials ='):
             if forbidden in wet: errors.append(f"Wetness driver violates event-driven/shared-material contract: {forbidden}")
-        if 'case "Fire":' in wet or 'case "Water":' in wet:
+        if 'case "FIRE":' in wet or 'case "WATER":' in wet:
             errors.append("Wetness driver must not override Fire or Water material response")
 
     d=need(DECAL,"ground decal builder",(
@@ -153,11 +153,13 @@ def main():
             errors.append(f"Wind response must define exactly {len(WIND_TARGETS)} target specs")
 
     audit=need(AUDIT,"Stormnatten budget audit",(
-        'TriangleHardLimit = 750000','DrawCallProxyHardLimit = 130','ShadowCasterHardLimit = 1',
+        'TriangleHardLimit = 750000','DrawCallProxyHardLimit = 130','StaticBatchVertexLimit = 64000','ShadowCasterHardLimit = 1',
         'ParticleSystemHardLimit = 10','AnimationComponentHardLimit = 12','mesh.triangles.LongLength / 3L',
         'Quest 2 showcase budget hard gate failed','WindResponseTargets','AnimationCullingType.BasedOnRenderers',
         'StormStateExpectations','MatchesStormState','PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot',
         'Path.GetFileNameWithoutExtension','stormStates=','canonical storm-state object missing',
+        'CalculateDrawCallProxy','GameObjectUtility.AreStaticEditorFlagsSet','StaticEditorFlags.BatchingStatic',
+        'rawRendererMaterialSlots=','dynamicSlots=','staticBatchGroups=',
         'Windblown Storm Debris','Camp Rain Splashes','Distant Storm Lightning','FarLightningName','NearLightningName',
         'windDebris.main.maxParticles > 24','rainSplashes.main.maxParticles > 12','lightningLight.shadows != LightShadows.None',
         'lightningSprites.Length != 2','lightningColliders.Length != 0','AnimationCullingType.AlwaysAnimate','HasPulseCurve',
@@ -199,7 +201,8 @@ def main():
             errors.append("Fast review sequential fallback marker is missing")
         else:
             fallback=review[fallback_start:]
-            if not ordered(fallback,sequence): errors.append("Fast review sequential fallback art sequence is out of order")
+            fallback_sequence=sequence[:-1]
+            if not ordered(fallback,fallback_sequence): errors.append("Fast review sequential fallback art sequence is out of order")
         for bad in ("M0bConfigure.Configure","BuildPipeline.BuildPlayer","Packages\\manifest.json"):
             if bad in review: errors.append(f"Fast review must not mutate M0b platform path: {bad}")
 

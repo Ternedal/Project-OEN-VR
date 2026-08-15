@@ -83,8 +83,10 @@ def main() -> int:
         "public float EmissionScale",
         "ApplyAppearance()",
         "RefreshWetnessDrivers()",
-        'materialName != "Fire" && materialName != "Water"',
-        'materialName == "Fire"',
+        'string.Equals(materialName, "Fire", System.StringComparison.OrdinalIgnoreCase)',
+        'string.Equals(materialName, "Water", System.StringComparison.OrdinalIgnoreCase)',
+        "if (!isFire && !isWater)",
+        "if (isFire && material.HasProperty(EmissionColorId))",
         "authoredEmission * emissionScale",
         "driver.ApplyWetness();",
     ), "runtime appearance", errors)
@@ -98,11 +100,13 @@ def main() -> int:
     ), "runtime appearance", errors)
 
     require(wetness, (
+        "!gameObject.scene.IsValid() || !gameObject.scene.isLoaded",
         "renderer.GetComponentInParent<ProductionArtStateAppearance>()",
         "stateAppearance.TintMultiplier",
         "stateAppearance.NormalScaleMultiplier",
         "Color tint = Multiply(stateTint, wetTint);",
         "stateBumpScale * wetBumpScale",
+        "switch (materialName.ToUpperInvariant())",
     ), "global wetness composition", errors)
     reject(wetness, ("void Update(", "void LateUpdate(", "new Material("), "global wetness composition", errors)
 

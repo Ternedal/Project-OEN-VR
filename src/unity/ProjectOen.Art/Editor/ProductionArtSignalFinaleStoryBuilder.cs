@@ -231,7 +231,7 @@ namespace ProjectOen.Art.Editor
                 string stem = string.IsNullOrEmpty(prefabPath)
                     ? string.Empty
                     : Path.GetFileNameWithoutExtension(prefabPath).ToLowerInvariant().Replace('-', '_');
-                string expectedPrefix = spec.prefix.ToLowerInvariant();
+                string expectedPrefix = spec.prefix.ToLowerInvariant().Replace('-', '_');
                 string expectedToken = spec.token.ToLowerInvariant().Replace('-', '_');
                 if (!stem.StartsWith(expectedPrefix, StringComparison.Ordinal) || !stem.Contains(expectedToken))
                     throw new InvalidOperationException("Wrong canonical signal finale state on " + spec.name + ": " + stem);
@@ -253,7 +253,7 @@ namespace ProjectOen.Art.Editor
 
                     string materialPath = AssetDatabase.GetAssetPath(material).Replace('\\', '/');
                     if (string.IsNullOrEmpty(materialPath) ||
-                        !materialPath.StartsWith(ProductionMaterialRoot, StringComparison.Ordinal))
+                        !materialPath.StartsWith(ProductionMaterialRoot, StringComparison.OrdinalIgnoreCase))
                     {
                         throw new InvalidOperationException("Signal finale story material is outside the production UnityMaterials root: " +
                                                             material.name + " -> " + materialPath);

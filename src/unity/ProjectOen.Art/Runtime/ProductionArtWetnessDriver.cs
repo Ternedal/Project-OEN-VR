@@ -45,7 +45,7 @@ namespace ProjectOen.Art.Runtime
         [ContextMenu("Apply Wetness")]
         public void ApplyWetness()
         {
-            if (!gameObject.scene.IsValid())
+            if (!gameObject.scene.IsValid() || !gameObject.scene.isLoaded)
                 return;
 
             if (propertyBlock == null)
@@ -148,33 +148,36 @@ namespace ProjectOen.Art.Runtime
         {
             // Fire and water are intentionally excluded. Fire should keep its
             // emissive read, while water already owns its smooth response.
-            switch (materialName)
+            // Unity can normalize a main asset's object name to its lowercase
+            // filename (for example wood.mat -> "wood") when it is imported.
+            // Material-family matching must therefore not depend on asset-name case.
+            switch (materialName.ToUpperInvariant())
             {
-                case "Wood":
+                case "WOOD":
                     profile = new SurfaceProfile(new Color(0.70f, 0.75f, 0.78f, 1f), 0.68f);
                     return true;
-                case "Rope":
+                case "ROPE":
                     profile = new SurfaceProfile(new Color(0.74f, 0.78f, 0.80f, 1f), 0.70f);
                     return true;
-                case "Tarp":
+                case "TARP":
                     profile = new SurfaceProfile(new Color(0.79f, 0.85f, 0.88f, 1f), 0.78f);
                     return true;
-                case "Metal":
+                case "METAL":
                     profile = new SurfaceProfile(new Color(0.80f, 0.84f, 0.86f, 1f), 0.82f);
                     return true;
-                case "Stone":
+                case "STONE":
                     profile = new SurfaceProfile(new Color(0.68f, 0.73f, 0.77f, 1f), 0.62f);
                     return true;
-                case "Leaf":
+                case "LEAF":
                     profile = new SurfaceProfile(new Color(0.72f, 0.80f, 0.75f, 1f), 0.70f);
                     return true;
-                case "Cloth":
+                case "CLOTH":
                     profile = new SurfaceProfile(new Color(0.74f, 0.78f, 0.80f, 1f), 0.72f);
                     return true;
-                case "Mud":
+                case "MUD":
                     profile = new SurfaceProfile(new Color(0.62f, 0.67f, 0.69f, 1f), 0.55f);
                     return true;
-                case "Char":
+                case "CHAR":
                     profile = new SurfaceProfile(new Color(0.78f, 0.80f, 0.82f, 1f), 0.80f);
                     return true;
                 default:

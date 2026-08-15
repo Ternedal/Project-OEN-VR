@@ -84,11 +84,13 @@ namespace ProjectOen.Art.Runtime
                         continue;
 
                     string materialName = CanonicalMaterialName(material.name);
+                    bool isFire = string.Equals(materialName, "Fire", System.StringComparison.OrdinalIgnoreCase);
+                    bool isWater = string.Equals(materialName, "Water", System.StringComparison.OrdinalIgnoreCase);
                     renderer.GetPropertyBlock(propertyBlock, materialIndex);
 
                     // Fire keeps its authored base colour and is distinguished by
                     // emission strength. Water owns its own surface response.
-                    if (materialName != "Fire" && materialName != "Water")
+                    if (!isFire && !isWater)
                     {
                         if (material.HasProperty(BaseColorId))
                             propertyBlock.SetColor(BaseColorId, tintMultiplier);
@@ -98,7 +100,7 @@ namespace ProjectOen.Art.Runtime
                             propertyBlock.SetFloat(BumpScaleId, normalScaleMultiplier);
                     }
 
-                    if (materialName == "Fire" && material.HasProperty(EmissionColorId))
+                    if (isFire && material.HasProperty(EmissionColorId))
                     {
                         Color authoredEmission = material.GetColor(EmissionColorId);
                         propertyBlock.SetColor(EmissionColorId, authoredEmission * emissionScale);
