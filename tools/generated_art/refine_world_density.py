@@ -23,7 +23,7 @@ from refine_mockup_environment import enhance as mockup_enhance, TARGETS as MOCK
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PROD = ROOT / "Assets" / "ProjectOEN" / "ProductionArt"
+PROD = ROOT / "Assets" / "ProductionArt"
 MANIFEST = PROD / "Docs" / "production_art_manifest.json"
 
 TARGETS = {

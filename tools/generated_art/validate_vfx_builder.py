@@ -10,9 +10,9 @@ BOOT=ROOT/"prototype"/"m0b-bootstrap"/"Bootstrap-M0b.ps1"
 REVIEW=ROOT/"prototype"/"m0b-bootstrap"/"Review-ProductionArt.ps1"
 
 REQUIRED=(
- 'SpriteRoot = "Assets/ProjectOEN/ProductionArt/Sprites/vfx_support_graphics"',
- 'MaterialRoot = "Assets/ProjectOEN/ProductionArt/VfxMaterials"',
- 'PrefabRoot = "Assets/ProjectOEN/ProductionArt/VfxPrefabs"',
+ 'SpriteRoot = "Assets/ProductionArt/Sprites/vfx_support_graphics"',
+ 'MaterialRoot = "Assets/ProductionArt/VfxMaterials"',
+ 'PrefabRoot = "Assets/ProductionArt/VfxPrefabs"',
  'Universal Render Pipeline/Particles/Unlit',
  'Particles/Standard Unlit',
  'Unlit/Transparent',

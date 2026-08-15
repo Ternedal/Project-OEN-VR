@@ -20,11 +20,11 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtStateTransitionShowcaseBuilder
     {
-        public const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StateTransitionShowcase.unity";
+        public const string ScenePath = "Assets/ProductionArt/Scenes/StateTransitionShowcase.unity";
         public const int ExpectedSampleCount = 18;
 
-        private const string SceneRoot = "Assets/ProjectOEN/ProductionArt/Scenes";
-        private const string StateSetRoot = "Assets/ProjectOEN/ProductionArt/StateSets";
+        private const string SceneRoot = "Assets/ProductionArt/Scenes";
+        private const string StateSetRoot = "Assets/ProductionArt/StateSets";
         private const float FirstRowY = 5.15f;
         private const float RowSpacing = 2.05f;
 

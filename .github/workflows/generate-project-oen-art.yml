@@ -129,6 +129,8 @@ jobs:
         run: python tools/generated_art/refine_storm_story_geometry.py
       - name: Restore authoritative signal-hill finale geometry after world dressing
         run: python tools/generated_art/restore_signal_hill_after_density.py
+      - name: Normalize runtime meshes to approved physical scale
+        run: python tools/generated_art/normalize_runtime_mesh_scale.py
       - name: Render actual OBJ mockup review sheet
         run: python tools/generated_art/render_mockup_review.py
       - name: Render scene-level mockup review sheet
@@ -162,6 +164,12 @@ jobs:
         run: python tools/generated_art/finalize_production_art_docs.py
       - name: Validate full production art
         run: python tools/generated_art/validate_production_art.py
+      - name: Validate case-safe import and assembly contract
+        run: python tools/validate_production_art_import_contract.py
+      - name: Validate runtime mesh scale specifications
+        run: python tools/qa_spec_vs_mesh.py
+      - name: Validate mesh linkage normals and material budgets
+        run: python tools/qa_meshes.py
       - name: Validate mockup atlas expansion
         run: python tools/generated_art/validate_mockup_atlas_expansion.py
       - name: Validate production UI and sprite refinement
@@ -221,7 +229,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add Assets/ProjectOEN/GeneratedArtRuntime256 Assets/ProjectOEN/GeneratedArtRuntime256Docs
-          git add Assets/ProjectOEN/ProductionArt
+          git add Assets/ProductionArt
           git add -A tools/generated_art 2>/dev/null || true
           git add -A art_payloads 2>/dev/null || true
           if git diff --cached --quiet; then

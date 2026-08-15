@@ -20,7 +20,7 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-TEX=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"/"Materials"/"Textures"
+TEX=ROOT/"Assets"/"ProductionArt"/"Materials"/"Textures"
 NAMES=("wood","rope","tarp","metal","stone","leaf","cloth","mud","fire","char","water")
 
 

@@ -18,12 +18,12 @@ namespace ProjectOen.Art.Editor
 
         private static readonly string[] ReviewScenePaths =
         {
-            "Assets/ProjectOEN/ProductionArt/Scenes/ProductionVfxShowcase.unity",
-            "Assets/ProjectOEN/ProductionArt/Scenes/DiegeticUiArtShowcase.unity",
-            "Assets/ProjectOEN/ProductionArt/Scenes/MaterialCalibrationShowcase.unity",
-            "Assets/ProjectOEN/ProductionArt/Scenes/StateTransitionShowcase.unity",
-            "Assets/ProjectOEN/ProductionArt/Scenes/HeroReadabilityShowcase.unity",
-            "Assets/ProjectOEN/ProductionArt/Scenes/StormnattenArtShowcase.unity",
+            "Assets/ProductionArt/Scenes/ProductionVfxShowcase.unity",
+            "Assets/ProductionArt/Scenes/DiegeticUiArtShowcase.unity",
+            "Assets/ProductionArt/Scenes/MaterialCalibrationShowcase.unity",
+            "Assets/ProductionArt/Scenes/StateTransitionShowcase.unity",
+            "Assets/ProductionArt/Scenes/HeroReadabilityShowcase.unity",
+            "Assets/ProductionArt/Scenes/StormnattenArtShowcase.unity",
         };
 
         [Serializable]
@@ -91,7 +91,7 @@ namespace ProjectOen.Art.Editor
                 report.status = "PASS";
                 report.finishedUtc = DateTime.UtcNow.ToString("O");
                 WriteReport(projectRoot, report);
-                Debug.Log("[ProjectOEN.Art.Batch] PASS steps=" + report.passed +
+                UnityEngine.Debug.Log("[ProjectOEN.Art.Batch] PASS steps=" + report.passed +
                           " failed=" + report.failed +
                           " unity=" + report.unityVersion +
                           " report=" + Path.Combine(projectRoot, ReportFileName));
@@ -101,7 +101,7 @@ namespace ProjectOen.Art.Editor
                 report.status = "FAIL";
                 report.finishedUtc = DateTime.UtcNow.ToString("O");
                 WriteReport(projectRoot, report);
-                Debug.LogError("[ProjectOEN.Art.Batch] FAIL after " + report.passed +
+                UnityEngine.Debug.LogError("[ProjectOEN.Art.Batch] FAIL after " + report.passed +
                                " passed step(s); report=" + Path.Combine(projectRoot, ReportFileName) +
                                "\n" + ex);
                 throw;
@@ -121,7 +121,7 @@ namespace ProjectOen.Art.Editor
             report.steps.Add(result);
 
             var stopwatch = Stopwatch.StartNew();
-            Debug.Log("[ProjectOEN.Art.Batch] START " + name + " -> " + method);
+            UnityEngine.Debug.Log("[ProjectOEN.Art.Batch] START " + name + " -> " + method);
             try
             {
                 action();
@@ -131,7 +131,7 @@ namespace ProjectOen.Art.Editor
                 result.durationMs = stopwatch.ElapsedMilliseconds;
                 result.status = "PASS";
                 report.passed++;
-                Debug.Log("[ProjectOEN.Art.Batch] PASS " + name + " ms=" + result.durationMs);
+                UnityEngine.Debug.Log("[ProjectOEN.Art.Batch] PASS " + name + " ms=" + result.durationMs);
             }
             catch (Exception ex)
             {
@@ -140,7 +140,7 @@ namespace ProjectOen.Art.Editor
                 result.status = "FAIL";
                 result.error = ex.GetType().FullName + ": " + ex.Message;
                 report.failed++;
-                Debug.LogError("[ProjectOEN.Art.Batch] FAIL " + name + " ms=" + result.durationMs + " -> " + result.error);
+                UnityEngine.Debug.LogError("[ProjectOEN.Art.Batch] FAIL " + name + " ms=" + result.durationMs + " -> " + result.error);
                 throw;
             }
         }

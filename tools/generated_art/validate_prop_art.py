@@ -7,7 +7,7 @@ from pathlib import Path
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-MANIFEST=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"/"Docs"/"production_art_manifest.json"
+MANIFEST=ROOT/"Assets"/"ProductionArt"/"Docs"/"production_art_manifest.json"
 
 TARGETS={
  "PR-002":({"loose","carried","placed"},900,{"Rope"}),

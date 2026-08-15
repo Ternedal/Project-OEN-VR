@@ -32,7 +32,7 @@ if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($sourceBranch) -or $sou
 }
 
 $trackedScope = @(
-    "Assets/ProjectOEN/ProductionArt",
+    "Assets/ProductionArt",
     "src/unity/ProjectOen.Art",
     "prototype/m0b-bootstrap/Review-ProductionArt.ps1",
     "prototype/m0b-bootstrap/Verify-ProductionArt.ps1"

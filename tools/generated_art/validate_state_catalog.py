@@ -9,7 +9,7 @@ from pathlib import Path
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
+PROD=ROOT/"Assets"/"ProductionArt"
 MANIFEST=PROD/"Docs"/"production_art_manifest.json"
 RUNTIME=ROOT/"src"/"unity"/"ProjectOen.Art"/"Runtime"
 EDITOR=ROOT/"src"/"unity"/"ProjectOen.Art"/"Editor"/"ProductionArtStateCatalogBuilder.cs"
@@ -74,10 +74,10 @@ def main()->int:
     else:
         builder=EDITOR.read_text(encoding="utf-8")
         required=(
-            'ManifestPath = "Assets/ProjectOEN/ProductionArt/Docs/production_art_manifest.json"',
-            'SpriteRoot = "Assets/ProjectOEN/ProductionArt/StateSets/Sprites"',
-            'WorldRoot = "Assets/ProjectOEN/ProductionArt/StateSets/World"',
-            'CompositeRoot = "Assets/ProjectOEN/ProductionArt/StateSets/Composite"',
+            'ManifestPath = "Assets/ProductionArt/Docs/production_art_manifest.json"',
+            'SpriteRoot = "Assets/ProductionArt/StateSets/Sprites"',
+            'WorldRoot = "Assets/ProductionArt/StateSets/World"',
+            'CompositeRoot = "Assets/ProductionArt/StateSets/Composite"',
             '.Where(e => e.kind == "sprite")','.Where(e => e.kind == "mesh")','.GroupBy(e => e.asset_id)',
             'AssetDatabase.LoadAssetAtPath<Sprite>(entry.path)',
             'MeshToPrefabPath(entry.path)','prefabPath.Length - 4',
@@ -104,7 +104,7 @@ def main()->int:
             'ProductionArtStateCatalogBuilder.cs',
             'ProjectOen.Art.Editor.ProductionArtStateCatalogBuilder.BuildAll',
             log_name,
-            'Assets\\ProjectOEN\\ProductionArt\\StateSets',
+            'Assets\\ProductionArt\\StateSets',
         ):
             if token not in text: errors.append(f"{label} state-catalog integration missing token: {token}")
         world=text.find("ProductionArtPrefabBuilder.BuildAll")

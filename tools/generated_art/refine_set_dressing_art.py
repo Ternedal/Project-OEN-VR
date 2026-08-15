@@ -17,6 +17,8 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter
 
+from guid_identity import stable_production_art_guid_path
+
 from refine_hero_art import (
     Mesh, add_box, add_cylinder, add_torus, add_tarp, add_rope_between,
     add_flame_cross, write_obj,
@@ -25,7 +27,7 @@ from refine_environment_art import add_rock, add_leaf
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
+PROD=ROOT/"Assets"/"ProductionArt"
 MANIFEST=PROD/"Docs"/"production_art_manifest.json"
 DECAL_ROOT=PROD/"Decals"/"environment_set_dressing"
 
@@ -39,7 +41,7 @@ DECAL_IDS={"EN-011","EN-025"}
 
 
 def guid_for(path:Path)->str:
-    rel=str(path.relative_to(ROOT)).replace('\\','/')
+    rel=stable_production_art_guid_path(path, ROOT)
     return hashlib.md5(("ProjectOEN.ProductionArt.Decal.v1:"+rel).encode()).hexdigest()
 
 

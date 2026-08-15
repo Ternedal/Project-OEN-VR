@@ -12,7 +12,7 @@ MENU = EDITOR / "ProductionArtReviewMenu.cs"
 REVIEW = ROOT / "prototype" / "m0b-bootstrap" / "Review-ProductionArt.ps1"
 BOOTSTRAP = ROOT / "prototype" / "m0b-bootstrap" / "Bootstrap-M0b.ps1"
 
-SCENE = "Assets/ProjectOEN/ProductionArt/Scenes/MaterialCalibrationShowcase.unity"
+SCENE = "Assets/ProductionArt/Scenes/MaterialCalibrationShowcase.unity"
 MATERIALS = ("Wood", "Rope", "Tarp", "Metal", "Stone", "Leaf", "Cloth", "Mud", "Fire", "Char", "Water")
 
 
@@ -62,7 +62,7 @@ def main() -> int:
 
     require(builder, (
         SCENE,
-        'private const string MaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials";',
+        'private const string MaterialRoot = "Assets/ProductionArt/UnityMaterials";',
         'private static readonly float[] ColumnWetness = { 0.00f, 0.40f, 0.78f };',
         'GameObject.CreatePrimitive(PrimitiveType.Sphere)',
         'renderer.sharedMaterial = materials[materialIndex];',

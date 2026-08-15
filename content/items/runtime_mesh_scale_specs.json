@@ -1,0 +1,959 @@
+{
+  "schema_version": 1,
+  "unit": "meter",
+  "portable_scale_convention": {
+    "summary": "Physical real-world scale with only a modest readability allowance; never presentation-scale enlargement.",
+    "maximum_readability_oversize_ratio": 1.35,
+    "unity_transform_scale": 1.0
+  },
+  "entries": [
+    {
+      "path": "atlas_expansion/radio__communication/ax-com-001_handheld_radio__active.obj",
+      "scale_class": "two_hand_portable",
+      "target_longest_m": 0.359932,
+      "tolerance_m": 0.003599
+    },
+    {
+      "path": "atlas_expansion/radio__communication/ax-com-001_handheld_radio__off.obj",
+      "scale_class": "two_hand_portable",
+      "target_longest_m": 0.359932,
+      "tolerance_m": 0.003599
+    },
+    {
+      "path": "atlas_expansion/radio__communication/ax-com-002_antenna_mast_kit__deployed.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.686962,
+      "tolerance_m": 0.01687
+    },
+    {
+      "path": "atlas_expansion/radio__communication/ax-com-002_antenna_mast_kit__folded.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.72,
+      "tolerance_m": 0.0072
+    },
+    {
+      "path": "atlas_expansion/radio__communication/ax-com-003_signal_lamp__lit.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.722,
+      "tolerance_m": 0.00722
+    },
+    {
+      "path": "atlas_expansion/radio__communication/ax-com-003_signal_lamp__off.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.722,
+      "tolerance_m": 0.00722
+    },
+    {
+      "path": "atlas_expansion/radio__communication/ax-com-004_cable_coil__coiled.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.596,
+      "tolerance_m": 0.00596
+    },
+    {
+      "path": "atlas_expansion/radio__communication/ax-com-004_cable_coil__loose.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.063812,
+      "tolerance_m": 0.010638
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-craft-001_crafting_workbench__clean.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.48465,
+      "tolerance_m": 0.014847
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-craft-001_crafting_workbench__storm.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.48465,
+      "tolerance_m": 0.014847
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-craft-002_workbench_tool_board__stocked.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.25,
+      "tolerance_m": 0.0125
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-craft-002_workbench_tool_board__used.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.25,
+      "tolerance_m": 0.0125
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-001_survival_axe__clean.obj",
+      "scale_class": "two_hand_tool",
+      "target_longest_m": 0.749711,
+      "tolerance_m": 0.007497
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-001_survival_axe__worn.obj",
+      "scale_class": "two_hand_tool",
+      "target_longest_m": 0.749711,
+      "tolerance_m": 0.007497
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-002_machete__clean.obj",
+      "scale_class": "one_hand_tool",
+      "target_longest_m": 0.650212,
+      "tolerance_m": 0.006502
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-002_machete__worn.obj",
+      "scale_class": "one_hand_tool",
+      "target_longest_m": 0.650212,
+      "tolerance_m": 0.006502
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-003_hand_saw__clean.obj",
+      "scale_class": "one_hand_tool",
+      "target_longest_m": 0.54969,
+      "tolerance_m": 0.005497
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-003_hand_saw__worn.obj",
+      "scale_class": "one_hand_tool",
+      "target_longest_m": 0.54969,
+      "tolerance_m": 0.005497
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-004_shovel__clean.obj",
+      "scale_class": "two_hand_tool",
+      "target_longest_m": 1.149688,
+      "tolerance_m": 0.011497
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-004_shovel__worn.obj",
+      "scale_class": "two_hand_tool",
+      "target_longest_m": 1.149688,
+      "tolerance_m": 0.011497
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-005_binoculars__clean.obj",
+      "scale_class": "two_hand_portable",
+      "target_longest_m": 0.219891,
+      "tolerance_m": 0.002199
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-005_binoculars__worn.obj",
+      "scale_class": "two_hand_portable",
+      "target_longest_m": 0.219891,
+      "tolerance_m": 0.002199
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-006_compass__clean.obj",
+      "scale_class": "one_hand_precision",
+      "target_longest_m": 0.12,
+      "tolerance_m": 0.002
+    },
+    {
+      "path": "atlas_expansion/tools__crafting/ax-tool-006_compass__worn.obj",
+      "scale_class": "one_hand_precision",
+      "target_longest_m": 0.12,
+      "tolerance_m": 0.002
+    },
+    {
+      "path": "construction_states/cs-001_shelter_foundation.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.133228,
+      "tolerance_m": 0.021332
+    },
+    {
+      "path": "construction_states/cs-002_shelter_partial_frame.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.133228,
+      "tolerance_m": 0.021332
+    },
+    {
+      "path": "construction_states/cs-003_shelter_covered_usable.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.491999,
+      "tolerance_m": 0.02492
+    },
+    {
+      "path": "construction_states/cs-004_shelter_damaged.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.491999,
+      "tolerance_m": 0.02492
+    },
+    {
+      "path": "construction_states/cs-005_shelter_repaired_reinforced.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.491999,
+      "tolerance_m": 0.02492
+    },
+    {
+      "path": "construction_states/cs-006_campfire_laid_but_unlit.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.101369,
+      "tolerance_m": 0.011014
+    },
+    {
+      "path": "construction_states/cs-007_campfire_ember.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.127866,
+      "tolerance_m": 0.011279
+    },
+    {
+      "path": "construction_states/cs-008_campfire_small_flame.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.1592,
+      "tolerance_m": 0.011592
+    },
+    {
+      "path": "construction_states/cs-009_campfire_strong_flame.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.727965,
+      "tolerance_m": 0.00728
+    },
+    {
+      "path": "construction_states/cs-010_campfire_nearly_out_wet.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.199056,
+      "tolerance_m": 0.011991
+    },
+    {
+      "path": "construction_states/cs-011_signal_beacon_base.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.458677,
+      "tolerance_m": 0.014587
+    },
+    {
+      "path": "construction_states/cs-012_signal_beacon_partial.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.458677,
+      "tolerance_m": 0.014587
+    },
+    {
+      "path": "construction_states/cs-013_signal_beacon_complete.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 3.071794,
+      "tolerance_m": 0.030718
+    },
+    {
+      "path": "construction_states/cs-014_signal_beacon_lit_active.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 3.211233,
+      "tolerance_m": 0.032112
+    },
+    {
+      "path": "construction_states/cs-015_signal_beacon_storm_damaged.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.36579,
+      "tolerance_m": 0.023658
+    },
+    {
+      "path": "construction_states/cs-016_radio_repair_station__broken.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.191866,
+      "tolerance_m": 0.011919
+    },
+    {
+      "path": "construction_states/cs-016_radio_repair_station__mid_repair.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.191866,
+      "tolerance_m": 0.011919
+    },
+    {
+      "path": "construction_states/cs-016_radio_repair_station__repaired.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.229042,
+      "tolerance_m": 0.01229
+    },
+    {
+      "path": "environment_set_dressing/en-001_shipwreck_hull_chunk__large.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 4.182082,
+      "tolerance_m": 0.041821
+    },
+    {
+      "path": "environment_set_dressing/en-001_shipwreck_hull_chunk__medium.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 3.42967,
+      "tolerance_m": 0.034297
+    },
+    {
+      "path": "environment_set_dressing/en-002_broken_plank_pile__large.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.059,
+      "tolerance_m": 0.02059
+    },
+    {
+      "path": "environment_set_dressing/en-002_broken_plank_pile__medium.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.059,
+      "tolerance_m": 0.02059
+    },
+    {
+      "path": "environment_set_dressing/en-002_broken_plank_pile__small.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.888557,
+      "tolerance_m": 0.018886
+    },
+    {
+      "path": "environment_set_dressing/en-003_barrel_container_wreckage__broken.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.387894,
+      "tolerance_m": 0.013879
+    },
+    {
+      "path": "environment_set_dressing/en-003_barrel_container_wreckage__closed.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.384818,
+      "tolerance_m": 0.013848
+    },
+    {
+      "path": "environment_set_dressing/en-004_rope_debris_set__medium.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.010707,
+      "tolerance_m": 0.010107
+    },
+    {
+      "path": "environment_set_dressing/en-004_rope_debris_set__small.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.768765,
+      "tolerance_m": 0.007688
+    },
+    {
+      "path": "environment_set_dressing/en-005_beach_stone_cluster__large.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.663265,
+      "tolerance_m": 0.016633
+    },
+    {
+      "path": "environment_set_dressing/en-005_beach_stone_cluster__medium.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.483495,
+      "tolerance_m": 0.014835
+    },
+    {
+      "path": "environment_set_dressing/en-005_beach_stone_cluster__small.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.390297,
+      "tolerance_m": 0.013903
+    },
+    {
+      "path": "environment_set_dressing/en-006_driftwood_cluster__large.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.919025,
+      "tolerance_m": 0.01919
+    },
+    {
+      "path": "environment_set_dressing/en-006_driftwood_cluster__medium.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.440301,
+      "tolerance_m": 0.014403
+    },
+    {
+      "path": "environment_set_dressing/en-006_driftwood_cluster__small.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.319541,
+      "tolerance_m": 0.013195
+    },
+    {
+      "path": "environment_set_dressing/en-007_palm_tree_variant_set__broken.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 3.350507,
+      "tolerance_m": 0.033505
+    },
+    {
+      "path": "environment_set_dressing/en-007_palm_tree_variant_set__mature.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 4.500154,
+      "tolerance_m": 0.045002
+    },
+    {
+      "path": "environment_set_dressing/en-007_palm_tree_variant_set__young.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 3.200737,
+      "tolerance_m": 0.032007
+    },
+    {
+      "path": "environment_set_dressing/en-008_palm_frond_ground_clutter__medium.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.652082,
+      "tolerance_m": 0.016521
+    },
+    {
+      "path": "environment_set_dressing/en-008_palm_frond_ground_clutter__small.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.355583,
+      "tolerance_m": 0.013556
+    },
+    {
+      "path": "environment_set_dressing/en-009_broadleaf_bush_set__dense.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.026359,
+      "tolerance_m": 0.020264
+    },
+    {
+      "path": "environment_set_dressing/en-009_broadleaf_bush_set__medium.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.575014,
+      "tolerance_m": 0.01575
+    },
+    {
+      "path": "environment_set_dressing/en-009_broadleaf_bush_set__small.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.144742,
+      "tolerance_m": 0.011447
+    },
+    {
+      "path": "environment_set_dressing/en-010_vine_cluster_set__dense.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.581158,
+      "tolerance_m": 0.015812
+    },
+    {
+      "path": "environment_set_dressing/en-010_vine_cluster_set__hanging.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.213475,
+      "tolerance_m": 0.012135
+    },
+    {
+      "path": "environment_set_dressing/en-010_vine_cluster_set__short.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.894292,
+      "tolerance_m": 0.008943
+    },
+    {
+      "path": "environment_set_dressing/en-011_wet_mud_puddle_decal_set__large.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.15,
+      "tolerance_m": 0.0115
+    },
+    {
+      "path": "environment_set_dressing/en-011_wet_mud_puddle_decal_set__medium.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.943,
+      "tolerance_m": 0.00943
+    },
+    {
+      "path": "environment_set_dressing/en-011_wet_mud_puddle_decal_set__small.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.69,
+      "tolerance_m": 0.0069
+    },
+    {
+      "path": "environment_set_dressing/en-012_rock_wall_module__corner.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 3.473836,
+      "tolerance_m": 0.034738
+    },
+    {
+      "path": "environment_set_dressing/en-012_rock_wall_module__ledge.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 3.598543,
+      "tolerance_m": 0.035985
+    },
+    {
+      "path": "environment_set_dressing/en-012_rock_wall_module__straight.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 4.040171,
+      "tolerance_m": 0.040402
+    },
+    {
+      "path": "environment_set_dressing/en-013_cliff_edge_grass_set__dense.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.18064,
+      "tolerance_m": 0.011806
+    },
+    {
+      "path": "environment_set_dressing/en-013_cliff_edge_grass_set__short.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.80904,
+      "tolerance_m": 0.00809
+    },
+    {
+      "path": "environment_set_dressing/en-014_cave_wall_module__arch.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 3.856314,
+      "tolerance_m": 0.038563
+    },
+    {
+      "path": "environment_set_dressing/en-014_cave_wall_module__corner.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 3.349025,
+      "tolerance_m": 0.03349
+    },
+    {
+      "path": "environment_set_dressing/en-014_cave_wall_module__straight.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 3.856314,
+      "tolerance_m": 0.038563
+    },
+    {
+      "path": "environment_set_dressing/en-015_cave_floor_debris_set__branches.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.163972,
+      "tolerance_m": 0.01164
+    },
+    {
+      "path": "environment_set_dressing/en-015_cave_floor_debris_set__stones.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.150477,
+      "tolerance_m": 0.011505
+    },
+    {
+      "path": "environment_set_dressing/en-016_camp_mat_groundsheet__clean.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.780174,
+      "tolerance_m": 0.017802
+    },
+    {
+      "path": "environment_set_dressing/en-016_camp_mat_groundsheet__wet.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.780174,
+      "tolerance_m": 0.017802
+    },
+    {
+      "path": "environment_set_dressing/en-016_camp_mat_groundsheet__worn.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.780174,
+      "tolerance_m": 0.017802
+    },
+    {
+      "path": "environment_set_dressing/en-017_cooking_corner_set__crate.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.430804,
+      "tolerance_m": 0.014308
+    },
+    {
+      "path": "environment_set_dressing/en-017_cooking_corner_set__pot.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.408156,
+      "tolerance_m": 0.014082
+    },
+    {
+      "path": "environment_set_dressing/en-017_cooking_corner_set__utensils.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.408156,
+      "tolerance_m": 0.014082
+    },
+    {
+      "path": "environment_set_dressing/en-018_storage_corner_set__crate.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.957366,
+      "tolerance_m": 0.009574
+    },
+    {
+      "path": "environment_set_dressing/en-018_storage_corner_set__poles.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.614189,
+      "tolerance_m": 0.016142
+    },
+    {
+      "path": "environment_set_dressing/en-018_storage_corner_set__sack.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.545416,
+      "tolerance_m": 0.005454
+    },
+    {
+      "path": "environment_set_dressing/en-019_signal_hill_dressing_set__logs.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.455444,
+      "tolerance_m": 0.014554
+    },
+    {
+      "path": "environment_set_dressing/en-019_signal_hill_dressing_set__ropes.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.12857,
+      "tolerance_m": 0.011286
+    },
+    {
+      "path": "environment_set_dressing/en-019_signal_hill_dressing_set__stones.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.356688,
+      "tolerance_m": 0.013567
+    },
+    {
+      "path": "environment_set_dressing/en-020_rain_catcher_placement_set__basin.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.65,
+      "tolerance_m": 0.0065
+    },
+    {
+      "path": "environment_set_dressing/en-020_rain_catcher_placement_set__cloth.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.135,
+      "tolerance_m": 0.01135
+    },
+    {
+      "path": "environment_set_dressing/en-020_rain_catcher_placement_set__frame.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.46,
+      "tolerance_m": 0.0146
+    },
+    {
+      "path": "environment_set_dressing/en-021_torch_stand__lit.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.7,
+      "tolerance_m": 0.017
+    },
+    {
+      "path": "environment_set_dressing/en-021_torch_stand__unlit.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.467437,
+      "tolerance_m": 0.014674
+    },
+    {
+      "path": "environment_set_dressing/en-022_path_marker_stakes__cloth_marked.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.101821,
+      "tolerance_m": 0.011018
+    },
+    {
+      "path": "environment_set_dressing/en-022_path_marker_stakes__plain.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.101821,
+      "tolerance_m": 0.011018
+    },
+    {
+      "path": "environment_set_dressing/en-023_storm_damage_debris_set__broken_shelter_parts.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.507345,
+      "tolerance_m": 0.015073
+    },
+    {
+      "path": "environment_set_dressing/en-023_storm_damage_debris_set__loose_cloth.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.47829,
+      "tolerance_m": 0.014783
+    },
+    {
+      "path": "environment_set_dressing/en-024_camp_boundary_rope_set__slack.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.057748,
+      "tolerance_m": 0.020577
+    },
+    {
+      "path": "environment_set_dressing/en-024_camp_boundary_rope_set__taut.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.05565,
+      "tolerance_m": 0.020557
+    },
+    {
+      "path": "environment_set_dressing/en-025_water_shoreline_foam_decal__calm.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.55,
+      "tolerance_m": 0.0155
+    },
+    {
+      "path": "environment_set_dressing/en-025_water_shoreline_foam_decal__storm.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.7825,
+      "tolerance_m": 0.017825
+    },
+    {
+      "path": "props_tools/pr-001_tarp_presenning__damaged.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.798958,
+      "tolerance_m": 0.02799
+    },
+    {
+      "path": "props_tools/pr-001_tarp_presenning__folded.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.980848,
+      "tolerance_m": 0.009808
+    },
+    {
+      "path": "props_tools/pr-001_tarp_presenning__placed.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.798958,
+      "tolerance_m": 0.02799
+    },
+    {
+      "path": "props_tools/pr-001_tarp_presenning__wet.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 2.798958,
+      "tolerance_m": 0.02799
+    },
+    {
+      "path": "props_tools/pr-002_rope_coil__carried.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.712048,
+      "tolerance_m": 0.00712
+    },
+    {
+      "path": "props_tools/pr-002_rope_coil__loose.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.74948,
+      "tolerance_m": 0.007495
+    },
+    {
+      "path": "props_tools/pr-002_rope_coil__placed.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.966546,
+      "tolerance_m": 0.009665
+    },
+    {
+      "path": "props_tools/pr-003_wood_poles_bundle__bundle.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.866834,
+      "tolerance_m": 0.018668
+    },
+    {
+      "path": "props_tools/pr-003_wood_poles_bundle__damaged.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.866834,
+      "tolerance_m": 0.018668
+    },
+    {
+      "path": "props_tools/pr-003_wood_poles_bundle__placed.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.866834,
+      "tolerance_m": 0.018668
+    },
+    {
+      "path": "props_tools/pr-004_supply_crate__broken.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.417576,
+      "tolerance_m": 0.014176
+    },
+    {
+      "path": "props_tools/pr-004_supply_crate__closed.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.417576,
+      "tolerance_m": 0.014176
+    },
+    {
+      "path": "props_tools/pr-004_supply_crate__open.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.417576,
+      "tolerance_m": 0.014176
+    },
+    {
+      "path": "props_tools/pr-005_portable_radio__active.obj",
+      "scale_class": "two_hand_portable",
+      "target_longest_m": 0.401866,
+      "tolerance_m": 0.004019
+    },
+    {
+      "path": "props_tools/pr-005_portable_radio__broken.obj",
+      "scale_class": "two_hand_portable",
+      "target_longest_m": 0.311309,
+      "tolerance_m": 0.003113
+    },
+    {
+      "path": "props_tools/pr-005_portable_radio__off.obj",
+      "scale_class": "two_hand_portable",
+      "target_longest_m": 0.401866,
+      "tolerance_m": 0.004019
+    },
+    {
+      "path": "props_tools/pr-005_portable_radio__repaired.obj",
+      "scale_class": "two_hand_portable",
+      "target_longest_m": 0.419876,
+      "tolerance_m": 0.004199
+    },
+    {
+      "path": "props_tools/pr-006_first_aid_kit__closed.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.665,
+      "tolerance_m": 0.00665
+    },
+    {
+      "path": "props_tools/pr-006_first_aid_kit__open.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.665,
+      "tolerance_m": 0.00665
+    },
+    {
+      "path": "props_tools/pr-007_metal_canteen__empty.obj",
+      "scale_class": "one_hand_portable",
+      "target_longest_m": 0.309996,
+      "tolerance_m": 0.0031
+    },
+    {
+      "path": "props_tools/pr-007_metal_canteen__full.obj",
+      "scale_class": "one_hand_portable",
+      "target_longest_m": 0.309996,
+      "tolerance_m": 0.0031
+    },
+    {
+      "path": "props_tools/pr-008_oil_lantern__lit.obj",
+      "scale_class": "one_hand_portable",
+      "target_longest_m": 0.380047,
+      "tolerance_m": 0.0038
+    },
+    {
+      "path": "props_tools/pr-008_oil_lantern__off.obj",
+      "scale_class": "one_hand_portable",
+      "target_longest_m": 0.380047,
+      "tolerance_m": 0.0038
+    },
+    {
+      "path": "props_tools/pr-009_torch__dying.obj",
+      "scale_class": "one_hand_tool",
+      "target_longest_m": 0.691353,
+      "tolerance_m": 0.006914
+    },
+    {
+      "path": "props_tools/pr-009_torch__lit.obj",
+      "scale_class": "one_hand_tool",
+      "target_longest_m": 0.779988,
+      "tolerance_m": 0.0078
+    },
+    {
+      "path": "props_tools/pr-009_torch__unlit.obj",
+      "scale_class": "one_hand_tool",
+      "target_longest_m": 0.634563,
+      "tolerance_m": 0.006346
+    },
+    {
+      "path": "props_tools/pr-010_stone_pile__large.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.145504,
+      "tolerance_m": 0.011455
+    },
+    {
+      "path": "props_tools/pr-010_stone_pile__medium.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.994321,
+      "tolerance_m": 0.009943
+    },
+    {
+      "path": "props_tools/pr-010_stone_pile__small.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.906943,
+      "tolerance_m": 0.009069
+    },
+    {
+      "path": "props_tools/pr-011_palm_leaf_pile__medium.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.601979,
+      "tolerance_m": 0.01602
+    },
+    {
+      "path": "props_tools/pr-011_palm_leaf_pile__small.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.425131,
+      "tolerance_m": 0.014251
+    },
+    {
+      "path": "props_tools/pr-012_scrap_metal_bundle__medium.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.038029,
+      "tolerance_m": 0.01038
+    },
+    {
+      "path": "props_tools/pr-012_scrap_metal_bundle__small.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.95425,
+      "tolerance_m": 0.009543
+    },
+    {
+      "path": "props_tools/pr-013_cloth_bundle__medium.obj",
+      "scale_class": "one_hand_portable",
+      "target_longest_m": 0.450264,
+      "tolerance_m": 0.004503
+    },
+    {
+      "path": "props_tools/pr-013_cloth_bundle__small.obj",
+      "scale_class": "one_hand_portable",
+      "target_longest_m": 0.450264,
+      "tolerance_m": 0.004503
+    },
+    {
+      "path": "props_tools/pr-014_signal_flag_cloth_strip__clean.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.12,
+      "tolerance_m": 0.0112
+    },
+    {
+      "path": "props_tools/pr-014_signal_flag_cloth_strip__storm_damaged.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.29315,
+      "tolerance_m": 0.012932
+    },
+    {
+      "path": "props_tools/pr-014_signal_flag_cloth_strip__worn.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.12,
+      "tolerance_m": 0.0112
+    },
+    {
+      "path": "props_tools/pr-015_cook_pot__cooking.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.778538,
+      "tolerance_m": 0.007785
+    },
+    {
+      "path": "props_tools/pr-015_cook_pot__empty.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.778538,
+      "tolerance_m": 0.007785
+    },
+    {
+      "path": "props_tools/pr-016_water_collector__collecting.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.609492,
+      "tolerance_m": 0.016095
+    },
+    {
+      "path": "props_tools/pr-016_water_collector__empty.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.609492,
+      "tolerance_m": 0.016095
+    },
+    {
+      "path": "props_tools/pr-016_water_collector__full.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.609492,
+      "tolerance_m": 0.016095
+    },
+    {
+      "path": "props_tools/pr-017_tool_hammer_mallet__clean.obj",
+      "scale_class": "one_hand_tool",
+      "target_longest_m": 0.449984,
+      "tolerance_m": 0.0045
+    },
+    {
+      "path": "props_tools/pr-017_tool_hammer_mallet__worn.obj",
+      "scale_class": "one_hand_tool",
+      "target_longest_m": 0.449984,
+      "tolerance_m": 0.0045
+    },
+    {
+      "path": "props_tools/pr-018_knife_cutting_tool__clean.obj",
+      "scale_class": "one_hand_precision",
+      "target_longest_m": 0.340019,
+      "tolerance_m": 0.0034
+    },
+    {
+      "path": "props_tools/pr-018_knife_cutting_tool__worn.obj",
+      "scale_class": "one_hand_precision",
+      "target_longest_m": 0.340019,
+      "tolerance_m": 0.0034
+    },
+    {
+      "path": "props_tools/pr-019_anchor_point_peg__active.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.763393,
+      "tolerance_m": 0.007634
+    },
+    {
+      "path": "props_tools/pr-019_anchor_point_peg__inactive.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 0.76,
+      "tolerance_m": 0.0076
+    },
+    {
+      "path": "props_tools/pr-020_shared_carry_heavy_box__carried.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.717576,
+      "tolerance_m": 0.017176
+    },
+    {
+      "path": "props_tools/pr-020_shared_carry_heavy_box__idle.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.717576,
+      "tolerance_m": 0.017176
+    },
+    {
+      "path": "props_tools/pr-020_shared_carry_heavy_box__placed.obj",
+      "scale_class": "authored_world_scale",
+      "target_longest_m": 1.717576,
+      "tolerance_m": 0.017176
+    }
+  ]
+}

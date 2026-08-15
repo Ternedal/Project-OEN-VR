@@ -9,7 +9,7 @@ namespace ProjectOen.Art.Editor
 {
     /// <summary>
     /// Converts generated Project ØEN production-art OBJ models into reusable Unity prefabs.
-    /// Source meshes remain untouched under Assets/ProjectOEN/ProductionArt/Meshes.
+    /// Source meshes remain untouched under Assets/ProductionArt/Meshes.
     ///
     /// Design goals:
     /// - deterministic output paths;
@@ -20,10 +20,10 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtPrefabBuilder
     {
-        private const string MeshRoot = "Assets/ProjectOEN/ProductionArt/Meshes";
-        private const string TextureRoot = "Assets/ProjectOEN/ProductionArt/Materials/Textures";
-        private const string MaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials";
-        private const string PrefabRoot = "Assets/ProjectOEN/ProductionArt/Prefabs";
+        private const string MeshRoot = "Assets/ProductionArt/Meshes";
+        private const string TextureRoot = "Assets/ProductionArt/Materials/Textures";
+        private const string MaterialRoot = "Assets/ProductionArt/UnityMaterials";
+        private const string PrefabRoot = "Assets/ProductionArt/Prefabs";
 
         private static readonly string[] ProductionMaterialNames =
         {

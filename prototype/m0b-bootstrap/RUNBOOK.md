@@ -21,7 +21,7 @@ Den opretter `ProjektOenApp` ved siden af repoet, skriver pakke-manifestet, kopi
 **hele Core-laget** ind som `Assets/ProjectOen/Core` med asmdef og konfigurerer OpenXR +
 Meta Quest + Oculus Touch via `M0bConfigure.cs`.
 
-Production-art-passet installerer `Assets/ProjectOEN/ProductionArt`, bygger OBJ-filer til
+Production-art-passet installerer `Assets/ProductionArt`, bygger OBJ-filer til
 Unity-prefabs med de raffinerede materialer, genererer `StormnattenArtShowcase.unity`,
 tilføjer den begrænsede lokale stormregn og kører Unity-side Quest 2-budgetaudit.
 

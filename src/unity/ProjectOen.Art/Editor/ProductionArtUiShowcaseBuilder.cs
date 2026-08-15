@@ -12,8 +12,8 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtUiShowcaseBuilder
     {
-        private const string UiPrefabRoot = "Assets/ProjectOEN/ProductionArt/UiPrefabs";
-        private const string SceneRoot = "Assets/ProjectOEN/ProductionArt/Scenes";
+        private const string UiPrefabRoot = "Assets/ProductionArt/UiPrefabs";
+        private const string SceneRoot = "Assets/ProductionArt/Scenes";
         private const string ScenePath = SceneRoot + "/DiegeticUiArtShowcase.unity";
 
         [MenuItem("Project OEN/Art/Build Diegetic UI Showcase")]

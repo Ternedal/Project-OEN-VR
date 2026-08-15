@@ -21,7 +21,7 @@ from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter, ImageFo
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
+PROD=ROOT/"Assets"/"ProductionArt"
 REF=ROOT/"art_payloads"/"mockup_reference"
 MANIFEST=PROD/"Docs"/"mockup_atlas_expansion_manifest.json"
 REPORT=PROD/"Docs"/"mockup_atlas_raster_v2.json"

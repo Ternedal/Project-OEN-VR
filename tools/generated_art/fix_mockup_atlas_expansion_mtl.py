@@ -13,7 +13,7 @@ from pathlib import Path
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
+PROD=ROOT/"Assets"/"ProductionArt"
 MESH_ROOT=PROD/"Meshes"/"atlas_expansion"
 MTL=PROD/"Materials"/"project_oen.mtl"
 

@@ -12,7 +12,7 @@ from refine_prop_art import build as build_prop
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PROD = ROOT / "Assets" / "ProjectOEN" / "ProductionArt"
+PROD = ROOT / "Assets" / "ProductionArt"
 MANIFEST = PROD / "Docs" / "production_art_manifest.json"
 
 TARGET_IDS = {"PR-004", "PR-005", "PR-017", "PR-018", "PR-019", "PR-020"}

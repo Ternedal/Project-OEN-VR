@@ -17,8 +17,8 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtMaterialCalibrationAudit
     {
-        private const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/MaterialCalibrationShowcase.unity";
-        private const string MaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials";
+        private const string ScenePath = "Assets/ProductionArt/Scenes/MaterialCalibrationShowcase.unity";
+        private const string MaterialRoot = "Assets/ProductionArt/UnityMaterials";
         private const int ExpectedSampleCount = 33;
         private const int ExpectedWettableCountPerColumn = 9;
 

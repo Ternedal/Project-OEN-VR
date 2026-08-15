@@ -16,7 +16,7 @@ from refine_mockup_atlas_expansion_raster_v2 import main as rebuild_raster_v2
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-MANIFEST=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"/"Docs"/"mockup_atlas_expansion_manifest.json"
+MANIFEST=ROOT/"Assets"/"ProductionArt"/"Docs"/"mockup_atlas_expansion_manifest.json"
 
 
 def main()->int:

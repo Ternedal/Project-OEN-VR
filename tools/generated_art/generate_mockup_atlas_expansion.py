@@ -28,6 +28,8 @@ import random
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+from guid_identity import stable_production_art_guid_path
+
 from refine_mockup_fidelity import (
     Mesh, add_box, add_cylinder_between, add_stick, add_torus,
     add_irregular_rock, write_obj,
@@ -35,7 +37,7 @@ from refine_mockup_fidelity import (
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
+PROD=ROOT/"Assets"/"ProductionArt"
 SPR=PROD/"Sprites"/"atlas_expansion"
 MESH=PROD/"Meshes"/"atlas_expansion"
 DOCS=PROD/"Docs"
@@ -50,7 +52,7 @@ METAL=(103,112,109,255); WATER=(42,116,145,255); SAND=(154,132,91,255)
 
 
 def slug(s): return ''.join(ch.lower() if ch.isalnum() else '_' for ch in s).strip('_').replace('__','_')
-def guid(path:Path): return hashlib.md5(("ProjectOEN.AtlasExpansion.v1:"+str(path.relative_to(ROOT)).replace('\\','/')).encode()).hexdigest()
+def guid(path:Path): return hashlib.md5(("ProjectOEN.AtlasExpansion.v1:"+stable_production_art_guid_path(path, ROOT)).encode()).hexdigest()
 
 def font(size,bold=False):
     for p in (("/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf"),

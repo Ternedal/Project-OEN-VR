@@ -38,9 +38,11 @@ function Invoke-UnityBatch([string[]]$Arguments) {
     })
     $process = Start-Process -FilePath $UnityPath `
         -ArgumentList $quotedArguments `
-        -Wait `
         -PassThru `
         -WindowStyle Hidden
+    # Start-Process -Wait can also wait on Unity's surviving helper descendants.
+    # WaitForExit tracks only the batch Editor process whose exit code owns this step.
+    $process.WaitForExit()
     return [int]$process.ExitCode
 }
 
@@ -74,11 +76,10 @@ Copy-Item "$PSScriptRoot\templates\ProjectOen.Core.asmdef" (Join-Path $coreDst "
 Note "Core -> Assets\ProjectOen\Core"
 
 Step "Installerer Project OEN production art"
-$artSrc = Join-Path $repo "Assets\ProjectOEN\ProductionArt"
+$artSrc = Join-Path $repo "Assets\ProductionArt"
 if (-not (Test-Path $artSrc)) { throw "Production art mangler i repoet: $artSrc. Koer generated-art workflowet foerst." }
-$artDst = Join-Path $ProjectPath "Assets\ProjectOEN\ProductionArt"
-$artRuntimeDst = Join-Path $ProjectPath "Assets\ProjectOEN\ArtRuntime"
-$artEditorDst = Join-Path $ProjectPath "Assets\ProjectOEN\Editor"
+$artDst = Join-Path $ProjectPath "Assets\ProductionArt"
+$artCodeDst = Join-Path $ProjectPath "Assets\ProjectOen\Unity\ProjectOen.Art"
 New-Item -ItemType Directory -Force -Path $artDst | Out-Null
 foreach ($folder in @("Sprites", "Meshes", "Materials", "Decals", "Docs")) {
     $srcFolder = Join-Path $artSrc $folder
@@ -87,40 +88,51 @@ foreach ($folder in @("Sprites", "Meshes", "Materials", "Decals", "Docs")) {
     Copy-Item $srcFolder $dstFolder -Recurse -Force
 }
 
-Step "Installerer production-art runtime state controllers"
-New-Item -ItemType Directory -Force -Path $artRuntimeDst | Out-Null
-Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Runtime\*.cs") $artRuntimeDst -Force
-
-New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
-foreach ($builder in @(
-    "ProductionArtPrefabBuilder.cs",
-    "ProductionArtStateAppearanceBuilder.cs",
-    "ProductionArtStateAppearanceAudit.cs",
-    "ProductionArtMaterialCalibrationBuilder.cs",
-    "ProductionArtMaterialCalibrationAudit.cs",
-    "ProductionArtStateCatalogBuilder.cs",
-    "ProductionArtStateTransitionShowcaseBuilder.cs",
-    "ProductionArtStateTransitionShowcaseAudit.cs",
-    "ProductionArtHeroReadabilityShowcaseBuilder.cs",
-    "ProductionArtHeroReadabilityShowcaseAudit.cs",
+Step "Installerer production-art assemblies"
+$artRuntimeSource = Join-Path $repo "src\unity\ProjectOen.Art\Runtime\*.cs"
+$requiredArtEditorSources = @(
+    "ProductionArtBatchVerification.cs",
     "ProductionArtDecalBuilder.cs",
-    "ProductionArtVfxBuilder.cs",
-    "ProductionArtVfxShowcaseBuilder.cs",
-    "ProductionArtVfxShowcaseAudit.cs",
     "ProductionArtDiegeticUiBuilder.cs",
-    "ProductionArtUiShowcaseBuilder.cs",
-    "ProductionArtUiShowcaseAudit.cs",
+    "ProductionArtHeroReadabilityShowcaseAudit.cs",
+    "ProductionArtHeroReadabilityShowcaseBuilder.cs",
+    "ProductionArtMaterialCalibrationAudit.cs",
+    "ProductionArtMaterialCalibrationBuilder.cs",
+    "ProductionArtModelImporter.cs",
+    "ProductionArtPrefabBuilder.cs",
+    "ProductionArtReviewMenu.cs",
+    "ProductionArtShowcaseAudit.cs",
     "ProductionArtShowcaseBuilder.cs",
-    "ProductionArtStormCampStoryBuilder.cs",
     "ProductionArtSignalFinaleStoryBuilder.cs",
+    "ProductionArtStateAppearanceAudit.cs",
+    "ProductionArtStateAppearanceBuilder.cs",
+    "ProductionArtStateBindingBuilder.cs",
+    "ProductionArtStateCatalogAudit.cs",
+    "ProductionArtStateCatalogBuilder.cs",
+    "ProductionArtStateTransitionShowcaseAudit.cs",
+    "ProductionArtStateTransitionShowcaseBuilder.cs",
     "ProductionArtStormAtmosphereBuilder.cs",
+    "ProductionArtStormCampStoryBuilder.cs",
     "ProductionArtStormFxBuilder.cs",
-    "ProductionArtWindResponseBuilder.cs",
-    "ProductionArtShowcaseAudit.cs"
-)) {
-    Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
+    "ProductionArtUiShowcaseAudit.cs",
+    "ProductionArtUiShowcaseBuilder.cs",
+    "ProductionArtVfxBuilder.cs",
+    "ProductionArtVfxShowcaseAudit.cs",
+    "ProductionArtVfxShowcaseBuilder.cs",
+    "ProductionArtWindResponseBuilder.cs"
+)
+if ((Get-ChildItem $artRuntimeSource -ErrorAction SilentlyContinue).Count -eq 0) {
+    throw "ProjectOen.Art runtime-kilder mangler."
 }
-Note "ProductionArt + runtime state controllers + state appearance + camp/finale stories + state-transition/hero/material/world/state/decal/VFX/UI/showcase builders -> ProjektOenApp"
+foreach ($sourceName in $requiredArtEditorSources) {
+    if (-not (Test-Path (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$sourceName"))) {
+        throw "ProjectOen.Art editor-kilde mangler: $sourceName"
+    }
+}
+if (Test-Path $artCodeDst) { Remove-Item $artCodeDst -Recurse -Force }
+New-Item -ItemType Directory -Force -Path $artCodeDst | Out-Null
+Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\*") $artCodeDst -Recurse -Force
+Note "ProjectOen.Art runtime/editor assemblies + import contract -> Assets\ProjectOen\Unity\ProjectOen.Art"
 
 Step "Kopierer XR-config editor"
 $editorDst = Join-Path $ProjectPath "Assets\Editor"
@@ -258,12 +270,12 @@ Write-Host "World meshes/prefabs, canonical damaged/wet state appearance, dry/mi
 Write-Host "State-transition auditten kalder runtime SetState gennem shelter, campfire, beacon, tarp, groundsheet og signal cloth og validerer de forventede appearance-profiler." -ForegroundColor Green
 Write-Host "Hero-readability auditten maaler canonical hand props, heavy/co-op props og world anchors i meter-space uden root scaling." -ForegroundColor Green
 Write-Host "Stormnatten review har state-specifik damage/wetness, camp + signal-finale consequence stories, regn, vaade overflader, vindblaest debris, campsplash, animeret fjernt lyn og renderer-culled vindrespons paa dug/reb/vegetation." -ForegroundColor Green
-Write-Host "State catalogs: Assets\ProjectOEN\ProductionArt\StateSets" -ForegroundColor Green
-Write-Host "State transition audit: Assets\ProjectOEN\ProductionArt\Scenes\StateTransitionShowcase.unity" -ForegroundColor Green
-Write-Host "Hero readability audit: Assets\ProjectOEN\ProductionArt\Scenes\HeroReadabilityShowcase.unity" -ForegroundColor Green
-Write-Host "Material audit: Assets\ProjectOEN\ProductionArt\Scenes\MaterialCalibrationShowcase.unity" -ForegroundColor Green
-Write-Host "VFX audit: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
-Write-Host "UI audit: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
-Write-Host "Stormnatten art audit: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
+Write-Host "State catalogs: Assets\ProductionArt\StateSets" -ForegroundColor Green
+Write-Host "State transition audit: Assets\ProductionArt\Scenes\StateTransitionShowcase.unity" -ForegroundColor Green
+Write-Host "Hero readability audit: Assets\ProductionArt\Scenes\HeroReadabilityShowcase.unity" -ForegroundColor Green
+Write-Host "Material audit: Assets\ProductionArt\Scenes\MaterialCalibrationShowcase.unity" -ForegroundColor Green
+Write-Host "VFX audit: Assets\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
+Write-Host "UI audit: Assets\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
+Write-Host "Stormnatten art audit: Assets\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
 Write-Host "VFX, diegetic UI, materialekalibrering, state-transition, hero-readability og Stormnatten er seks visual-reviewscener; ingen af dem er M0b's 72 Hz CoopGame-gate." -ForegroundColor Green
 Write-Host "Naeste: importer Photon Fusion 2 (App ID), koer saa Fase 2 i RUNBOOK.md." -ForegroundColor Green

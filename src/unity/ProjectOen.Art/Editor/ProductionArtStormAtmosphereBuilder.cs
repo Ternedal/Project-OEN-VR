@@ -15,8 +15,8 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtStormAtmosphereBuilder
     {
-        private const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StormnattenArtShowcase.unity";
-        private const string MaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials";
+        private const string ScenePath = "Assets/ProductionArt/Scenes/StormnattenArtShowcase.unity";
+        private const string MaterialRoot = "Assets/ProductionArt/UnityMaterials";
         private const string RainMaterialPath = MaterialRoot + "/storm_rain.mat";
         private const string RainObjectName = "Storm Rain Volume";
         private const string WetnessObjectName = "Storm Surface Wetness";

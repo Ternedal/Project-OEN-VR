@@ -20,8 +20,8 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtWindResponseBuilder
     {
-        private const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StormnattenArtShowcase.unity";
-        private const string AnimationRoot = "Assets/ProjectOEN/ProductionArt/Animations";
+        private const string ScenePath = "Assets/ProductionArt/Scenes/StormnattenArtShowcase.unity";
+        private const string AnimationRoot = "Assets/ProductionArt/Animations";
         private const string WindAnimationRoot = AnimationRoot + "/StormWind";
         private const int SamplesPerClip = 12;
 

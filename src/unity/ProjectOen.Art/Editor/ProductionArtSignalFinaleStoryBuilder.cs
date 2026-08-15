@@ -23,12 +23,12 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtSignalFinaleStoryBuilder
     {
-        public const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StormnattenArtShowcase.unity";
+        public const string ScenePath = "Assets/ProductionArt/Scenes/StormnattenArtShowcase.unity";
         public const string StoryRootName = "Signal Finale Micro Story";
         public const int ExpectedStoryObjectCount = 8;
 
-        private const string PrefabRoot = "Assets/ProjectOEN/ProductionArt/Prefabs";
-        private const string ProductionMaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials/";
+        private const string PrefabRoot = "Assets/ProductionArt/Prefabs";
+        private const string ProductionMaterialRoot = "Assets/ProductionArt/UnityMaterials/";
         private const int TriangleHardLimit = 50000;
         private const int MaterialSlotHardLimit = 32;
         private const float MaxStoryRadius = 2.45f;

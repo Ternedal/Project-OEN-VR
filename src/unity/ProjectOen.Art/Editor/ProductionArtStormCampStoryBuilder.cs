@@ -25,12 +25,12 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtStormCampStoryBuilder
     {
-        public const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/StormnattenArtShowcase.unity";
+        public const string ScenePath = "Assets/ProductionArt/Scenes/StormnattenArtShowcase.unity";
         public const string StoryRootName = "Storm Camp Micro Story";
         public const int ExpectedStoryObjectCount = 9;
 
-        private const string PrefabRoot = "Assets/ProjectOEN/ProductionArt/Prefabs";
-        private const string ProductionMaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials/";
+        private const string PrefabRoot = "Assets/ProductionArt/Prefabs";
+        private const string ProductionMaterialRoot = "Assets/ProductionArt/UnityMaterials/";
         private const int TriangleHardLimit = 60000;
         private const int MaterialSlotHardLimit = 36;
 

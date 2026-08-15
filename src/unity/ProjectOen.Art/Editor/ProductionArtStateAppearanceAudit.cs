@@ -13,7 +13,7 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtStateAppearanceAudit
     {
-        private const string PrefabRoot = "Assets/ProjectOEN/ProductionArt/Prefabs";
+        private const string PrefabRoot = "Assets/ProductionArt/Prefabs";
         private const float Epsilon = 0.001f;
 
         [MenuItem("Project OEN/Art/Audit State-Specific Storm Appearance")]

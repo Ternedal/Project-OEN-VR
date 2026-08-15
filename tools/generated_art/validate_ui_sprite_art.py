@@ -10,7 +10,7 @@ from PIL import Image, ImageStat
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PROD = ROOT / "Assets" / "ProjectOEN" / "ProductionArt"
+PROD = ROOT / "Assets" / "ProductionArt"
 MANIFEST = PROD / "Docs" / "production_art_manifest.json"
 REPORT = PROD / "Docs" / "ui_sprite_refinement.json"
 

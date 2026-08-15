@@ -14,7 +14,7 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtUiShowcaseAudit
     {
-        private const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/DiegeticUiArtShowcase.unity";
+        private const string ScenePath = "Assets/ProductionArt/Scenes/DiegeticUiArtShowcase.unity";
         private const int MinSpriteRenderers = 22;
         private const int MaxSpriteRenderers = 32;
         private const int MaxColliders = 1;

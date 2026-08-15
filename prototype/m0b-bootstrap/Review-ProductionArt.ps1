@@ -17,73 +17,95 @@ $ErrorActionPreference = "Stop"
 function Step($m) { Write-Host "`n== $m ==" -ForegroundColor Cyan }
 function Note($m) { Write-Host "   $m" -ForegroundColor DarkGray }
 
+function Invoke-UnityBatch([string[]]$Arguments) {
+    $quotedArguments = @($Arguments | ForEach-Object {
+        if ($_.Contains('"')) { throw "Unity-argument maa ikke indeholde citationstegn: $_" }
+        if ($_ -match '\s') { '"' + $_ + '"' } else { $_ }
+    })
+    $process = Start-Process -FilePath $UnityPath `
+        -ArgumentList $quotedArguments `
+        -PassThru `
+        -WindowStyle Hidden
+    $process.WaitForExit()
+    return [int]$process.ExitCode
+}
+
 if (-not (Test-Path $UnityPath)) { throw "Unity ikke fundet: $UnityPath" }
 if (-not (Test-Path $ProjectPath)) { throw "Unity-projekt ikke fundet: $ProjectPath. Koer Bootstrap-M0b.ps1 foerst." }
 
 $repo = (Resolve-Path "$PSScriptRoot\..\..").Path
 $ProjectPath = (Resolve-Path $ProjectPath).Path
-$artSrc = Join-Path $repo "Assets\ProjectOEN\ProductionArt"
-$artDst = Join-Path $ProjectPath "Assets\ProjectOEN\ProductionArt"
-$artRuntimeDst = Join-Path $ProjectPath "Assets\ProjectOEN\ArtRuntime"
-$artEditorDst = Join-Path $ProjectPath "Assets\ProjectOEN\Editor"
+$artSrc = Join-Path $repo "Assets\ProductionArt"
+$artDst = Join-Path $ProjectPath "Assets\ProductionArt"
+$artCodeDst = Join-Path $ProjectPath "Assets\ProjectOen\Unity\ProjectOen.Art"
 if (-not (Test-Path $artSrc)) { throw "Production art mangler i repoet: $artSrc" }
 
 Step "Synkroniserer production art"
 New-Item -ItemType Directory -Force -Path $artDst | Out-Null
 foreach ($folder in @("Sprites", "Meshes", "Materials", "Decals", "Docs")) {
     $srcFolder = Join-Path $artSrc $folder
-    $dstFolder = Join-Path $ProjectPath "Assets\ProjectOEN\ProductionArt\$folder"
+    $dstFolder = Join-Path $ProjectPath "Assets\ProductionArt\$folder"
     if (-not (Test-Path $srcFolder)) { throw "Production-art mappe mangler: $srcFolder" }
     if (Test-Path $dstFolder) { Remove-Item $dstFolder -Recurse -Force }
     Copy-Item $srcFolder $dstFolder -Recurse -Force
 }
 
-Step "Synkroniserer production-art runtime state controllers"
-New-Item -ItemType Directory -Force -Path $artRuntimeDst | Out-Null
-Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Runtime\*.cs") $artRuntimeDst -Force
-
-New-Item -ItemType Directory -Force -Path $artEditorDst | Out-Null
-foreach ($builder in @(
-    "ProductionArtPrefabBuilder.cs",
-    "ProductionArtStateAppearanceBuilder.cs",
-    "ProductionArtStateAppearanceAudit.cs",
-    "ProductionArtMaterialCalibrationBuilder.cs",
-    "ProductionArtMaterialCalibrationAudit.cs",
-    "ProductionArtStateCatalogBuilder.cs",
-    "ProductionArtStateTransitionShowcaseBuilder.cs",
-    "ProductionArtStateTransitionShowcaseAudit.cs",
-    "ProductionArtHeroReadabilityShowcaseBuilder.cs",
-    "ProductionArtHeroReadabilityShowcaseAudit.cs",
-    "ProductionArtDecalBuilder.cs",
-    "ProductionArtVfxBuilder.cs",
-    "ProductionArtVfxShowcaseBuilder.cs",
-    "ProductionArtVfxShowcaseAudit.cs",
-    "ProductionArtDiegeticUiBuilder.cs",
-    "ProductionArtUiShowcaseBuilder.cs",
-    "ProductionArtUiShowcaseAudit.cs",
-    "ProductionArtShowcaseBuilder.cs",
-    "ProductionArtStormCampStoryBuilder.cs",
-    "ProductionArtSignalFinaleStoryBuilder.cs",
-    "ProductionArtStormAtmosphereBuilder.cs",
-    "ProductionArtStormFxBuilder.cs",
-    "ProductionArtWindResponseBuilder.cs",
-    "ProductionArtShowcaseAudit.cs",
+Step "Synkroniserer production-art assemblies"
+$artRuntimeSource = Join-Path $repo "src\unity\ProjectOen.Art\Runtime\*.cs"
+$requiredArtEditorSources = @(
     "ProductionArtBatchVerification.cs",
-    "ProductionArtReviewMenu.cs"
-)) {
-    Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$builder") (Join-Path $artEditorDst $builder) -Force
+    "ProductionArtDecalBuilder.cs",
+    "ProductionArtDiegeticUiBuilder.cs",
+    "ProductionArtHeroReadabilityShowcaseAudit.cs",
+    "ProductionArtHeroReadabilityShowcaseBuilder.cs",
+    "ProductionArtMaterialCalibrationAudit.cs",
+    "ProductionArtMaterialCalibrationBuilder.cs",
+    "ProductionArtModelImporter.cs",
+    "ProductionArtPrefabBuilder.cs",
+    "ProductionArtReviewMenu.cs",
+    "ProductionArtShowcaseAudit.cs",
+    "ProductionArtShowcaseBuilder.cs",
+    "ProductionArtSignalFinaleStoryBuilder.cs",
+    "ProductionArtStateAppearanceAudit.cs",
+    "ProductionArtStateAppearanceBuilder.cs",
+    "ProductionArtStateBindingBuilder.cs",
+    "ProductionArtStateCatalogAudit.cs",
+    "ProductionArtStateCatalogBuilder.cs",
+    "ProductionArtStateTransitionShowcaseAudit.cs",
+    "ProductionArtStateTransitionShowcaseBuilder.cs",
+    "ProductionArtStormAtmosphereBuilder.cs",
+    "ProductionArtStormCampStoryBuilder.cs",
+    "ProductionArtStormFxBuilder.cs",
+    "ProductionArtUiShowcaseAudit.cs",
+    "ProductionArtUiShowcaseBuilder.cs",
+    "ProductionArtVfxBuilder.cs",
+    "ProductionArtVfxShowcaseAudit.cs",
+    "ProductionArtVfxShowcaseBuilder.cs",
+    "ProductionArtWindResponseBuilder.cs"
+)
+if ((Get-ChildItem $artRuntimeSource -ErrorAction SilentlyContinue).Count -eq 0) {
+    throw "ProjectOen.Art runtime-kilder mangler."
 }
-Note "Art + runtime state controllers + state appearance + camp/finale stories + state-transition/hero/material/world/state/decal/VFX/UI/showcase builders er synkroniseret til $ProjectPath"
+foreach ($sourceName in $requiredArtEditorSources) {
+    if (-not (Test-Path (Join-Path $repo "src\unity\ProjectOen.Art\Editor\$sourceName"))) {
+        throw "ProjectOen.Art editor-kilde mangler: $sourceName"
+    }
+}
+if (Test-Path $artCodeDst) { Remove-Item $artCodeDst -Recurse -Force }
+New-Item -ItemType Directory -Force -Path $artCodeDst | Out-Null
+Copy-Item (Join-Path $repo "src\unity\ProjectOen.Art\*") $artCodeDst -Recurse -Force
+Note "Art + runtime/editor assemblies + import contract er synkroniseret til $ProjectPath"
 
 function Run-UnityArtStep([string]$Label, [string]$Method, [string]$LogName) {
     Step $Label
     $log = Join-Path $PSScriptRoot $LogName
-    & $UnityPath -batchmode -quit -nographics `
-        -projectPath $ProjectPath `
-        -buildTarget Android `
-        -executeMethod $Method `
-        -logFile $log
-    $exit = $LASTEXITCODE
+    $exit = Invoke-UnityBatch -Arguments @(
+        "-batchmode", "-quit", "-nographics",
+        "-projectPath", $ProjectPath,
+        "-buildTarget", "Android",
+        "-executeMethod", $Method,
+        "-logFile", $log
+    )
     if ($exit -ne 0) {
         Write-Host "`n$Label fejlede (Unity exit $exit)." -ForegroundColor Red
         if (Test-Path $log) {
@@ -111,12 +133,13 @@ if ($OneShot) {
     Remove-Item $projectReport -Force -ErrorAction SilentlyContinue
     Remove-Item $reviewReport -Force -ErrorAction SilentlyContinue
 
-    & $UnityPath -batchmode -quit -nographics `
-        -projectPath $ProjectPath `
-        -buildTarget Android `
-        -executeMethod "ProjectOen.Art.Editor.ProductionArtBatchVerification.RunAll" `
-        -logFile $batchLog
-    $exit = $LASTEXITCODE
+    $exit = Invoke-UnityBatch -Arguments @(
+        "-batchmode", "-quit", "-nographics",
+        "-projectPath", $ProjectPath,
+        "-buildTarget", "Android",
+        "-executeMethod", "ProjectOen.Art.Editor.ProductionArtBatchVerification.RunAll",
+        "-logFile", $batchLog
+    )
 
     if (Test-Path $batchLog) {
         Select-String -Path $batchLog -Pattern "\[ProjectOEN.Art.Batch\]|error CS|Exception:" | ForEach-Object {
@@ -244,15 +267,15 @@ Run-UnityArtStep "Auditerer showcase mod Quest 2-budget" `
 
 Step "Resultat"
 Write-Host "Production-art review er bygget; canonical damaged/wet states har state-specifik appearance; 6x3 transition-matrix og runtime SetState-audit bestod; hero props/world anchors er samlet i 1:1 physical-scale review; material/world assets, runtime state catalogs, decals, VFX og UI er wired; Stormnatten har camp + signal-finale consequence stories, regn, vaadhed, vind/splash/lyn og vindrespons." -ForegroundColor Green
-Write-Host "State catalogs: Assets\ProjectOEN\ProductionArt\StateSets" -ForegroundColor Green
-Write-Host "State transition scene: Assets\ProjectOEN\ProductionArt\Scenes\StateTransitionShowcase.unity" -ForegroundColor Green
-Write-Host "Hero readability scene: Assets\ProjectOEN\ProductionArt\Scenes\HeroReadabilityShowcase.unity" -ForegroundColor Green
-Write-Host "Material scene: Assets\ProjectOEN\ProductionArt\Scenes\MaterialCalibrationShowcase.unity" -ForegroundColor Green
-Write-Host "VFX scene: Assets\ProjectOEN\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
-Write-Host "UI scene: Assets\ProjectOEN\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
-Write-Host "World scene: Assets\ProjectOEN\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
-Write-Host "VFX prefabs: Assets\ProjectOEN\ProductionArt\VfxPrefabs" -ForegroundColor Green
-Write-Host "UI prefabs: Assets\ProjectOEN\ProductionArt\UiPrefabs" -ForegroundColor Green
+Write-Host "State catalogs: Assets\ProductionArt\StateSets" -ForegroundColor Green
+Write-Host "State transition scene: Assets\ProductionArt\Scenes\StateTransitionShowcase.unity" -ForegroundColor Green
+Write-Host "Hero readability scene: Assets\ProductionArt\Scenes\HeroReadabilityShowcase.unity" -ForegroundColor Green
+Write-Host "Material scene: Assets\ProductionArt\Scenes\MaterialCalibrationShowcase.unity" -ForegroundColor Green
+Write-Host "VFX scene: Assets\ProductionArt\Scenes\ProductionVfxShowcase.unity" -ForegroundColor Green
+Write-Host "UI scene: Assets\ProductionArt\Scenes\DiegeticUiArtShowcase.unity" -ForegroundColor Green
+Write-Host "World scene: Assets\ProductionArt\Scenes\StormnattenArtShowcase.unity" -ForegroundColor Green
+Write-Host "VFX prefabs: Assets\ProductionArt\VfxPrefabs" -ForegroundColor Green
+Write-Host "UI prefabs: Assets\ProductionArt\UiPrefabs" -ForegroundColor Green
 Write-Host "M0b CoopGame/build settings er ikke aendret." -ForegroundColor Green
 
 if ($OpenEditor) { Open-ShowcaseEditor }

@@ -23,9 +23,9 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtShowcaseBuilder
     {
-        private const string PrefabRoot = "Assets/ProjectOEN/ProductionArt/Prefabs";
-        private const string MaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials";
-        private const string SceneRoot = "Assets/ProjectOEN/ProductionArt/Scenes";
+        private const string PrefabRoot = "Assets/ProductionArt/Prefabs";
+        private const string MaterialRoot = "Assets/ProductionArt/UnityMaterials";
+        private const string SceneRoot = "Assets/ProductionArt/Scenes";
         private const string ScenePath = SceneRoot + "/StormnattenArtShowcase.unity";
 
         private static readonly List<string> Missing = new List<string>();

@@ -20,11 +20,11 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtHeroReadabilityShowcaseBuilder
     {
-        public const string ScenePath = "Assets/ProjectOEN/ProductionArt/Scenes/HeroReadabilityShowcase.unity";
+        public const string ScenePath = "Assets/ProductionArt/Scenes/HeroReadabilityShowcase.unity";
         public const int ExpectedSampleCount = 12;
 
-        private const string SceneRoot = "Assets/ProjectOEN/ProductionArt/Scenes";
-        private const string StateSetRoot = "Assets/ProjectOEN/ProductionArt/StateSets";
+        private const string SceneRoot = "Assets/ProductionArt/Scenes";
+        private const string StateSetRoot = "Assets/ProductionArt/StateSets";
         private const float GroundOffset = 0.04f;
 
         internal readonly struct HeroSpec

@@ -16,9 +16,9 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtDecalBuilder
     {
-        private const string DecalRoot = "Assets/ProjectOEN/ProductionArt/Decals/environment_set_dressing";
-        private const string PrefabRoot = "Assets/ProjectOEN/ProductionArt/Prefabs/environment_set_dressing";
-        private const string MaterialRoot = "Assets/ProjectOEN/ProductionArt/UnityMaterials/Decals";
+        private const string DecalRoot = "Assets/ProductionArt/Decals/environment_set_dressing";
+        private const string PrefabRoot = "Assets/ProductionArt/Prefabs/environment_set_dressing";
+        private const string MaterialRoot = "Assets/ProductionArt/UnityMaterials/Decals";
 
         [MenuItem("Project OEN/Art/Build Ground Decals")]
         public static void BuildAll()

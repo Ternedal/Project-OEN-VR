@@ -14,10 +14,10 @@ namespace ProjectOen.Art.Editor
     /// </summary>
     public static class ProductionArtStateBindingBuilder
     {
-        private const string SpriteStateRoot = "Assets/ProjectOEN/ProductionArt/StateSets/Sprites";
-        private const string WorldStateRoot = "Assets/ProjectOEN/ProductionArt/StateSets";
-        private const string UiPrefabRoot = "Assets/ProjectOEN/ProductionArt/UiPrefabs";
-        private const string StatefulPrefabRoot = "Assets/ProjectOEN/ProductionArt/StatefulPrefabs";
+        private const string SpriteStateRoot = "Assets/ProductionArt/StateSets/Sprites";
+        private const string WorldStateRoot = "Assets/ProductionArt/StateSets";
+        private const string UiPrefabRoot = "Assets/ProductionArt/UiPrefabs";
+        private const string StatefulPrefabRoot = "Assets/ProductionArt/StatefulPrefabs";
 
         private sealed class SpriteBinding
         {

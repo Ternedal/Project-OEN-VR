@@ -17,7 +17,7 @@ VERIFY_REQUIRED = (
     'git -C $repo status --porcelain -- @trackedScope',
     '$sourceSha -notmatch',
     '$sourceBranch -eq "HEAD"',
-    'Assets/ProjectOEN/ProductionArt',
+    'Assets/ProductionArt',
     'src/unity/ProjectOen.Art',
     'prototype/m0b-bootstrap/Review-ProductionArt.ps1',
     'prototype/m0b-bootstrap/Verify-ProductionArt.ps1',

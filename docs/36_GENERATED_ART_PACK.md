@@ -1,6 +1,6 @@
 # Project ØEN — production-art pipeline
 
-`Assets/ProjectOEN/ProductionArt/` is the implementation target. `Assets/ProjectOEN/GeneratedArtRuntime256/` is retained only as the compact/fallback tier.
+`Assets/ProductionArt/` is the implementation target. `Assets/ProjectOEN/GeneratedArtRuntime256/` is retained only as the compact/fallback tier.
 
 ## Current production output
 
@@ -68,7 +68,7 @@ The resulting face deltas over the canonical set-dressing baselines are **+404 /
 
 EN-011 and EN-025 use minimal stable holder meshes plus true state-specific RGBA textures.
 
-`Assets/ProjectOEN/ProductionArt/Decals/environment_set_dressing/` contains:
+`Assets/ProductionArt/Decals/environment_set_dressing/` contains:
 
 - puddle: small / medium / large;
 - shoreline foam: calm / storm.

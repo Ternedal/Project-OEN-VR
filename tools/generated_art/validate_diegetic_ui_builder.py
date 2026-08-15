@@ -12,8 +12,8 @@ BOOTSTRAP = ROOT / "prototype" / "m0b-bootstrap" / "Bootstrap-M0b.ps1"
 REVIEW = ROOT / "prototype" / "m0b-bootstrap" / "Review-ProductionArt.ps1"
 
 REQUIRED_BUILDER = (
-    'SpriteRoot = "Assets/ProjectOEN/ProductionArt/Sprites"',
-    'OutputRoot = "Assets/ProjectOEN/ProductionArt/UiPrefabs"',
+    'SpriteRoot = "Assets/ProductionArt/Sprites"',
+    'OutputRoot = "Assets/ProductionArt/UiPrefabs"',
     'BuildWristStatus();',
     'BuildPlanningBoard();',
     'BuildInteractionMarkerSet();',
@@ -75,7 +75,7 @@ def main() -> int:
         "ProductionArtDiegeticUiBuilder.cs",
         "ProjectOen.Art.Editor.ProductionArtDiegeticUiBuilder.BuildAll",
         "review-art-diegetic-ui.log",
-        "UI prefabs: Assets\\ProjectOEN\\ProductionArt\\UiPrefabs",
+        "UI prefabs: Assets\\ProductionArt\\UiPrefabs",
         "ProductionArtUiShowcaseBuilder.BuildShowcase",
         "ProductionArtUiShowcaseAudit.AuditShowcase",
     ),errors)

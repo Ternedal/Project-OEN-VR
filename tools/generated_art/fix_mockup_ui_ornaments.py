@@ -14,7 +14,7 @@ from PIL import Image, ImageDraw
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
+PROD=ROOT/"Assets"/"ProductionArt"
 MANIFEST=PROD/"Docs"/"production_art_manifest.json"
 IVORY=(236,224,190,255); BRASS=(181,132,61,255); DARK=(62,49,32,255)
 

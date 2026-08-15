@@ -25,7 +25,7 @@ from refine_mockup_fidelity import Mesh, add_cylinder_between, add_torus, write_
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PROD=ROOT/"Assets"/"ProjectOEN"/"ProductionArt"
+PROD=ROOT/"Assets"/"ProductionArt"
 MANIFEST=PROD/"Docs"/"production_art_manifest.json"
 TARGETS={"EN-007","EN-008","EN-009","EN-010"}
 

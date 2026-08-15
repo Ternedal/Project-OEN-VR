@@ -15,9 +15,11 @@ from pathlib import Path
 
 from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
+from guid_identity import stable_production_art_guid_path
+
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PROD = ROOT / "Assets" / "ProjectOEN" / "ProductionArt"
+PROD = ROOT / "Assets" / "ProductionArt"
 TEX = PROD / "Materials" / "Textures"
 DOCS = PROD / "Docs"
 MANIFEST = DOCS / "production_art_manifest.json"
@@ -38,7 +40,7 @@ MATERIALS = {
 
 
 def guid_for(path: Path) -> str:
-    rel = str(path.relative_to(ROOT)).replace("\\", "/")
+    rel = stable_production_art_guid_path(path, ROOT)
     return hashlib.md5(("ProjectOEN.Surface.v1:" + rel).encode()).hexdigest()
 
 
