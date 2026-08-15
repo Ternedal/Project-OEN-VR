@@ -101,12 +101,12 @@ def add_mallet_interaction_detail(m: Mesh, variant: str) -> None:
 
 def add_knife_interaction_detail(m: Mesh, variant: str) -> None:
     # Guard, pommel cap and lanyard eye are silhouette-level interaction cues.
-    add_box(m, (0, .305, 0), (.34, .045, .13), "Metal")
-    add_box(m, (0, .035, 0), (.18, .055, .12), "Metal")
-    add_torus(m, (0, .005, 0), .073, .012, "Rope", 12, 4, (90, 0, 0))
-    add_box(m, (0, .18, -.061), (.11, .23, .018), "Rope")
+    add_box(m, (0, .245, 0), (.25, .035, .10), "Metal")
+    add_box(m, (0, .025, 0), (.14, .04, .09), "Metal")
+    add_torus(m, (0, .005, 0), .055, .010, "Rope", 12, 4, (90, 0, 0))
+    add_box(m, (0, .125, -.052), (.09, .17, .014), "Rope")
     if variant == "worn":
-        add_box(m, (-.055, .46, -.020), (.035, .18, .020), "Char", (0, 0, -7))
+        add_box(m, (-.040, .36, -.016), (.025, .12, .016), "Char", (0, 0, -7))
 
 
 def add_anchor_interaction_detail(m: Mesh, variant: str) -> None:

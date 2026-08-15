@@ -28,6 +28,22 @@ $ErrorActionPreference = "Stop"
 function Step($m) { Write-Host "`n== $m ==" -ForegroundColor Cyan }
 function Note($m) { Write-Host "   $m" -ForegroundColor DarkGray }
 
+function Invoke-UnityBatch([string[]]$Arguments) {
+    # Windows PowerShell treats GUI executables differently from console programs:
+    # the call operator can return before Unity exits, leaving $LASTEXITCODE stale.
+    # Start-Process -Wait gives every bootstrap step a real, deterministic exit code.
+    $quotedArguments = @($Arguments | ForEach-Object {
+        if ($_.Contains('"')) { throw "Unity-argument maa ikke indeholde citationstegn: $_" }
+        if ($_ -match '\s') { '"' + $_ + '"' } else { $_ }
+    })
+    $process = Start-Process -FilePath $UnityPath `
+        -ArgumentList $quotedArguments `
+        -Wait `
+        -PassThru `
+        -WindowStyle Hidden
+    return [int]$process.ExitCode
+}
+
 if (-not (Test-Path $UnityPath)) { throw "Unity ikke fundet: $UnityPath" }
 $repo = (Resolve-Path "$PSScriptRoot\..\..").Path
 Note "repo: $repo"
@@ -35,8 +51,10 @@ Note "repo: $repo"
 Step "Opretter projekt"
 if (Test-Path $ProjectPath) { Note "findes allerede: $ProjectPath (genbruges)" }
 else {
-    & $UnityPath -batchmode -quit -nographics -createProject $ProjectPath -logFile - | Out-Null
-    if ($LASTEXITCODE -ne 0) { throw "Unity kunne ikke oprette projektet (exit $LASTEXITCODE)" }
+    $unityExitCode = Invoke-UnityBatch -Arguments @(
+        "-batchmode", "-quit", "-nographics", "-createProject", $ProjectPath, "-logFile", "-"
+    )
+    if ($unityExitCode -ne 0) { throw "Unity kunne ikke oprette projektet (exit $unityExitCode)" }
 }
 $ProjectPath = (Resolve-Path $ProjectPath).Path
 
@@ -112,13 +130,15 @@ Copy-Item "$PSScriptRoot\Editor\M0bConfigure.cs" (Join-Path $editorDst "M0bConfi
 function Run-UnityStep([string]$Label, [string]$Method, [string]$LogName, [string]$Pattern = "\[ProjectOEN.Art|error CS|Exception:") {
     Step $Label
     $stepLog = Join-Path $PSScriptRoot $LogName
-    & $UnityPath -batchmode -quit -nographics `
-        -projectPath $ProjectPath `
-        -buildTarget Android `
-        -executeMethod $Method `
-        -logFile $stepLog
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "`n$Label fejlede (Unity exit $LASTEXITCODE)." -ForegroundColor Red
+    $unityExitCode = Invoke-UnityBatch -Arguments @(
+        "-batchmode", "-quit", "-nographics",
+        "-projectPath", $ProjectPath,
+        "-buildTarget", "Android",
+        "-executeMethod", $Method,
+        "-logFile", $stepLog
+    )
+    if ($unityExitCode -ne 0) {
+        Write-Host "`n$Label fejlede (Unity exit $unityExitCode)." -ForegroundColor Red
         if (Test-Path $stepLog) {
             Select-String -Path $stepLog -Pattern $Pattern | Select-Object -First 40 | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red }
         }
@@ -130,12 +150,14 @@ function Run-UnityStep([string]$Label, [string]$Method, [string]$LogName, [strin
 
 Step "Koerer Unity (M0bConfigure.Configure)"
 $log = Join-Path $PSScriptRoot "m0b-configure.log"
-& $UnityPath -batchmode -quit -nographics `
-    -projectPath $ProjectPath `
-    -buildTarget Android `
-    -executeMethod M0bConfigure.Configure `
-    -logFile $log
-if ($LASTEXITCODE -ne 0) {
+$unityExitCode = Invoke-UnityBatch -Arguments @(
+    "-batchmode", "-quit", "-nographics",
+    "-projectPath", $ProjectPath,
+    "-buildTarget", "Android",
+    "-executeMethod", "M0bConfigure.Configure",
+    "-logFile", $log
+)
+if ($unityExitCode -ne 0) {
     if (Test-Path $log) { Select-String -Path $log -Pattern "\[M0B-SETUP\]|error CS|Exception:" | Select-Object -First 30 | ForEach-Object { Write-Host "   $($_.Line.Trim())" -ForegroundColor Red } }
     exit 1
 }

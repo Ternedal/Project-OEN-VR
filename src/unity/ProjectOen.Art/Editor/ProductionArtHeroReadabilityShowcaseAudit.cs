@@ -128,14 +128,23 @@ namespace ProjectOen.Art.Editor
                 errors.Add("hero sample root scale must remain 1:1: " + spec.assetId + "/" + spec.stateKey + " = " + scale);
 
             Bounds bounds;
+            Quaternion authoredRotation = sample.transform.localRotation;
             try
             {
+                // Measure the physical envelope in the prefab's authored local axes.
+                // A review-only yaw must not inflate a world-aligned AABB and make
+                // the same asset pass or fail depending on presentation angle.
+                sample.transform.localRotation = Quaternion.identity;
                 bounds = ProductionArtHeroReadabilityShowcaseBuilder.CombinedRendererBounds(sample);
             }
             catch (Exception ex)
             {
                 errors.Add("could not measure hero sample " + spec.assetId + "/" + spec.stateKey + ": " + ex.Message);
                 return;
+            }
+            finally
+            {
+                sample.transform.localRotation = authoredRotation;
             }
 
             float maxDimension = Mathf.Max(bounds.size.x, Mathf.Max(bounds.size.y, bounds.size.z));

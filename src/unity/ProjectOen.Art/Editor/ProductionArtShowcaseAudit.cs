@@ -32,8 +32,10 @@ namespace ProjectOen.Art.Editor
     /// shadowless and opt out of light/reflection probes so consequence dressing
     /// cannot silently add realtime renderer cost on Quest 2.
     ///
-    /// Renderer material-slot count is used as a conservative draw-call proxy in
-    /// this editor audit. Device profiling remains authoritative for final draw calls.
+    /// Dynamic renderer material slots plus compatible BatchingStatic groups are
+    /// used as a conservative draw-call proxy in this editor audit. Static groups
+    /// are split at 64k vertices; the raw material-slot count is also reported.
+    /// Device profiling remains authoritative for final draw calls.
     /// </summary>
     public static class ProductionArtShowcaseAudit
     {
@@ -42,6 +44,7 @@ namespace ProjectOen.Art.Editor
         private const int TriangleHardLimit = 750000;
         private const int DrawCallProxyTarget = 100;
         private const int DrawCallProxyHardLimit = 130;
+        private const int StaticBatchVertexLimit = 64000;
         private const int ShadowCasterHardLimit = 1;
         private const int ParticleSystemHardLimit = 10;
         private const int AnimationComponentHardLimit = 12;
@@ -192,9 +195,27 @@ namespace ProjectOen.Art.Editor
                     triangles += mesh.triangles.LongLength / 3L;
             }
 
-            int drawCallProxy = renderers
+            Renderer[] activeRenderers = renderers
                 .Where(r => r != null && r.enabled && r.gameObject.activeInHierarchy)
+                .ToArray();
+            int rawMaterialSlots = activeRenderers
                 .Sum(r => Math.Max(1, r.sharedMaterials == null ? 0 : r.sharedMaterials.Length));
+            int dynamicMaterialSlots;
+            int staticBatchGroups;
+            int drawCallProxy = CalculateDrawCallProxy(
+                activeRenderers,
+                out dynamicMaterialSlots,
+                out staticBatchGroups);
+            string rawMaterialSlotsByRoot = string.Join(", ", activeRenderers
+                .GroupBy(r => r.transform.root.name)
+                .Select(group => new
+                {
+                    Root = group.Key,
+                    Slots = group.Sum(r => Math.Max(1, r.sharedMaterials == null ? 0 : r.sharedMaterials.Length)),
+                })
+                .OrderByDescending(group => group.Slots)
+                .ThenBy(group => group.Root, StringComparer.Ordinal)
+                .Select(group => group.Root + ":" + group.Slots));
 
             int shadowCasters = lights.Count(l => l != null && l.enabled &&
                 l.gameObject.activeInHierarchy && l.shadows != LightShadows.None);
@@ -211,8 +232,12 @@ namespace ProjectOen.Art.Editor
             Debug.Log("[ProjectOEN.Art.Budget] Stormnatten showcase audit");
             Debug.Log("[ProjectOEN.Art.Budget] triangles=" + triangles +
                       " target<=" + TriangleTarget + " hard<=" + TriangleHardLimit);
-            Debug.Log("[ProjectOEN.Art.Budget] rendererMaterialSlots(draw-call proxy)=" + drawCallProxy +
+            Debug.Log("[ProjectOEN.Art.Budget] drawCallProxy=" + drawCallProxy +
                       " target<=" + DrawCallProxyTarget + " hard<=" + DrawCallProxyHardLimit);
+            Debug.Log("[ProjectOEN.Art.Budget] rawRendererMaterialSlots=" + rawMaterialSlots +
+                      " dynamicSlots=" + dynamicMaterialSlots +
+                      " staticBatchGroups=" + staticBatchGroups);
+            Debug.Log("[ProjectOEN.Art.Budget] rawRendererMaterialSlotsByRoot=" + rawMaterialSlotsByRoot);
             Debug.Log("[ProjectOEN.Art.Budget] lights=" + lights.Length +
                       " shadowCasters=" + shadowCasters + " hard<=" + ShadowCasterHardLimit);
             Debug.Log("[ProjectOEN.Art.Budget] particleSystems=" + activeParticles +
@@ -482,6 +507,53 @@ namespace ProjectOen.Art.Editor
 
             string requiredToken = expectation[2].ToLowerInvariant();
             return string.IsNullOrEmpty(requiredToken) || stem.Contains(requiredToken);
+        }
+
+        private static int CalculateDrawCallProxy(
+            Renderer[] activeRenderers,
+            out int dynamicMaterialSlots,
+            out int staticBatchGroups)
+        {
+            dynamicMaterialSlots = 0;
+            var staticVerticesByCompatibility = new Dictionary<string, long>(StringComparer.Ordinal);
+
+            foreach (Renderer renderer in activeRenderers)
+            {
+                Material[] materials = renderer.sharedMaterials;
+                int slotCount = Math.Max(1, materials == null ? 0 : materials.Length);
+                MeshRenderer meshRenderer = renderer as MeshRenderer;
+                MeshFilter meshFilter = meshRenderer == null ? null : meshRenderer.GetComponent<MeshFilter>();
+                Mesh mesh = meshFilter == null ? null : meshFilter.sharedMesh;
+                bool batchingStatic = meshRenderer != null && mesh != null &&
+                    GameObjectUtility.AreStaticEditorFlagsSet(renderer.gameObject, StaticEditorFlags.BatchingStatic);
+
+                if (!batchingStatic)
+                {
+                    dynamicMaterialSlots += slotCount;
+                    continue;
+                }
+
+                for (int materialIndex = 0; materialIndex < slotCount; materialIndex++)
+                {
+                    Material material = materials != null && materialIndex < materials.Length
+                        ? materials[materialIndex]
+                        : null;
+                    string compatibilityKey =
+                        (material == null ? "null" : material.GetInstanceID().ToString()) + "|" +
+                        renderer.lightmapIndex + "|" +
+                        renderer.shadowCastingMode + "|" +
+                        renderer.receiveShadows + "|" +
+                        renderer.lightProbeUsage + "|" +
+                        renderer.reflectionProbeUsage;
+                    long vertices;
+                    staticVerticesByCompatibility.TryGetValue(compatibilityKey, out vertices);
+                    staticVerticesByCompatibility[compatibilityKey] = vertices + mesh.vertexCount;
+                }
+            }
+
+            staticBatchGroups = staticVerticesByCompatibility.Values
+                .Sum(vertices => Math.Max(1, (int)Math.Ceiling(vertices / (double)StaticBatchVertexLimit)));
+            return dynamicMaterialSlots + staticBatchGroups;
         }
 
         private static bool HasPulseCurve(AnimationClip clip, string path, Type type, string propertyName, float minimumPeak)

@@ -185,6 +185,12 @@ namespace ProjectOen.Art.Editor
             foreach (Collider collider in root.GetComponentsInChildren<Collider>(true))
                 UnityEngine.Object.DestroyImmediate(collider);
 
+            foreach (ParticleSystem particleSystem in root.GetComponentsInChildren<ParticleSystem>(true))
+                UnityEngine.Object.DestroyImmediate(particleSystem);
+
+            foreach (Light light in root.GetComponentsInChildren<Light>(true))
+                UnityEngine.Object.DestroyImmediate(light);
+
             foreach (Renderer renderer in root.GetComponentsInChildren<Renderer>(true))
             {
                 renderer.shadowCastingMode = ShadowCastingMode.Off;
